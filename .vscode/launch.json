@@ -8,9 +8,7 @@
             "name": "vyam2",
             "request": "launch",
             "type": "dart",
-            "args": [
-                "--no-sound-null-safety"
-            ]
+            
         },
         {
             "name": "vyam2 (profile mode)",

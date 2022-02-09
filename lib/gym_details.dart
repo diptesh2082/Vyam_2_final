@@ -1,6 +1,7 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:carousel_pro/carousel_pro.dart';
+//import 'package:carousel_pro/carousel_pro.dart';
 import 'package:vyam2/timings.dart';
 import 'package:vyam2/know_trainer.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -29,10 +30,21 @@ class _Screen1State extends State<Screen1> {
     "assets/trainer2.png",
     "assets/trainer3.png",
   ];
+
+  final images = [
+    "assets/rectangle_14.png",
+    "assets/transf1.jpeg",
+    "assets/transf2.jpeg",
+    "assets/transf3.jpeg",
+    "assets/transf5.jpeg",
+  ];
+
+  final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
+            //height: 800,
             color: Colors.white30,
             margin: EdgeInsets.symmetric(horizontal: 16.0),
             child: Center(
@@ -40,35 +52,24 @@ class _Screen1State extends State<Screen1> {
               height: MediaQuery.of(context).size.height,
               child: ListView(
                   //scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
+//                  shrinkWrap: true,
                   children: [
-                    SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.30,
-                        // width: 50,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12.0),
-                          child: Carousel(
-                            dotSize: 4,
-                            dotBgColor: Colors.transparent,
-                            //borderRadius: true,
-                            radius: Radius.circular(100.0),
-                            images: [
-                              Image.asset(
-                                'assets/rectangle_14.png',
-                                fit: BoxFit.cover,
-                              ),
-                              Image.asset('assets/transf1.jpeg',
-                                  fit: BoxFit.cover),
-                              Image.asset('assets/transf2.jpeg',
-                                  fit: BoxFit.cover),
-                              Image.asset('assets/transf3.jpeg',
-                                  fit: BoxFit.cover),
-                              Image.asset('assets/transf4.jpeg',
-                                  fit: BoxFit.cover),
-                              Image.asset('assets/transf5.jpeg',
-                                  fit: BoxFit.cover),
-                            ],
-                          ),
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(14.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CarouselSlider.builder(
+                                itemCount: images.length,
+                                itemBuilder: (context, index, realIndex) {
+                                  final image = images[index];
+                                  return gymImages(image, index);
+                                },
+                                options: CarouselOptions(
+                                  autoPlay: true,
+                                  viewportFraction: 1,
+                                )),
+                          ],
                         )),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     Row(
@@ -183,7 +184,7 @@ class _Screen1State extends State<Screen1> {
                       children: [
                         const Text(' '),
                         const Spacer(),
-                        InkWell(
+                        GestureDetector(
                           child: const Text("View more",
                               style: TextStyle(
                                   decoration: TextDecoration.underline,
@@ -338,128 +339,97 @@ class _Screen1State extends State<Screen1> {
                         ),
                       ),
                     ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0)),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 8.0),
-                            child: Text('Trainers',
-                                style: TextStyle(
-                                  fontSize: 14.5,
-                                  fontWeight: FontWeight.w700,
-                                )),
-                          ),
-                          FutureBuilder(builder: (context, index) {
-                            return ListView.builder(
-                                //            scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                              return Row(
-                                children: [
-                                  /* SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.05,
-                                            ),*/
-                                  Container(
-                                    height: 70,
-                                    width: 70,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        //border: Border.all(width: 1),
-                                        image: DecorationImage(
-                                            image: AssetImage(trainers[index]),
-                                            fit: BoxFit.cover)),
-                                  ),
-                                  /* SizedBox(
-                                      width: MediaQuery.of(context).size.width * 0.05,
-                                    ),
-                                    Container(
-                                      height: 70,
-                                      width: 70,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          //border: Border.all(width: 1),
-                                          image: DecorationImage(
-                                              image:
-                                                  AssetImage('assets/trainer2.png'),
-                                              fit: BoxFit.cover)),
-                                    ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width * 0.05,
-                                    ),
-                                    Container(
-                                      height: 70,
-                                      width: 70,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          //border: Border.all(width: 1),
-                                          image: DecorationImage(
-                                              image:
-                                                  AssetImage('assets/trainer3.png'),
-                                              fit: BoxFit.cover)),
-                                    ),*/
-                                  Spacer(),
-                                  GestureDetector(
-                                    child: const Icon(
-                                        Icons.arrow_forward_ios_outlined),
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Trainer()));
-                                    },
-                                  ),
-                                ],
-                              );
-                            });
-                          }),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.01,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 5,
+                      child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0)),
+                          child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Text('Trainers',
+                                        style: TextStyle(
+                                          fontSize: 14.5,
+                                          fontWeight: FontWeight.w700,
+                                        )),
+                                    Spacer(),
+                                    GestureDetector(
+                                      child: Icon(
+                                        Icons.arrow_forward_ios_outlined,
+                                        size: 18,
+                                      ),
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Trainer()));
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
                               SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.078,
-                              ),
-                              Text(
-                                'Jake Paul',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12.5),
+                                height: MediaQuery.of(context).size.height / 9,
+                                child: ListView.builder(
+                                    itemCount: trainers.length,
+                                    physics: const PageScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      return Row(
+                                        children: [
+                                          Container(
+                                            height: 70,
+                                            width: 70,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                //border: Border.all(width: 1),
+                                                image: DecorationImage(
+                                                    image: AssetImage(
+                                                        trainers[index]),
+                                                    fit: BoxFit.cover)),
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.05,
+                                          ),
+                                        ],
+                                      );
+                                    }),
                               ),
                               SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.078,
-                              ),
-                              Text(
-                                'Jim Harry',
-                                //textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12.5),
-                              ),
-                              SizedBox(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.078,
-                              ),
-                              Text(
-                                'Kim Jhonas',
-                                //textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 12.5),
-                              ),
+                                height: MediaQuery.of(context).size.height / 50,
+                                child: ListView.builder(
+                                    itemCount: trainername.length,
+                                    physics: const PageScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemBuilder: (context, index) {
+                                      return Row(
+                                        children: [
+                                          Text(
+                                            trainername[index],
+                                            style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w300),
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.09,
+                                          ),
+                                        ],
+                                      );
+                                    }),
+                              )
                             ],
-                          ),
-                        ],
-                      ),
+                          )),
                     ),
                     Card(
                         shape: RoundedRectangleBorder(
@@ -517,8 +487,10 @@ class _Screen1State extends State<Screen1> {
                                   ),
                                   Spacer(),
                                   GestureDetector(
-                                    child:
-                                        Icon(Icons.arrow_forward_ios_outlined),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios_outlined,
+                                      size: 18,
+                                    ),
                                     onTap: () {
                                       Navigator.push(
                                           context,
@@ -758,4 +730,13 @@ class _Screen1State extends State<Screen1> {
                   ]),
             ))));
   }
+
+  Widget gymImages(String images, int index) => Container(
+        height: 70,
+        width: double.infinity,
+        child: Image.asset(
+          images,
+          fit: BoxFit.cover,
+        ),
+      );
 }
