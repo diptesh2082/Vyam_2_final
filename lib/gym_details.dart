@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:vyam2/review_screen.dart';
 //import 'package:carousel_pro/carousel_pro.dart';
 import 'package:vyam2/timings.dart';
 import 'package:vyam2/know_trainer.dart';
@@ -43,8 +44,28 @@ class _Screen1State extends State<Screen1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            width: double.infinity,
+            child: FloatingActionButton.extended(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              label: const Text(
+                'Explore Packages',
+                style: TextStyle(
+                    fontFamily: 'poppins',
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    color: Colors.white),
+              ),
+              backgroundColor: Colors.black,
+              onPressed: null,
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         body: Container(
-            //height: 800,
             color: Colors.white30,
             margin: EdgeInsets.symmetric(horizontal: 16.0),
             child: Center(
@@ -77,12 +98,17 @@ class _Screen1State extends State<Screen1> {
                         Text(
                           'Transformers Gym',
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w700),
+                              fontFamily: 'poppins',
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700),
                         ),
                         Spacer(),
                         Text('OPEN NOW',
                             style: TextStyle(
-                                color: Colors.lightGreen, fontSize: 14)),
+                                fontFamily: 'poppins',
+                                color: Colors.lightGreen,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500))
                       ],
                     ),
                     SizedBox(
@@ -92,11 +118,12 @@ class _Screen1State extends State<Screen1> {
                         Icons.location_on,
                         size: 18,
                       ),
-                      Text(
-                        'Barakar',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400, color: Colors.grey),
-                      ),
+                      Text('Barakar',
+                          style: TextStyle(
+                              fontFamily: 'poppins',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                              fontSize: 14)),
                       Spacer(),
                       Icon(Icons.assistant_direction, color: Colors.green),
                       Text('        ')
@@ -104,11 +131,18 @@ class _Screen1State extends State<Screen1> {
                     Row(children: const [
                       Spacer(),
                       Text('Navigate',
-                          style: TextStyle(color: Colors.green, fontSize: 10)),
+                          style: TextStyle(
+                              fontFamily: 'poppins',
+                              color: Colors.green,
+                              fontSize: 8,
+                              fontWeight: FontWeight.w500)),
                       Text('     ')
                     ]),
                     const Text('Bus stand, Barakar, near pratham lodge',
-                        style: TextStyle(fontSize: 12)),
+                        style: TextStyle(
+                            fontFamily: 'poppins',
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400)),
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.028),
                     FittedBox(
@@ -116,8 +150,8 @@ class _Screen1State extends State<Screen1> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
                           child: Container(
-                            height: 50,
-                            width: 50,
+                            height: 55,
+                            width: 51,
                             //color: Colors.amber,
                             decoration: const BoxDecoration(
                                 color: Colors.amber,
@@ -130,16 +164,20 @@ class _Screen1State extends State<Screen1> {
                             child: Row(
                           children: [
                             Column(
-                              //mainAxisAlignment: MainAxisAlignment.start,
-                              //crossAxisAlignment: CrossAxisAlignment.end,
                               children: const [
                                 Text(' Morning (Mon-Sat)',
                                     style: TextStyle(
-                                        color: Colors.grey, fontSize: 12)),
+                                        fontFamily: 'poppins',
+                                        color: Colors.grey,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600)),
                                 SizedBox(height: 10),
                                 Text('6.00AM-12.00PM',
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 12)),
+                                        fontFamily: 'poppins',
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                        fontSize: 10)),
                               ],
                             ),
                             const VerticalDivider(
@@ -152,11 +190,17 @@ class _Screen1State extends State<Screen1> {
                               children: const [
                                 Text(' Evening (Mon-Sat)',
                                     style: TextStyle(
-                                        color: Colors.grey, fontSize: 12)),
+                                        fontFamily: 'poppins',
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey,
+                                        fontSize: 10)),
                                 SizedBox(height: 10),
                                 Text('4.00PM-11.00PM',
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 12)),
+                                        fontFamily: 'poppins',
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black,
+                                        fontSize: 10)),
                               ],
                             ),
                             const VerticalDivider(
@@ -169,11 +213,14 @@ class _Screen1State extends State<Screen1> {
                               children: const [
                                 Text(' Sunday',
                                     style: TextStyle(
-                                        color: Colors.grey, fontSize: 12)),
+                                        fontFamily: 'poppins',
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.grey,
+                                        fontSize: 10)),
                                 SizedBox(height: 10),
                                 Text(' Closed',
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 12)),
+                                        color: Colors.black, fontSize: 10)),
                               ],
                             ),
                           ],
@@ -187,9 +234,10 @@ class _Screen1State extends State<Screen1> {
                         GestureDetector(
                           child: const Text("View more",
                               style: TextStyle(
+                                  fontFamily: 'poppins',
+                                  fontWeight: FontWeight.w600,
                                   decoration: TextDecoration.underline,
                                   color: Colors.green,
-                                  fontWeight: FontWeight.w500,
                                   fontSize: 12)),
                           onTap: () {
                             Navigator.push(
@@ -207,19 +255,25 @@ class _Screen1State extends State<Screen1> {
                     ),
                     const Text('Description',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontFamily: 'poppins',
+                          fontSize: 14,
                           fontWeight: FontWeight.w700,
                         )),
                     const SizedBox(height: 12),
                     const Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac '),
+                        'Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac ',
+                        style: TextStyle(
+                            fontFamily: 'poppins',
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12)),
                     const Text('Read more',
                         style: TextStyle(
-                            fontWeight: FontWeight.w700, fontSize: 14)),
+                            fontWeight: FontWeight.w700, fontSize: 12)),
                     const SizedBox(height: 12),
                     const Text('Amenities',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
+                          fontFamily: 'poppins',
                           fontWeight: FontWeight.w700,
                         )),
                     const SizedBox(height: 12),
@@ -290,25 +344,33 @@ class _Screen1State extends State<Screen1> {
                         Text(
                           'A/C',
                           style: TextStyle(
-                              fontWeight: FontWeight.w300, fontSize: 12.5),
+                              fontFamily: 'poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12),
                         ),
                         Text(
                           'Locker',
                           //textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontWeight: FontWeight.w300, fontSize: 12.5),
+                              fontFamily: 'poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12),
                         ),
                         Text(
                           'Parking',
                           //textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontWeight: FontWeight.w300, fontSize: 12.5),
+                              fontFamily: 'poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12),
                         ),
                         Text(
                           'P/T',
                           //textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontWeight: FontWeight.w300, fontSize: 12.5),
+                              fontFamily: 'poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12),
                         ),
                       ],
                     ),
@@ -317,7 +379,8 @@ class _Screen1State extends State<Screen1> {
                     ),
                     const Text('Workouts',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
+                          fontFamily: 'poppins',
                           fontWeight: FontWeight.w700,
                         )),
                     Card(
@@ -331,8 +394,9 @@ class _Screen1State extends State<Screen1> {
                           child: AutoSizeText(
                             'Boxing | Cardio | Personal Training | Crossfit |  Zumba | Weight Training.',
                             style: TextStyle(
+                              fontFamily: 'poppins',
                               fontWeight: FontWeight.w400,
-                              fontSize: 13,
+                              fontSize: 12,
                             ),
                             maxLines: 3,
                           ),
@@ -340,7 +404,7 @@ class _Screen1State extends State<Screen1> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 5,
+                      height: MediaQuery.of(context).size.height / 4.7,
                       child: Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0)),
@@ -353,7 +417,8 @@ class _Screen1State extends State<Screen1> {
                                   children: [
                                     Text('Trainers',
                                         style: TextStyle(
-                                          fontSize: 14.5,
+                                          fontFamily: 'poppins',
+                                          fontSize: 14,
                                           fontWeight: FontWeight.w700,
                                         )),
                                     Spacer(),
@@ -367,7 +432,7 @@ class _Screen1State extends State<Screen1> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    Trainer()));
+                                                    TrainerScreen()));
                                       },
                                     ),
                                   ],
@@ -383,8 +448,8 @@ class _Screen1State extends State<Screen1> {
                                       return Row(
                                         children: [
                                           Container(
-                                            height: 70,
-                                            width: 70,
+                                            height: 65,
+                                            width: 65,
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 //border: Border.all(width: 1),
@@ -415,8 +480,10 @@ class _Screen1State extends State<Screen1> {
                                           Text(
                                             trainername[index],
                                             style: TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w300),
+                                              fontFamily: 'poppins',
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                            ),
                                           ),
                                           SizedBox(
                                             width: MediaQuery.of(context)
@@ -444,7 +511,8 @@ class _Screen1State extends State<Screen1> {
                               padding: const EdgeInsets.only(left: 8.0),
                               child: Text('Reviews',
                                   style: TextStyle(
-                                    fontSize: 14.5,
+                                    fontFamily: 'poppins',
+                                    fontSize: 14,
                                     fontWeight: FontWeight.w700,
                                   )),
                             ),
@@ -468,8 +536,9 @@ class _Screen1State extends State<Screen1> {
                                   Text(
                                     '4.7',
                                     style: TextStyle(
+                                        fontFamily: 'poppins',
                                         fontWeight: FontWeight.w700,
-                                        fontSize: 15),
+                                        fontSize: 12),
                                   ),
                                   Text(
                                     ' | ',
@@ -481,8 +550,9 @@ class _Screen1State extends State<Screen1> {
                                   Text(
                                     '(113 reviews)',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 13,
+                                        fontFamily: 'poppins',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
                                         color: Colors.grey),
                                   ),
                                   Spacer(),
@@ -495,7 +565,7 @@ class _Screen1State extends State<Screen1> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => Trainer()));
+                                              builder: (context) => Review()));
                                     },
                                   ),
                                 ],
@@ -504,7 +574,7 @@ class _Screen1State extends State<Screen1> {
                           ],
                         )),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.200,
+                      height: MediaQuery.of(context).size.height * 0.25,
                       child: Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0)),
@@ -513,13 +583,14 @@ class _Screen1State extends State<Screen1> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.01,
+                                    MediaQuery.of(context).size.height * 0.03,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Text('Rules',
                                     style: TextStyle(
-                                      fontSize: 14.5,
+                                      fontFamily: 'poppins',
+                                      fontSize: 14,
                                       fontWeight: FontWeight.w700,
                                     )),
                               ),
@@ -534,7 +605,10 @@ class _Screen1State extends State<Screen1> {
                                   children: [
                                     Text(
                                       "•  Bring your towel and use it.",
-                                      style: TextStyle(fontSize: 13),
+                                      style: TextStyle(
+                                          fontFamily: 'poppins',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12),
                                     ),
                                     SizedBox(
                                       height:
@@ -542,21 +616,33 @@ class _Screen1State extends State<Screen1> {
                                               0.015,
                                     ),
                                     Text("•  Bring seperate shoes.",
-                                        style: TextStyle(fontSize: 13)),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontFamily: 'poppins',
+                                          fontWeight: FontWeight.w400,
+                                        )),
                                     SizedBox(
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.015,
                                     ),
                                     Text("•  Re-rack equipments",
-                                        style: TextStyle(fontSize: 13)),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontFamily: 'poppins',
+                                          fontWeight: FontWeight.w400,
+                                        )),
                                     SizedBox(
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.015,
                                     ),
                                     Text("•  No heavy lifting without spotter",
-                                        style: TextStyle(fontSize: 13)),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontFamily: 'poppins',
+                                          fontWeight: FontWeight.w400,
+                                        )),
                                   ],
                                 ),
                               ),
@@ -568,7 +654,8 @@ class _Screen1State extends State<Screen1> {
                     ),
                     Text('Safety protocols',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontFamily: 'poppins',
+                          fontSize: 14,
                           fontWeight: FontWeight.w700,
                         )),
                     SizedBox(
@@ -609,8 +696,9 @@ class _Screen1State extends State<Screen1> {
                                         'Best in class safety',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
+                                          fontFamily: 'poppins',
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 12.5,
+                                          fontSize: 10,
                                         ),
                                         maxLines: 2,
                                       ),
@@ -650,8 +738,9 @@ class _Screen1State extends State<Screen1> {
                                         'Proper sanitised equipments',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
+                                          fontFamily: 'poppins',
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 12.5,
+                                          fontSize: 10,
                                         ),
                                         maxLines: 2,
                                       ),
@@ -692,8 +781,9 @@ class _Screen1State extends State<Screen1> {
                                         'Social Distancing at all times',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
+                                          fontFamily: 'poppins',
                                           fontWeight: FontWeight.w400,
-                                          fontSize: 12.5,
+                                          fontSize: 10,
                                         ),
                                         maxLines: 2,
                                       ),
@@ -707,25 +797,7 @@ class _Screen1State extends State<Screen1> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.06,
-                    ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ))),
-                      child: const Text(
-                        'Explore Packages',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: null,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
+                      height: MediaQuery.of(context).size.height * 0.09,
                     ),
                   ]),
             ))));

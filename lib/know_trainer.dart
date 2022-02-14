@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:vyam2/gym_details.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:vyam2/review_screen.dart';
 
 class TrainerScreen extends StatelessWidget {
   @override
@@ -48,7 +49,8 @@ class _TrainerState extends State<Trainer> {
           title: Text(
             'Know your trainer',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black, fontSize: 16),
+            style: TextStyle(color: Colors.black, fontSize: 14,  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w600,),
           ),
           leading: GestureDetector(
             onTap: () {
@@ -85,8 +87,8 @@ class _TrainerState extends State<Trainer> {
                       height: MediaQuery.of(context).size.height * 0.01,
                     ),
                     Container(
-                      height: 80,
-                      width: 80,
+                      height: 95,
+                      width: 95,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           //border: Border.all(width: 1),
@@ -103,8 +105,9 @@ class _TrainerState extends State<Trainer> {
                         Text(
                           trainername[index],
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 15.5),
+                          style: TextStyle(  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w600,
+                               fontSize: 16),
                         ),
                         Icon(
                           Icons.verified,
@@ -120,13 +123,15 @@ class _TrainerState extends State<Trainer> {
                       'Transformers Gym',
                       textAlign: TextAlign.center,
                       style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 13),
+                          TextStyle(  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400, fontSize: 12),
                     ),
                     Text(
                       'Branch - Barakar',
                       textAlign: TextAlign.center,
                       style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 13),
+                          TextStyle(  fontFamily: 'poppins',
+                                fontWeight: FontWeight.w400, fontSize: 12),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.03,
@@ -139,18 +144,23 @@ class _TrainerState extends State<Trainer> {
                           "4.7",
                           //textAlign: TextAlign.center,
                           style: TextStyle(
+                              fontFamily: 'poppins',
+                                  
                               fontWeight: FontWeight.w700, fontSize: 14),
                         ),
                         Text(
                           '13',
                           //textAlign: TextAlign.center,
                           style: TextStyle(
+                              fontFamily: 'poppins',
+                        
                               fontWeight: FontWeight.w700, fontSize: 14),
                         ),
                         Text(
                           '10+',
                           //textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: TextStyle(  fontFamily: 'poppins',
+                                  
                               fontWeight: FontWeight.w700, fontSize: 14),
                         ),
                       ],
@@ -166,24 +176,30 @@ class _TrainerState extends State<Trainer> {
                           'Reviews',
                           //textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
+                              fontFamily: 'poppins',
+                              
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
                               color: Colors.grey),
                         ),
                         Text(
                           '   Clients',
                           //textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
+                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,
+                            
+                              fontSize: 12,
                               color: Colors.grey),
                         ),
                         Text(
                           'Experience',
                           //textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
+                              fontFamily: 'poppins',
+                                      
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
                               color: Colors.grey),
                         ),
                       ],
@@ -201,8 +217,9 @@ class _TrainerState extends State<Trainer> {
                         children: [
                           Text(
                             'About',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 15.5),
+                            style: TextStyle(  fontFamily: 'poppins',
+                                  
+                                fontWeight: FontWeight.w700, fontSize: 14),
                           ),
                         ],
                       ),
@@ -220,8 +237,10 @@ class _TrainerState extends State<Trainer> {
                               child: AutoSizeText(
                                 '${trainernames[index]} is a professional trainer and nutritionist who has 10 years of experience in this field.',
                                 style: TextStyle(
+                                    fontFamily: 'poppins',
+                                  
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 15,
+                                  fontSize: 12,
                                 ),
                                 maxLines: 3,
                               ),
@@ -239,7 +258,9 @@ class _TrainerState extends State<Trainer> {
                           Text(
                             'Certifications',
                             style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 15),
+                                fontFamily: 'poppins',
+                                
+                                fontWeight: FontWeight.w700, fontSize: 14),
                           ),
                         ],
                       ),
@@ -252,18 +273,21 @@ class _TrainerState extends State<Trainer> {
                       children: [
                         Text(
                           "•  Golds gym certified trainer.",
-                          style: TextStyle(fontSize: 14),
+                          style: TextStyle(fontSize: 12,  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,),
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.005,
                         ),
                         Text("•  Golds gym certified nutritionist.",
-                            style: TextStyle(fontSize: 14)),
+                            style: TextStyle(fontSize: 12,  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,)),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.005,
                         ),
                         Text("•  All time calisthenics champion.",
-                            style: TextStyle(fontSize: 14)),
+                            style: TextStyle(fontSize: 12,  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,)),
                       ],
                     ),
                     SizedBox(
@@ -277,7 +301,8 @@ class _TrainerState extends State<Trainer> {
                           Text(
                             'Specialization',
                             style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 15),
+                                fontWeight: FontWeight.w700, fontSize: 14,  fontFamily: 'poppins',
+                                      ),
                           ),
                         ],
                       ),
@@ -294,9 +319,10 @@ class _TrainerState extends State<Trainer> {
                               width: MediaQuery.of(context).size.width * 0.90,
                               child: AutoSizeText(
                                 'Bodybuilding | Workout | Calesthenics | Zumba | HIIT | Cardio | Diet & Nutrition.',
-                                style: TextStyle(
+                                style: TextStyle(  fontFamily: 'poppins',
+                                    
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 14,
+                                  fontSize: 12,
                                 ),
                                 maxLines: 3,
                               ),
@@ -323,7 +349,8 @@ class _TrainerState extends State<Trainer> {
                                         AssetImage("assets/insta_icon.png"))),
                           ),
                         ),
-                        Text('@${trainernames[index]}_xyz')
+                        Text('@${trainernames[index]}_xyz', style: TextStyle(  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400, fontSize: 13),)
                       ],
                     ),
                     SizedBox(
@@ -336,8 +363,9 @@ class _TrainerState extends State<Trainer> {
                         children: [
                           Text(
                             'Reviews',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 15),
+                            style: TextStyle(  fontFamily: 'poppins',
+                              
+                                fontWeight: FontWeight.w700, fontSize: 14),
                           ),
                         ],
                       ),
@@ -357,21 +385,30 @@ class _TrainerState extends State<Trainer> {
                           ),
                           Text(
                             '4.7',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 15),
+                            style: TextStyle(  fontFamily: 'poppins',
+                                
+                                fontWeight: FontWeight.w400, fontSize: 12),
                           ),
                           Text(
                             '(33 reviews)',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14,
+                            style: TextStyle(  fontFamily: 'poppins',
+                                      
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12,
                                 color: Colors.grey),
                           ),
                           Spacer(),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.black,
-                            size: 20,
+                          GestureDetector(
+                            child: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              size: 20,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Review()));
+                            },
                           ),
                         ],
                       ),

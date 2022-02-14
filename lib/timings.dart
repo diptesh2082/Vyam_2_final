@@ -25,7 +25,8 @@ class Timing_Screen extends StatelessWidget {
             title: Text(
               'Timings',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(  fontFamily: 'poppins',fontSize: 18,
+                                      fontWeight: FontWeight.w600,color: Colors.black),
             ),
             leading: GestureDetector(
               onTap: () {
@@ -57,9 +58,10 @@ class Timing_Screen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Text('Gym timings',
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: TextStyle(  fontFamily: 'poppins',
+                                
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 16.5)),
+                                    fontSize: 16)),
                           ),
                           SizedBox(height: 10),
                           FittedBox(
@@ -70,24 +72,28 @@ class Timing_Screen extends StatelessWidget {
                                   children: [
                                     Wrap(direction: Axis.vertical, children: [
                                       Text(' Morning',
-                                          style: TextStyle(
+                                          style: TextStyle(  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,
                                               color: Colors.grey,
-                                              fontSize: 14.5)),
+                                              fontSize: 14)),
                                       SizedBox(height: 5),
                                       Text(' Monday - Saturday',
-                                          style: TextStyle(
+                                          style: TextStyle(  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w600,
                                               color: Colors.black,
-                                              fontSize: 14.5)),
+                                              fontSize: 14)),
                                       SizedBox(height: 5),
                                       Text(' 6.00AM-12.00PM',
-                                          style: TextStyle(
+                                          style: TextStyle(  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w600,
                                               color: Colors.green,
-                                              fontSize: 14.5)),
+                                              fontSize: 12)),
                                       SizedBox(height: 5),
                                       Text(' Sunday closed',
-                                          style: TextStyle(
+                                          style: TextStyle(  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,
                                               color: Colors.grey,
-                                              fontSize: 14.5)),
+                                              fontSize: 12)),
                                     ])
                                   ],
                                 ),
@@ -107,24 +113,31 @@ class Timing_Screen extends StatelessWidget {
                                   children: [
                                     Wrap(direction: Axis.vertical, children: [
                                       Text(' Evening',
-                                          style: TextStyle(
+                                          style: TextStyle(  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,
                                               color: Colors.grey,
-                                              fontSize: 14.5)),
+                                              fontSize: 14)),
                                       SizedBox(height: 5),
                                       Text(' Monday - Saturday',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w600,
                                               color: Colors.black,
-                                              fontSize: 14.5)),
+                                              fontSize: 14)),
                                       SizedBox(height: 5),
                                       Text(' 4.00PM-11.00PM',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w600,
                                               color: Colors.green,
-                                              fontSize: 14.5)),
+                                              fontSize: 12)),
                                       SizedBox(height: 5),
                                       Text(' Sunday closed',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,
                                               color: Colors.grey,
-                                              fontSize: 14.5)),
+                                              fontSize: 12)),
                                     ])
                                   ],
                                 ),
@@ -150,8 +163,10 @@ class Timing_Screen extends StatelessWidget {
                             child: Text('Yoga timings',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
+                                    fontFamily: 'poppins',
+                                    
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 16.5)),
+                                    fontSize: 16)),
                           ),
                           SizedBox(height: 10),
                           FittedBox(
@@ -163,23 +178,31 @@ class Timing_Screen extends StatelessWidget {
                                     Wrap(direction: Axis.vertical, children: [
                                       Text(' Morning',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,
                                               color: Colors.grey,
-                                              fontSize: 14.5)),
+                                              fontSize: 14)),
                                       SizedBox(height: 5),
                                       Text(' Monday - Saturday',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w600,
                                               color: Colors.black,
-                                              fontSize: 14.5)),
+                                              fontSize: 14)),
                                       SizedBox(height: 5),
                                       Text(' 6.00AM-12.00PM',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w600,
                                               color: Colors.green,
-                                              fontSize: 14.5)),
+                                              fontSize: 12)),
                                       SizedBox(height: 5),
                                       Text(' Sunday closed',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,
                                               color: Colors.grey,
-                                              fontSize: 14.5)),
+                                              fontSize: 12)),
                                     ])
                                   ],
                                 ),
@@ -204,9 +227,10 @@ class Timing_Screen extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Text('Zumba timings',
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: TextStyle(  fontFamily: 'poppins',
+                                  
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 16.5)),
+                                    fontSize: 16)),
                           ),
                           SizedBox(height: 10),
                           FittedBox(
@@ -218,23 +242,29 @@ class Timing_Screen extends StatelessWidget {
                                     Wrap(direction: Axis.vertical, children: [
                                       Text(' Morning',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,
                                               color: Colors.grey,
-                                              fontSize: 14.5)),
+                                              fontSize: 14)),
                                       SizedBox(height: 5),
                                       Text(' Monday - Saturday',
-                                          style: TextStyle(
+                                          style: TextStyle(  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w600,
                                               color: Colors.black,
-                                              fontSize: 14.5)),
+                                              fontSize: 14)),
                                       SizedBox(height: 5),
                                       Text(' 6.00AM-12.00PM',
-                                          style: TextStyle(
+                                          style: TextStyle(  fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w600,
                                               color: Colors.green,
-                                              fontSize: 14.5)),
+                                              fontSize: 12)),
                                       SizedBox(height: 5),
                                       Text(' Sunday closed',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,
                                               color: Colors.grey,
-                                              fontSize: 14.5)),
+                                              fontSize: 12)),
                                     ])
                                   ],
                                 ),
@@ -255,23 +285,31 @@ class Timing_Screen extends StatelessWidget {
                                     Wrap(direction: Axis.vertical, children: [
                                       Text(' Evening',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,
                                               color: Colors.grey,
-                                              fontSize: 14.5)),
+                                              fontSize: 14)),
                                       SizedBox(height: 5),
                                       Text(' Monday - Saturday',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w600,
                                               color: Colors.black,
-                                              fontSize: 14.5)),
+                                              fontSize: 14)),
                                       SizedBox(height: 5),
                                       Text(' 4.00PM-11.00PM',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w600,
                                               color: Colors.green,
-                                              fontSize: 14.5)),
+                                              fontSize: 12)),
                                       SizedBox(height: 5),
                                       Text(' Sunday closed',
                                           style: TextStyle(
+                                              fontFamily: 'poppins',
+                                      fontWeight: FontWeight.w400,
                                               color: Colors.grey,
-                                              fontSize: 14.5)),
+                                              fontSize: 12)),
                                     ])
                                   ],
                                 ),
