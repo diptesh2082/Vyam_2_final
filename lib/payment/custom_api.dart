@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -15,28 +16,32 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: backgroundColor,
-      title: Text(
+      centerTitle: true,
+      backgroundColor: Colors.grey[100],
+      title: const Text(
         // "Add Your Location Here",
-        title,
-        style: const TextStyle(
-            fontSize: 15, fontWeight: FontWeight.normal, color: Colors.white),
+        "Booking Summery",
+        style: TextStyle(
+          fontFamily: "Poppins",
+            fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
       ),
-      leading: const Icon(
-        Icons.add_location,
+      leading: IconButton(
+        color: Colors.black,
+        onPressed: (){}, icon: const Icon(Icons.arrow_back_ios),
+
       ),
-      actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 20.0),
-          child: CircleAvatar(
-              backgroundColor: Colors.white70,
-              child: IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomeScreenDrawer()));
-                  })),
-        ),
-      ],
+      // actions: <Widget>[
+      //   Padding(
+      //     padding: const EdgeInsets.only(right: 20.0),
+      //     child: CircleAvatar(
+      //         backgroundColor: Colors.white70,
+      //         child: IconButton(
+      //             icon: const Icon(Icons.menu),
+      //             onPressed: () {
+      //               // Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomeScreenDrawer()));
+      //             })),
+      //   ),
+      // ],
     );
   }
 }

@@ -12,8 +12,8 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
-    var value = Get.arguments;
-    print(value);
+    // // var value = Get.arguments;
+    // print(value);
     return Scaffold(
       appBar: CustomAppBar(
         backgroundColor: Colors.black87,
@@ -21,11 +21,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
       backgroundColor: Colors.black,
       body: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [Colors.black87, Colors.white54])),
+          color: Colors.white,
           child: Scaffold(
               backgroundColor: Colors.transparent,
               body: SingleChildScrollView(
@@ -53,7 +49,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               child: Text(
                                 "Workout",
                                 style: TextStyle(
-                                    color: Colors.white,
+
                                     fontWeight: FontWeight.bold,
                                     fontSize: 17),
                               ),
@@ -107,11 +103,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               padding:
                                   const EdgeInsets.only(right: 15, top: 10),
                               child: Text(
-                                "${value[1]}",
+                                "{value[1]}",
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 17,
-                                    color: Colors.white),
+                                   ),
                               ),
                             )
                           ],
@@ -124,7 +120,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               child: Text(
                                 "Start date",
                                 style: TextStyle(
-                                  color: Colors.white,
+
                                   fontSize: 15,
                                 ),
                               ),
@@ -134,7 +130,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               child: Text(
                                 "January 08 2022",
                                 style: TextStyle(
-                                    color: Colors.white,
+
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -149,7 +145,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               child: Text(
                                 "Valid Upto",
                                 style: TextStyle(
-                                  color: Colors.white,
+
                                   fontSize: 15,
                                 ),
                               ),
@@ -159,7 +155,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               child: Text(
                                 "January 08 2022",
                                 style: TextStyle(
-                                    color: Colors.white,
+
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -187,7 +183,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 "Select promo code",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w900,
-                                  color: Colors.white,
                                   fontSize: 20,
                                 ),
                               ),
@@ -195,7 +190,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             Text(
                               "No promo code Selected",
                               style: TextStyle(
-                                color: Colors.white,
                               ),
                             )
                           ],
@@ -242,7 +236,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         "Payment",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            color: Colors.white,
+
                             fontSize: 17,
                             fontWeight: FontWeight.bold),
                       ),
@@ -255,7 +249,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           child: Text(
                             "Total Amount",
                             style: TextStyle(
-                              color: Colors.white,
+
                               fontSize: 15,
                             ),
                           ),
@@ -263,9 +257,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         Padding(
                           padding: const EdgeInsets.only(right: 12, top: 5),
                           child: Text(
-                            "₹ ${value[0]}",
+                            "₹ {value[0]}",
                             style: const TextStyle(
-                                color: Colors.white,
+
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -280,7 +274,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           child: Text(
                             "Discount",
                             style: TextStyle(
-                              color: Colors.white,
+
                               fontSize: 15,
                             ),
                           ),
@@ -290,7 +284,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           child: Text(
                             "₹ 0.0",
                             style: TextStyle(
-                                color: Colors.white,
+
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -299,23 +293,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Padding(
+                      children: const [
+                        Padding(
                           padding: EdgeInsets.only(left: 12, top: 5),
                           child: Text(
                             "Promo Code",
                             style: TextStyle(
-                              color: Colors.white,
+
                               fontSize: 15,
                             ),
                           ),
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(right: 12, top: 5),
                           child: Text(
                             "0",
                             style: TextStyle(
-                                color: Colors.white,
+
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -329,22 +323,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Padding(
+                      children: const [
+                        Padding(
                           padding: EdgeInsets.only(left: 12, top: 5),
                           child: Text(
                             "Grand Total",
                             style: TextStyle(
-                              color: Colors.white,
+
                               fontSize: 18,
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 12, top: 5),
+                          padding: EdgeInsets.only(right: 12, top: 5),
                           child: Text(
-                            "₹ ${value[0]}",
-                            style: const TextStyle(
+                            "₹ {value[0]}",
+                            style: TextStyle(
                                 color: Colors.greenAccent,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
@@ -456,65 +450,76 @@ class _PaymentScreenState extends State<PaymentScreen> {
 class DetailBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size =MediaQuery.of(context).size;
     return SafeArea(
       child: Row(
         children: [
-          Container(
-            height: 120,
-            width: 140,
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                image: DecorationImage(
-                    image: AssetImage('assets/vyamlog.jpg'),
-                    fit: BoxFit.cover)),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Container(
+              height: 131,
+              width: size.width*.45,
+              decoration: const BoxDecoration(
+
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/transf1.jpeg'),
+                      fit: BoxFit.cover)),
+            ),
           ),
           const SizedBox(
-            width: 12,
+            width: 20,
           ),
           Expanded(
               child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const Text(
                   "Fitness Gym",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 26,
-                      color: Colors.white),
+                    fontFamily: "Poppins",
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
+                ),
+                const SizedBox(
+                  height: 8,
                 ),
                 const Text(
                   "data is in thr are denger  dtfrhgh ui wtw",
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
-                  style: TextStyle(color: Colors.yellow, fontSize: 15),
+                  style: TextStyle( fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 8,
                 ),
                 Row(
-                  children: [
-                    const Text(
+                  children: const [
+                    Text(
                       'Brance :',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                        color: Colors.white70,
+
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(
+                    SizedBox(
                       width: 5,
                     ),
-                    const Text(
+                    Text(
                       "Kolkata",
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                        color: Colors.cyanAccent,
+                        color: Colors.black,
                       ),
                     )
                   ],
