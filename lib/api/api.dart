@@ -106,3 +106,12 @@ class GymDetailApi {
   Stream<QuerySnapshot> getGymDetails =
       FirebaseFirestore.instance.collection("product_details").snapshots();
 }
+setVisitingFlag() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  preferences.setBool("alreadyVisited", true);
+
+}
+getVisitedFlag() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  bool alreadyVisited = preferences.getBool("alreadyVisited")?? false;
+}

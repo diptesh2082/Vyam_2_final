@@ -215,7 +215,12 @@ class _FirstHomeState extends State<FirstHome> {
                 onTap: () {
                   Get.to(CouponDetails());
                 },
-                child: SizedBox(
+                child:
+                // StreamBuilder<QuerySnapshot>(
+                //   stream: ,
+                //   builder: ,
+                // )
+                SizedBox(
                   height: size.height * .18,
                   child: ListView.builder(
                     // controller: _controller.,
