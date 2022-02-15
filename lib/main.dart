@@ -24,12 +24,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: Themes().lightTheme,
 
-      home:  LoginPage(),
+      home: LoginPage(),
       // initialRoute: ,
       getPages: [
         GetPage(name: HomePage.id, page: () => HomePage()),
         GetPage(name: "/login", page: () => const LoginPage()),
-        GetPage(name: OtpPage.id, page: () =>  OtpPage()),
+        GetPage(name: OtpPage.id, page: () => OtpPage()),
         GetPage(
             name: RegistrationPage.id, page: () => const RegistrationPage()),
       ],

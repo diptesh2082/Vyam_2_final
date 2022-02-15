@@ -40,7 +40,10 @@ class ProductGyms extends StatelessWidget {
                         GestureDetector(
                           onTap: () async {
                             Get.to(
-                              () => GymDetails(getID: data.docs[index].id),
+                              () => GymDetails(
+                                getID: data.docs[index].id,
+                                gymName: data.docs[index]['name'],
+                              ),
                             );
                           },
                           child: ClipRRect(

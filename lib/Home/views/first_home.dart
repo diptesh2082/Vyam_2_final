@@ -39,8 +39,9 @@ class _FirstHomeState extends State<FirstHome> {
 
   @override
   void initState() {
-    getUserDetails();
     getNumber();
+    userDetails.getData();
+
     int getDays = int.parse(daysLeft[0]["dayleft"]);
     getDays = 28 - getDays;
     finaldaysLeft = getDays / 28;
@@ -59,12 +60,6 @@ class _FirstHomeState extends State<FirstHome> {
       progressColor = Colors.yellow;
     }
     super.initState();
-  }
-
-  getUserDetails() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString("number", "8859451134");
-    userDetails.getData();
   }
 
   final backgroundColor = Colors.grey[200];
@@ -216,11 +211,11 @@ class _FirstHomeState extends State<FirstHome> {
                   Get.to(CouponDetails());
                 },
                 child:
-                // StreamBuilder<QuerySnapshot>(
-                //   stream: ,
-                //   builder: ,
-                // )
-                SizedBox(
+                    // StreamBuilder<QuerySnapshot>(
+                    //   stream: ,
+                    //   builder: ,
+                    // )
+                    SizedBox(
                   height: size.height * .18,
                   child: ListView.builder(
                     // controller: _controller.,

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, non_constant_identifier_names, unused_field, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -7,7 +9,17 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:vyam_2_final/payment/payment.dart';
 
 class SelectDate extends StatefulWidget {
-  const SelectDate({Key? key, required this.months}) : super(key: key);
+  final getGymName;
+  final packageType;
+  final price;
+
+  const SelectDate(
+      {Key? key,
+      required this.months,
+      required this.price,
+      required this.packageType,
+      required this.getGymName})
+      : super(key: key);
   final String months;
 
   @override
@@ -52,7 +64,11 @@ class _SelectDateState extends State<SelectDate> {
 
   @override
   void initState() {
-    if (widget.months.contains("Pay per session")) {
+    print(widget.getGymName);
+    print(widget.months);
+    print(widget.packageType);
+    print(widget.price);
+    if (widget.months.contains("PAY PER SESSION")) {
       getDays = 0;
     }
     if (widget.months.contains("1")) {

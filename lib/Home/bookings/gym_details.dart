@@ -9,9 +9,11 @@ import 'package:vyam_2_final/controllers/packages/packages.dart';
 import 'know_trainer.dart';
 
 class GymDetails extends StatefulWidget {
+  final gymName;
   final getID;
 
-  const GymDetails({Key? key, required this.getID}) : super(key: key);
+  const GymDetails({Key? key, required this.getID, required this.gymName})
+      : super(key: key);
 
   @override
   _GymDetailsState createState() => _GymDetailsState();
@@ -754,7 +756,10 @@ class _GymDetailsState extends State<GymDetails> {
         splashColor: Colors.amber,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         onPressed: () {
-          Get.to(() => Packeges(getFinalID: widget.getID));
+          Get.to(() => Packeges(
+                getFinalID: widget.getID,
+                gymName: widget.gymName,
+              ));
         },
         label: Text(
           "Explorer Packages",

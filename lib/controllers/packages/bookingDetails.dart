@@ -5,29 +5,14 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../select_date.dart';
 
-
-
 class BookingDetails {
-  void bookingDetails(context, index, bookingList, String gymType) {
+  void bookingDetails(context, index, bookingList, String gymType, getGymName) {
     List newBookingList = bookingList;
-    var months;
-    String textMonth = "month";
-    if (newBookingList[index].validity == 28) {
-      months = "1";
-      textMonth = "month";
-    }
-    if (newBookingList[index].validity == 84) {
-      months = "3";
-      textMonth = "months";
-    }
-    if (newBookingList[index].validity == 168) {
-      months = "6";
-      textMonth = "months";
-    }
+
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
     showBottomSheet(
-      backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         elevation: 8,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -62,16 +47,19 @@ class BookingDetails {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              "\$${newBookingList[index].price}",
+                              "Rs "
+                              "${int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["original_price"]) * int.parse(bookingList[index]["discount"]) / 100).round()}",
                               style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontSize: 42,
                                   fontWeight: FontWeight.w700),
                             ),
-                            if (newBookingList[index].title !=
+                            if (newBookingList[index]['title'] !=
                                 "Pay per session")
                               Text(
-                                "Validity : " + months + " " + textMonth,
+                                "Validity : " +
+                                    bookingList[index]['validity']
+                                        .toUpperCase(),
                                 style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontSize: 12,
@@ -84,13 +72,10 @@ class BookingDetails {
                         right: 25,
                         top: 20,
                         child: InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Icon(
-                            Icons.cancel_sharp
-                          )
-                        ),
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Icon(Icons.cancel_sharp)),
                       ),
                     ],
                   ),
@@ -107,14 +92,18 @@ class BookingDetails {
                                 padding: const EdgeInsets.all(0.0),
                                 child: Center(
                                   child: Padding(
-                                    padding:
-                                    const EdgeInsets.only(left: 16.0, top: 10, right: 16),
+                                    padding: const EdgeInsets.only(
+                                        left: 16.0, top: 10, right: 16),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Text(
-                                          gymType + newBookingList[index].title,
+                                          gymType +
+                                              newBookingList[index]['title']
+                                                  .toUpperCase(),
                                           style: GoogleFonts.poppins(
                                               fontSize: 18,
                                               color: HexColor("3A3A3A"),
@@ -123,26 +112,32 @@ class BookingDetails {
                                         const SizedBox(
                                           height: 12,
                                         ),
-                                        if (newBookingList[index].title != "Pay per session")
+                                        if (newBookingList[index]['title'] !=
+                                            "Pay per session")
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 "Package validity",
                                                 style: GoogleFonts.poppins(
                                                     fontSize: 14,
                                                     color: HexColor("AAAAAA"),
-                                                    fontWeight: FontWeight.w600),
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                               ),
                                               const SizedBox(
                                                 height: 5,
                                               ),
                                               Text(
-                                                "${newBookingList[index].validity}",
+                                                newBookingList[index]
+                                                        ['validity']
+                                                    .toUpperCase(),
                                                 style: GoogleFonts.poppins(
                                                     fontSize: 14,
                                                     color: HexColor("000000"),
-                                                    fontWeight: FontWeight.w600),
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                               ),
                                             ],
                                           ),
@@ -160,7 +155,8 @@ class BookingDetails {
                                           height: 16,
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
                                           child: Text(
                                             "• Pay only for the day you workout.\n• No membership or admission charge required.\n• Book for single/multiple days.",
                                             style: GoogleFonts.poppins(
@@ -182,7 +178,8 @@ class BookingDetails {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        if (newBookingList[index].title != "Pay per session")
+                                        if (newBookingList[index]['title'] !=
+                                            "Pay per session")
                                           Text(
                                             "100% safe and secure",
                                             style: GoogleFonts.poppins(
@@ -196,24 +193,50 @@ class BookingDetails {
                                         MaterialButton(
                                           color: HexColor("292F3D"),
                                           shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(12)),
+                                              borderRadius:
+                                                  BorderRadius.circular(12)),
                                           onPressed: () {
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => SelectDate(
-                                                      months: newBookingList[index].title,
-                                                    )));
+                                                    builder:
+                                                        (context) => SelectDate(
+                                                              months: newBookingList[
+                                                                          index]
+                                                                      ['title']
+                                                                  .toUpperCase(),
+                                                              price: int.parse(
+                                                                      bookingList[
+                                                                              index]
+                                                                          [
+                                                                          "original_price"]) -
+                                                                  (int.parse(bookingList[index]
+                                                                              [
+                                                                              "original_price"]) *
+                                                                          int.parse(bookingList[index]
+                                                                              [
+                                                                              "discount"]) /
+                                                                          100)
+                                                                      .round(),
+                                                              packageType:
+                                                                  bookingList[
+                                                                          index]
+                                                                      ['type'],
+                                                              getGymName:
+                                                                  getGymName,
+                                                            )));
                                           },
                                           child: Padding(
-                                            padding: const EdgeInsets.only(top: 15.0, bottom: 15),
+                                            padding: const EdgeInsets.only(
+                                                top: 15.0, bottom: 15),
                                             child: Center(
                                               child: Text(
                                                 "Book now",
                                                 style: GoogleFonts.poppins(
                                                     color: HexColor("FFFFFF"),
                                                     fontSize: 16,
-                                                    fontWeight: FontWeight.w700),
+                                                    fontWeight:
+                                                        FontWeight.w700),
                                               ),
                                             ),
                                           ),

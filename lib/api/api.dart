@@ -9,6 +9,7 @@ getNumber() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var getNumber = sharedPreferences.getString("number");
   number = getNumber.toString();
+  print(number);
 }
 
 class UserDetails {
@@ -16,6 +17,7 @@ class UserDetails {
   List userData = [];
 
   Future getData() async {
+    print(number);
     try {
       await collectionRef.doc(number).get().then((value) {
         userData.add(value.data());
@@ -106,12 +108,13 @@ class GymDetailApi {
   Stream<QuerySnapshot> getGymDetails =
       FirebaseFirestore.instance.collection("product_details").snapshots();
 }
+
 setVisitingFlag() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setBool("alreadyVisited", true);
-
 }
+
 getVisitedFlag() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
-  bool alreadyVisited = preferences.getBool("alreadyVisited")?? false;
+  bool alreadyVisited = preferences.getBool("alreadyVisited") ?? false;
 }
