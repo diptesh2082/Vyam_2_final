@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 // import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/colors/color.dart';
@@ -30,9 +31,10 @@ class _OtpPageState extends State<OtpPage> {
       setState(() {
         showLoading = false;
       });
-      if(authCred.user != null)
-      {
-        Get.offAll(()=>HomePage());
+      if(authCred.user != null) {
+        getToHomePage(value[1]);
+        // SharedPreferences preferences = await SharedPreferences.getInstance();
+
         // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage()));
       }
     } on FirebaseAuthException catch (e) {
@@ -202,4 +204,9 @@ class _OtpPageState extends State<OtpPage> {
       ),
     );
   }
+}
+getToHomePage(var number)async{
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  sharedPreferences.setString("number", number);
+  Get.offAll(()=>HomePage());
 }

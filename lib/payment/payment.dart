@@ -139,8 +139,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Padding(
+                          children: const [
+                            Padding(
                               padding: EdgeInsets.only(left: 12, top: 5),
                               child: Text(
                                 "Valid Upto",
@@ -150,7 +150,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 ),
                               ),
                             ),
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.only(right: 12, top: 5),
                               child: Text(
                                 "January 08 2022",
@@ -243,8 +243,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Padding(
+                      children: const [
+                        Padding(
                           padding: EdgeInsets.only(left: 12, top: 5),
                           child: Text(
                             "Total Amount",
@@ -255,10 +255,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 12, top: 5),
+                          padding: EdgeInsets.only(right: 12, top: 5),
                           child: Text(
                             "₹ {value[0]}",
-                            style: const TextStyle(
+                            style: TextStyle(
 
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold),
