@@ -6,8 +6,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
+import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/colors/color.dart';
 import 'package:vyam_2_final/controllers/location_controller.dart';
+import 'package:vyam_2_final/models/user_model.dart';
 
 
 class RegistrationPage extends StatefulWidget {
@@ -20,59 +22,9 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   var groupValue = 0;
-
-  // String address = "";
-  // String location = "Search";
-  // final LocationController locationController = Get.put(LocationController());
-  // File? image;
-  // Future pickImage(ImageSource imageType) async {
-  //   try{
-  //     var image = await ImagePicker().pickImage(source:ImageSource.gallery);
-  //     if (image==null) return;
-  //     final imageTemporary = File(image.path);
-  //     setState(() {
-  //       image = imageTemporary as XFile?;
-  //     });
-  //     Get.back();
-  //   }catch(error){
-  //     debugPrint(error.toString());
-  //   }
-  //
-  // }
-  // Future<Position> _determinePosition() async {
-  //   bool serviceEnabled;
-  //   LocationPermission permission;
-  //
-  //
-  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  //   if (!serviceEnabled) {
-  //     await Geolocator.openLocationSettings();
-  //     return Future.error('Location services are disabled.');
-  //   }
-  //
-  //   permission = await Geolocator.checkPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     permission = await Geolocator.requestPermission();
-  //     if (permission == LocationPermission.denied) {
-  //
-  //       return Future.error('Location permissions are denied');
-  //     }
-  //   }
-  //
-  //   if (permission == LocationPermission.deniedForever) {
-  //     // Permissions are denied forever, handle appropriately.
-  //     return Future.error(
-  //         'Location permissions are permanently denied, we cannot request permissions.');
-  //   }
-  //
-  //   return await Geolocator.getCurrentPosition();
-  // }
-  // Future<void> GetAddressFromLatLong(Position position) async {
-  //   List<Placemark> placemark = await placemarkFromCoordinates(position.latitude, position.longitude);
-  //   Placemark place = placemark[0];
-  //   address = "${place.name},${place.street},${place.postalCode}";
-  // }
-  // final LocationController yourLocation = Get.put(LocationController());
+  TextEditingController nameController = TextEditingController();
+  TextEditingController numberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -143,6 +95,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               Padding(
                 padding: const EdgeInsets.only(left: 20,right: 20,top: 8),
                 child: TextFormField(
+                  controller: nameController,
                   decoration: const InputDecoration(
                     enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
@@ -165,6 +118,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               Padding(
                 padding: const EdgeInsets.only(left: 20,right: 20,top: 8),
                 child: TextFormField(
+                  controller: numberController,
                   decoration: const InputDecoration(
                       enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
@@ -172,7 +126,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               width: 2
                           )
                       ),
-                      labelText: "Last name",
+                      labelText: "Number",
                       fillColor: Colors.orangeAccent,
                       hoverColor: Colors.orangeAccent,
                       errorBorder: UnderlineInputBorder(
@@ -187,6 +141,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               Padding(
                 padding: const EdgeInsets.only(left: 20,right: 20,top: 8),
                 child: TextFormField(
+                  controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                       enabledBorder: UnderlineInputBorder(
@@ -265,8 +220,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 ),
                                 onPressed: () async {
                                   // print(address);
-                                      Get.toNamed(HomePage.id
-                                      );
+                                  final user = UserModel(userId: "7407926060",email: emailController.text,number: numberController.text,name: nameController.text);
+                                    await UserApi.createUser(user);
+                                      // Get.toNamed(HomePage.id
+                                      // );
                                 },
                                 child: const Text("Continue",
                                   style: TextStyle(
@@ -295,3 +252,55 @@ class _RegistrationPageState extends State<RegistrationPage> {
       )
   );
 }
+// String address = "";
+// String location = "Search";
+// final LocationController locationController = Get.put(LocationController());
+// File? image;
+// Future pickImage(ImageSource imageType) async {
+//   try{
+//     var image = await ImagePicker().pickImage(source:ImageSource.gallery);
+//     if (image==null) return;
+//     final imageTemporary = File(image.path);
+//     setState(() {
+//       image = imageTemporary as XFile?;
+//     });
+//     Get.back();
+//   }catch(error){
+//     debugPrint(error.toString());
+//   }
+//
+// }
+// Future<Position> _determinePosition() async {
+//   bool serviceEnabled;
+//   LocationPermission permission;
+//
+//
+//   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+//   if (!serviceEnabled) {
+//     await Geolocator.openLocationSettings();
+//     return Future.error('Location services are disabled.');
+//   }
+//
+//   permission = await Geolocator.checkPermission();
+//   if (permission == LocationPermission.denied) {
+//     permission = await Geolocator.requestPermission();
+//     if (permission == LocationPermission.denied) {
+//
+//       return Future.error('Location permissions are denied');
+//     }
+//   }
+//
+//   if (permission == LocationPermission.deniedForever) {
+//     // Permissions are denied forever, handle appropriately.
+//     return Future.error(
+//         'Location permissions are permanently denied, we cannot request permissions.');
+//   }
+//
+//   return await Geolocator.getCurrentPosition();
+// }
+// Future<void> GetAddressFromLatLong(Position position) async {
+//   List<Placemark> placemark = await placemarkFromCoordinates(position.latitude, position.longitude);
+//   Placemark place = placemark[0];
+//   address = "${place.name},${place.street},${place.postalCode}";
+// }
+// final LocationController yourLocation = Get.put(LocationController());

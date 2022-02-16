@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -27,7 +29,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       leading: IconButton(
         color: Colors.black,
-        onPressed: (){}, icon: const Icon(Icons.arrow_back_ios),
+        onPressed: (){
+
+        }, icon: const Icon(Icons.arrow_back_ios),
 
       ),
       // actions: <Widget>[

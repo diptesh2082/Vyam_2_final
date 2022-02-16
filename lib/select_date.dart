@@ -298,7 +298,7 @@ class _SelectDateState extends State<SelectDate> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
                     onPressed: () {
-                      Get.to(const PaymentScreen());
+                      Get.to(()=>const PaymentScreen());
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(top: 15.0, bottom: 15),
