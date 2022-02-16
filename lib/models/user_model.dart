@@ -6,7 +6,7 @@ class UserModel{
   String name;
   List<GeoPoint> location;
   String address;
-  List images;
+  final List images;
   String number;
   String email;
   String gender;
