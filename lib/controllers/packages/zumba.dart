@@ -10,11 +10,14 @@ import '../package_controller.dart';
 class ZumbaList extends StatefulWidget {
   final getDocId;
   final gymName;
+  final gymLocation;
+
   ZumbaList({
     Key? key,
     required double width,
     required this.getDocId,
     required this.gymName,
+    required this.gymLocation,
   })  : _width = width,
         super(key: key);
 
@@ -201,7 +204,8 @@ class _ZumbaListState extends State<ZumbaList> {
                                               snapshot,
                                               data.docs,
                                               "Zumba ",
-                                              widget.gymName);
+                                              widget.gymName,
+                                              widget.gymLocation);
                                         },
                                         color: HexColor("292F3D"),
                                         shape: RoundedRectangleBorder(

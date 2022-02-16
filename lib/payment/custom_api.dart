@@ -24,15 +24,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         // "Add Your Location Here",
         "Booking Summery",
         style: TextStyle(
-          fontFamily: "Poppins",
-            fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
+            fontFamily: "Poppins",
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: Colors.black),
       ),
       leading: IconButton(
         color: Colors.black,
-        onPressed: (){
-
-        }, icon: const Icon(Icons.arrow_back_ios),
-
+        onPressed: () {
+          Get.back();
+        },
+        icon: const Icon(Icons.arrow_back_ios),
       ),
       // actions: <Widget>[
       //   Padding(

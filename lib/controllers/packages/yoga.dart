@@ -9,12 +9,14 @@ import '../package_controller.dart';
 
 class YogaList extends StatefulWidget {
   final getDocID;
+  final gymLocation;
   final gymName;
   YogaList({
     Key? key,
     required double width,
     required this.getDocID,
     required this.gymName,
+    required this.gymLocation,
   })  : _width = width,
         super(key: key);
 
@@ -201,7 +203,8 @@ class _YogaListState extends State<YogaList> {
                                               snapshot,
                                               data.docs,
                                               "Yoga ",
-                                              widget.gymName);
+                                              widget.gymName,
+                                              widget.gymLocation);
                                         },
                                         color: HexColor("292F3D"),
                                         shape: RoundedRectangleBorder(
