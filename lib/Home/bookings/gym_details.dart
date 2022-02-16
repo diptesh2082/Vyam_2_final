@@ -11,8 +11,13 @@ import 'know_trainer.dart';
 class GymDetails extends StatefulWidget {
   final gymName;
   final getID;
+  final gymLocation;
 
-  const GymDetails({Key? key, required this.getID, required this.gymName})
+  const GymDetails(
+      {Key? key,
+      required this.getID,
+      required this.gymName,
+      required this.gymLocation})
       : super(key: key);
 
   @override
@@ -759,6 +764,7 @@ class _GymDetailsState extends State<GymDetails> {
           Get.to(() => Packeges(
                 getFinalID: widget.getID,
                 gymName: widget.gymName,
+                gymLocation: widget.gymLocation,
               ));
         },
         label: Text(

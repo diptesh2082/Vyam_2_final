@@ -1,5 +1,8 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:vyam_2_final/payment/custom_api.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -10,6 +13,65 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
+  var getData = Get.arguments;
+  int discount = 20;
+  int gstTax = 18;
+  var grandTotal;
+  var totalDiscount;
+  var taxPay;
+  String amount = '';
+
+  final Razorpay _razorpay = Razorpay();
+
+  @override
+  void initState() {
+    setState(() {
+      var price = getData["totalPrice"];
+      totalDiscount = ((price * discount) / 100).round();
+      taxPay = ((price * gstTax) / 100).round();
+      grandTotal = ((price - totalDiscount) + taxPay);
+      amount = grandTotal.toString() + "00";
+    });
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
+  }
+
+  _payment() {
+    var options = {
+      'key': 'rzp_test_XsqSZDutXoetVT',
+      'amount': amount,
+      'name': 'Vyam Gym Booking',
+      'description': 'Payment',
+      'prefill': {'contact': '', 'email': ''},
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {}
+  void _handlePaymentError(PaymentFailureResponse response) {
+    print("Failed");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    print("Wallet");
+  }
+
   @override
   Widget build(BuildContext context) {
     // // var value = Get.arguments;
@@ -32,7 +94,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     children: [
                       Container(
                           padding: const EdgeInsets.only(left: 8),
-                          child: DetailBox()),
+                          child: DetailBox(
+                              getData['gymName'], getData['address'])),
                       const SizedBox(
                         height: 10,
                       ),
@@ -47,22 +110,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Padding(
+                              children: [
+                                const Padding(
                                   padding: EdgeInsets.only(left: 15, top: 10),
                                   child: Text(
                                     "Workout",
                                     style: TextStyle(
-
                                         fontWeight: FontWeight.bold,
                                         fontSize: 17),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(right: 15, top: 10),
+                                  padding:
+                                      const EdgeInsets.only(right: 15, top: 10),
                                   child: Text(
-                                    "Pay Per Day",
-                                    style: TextStyle(
+                                    getData['packageType'].toUpperCase(),
+                                    style: const TextStyle(
                                         // color: Colors.greenAccent,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 17),
@@ -75,10 +138,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Padding(
-                                  padding:
-                                  EdgeInsets.only(right: 15, top: 10,left: 10),
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                      right: 15, top: 10, left: 10),
                                   child: Center(
                                     child: Text(
                                       "Package",
@@ -92,10 +155,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 ),
                                 Padding(
                                   padding:
-                                  EdgeInsets.only(right: 15, top: 10),
+                                      const EdgeInsets.only(right: 15, top: 10),
                                   child: Text(
-                                    "{value[1]}",
-                                    style: TextStyle(
+                                    getData['totalMonths'],
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 17,
                                     ),
@@ -105,23 +168,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Padding(
+                              children: [
+                                const Padding(
                                   padding: EdgeInsets.only(left: 12, top: 5),
                                   child: Text(
-                                    "Start date",
+                                    "Start Date",
                                     style: TextStyle(
-
                                       fontSize: 15,
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(right: 12, top: 5),
+                                  padding:
+                                      const EdgeInsets.only(right: 12, top: 5),
                                   child: Text(
-                                    "January 08 2022",
-                                    style: TextStyle(
-
+                                    getData["startDate"],
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -130,23 +192,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Padding(
+                              children: [
+                                const Padding(
                                   padding: EdgeInsets.only(left: 12, top: 5),
                                   child: Text(
                                     "Valid Upto",
                                     style: TextStyle(
-
                                       fontSize: 15,
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(right: 12, top: 5),
+                                  padding:
+                                      const EdgeInsets.only(right: 12, top: 5),
                                   child: Text(
-                                    "January 08 2022",
-                                    style: TextStyle(
-
+                                    getData["endDate"],
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -171,11 +232,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
-                                  children: const [
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 3.0, left: 2),
-                                      child: Text(
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: const [
+                                      Text(
                                         "Apply promo code",
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
@@ -183,29 +246,28 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           fontSize: 16,
                                         ),
                                       ),
-                                    ),
-                                    Text(
-                                      "No promo code Selected",
-                                      style: TextStyle(
-                                      ),
-                                    )
-                                  ],
+                                      Text(
+                                        "No promo code Selected",
+                                        style: TextStyle(),
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 15, top: 10),
+                                  padding:
+                                      const EdgeInsets.only(right: 15, top: 10),
                                   child: Container(
                                     height: 38,
                                     width: 120,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                    color: Colors.black
-                                    ),
+                                        color: Colors.black),
                                     child: const Center(
                                       child: Text(
                                         "Apply",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontFamily: "Poppins",
+                                            fontFamily: "Poppins",
                                             color: Colors.white,
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold),
@@ -230,30 +292,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 "Payment",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold),
+                                    fontSize: 17, fontWeight: FontWeight.bold),
                               ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.only(left: 12,top: 5),
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 12, top: 5),
                                   child: Text(
                                     "Total Amount",
                                     style: TextStyle(
-
                                       fontSize: 15,
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(right: 12,top: 5),
+                                  padding:
+                                      const EdgeInsets.only(right: 12, top: 5),
                                   child: Text(
-                                    "₹ {value[0]}",
-                                    style: TextStyle(
-
+                                    "${getData["totalPrice"]}",
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -262,23 +321,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.only(left: 12,top: 5),
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 12, top: 5),
                                   child: Text(
                                     "Discount",
                                     style: TextStyle(
-
                                       fontSize: 15,
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(right: 12,top: 5),
+                                  padding:
+                                      const EdgeInsets.only(right: 12, top: 5),
                                   child: Text(
-                                    "₹ 0.0",
-                                    style: TextStyle(
-
+                                    totalDiscount.toString(),
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -287,23 +345,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.only(left: 12,top: 5),
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 12, top: 5),
                                   child: Text(
-                                    "Promo Code",
+                                    "GST",
                                     style: TextStyle(
-
                                       fontSize: 15,
                                     ),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(right: 12,top: 5),
+                                  padding:
+                                      const EdgeInsets.only(right: 12, top: 5),
                                   child: Text(
-                                    "0",
-                                    style: TextStyle(
-
+                                    taxPay.toString(),
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -313,7 +370,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ],
                         ),
                       ),
-
                       const Divider(
                         color: Colors.yellow,
                         height: 10,
@@ -323,22 +379,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Padding(
+                          children: [
+                            const Padding(
                               padding: EdgeInsets.only(left: 12, top: 5),
                               child: Text(
                                 "Grand Total",
                                 style: TextStyle(
-
                                   fontSize: 18,
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(right: 12, top: 5),
+                              padding: const EdgeInsets.only(right: 12, top: 5),
                               child: Text(
-                                "₹ {value[0]}",
-                                style: TextStyle(
+                                grandTotal.toString(),
+                                style: const TextStyle(
                                     // color: Colors.greenAccent,
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold),
@@ -412,6 +467,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           width: 195,
                           child: FlatButton(
                             onPressed: () {
+                              print("pay");
+                              _payment();
                               // Get.to(() => OrderScreen());
                             },
                             height: 54,
@@ -451,9 +508,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
 }
 
 class DetailBox extends StatelessWidget {
+  final getGymName;
+  final getLocation;
+  DetailBox(this.getGymName, this.getLocation);
+  int totalDistance = 7;
   @override
   Widget build(BuildContext context) {
-    Size size =MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Row(
         children: [
@@ -461,9 +522,8 @@ class DetailBox extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             child: Container(
               height: 131,
-              width: size.width*.45,
+              width: size.width * .45,
               decoration: const BoxDecoration(
-
                   image: DecorationImage(
                       image: AssetImage('assets/images/transf1.jpeg'),
                       fit: BoxFit.cover)),
@@ -474,62 +534,61 @@ class DetailBox extends StatelessWidget {
           ),
           Expanded(
               child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  getGymName.toUpperCase(),
+                  style: const TextStyle(
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  getLocation.toUpperCase(),
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: const TextStyle(fontSize: 15),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
                   children: [
                     const Text(
-                      "Fitness Gym",
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                      ),
+                      'Distance :',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(
-                      height: 8,
+                      width: 5,
                     ),
-                    const Text(
-                      "data is in thr are denger  dtfrhgh ui wtw",
+                    Text(
+                      totalDistance.toString(),
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      style: TextStyle( fontSize: 15),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Row(
-                      children: const [
-                        Text(
-                          'Brance :',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "Kolkata",
-                          textAlign: TextAlign.left,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        )
-                      ],
+                      style: const TextStyle(
+                        color: Colors.black,
+                      ),
                     )
                   ],
-                ),
-              ))
+                )
+              ],
+            ),
+          ))
         ],
       ),
     );

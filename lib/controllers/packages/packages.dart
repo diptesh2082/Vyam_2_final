@@ -13,8 +13,13 @@ import 'bookingDetails.dart';
 
 class Packeges extends StatefulWidget {
   final gymName;
+  final gymLocation;
   final getFinalID;
-  const Packeges({Key? key, required this.getFinalID, required this.gymName})
+  const Packeges(
+      {Key? key,
+      required this.getFinalID,
+      required this.gymName,
+      required this.gymLocation})
       : super(key: key);
 
   @override
@@ -262,7 +267,8 @@ class _PackegesState extends State<Packeges> {
                                                   snapshot,
                                                   data.docs,
                                                   "",
-                                                  widget.gymName);
+                                                  widget.gymName,
+                                                  widget.gymLocation);
                                             },
                                             color: HexColor("292F3D"),
                                             shape: RoundedRectangleBorder(
@@ -306,15 +312,16 @@ class _PackegesState extends State<Packeges> {
                       width: _width,
                       getDocID: widget.getFinalID,
                       gymName: widget.gymName,
+                      gymLocation: widget.gymLocation,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     ZumbaList(
-                      width: _width,
-                      getDocId: widget.getFinalID,
-                      gymName: widget.gymName,
-                    ),
+                        width: _width,
+                        getDocId: widget.getFinalID,
+                        gymName: widget.gymName,
+                        gymLocation: widget.gymLocation),
                     const SizedBox(
                       height: 50,
                     ),

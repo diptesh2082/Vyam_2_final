@@ -32,7 +32,7 @@ class ProductGyms extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: data.size,
-              itemBuilder: (context, int index) {
+              itemBuilder: (context, index) {
                 return Column(
                   children: [
                     Stack(
@@ -43,6 +43,7 @@ class ProductGyms extends StatelessWidget {
                               () => GymDetails(
                                 getID: data.docs[index].id,
                                 gymName: data.docs[index]['name'],
+                                gymLocation: data.docs[index]["address"],
                               ),
                             );
                           },
