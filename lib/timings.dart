@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:vyam2/gym_details.dart';
+import 'gym_details.dart';
 
 class Timing extends StatelessWidget {
   @override

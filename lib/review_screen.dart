@@ -4,8 +4,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:reviews_slider/reviews_slider.dart';
-import 'package:vyam2/feedback.dart';
-import 'package:vyam2/gym_details.dart';
+import 'package:vyam2/no_internet.dart';
+import 'feedback.dart';
+import 'gym_details.dart';
 
 class Review extends StatefulWidget {
   @override
@@ -81,12 +82,7 @@ class _ReviewState extends State<Review> {
                     color: Colors.white),
               ),
               backgroundColor: Colors.black,
-              onPressed: openreviewcard
-              //() {
-              //Navigator.push(context,
-              //  MaterialPageRoute(builder: (context) => Feedback1()));
-              //sdss},
-              ),
+              onPressed: openreviewcard),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

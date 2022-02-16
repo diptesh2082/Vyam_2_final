@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reviews_slider/reviews_slider.dart';
-import 'package:vyam2/gym_details.dart';
-import 'package:vyam2/review_screen.dart';
+import 'gym_details.dart';
+import 'review_screen.dart';
 
 /*class FeedbackScreen extends StatelessWidget {
   @override

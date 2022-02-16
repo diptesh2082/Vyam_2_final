@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:vyam2/gym_details.dart';
+import 'gym_details.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
