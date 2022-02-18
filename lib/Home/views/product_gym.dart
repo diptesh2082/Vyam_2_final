@@ -12,6 +12,7 @@ class ProductGyms extends StatelessWidget {
   ProductGyms(this.controller, this.length);
   final List controller;
   final double length;
+  
   GymDetailApi gymDetailApi = GymDetailApi();
   @override
   Widget build(BuildContext context) {

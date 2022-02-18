@@ -13,6 +13,7 @@ class GymDetails extends StatefulWidget {
   final getID;
   final gymLocation;
 
+
   const GymDetails(
       {Key? key,
       required this.getID,

@@ -1,21 +1,22 @@
-class BoardInfo{
+class BoardInfo {
   final String imageAssets;
 
   BoardInfo(this.imageAssets);
-
 }
-class OptionsInfo{
+
+class OptionsInfo {
   final String imageAssets;
 
   OptionsInfo(this.imageAssets);
-
 }
-class ProductGym{
+
+class ProductGym {
   final String imageAssets;
   final String name;
   final String address;
   final String rating;
   final String distance;
 
-  ProductGym(this.imageAssets, this.name, this.address, this.rating, this.distance);
+  ProductGym(
+      {required this.imageAssets, required this.name, required this.address, required this.rating, required this.distance});
 }

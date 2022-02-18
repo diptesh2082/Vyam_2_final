@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> _buildScreens() {
     return [
-      FirstHome(),
+      const FirstHome(),
       const BookingDetails(),
       const Explore(),
        ProfilePart(),
