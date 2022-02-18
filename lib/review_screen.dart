@@ -62,7 +62,7 @@ class _ReviewState extends State<Review> {
                   context, MaterialPageRoute(builder: (context) => Screen1()));
             },
             child: Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios_new_outlined,
               color: Colors.black,
             ),
           )),
