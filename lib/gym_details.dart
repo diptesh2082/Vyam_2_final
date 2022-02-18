@@ -262,6 +262,7 @@ class _Screen1State extends State<Screen1> {
                       ),
                     ),
                   ]),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   const Text('Bus stand, Barakar, near pratham lodge',
                       style: TextStyle(
                           fontFamily: 'poppins',
@@ -273,11 +274,11 @@ class _Screen1State extends State<Screen1> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: Container(
-                          height: 55,
-                          width: 51,
+                          height: 51,
+                          width: 49,
                           //color: Colors.amber,
-                          decoration: const BoxDecoration(
-                              color: Colors.amber,
+                          decoration: BoxDecoration(
+                              color: Colors.amber.shade400,
                               image: DecorationImage(
                                   image: AssetImage("assets/time_circle.png"))),
                         ),
@@ -375,13 +376,14 @@ class _Screen1State extends State<Screen1> {
                       )
                     ],
                   ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.022),
                   const Text('Description',
                       style: TextStyle(
                         fontFamily: 'poppins',
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                       )),
-                  const SizedBox(height: 12),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.022),
                   ReadMoreText(
                     'Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac  Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac ',
                     trimLines: 3,
@@ -399,14 +401,14 @@ class _Screen1State extends State<Screen1> {
                         fontWeight: FontWeight.w400,
                         fontSize: 12),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.025),
                   const Text('Amenities',
                       style: TextStyle(
                         fontSize: 14,
                         fontFamily: 'poppins',
                         fontWeight: FontWeight.w700,
                       )),
-                  const SizedBox(height: 12),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.015),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.1,
                     child: ListView.separated(
@@ -428,6 +430,7 @@ class _Screen1State extends State<Screen1> {
                         fontFamily: 'poppins',
                         fontWeight: FontWeight.w700,
                       )),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                   Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0)),
@@ -448,6 +451,7 @@ class _Screen1State extends State<Screen1> {
                       ),
                     ),
                   ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 4.7,
                     child: Card(
@@ -543,6 +547,7 @@ class _Screen1State extends State<Screen1> {
                           ],
                         )),
                   ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   Card(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0)),
@@ -699,6 +704,7 @@ class _Screen1State extends State<Screen1> {
                           )
                         ],
                       )),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.25,
                     child: Card(
@@ -836,7 +842,8 @@ class _Screen1State extends State<Screen1> {
                                   ],
                                 ),
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey))),
+                                    border: Border.all(
+                                        color: Colors.grey.shade300))),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.02,
                             ),
@@ -886,7 +893,8 @@ class _Screen1State extends State<Screen1> {
                                   ],
                                 ),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
+                                  border:
+                                      Border.all(color: Colors.grey.shade300),
                                 )),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.02,
@@ -937,14 +945,15 @@ class _Screen1State extends State<Screen1> {
                                   ],
                                 ),
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey)))
+                                    border: Border.all(
+                                        color: Colors.grey.shade300)))
                           ],
                         ),
                       ],
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
+                    height: MediaQuery.of(context).size.height * 0.03,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -972,7 +981,7 @@ class _Screen1State extends State<Screen1> {
                     ],
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.09,
+                    height: MediaQuery.of(context).size.height * 0.11,
                   ),
                 ]),
               ))),
@@ -1000,9 +1009,9 @@ class _Screen1State extends State<Screen1> {
                   size: 16,
                 ),
                 //color: Colors.amber,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.amber,
+                  color: Colors.amber.shade400,
                 ),
               ),
               Text(

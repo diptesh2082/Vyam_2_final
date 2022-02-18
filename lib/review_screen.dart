@@ -22,23 +22,6 @@ class _ReviewState extends State<Review> {
   TextEditingController title = new TextEditingController();
   TextEditingController exp = new TextEditingController();
   var _ratingController = new TextEditingController();
-  //CollectionReference collectionReference =
-  //  FirebaseFirestore.instance.collection('user_details');
-
-  Widget buildstar(BuildContext context, int index) {
-    if (index >= srating) {
-      Icon(Icons.star_border);
-    } else if (index > srating - 1 && index < srating) {
-      Icon(Icons.star_half);
-    } else {
-      Icon(Icons.star);
-    }
-    return new InkResponse(
-        child: Icon(
-      Icons.star,
-      color: Colors.amber,
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,9 +89,17 @@ class _ReviewState extends State<Review> {
               ),
               Row(
                 children: [
-                  Row(
-                    children: List.generate(
-                        starCount, (index) => buildstar(context, index)),
+                  RatingBarIndicator(
+                    itemBuilder: ((context, index) {
+                      return Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      );
+                    }),
+                    rating: 4.7,
+                    itemCount: 5,
+                    itemSize: 20.0,
+                    direction: Axis.horizontal,
                   ),
                   Text('4.7 out of 5 ',
                       style: TextStyle(
@@ -328,24 +319,37 @@ class _ReviewState extends State<Review> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         ListTile(
-                                            leading: Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  //border: Border.all(width: 1),
-                                                  image: DecorationImage(
-                                                      image: AssetImage(
-                                                          "assets/trainer1.png"),
-                                                      fit: BoxFit.cover)),
-                                            ),
-                                            title: Text(
-                                              snapshot.data.docs[index]['name'],
-                                              style: TextStyle(
-                                                  fontFamily: 'poppins',
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12),
-                                            )),
+                                          leading: Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                //border: Border.all(width: 1),
+                                                image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "assets/trainer1.png"),
+                                                    fit: BoxFit.cover)),
+                                          ),
+                                          title: Text(
+                                            snapshot.data.docs[index]['name'],
+                                            style: TextStyle(
+                                                fontFamily: 'poppins',
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 12),
+                                          ),
+                                          subtitle: RatingBarIndicator(
+                                            itemBuilder: ((context, index) {
+                                              return Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                              );
+                                            }),
+                                            rating: ratingvalue,
+                                            itemCount: 5,
+                                            itemSize: 18.0,
+                                            direction: Axis.horizontal,
+                                          ),
+                                        ),
                                         Text(
                                           snapshot1.data.docs[index]
                                               ['experience'],
@@ -365,44 +369,6 @@ class _ReviewState extends State<Review> {
                         }
                       }));
                 }),
-
-                /* Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ))),
-                      child: Row(
-                        children: [
-                          Icon(Icons.feed_outlined),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          const Text(
-                            'Feedback',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                      onPressed: () {
-                        //openfeedback();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Feedback1()));
-                      },
-                    ),
-                  ],
-                ),
-              ),*/
               )
             ],
           ),
