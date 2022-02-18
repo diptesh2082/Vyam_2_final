@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, prefer_is_empty
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -33,10 +34,22 @@ class _FirstHomeState extends State<FirstHome> {
   var getPercentage;
   var progressColor;
   var getdata;
+  var data;
+  String address = "your location";
   // var location = Get.arguments;
   List daysLeft = [
     {"gymName": "Transformer Gym - Barakar", "dayleft": "15"},
   ];
+  myLocation()async{
+    CollectionReference collectionReference = await FirebaseFirestore.instance.collection("user_details");
+    collectionReference.snapshots().listen((snapshot) {
+      setState(() {
+        data= snapshot.docs[0].data();
+        address=data["address"];
+      });
+    });
+
+  }
 
   UserDetails userDetails = UserDetails();
   NotificationApi notificationApi = NotificationApi();
@@ -45,6 +58,8 @@ class _FirstHomeState extends State<FirstHome> {
   void initState() {
     getNumber();
     userDetails.getData();
+    // userLocation();
+    myLocation();
 
     int getDays = int.parse(daysLeft[0]["dayleft"]);
     getDays = 28 - getDays;
@@ -102,7 +117,17 @@ class _FirstHomeState extends State<FirstHome> {
     return await Geolocator.getCurrentPosition();
   }
 
-  String address = "Tap here To search your location";
+  // Future<void> userLocation()async{
+  //   final docUser= await FirebaseFirestore.instance.collection("user_list").doc("7407926060");
+  //  final snapshot = await  docUser.get();
+  //  if (snapshot.exists){
+  //    setState(() {
+  //      address=snapshot.data as String;
+  //    });
+  //
+  //  }
+  // }
+
 
 
   String pin="";
@@ -163,7 +188,7 @@ class _FirstHomeState extends State<FirstHome> {
               SizedBox(
                 width: size.width * .55,
                 child: Text(
-                  address,
+                  "$address",
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -339,9 +364,15 @@ class _FirstHomeState extends State<FirstHome> {
                                       children: [
                                         GestureDetector(
                                           onTap: () async {
+                                            print("${document[index]["name"]}");
                                             Get.to(
                                               () => GymDetails(
-                                                  getID: document[index].id),
+                                                  getID: document[index].id, gymLocation: document[index]["location"], gymName: document[index]["name"],),
+                                                arguments: {
+                                                "id":document[index].id,
+                                                  "location": document[index]["location"],
+                                                  "name": document[index]["name"]
+                                                }
                                             );
                                           },
                                           child: ClipRRect(

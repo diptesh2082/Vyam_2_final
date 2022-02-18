@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:get/get.dart';
@@ -40,9 +41,10 @@ class _GymDetailsState extends State<GymDetails> {
     "assets/images/transf5.jpeg",
   ];
 
+
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -100,17 +102,17 @@ class _GymDetailsState extends State<GymDetails> {
                         )),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     Row(
-                      children: const [
+                      children:  [
                         Text(
-                          'Transformers Gym',
-                          style: TextStyle(
+                          '${Get.arguments["name"]}',
+                          style: const TextStyle(
                               color: Colors.black,
                               fontFamily: "Poppins",
                               fontSize: 18,
                               fontWeight: FontWeight.w600),
                         ),
-                        Spacer(),
-                        Text('OPEN NOW',
+                        const Spacer(),
+                        const Text('OPEN NOW',
                             style: TextStyle(
                                 color: Colors.lightGreen, fontSize: 14)),
                       ],
@@ -133,7 +135,9 @@ class _GymDetailsState extends State<GymDetails> {
                     Row(children: const [
                       Spacer(),
                       Text('Navigate',
-                          style: TextStyle(color: Colors.green, fontSize: 10)),
+                          style: TextStyle(
+                              fontFamily: "Poppins",
+                              color: Colors.green, fontSize: 10)),
                       Text('     ')
                     ]),
                     const Text(
