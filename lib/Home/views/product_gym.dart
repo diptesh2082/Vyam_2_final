@@ -17,7 +17,8 @@ class ProductGyms extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return SizedBox(
-      width: size.width * .94,
+      width: size.width * .93,
+      // height: 195,
       child: SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
           stream: gymDetailApi.getGymDetails,

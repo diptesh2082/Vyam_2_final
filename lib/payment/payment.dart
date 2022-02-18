@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:vyam_2_final/payment/custom_api.dart';
 
@@ -86,423 +87,476 @@ class _PaymentScreenState extends State<PaymentScreen> {
           color: Colors.white,
           child: Scaffold(
               backgroundColor: Colors.transparent,
-              body: SingleChildScrollView(
-                padding: const EdgeInsets.only(top: 10),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.only(left: 8),
-                          child: DetailBox(
-                              getData['gymName'], getData['address'])),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Divider(
-                        color: Colors.yellow,
-                        height: 10,
-                        thickness: 2,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 15, top: 10),
-                                  child: Text(
-                                    "Workout",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: 15, top: 10),
-                                  child: Text(
-                                    getData['packageType'].toUpperCase(),
-                                    style: const TextStyle(
-                                        // color: Colors.greenAccent,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17),
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(
-                                      right: 15, top: 10, left: 10),
-                                  child: Center(
-                                    child: Text(
-                                      "Package",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: 15, top: 10),
-                                  child: Text(
-                                    getData['totalMonths'],
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 12, top: 5),
-                                  child: Text(
-                                    "Start Date",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: 12, top: 5),
-                                  child: Text(
-                                    getData["startDate"],
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 12, top: 5),
-                                  child: Text(
-                                    "Valid Upto",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: 12, top: 5),
-                                  child: Text(
-                                    getData["endDate"],
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Container(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: DetailBox(
+                                getData['gymName'], getData['address'])),
+                        const SizedBox(
+                          height: 10,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      const Divider(
-                        color: Colors.yellow,
-                        height: 10,
-                        thickness: 1,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text(
-                                        "Apply promo code",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w600,
+                        const Divider(
+                          color: Colors.yellow,
+                          height: 10,
+                          thickness: 2,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 10, top: 10),
+                                    child: Text(
+                                      "Workout",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
                                           fontFamily: "Poppins",
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      Text(
-                                        "No promo code Selected",
-                                        style: TextStyle(),
-                                      )
-                                    ],
+                                          fontSize: 17),
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: 15, top: 10),
-                                  child: Container(
-                                    height: 38,
-                                    width: 120,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.black),
-                                    child: const Center(
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(right: 15, top: 10),
+                                    child: Text(
+                                      getData['packageType'].toUpperCase(),
+                                      style: const TextStyle(
+                                          // color: Colors.greenAccent,
+                                          fontFamily: "Poppins",
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 17),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(
+                                        right: 15, top: 10, left: 10),
+                                    child: Center(
                                       child: Text(
-                                        "Apply",
+                                        "Package",
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontFamily: "Poppins",
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold),
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            const Divider(
-                              color: Colors.yellow,
-                              height: 10,
-                              thickness: 1,
-                            ),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              padding: const EdgeInsets.only(left: 10, top: 2),
-                              child: const Text(
-                                "Payment",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.bold),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(right: 15, top: 10),
+                                    child: Text(
+                                      getData['totalMonths'],
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontFamily: "Poppins",
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 12, top: 5),
-                                  child: Text(
-                                    "Total Amount",
-                                    style: TextStyle(
-                                      fontSize: 15,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 12, top: 5),
+                                    child: Text(
+                                      "Start Date",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontFamily: "Poppins",
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: 12, top: 5),
-                                  child: Text(
-                                    "${getData["totalPrice"]}",
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 12, top: 5),
-                                  child: Text(
-                                    "Discount",
-                                    style: TextStyle(
-                                      fontSize: 15,
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(right: 12, top: 5),
+                                    child: Text(
+                                      getData["startDate"],
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: "Poppins",
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: 12, top: 5),
-                                  child: Text(
-                                    totalDiscount.toString(),
-                                    style: const TextStyle(
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 12, top: 5),
+                                    child: Text(
+                                      "Valid Upto",
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
                                         fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 12, top: 5),
-                                  child: Text(
-                                    "GST",
-                                    style: TextStyle(
-                                      fontSize: 15,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: 12, top: 5),
-                                  child: Text(
-                                    taxPay.toString(),
-                                    style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(right: 12, top: 5),
+                                    child: Text(
+                                      getData["endDate"],
+                                      style: const TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Divider(
-                        color: Colors.yellow,
-                        height: 10,
-                        thickness: .5,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(left: 12, top: 5),
-                              child: Text(
-                                "Grand Total",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
+                                ],
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 12, top: 5),
-                              child: Text(
-                                grandTotal.toString(),
-                                style: const TextStyle(
-                                    // color: Colors.greenAccent,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      const Divider(
-                        color: Colors.black12,
-                        height: 12,
-                        thickness: 5,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              children: const [
-                                Icon(
-                                  Icons.privacy_tip_sharp,
-                                  // color: Colors.yellowAccent,
-                                  size: 50.0,
-                                ),
-                                Text(
-                                  "Secured Payment",
-                                  style: TextStyle(),
-                                )
-                              ],
-                            ),
-                            Column(
-                              children: const [
-                                Icon(
-                                  Icons.airline_seat_flat_sharp,
-                                  // color: Colors.yellowAccent,
-                                  size: 50.0,
-                                ),
-                                Text(
-                                  "Best Discount",
-                                  style: TextStyle(),
-                                )
-                              ],
-                            ),
-                            Column(
-                              // ignore: prefer_const_literals_to_create_immutables
-                              children: [
-                                const Icon(
-                                  Icons.settings,
-                                  // color: Colors.yellowAccent,
-                                  size: 50.0,
-                                ),
-                                const Text(
-                                  "Customer support",
-                                  style: TextStyle(),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      GestureDetector(
-                        // onTap: () => Get.to(OrderScreen()),
-                        child: SizedBox(
-                          width: 195,
-                          child: FlatButton(
-                            onPressed: () {
-                              print("pay");
-                              _payment();
-                              // Get.to(() => OrderScreen());
-                            },
-                            height: 54,
-                            color: Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-
-                            // width: 150,
-                            // alignment: Alignment.center,
-                            // decoration: BoxDecoration(
-                            //   borderRadius: BorderRadius.circular(15),
-                            //   gradient: LinearGradient(
-                            //     colors: [
-                            //       Colors.yellow,
-                            //       Colors.yellowAccent
-                            //     ]
-                            //   ),
-                            // ),
-                            child: const Text(
-                              "Pay",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                              ),
-                            ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Divider(
+                          color: Colors.yellow,
+                          height: 10,
+                          thickness: 1,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: const [
+                                        Text(
+                                          "Apply promo code",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "Poppins",
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                        Text(
+                                          "No promo code Selected",
+                                          style: TextStyle(
+                                            fontFamily: "Poppins",
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only( top: 10),
+                                    child: Container(
+                                      height: 38,
+                                      width: 120,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: Colors.black),
+                                      child: const Center(
+                                        child: Text(
+                                          "Apply",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              const Divider(
+                                color: Colors.yellow,
+                                height: 10,
+                                thickness: 1,
+                              ),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                padding: const EdgeInsets.only(left: 10, top: 2),
+                                child: const Text(
+                                  "Payment",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontSize: 17, fontWeight: FontWeight.w700),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 12, top: 5),
+                                    child: Text(
+                                      "Total Amount",
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(right: 12, top: 5),
+                                    child: Text(
+                                      "${getData["totalPrice"]}",
+                                      style: const TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 12, top: 5),
+                                    child: Text(
+                                      "Discount",
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(right: 12, top: 5),
+                                    child: Text(
+                                      totalDiscount.toString(),
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: "Poppins",
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 12, top: 5),
+                                    child: Text(
+                                      "GST",
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(right: 12, top: 5),
+                                    child: Text(
+                                      taxPay.toString(),
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Divider(
+                          color: Colors.yellow,
+                          height: 10,
+                          thickness: .5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(left: 12),
+                                child: Text(
+                                  "Grand Total",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: "Poppins",
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.w700
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 12, top: 5),
+                                child: Text(
+                                  grandTotal.toString(),
+                                  style: const TextStyle(
+                                      fontFamily: "Poppins",
+                                      // color: Colors.greenAccent,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        const Divider(
+                          color: Colors.black12,
+                          height: 12,
+                          thickness: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                children: const [
+                                  Icon(
+                                    Icons.privacy_tip_sharp,
+                                    // color: Colors.yellowAccent,
+                                    size: 50.0,
+                                  ),
+                                  Text(
+                                    "Secured Payment",
+                                    style: TextStyle(
+                                      fontFamily: "Poppins",
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                children: const [
+                                  Icon(
+                                    Icons.airline_seat_flat_sharp,
+                                    // color: Colors.yellowAccent,
+                                    size: 50.0,
+                                  ),
+                                  Text(
+                                    "Best Discount",
+                                    style: TextStyle(fontFamily: "Poppins",
+
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                // ignore: prefer_const_literals_to_create_immutables
+                                children: [
+                                  const Icon(
+                                    Icons.settings,
+                                    // color: Colors.yellowAccent,
+                                    size: 50.0,
+                                  ),
+                                  const Text(
+                                    "Customer support",
+                                    style: TextStyle(),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 100,
+                        ),
+                        // GestureDetector(
+                        //   // onTap: () => Get.to(OrderScreen()),
+                        //   child: SizedBox(
+                        //     width: 190,
+                        //     height: 50,
+                        //     child: FlatButton(
+                        //       onPressed: () {
+                        //         print("pay");
+                        //         _payment();
+                        //         // Get.to(() => OrderScreen());
+                        //       },
+                        //       height: 54,
+                        //       color: Colors.black,
+                        //       shape: RoundedRectangleBorder(
+                        //           borderRadius: BorderRadius.circular(12)),
+                        //
+                        //       // width: 150,
+                        //       // alignment: Alignment.center,
+                        //       // decoration: BoxDecoration(
+                        //       //   borderRadius: BorderRadius.circular(15),
+                        //       //   gradient: LinearGradient(
+                        //       //     colors: [
+                        //       //       Colors.yellow,
+                        //       //       Colors.yellowAccent
+                        //       //     ]
+                        //       //   ),
+                        //       // ),
+                        //       child: const Text(
+                        //         "Pay",
+                        //         textAlign: TextAlign.center,
+                        //         style: TextStyle(
+                        //           color: Colors.white,
+                        //           fontWeight: FontWeight.w700,
+                        //           fontSize: 16,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
+                    ),
                   ),
                 ),
-              ))),
+              ),
+
+          ),
+
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: SizedBox(
+        height: 50,
+        width: 190,
+        child: FloatingActionButton.extended(
+          elevation: 8,
+          splashColor: Colors.amber,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          onPressed: () {
+            _payment();
+            // Get.to(() => Packeges(
+            //   getFinalID: widget.getID,
+            //   gymName: widget.gymName,
+            //   gymLocation: widget.gymLocation,
+            // ));
+          },
+          label: Text(
+            "Pay",
+            style: GoogleFonts.poppins(fontWeight: FontWeight.bold,fontSize: 16),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -592,5 +646,7 @@ class DetailBox extends StatelessWidget {
         ],
       ),
     );
+
+
   }
 }

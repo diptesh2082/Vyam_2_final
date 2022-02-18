@@ -97,12 +97,14 @@ class _FirstHomeState extends State<FirstHome> {
   }
 
   String address = "Tap here To search your location";
+  String pin="";
   // ignore: non_constant_identifier_names
   Future<void> GetAddressFromLatLong(Position position) async {
     List<Placemark> placemark =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
     address = "${place.name},${place.street},${place.postalCode}";
+    pin = "${place.postalCode}";
   }
 
   @override
@@ -137,10 +139,11 @@ class _FirstHomeState extends State<FirstHome> {
                   // Get.back();
                   Position position = await _determinePosition();
                   await GetAddressFromLatLong(position);
-                  await UserApi.updateUserAddress(address, [position.latitude,position.longitude]);
+                  await UserApi.updateUserAddress(address, [position.latitude,position.longitude],pin);
 
                   setState(() {
                     address = address;
+                    pin = pin;
                   });
                   await FirebaseFirestore.instance
                       .collection("user_details")
@@ -148,7 +151,8 @@ class _FirstHomeState extends State<FirstHome> {
                       .update({
                     "address": address,
                     "lat": position.latitude,
-                    "long": position.longitude
+                    "long": position.longitude,
+                    "pin": pin
                   });
                 },
               ),
@@ -217,7 +221,7 @@ class _FirstHomeState extends State<FirstHome> {
                     //   builder: ,
                     // )
                     SizedBox(
-                  height: size.height * .18,
+                  height: 140,
                   child: ListView.builder(
                     // controller: _controller.,
                     scrollDirection: Axis.horizontal,
@@ -242,7 +246,7 @@ class _FirstHomeState extends State<FirstHome> {
                 height: 15,
               ),
               SizedBox(
-                height: size.height * .2,
+                height: 150,
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: controller.OptionsList.length,

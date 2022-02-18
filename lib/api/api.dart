@@ -121,21 +121,27 @@ getVisitedFlag() async {
 
 class UserApi {
   static const number = "7407926060";
-  static Future createUser(UserModel userModel) async {
+  static Future createUser(String name,String number,String email) async {
     final docUser = FirebaseFirestore.instance
         .collection("user_details")
     .doc(number);
-    userModel.userId = docUser.id;
-    final myJson=userModel.toJson();
+    // userModel.userId = docUser.id;
+    final myJson={
+      'userId': docUser.id,
+      "name": name,
+      "email": email,
+      "number": number,
+    };
     await docUser.set(myJson);
   }
-  static Future updateUserAddress(String address, List location) async {
+  static Future updateUserAddress(String address, List location, String pin) async {
     final docUser = FirebaseFirestore.instance
         .collection("user_details")
         .doc(number);
     final myJson={
       "address": address,
-      "location": location
+      "location": location,
+      "pin":pin
     };
     await docUser.update(myJson);
   }

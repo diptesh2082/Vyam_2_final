@@ -22,7 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.grey[100],
       title: const Text(
         // "Add Your Location Here",
-        "Booking Summery",
+        "Booking Summary",
         style: TextStyle(
             fontFamily: "Poppins",
             fontSize: 18,
