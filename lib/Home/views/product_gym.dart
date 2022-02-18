@@ -18,7 +18,8 @@ class ProductGyms extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return SizedBox(
-      width: size.width * .94,
+      width: size.width * .93,
+      // height: 195,
       child: SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
           stream: gymDetailApi.getGymDetails,
@@ -41,7 +42,11 @@ class ProductGyms extends StatelessWidget {
                         GestureDetector(
                           onTap: () async {
                             Get.to(
-                              () => GymDetails(getID: data.docs[index].id),
+                              () => GymDetails(
+                                getID: data.docs[index].id,
+                                gymName: data.docs[index]['name'],
+                                gymLocation: data.docs[index]["address"],
+                              ),
                             );
                           },
                           child: ClipRRect(

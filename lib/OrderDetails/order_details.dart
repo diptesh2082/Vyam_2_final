@@ -227,7 +227,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                     getOderDetails[widget.index]
                                                         ['otp'],
                                                 style: GoogleFonts.poppins(
-                                                    fontSize: 15,
+                                                    fontSize: 12,
                                                     fontWeight: FontWeight.w700,
                                                     color: HexColor("EEEE22")),
                                               ),
@@ -266,7 +266,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                       "Call",
                                                       style:
                                                           GoogleFonts.poppins(
-                                                              fontSize: 15,
+                                                              fontSize: 12,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w700,

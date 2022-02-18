@@ -5,7 +5,6 @@ import 'package:vyam_2_final/authintication/otp_screen.dart';
 import 'package:vyam_2_final/colors/color.dart';
 import 'package:vyam_2_final/controllers/onbording_controller.dart';
 
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -14,24 +13,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool showLoding=false;
+  bool showLoding = false;
   TextEditingController phoneController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: backgroundColor,
-      body:
-      showLoding?
-          const Center(
-            child: CircularProgressIndicator(),
-          ):
-      SafeArea(
-            child: SingleChildScrollView(
+      body: showLoding
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : SafeArea(
+              child: SingleChildScrollView(
               child: Container(
                   color: backgroundColor,
                   child: Column(
@@ -41,34 +37,36 @@ class _LoginPageState extends State<LoginPage> {
                       Image.asset(
                         "assets/images/sign_up.png",
                         height: size.height / 2.5,
-                        width: size.width /1.08,
+                        width: size.width / 1.08,
                         fit: BoxFit.fitWidth,
                       ),
                       SizedBox(
                         height: size.height / 70,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(right: 25.0,left: 25.0,top:10),
+                        padding: const EdgeInsets.only(
+                            right: 25.0, left: 25.0, top: 10),
                         child: Text(
-                            "Find and book best gyms Online",
+                          "Find and book best gyms Online",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: size.width/18,
-                              fontFamily: "Poppins",
-                              color: Colors.black,
-                              decoration: TextDecoration.none,
-                              fontWeight: FontWeight.w800,
+                            fontSize: size.width / 18,
+                            fontFamily: "Poppins",
+                            color: Colors.black,
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.w800,
                             // fontStyle: FontStyle.italic
                           ),
                         ),
                       ),
                       SizedBox(
-                        height: size.height/50,
+                        height: size.height / 50,
                       ),
                       Row(children: <Widget>[
                         Expanded(
                           child: Container(
-                              margin: const EdgeInsets.only(left: 10.0, right: 15.0),
+                              margin: const EdgeInsets.only(
+                                  left: 10.0, right: 15.0),
                               child: const Divider(
                                 color: Colors.black,
                                 height: 36,
@@ -76,123 +74,121 @@ class _LoginPageState extends State<LoginPage> {
                               )),
                         ),
                         const Text(
-                            "Log in or sign up",
-                          style: TextStyle(
-                            fontSize: 15
-                          ),
+                          "Log in or sign up",
+                          style: TextStyle(fontSize: 15),
                         ),
                         Expanded(
                           child: Container(
-                              margin: const EdgeInsets.only(left: 15.0, right: 10.0),
+                              margin: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
                               child: const Divider(
                                 color: Colors.black,
                                 height: 36,
                                 thickness: 1,
                               )),
                         ),
-                      ]
+                      ]),
+                      const SizedBox(
+                        height: 10,
                       ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: size.height / 15,
-                      width: size.width / 1.15,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: size.width / 25,
-                          ),
-                          Container(
-                            height: size.height / 35,
-                            width: size.height / 30,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/icons/india_flag.png"),
-                                fit: BoxFit.cover,
+                      Container(
+                        height: size.height / 15,
+                        width: size.width / 1.15,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: size.width / 25,
+                            ),
+                            Container(
+                              height: size.height / 35,
+                              width: size.height / 30,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image:
+                                      AssetImage("assets/icons/india_flag.png"),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text(
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text(
                               "+91",
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 5,left:20,bottom: 8),
-                            child: SizedBox(
-                              height: size.height / 15,
-                              width: size.width / 2,
-                              child:  TextField(
-                                controller: phoneController,
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Enter phone number"),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 5, left: 20, bottom: 8),
+                              child: SizedBox(
+                                height: size.height / 15,
+                                width: size.width / 2,
+                                child: TextField(
+                                  controller: phoneController,
+                                  keyboardType: TextInputType.number,
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Enter phone number"),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                      SizedBox(
-                        height: size.height/40,
+                          ],
+                        ),
                       ),
                       SizedBox(
-                        width: size.width/1.2,
-                        height: size.height/17,
+                        height: size.height / 40,
+                      ),
+                      SizedBox(
+                        width: size.width / 1.2,
+                        height: size.height / 17,
                         child: ElevatedButton(
                           onPressed: () async {
-                            setState((){
+                            setState(() {
                               showLoding = true;
                             });
                             await _auth.verifyPhoneNumber(
                                 phoneNumber: "+91${phoneController.text}",
-                                verificationCompleted: (phoneAuthCredential) async {
-                                  setState((){
+                                verificationCompleted:
+                                    (phoneAuthCredential) async {
+                                  setState(() {
                                     showLoding = false;
                                   });
-
                                 },
                                 verificationFailed: (verificationFailed) async {
-                                  Get.snackbar("Fail","${verificationFailed.message}");
+                                  Get.snackbar(
+                                      "Fail", "${verificationFailed.message}");
                                   print(verificationFailed.message);
-                                  setState((){
+                                  setState(() {
                                     showLoding = false;
                                   });
                                 },
-                                codeSent: (verificationID, resendingToken) async {
-                                  setState((){
+                                codeSent:
+                                    (verificationID, resendingToken) async {
+                                  setState(() {
                                     showLoding = false;
                                   });
-                                  Get.to(() => OtpPage(),
-                                      arguments: [verificationID,"+91${phoneController.text}"]
-                                  );
+                                  Get.to(() => OtpPage(), arguments: [
+                                    verificationID,
+                                    phoneController.text
+                                  ]);
                                 },
-                                codeAutoRetrievalTimeout: (verificationID) async {
-
-                                }
-                            );
+                                codeAutoRetrievalTimeout:
+                                    (verificationID) async {});
                           },
                           child: const Text(
-                              "Continue",
+                            "Continue",
                             style: TextStyle(
                               fontSize: 17.5,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
-                            primary: elevatedButtonColor
-                          ),
+                              primary: elevatedButtonColor),
                         ),
                       ),
                       const SizedBox(
@@ -201,7 +197,8 @@ class _LoginPageState extends State<LoginPage> {
                       Row(children: <Widget>[
                         Expanded(
                           child: Container(
-                              margin: const EdgeInsets.only(left: 10.0, right: 15.0),
+                              margin: const EdgeInsets.only(
+                                  left: 10.0, right: 15.0),
                               child: const Divider(
                                 color: Colors.black,
                                 height: 30,
@@ -210,39 +207,34 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const Text(
                           "Or",
-                          style: TextStyle(
-                              fontSize: 15
-                          ),
+                          style: TextStyle(fontSize: 15),
                         ),
                         Expanded(
                           child: Container(
-                              margin: const EdgeInsets.only(left: 15.0, right: 10.0),
+                              margin: const EdgeInsets.only(
+                                  left: 15.0, right: 10.0),
                               child: const Divider(
                                 color: Colors.black,
                                 height: 30,
                                 thickness: .8,
                               )),
                         ),
-                      ]
-                      ),
+                      ]),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
                             height: 65,
                             width: 65,
-
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),
                               color: Colors.white,
                             ),
-                            child: IconButton(onPressed: (){
-
-                            },
+                            child: IconButton(
+                                onPressed: () {},
                                 icon: Image.asset(
-                                    "assets/icons/google.png",
-                                )
-                            ),
+                                  "assets/icons/google.png",
+                                )),
                           ),
                           const SizedBox(
                             width: 15,
@@ -251,20 +243,17 @@ class _LoginPageState extends State<LoginPage> {
                             height: 65,
                             width: 65,
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(50)
-                            ),
-                            child: IconButton(onPressed: (){
-
-                            },
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(50)),
+                            child: IconButton(
+                                onPressed: () {},
                                 color: Colors.white,
                                 // iconSize: 30,
                                 icon: Image.asset(
                                   "assets/icons/facebook.png",
 
                                   // fit: BoxFit.cover,
-                                )
-                            ),
+                                )),
                           ),
                         ],
                       ),
@@ -272,11 +261,11 @@ class _LoginPageState extends State<LoginPage> {
                         height: 25,
                       ),
                       SizedBox(
-                        width: size.width/2,
+                        width: size.width / 2,
                         child: const Center(
                           child: Text(
-                            "Continue means you agree to"
-                              +"Terms of use Privacy Policy",
+                            "Continue means you agree to" +
+                                "Terms of use Privacy Policy",
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -285,10 +274,8 @@ class _LoginPageState extends State<LoginPage> {
                         height: 10,
                       )
                     ],
-                  )
-              ),
-            )
-        ),
+                  )),
+            )),
     );
   }
 }

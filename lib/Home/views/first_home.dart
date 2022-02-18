@@ -43,8 +43,9 @@ class _FirstHomeState extends State<FirstHome> {
 
   @override
   void initState() {
-    getUserDetails();
     getNumber();
+    userDetails.getData();
+
     int getDays = int.parse(daysLeft[0]["dayleft"]);
     getDays = 28 - getDays;
     finaldaysLeft = getDays / 28;
@@ -63,12 +64,6 @@ class _FirstHomeState extends State<FirstHome> {
     }
 
     super.initState();
-  }
-
-  getUserDetails() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setString("number", "8859451134");
-    userDetails.getData();
   }
 
   final backgroundColor = Colors.grey[200];
@@ -108,7 +103,10 @@ class _FirstHomeState extends State<FirstHome> {
   }
 
   String address = "Tap here To search your location";
-  String pin = "";
+
+
+  String pin="";
+
   // ignore: non_constant_identifier_names
   Future<void> GetAddressFromLatLong(Position position) async {
     List<Placemark> placemark =
@@ -145,6 +143,7 @@ class _FirstHomeState extends State<FirstHome> {
                   // Get.back();
                   Position position = await _determinePosition();
                   await GetAddressFromLatLong(position);
+                  await UserApi.updateUserAddress(address, [position.latitude,position.longitude],pin);
 
                   setState(() {
                     address = address;
@@ -225,8 +224,13 @@ class _FirstHomeState extends State<FirstHome> {
                 onTap: () {
                   Get.to(CouponDetails());
                 },
-                child: SizedBox(
-                  height: size.height * .18,
+                child:
+                    // StreamBuilder<QuerySnapshot>(
+                    //   stream: ,
+                    //   builder: ,
+                    // )
+                    SizedBox(
+                  height: 140,
                   child: ListView.builder(
                     // controller: _controller.,
                     scrollDirection: Axis.horizontal,
@@ -251,7 +255,7 @@ class _FirstHomeState extends State<FirstHome> {
                 height: 15,
               ),
               SizedBox(
-                height: size.height * .2,
+                height: 150,
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: controller.OptionsList.length,

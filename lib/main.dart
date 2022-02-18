@@ -5,6 +5,7 @@ import 'package:vyam_2_final/Themes/themes.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/otp_screen.dart';
 import 'package:vyam_2_final/authintication/regitration_from.dart';
+import 'package:vyam_2_final/payment/payment.dart';
 import 'Home/home_page.dart';
 
 void main() async {
@@ -16,7 +17,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  // This widget is the root of your application
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +25,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: Themes().lightTheme,
 
-      home:  HomePage(),
+      home:HomePage(),
       // initialRoute: ,
       getPages: [
         GetPage(name: HomePage.id, page: () => HomePage()),
         GetPage(name: "/login", page: () => const LoginPage()),
-        GetPage(name: OtpPage.id, page: () =>  OtpPage()),
+        GetPage(name: OtpPage.id, page: () => OtpPage()),
         GetPage(
             name: RegistrationPage.id, page: () => const RegistrationPage()),
       ],
