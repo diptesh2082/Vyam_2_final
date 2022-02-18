@@ -1,9 +1,19 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:location/location.dart';
+
+
 import 'package:vyam_2_final/models/user_model.dart';
+
 var number;
+Location location = Location();
+Geoflutterfire geo = Geoflutterfire();
+FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 getNumber() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -105,8 +115,16 @@ class OlderBookingApi {
 }
 
 class GymDetailApi {
-  Stream<QuerySnapshot> getGymDetails =
-      FirebaseFirestore.instance.collection("product_details").snapshots();
+  getuserAddress() {
+    Stream<QuerySnapshot> getUser = FirebaseFirestore.instance
+      .collection('user_details')
+      .snapshots();
+  }
+
+  Stream<QuerySnapshot> getGymDetails = FirebaseFirestore.instance
+      .collection("product_details")
+      .where("pincode", isEqualTo: "700091")
+      .snapshots();
 }
 
 setVisitingFlag() async {

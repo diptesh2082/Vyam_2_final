@@ -1,13 +1,19 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:vyam_2_final/api/api.dart';
 import '../../controllers/gym_controller.dart';
+import 'package:location/location.dart' as ln;
 
 const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
+GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
 
 class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
@@ -24,13 +30,92 @@ class _ExploreState extends State<Explore> {
 
   final Completer<GoogleMapController> _controller = Completer();
   final GymController controller = Get.put(GymController());
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  List<DocumentSnapshot> document = [];
+  bool isLoading = false;
+
+  String searchGymName = '';
+  GymDetailApi gymDetailApi = GymDetailApi();
+
+  ln.Location location = ln.Location();
+  late GoogleMapController mapcontroller;
+  Geoflutterfire geo = Geoflutterfire();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  _animateToUser() async {
+    var pos = await location.getLocation();
+
+    mapcontroller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(pos.latitude!, pos.longitude!),
+      zoom: 17.0,
+    )));
+  }
+
+  Stream nearbyComp() async* {
+    var pos = await location.getLocation();
+
+    GeoFirePoint point =
+        geo.point(latitude: pos.latitude!, longitude: pos.longitude!);
+    final CollectionReference users = firestore.collection("product_details");
+
+    double radius = 10;
+    String field = 'location';
+
+    Stream<List<DocumentSnapshot>> stream = geo
+        .collection(collectionRef: users)
+        .within(center: point, radius: radius, field: field, strictMode: true);
+
+    yield stream;
+  }
+
+  void initMarker(specify, specifyId) async {
+    var markerIdVal = specifyId;
+    final MarkerId markerId = MarkerId(markerIdVal);
+    final Marker marker = Marker(
+      markerId: markerId,
+      position:
+          LatLng(specify['location'].latitude, specify['location'].longitude),
+      infoWindow: InfoWindow(title: 'Gym', snippet: specify['name']),
+    );
+    setState(() {
+      markers[markerId] = marker;
+    });
+  }
+
+  getMarkerData() async {
+    await Firebase.initializeApp();
+    FirebaseFirestore.instance
+        .collection('product_details')
+        .get()
+        .catchError((e) {
+      print("Error: " + e.toString());
+    }).then((myMockData) {
+      if (myMockData.docs.isNotEmpty) {
+        for (int i = 0; i < myMockData.docs.length; i++) {
+          initMarker(myMockData.docs[i].data(), myMockData.docs[i].id);
+        }
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    getMarkerData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TextField(
-          decoration: InputDecoration(
+        title: TextField(
+          onChanged: (value) {
+            setState(() {
+              searchGymName = value.toString();
+            });
+            print(searchGymName);
+          },
+          decoration: const InputDecoration(
               hintText: 'Barakar, West Bengal',
               hintStyle: TextStyle(fontWeight: FontWeight.bold),
               prefixIcon: Icon(Icons.search)),
@@ -43,34 +128,76 @@ class _ExploreState extends State<Explore> {
           GoogleMap(
             mapType: MapType.terrain,
             initialCameraPosition: _initialCameraPosition,
+            myLocationEnabled: true,
+            compassEnabled: true,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
-            markers: {barakar, asanol1, asanol2},
+            markers: Set<Marker>.of(markers.values),
           ),
           Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 20.0),
-                  height: 150.0,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: controller.gymLists.length,
-                      itemBuilder: (context, index) {
-                        final gym = controller.gymLists[index];
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24.0),
-                          ),
-                          elevation: 8,
-                          child: Row(
-                            children: [
-                              _boxes(gym.image, gym.lat, gym.lon, gym.name,
-                                  gym.location, gym.address, gym.review)
-                            ],
-                          ),
-                        );
-                      }))),
+            alignment: Alignment.bottomLeft,
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 20.0),
+              height: 150.0,
+              child: StreamBuilder(
+                  stream: gymDetailApi.getGymDetails,
+                  builder: (context, AsyncSnapshot streamSnapshot) {
+                    if (streamSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    document = streamSnapshot.data.docs;
+
+                    if (searchGymName.isNotEmpty) {
+                      document = document.where((element) {
+                        return element
+                            .get('name')
+                            .toString()
+                            .toLowerCase()
+                            .contains(searchGymName.toLowerCase());
+                      }).toList();
+                    }
+                    return document.isNotEmpty
+                        ? ListView.separated(
+                          
+                            scrollDirection: Axis.horizontal,
+                            itemCount: document.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24.0),
+                                ),
+                                elevation: 8,
+                                child: Row(
+                                  children: [
+                                    _boxes(
+                                        "assets/photos/gym.jpg",
+                                        document[index]["location"].latitude,
+                                        document[index]["location"].longitude,
+                                        document[index]["name"],
+                                        "Asansol",
+                                        document[index]["address"],
+                                        "4.7")
+                                  ],
+                                ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return Divider();
+                            },
+                          )
+                        : const Text(
+                            "No results found",
+                            style: TextStyle(fontSize: 24),
+                          );
+                  }),
+            ),
+          ),
         ],
       ),
     );
@@ -186,27 +313,3 @@ class _ExploreState extends State<Explore> {
     )));
   }
 }
-
-Marker barakar = Marker(
-    markerId: const MarkerId('barakar'),
-    position: const LatLng(23.7264376, 86.8434882),
-    infoWindow: const InfoWindow(title: 'Bus Stand, Barakar'),
-    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow));
-
-Marker asanol1 = Marker(
-    markerId: const MarkerId('asanol1'),
-    position: const LatLng(23.6828365, 86.9816039),
-    infoWindow: const InfoWindow(title: 'Ashram More, Asanol'),
-    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow));
-
-Marker asanol2 = Marker(
-    markerId: const MarkerId('asanol2'),
-    position: const LatLng(23.6823747, 86.9817005),
-    infoWindow: const InfoWindow(title: 'Ashram More, Asanol'),
-    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow));
-
-
-// SvgPicture.asset(
-// 'assets/Icons/Search.svg',
-// fit: BoxFit.none,
-// ),
