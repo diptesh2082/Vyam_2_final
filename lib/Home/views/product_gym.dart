@@ -64,7 +64,7 @@ class ProductGyms extends StatelessWidget {
                           child: Container(
                             height: size.height * .078,
                             width: size.width * .45,
-                            color: Colors.black26,
+                            color: Colors.black12,
                             padding: const EdgeInsets.only(left: 8, bottom: 10),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
@@ -101,7 +101,7 @@ class ProductGyms extends StatelessWidget {
                           right: 5,
                           bottom: size.height * .008,
                           child: Container(
-                            color: Colors.black26,
+                            color: Colors.black12,
                             alignment: Alignment.bottomRight,
                             height: size.height * .09,
                             width: size.width * .22,

@@ -104,7 +104,7 @@ class _TrainerState extends State<Trainer> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0)),
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.9,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -375,9 +375,9 @@ class _TrainerState extends State<Trainer> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.008,
-                  ),
+                  // SizedBox(
+                  //   height: MediaQuery.of(context).size.height * 0.008,
+                  // ),
                   Row(
                     children: [
                       ClipRRect(
@@ -443,19 +443,19 @@ class _TrainerState extends State<Trainer> {
                             fontSize: 12,
                             color: Colors.grey),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.15,
-                      ),
+                      // SizedBox(
+                      //   width: MediaQuery.of(context).size.width * 0.15,
+                      // ),
                       Padding(
                         padding: const EdgeInsets.only(top: 2.0),
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.28,
+                          width: MediaQuery.of(context).size.width * 0.5,
                           height:
                           MediaQuery.of(context).size.height * 0.01,
                           child: Stack(
                             children: [
                               Container(
-                                height: 30,
+                                height: 20,
                                 width: 30,
                                 decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
@@ -465,57 +465,57 @@ class _TrainerState extends State<Trainer> {
                                             "assets/icons/trainer1.png"),
                                         fit: BoxFit.cover)),
                               ),
-                              Positioned(
-                                left: MediaQuery.of(context)
-                                    .size
-                                    .width *
-                                    0.055,
-                                child: Container(
-                                  height: 10,
-                                  width: 30,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      //border: Border.all(width: 1),
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/icons/trainer2.png"),
-                                          fit: BoxFit.cover)),
-                                ),
-                              ),
-                              Positioned(
-                                left:  MediaQuery.of(context)
-                                    .size
-                                    .width *
-                                    0.11,
-                                child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      //border: Border.all(width: 1),
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/icons/trainer3.png"),
-                                          fit: BoxFit.cover)),
-                                ),
-                              ),
-                              Positioned(
-                                left:  MediaQuery.of(context)
-                                    .size
-                                    .width *
-                                    0.166,
-                                child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      //border: Border.all(width: 1),
-                                      image: DecorationImage(
-                                          image: AssetImage(
-                                              "assets/icons/trainer1.png"),
-                                          fit: BoxFit.cover)),
-                                ),
-                              ),
+                              // Positioned(
+                              //   left: MediaQuery.of(context)
+                              //       .size
+                              //       .width *
+                              //       0.055,
+                              //   child: Container(
+                              //     height: 10,
+                              //     width: 30,
+                              //     decoration: const BoxDecoration(
+                              //         shape: BoxShape.circle,
+                              //         //border: Border.all(width: 1),
+                              //         image: DecorationImage(
+                              //             image: AssetImage(
+                              //                 "assets/icons/trainer2.png"),
+                              //             fit: BoxFit.cover)),
+                              //   ),
+                              // ),
+                              // Positioned(
+                              //   left:  MediaQuery.of(context)
+                              //       .size
+                              //       .width *
+                              //       0.11,
+                              //   child: Container(
+                              //     height: 30,
+                              //     width: 30,
+                              //     decoration: const BoxDecoration(
+                              //         shape: BoxShape.circle,
+                              //         //border: Border.all(width: 1),
+                              //         image: DecorationImage(
+                              //             image: AssetImage(
+                              //                 "assets/icons/trainer3.png"),
+                              //             fit: BoxFit.cover)),
+                              //   ),
+                              // ),
+                              // Positioned(
+                              //   left:  MediaQuery.of(context)
+                              //       .size
+                              //       .width *
+                              //       0.166,
+                              //   child: Container(
+                              //     height: 30,
+                              //     width: 30,
+                              //     decoration: const BoxDecoration(
+                              //         shape: BoxShape.circle,
+                              //         //border: Border.all(width: 1),
+                              //         image: DecorationImage(
+                              //             image: AssetImage(
+                              //                 "assets/icons/trainer1.png"),
+                              //             fit: BoxFit.cover)),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
