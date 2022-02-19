@@ -95,7 +95,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
     }
   }
 
+  //After Successfull Payment
   void _handlePaymentSuccess(PaymentSuccessResponse response) {}
+  //After Unsuccessfull Payment
   void _handlePaymentError(PaymentFailureResponse response) {
     print("Failed");
   }
