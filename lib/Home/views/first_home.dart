@@ -232,8 +232,7 @@ class _FirstHomeState extends State<FirstHome> {
               color: Colors.black,
             ),
             onPressed: () {
-              // Get.to(const NotificationDetails());
-              getNumber();
+              Get.to(const NotificationDetails());
             },
           ),
         ],
