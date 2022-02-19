@@ -211,7 +211,7 @@ class _FirstHomeState extends State<FirstHome> {
               SizedBox(
                 width: size.width * .55,
                 child: Text(
-                  "$address",
+                  address,
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,

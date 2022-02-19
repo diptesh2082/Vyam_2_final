@@ -14,7 +14,6 @@ class GymDetails extends StatefulWidget {
   final getID;
   final gymLocation;
 
-
   const GymDetails(
       {Key? key,
       required this.getID,
@@ -41,10 +40,9 @@ class _GymDetailsState extends State<GymDetails> {
     "assets/images/transf5.jpeg",
   ];
 
-
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -94,17 +92,16 @@ class _GymDetailsState extends State<GymDetails> {
                                   return gymImages(image, index);
                                 },
                                 options: CarouselOptions(
-                                  autoPlay: true,
-                                  viewportFraction: 1,
-                                  height: 220
-                                )),
+                                    autoPlay: true,
+                                    viewportFraction: 1,
+                                    height: 220)),
                           ],
                         )),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                     Row(
-                      children:  [
+                      children: [
                         Text(
-                          '${Get.arguments["name"]}',
+                          widget.gymName,
                           style: const TextStyle(
                               color: Colors.black,
                               fontFamily: "Poppins",
@@ -117,7 +114,8 @@ class _GymDetailsState extends State<GymDetails> {
                                 color: Colors.lightGreen, fontSize: 14)),
                       ],
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.005),
                     Row(children: const [
                       Icon(
                         Icons.location_on,
@@ -137,7 +135,8 @@ class _GymDetailsState extends State<GymDetails> {
                       Text('Navigate',
                           style: TextStyle(
                               fontFamily: "Poppins",
-                              color: Colors.green, fontSize: 10)),
+                              color: Colors.green,
+                              fontSize: 10)),
                       Text('     ')
                     ]),
                     const Text(
@@ -148,7 +147,8 @@ class _GymDetailsState extends State<GymDetails> {
                           fontSize: 12,
                           fontWeight: FontWeight.w400),
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.028),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.028),
                     FittedBox(
                       child: Row(children: [
                         ClipRRect(
@@ -261,8 +261,8 @@ class _GymDetailsState extends State<GymDetails> {
                           fontWeight: FontWeight.w400),
                     ),
                     const Text('Read more',
-                        style:
-                            TextStyle(fontWeight: FontWeight.w700, fontSize: 14)),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 14)),
                     const SizedBox(height: 12),
                     const Text(
                       'Amenities',
@@ -423,7 +423,8 @@ class _GymDetailsState extends State<GymDetails> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => Trainer()));
+                                                builder: (context) =>
+                                                    Trainer()));
                                       },
                                     ),
                                   ],
@@ -511,12 +512,13 @@ class _GymDetailsState extends State<GymDetails> {
                               height: MediaQuery.of(context).size.height * 0.01,
                             ),
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.050,
+                              height:
+                                  MediaQuery.of(context).size.height * 0.050,
                               child: Row(
                                 children: [
                                   SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.05,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.05,
                                   ),
                                   const Icon(
                                     Icons.star,
@@ -570,7 +572,8 @@ class _GymDetailsState extends State<GymDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.01,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.01,
                               ),
                               const Padding(
                                 padding: EdgeInsets.only(left: 8.0),
@@ -594,20 +597,23 @@ class _GymDetailsState extends State<GymDetails> {
                                       style: TextStyle(fontSize: 13),
                                     ),
                                     SizedBox(
-                                      height: MediaQuery.of(context).size.height *
-                                          0.015,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.015,
                                     ),
                                     const Text("•  Bring seperate shoes.",
                                         style: TextStyle(fontSize: 13)),
                                     SizedBox(
-                                      height: MediaQuery.of(context).size.height *
-                                          0.015,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.015,
                                     ),
                                     const Text("•  Re-rack equipments",
                                         style: TextStyle(fontSize: 13)),
                                     SizedBox(
-                                      height: MediaQuery.of(context).size.height *
-                                          0.015,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.015,
                                     ),
                                     const Text(
                                         "•  No heavy lifting without spotter",
@@ -638,15 +644,17 @@ class _GymDetailsState extends State<GymDetails> {
                               Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.18,
-                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
                                   child: Column(
                                     children: [
                                       Container(
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.10,
-                                        width: MediaQuery.of(context).size.width *
-                                            0.50,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.50,
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             shape: BoxShape.circle,
@@ -677,15 +685,17 @@ class _GymDetailsState extends State<GymDetails> {
                               Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.18,
-                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
                                   child: Column(
                                     children: [
                                       Container(
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.10,
-                                        width: MediaQuery.of(context).size.width *
-                                            0.50,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.50,
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             shape: BoxShape.circle,
@@ -717,15 +727,17 @@ class _GymDetailsState extends State<GymDetails> {
                               Container(
                                   height:
                                       MediaQuery.of(context).size.height * 0.18,
-                                  width: MediaQuery.of(context).size.width * 0.3,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
                                   child: Column(
                                     children: [
                                       Container(
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.10,
-                                        width: MediaQuery.of(context).size.width *
-                                            0.50,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.50,
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             shape: BoxShape.circle,
