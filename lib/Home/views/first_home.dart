@@ -40,15 +40,15 @@ class _FirstHomeState extends State<FirstHome> {
   List daysLeft = [
     {"gymName": "Transformer Gym - Barakar", "dayleft": "15"},
   ];
-  myLocation()async{
-    CollectionReference collectionReference = await FirebaseFirestore.instance.collection("user_details");
+  myLocation() async {
+    CollectionReference collectionReference =
+        await FirebaseFirestore.instance.collection("user_details");
     collectionReference.snapshots().listen((snapshot) {
       setState(() {
-        data= snapshot.docs[0].data();
-        address=data["address"];
+        data = snapshot.docs[0].data();
+        address = data["address"];
       });
     });
-
   }
 
   UserDetails userDetails = UserDetails();
@@ -117,20 +117,7 @@ class _FirstHomeState extends State<FirstHome> {
     return await Geolocator.getCurrentPosition();
   }
 
-  // Future<void> userLocation()async{
-  //   final docUser= await FirebaseFirestore.instance.collection("user_list").doc("7407926060");
-  //  final snapshot = await  docUser.get();
-  //  if (snapshot.exists){
-  //    setState(() {
-  //      address=snapshot.data as String;
-  //    });
-  //
-  //  }
-  // }
-
-
-
-  String pin="";
+  String pin = "";
 
   // ignore: non_constant_identifier_names
   Future<void> GetAddressFromLatLong(Position position) async {
@@ -145,7 +132,7 @@ class _FirstHomeState extends State<FirstHome> {
   List<DocumentSnapshot> document = [];
 
   String searchGymName = '';
-
+  BannerApi bannerApi = BannerApi();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -168,7 +155,8 @@ class _FirstHomeState extends State<FirstHome> {
                   // Get.back();
                   Position position = await _determinePosition();
                   await GetAddressFromLatLong(position);
-                  await UserApi.updateUserAddress(address, [position.latitude,position.longitude],pin);
+                  await UserApi.updateUserAddress(
+                      address, [position.latitude, position.longitude], pin);
 
                   setState(() {
                     address = address;
@@ -188,7 +176,7 @@ class _FirstHomeState extends State<FirstHome> {
               SizedBox(
                 width: size.width * .55,
                 child: Text(
-                  "$address",
+                  address,
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -249,28 +237,35 @@ class _FirstHomeState extends State<FirstHome> {
                 onTap: () {
                   Get.to(CouponDetails());
                 },
-                child:
-                    // StreamBuilder<QuerySnapshot>(
-                    //   stream: ,
-                    //   builder: ,
-                    // )
-                    SizedBox(
+                child: SizedBox(
                   height: 140,
-                  child: ListView.builder(
-                    // controller: _controller.,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: controller.boards.length,
-                    itemBuilder: (context, int index) {
-                      return SizedBox(
-                        height: 120,
-                        child: Row(
-                          children: [
-                            Image.asset(controller.boards[index].imageAssets),
-                            const SizedBox(
-                              width: 10,
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: bannerApi.getBanner,
+                    builder: (context, AsyncSnapshot streamSnapshot) {
+                      if (streamSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      final data = streamSnapshot.requireData;
+                      return ListView.builder(
+                        // controller: _controller.,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: data.size,
+                        itemBuilder: (context, int index) {
+                          return SizedBox(
+                            height: 120,
+                            child: Row(
+                              children: [
+                                Image.network(data.docs[index]["image"]),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -291,15 +286,15 @@ class _FirstHomeState extends State<FirstHome> {
                       child: Row(
                         children: [
                           GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const GymOption()));
-                              },
-                              child: Image.asset(
-                                  controller.OptionsList[index].imageAssets)),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const GymOption()));
+                            },
+                            child: Image.asset(
+                                controller.OptionsList[index].imageAssets),
+                          ),
                           const SizedBox(
                             width: 10,
                           ),
@@ -364,16 +359,24 @@ class _FirstHomeState extends State<FirstHome> {
                                       children: [
                                         GestureDetector(
                                           onTap: () async {
+                                            // ignore: avoid_print
                                             print("${document[index]["name"]}");
                                             Get.to(
-                                              () => GymDetails(
-                                                  getID: document[index].id, gymLocation: document[index]["location"], gymName: document[index]["name"],),
+                                                () => GymDetails(
+                                                      getID: document[index].id,
+                                                      gymLocation:
+                                                          document[index]
+                                                              ["location"],
+                                                      gymName: document[index]
+                                                          ["name"],
+                                                    ),
                                                 arguments: {
-                                                "id":document[index].id,
-                                                  "location": document[index]["location"],
-                                                  "name": document[index]["name"]
-                                                }
-                                            );
+                                                  "id": document[index].id,
+                                                  "location": document[index]
+                                                      ["location"],
+                                                  "name": document[index]
+                                                      ["name"]
+                                                });
                                           },
                                           child: ClipRRect(
                                             borderRadius:

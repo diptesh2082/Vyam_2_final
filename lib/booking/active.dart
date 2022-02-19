@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
 import '../OrderDetails/order_details.dart';
 
+// ignore: must_be_immutable
 class ActiveEvent extends StatelessWidget {
   ActiveBookingApi activeBookingApi = ActiveBookingApi();
   ActiveEvent({
