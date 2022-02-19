@@ -3,7 +3,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/models/user_model.dart';
-var number;
+
+var number = "8859451134";
 
 getNumber() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -69,7 +70,6 @@ class CouponApi {
     } catch (e) {
       return null;
     }
-
     return couponList;
   }
 }
@@ -122,22 +122,17 @@ getVisitedFlag() async {
 class UserApi {
   static const number = "7407926060";
   static Future createUser(UserModel userModel) async {
-    final docUser = FirebaseFirestore.instance
-        .collection("user_details")
-    .doc(number);
+    final docUser =
+        FirebaseFirestore.instance.collection("user_details").doc(number);
     userModel.userId = docUser.id;
-    final myJson=userModel.toJson();
+    final myJson = userModel.toJson();
     await docUser.set(myJson);
   }
+
   static Future updateUserAddress(String address, List location) async {
-    final docUser = FirebaseFirestore.instance
-        .collection("user_details")
-        .doc(number);
-    final myJson={
-      "address": address,
-      "location": location
-    };
+    final docUser =
+        FirebaseFirestore.instance.collection("user_details").doc(number);
+    final myJson = {"address": address, "location": location};
     await docUser.update(myJson);
   }
 }
-

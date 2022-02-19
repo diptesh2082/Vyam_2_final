@@ -2,8 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:vyam_2_final/Home/coupon_page.dart';
+import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/payment/custom_api.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
@@ -14,17 +18,23 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   var getData = Get.arguments;
-  int discount = 20;
+  int discount = 0;
   int gstTax = 18;
   var grandTotal;
   var totalDiscount;
   var taxPay;
   String amount = '';
+  String promocode = "";
+  String _selectedPromocode = "No promo code Selected";
+  String buttonTitle = "Apply";
+  Color _color = Colors.black;
 
   final Razorpay _razorpay = Razorpay();
+  CouponApi couponApi = CouponApi();
 
   @override
   void initState() {
+    couponApi.getCouponData();
     setState(() {
       var price = getData["totalPrice"];
       totalDiscount = ((price * discount) / 100).round();
@@ -32,6 +42,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       grandTotal = ((price - totalDiscount) + taxPay);
       amount = grandTotal.toString() + "00";
     });
+
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
@@ -43,6 +54,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
     super.dispose();
     _razorpay.clear();
   }
+
+  getDiscountValues() {
+    for (int i = 0; i < couponApi.couponList.length; i++) {
+      if (couponApi.couponList[i]['code'].toLowerCase() ==
+          promocode.toLowerCase()) {
+        discount = int.parse(couponApi.couponList[i]['discount']);
+        setState(() {
+          _selectedPromocode = couponApi.couponList[i]['code'].toUpperCase();
+          _color = Colors.green;
+          buttonTitle = "Applied";
+          var price = getData["totalPrice"];
+          totalDiscount = ((price * discount) / 100).round();
+          taxPay = ((price * gstTax) / 100).round();
+          grandTotal = ((price - totalDiscount) + taxPay);
+          amount = grandTotal.toString() + "00";
+        });
+      }
+    }
+  }
+
+  TextEditingController textEditingController = TextEditingController();
 
   _payment() {
     var options = {
@@ -70,6 +102,53 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     print("Wallet");
+  }
+
+  showDialogBox() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 8,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0),
+                child: TextFormField(
+                  controller: textEditingController,
+                  onChanged: (((value) {
+                    promocode = value;
+                  })),
+                  decoration: const InputDecoration(
+                      border: InputBorder.none, hintText: "Enter Promocode"),
+                  maxLines: 1,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Row(
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          Get.to(CouponDetails());
+                        },
+                        child: const Text("Available Coupons")),
+                    const Spacer(),
+                    FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          getDiscountValues();
+                        },
+                        child: Text(
+                          "Apply",
+                          style: GoogleFonts.poppins(
+                              color: Colors.blue, fontWeight: FontWeight.bold),
+                        )),
+                  ],
+                ),
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -237,8 +316,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: const [
-                                      Text(
+                                    children: [
+                                      const Text(
                                         "Apply promo code",
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
@@ -247,8 +326,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         ),
                                       ),
                                       Text(
-                                        "No promo code Selected",
-                                        style: TextStyle(),
+                                        _selectedPromocode,
+                                        style: const TextStyle(),
                                       )
                                     ],
                                   ),
@@ -261,16 +340,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     width: 120,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: Colors.black),
-                                    child: const Center(
-                                      child: Text(
-                                        "Apply",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontFamily: "Poppins",
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold),
+                                        color: _color),
+                                    child: Center(
+                                      child: InkWell(
+                                        onTap: () {
+                                          showDialogBox();
+                                        },
+                                        child: Text(
+                                          buttonTitle,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                              fontFamily: "Poppins",
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                     ),
                                   ),
