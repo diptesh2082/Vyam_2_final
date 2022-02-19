@@ -20,6 +20,7 @@ class _OtpPageState extends State<OtpPage> {
   getToHomePage(var number) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("number", number.toString());
+    getNumber();
     Get.offAll(() => HomePage());
   }
 

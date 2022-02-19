@@ -154,3 +154,15 @@ class UserApi {
     await docUser.update(myJson);
   }
 }
+
+class GymAllApi {
+  getuserAddress() {
+    Stream<QuerySnapshot> getUser =
+        FirebaseFirestore.instance.collection('user_details').snapshots();
+  }
+
+  Stream<QuerySnapshot> getGymDetails = FirebaseFirestore.instance
+      .collection("product_details")
+      .where("pincode", isEqualTo: "700091")
+      .snapshots();
+}
