@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, prefer_is_empty
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -15,7 +14,6 @@ import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'package:vyam_2_final/controllers/location_controller.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../Notifications/notification.dart';
 import 'gyms.dart';
 
@@ -42,18 +40,16 @@ class _FirstHomeState extends State<FirstHome> {
   int totalDays = 0;
   String address = "your location";
   // var location = Get.arguments;
-  List daysLeft = [
-    {"gymName": "Transformer Gym - Barakar", "dayleft": "15"},
-  ];
-  myLocation()async{
-    CollectionReference collectionReference = await FirebaseFirestore.instance.collection("user_details");
+
+  myLocation() async {
+    CollectionReference collectionReference =
+        await FirebaseFirestore.instance.collection("user_details");
     collectionReference.snapshots().listen((snapshot) {
       setState(() {
-        data= snapshot.docs[0].data();
-        address=data["address"];
+        data = snapshot.docs[0].data();
+        address = data["address"];
       });
     });
-
   }
 
   UserDetails userDetails = UserDetails();
@@ -61,7 +57,6 @@ class _FirstHomeState extends State<FirstHome> {
 
   @override
   void initState() {
-    getNumber();
     userDetails.getData();
     // userLocation();
     myLocation();
@@ -85,6 +80,7 @@ class _FirstHomeState extends State<FirstHome> {
 
     super.initState();
   }
+
   getProgressStatus() {
     int finalDate = int.parse(getDays);
     finalDate = totalDays - finalDate;
@@ -108,6 +104,7 @@ class _FirstHomeState extends State<FirstHome> {
       textColor = Colors.yellow;
     }
   }
+
   final backgroundColor = Colors.grey[200];
 
   final appBarColor = Colors.grey[300];
@@ -155,9 +152,7 @@ class _FirstHomeState extends State<FirstHome> {
   //  }
   // }
 
-
-
-  String pin="";
+  String pin = "";
 
   // ignore: non_constant_identifier_names
   Future<void> GetAddressFromLatLong(Position position) async {
@@ -195,7 +190,8 @@ class _FirstHomeState extends State<FirstHome> {
                   // Get.back();
                   Position position = await _determinePosition();
                   await GetAddressFromLatLong(position);
-                  await UserApi.updateUserAddress(address, [position.latitude,position.longitude],pin);
+                  await UserApi.updateUserAddress(
+                      address, [position.latitude, position.longitude], pin);
 
                   setState(() {
                     address = address;
@@ -236,7 +232,8 @@ class _FirstHomeState extends State<FirstHome> {
               color: Colors.black,
             ),
             onPressed: () {
-              Get.to(const NotificationDetails());
+              // Get.to(const NotificationDetails());
+              getNumber();
             },
           ),
         ],
@@ -393,14 +390,21 @@ class _FirstHomeState extends State<FirstHome> {
                                           onTap: () async {
                                             print("${document[index]["name"]}");
                                             Get.to(
-                                              () => GymDetails(
-                                                  getID: document[index].id, gymLocation: document[index]["location"], gymName: document[index]["name"],),
+                                                () => GymDetails(
+                                                      getID: document[index].id,
+                                                      gymLocation:
+                                                          document[index]
+                                                              ["location"],
+                                                      gymName: document[index]
+                                                          ["name"],
+                                                    ),
                                                 arguments: {
-                                                "id":document[index].id,
-                                                  "location": document[index]["location"],
-                                                  "name": document[index]["name"]
-                                                }
-                                            );
+                                                  "id": document[index].id,
+                                                  "location": document[index]
+                                                      ["location"],
+                                                  "name": document[index]
+                                                      ["name"]
+                                                });
                                           },
                                           child: ClipRRect(
                                             borderRadius:
@@ -586,8 +590,14 @@ class _FirstHomeState extends State<FirstHome> {
             if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             }
+            if (!snapshot.hasData) {
+              return Container();
+            }
             if (snapshot.hasData) {
               final data = snapshot.requireData;
+              if (data.size == 0) {
+                return SizedBox();
+              }
 
               return ListView.builder(
                 shrinkWrap: true,
@@ -679,5 +689,3 @@ class _FirstHomeState extends State<FirstHome> {
     );
   }
 }
-
-

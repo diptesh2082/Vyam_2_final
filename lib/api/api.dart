@@ -1,14 +1,9 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print, unused_local_variable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:location/location.dart';
-
-
-import 'package:vyam_2_final/models/user_model.dart';
 
 var number;
 Location location = Location();
@@ -17,8 +12,8 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 getNumber() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  var getNumber = sharedPreferences.getString("number");
-  number = getNumber.toString();
+  var finalNumber = sharedPreferences.getString("number");
+  number = finalNumber.toString();
   print(number);
 }
 
@@ -97,7 +92,7 @@ class UpcomingApi {
 class ActiveBookingApi {
   Stream<QuerySnapshot> getActiveBooking = FirebaseFirestore.instance
       .collection('user_details')
-      .doc("7407926060")
+      .doc(number)
       .collection("bookings")
       .doc("active")
       .collection("active_booking")
@@ -116,9 +111,8 @@ class OlderBookingApi {
 
 class GymDetailApi {
   getuserAddress() {
-    Stream<QuerySnapshot> getUser = FirebaseFirestore.instance
-      .collection('user_details')
-      .snapshots();
+    Stream<QuerySnapshot> getUser =
+        FirebaseFirestore.instance.collection('user_details').snapshots();
   }
 
   Stream<QuerySnapshot> getGymDetails = FirebaseFirestore.instance
@@ -139,12 +133,11 @@ getVisitedFlag() async {
 
 class UserApi {
   static const number = "7407926060";
-  static Future createUser(String name,String number,String email) async {
-    final docUser = FirebaseFirestore.instance
-        .collection("user_details")
-    .doc(number);
+  static Future createUser(String name, String number, String email) async {
+    final docUser =
+        FirebaseFirestore.instance.collection("user_details").doc(number);
     // userModel.userId = docUser.id;
-    final myJson={
+    final myJson = {
       'userId': docUser.id,
       "name": name,
       "email": email,
@@ -152,16 +145,12 @@ class UserApi {
     };
     await docUser.set(myJson);
   }
-  static Future updateUserAddress(String address, List location, String pin) async {
-    final docUser = FirebaseFirestore.instance
-        .collection("user_details")
-        .doc(number);
-    final myJson={
-      "address": address,
-      "location": location,
-      "pin":pin
-    };
+
+  static Future updateUserAddress(
+      String address, List location, String pin) async {
+    final docUser =
+        FirebaseFirestore.instance.collection("user_details").doc(number);
+    final myJson = {"address": address, "location": location, "pin": pin};
     await docUser.update(myJson);
   }
 }
-
