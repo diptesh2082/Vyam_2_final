@@ -129,9 +129,11 @@ class _LoginPageState extends State<LoginPage> {
                                 height: size.height / 15,
                                 width: size.width / 2,
                                 child: TextField(
+                                  maxLength: 10,
                                   controller: phoneController,
                                   keyboardType: TextInputType.number,
                                   decoration: const InputDecoration(
+                                      counterText: "",
                                       border: InputBorder.none,
                                       hintText: "Enter phone number"),
                                 ),

@@ -7,23 +7,25 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/views/gendergyms/gym_female.dart';
 import 'package:vyam_2_final/Home/views/gendergyms/gym_male.dart';
 import 'package:vyam_2_final/Home/views/gendergyms/gym_unisex.dart';
+import 'package:vyam_2_final/Home/views/genderzumba/zumba_female.dart';
+import 'package:vyam_2_final/Home/views/genderzumba/zumba_gender.dart';
+import 'package:vyam_2_final/Home/views/genderzumba/zumba_male.dart';
+import 'package:vyam_2_final/Home/views/genderzumba/zumba_unisex.dart';
 import 'package:vyam_2_final/Home/views/product_gym.dart';
 import 'package:get/get.dart';
-import 'package:vyam_2_final/booking/active.dart';
-import 'package:vyam_2_final/booking/older.dart';
-import 'package:vyam_2_final/booking/upcoming.dart';
+
 import 'package:vyam_2_final/controllers/home_controller.dart';
 
 import 'gendergyms/gyms_gender.dart';
 
-class GymOption extends StatefulWidget {
-  const GymOption({Key? key}) : super(key: key);
+class ZumbaOption extends StatefulWidget {
+  const ZumbaOption({Key? key}) : super(key: key);
 
   @override
-  State<GymOption> createState() => _GymOptionState();
+  State<ZumbaOption> createState() => _ZumbaOptionState();
 }
 
-class _GymOptionState extends State<GymOption> {
+class _ZumbaOptionState extends State<ZumbaOption> {
   var _getIndex;
   var _finalColor;
   bool _all = true;
@@ -47,15 +49,6 @@ class _GymOptionState extends State<GymOption> {
       child: Scaffold(
         backgroundColor: HexColor("F5F5F5"),
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              CupertinoIcons.back,
-              color: HexColor("3A3A3A"),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
           bottom: TabBar(
               indicatorColor: HexColor("F5F5F5"),
               onTap: (index) {
@@ -169,11 +162,20 @@ class _GymOptionState extends State<GymOption> {
           //     color: HexColor("3A3A3A"),
           //   ),
           //
+          leading: IconButton(
+            icon: Icon(
+              CupertinoIcons.back,
+              color: HexColor("3A3A3A"),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           elevation: 0,
           backgroundColor: Colors.transparent,
           centerTitle: true,
           title: Text(
-            "Gyms",
+            "Zumba",
             style: GoogleFonts.poppins(
                 color: HexColor("3A3A3A"),
                 fontSize: 18,
@@ -182,7 +184,7 @@ class _GymOptionState extends State<GymOption> {
         ),
         body: const TabBarView(
             physics: NeverScrollableScrollPhysics(),
-            children: [GymAll(), GymMale(), GymFeMale(), GymUnisex()]),
+            children: [ZumbaAll(), ZumbaMale(), ZumbaFemale(), ZumbaUnisex()]),
       ),
     );
   }

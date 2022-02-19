@@ -1,6 +1,5 @@
+// ignore_for_file: avoid_print
 import 'package:flutter/cupertino.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,16 +7,16 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
-class GymUnisex extends StatefulWidget {
-  const GymUnisex({
+class GymType extends StatefulWidget {
+  const GymType({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<GymUnisex> createState() => _GymUnisexState();
+  State<GymType> createState() => _GymTypeState();
 }
 
-class _GymUnisexState extends State<GymUnisex> {
+class _GymTypeState extends State<GymType> {
   List events = [];
   List notificationList = [];
 
@@ -33,6 +32,27 @@ class _GymUnisexState extends State<GymUnisex> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            CupertinoIcons.back,
+            color: HexColor("3A3A3A"),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        title: Text(
+          "GYMs",
+          style: GoogleFonts.poppins(
+              color: HexColor("3A3A3A"),
+              fontSize: 18,
+              fontWeight: FontWeight.w600),
+        ),
+      ),
       body: Padding(
         padding:
             const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
@@ -52,9 +72,7 @@ class _GymUnisexState extends State<GymUnisex> {
                     shrinkWrap: true,
                     itemCount: document.length,
                     itemBuilder: (context, int index) {
-                      if ("${document[index]['gender']}".toLowerCase() ==
-                              "unisex" &&
-                          document[index]['service'].contains("gym")) {
+                      if (document[index]['service'].contains("gym")) {
                         return Column(
                           children: [
                             Stack(
@@ -221,7 +239,7 @@ class _GymUnisexState extends State<GymUnisex> {
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {
-                      return Divider();
+                      return const Divider();
                     },
                   )
                 : const Center(

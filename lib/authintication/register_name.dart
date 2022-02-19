@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 import 'register_email.dart';
 
 import 'custom_register_route.dart';
@@ -54,7 +53,6 @@ class Register1 extends StatelessWidget {
                   CustomPageRoute(
                     child: Register2(),
                   ));
-             
             },
             backgroundColor: Colors.amber.shade300,
             child: Icon(
@@ -136,7 +134,8 @@ class Register1 extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       child: Container(
                           width: double.infinity,
-                          child: Image.asset('assets/Illustrations/gym_pana_1.png')),
+                          child: Image.asset(
+                              'assets/Illustrations/gym_pana_1.png')),
                     ),
                   ],
                 ),

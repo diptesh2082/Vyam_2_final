@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,16 +7,16 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
-class GymUnisex extends StatefulWidget {
-  const GymUnisex({
+class YogaUnisex extends StatefulWidget {
+  const YogaUnisex({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<GymUnisex> createState() => _GymUnisexState();
+  State<YogaUnisex> createState() => _YogaUnisexState();
 }
 
-class _GymUnisexState extends State<GymUnisex> {
+class _YogaUnisexState extends State<YogaUnisex> {
   List events = [];
   List notificationList = [];
 
@@ -54,7 +53,7 @@ class _GymUnisexState extends State<GymUnisex> {
                     itemBuilder: (context, int index) {
                       if ("${document[index]['gender']}".toLowerCase() ==
                               "unisex" &&
-                          document[index]['service'].contains("gym")) {
+                          document[index]['service'].contains("yoga")) {
                         return Column(
                           children: [
                             Stack(
