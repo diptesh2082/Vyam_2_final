@@ -6,6 +6,8 @@ import 'package:vyam_2_final/Home/home_page.dart';
 // import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/colors/color.dart';
 
+import '../api/api.dart';
+
 class OtpPage extends StatefulWidget {
   static String id = "/otp_screen";
   OtpPage({Key? key}) : super(key: key);
