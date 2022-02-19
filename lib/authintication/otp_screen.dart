@@ -19,6 +19,7 @@ class OtpPage extends StatefulWidget {
 class _OtpPageState extends State<OtpPage> {
   getToHomePage(var number) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    getNumber();
     sharedPreferences.setString("number", number.toString());
     Get.offAll(() => HomePage());
   }

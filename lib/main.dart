@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: Themes().lightTheme,
 
-      home: HomePage(),
+      home: const LoginPage(),
       // initialRoute: ,
       getPages: [
         GetPage(name: HomePage.id, page: () => HomePage()),
