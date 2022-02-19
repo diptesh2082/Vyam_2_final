@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
 import 'package:vyam_2_final/Themes/themes.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/otp_screen.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: Themes().lightTheme,
 
-      home:HomePage(),
+      home: HomePage(),
       // initialRoute: ,
       getPages: [
         GetPage(name: HomePage.id, page: () => HomePage()),
