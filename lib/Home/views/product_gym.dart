@@ -12,7 +12,7 @@ class ProductGyms extends StatelessWidget {
   ProductGyms(this.controller, this.length);
   final List controller;
   final double length;
-  
+
   GymDetailApi gymDetailApi = GymDetailApi();
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class ProductGyms extends StatelessWidget {
                             Get.to(
                               () => GymDetails(
                                 getID: data.docs[index].id,
-                                gymName: data.docs[index]['name'],
+                                gymName: data.docs[index]["name"],
                                 gymLocation: data.docs[index]["address"],
                               ),
                             );

@@ -1,17 +1,13 @@
 
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/colors/color.dart';
 
-import 'package:vyam_2_final/models/user_model.dart';
 
 import '../Home/home_page.dart';
 
@@ -39,6 +35,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       this.image = imageTemporary;
     });
   } on PlatformException catch (e) {
+    // ignore: avoid_print
     print("Faild to pick image: $e");
   }
 
