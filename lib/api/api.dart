@@ -79,6 +79,11 @@ class CouponApi {
   }
 }
 
+class BannerApi {
+  Stream<QuerySnapshot> getBanner =
+      FirebaseFirestore.instance.collection('banner_details').snapshots();
+}
+
 class UpcomingApi {
   Stream<QuerySnapshot> getUpcomingEvents = FirebaseFirestore.instance
       .collection('user_details')

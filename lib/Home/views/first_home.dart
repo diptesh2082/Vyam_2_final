@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, prefer_is_empty
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -14,6 +15,7 @@ import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'package:vyam_2_final/controllers/location_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Notifications/notification.dart';
 import 'gyms.dart';
 
@@ -28,19 +30,16 @@ class FirstHome extends StatefulWidget {
 }
 
 class _FirstHomeState extends State<FirstHome> {
-  ActiveBookingApi activeBookingApi = ActiveBookingApi();
-
-  double finaldaysLeft = 0;
+  var finaldaysLeft;
   var getPercentage;
   var progressColor;
   var getdata;
-  var textColor;
   var data;
-  String getDays = '0';
-  int totalDays = 0;
   String address = "your location";
   // var location = Get.arguments;
-
+  List daysLeft = [
+    {"gymName": "Transformer Gym - Barakar", "dayleft": "15"},
+  ];
   myLocation() async {
     CollectionReference collectionReference =
         await FirebaseFirestore.instance.collection("user_details");
@@ -57,52 +56,29 @@ class _FirstHomeState extends State<FirstHome> {
 
   @override
   void initState() {
+    getNumber();
     userDetails.getData();
     // userLocation();
     myLocation();
 
-    // int getDays = int.parse(daysLeft[0]["dayleft"]);
-    // getDays = 28 - getDays;
-    // finaldaysLeft = getDays / 28;
-    // getPercentage = finaldaysLeft * 100;
-    // if (getPercentage >= 90) {
-    //   progressColor = Colors.red;
-    // }
-    // if (getPercentage <= 89 && getPercentage >= 75) {
-    //   progressColor = const Color.fromARGB(255, 255, 89, 0);
-    // }
-    // if (getPercentage <= 74 && getPercentage >= 50) {
-    //   progressColor = Colors.orange;
-    // }
-    // if (getPercentage <= 49 && getPercentage >= 0) {
-    //   progressColor = Colors.yellow;
-    // }
-
-    super.initState();
-  }
-
-  getProgressStatus() {
-    int finalDate = int.parse(getDays);
-    finalDate = totalDays - finalDate;
-    finaldaysLeft = finalDate / totalDays;
+    int getDays = int.parse(daysLeft[0]["dayleft"]);
+    getDays = 28 - getDays;
+    finaldaysLeft = getDays / 28;
     getPercentage = finaldaysLeft * 100;
-    // locationController.YourLocation(location);
     if (getPercentage >= 90) {
       progressColor = Colors.red;
-      textColor = Colors.red;
     }
     if (getPercentage <= 89 && getPercentage >= 75) {
       progressColor = const Color.fromARGB(255, 255, 89, 0);
-      textColor = const Color.fromARGB(255, 255, 89, 0);
     }
     if (getPercentage <= 74 && getPercentage >= 50) {
       progressColor = Colors.orange;
-      textColor = Colors.orange;
     }
     if (getPercentage <= 49 && getPercentage >= 0) {
       progressColor = Colors.yellow;
-      textColor = Colors.yellow;
     }
+
+    super.initState();
   }
 
   final backgroundColor = Colors.grey[200];
@@ -141,17 +117,6 @@ class _FirstHomeState extends State<FirstHome> {
     return await Geolocator.getCurrentPosition();
   }
 
-  // Future<void> userLocation()async{
-  //   final docUser= await FirebaseFirestore.instance.collection("user_list").doc("7407926060");
-  //  final snapshot = await  docUser.get();
-  //  if (snapshot.exists){
-  //    setState(() {
-  //      address=snapshot.data as String;
-  //    });
-  //
-  //  }
-  // }
-
   String pin = "";
 
   // ignore: non_constant_identifier_names
@@ -167,7 +132,7 @@ class _FirstHomeState extends State<FirstHome> {
   List<DocumentSnapshot> document = [];
 
   String searchGymName = '';
-
+  BannerApi bannerApi = BannerApi();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -232,8 +197,7 @@ class _FirstHomeState extends State<FirstHome> {
               color: Colors.black,
             ),
             onPressed: () {
-              // Get.to(const NotificationDetails());
-              getNumber();
+              Get.to(const NotificationDetails());
             },
           ),
         ],
@@ -273,28 +237,35 @@ class _FirstHomeState extends State<FirstHome> {
                 onTap: () {
                   Get.to(CouponDetails());
                 },
-                child:
-                    // StreamBuilder<QuerySnapshot>(
-                    //   stream: ,
-                    //   builder: ,
-                    // )
-                    SizedBox(
+                child: SizedBox(
                   height: 140,
-                  child: ListView.builder(
-                    // controller: _controller.,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: controller.boards.length,
-                    itemBuilder: (context, int index) {
-                      return SizedBox(
-                        height: 120,
-                        child: Row(
-                          children: [
-                            Image.asset(controller.boards[index].imageAssets),
-                            const SizedBox(
-                              width: 10,
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: bannerApi.getBanner,
+                    builder: (context, AsyncSnapshot streamSnapshot) {
+                      if (streamSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      final data = streamSnapshot.requireData;
+                      return ListView.builder(
+                        // controller: _controller.,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: data.size,
+                        itemBuilder: (context, int index) {
+                          return SizedBox(
+                            height: 120,
+                            child: Row(
+                              children: [
+                                Image.network(data.docs[index]["image"]),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -315,15 +286,15 @@ class _FirstHomeState extends State<FirstHome> {
                       child: Row(
                         children: [
                           GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const GymOption()));
-                              },
-                              child: Image.asset(
-                                  controller.OptionsList[index].imageAssets)),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const GymOption()));
+                            },
+                            child: Image.asset(
+                                controller.OptionsList[index].imageAssets),
+                          ),
                           const SizedBox(
                             width: 10,
                           ),
@@ -388,6 +359,7 @@ class _FirstHomeState extends State<FirstHome> {
                                       children: [
                                         GestureDetector(
                                           onTap: () async {
+                                            // ignore: avoid_print
                                             print("${document[index]["name"]}");
                                             Get.to(
                                                 () => GymDetails(
@@ -581,111 +553,80 @@ class _FirstHomeState extends State<FirstHome> {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: StreamBuilder<QuerySnapshot>(
-          stream: activeBookingApi.getActiveBooking,
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            }
-            if (!snapshot.hasData) {
-              return Container();
-            }
-            if (snapshot.hasData) {
-              final data = snapshot.requireData;
-              if (data.size == 0) {
-                return SizedBox();
-              }
-
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  getDays = (data.docs[index]["daysLeft"]);
-                  totalDays = int.parse(data.docs[index]["totalDays"]);
-
-                  getProgressStatus();
-                  return Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Row(children: [
-                          if (finaldaysLeft != 1)
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(data.docs[index]['daysLeft'],
-                                        style: GoogleFonts.poppins(
-                                            color: textColor,
-                                            fontWeight: FontWeight.bold)),
-                                    Text(" days to go",
-                                        style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text(data.docs[index]['gym_name'],
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 13,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400)),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Text("Stay Strong !",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 13,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                          if (finaldaysLeft == 1)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Your Subscription has been expired",
-                                    style: GoogleFonts.poppins(
-                                        color: Colors.red,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold)),
-                                InkWell(
-                                  onTap: () {
-                                    print("buy");
-                                  },
-                                  child: Text("Buy new packages",
-                                      style: GoogleFonts.poppins(
-                                          color: Colors.red,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ],
-                            ),
-                          const Spacer(),
-                          CircularPercentIndicator(
-                            animation: true,
-                            radius: 30.0,
-                            lineWidth: 10.0,
-                            percent: finaldaysLeft,
-                            progressColor: progressColor,
-                          ),
-                        ]),
-                      ));
-                },
-              );
-            }
-            return const CircularProgressIndicator();
-          }),
+      child: Container(
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20), color: Colors.white),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Row(children: [
+              if (finaldaysLeft != 1)
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(daysLeft[0]["dayleft"],
+                            style: GoogleFonts.poppins(
+                                color: Colors.yellow,
+                                fontWeight: FontWeight.bold)),
+                        Text(" days to go",
+                            style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(daysLeft[0]["gymName"],
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400)),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text("Stay Strong !",
+                        style: GoogleFonts.poppins(
+                            fontSize: 13,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              if (finaldaysLeft == 1)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Your Subscription has been expired",
+                        style: GoogleFonts.poppins(
+                            color: Colors.red,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold)),
+                    InkWell(
+                      onTap: () {
+                        // ignore: avoid_print
+                        print("buy");
+                      },
+                      child: Text("Buy new packages",
+                          style: GoogleFonts.poppins(
+                              color: Colors.red,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                ),
+              const Spacer(),
+              CircularPercentIndicator(
+                animation: true,
+                radius: 30.0,
+                lineWidth: 10.0,
+                percent: finaldaysLeft,
+                progressColor: progressColor,
+              ),
+            ]),
+          )),
     );
   }
 }
