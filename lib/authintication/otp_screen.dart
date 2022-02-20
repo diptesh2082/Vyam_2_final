@@ -10,7 +10,7 @@ import '../api/api.dart';
 
 class OtpPage extends StatefulWidget {
   static String id = "/otp_screen";
-  OtpPage({Key? key}) : super(key: key);
+  const OtpPage({Key? key}) : super(key: key);
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -50,9 +50,10 @@ class _OtpPageState extends State<OtpPage> {
       setState(() {
         showLoading = false;
       });
+      // ignore: avoid_print
       print(e.message);
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Some Error Occured. Try Again Later')));
+          const SnackBar(content: Text('Some Error Occured. Try Again Later')));
     }
   }
 

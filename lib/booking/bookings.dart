@@ -20,6 +20,7 @@ class BookingDetails extends StatefulWidget {
 
 class _BookingDetailsState extends State<BookingDetails> {
   var _getIndex;
+  // ignore: unused_field
   var _finalColor;
   bool _upcoming = true;
   bool _active = false;
@@ -32,6 +33,7 @@ class _BookingDetailsState extends State<BookingDetails> {
   @override
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
+    // ignore: unused_local_variable
     var _height = MediaQuery.of(context).size.height;
     return DefaultTabController(
       length: 3,
