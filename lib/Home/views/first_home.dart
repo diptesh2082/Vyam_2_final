@@ -308,11 +308,12 @@ class _FirstHomeState extends State<FirstHome> {
                                 controller.OptionsList[index].imageAssets),
                           ),
 
-                              onTap: () {
-                                Get.to(const GymOption());
-                              },
-                              child: Image.asset(
-                                  controller.OptionsList[index].imageAssets)),
+
+                              // onTap: () {
+                              //   Get.to(const GymOption());
+                              // },
+                              // child: Image.asset(
+                              //     controller.OptionsList[index].imageAssets)),
 
                           const SizedBox(
                             width: 10,
