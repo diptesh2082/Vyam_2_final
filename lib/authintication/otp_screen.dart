@@ -43,7 +43,7 @@ class _OtpPageState extends State<OtpPage> {
       if (authCred.user != null) {
         getToHomePage(value[1]);
         // SharedPreferences preferences = await SharedPreferences.getInstance();
-
+        //
         // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage()));
       }
     } on FirebaseAuthException catch (e) {
