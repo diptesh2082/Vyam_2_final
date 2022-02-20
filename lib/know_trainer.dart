@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:scroll_snap_list/scroll_snap_list.dart';
+
+import 'package:vyam_2_final/Home/bookings/review_screen.dart';
+
 import 'package:auto_size_text/auto_size_text.dart';
 
-class TrainerScreen extends StatefulWidget {
-  const TrainerScreen({Key? key}) : super(key: key);
-
+class Trainer extends StatefulWidget {
   @override
-  _TrainerScreenState createState() => _TrainerScreenState();
+  _TrainerState createState() => _TrainerState();
 }
 
-class _TrainerScreenState extends State<TrainerScreen> {
-  int _current = 0;
+class _TrainerState extends State<Trainer> {
+  int _current1 = 1;
   List trainers = [
-    "assets/trainer1.png",
-    "assets/trainer2.png",
-    "assets/trainer3.png",
+    "assets/images/trainer1.png",
+    "assets/images/trainer2.png",
+    "assets/images/trainer3.png",
   ];
 
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
   final trainernames = ['Jake', 'Jim', 'Kim'];
-
-  void _onItemFocus(int index) {
-    setState(() {
-      _current = index;
-    });
-  }
-
+  List tinforeview = ["4.7", "4.9", "5.0"];
+  List tinfoclient = ["13", "100", "75"];
+  List tinfoexp = ["10+", "7+", "13+"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,336 +32,495 @@ class _TrainerScreenState extends State<TrainerScreen> {
           title: const Text(
             'Know your trainer',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black, fontSize: 16),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 14,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+            ),
           ),
           leading: GestureDetector(
-            onTap: () {
-              Get.back();
-            },
+            onTap: null,
             child: const Icon(
-              Icons.arrow_back,
+              Icons.arrow_back_ios_new_outlined,
               color: Colors.black,
             ),
           )),
-      body: ScrollSnapList(
-          itemBuilder: buildtrainer,
-          itemCount: trainers.length,
-          itemSize: MediaQuery.of(context).size.height,
-          onItemFocus: _onItemFocus),
+      body: Column(
+        children: [
+          Container(
+              //   height: MediaQuery.of(context).size.height * 0.025,
+              // width: double.infinity,
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text(
+              _current1.toString(),
+              style: TextStyle(color: Colors.black),
+            ),
+            Text("/", style: TextStyle(color: Colors.black)),
+            Text(trainername.length.toString(),
+                style: TextStyle(color: Colors.black))
+          ])),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: PageView.builder(
+                itemCount: trainers.length,
+                controller: PageController(viewportFraction: 0.822),
+                onPageChanged: (int index) => setState(() {
+                      _current1 = index + 1;
+                    }),
+                itemBuilder: ((_, i) {
+                  return buildtrainer(context, i);
+                })),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget buildtrainer(BuildContext context, int index) => SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Container(
-          child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0)),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                //height: MediaQuery.of(context).size.height * 25,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          //border: Border.all(width: 1),
-                          image: DecorationImage(
-                              image: AssetImage(trainers[index]),
-                              fit: BoxFit.cover)),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+  Widget buildtrainer(BuildContext context, int index) => ListView(children: [
+        Container(
+          child: Column(
+            children: [
+              Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0)),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          trainername[index],
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 15.5),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
                         ),
-                        const Icon(
-                          Icons.verified,
-                          color: Colors.green,
-                          size: 20,
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    const Text(
-                      'Transformers Gym',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 13),
-                    ),
-                    const Text(
-                      'Branch - Barakar',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w300, fontSize: 13),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "4.7",
-                          //textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 14),
+                        Container(
+                          height: 95,
+                          width: 95,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              //border: Border.all(width: 1),
+                              image: DecorationImage(
+                                  image: AssetImage(trainers[index]),
+                                  fit: BoxFit.cover)),
                         ),
-                        const Text(
-                          '13',
-                          //textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 14),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
                         ),
-                        const Text(
-                          '10+',
-                          //textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 14),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.001,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Reviews',
-                          //textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
-                              color: Colors.grey),
-                        ),
-                        const Text(
-                          '   Clients',
-                          //textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
-                              color: Colors.grey),
-                        ),
-                        const Text(
-                          'Experience',
-                          //textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 13,
-                              color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                    const Divider(
-                      height: 30,
-                      indent: 20,
-                      endIndent: 20,
-                      thickness: 0.5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'About',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 15.5),
-                          ),
-                        ],
-                      ),
-                    ),
-                    FittedBox(
-                      fit: BoxFit.contain,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const SizedBox(height: 12),
-                            SizedBox(
+                            Text(
+                              trainername[index],
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16),
+                            ),
+                            const Icon(
+                              Icons.verified,
+                              color: Colors.green,
+                              size: 20,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
+                        ),
+                        const Text(
+                          'Transformers Gym',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12),
+                        ),
+                        const Text(
+                          'Branch - Barakar',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              tinforeview[index],
+                              //textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14),
+                            ),
+                            Text(
+                              tinfoclient[index],
+                              //textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14),
+                            ),
+                            Text(
+                              tinfoexp[index],
+                              //textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.001,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'Reviews',
+                              //textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  color: Colors.grey),
+                            ),
+                            Text(
+                              '   Clients',
+                              //textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  color: Colors.grey),
+                            ),
+                            Text(
+                              'Experience',
+                              //textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        const Divider(
+                          height: 30,
+                          indent: 20,
+                          endIndent: 20,
+                          thickness: 0.5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: const [
+                              Text(
+                                'About',
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.90,
                               child: AutoSizeText(
                                 '${trainernames[index]} is a professional trainer and nutritionist who has 10 years of experience in this field.',
                                 style: const TextStyle(
+                                  fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 15,
+                                  fontSize: 12,
                                 ),
                                 maxLines: 3,
                               ),
                             ),
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: const [
+                              Text(
+                                'Certifications',
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.005,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "•  Golds gym certified trainer.",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.015,
+                                  ),
+                                  const Text(
+                                      "•  Golds gym certified nutritionist.",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400,
+                                      )),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.015,
+                                  ),
+                                  const Text(
+                                      "•  All time calisthenics champion.",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400,
+                                      )),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.022,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: const [
+                              Text(
+                                'Specialization',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.052),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.90,
+                                  child: const AutoSizeText(
+                                    'Bodybuilding | Workout | Calesthenics | Zumba | HIIT | Cardio | Diet & Nutrition.',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                    ),
+                                    maxLines: 3,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.008,
+                        ),
+                        Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: Container(
+                                height: 32,
+                                width: 50,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    //color: Colors.amber,
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            "assets/images/insta_icon.png"))),
+                              ),
+                            ),
+                            Text(
+                              '@${trainernames[index].toLowerCase()}_xyz',
+                              style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 13),
+                            )
                           ],
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 12),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Certifications',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 15),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.005,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          "•  Golds gym certified trainer.",
-                          style: TextStyle(fontSize: 14),
-                        ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.005,
+                          height: MediaQuery.of(context).size.height * 0.022,
                         ),
-                        const Text("•  Golds gym certified nutritionist.",
-                            style: const TextStyle(fontSize: 14)),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.005,
-                        ),
-                        const Text("•  All time calisthenics champion.",
-                            style: const TextStyle(fontSize: 14)),
-                      ],
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.025,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Specialization',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 15),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: const [
+                              Text(
+                                'Reviews',
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                    FittedBox(
-                      fit: BoxFit.contain,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
+                        ),
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 12),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.90,
-                              child: const AutoSizeText(
-                                'Bodybuilding | Workout | Calesthenics | Zumba | HIIT | Cardio | Diet & Nutrition.',
-                                style: TextStyle(
+                            const Icon(
+                              Icons.star,
+                              color: Colors.yellow,
+                              size: 18,
+                            ),
+                            Text(
+                              tinforeview[index],
+                              style: TextStyle(
+                                  fontFamily: 'poppins',
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 14,
+                                  fontSize: 12),
+                            ),
+                            const Text(
+                              '(33 reviews)',
+                              style: TextStyle(
+                                  fontFamily: 'poppins',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  color: Colors.grey),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.15,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12.0),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.28,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.055,
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          //border: Border.all(width: 1),
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  "assets/images/trainer1.png"),
+                                              fit: BoxFit.cover)),
+                                    ),
+                                    Positioned(
+                                      left: MediaQuery.of(context).size.width *
+                                          0.055,
+                                      child: Container(
+                                        height: 30,
+                                        width: 30,
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            //border: Border.all(width: 1),
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/images/trainer2.png"),
+                                                fit: BoxFit.cover)),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: MediaQuery.of(context).size.width *
+                                          0.11,
+                                      child: Container(
+                                        height: 30,
+                                        width: 30,
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            //border: Border.all(width: 1),
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/images/trainer3.png"),
+                                                fit: BoxFit.cover)),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: MediaQuery.of(context).size.width *
+                                          0.166,
+                                      child: Container(
+                                        height: 30,
+                                        width: 30,
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            //border: Border.all(width: 1),
+                                            image: DecorationImage(
+                                                image: AssetImage(
+                                                    "assets/images/trainer1.png"),
+                                                fit: BoxFit.cover)),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                maxLines: 3,
                               ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.001,
+                            ),
+                            GestureDetector(
+                              child: const Icon(
+                                Icons.arrow_forward_ios_outlined,
+                                size: 20,
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Review()));
+                              },
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.008,
-                    ),
-                    Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Container(
-                            height: 32,
-                            width: 50,
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                //color: Colors.amber,
-                                image: const DecorationImage(
-                                    image:
-                                        AssetImage("assets/insta_icon.png"))),
-                          ),
-                        ),
-                        Text('@${trainernames[index]}_xyz')
                       ],
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.022,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Reviews',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 15),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.005,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Icon(
-                            Icons.star,
-                            color: Colors.yellow,
-                            size: 18,
-                          ),
-                          const Text(
-                            '4.7',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700, fontSize: 15),
-                          ),
-                          const Text(
-                            '(33 reviews)',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14,
-                                color: Colors.grey),
-                          ),
-                          const Spacer(),
-                          const Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.black,
-                            size: 20,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )),
+                  )),
+            ],
+          ),
         ),
-      );
+      ]);
 }

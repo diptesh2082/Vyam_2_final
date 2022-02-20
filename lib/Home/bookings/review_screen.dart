@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:reviews_slider/reviews_slider.dart';
-// import 'package:vyam2/no_internet.dart';
-import 'feedback.dart';
+
 import 'gym_details.dart';
 
 class Review extends StatefulWidget {
@@ -14,14 +12,11 @@ class Review extends StatefulWidget {
 }
 
 class _ReviewState extends State<Review> {
-  double value1 = 5;
   double ratingvalue = 0;
-  //int selectedvalue = 0;
-  final int starCount = 5;
-  double srating = 0.0;
-  TextEditingController title = new TextEditingController();
-  TextEditingController exp = new TextEditingController();
-  var _ratingController = new TextEditingController();
+
+  TextEditingController title = TextEditingController();
+  TextEditingController exp = TextEditingController();
+  var _ratingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +35,8 @@ class _ReviewState extends State<Review> {
                 fontWeight: FontWeight.w600),
           ),
           leading: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Feedback1()));
-            },
-            child: Icon(
+            onTap: null,
+            child: const Icon(
               Icons.arrow_back_ios_new_outlined,
               color: Colors.black,
             ),
@@ -59,7 +51,7 @@ class _ReviewState extends State<Review> {
               label: const Text(
                 'Write a review',
                 style: TextStyle(
-                    fontFamily: 'poppins',
+                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
                     color: Colors.white),
@@ -76,7 +68,7 @@ class _ReviewState extends State<Review> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Customer reviews',
                 style: TextStyle(
                   fontFamily: 'poppins',
@@ -91,7 +83,7 @@ class _ReviewState extends State<Review> {
                 children: [
                   RatingBarIndicator(
                     itemBuilder: ((context, index) {
-                      return Icon(
+                      return const Icon(
                         Icons.star,
                         color: Colors.amber,
                       );
@@ -101,7 +93,7 @@ class _ReviewState extends State<Review> {
                     itemSize: 20.0,
                     direction: Axis.horizontal,
                   ),
-                  Text('4.7 out of 5 ',
+                  const Text('4.7 out of 5 ',
                       style: TextStyle(
                           fontFamily: 'poppins',
                           fontWeight: FontWeight.w600,
@@ -111,7 +103,7 @@ class _ReviewState extends State<Review> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.012,
               ),
-              Text(
+              const Text(
                 '(113 reviews)',
                 style: TextStyle(
                     fontFamily: 'poppins',
@@ -126,10 +118,10 @@ class _ReviewState extends State<Review> {
                 children: [
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         '5 star',
                         style: TextStyle(
-                            fontFamily: 'poppins',
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
                             color: Colors.black),
@@ -142,10 +134,10 @@ class _ReviewState extends State<Review> {
                         backgroundColor: Colors.white,
                         width: MediaQuery.of(context).size.width * 0.72,
                         percent: 0.6,
-                        trailing: Text(
+                        trailing: const Text(
                           '60%',
                           style: TextStyle(
-                              fontFamily: 'poppins',
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
                               color: Colors.black),
@@ -159,10 +151,10 @@ class _ReviewState extends State<Review> {
                   ),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         '4 star',
                         style: TextStyle(
-                            fontFamily: 'poppins',
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
                             color: Colors.black),
@@ -175,10 +167,10 @@ class _ReviewState extends State<Review> {
                         backgroundColor: Colors.white,
                         width: MediaQuery.of(context).size.width * 0.72,
                         percent: 0.3,
-                        trailing: Text(
+                        trailing: const Text(
                           '30%',
                           style: TextStyle(
-                              fontFamily: 'poppins',
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
                               color: Colors.black),
@@ -192,10 +184,10 @@ class _ReviewState extends State<Review> {
                   ),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         '3 star',
                         style: TextStyle(
-                            fontFamily: 'poppins',
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
                             color: Colors.black),
@@ -208,10 +200,10 @@ class _ReviewState extends State<Review> {
                         backgroundColor: Colors.white,
                         width: MediaQuery.of(context).size.width * 0.72,
                         percent: 0.15,
-                        trailing: Text(
+                        trailing: const Text(
                           '15%',
                           style: TextStyle(
-                              fontFamily: 'poppins',
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
                               color: Colors.black),
@@ -225,10 +217,10 @@ class _ReviewState extends State<Review> {
                   ),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         '2 star',
                         style: TextStyle(
-                            fontFamily: 'poppins',
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
                             color: Colors.black),
@@ -241,10 +233,10 @@ class _ReviewState extends State<Review> {
                         backgroundColor: Colors.white,
                         width: MediaQuery.of(context).size.width * 0.72,
                         percent: 0.05,
-                        trailing: Text(
+                        trailing: const Text(
                           '5%',
                           style: TextStyle(
-                              fontFamily: 'poppins',
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
                               color: Colors.black),
@@ -258,10 +250,10 @@ class _ReviewState extends State<Review> {
                   ),
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         '1 star',
                         style: TextStyle(
-                            fontFamily: 'poppins',
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                             fontSize: 12,
                             color: Colors.black),
@@ -274,10 +266,10 @@ class _ReviewState extends State<Review> {
                         backgroundColor: Colors.white,
                         width: MediaQuery.of(context).size.width * 0.72,
                         percent: 0.10,
-                        trailing: Text(
+                        trailing: const Text(
                           '10%',
                           style: TextStyle(
-                              fontFamily: 'poppins',
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
                               color: Colors.black),
@@ -288,7 +280,7 @@ class _ReviewState extends State<Review> {
                   ),
                 ],
               ),
-              Divider(
+              const Divider(
                 height: 30,
                 indent: 8,
                 endIndent: 20,
@@ -307,7 +299,7 @@ class _ReviewState extends State<Review> {
                           .snapshots(),
                       builder: ((context, AsyncSnapshot snapshot) {
                         if (!snapshot.hasData) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         } else {
                           return Expanded(
                             child: ListView.builder(
@@ -316,30 +308,30 @@ class _ReviewState extends State<Review> {
                                   return Container(
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         ListTile(
                                           leading: Container(
                                             height: 50,
                                             width: 50,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 //border: Border.all(width: 1),
                                                 image: DecorationImage(
                                                     image: AssetImage(
-                                                        "assets/trainer1.png"),
+                                                        "assets/images/trainer1.png"),
                                                     fit: BoxFit.cover)),
                                           ),
                                           title: Text(
                                             snapshot.data.docs[index]['name'],
-                                            style: TextStyle(
-                                                fontFamily: 'poppins',
+                                            style: const TextStyle(
+                                                fontFamily: 'Poppins',
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 12),
                                           ),
                                           subtitle: RatingBarIndicator(
                                             itemBuilder: ((context, index) {
-                                              return Icon(
+                                              return const Icon(
                                                 Icons.star,
                                                 color: Colors.amber,
                                               );
@@ -352,13 +344,13 @@ class _ReviewState extends State<Review> {
                                         ),
                                         Text(
                                           snapshot1.data.docs[index]
-                                          ['experience'],
-                                          style: TextStyle(
-                                              fontFamily: 'poppins',
+                                              ['experience'],
+                                          style: const TextStyle(
+                                              fontFamily: 'Poppins',
                                               fontWeight: FontWeight.w400,
                                               fontSize: 12),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 30,
                                         )
                                       ],
@@ -380,177 +372,177 @@ class _ReviewState extends State<Review> {
   Future openreviewcard() => showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(30))),
-        actions: [
-          Center(
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.black),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+            actions: [
+              Center(
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.black),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ))),
-              child: const Text(
-                'Submit',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'poppins',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14),
-              ),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                final CollectionReference review =
-                await FirebaseFirestore.instance.collection('Reviews');
-                FirebaseFirestore.instance
-                    .runTransaction((transaction) async {
-                  CollectionReference reference =
-                  FirebaseFirestore.instance.collection('Reviews');
-                  Map<String, dynamic> review_data = {
-                    "rating": ratingvalue.toString(),
-                    "title": title.text,
-                    "experience": exp.text
-                  };
-                  await reference
-                      .doc("Transformer Gym")
-                      .collection("9045291663")
-                      .add(review_data);
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14),
+                  ),
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    final CollectionReference review =
+                        await FirebaseFirestore.instance.collection('Reviews');
+                    FirebaseFirestore.instance
+                        .runTransaction((transaction) async {
+                      CollectionReference reference =
+                          FirebaseFirestore.instance.collection('Reviews');
+                      Map<String, dynamic> review_data = {
+                        "rating": ratingvalue.toString(),
+                        "title": title.text,
+                        "experience": exp.text
+                      };
+                      await reference
+                          .doc("Transformer Gym")
+                          .collection("9045291663")
+                          .add(review_data);
 
-                  title.clear();
-                  exp.clear();
+                      title.clear();
+                      exp.clear();
 
-                  /* FirebaseFirestore.instance
+                      /* FirebaseFirestore.instance
                           .collection("user_details")
                           .add(review_data);*/
-                });
-              },
-            ),
-          ),
-        ],
-        content: Container(
-          height: MediaQuery.of(context).size.height / 2.22,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Positioned(
-                  top: 0.0,
-                  right: 0.0,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: CircleAvatar(
-                        radius: 14.0,
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Icons.close,
-                          color: Colors.black,
+                    });
+                  },
+                ),
+              ),
+            ],
+            content: Container(
+              height: MediaQuery.of(context).size.height / 2.22,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Positioned(
+                      top: 0.0,
+                      right: 0.0,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Align(
+                          alignment: Alignment.topRight,
+                          child: CircleAvatar(
+                            radius: 14.0,
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      )),
+                  RatingBar(
+                      initialRating: 0,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      ratingWidget: RatingWidget(
+                        full: const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        half: const Icon(
+                          Icons.star_half,
+                          color: Colors.amber,
+                        ),
+                        empty: const Icon(
+                          Icons.star_outline,
+                          color: Colors.amber,
                         ),
                       ),
-                    ),
-                  )),
-              RatingBar(
-                  initialRating: 0,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  ratingWidget: RatingWidget(
-                    full: Icon(
-                      Icons.star,
-                      color: Colors.amber,
-                    ),
-                    half: Icon(
-                      Icons.star_half,
-                      color: Colors.amber,
-                    ),
-                    empty: Icon(
-                      Icons.star_outline,
-                      color: Colors.amber,
-                    ),
+                      onRatingUpdate: (value) {
+                        setState(() {
+                          ratingvalue = value;
+                        });
+                      }),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.022,
                   ),
-                  onRatingUpdate: (value) {
-                    setState(() {
-                      ratingvalue = value;
-                    });
-                  }),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.022,
-              ),
-              // Text(
-              //   ratingvalue != null ? ratingvalue.toString() : 'Rate it'),
-              Text(
-                'Add a title',
-                style: TextStyle(
-                    fontFamily: 'poppins',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 12,
-                child: Card(
-                    child: TextField(
+                  // Text(
+                  //   ratingvalue != null ? ratingvalue.toString() : 'Rate it'),
+                  const Text(
+                    'Add a title',
+                    style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 12,
+                    child: Card(
+                        child: TextField(
                       autofocus: true,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
-                        fontFamily: 'poppins',
+                        fontFamily: 'Poppins',
                         fontWeight: FontWeight.w400,
                       ),
                       controller: title,
                       maxLines: 3,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
                             fontSize: 10,
-                            fontFamily: 'poppins',
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                           ),
                           hintMaxLines: 2,
                           hintText: 'Sum up your experience in one line.'),
                     )),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.022,
-              ),
-              Text(
-                'Add a written review',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  fontFamily: 'poppins',
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 8,
-                child: Card(
-                  child: TextField(
-                    autofocus: true,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.022,
+                  ),
+                  const Text(
+                    'Add a written review',
                     style: TextStyle(
-                      fontSize: 12,
-                      fontFamily: 'poppins',
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      fontFamily: 'Poppins',
                     ),
-                    controller: exp,
-                    maxLines: 10,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        isDense: true,
-                        hintMaxLines: 4,
-                        hintStyle: TextStyle(
-                          fontSize: 10,
-                          fontFamily: 'poppins',
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 8,
+                    child: Card(
+                      child: TextField(
+                        autofocus: true,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'Poppins',
                           fontWeight: FontWeight.w400,
                         ),
-                        hintText:
-                        'What did you like or dislike? What was your overall experience.'),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ));
+                        controller: exp,
+                        maxLines: 10,
+                        decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
+                            hintMaxLines: 4,
+                            hintStyle: TextStyle(
+                              fontSize: 10,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                            ),
+                            hintText:
+                                'What did you like or dislike? What was your overall experience.'),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ));
 }

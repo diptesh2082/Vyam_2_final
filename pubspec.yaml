@@ -55,7 +55,7 @@ dependencies:
   cached_network_image: ^3.2.0
   flutter_phone_direct_caller: ^2.1.0
   firebase_auth: ^3.3.7
-
+  readmore: ^2.1.0
   location: ^4.3.0
   # flutter_google_places: ^0.3.0
   google_maps_webservice: ^0.0.19
