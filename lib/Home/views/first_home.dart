@@ -298,22 +298,21 @@ class _FirstHomeState extends State<FirstHome> {
                         children: [
                           GestureDetector(
 
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const GymOption()));
-                            },
-                            child: Image.asset(
-                                controller.OptionsList[index].imageAssets),
-                          ),
+                          //   onTap: () {
+                          //     Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //             builder: (context) => const GymOption()));
+                          //   },
+                          //   child: Image.asset(
+                          //       controller.OptionsList[index].imageAssets),
+                          // ),
 
-
-                              // onTap: () {
-                              //   Get.to(const GymOption());
-                              // },
-                              // child: Image.asset(
-                              //     controller.OptionsList[index].imageAssets)),
+                              onTap: () {
+                                Get.to(const GymOption());
+                              },
+                              child: Image.asset(
+                                  controller.OptionsList[index].imageAssets)),
 
                           const SizedBox(
                             width: 10,
