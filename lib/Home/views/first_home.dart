@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables, prefer_is_empty
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,10 +14,19 @@ import 'package:google_maps_webservice/places.dart' as core;
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
+import 'package:vyam_2_final/Home/views/yogaoptions.dart';
+import 'package:vyam_2_final/Home/views/zumbaoption.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'package:vyam_2_final/controllers/location_controller.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:vyam_2_final/controllers/package_controller.dart';
+import 'package:vyam_2_final/gymtype/gymtype.dart';
+import 'package:vyam_2_final/gymtype/yogatype.dart';
+import 'package:vyam_2_final/gymtype/zumbatype.dart';
+
 import '../../Notifications/notification.dart';
 import 'gyms.dart';
 
@@ -286,6 +297,7 @@ class _FirstHomeState extends State<FirstHome> {
                       child: Row(
                         children: [
                           GestureDetector(
+
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -295,6 +307,13 @@ class _FirstHomeState extends State<FirstHome> {
                             child: Image.asset(
                                 controller.OptionsList[index].imageAssets),
                           ),
+
+                              onTap: () {
+                                Get.to(const GymOption());
+                              },
+                              child: Image.asset(
+                                  controller.OptionsList[index].imageAssets)),
+
                           const SizedBox(
                             width: 10,
                           ),

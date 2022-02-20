@@ -53,7 +53,8 @@ class _GymFeMaleState extends State<GymFeMale> {
                     itemCount: document.length,
                     itemBuilder: (context, int index) {
                       if ("${document[index]['gender']}".toLowerCase() ==
-                          "female") {
+                              "female" &&
+                          document[index]['service'].contains("gym")) {
                         return Column(
                           children: [
                             Stack(

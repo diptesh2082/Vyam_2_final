@@ -8,16 +8,16 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
-class GymUnisex extends StatefulWidget {
-  const GymUnisex({
+class ZumbaMale extends StatefulWidget {
+  const ZumbaMale({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<GymUnisex> createState() => _GymUnisexState();
+  State<ZumbaMale> createState() => _ZumbaMaleState();
 }
 
-class _GymUnisexState extends State<GymUnisex> {
+class _ZumbaMaleState extends State<ZumbaMale> {
   List events = [];
   List notificationList = [];
 
@@ -53,8 +53,8 @@ class _GymUnisexState extends State<GymUnisex> {
                     itemCount: document.length,
                     itemBuilder: (context, int index) {
                       if ("${document[index]['gender']}".toLowerCase() ==
-                              "unisex" &&
-                          document[index]['service'].contains("gym")) {
+                              "male" &&
+                          document[index]['service'].contains("zumba")) {
                         return Column(
                           children: [
                             Stack(

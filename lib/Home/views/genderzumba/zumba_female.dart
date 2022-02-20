@@ -1,23 +1,19 @@
 import 'package:flutter/cupertino.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
-class GymUnisex extends StatefulWidget {
-  const GymUnisex({
+class ZumbaFemale extends StatefulWidget {
+  const ZumbaFemale({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<GymUnisex> createState() => _GymUnisexState();
+  State<ZumbaFemale> createState() => _ZumbaFemaleState();
 }
 
-class _GymUnisexState extends State<GymUnisex> {
+class _ZumbaFemaleState extends State<ZumbaFemale> {
   List events = [];
   List notificationList = [];
 
@@ -53,8 +49,8 @@ class _GymUnisexState extends State<GymUnisex> {
                     itemCount: document.length,
                     itemBuilder: (context, int index) {
                       if ("${document[index]['gender']}".toLowerCase() ==
-                              "unisex" &&
-                          document[index]['service'].contains("gym")) {
+                              "female" &&
+                          document[index]['service'].contains("zumba")) {
                         return Column(
                           children: [
                             Stack(

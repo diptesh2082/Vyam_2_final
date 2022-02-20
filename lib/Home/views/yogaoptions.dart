@@ -7,23 +7,23 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/views/gendergyms/gym_female.dart';
 import 'package:vyam_2_final/Home/views/gendergyms/gym_male.dart';
 import 'package:vyam_2_final/Home/views/gendergyms/gym_unisex.dart';
-import 'package:vyam_2_final/Home/views/product_gym.dart';
 import 'package:get/get.dart';
-import 'package:vyam_2_final/booking/active.dart';
-import 'package:vyam_2_final/booking/older.dart';
-import 'package:vyam_2_final/booking/upcoming.dart';
+import 'package:vyam_2_final/Home/views/genderyoga/yoga_female.dart';
+import 'package:vyam_2_final/Home/views/genderyoga/yoga_unisex.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 
 import 'gendergyms/gyms_gender.dart';
+import 'genderyoga/yoga_gender.dart';
+import 'genderyoga/yoga_male.dart';
 
-class GymOption extends StatefulWidget {
-  const GymOption({Key? key}) : super(key: key);
+class YogaOption extends StatefulWidget {
+  const YogaOption({Key? key}) : super(key: key);
 
   @override
-  State<GymOption> createState() => _GymOptionState();
+  State<YogaOption> createState() => _YogaOptionState();
 }
 
-class _GymOptionState extends State<GymOption> {
+class _YogaOptionState extends State<YogaOption> {
   var _getIndex;
   var _finalColor;
   bool _all = true;
@@ -47,15 +47,6 @@ class _GymOptionState extends State<GymOption> {
       child: Scaffold(
         backgroundColor: HexColor("F5F5F5"),
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              CupertinoIcons.back,
-              color: HexColor("3A3A3A"),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
           bottom: TabBar(
               indicatorColor: HexColor("F5F5F5"),
               onTap: (index) {
@@ -164,6 +155,15 @@ class _GymOptionState extends State<GymOption> {
                     )),
               ]),
           toolbarHeight: 80,
+          leading: IconButton(
+            icon: Icon(
+              CupertinoIcons.back,
+              color: HexColor("3A3A3A"),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           // leading: Icon(
           //     CupertinoIcons.back,
           //     color: HexColor("3A3A3A"),
@@ -173,7 +173,7 @@ class _GymOptionState extends State<GymOption> {
           backgroundColor: Colors.transparent,
           centerTitle: true,
           title: Text(
-            "Gyms",
+            "Yoga",
             style: GoogleFonts.poppins(
                 color: HexColor("3A3A3A"),
                 fontSize: 18,
@@ -182,7 +182,7 @@ class _GymOptionState extends State<GymOption> {
         ),
         body: const TabBarView(
             physics: NeverScrollableScrollPhysics(),
-            children: [GymAll(), GymMale(), GymFeMale(), GymUnisex()]),
+            children: [YogaAll(), YogaMale(), YogaFeMale(), YogaUnisex()]),
       ),
     );
   }
