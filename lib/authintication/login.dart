@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyam_2_final/authintication/otp_screen.dart';
 import 'package:vyam_2_final/colors/color.dart';
-import 'package:vyam_2_final/controllers/onbording_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -162,6 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                                 verificationFailed: (verificationFailed) async {
                                   Get.snackbar(
                                       "Fail", "${verificationFailed.message}");
+                                  // ignore: avoid_print
                                   print(verificationFailed.message);
                                   setState(() {
                                     showLoding = false;
@@ -172,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                                   setState(() {
                                     showLoding = false;
                                   });
-                                  Get.to(() => OtpPage(), arguments: [
+                                  Get.to(() => const OtpPage(), arguments: [
                                     verificationID,
                                     phoneController.text
                                   ]);
@@ -264,6 +264,7 @@ class _LoginPageState extends State<LoginPage> {
                         width: size.width / 2,
                         child: const Center(
                           child: Text(
+                            // ignore: prefer_adjacent_string_concatenation
                             "Continue means you agree to" +
                                 "Terms of use Privacy Policy",
                             textAlign: TextAlign.center,
