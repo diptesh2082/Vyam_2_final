@@ -82,16 +82,18 @@ class _GymTypeState extends State<GymType> {
                                     print("${document[index]["name"]}");
                                     Get.to(
                                         () => GymDetails(
-                                              getID: document[index].id,
-                                              gymLocation: document[index]
-                                                  ["location"],
-                                              gymName: document[index]["name"],
+                                              // getID: document[index].id,
+                                              // gymLocation: document[index]
+                                              //     ["location"],
+                                              // gymName: document[index]["name"],
                                             ),
                                         arguments: {
                                           "id": document[index].id,
                                           "location": document[index]
                                               ["location"],
-                                          "name": document[index]["name"]
+                                          "name": document[index]["name"],
+                                          "docs": document[index]
+
                                         });
                                   },
                                   child: ClipRRect(

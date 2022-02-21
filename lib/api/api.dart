@@ -140,11 +140,12 @@ getVisitedFlag() async {
 }
 
 class UserApi {
-  static const number = "7407926060";
+  // static const number = "";
   static Future createUser(String name, String number, String email) async {
     final docUser =
         FirebaseFirestore.instance.collection("user_details").doc(number);
     // userModel.userId = docUser.id;
+    number=docUser.id;
     final myJson = {
       'userId': docUser.id,
       "name": name,
@@ -174,3 +175,24 @@ class GymAllApi {
       .where("pincode", isEqualTo: "700091")
       .snapshots();
 }
+
+// class GymApi {
+//   // String number = "8859451134";
+//   List gymList = [];
+//   Future getCouponData() async {
+//     var couponFirestore = FirebaseFirestore.instance.collection('product_details');
+//
+//     try {
+//       await couponFirestore.get().then((value) {
+//         for (var result in value.docs) {
+//           gymList.add(result.data());
+//         }
+//       });
+//     } catch (e) {
+//       return null;
+//     }
+//
+//     return couponList;
+//   }
+// }
+

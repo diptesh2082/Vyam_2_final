@@ -43,10 +43,17 @@ class ProductGyms extends StatelessWidget {
                           onTap: () async {
                             Get.to(
                               () => GymDetails(
-                                getID: data.docs[index].id,
-                                gymName: data.docs[index]["name"],
-                                gymLocation: data.docs[index]["address"],
+                                // getID: data.docs,
+                                // gymName: data.docs[index]["name"],
+                                // gymLocation: data.docs[index]["address"],
+                                // docs: data.docs[index],
                               ),
+                              arguments: {
+                                "pin":data.docs[index]["pincode"],
+                                  "id": data.docs[index].id,
+                                  "location": data.docs[index]["location"],
+                              "docs": data.docs[index]
+                              }
                             );
                           },
                           child: ClipRRect(
@@ -88,6 +95,8 @@ class ProductGyms extends StatelessWidget {
                                 Text(
                                   data.docs[index]["address"],
                                   textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                   style: const TextStyle(
                                       color: Colors.white,
                                       fontFamily: "Poppins",

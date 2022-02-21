@@ -420,123 +420,120 @@ class _TrainerState extends State<Trainer> {
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Icon(
-                        Icons.star,
-                        color: Colors.yellow,
-                        size: 18,
-                      ),
-                      Text(
-                        tinforeview[index],
-                        style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12),
-                      ),
-                      const Text(
-                        '(33 reviews)',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Colors.grey),
-                      ),
-                      // SizedBox(
-                      //   width: MediaQuery.of(context).size.width * 0.15,
-                      // ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          height:
-                          MediaQuery.of(context).size.height * 0.01,
-                          child: Stack(
-                            children: [
-                              Container(
-                                height: 20,
-                                width: 30,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    //border: Border.all(width: 1),
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/icons/trainer1.png"),
-                                        fit: BoxFit.cover)),
-                              ),
-                              // Positioned(
-                              //   left: MediaQuery.of(context)
-                              //       .size
-                              //       .width *
-                              //       0.055,
-                              //   child: Container(
-                              //     height: 10,
-                              //     width: 30,
-                              //     decoration: const BoxDecoration(
-                              //         shape: BoxShape.circle,
-                              //         //border: Border.all(width: 1),
-                              //         image: DecorationImage(
-                              //             image: AssetImage(
-                              //                 "assets/icons/trainer2.png"),
-                              //             fit: BoxFit.cover)),
-                              //   ),
-                              // ),
-                              // Positioned(
-                              //   left:  MediaQuery.of(context)
-                              //       .size
-                              //       .width *
-                              //       0.11,
-                              //   child: Container(
-                              //     height: 30,
-                              //     width: 30,
-                              //     decoration: const BoxDecoration(
-                              //         shape: BoxShape.circle,
-                              //         //border: Border.all(width: 1),
-                              //         image: DecorationImage(
-                              //             image: AssetImage(
-                              //                 "assets/icons/trainer3.png"),
-                              //             fit: BoxFit.cover)),
-                              //   ),
-                              // ),
-                              // Positioned(
-                              //   left:  MediaQuery.of(context)
-                              //       .size
-                              //       .width *
-                              //       0.166,
-                              //   child: Container(
-                              //     height: 30,
-                              //     width: 30,
-                              //     decoration: const BoxDecoration(
-                              //         shape: BoxShape.circle,
-                              //         //border: Border.all(width: 1),
-                              //         image: DecorationImage(
-                              //             image: AssetImage(
-                              //                 "assets/icons/trainer1.png"),
-                              //             fit: BoxFit.cover)),
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.001,
-                      ),
-                      GestureDetector(
-                        child: const Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          size: 20,
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Review()));
-                        },
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     // const Icon(
+                  //     //   Icons.star,
+                  //     //   color: Colors.yellow,
+                  //     //   size: 18,
+                  //     // ),
+                  //     // Text(
+                  //     //   tinforeview[index],
+                  //     //   style: const TextStyle(
+                  //     //       fontFamily: 'Poppins',
+                  //     //       fontWeight: FontWeight.w400,
+                  //     //       fontSize: 12),
+                  //     // ),
+                  //     // const Text(
+                  //     //   '(33 reviews)',
+                  //     //   style: TextStyle(
+                  //     //       fontFamily: 'Poppins',
+                  //     //       fontWeight: FontWeight.w400,
+                  //     //       fontSize: 12,
+                  //     //       color: Colors.grey),
+                  //     // ),
+                  //     // SizedBox(
+                  //     //   width: MediaQuery.of(context).size.width * 0.15,
+                  //     // ),
+                  //     // Container(
+                  //     //   width: MediaQuery.of(context).size.width * 0.5,
+                  //     //   // height:
+                  //     //   // MediaQuery.of(context).size.height * 0.01,
+                  //     //   child: Stack(
+                  //     //     children: [
+                  //     //       // Container(
+                  //     //       //   height: 20,
+                  //     //       //   width: 30,
+                  //     //       //   decoration: const BoxDecoration(
+                  //     //       //       shape: BoxShape.circle,
+                  //     //       //       //border: Border.all(width: 1),
+                  //     //       //       image: DecorationImage(
+                  //     //       //           image: AssetImage(
+                  //     //       //               "assets/icons/trainer1.png"),
+                  //     //       //           fit: BoxFit.cover)),
+                  //     //       // ),
+                  //     //       // Positioned(
+                  //     //       //   left: MediaQuery.of(context)
+                  //     //       //       .size
+                  //     //       //       .width *
+                  //     //       //       0.055,
+                  //     //       //   child: Container(
+                  //     //       //     height: 10,
+                  //     //       //     width: 30,
+                  //     //       //     decoration: const BoxDecoration(
+                  //     //       //         shape: BoxShape.circle,
+                  //     //       //         //border: Border.all(width: 1),
+                  //     //       //         image: DecorationImage(
+                  //     //       //             image: AssetImage(
+                  //     //       //                 "assets/icons/trainer2.png"),
+                  //     //       //             fit: BoxFit.cover)),
+                  //     //       //   ),
+                  //     //       // ),
+                  //     //       // Positioned(
+                  //     //       //   left:  MediaQuery.of(context)
+                  //     //       //       .size
+                  //     //       //       .width *
+                  //     //       //       0.11,
+                  //     //       //   child: Container(
+                  //     //       //     height: 30,
+                  //     //       //     width: 30,
+                  //     //       //     decoration: const BoxDecoration(
+                  //     //       //         shape: BoxShape.circle,
+                  //     //       //         //border: Border.all(width: 1),
+                  //     //       //         image: DecorationImage(
+                  //     //       //             image: AssetImage(
+                  //     //       //                 "assets/icons/trainer3.png"),
+                  //     //       //             fit: BoxFit.cover)),
+                  //     //       //   ),
+                  //     //       // ),
+                  //     //       // Positioned(
+                  //     //       //   left:  MediaQuery.of(context)
+                  //     //       //       .size
+                  //     //       //       .width *
+                  //     //       //       0.166,
+                  //     //       //   child: Container(
+                  //     //       //     height: 30,
+                  //     //       //     width: 30,
+                  //     //       //     decoration: const BoxDecoration(
+                  //     //       //         shape: BoxShape.circle,
+                  //     //       //         //border: Border.all(width: 1),
+                  //     //       //         image: DecorationImage(
+                  //     //       //             image: AssetImage(
+                  //     //       //                 "assets/icons/trainer1.png"),
+                  //     //       //             fit: BoxFit.cover)),
+                  //     //       //   ),
+                  //     //       // ),
+                  //     //     ],
+                  //     //   ),
+                  //     // ),
+                  //     // SizedBox(
+                  //     //   width: MediaQuery.of(context).size.width * 0.001,
+                  //     // ),
+                  //     GestureDetector(
+                  //       child: const Icon(
+                  //         Icons.arrow_forward_ios_outlined,
+                  //         size: 20,
+                  //       ),
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //                 builder: (context) => Review()));
+                  //       },
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             )),
