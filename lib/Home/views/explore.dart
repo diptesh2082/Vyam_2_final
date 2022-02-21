@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,34 +38,8 @@ class _ExploreState extends State<Explore> {
 
   ln.Location location = ln.Location();
   late GoogleMapController mapcontroller;
-  Geoflutterfire geo = Geoflutterfire();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  _animateToUser() async {
-    var pos = await location.getLocation();
-
-    mapcontroller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(pos.latitude!, pos.longitude!),
-      zoom: 17.0,
-    )));
-  }
-
-  Stream nearbyComp() async* {
-    var pos = await location.getLocation();
-
-    GeoFirePoint point =
-        geo.point(latitude: pos.latitude!, longitude: pos.longitude!);
-    final CollectionReference users = firestore.collection("product_details");
-
-    double radius = 10;
-    String field = 'location';
-
-    Stream<List<DocumentSnapshot>> stream = geo
-        .collection(collectionRef: users)
-        .within(center: point, radius: radius, field: field, strictMode: true);
-
-    yield stream;
-  }
+  var doc = Get.arguments;
 
   void initMarker(specify, specifyId) async {
     var markerIdVal = specifyId;
@@ -101,6 +74,9 @@ class _ExploreState extends State<Explore> {
   @override
   void initState() {
     getMarkerData();
+    if (doc != null) {
+      _gotoLocation(doc["location"].latitude, doc["location"].longitude);
+    }
     super.initState();
   }
 
@@ -108,7 +84,7 @@ class _ExploreState extends State<Explore> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
+        title: TextFormField(
           onChanged: (value) {
             setState(() {
               searchGymName = value.toString();
@@ -163,7 +139,6 @@ class _ExploreState extends State<Explore> {
                     }
                     return document.isNotEmpty
                         ? ListView.separated(
-                          
                             scrollDirection: Axis.horizontal,
                             itemCount: document.length,
                             itemBuilder: (context, index) {

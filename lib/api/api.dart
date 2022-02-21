@@ -13,6 +13,7 @@ getNumber() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalNumber = sharedPreferences.getString("number");
   number = finalNumber.toString();
+  // ignore: avoid_print
   print(number);
 }
 
@@ -118,6 +119,7 @@ class OlderBookingApi {
 
 class GymDetailApi {
   getuserAddress() {
+    // ignore: unused_local_variable
     Stream<QuerySnapshot> getUser =
         FirebaseFirestore.instance.collection('user_details').snapshots();
   }
@@ -166,6 +168,7 @@ class UserApi {
 
 class GymAllApi {
   getuserAddress() {
+    // ignore: unused_local_variable
     Stream<QuerySnapshot> getUser =
         FirebaseFirestore.instance.collection('user_details').snapshots();
   }

@@ -6,6 +6,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vyam_2_final/Home/bookings/timings_details.dart';
+import 'package:vyam_2_final/Home/views/explore.dart';
 import 'package:vyam_2_final/controllers/packages/packages.dart';
 
 import 'know_trainer.dart';
@@ -42,7 +43,7 @@ class _GymDetailsState extends State<GymDetails> {
     "assets/images/transf3.jpeg",
     "assets/images/transf5.jpeg",
   ];
-  var doc =Get.arguments;
+  var doc = Get.arguments;
   // CollectionReference<Map<String, dynamic>> userData()=> FirebaseFirestore.instance
   //     .collection("product_details")
   //     .snapshots()
@@ -57,7 +58,6 @@ class _GymDetailsState extends State<GymDetails> {
     // userData();
     super.initState();
   }
-
 
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
   // var details = Get.arguments;
@@ -78,7 +78,6 @@ class _GymDetailsState extends State<GymDetails> {
             print(Get.arguments);
           },
         ),
-
       ),
       body: SafeArea(
         child: Container(
@@ -131,18 +130,24 @@ class _GymDetailsState extends State<GymDetails> {
                     ),
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.005),
-                    Row(children: const [
-                      Icon(
+                    Row(children: [
+                      const Icon(
                         Icons.location_on,
                         size: 18,
                       ),
-                      Text(
+                      const Text(
                         'Barakar',
                         style: TextStyle(
                             fontWeight: FontWeight.w400, color: Colors.grey),
                       ),
-                      Spacer(),
-                      Icon(Icons.assistant_direction, color: Colors.green),
+                      const Spacer(),
+                      GestureDetector(
+                          onTap: () {
+                            Get.to(() => const Explore(),
+                                arguments: {"location": doc?["location"]});
+                          },
+                          child: const Icon(Icons.assistant_direction,
+                              color: Colors.green)),
                       Text('        ')
                     ]),
                     Row(children: const [
@@ -800,11 +805,11 @@ class _GymDetailsState extends State<GymDetails> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         onPressed: () {
           // Get.to(() =>
-              // Packeges(
-              //   // getFinalID: widget.getID,
-              //   // gymName: widget.gymName,
-              //   // gymLocation: widget.gymLocation,
-              // ));
+          // Packeges(
+          //   // getFinalID: widget.getID,
+          //   // gymName: widget.gymName,
+          //   // gymLocation: widget.gymLocation,
+          // ));
         },
         label: Text(
           "Explorer Packages",

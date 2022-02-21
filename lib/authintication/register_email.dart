@@ -6,6 +6,7 @@ import 'register_name.dart';
 
 import 'custom_register_route.dart';
 
+// ignore: must_be_immutable
 class Register2 extends StatelessWidget {
   static String id = "/register2_screen";
   TextEditingController email = TextEditingController();
@@ -16,28 +17,26 @@ class Register2 extends StatelessWidget {
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Container(
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('2',
+          title: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+           const Text('2',
                 style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400)),
+            color: Colors.black,
+            fontFamily: "Poppins",
+            fontSize: 14,
+            fontWeight: FontWeight.w400)),
             Text("/",
                 style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400)),
+            color: Colors.black,
+            fontFamily: "Poppins",
+            fontSize: 14,
+            fontWeight: FontWeight.w400)),
             Text('4',
                 style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400))
-          ])),
+            color: Colors.black,
+            fontFamily: "Poppins",
+            fontSize: 14,
+            fontWeight: FontWeight.w400))
+          ]),
           leading: GestureDetector(
             onTap: () {
               Navigator.push(

@@ -4,8 +4,10 @@ import 'register_email.dart';
 
 import 'custom_register_route.dart';
 
+// ignore: must_be_immutable
 class Register1 extends StatelessWidget {
   static String id = "/register1_screen";
+  // ignore: non_constant_identifier_names
   TextEditingController full_name = TextEditingController();
   @override
   Widget build(BuildContext context) {
