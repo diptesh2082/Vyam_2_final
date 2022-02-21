@@ -64,16 +64,17 @@ class _ZumbaUnisexState extends State<ZumbaUnisex> {
                                     print("${document[index]["name"]}");
                                     Get.to(
                                         () => GymDetails(
-                                              getID: document[index].id,
-                                              gymLocation: document[index]
-                                                  ["location"],
-                                              gymName: document[index]["name"],
+                                              // getID: document[index].id,
+                                              // gymLocation: document[index]
+                                              //     ["location"],
+                                              // gymName: document[index]["name"],
                                             ),
                                         arguments: {
                                           "id": document[index].id,
                                           "location": document[index]
                                               ["location"],
-                                          "name": document[index]["name"]
+                                          "name": document[index]["name"],
+                                          "docs": document[index]
                                         });
                                   },
                                   child: ClipRRect(
@@ -116,6 +117,8 @@ class _ZumbaUnisexState extends State<ZumbaUnisex> {
                                         ),
                                         Text(
                                           document[index]["address"],
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(
                                               color: Colors.white,

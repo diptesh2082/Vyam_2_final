@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:get/get.dart';
@@ -10,16 +11,18 @@ import 'package:vyam_2_final/controllers/packages/packages.dart';
 import 'know_trainer.dart';
 
 class GymDetails extends StatefulWidget {
-  final gymName;
-  final getID;
-  final gymLocation;
-
-  const GymDetails(
-      {Key? key,
-      required this.getID,
-      required this.gymName,
-      required this.gymLocation})
-      : super(key: key);
+  // final gymName;
+  // final getID;
+  // final gymLocation;
+  // final docs;
+  // const GymDetails(
+  //     {Key? key,
+  //     required this.getID,
+  //     required this.gymName,
+  //     required this.gymLocation, this.docs,
+  //     // required this.docs
+  //     })
+  //     : super(key: key);
 
   @override
   _GymDetailsState createState() => _GymDetailsState();
@@ -39,8 +42,25 @@ class _GymDetailsState extends State<GymDetails> {
     "assets/images/transf3.jpeg",
     "assets/images/transf5.jpeg",
   ];
+  var doc =Get.arguments;
+  // CollectionReference<Map<String, dynamic>> userData()=> FirebaseFirestore.instance
+  //     .collection("product_details")
+  //     .snapshots()
+  //     .map((event) => event.docs.map((e) => ))
+  // ;
+  //
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // UserDetails(widget.getID);
+    // userData();
+    super.initState();
+  }
+
 
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
+  // var details = Get.arguments;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,15 +75,10 @@ class _GymDetailsState extends State<GymDetails> {
           ),
           onPressed: () {
             Get.back();
+            print(Get.arguments);
           },
         ),
-        title: const Text(
-          ""
-          "Gyms",
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
+
       ),
       body: SafeArea(
         child: Container(
@@ -78,7 +93,7 @@ class _GymDetailsState extends State<GymDetails> {
 //                  shrinkWrap: true,
                   children: [
                     const SizedBox(
-                      height: 8,
+                      height: 2,
                     ),
                     ClipRRect(
                         borderRadius: BorderRadius.circular(14.0),
@@ -101,7 +116,7 @@ class _GymDetailsState extends State<GymDetails> {
                     Row(
                       children: [
                         Text(
-                          widget.gymName,
+                          "${doc["name"]}",
                           style: const TextStyle(
                               color: Colors.black,
                               fontFamily: "Poppins",
@@ -139,9 +154,9 @@ class _GymDetailsState extends State<GymDetails> {
                               fontSize: 10)),
                       Text('     ')
                     ]),
-                    const Text(
-                      'Bus stand, Barakar, near pratham lodge',
-                      style: TextStyle(
+                    Text(
+                      '${doc["docs"]["address"]}',
+                      style: const TextStyle(
                           color: Colors.black,
                           fontFamily: "Poppins",
                           fontSize: 12,
@@ -784,11 +799,12 @@ class _GymDetailsState extends State<GymDetails> {
         splashColor: Colors.amber,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         onPressed: () {
-          Get.to(() => Packeges(
-                getFinalID: widget.getID,
-                gymName: widget.gymName,
-                gymLocation: widget.gymLocation,
-              ));
+          // Get.to(() =>
+              // Packeges(
+              //   // getFinalID: widget.getID,
+              //   // gymName: widget.gymName,
+              //   // gymLocation: widget.gymLocation,
+              // ));
         },
         label: Text(
           "Explorer Packages",

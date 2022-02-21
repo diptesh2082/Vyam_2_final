@@ -68,6 +68,7 @@ class _FirstHomeState extends State<FirstHome> {
     userDetails.getData();
     // userLocation();
     myLocation();
+    getNumber();
 
     // int getDays = int.parse(daysLeft[0]["dayleft"]);
     // getDays = 28 - getDays;
@@ -161,6 +162,8 @@ class _FirstHomeState extends State<FirstHome> {
   // }
 
   String pin = "";
+  String locality="";
+  String subLocality="";
 
   // ignore: non_constant_identifier_names
   Future<void> GetAddressFromLatLong(Position position) async {
@@ -168,13 +171,16 @@ class _FirstHomeState extends State<FirstHome> {
     await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
 
-    address = "${place.name},${place.street},${place.postalCode}";
+    address = "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
     pin = "${place.postalCode}";
+    locality="${place.locality}";
+    subLocality="${place.subLocality}";
   }
 
   List<DocumentSnapshot> document = [];
 
   String searchGymName = '';
+  BannerApi bannerApi = BannerApi();
 
   @override
   Widget build(BuildContext context) {
@@ -207,12 +213,15 @@ class _FirstHomeState extends State<FirstHome> {
                   });
                   await FirebaseFirestore.instance
                       .collection("user_details")
-                      .doc("7407926060")
+                      .doc(number)
                       .update({
                     "address": address,
                     "lat": position.latitude,
                     "long": position.longitude,
-                    "pin": pin
+                    "pin": pin,
+                    "locality":locality,
+                    "subLocality": locality,
+                    "number": number
                   });
                 },
               ),
@@ -280,28 +289,35 @@ class _FirstHomeState extends State<FirstHome> {
                 onTap: () {
                   Get.to(CouponDetails());
                 },
-                child:
-                // StreamBuilder<QuerySnapshot>(
-                //   stream: ,
-                //   builder: ,
-                // )
-                SizedBox(
+                child: SizedBox(
                   height: 140,
-                  child: ListView.builder(
-                    // controller: _controller.,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: controller.boards.length,
-                    itemBuilder: (context, int index) {
-                      return SizedBox(
-                        height: 120,
-                        child: Row(
-                          children: [
-                            Image.asset(controller.boards[index].imageAssets),
-                            const SizedBox(
-                              width: 10,
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: bannerApi.getBanner,
+                    builder: (context, AsyncSnapshot streamSnapshot) {
+                      if (streamSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      final data = streamSnapshot.requireData;
+                      return ListView.builder(
+                        // controller: _controller.,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: data.size,
+                        itemBuilder: (context, int index) {
+                          return SizedBox(
+                            height: 120,
+                            child: Row(
+                              children: [
+                                Image.network(data.docs[index]["image"]),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -394,20 +410,20 @@ class _FirstHomeState extends State<FirstHome> {
                                       print("${document[index]["name"]}");
                                       Get.to(
                                               () => GymDetails(
-                                            getID: document[index].id,
-                                            gymLocation:
-                                            document[index]
-                                            ["location"],
-                                            gymName: document[index]
-                                            ["name"],
+                                            // getID: document[index].id,
+                                            // gymLocation:
+                                            // document[index]
+                                            // ["location"],
+                                            // gymName: document[index]
+                                            // ["name"],
                                           ),
                                           arguments: {
                                             "id": document[index].id,
-                                            "location": document[index]
-                                            ["location"],
-                                            "name": document[index]
-                                            ["name"]
-                                          });
+                                            "location": document[index]["location"],
+                                            "name": document[index]["name"],
+                                            "docs": document[index]
+                                          }
+                                          );
                                     },
                                     child: ClipRRect(
                                       borderRadius:
@@ -439,8 +455,8 @@ class _FirstHomeState extends State<FirstHome> {
                                             document[index]["name"],
                                             textAlign: TextAlign.center,
                                             maxLines: 1,
-                                            overflow:
-                                            TextOverflow.ellipsis,
+                                            // overflow:
+                                            // TextOverflow.ellipsis,
                                             style: const TextStyle(
                                                 color: Colors.white,
                                                 fontFamily: "Poppins",
@@ -455,6 +471,7 @@ class _FirstHomeState extends State<FirstHome> {
                                             document[index]["address"],
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
+                                              overflow: TextOverflow.ellipsis,
                                                 color: Colors.white,
                                                 fontFamily: "Poppins",
                                                 fontSize: 12,

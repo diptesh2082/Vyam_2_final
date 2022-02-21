@@ -64,16 +64,18 @@ class _YogaFeMaleState extends State<YogaFeMale> {
                                     print("${document[index]["name"]}");
                                     Get.to(
                                         () => GymDetails(
-                                              getID: document[index].id,
-                                              gymLocation: document[index]
-                                                  ["location"],
-                                              gymName: document[index]["name"],
+                                              // getID: document[index].id,
+                                              // gymLocation: document[index]
+                                              //     ["location"],
+                                              // gymName: document[index]["name"],
                                             ),
                                         arguments: {
                                           "id": document[index].id,
                                           "location": document[index]
                                               ["location"],
-                                          "name": document[index]["name"]
+                                          "name": document[index]["name"],
+                                          "docs": document[index]
+
                                         });
                                   },
                                   child: ClipRRect(
@@ -117,6 +119,8 @@ class _YogaFeMaleState extends State<YogaFeMale> {
                                         Text(
                                           document[index]["address"],
                                           textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
                                           style: const TextStyle(
                                               color: Colors.white,
                                               fontFamily: "Poppins",
