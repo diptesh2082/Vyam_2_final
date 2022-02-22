@@ -11,7 +11,7 @@ import 'package:vyam_2_final/Home/views/genderzumba/zumba_female.dart';
 import 'package:vyam_2_final/Home/views/genderzumba/zumba_gender.dart';
 import 'package:vyam_2_final/Home/views/genderzumba/zumba_male.dart';
 import 'package:vyam_2_final/Home/views/genderzumba/zumba_unisex.dart';
-import 'package:vyam_2_final/Home/views/product_gym.dart';
+import 'package:vyam_2_final/Home/views/products.dart';
 import 'package:get/get.dart';
 
 import 'package:vyam_2_final/controllers/home_controller.dart';

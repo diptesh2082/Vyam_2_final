@@ -68,6 +68,7 @@ class _ExploreState extends State<Explore> {
     yield stream;
   }
 
+
   void initMarker(specify, specifyId) async {
     var markerIdVal = specifyId;
     final MarkerId markerId = MarkerId(markerIdVal);
@@ -98,9 +99,14 @@ class _ExploreState extends State<Explore> {
     });
   }
 
+  var doc = Get.arguments;
+
   @override
   void initState() {
     getMarkerData();
+    if(doc != null){
+      _gotoLocation(doc["location"].latitude, doc["location"].longitude);
+    }
     super.initState();
   }
 
@@ -108,17 +114,20 @@ class _ExploreState extends State<Explore> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
-          onChanged: (value) {
-            setState(() {
-              searchGymName = value.toString();
-            });
-            print(searchGymName);
-          },
-          decoration: const InputDecoration(
-              hintText: 'Barakar, West Bengal',
-              hintStyle: TextStyle(fontWeight: FontWeight.bold),
-              prefixIcon: Icon(Icons.search)),
+        title: Transform(
+          transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
+          child: TextField(
+            onChanged: (value) {
+              setState(() {
+                searchGymName = value.toString();
+              });
+              // print(searchGymName);
+            },
+            decoration: const InputDecoration(
+                hintText: 'Barakar, West Bengal',
+                hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                prefixIcon: Icon(Icons.search)),
+          ),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -277,11 +286,16 @@ class _ExploreState extends State<Explore> {
           ],
         ),
         const SizedBox(height: 5.0),
-        Text(
-          address,
-          style: const TextStyle(
-            color: Colors.black87,
-            fontSize: 20.0,
+        SizedBox(
+          width: 200,
+          child: Text(
+            address,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: const TextStyle(
+              color: Colors.black87,
+              fontSize: 20.0,
+            ),
           ),
         ),
         const SizedBox(height: 5.0),

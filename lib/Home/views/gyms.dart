@@ -7,7 +7,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/views/gendergyms/gym_female.dart';
 import 'package:vyam_2_final/Home/views/gendergyms/gym_male.dart';
 import 'package:vyam_2_final/Home/views/gendergyms/gym_unisex.dart';
-import 'package:vyam_2_final/Home/views/product_gym.dart';
+import 'package:vyam_2_final/Home/views/products.dart';
 import 'package:get/get.dart';
 import 'package:vyam_2_final/booking/active.dart';
 import 'package:vyam_2_final/booking/older.dart';

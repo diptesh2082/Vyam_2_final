@@ -11,6 +11,8 @@ import 'package:vyam_2_final/controllers/packages/packages.dart';
 
 import 'package:vyam_2_final/Home/bookings/know_trainer.dart';
 
+import '../views/explore.dart';
+
 class GymDetails extends StatefulWidget {
   // final gymName;
   // final getID;
@@ -222,25 +224,31 @@ class _GymDetailsState extends State<GymDetails> {
                       ),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.005),
-                      Row(children: const [
-                        Icon(
+                      Row(children:  [
+                        const Icon(
                           Icons.location_on,
                           size: 18,
                         ),
-                        Text(
+                        const Text(
                           'Barakar',
                           style: TextStyle(
                               fontWeight: FontWeight.w400, color: Colors.grey),
                         ),
                         Spacer(),
-                        Icon(Icons.assistant_direction, color: Colors.green),
-                        Text('        ')
+                        GestureDetector(
+                            onTap: (){
+                              Get.to(() => const Explore(),
+                                  arguments: {"location": doc?["location"]});
+                            },
+                            child: const Icon(Icons.assistant_direction, color: Colors.green)),
+                        Text('       ')
                       ]),
                       Row(children:  [
                         const Spacer(),
                         Padding(
                           padding: const EdgeInsets.only(right: 25.0),
                           child: GestureDetector(
+
                             child: const Text('Navigate',
                                 style: TextStyle(
                                     fontFamily: 'poppins',

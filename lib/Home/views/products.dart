@@ -7,9 +7,9 @@ import 'package:get/get.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
-class ProductGyms extends StatelessWidget {
+class Products extends StatelessWidget {
   // const ProductGyms({Key? key}) : super(key: key);
-  ProductGyms(this.controller, this.length);
+  Products(this.controller, this.length);
   final List controller;
   final double length;
 
