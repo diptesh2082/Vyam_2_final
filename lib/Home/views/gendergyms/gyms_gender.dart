@@ -48,12 +48,13 @@ class _GymAllState extends State<GymAll> {
             var document = streamSnapshot.data.docs;
             return document.isNotEmpty
                 ? ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: const  BouncingScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: document.length,
                     itemBuilder: (context, int index) {
-                      if ("${document[index]['gender']}".toLowerCase() ==
-                              "all" &&
+                      if (
+                      // "${document[index]['gender']}".toLowerCase() ==
+                      //         "all" &&
                           document[index]['service'].contains("gym")) {
                         return Column(
                           children: [

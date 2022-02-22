@@ -37,7 +37,7 @@ class _GymUnisexState extends State<GymUnisex> {
         padding:
             const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
         child: StreamBuilder(
-          stream: gymAll.getGymDetails,
+          stream: gymAll.getUnisexGym,
           builder: (context, AsyncSnapshot streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -48,7 +48,7 @@ class _GymUnisexState extends State<GymUnisex> {
             var document = streamSnapshot.data.docs;
             return document.isNotEmpty
                 ? ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: document.length,
                     itemBuilder: (context, int index) {

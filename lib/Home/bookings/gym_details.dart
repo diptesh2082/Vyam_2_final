@@ -1008,7 +1008,7 @@ class _GymDetailsState extends State<GymDetails> {
         onPressed: () {
           Get.to(() =>
               Packeges(
-              getFinalID: doc["Id"],
+              getFinalID: doc["id"],
               gymName: doc["name"],
               gymLocation: doc["location"],
           )

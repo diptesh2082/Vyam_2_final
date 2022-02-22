@@ -174,6 +174,21 @@ class GymAllApi {
       .collection("product_details")
       .where("pincode", isEqualTo: "700091")
       .snapshots();
+  Stream<QuerySnapshot> getMaleGym = FirebaseFirestore.instance
+      .collection("product_details")
+      .where("pincode", isEqualTo: "700091")
+      .where("gender", isEqualTo: "male")
+      .snapshots();
+  Stream<QuerySnapshot> getFemaleGym = FirebaseFirestore.instance
+      .collection("product_details")
+      .where("pincode", isEqualTo: "700091")
+      .where("gender", isEqualTo: "female")
+      .snapshots();
+  Stream<QuerySnapshot> getUnisexGym = FirebaseFirestore.instance
+      .collection("product_details")
+      .where("pincode", isEqualTo: "700091")
+      .where("gender", isEqualTo: "unisex")
+      .snapshots();
 }
 
 // class GymApi {

@@ -182,7 +182,7 @@ class _GymOptionState extends State<GymOption> {
         ),
         body: const TabBarView(
             physics: NeverScrollableScrollPhysics(),
-            children: [GymAll(), GymMale(), GymFeMale(), GymUnisex()]),
+            children: [GymAll(), GymMale(), GymFemale(), GymUnisex()]),
       ),
     );
   }

@@ -41,7 +41,8 @@ class _PackegesState extends State<Packeges> {
             color: Colors.black,
           ),
           onPressed: () {
-            Get.back();
+            // Get.back();
+            print(widget.getFinalID);
           },
         ),
         elevation: 0,

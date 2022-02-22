@@ -8,16 +8,16 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
-class GymFeMale extends StatefulWidget {
-  const GymFeMale({
+class GymFemale extends StatefulWidget {
+  const GymFemale({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<GymFeMale> createState() => _GymFeMaleState();
+  State<GymFemale> createState() => _GymFemaleState();
 }
 
-class _GymFeMaleState extends State<GymFeMale> {
+class _GymFemaleState extends State<GymFemale> {
   List events = [];
   List notificationList = [];
 
@@ -37,7 +37,7 @@ class _GymFeMaleState extends State<GymFeMale> {
         padding:
             const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
         child: StreamBuilder(
-          stream: gymAll.getGymDetails,
+          stream: gymAll.getFemaleGym,
           builder: (context, AsyncSnapshot streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -48,7 +48,7 @@ class _GymFeMaleState extends State<GymFeMale> {
             var document = streamSnapshot.data.docs;
             return document.isNotEmpty
                 ? ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: document.length,
                     itemBuilder: (context, int index) {
