@@ -17,6 +17,12 @@ getNumber() async {
   print(number);
 }
 
+class UserId {
+  getId() {
+    return number;
+  }
+}
+
 class UserDetails {
   final collectionRef = FirebaseFirestore.instance.collection('user_details');
   List userData = [];
@@ -33,6 +39,12 @@ class UserDetails {
       // ignore: avoid_print
       print(e.toString());
     }
+  }
+}
+
+class SaveUserDetails {
+  saveUserData() {
+    firestore.collection("user_details").doc(number).update({});
   }
 }
 
@@ -82,9 +94,8 @@ class CouponApi {
 }
 
 class BannerApi {
- Stream<QuerySnapshot> getBanner = FirebaseFirestore.instance
-      .collection('banner_details')
-      .snapshots();
+  Stream<QuerySnapshot> getBanner =
+      FirebaseFirestore.instance.collection('banner_details').snapshots();
 }
 
 class UpcomingApi {
@@ -130,6 +141,7 @@ class GymDetailApi {
       .snapshots();
 }
 
+
 setVisitingFlag() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setBool("alreadyVisited", true);
@@ -147,7 +159,7 @@ class UserApi {
     final docUser =
         FirebaseFirestore.instance.collection("user_details").doc(number);
     // userModel.userId = docUser.id;
-    number=docUser.id;
+    number = docUser.id;
     final myJson = {
       'userId': docUser.id,
       "name": name,

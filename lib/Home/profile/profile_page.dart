@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,30 +6,56 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/profile/faq.dart';
 import 'package:vyam_2_final/Home/profile/profile.dart';
+import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/regitration_from.dart';
 
-class ProfilePart extends StatelessWidget {
+class ProfilePart extends StatefulWidget {
   ProfilePart({Key? key}) : super(key: key);
+
+  @override
+  State<ProfilePart> createState() => _ProfilePartState();
+}
+
+class _ProfilePartState extends State<ProfilePart> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  UserDetails userDetails = UserDetails();
+  String name = "";
+  String email = "";
+  String phone = "";
+  String id = "7407926060";
+
+  Future getUserData() async {
+    DocumentReference userName =
+        await FirebaseFirestore.instance.collection('user_details').doc(id);
+    userName.snapshots().listen((snapshot) {
+      setState(() {
+        name = snapshot.get('name');
+        email = snapshot.get('email');
+        phone = snapshot.get('number');
+      });
+      print(name);
+      print(email);
+      print(phone);
+    });
+  }
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // final FirebaseAuth _auth =FirebaseAuth.instance;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.grey[100],
           centerTitle: true,
-
-          // leading: IconButton(
-          //   icon: const Icon(
-          //     Icons.arrow_back_ios_new,
-          //     color: Colors.black,
-          //   ),
-          //   onPressed: () {
-          //     Get.back();
-          //   },
-          // ),
           title: const Text(
             "Profile",
             style: TextStyle(
@@ -51,7 +78,7 @@ class ProfilePart extends StatelessWidget {
                       color: Colors.white,
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -75,19 +102,20 @@ class ProfilePart extends StatelessWidget {
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: CircleAvatar(
-                                          radius: size.width / 7,
-                                          backgroundColor: Colors.yellowAccent,
-                                          child: IconButton(
-                                            iconSize: 100,
-                                            onPressed: () {
-                                              // pickImage(ImageSource.gallery);
-                                            },
-                                            icon: const Icon(
-                                              Icons.add_a_photo_outlined,
-                                              size: 70,
-                                              color: Colors.black87,
-                                            ),
-                                          )),
+                                        radius: size.width / 7,
+                                        backgroundColor: Colors.yellowAccent,
+                                        child: IconButton(
+                                          iconSize: 50,
+                                          onPressed: () {
+                                            // pickImage(ImageSource.gallery);
+                                          },
+                                          icon: const Icon(
+                                            Icons.add_a_photo_outlined,
+                                            size: 70,
+                                            color: Colors.black87,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -98,26 +126,26 @@ class ProfilePart extends StatelessWidget {
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text(
-                                  "Jessica James",
-                                  style: TextStyle(
+                                  name,
+                                  style: const TextStyle(
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.w600),
                                 ),
                                 Text(
-                                  "alma.lawson@example.com",
+                                  email,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.w400),
                                 ),
                                 Text(
-                                  "0091009835",
+                                  phone,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.w400),
                                 ),

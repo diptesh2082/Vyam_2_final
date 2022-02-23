@@ -258,6 +258,7 @@ class _ExploreState extends State<Explore> {
             color: Colors.black87,
             fontSize: 20.0,
           ),
+          
         ),
         const SizedBox(height: 5.0),
         Row(

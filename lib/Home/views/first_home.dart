@@ -13,15 +13,9 @@ import 'package:google_maps_webservice/places.dart' as core;
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
-import 'package:vyam_2_final/Home/views/yogaoptions.dart';
-import 'package:vyam_2_final/Home/views/zumbaoption.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'package:vyam_2_final/controllers/location_controller.dart';
-import 'package:vyam_2_final/controllers/package_controller.dart';
-import 'package:vyam_2_final/gymtype/gymtype.dart';
-import 'package:vyam_2_final/gymtype/yogatype.dart';
-import 'package:vyam_2_final/gymtype/zumbatype.dart';
 import '../../Notifications/notification.dart';
 import 'gyms.dart';
 
