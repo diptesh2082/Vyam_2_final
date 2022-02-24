@@ -521,31 +521,32 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     )
                   ],
                 ),
-                const SizedBox(
-                  width: 80,
-                ),
-                SizedBox(
-                  height: 50,
-                  width: 190,
-                  child: FloatingActionButton.extended(
-                    backgroundColor: Colors.green,
-                    elevation: 8,
-                    splashColor: Colors.amber,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    onPressed: () {
-                      _payment();
-                      // Get.to(() => Packeges(
-                      //   getFinalID: widget.getID,
-                      //   gymName: widget.gymName,
-                      //   gymLocation: widget.gymLocation,
-                      // ));
-                    },
-                    label: Text(
-                      "Pay",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+               const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: SizedBox(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width*.4,
+                    child: FloatingActionButton.extended(
+                      backgroundColor: Colors.green,
+                      elevation: 8,
+                      splashColor: Colors.amber,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      onPressed: () {
+                        _payment();
+                        // Get.to(() => Packeges(
+                        //   getFinalID: widget.getID,
+                        //   gymName: widget.gymName,
+                        //   gymLocation: widget.gymLocation,
+                        // ));
+                      },
+                      label: Text(
+                        "Pay",
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),

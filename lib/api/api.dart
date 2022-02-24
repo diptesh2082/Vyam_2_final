@@ -5,6 +5,7 @@ import 'package:location/location.dart';
 
 // ignore: prefer_typing_uninitialized_variables
 var number;
+var address;
 Location location = Location();
 Geoflutterfire geo = Geoflutterfire();
 FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -13,7 +14,11 @@ getNumber() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalNumber = sharedPreferences.getString("number");
   number = finalNumber.toString();
-  print(number);
+}
+getAddress() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  var finalAddress = sharedPreferences.getString("pin");
+  address = finalAddress .toString();
 }
 
 class UserDetails {
@@ -141,7 +146,7 @@ getVisitedFlag() async {
 
 class UserApi {
   // static const number = "";
-  static Future createUser(String name, String number, String email) async {
+  static Future createUserName(String name) async {
     final docUser =
         FirebaseFirestore.instance.collection("user_details").doc(number);
     // userModel.userId = docUser.id;
@@ -149,10 +154,38 @@ class UserApi {
     final myJson = {
       'userId': docUser.id,
       "name": name,
-      "email": email,
+    };
+    await docUser.update(myJson);
+  }
+
+  static Future CreateUserNumber (String number) async {
+    final docUser =
+    FirebaseFirestore.instance.collection("user_details").doc(number);
+    // userModel.userId = docUser.id;
+    final myJson = {
       "number": number,
     };
-    await docUser.set(myJson);
+    await docUser.update(myJson);
+  }
+  static Future CreateUserEmail (String email) async {
+    final docUser =
+    FirebaseFirestore.instance.collection("user_details").doc(number);
+    // userModel.userId = docUser.id;
+
+    final myJson = {
+      "email": email,
+    };
+    await docUser.update(myJson);
+  }
+  static Future CreateUserGender (String gender) async {
+    final docUser =
+    FirebaseFirestore.instance.collection("user_details").doc(number);
+    // userModel.userId = docUser.id;
+    final myJson = {
+
+      "gender": gender,
+    };
+    await docUser.update(myJson);
   }
 
   static Future updateUserAddress(
@@ -186,7 +219,7 @@ class GymAllApi {
       .snapshots();
   Stream<QuerySnapshot> getUnisexGym = FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: "700091")
+      .where("pincode", isEqualTo: address)
       .where("gender", isEqualTo: "unisex")
       .snapshots();
 }

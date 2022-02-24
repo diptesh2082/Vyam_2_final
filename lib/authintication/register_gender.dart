@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vyam_2_final/api/api.dart';
 
 
 import 'register_email.dart';
@@ -6,9 +7,18 @@ import 'rphoto.dart';
 
 import 'custom_register_route.dart';
 
-class Register3 extends StatelessWidget {
+class Register3 extends StatefulWidget {
   static String id = "/register3_screen";
- 
+
+  Register3({Key? key}) : super(key: key);
+
+  @override
+  State<Register3> createState() => _Register3State();
+}
+
+class _Register3State extends State<Register3> {
+  String gender="";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +28,7 @@ class Register3 extends StatelessWidget {
           elevation: 0,
           title: Container(
               child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
             Text('3', //_current1.toString(),
                 style: TextStyle(
                     color: Colors.black,
@@ -46,7 +56,7 @@ class Register3 extends StatelessWidget {
                     child: Register2(),
                   ));
             },
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back_ios_new_outlined,
               color: Colors.black,
             ),
@@ -68,14 +78,24 @@ class Register3 extends StatelessWidget {
                       child: Register4(),
                       type: PageTransitionType.rightToLeftWithFade)*/
                   );
+              UserApi.CreateUserGender(gender);
             },
             backgroundColor: Colors.amber.shade300,
-            child: Icon(
+            child: const Icon(
               Icons.arrow_forward_ios_outlined,
               color: Colors.black,
             )),
       ),
-      body: rgender(context),
+      body: Stack(
+        children: [
+          Hero(
+              tag: "register",
+              child: Padding(
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/8.5),
+                  child: Image.asset('assets/Illustrations/gym_pana_3.png'))),
+          rgender(context),
+        ],
+      ),
     );
   }
 
@@ -84,132 +104,146 @@ class Register3 extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      'You are a ?',
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 25,
+                          color: Colors.black),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        'You are ?',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 25,
-                            color: Colors.black),
-                      ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      'Help us tailor the experience',
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          color: Colors.grey),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        'Help us tailor the experience',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                            color: Colors.grey),
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    SizedBox(
-                        height: MediaQuery.of(context).size.height / 16,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.25,
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      elevation: MaterialStateProperty.all(4),
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ))),
-                                  child: Row(
-                                    children: [
-                                      const Text(
-                                        'Male',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'poppins',
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14),
-                                      ),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.001,
-                                      ),
-                                      Icon(
-                                        Icons.male,
-                                        color: Colors.black,
-                                        size: 22,
-                                      ),
-                                    ],
-                                  ),
-                                  onPressed: () {},
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  SizedBox(
+                      height: MediaQuery.of(context).size.height / 16,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 96,
+                              height: 40,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    elevation: MaterialStateProperty.all(4),
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                           gender=="male"?  Colors.black87 : Colors.white
+                                        ),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ))),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Male',
+                                      style: TextStyle(
+                                          color: gender =="male"? Colors.white : Colors.black87 ,
+                                          fontFamily: 'poppins',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12),
+                                    ),
+                                    Spacer(),
+                                    // SizedBox(
+                                    //   width:
+                                    //       MediaQuery.of(context).size.width *
+                                    //           0.001,
+                                    // ),
+                                    Icon(
+                                      Icons.male,
+                                      color: gender=="male"? Colors.white : Colors.black87 ,
+                                      size: 20,
+                                    ),
+                                  ],
                                 ),
+                                onPressed: () {
+                                  setState(() {
+                                    gender = "male";
+                                  });
+
+                                },
                               ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.03,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.28,
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                      elevation: MaterialStateProperty.all(4),
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ))),
-                                  child: Row(
-                                    children: [
-                                      const Text(
-                                        'Female',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'poppins',
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14),
-                                      ),
-                                      Icon(
-                                        Icons.female,
-                                        color: Colors.black,
-                                        size: 22,
-                                      ),
-                                    ],
-                                  ),
-                                  onPressed: () {},
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.03,
+                            ),
+                            SizedBox(
+                              width: 100,
+                              height: 40,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    elevation: MaterialStateProperty.all(4),
+                                    backgroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            gender=="female"?  Colors.black87 : Colors.white
+                                        ),
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ))),
+                                child: Row(
+                                  children:  [
+                                    Text(
+                                      'Female',
+                                      style: TextStyle(
+                                          color: gender=="female"? Colors.white : Colors.black87 ,
+                                          fontFamily: 'poppins',
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12),
+                                    ),
+                                    Spacer(),
+                                    Icon(
+                                      Icons.female,
+                                      color: gender=="female"? Colors.white : Colors.black87 ,
+                                      size: 20,
+                                    ),
+                                  ],
                                 ),
+                                onPressed: () {
+                                  setState(() {
+                                    gender = "female";
+                                  });
+
+                                },
                               ),
-                            ],
-                          ),
-                        )),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Container(
-                          width: double.infinity,
-                          child: Image.asset('assets/Illustrations/gym_pana_3.png')),
-                    ),
-                  ],
-                ),
+                            ),
+                          ],
+                        ),
+                      )),
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width,
+                  //   child: Container(
+                  //       width: double.infinity,
+                  //       child: Image.asset('assets/Illustrations/gym_pana_3.png')),
+                  // ),
+                ],
               )
             ],
           )

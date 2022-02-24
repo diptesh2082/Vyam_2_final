@@ -22,26 +22,82 @@ class _HomePageState extends State<HomePage> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.home),
-        title: ("Home"),
+        icon: Column(
+          children: const [
+            ImageIcon(
+              AssetImage("assets/icons/Vector.png"),
+              size: 30,
+            ),
+            Text("Home",
+            style: TextStyle(
+              fontSize: 12,
+              fontFamily: "Poppins",
+              fontWeight: FontWeight.w400,
+            ),
+            )
+          ],
+        ),
+        // title: ("Home"),
         activeColorPrimary: CupertinoColors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.book),
-        title: ("Bookings"),
+        icon: Column(
+          children: const [
+            ImageIcon(
+              AssetImage("assets/icons/active.png"),
+              size: 30,
+            ),
+            Text("Bookings",
+              style: TextStyle(
+                fontSize: 12,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w400,
+              ),
+            )
+          ],
+        ),
+        // title: ("Bookings"),
         activeColorPrimary: CupertinoColors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.explore),
-        title: ("Explore"),
+        icon: Column(
+          children: const [
+            ImageIcon(
+              AssetImage("assets/icons/Discovery.png"),
+              size: 30,
+            ),
+            Text("Explore",
+            style: TextStyle(
+              fontSize: 12,
+              fontFamily: "Poppins",
+              fontWeight: FontWeight.w400,
+            ),
+            )
+          ],
+        ),
+        // title: ("Explore"),
         activeColorPrimary: CupertinoColors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.profile_circled),
-        title: ("Profile"),
+        icon: Column(
+          children: const [
+            ImageIcon(
+              AssetImage("assets/icons/profile.png"),
+              size: 30,
+            ),
+            Text("Profile",
+              style: TextStyle(
+                fontSize: 12,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w400,
+              ),
+            )
+          ],
+        ),
+        // title: ("Profile"),
         activeColorPrimary: CupertinoColors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
@@ -75,6 +131,7 @@ class _HomePageState extends State<HomePage> {
       body: PersistentTabView(
         context,
         controller: _controller,
+        navBarHeight: 65,
         screens: _buildScreens(),
         items: _navBarsItems(),
         confineInSafeArea: true,

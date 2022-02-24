@@ -225,7 +225,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 onPressed: () async {
                                   // print(address);
                                   // final user = UserModel(userId: "7407926060",email: ,number: ,name: );
-                                    await UserApi.createUser(nameController.text,numberController.text,emailController.text);
+                                    await UserApi.createUserName(nameController.text);
                                       Get.toNamed(HomePage.id
                                       );
                                 },

@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_webservice/places.dart' as core;
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/Home/views/yogaoptions.dart';
@@ -62,6 +63,13 @@ class _FirstHomeState extends State<FirstHome> {
 
   UserDetails userDetails = UserDetails();
   NotificationApi notificationApi = NotificationApi();
+
+  getAddressPin(var number) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    getAddress();
+    sharedPreferences.setString("pin", number.toString());
+    getAddress();
+  }
 
   @override
   void initState() {
@@ -206,6 +214,7 @@ class _FirstHomeState extends State<FirstHome> {
                   await GetAddressFromLatLong(position);
                   await UserApi.updateUserAddress(
                       address, [position.latitude, position.longitude], pin);
+                  await getAddressPin(pin);
 
                   setState(() {
                     address = address;
@@ -278,9 +287,9 @@ class _FirstHomeState extends State<FirstHome> {
                   print('Submitted text: $value');
                 },
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              // const SizedBox(
+              //   height: 4,
+              // ),
               if (getPercentage != 100) ProgressCard(context),
               const SizedBox(
                 height: 15,
@@ -290,7 +299,7 @@ class _FirstHomeState extends State<FirstHome> {
                   Get.to(CouponDetails());
                 },
                 child: SizedBox(
-                  height: 140,
+                  height: 135,
                   child: StreamBuilder<QuerySnapshot>(
                     stream: bannerApi.getBanner,
                     builder: (context, AsyncSnapshot streamSnapshot) {

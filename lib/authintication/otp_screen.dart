@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
+import 'package:vyam_2_final/authintication/register_name.dart';
 // import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/colors/color.dart';
 
@@ -22,7 +23,7 @@ class _OtpPageState extends State<OtpPage> {
     getNumber();
     sharedPreferences.setString("number", number.toString());
     getNumber();
-    Get.offAll(() => HomePage());
+    Get.offAll(() => Register1());
   }
 
   var value = Get.arguments;
