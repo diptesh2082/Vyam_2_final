@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyam_2_final/Themes/themes.dart';
+import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/otp_screen.dart';
 import 'package:vyam_2_final/authintication/register_email.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: Themes().lightTheme,
 
-      home:   const LoginPage(),
+      home:  const LoginPage()  ,
       // initialRoute: ,
       getPages: [
         GetPage(name: HomePage.id, page: () => HomePage()),

@@ -67,22 +67,6 @@ class _GymDetailsState extends State<GymDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        backgroundColor: Colors.grey[100],
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Get.back();
-            print(Get.arguments);
-          },
-        ),
-
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(6.0),
@@ -98,6 +82,9 @@ class _GymDetailsState extends State<GymDetails> {
                 child: ListView(
 
                     children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
 
                       ClipRRect(
                           borderRadius: BorderRadius.circular(14.0),
@@ -111,6 +98,7 @@ class _GymDetailsState extends State<GymDetails> {
                                   return gymImages(image, index);
                                 },
                                 options: CarouselOptions(
+                                  height: 255,
                                     autoPlay: true,
                                     viewportFraction: 1,
                                     onPageChanged: (index, reason) {
@@ -155,13 +143,15 @@ class _GymDetailsState extends State<GymDetails> {
                                     )),
                               ),
                               Positioned(
-                                  left: MediaQuery.of(context).size.width * 0.03,
-                                  right: MediaQuery.of(context).size.width * 0.85,
-                                  top: MediaQuery.of(context).size.height * 0.01,
+                                left: 10,
+                                  // left: MediaQuery.of(context).size.width * 0.03,
+                                  // right: MediaQuery.of(context).size.width * 0.85,
+                                  // top: 100,
+                                  right: 280,
                                   child: GestureDetector(
                                     child: Container(
                                       height: 30,
-                                      width: double.maxFinite,
+                                      width: 0,
                                       color: Colors.black26,
                                       child: const Icon(
                                         Icons.arrow_back_outlined,
@@ -173,14 +163,15 @@ class _GymDetailsState extends State<GymDetails> {
                                     },
                                   )),
                               Positioned(
-                                left: MediaQuery.of(context).size.width * 0.8,
-                                right: MediaQuery.of(context).size.width * 0.03,
-                                bottom: MediaQuery.of(context).size.width * 0.03,
+                                // left: MediaQuery.of(context).size.width * 0.8,
+                                right: 10,
+                                bottom: 10,
+                                left: 280,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(10.0),
                                   child: Container(
                                       height: 28,
-                                      width: double.maxFinite,
+                                      width:0,
                                       color: Colors.black45,
                                       child: Row(
                                         children: [

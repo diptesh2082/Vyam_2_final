@@ -47,7 +47,8 @@ class _FirstHomeState extends State<FirstHome> {
   var data;
   String getDays = '0';
   int totalDays = 0;
-  String address = "your location";
+  var myaddress = "your location";
+  var address="";
   // var location = Get.arguments;
 
   myLocation() async {
@@ -56,7 +57,8 @@ class _FirstHomeState extends State<FirstHome> {
     collectionReference.snapshots().listen((snapshot) {
       setState(() {
         data = snapshot.docs[0].data();
-        address = data["address"];
+        myaddress = data["address"];
+        // print(myaddress);
       });
     });
   }
@@ -70,13 +72,35 @@ class _FirstHomeState extends State<FirstHome> {
     sharedPreferences.setString("pin", number.toString());
     getAddress();
   }
-
+getUserDetails()async{
+  Position position = await _determinePosition();
+  await GetAddressFromLatLong(position);
+  // await UserApi.updateUserAddress(
+  //     address, [position.latitude, position.longitude], pin
+  // );
+  await getAddressPin(pin);
+  await FirebaseFirestore.instance
+      .collection("user_details")
+      .doc(number)
+      .update({
+    "address": address,
+    "lat": position.latitude,
+    "long": position.longitude,
+    "pincode": pin,
+    "locality":locality,
+  });
+  myLocation();
+}
   @override
   void initState() {
+    getUserDetails();
+    // myLocation();
     userDetails.getData();
+    print(address2);
     // userLocation();
-    myLocation();
-    getNumber();
+
+
+    // getNumber();
 
     // int getDays = int.parse(daysLeft[0]["dayleft"]);
     // getDays = 28 - getDays;
@@ -131,6 +155,7 @@ class _FirstHomeState extends State<FirstHome> {
   final HomeController controller = Get.put(HomeController());
   final LocationController locationController = Get.put(LocationController());
 
+
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -172,7 +197,7 @@ class _FirstHomeState extends State<FirstHome> {
   String pin = "";
   String locality="";
   String subLocality="";
-
+  GymAllApi gymAll = GymAllApi();
   // ignore: non_constant_identifier_names
   Future<void> GetAddressFromLatLong(Position position) async {
     List<Placemark> placemark =
@@ -212,8 +237,9 @@ class _FirstHomeState extends State<FirstHome> {
                   // Get.back();
                   Position position = await _determinePosition();
                   await GetAddressFromLatLong(position);
-                  await UserApi.updateUserAddress(
-                      address, [position.latitude, position.longitude], pin);
+                  // await UserApi.updateUserAddress(
+                  //     address, [position.latitude, position.longitude], pin
+                  // );
                   await getAddressPin(pin);
 
                   setState(() {
@@ -227,7 +253,7 @@ class _FirstHomeState extends State<FirstHome> {
                     "address": address,
                     "lat": position.latitude,
                     "long": position.longitude,
-                    "pin": pin,
+                    "pincode": pin,
                     "locality":locality,
                     "subLocality": locality,
                     "number": number
@@ -237,7 +263,7 @@ class _FirstHomeState extends State<FirstHome> {
               SizedBox(
                 width: size.width * .55,
                 child: Text(
-                  address,
+                  myaddress,
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -384,7 +410,7 @@ class _FirstHomeState extends State<FirstHome> {
                 width: size.width * .94,
                 child: SingleChildScrollView(
                   child: StreamBuilder(
-                    stream: gymDetailApi.getGymDetails,
+                    stream: gymAll.getGymDetails,
                     builder: (context, AsyncSnapshot streamSnapshot) {
                       if (streamSnapshot.connectionState ==
                           ConnectionState.waiting) {

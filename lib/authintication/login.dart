@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/otp_screen.dart';
 import 'package:vyam_2_final/colors/color.dart';
 
@@ -12,10 +13,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   bool showLoding = false;
   TextEditingController phoneController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    print(number);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

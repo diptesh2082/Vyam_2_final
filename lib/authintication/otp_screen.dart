@@ -23,7 +23,8 @@ class _OtpPageState extends State<OtpPage> {
     getNumber();
     sharedPreferences.setString("number", number.toString());
     getNumber();
-    Get.offAll(() => Register1());
+    Get.offAll(() =>  HomePage());
+
   }
 
   var value = Get.arguments;
@@ -43,6 +44,7 @@ class _OtpPageState extends State<OtpPage> {
       });
       if (authCred.user != null) {
         getToHomePage(value[1]);
+
         // SharedPreferences preferences = await SharedPreferences.getInstance();
         //
         // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage()));
