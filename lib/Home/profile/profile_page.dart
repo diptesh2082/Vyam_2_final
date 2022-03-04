@@ -24,7 +24,8 @@ class _ProfilePartState extends State<ProfilePart> {
   String name = "";
   String email = "";
   String phone = "";
-  String id = "7407926060";
+  var imageUrl="";
+  final id = number;
 
   Future getUserData() async {
     DocumentReference userName =
@@ -34,6 +35,7 @@ class _ProfilePartState extends State<ProfilePart> {
         name = snapshot.get('name');
         email = snapshot.get('email');
         phone = snapshot.get('number');
+        imageUrl = snapshot.get("image");
       });
     });
   }
@@ -90,35 +92,36 @@ class _ProfilePartState extends State<ProfilePart> {
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Stack(children: [
-                                          const CircleAvatar(
+                                          CircleAvatar(
                                             // backgroundImage: ,
                                             radius: 51,
                                             backgroundColor: Colors.white,
                                             // MediaQuery.of(context).size.width * 0.3,
-                                            child: Icon(Icons.camera_alt_outlined,
-                                              size: 40,
-                                            ),
-                                            // decoration: const BoxDecoration(
+                                            backgroundImage:
+                                            // imageUrl != null?
+                                            NetworkImage(imageUrl)
+                                           // : Image.asset("asset/"),
+                                           //  // decoration: const BoxDecoration(
                                             //     shape: BoxShape/.circle, color: Colors.white)
                                           ),
-                                          Positioned(
-                                            // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
-                                            bottom: 14.5,
-                                            // right: 20,
-                                            left: 32.5,
-                                            child: Container(
-                                              width: MediaQuery.of(context).size.width * 0.3,
-                                              child: const Icon(
-                                                Icons.add,
-                                                size: 21,
-                                              ),
-                                              //color: Colors.amber,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.red.shade400,
-                                              ),
-                                            ),
-                                          )
+                                          // Positioned(
+                                          //   // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
+                                          //   bottom: 14.5,
+                                          //   // right: 20,
+                                          //   left: 32.5,
+                                          //   child: Container(
+                                          //     width: MediaQuery.of(context).size.width * 0.3,
+                                          //     child: const Icon(
+                                          //       Icons.add,
+                                          //       size: 21,
+                                          //     ),
+                                          //     //color: Colors.amber,
+                                          //     decoration: BoxDecoration(
+                                          //       shape: BoxShape.circle,
+                                          //       color: Colors.red.shade400,
+                                          //     ),
+                                          //   ),
+                                          // )
                                         ]),
                                       ),
                                     ),
@@ -131,11 +134,23 @@ class _ProfilePartState extends State<ProfilePart> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    name,
-                                    style: const TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w600),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        name,
+                                        style: const TextStyle(
+                                            fontFamily: "Poppins",
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                       SizedBox(
+                                        width: MediaQuery.of(context).size.width*.1,
+                                      ),
+                                      IconButton(
+                                          onPressed: () {
+                                            Get.to(() => Profile());
+                                          },
+                                          icon: const Icon(Icons.edit))
+                                    ],
                                   ),
                                   Text(
                                     email,
@@ -155,14 +170,7 @@ class _ProfilePartState extends State<ProfilePart> {
                                   ),
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 50.0),
-                                child: IconButton(
-                                    onPressed: () {
-                                      Get.to(() => Profile());
-                                    },
-                                    icon: const Icon(Icons.edit)),
-                              )
+
                             ],
                           ),
                         ],
@@ -175,6 +183,7 @@ class _ProfilePartState extends State<ProfilePart> {
                 ),
                 ListTile(
                   onTap: () {
+                    print(imageUrl);
                     // Get.to(() => const MyOrdersScreen());
                   },
                   leading: const Icon(
@@ -303,6 +312,7 @@ class _ProfilePartState extends State<ProfilePart> {
                           sharedPreferences.remove('number');
                           _auth.signOut();
                           Get.to(() => const LoginPage());
+                          setVisitingFlagFalse();
                         },
                         child: const Text(
                           "Log out",

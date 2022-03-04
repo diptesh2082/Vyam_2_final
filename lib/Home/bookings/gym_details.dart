@@ -148,6 +148,7 @@ class _GymDetailsState extends State<GymDetails> {
                                   // right: MediaQuery.of(context).size.width * 0.85,
                                   // top: 100,
                                   right: 280,
+                                  top: 5,
                                   child: GestureDetector(
                                     child: Container(
                                       height: 30,
@@ -992,22 +993,26 @@ class _GymDetailsState extends State<GymDetails> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        elevation: 8,
-        splashColor: Colors.amber,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        onPressed: () {
-          Get.to(() =>
-              Packeges(
-              getFinalID: doc["id"],
-              gymName: doc["name"],
-              gymLocation: doc["location"],
-          )
-          );
-        },
-        label: Text(
-          "Explorer Packages",
-          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+      floatingActionButton: SizedBox(
+        width: MediaQuery.of(context).size.width*.9,
+        child: FloatingActionButton.extended(
+          elevation: 15,
+          splashColor: Colors.amber,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)
+          ),
+          onPressed: () {
+            Get.to(() =>
+                Packeges(
+                getFinalID: doc["id"],
+                gymName: doc["name"],
+                gymLocation: doc["location"],
+            )
+            );
+          },
+          label: Text(
+            "Explore Packages",
+            style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );

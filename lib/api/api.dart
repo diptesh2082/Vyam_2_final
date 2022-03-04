@@ -12,24 +12,29 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 getVisitingFlag() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  bool? finalNumber = sharedPreferences.getBool("visited")?? false;
+  bool visited= sharedPreferences.getBool("visited")?? false;
+  return visited;
 }
 setVisitingFlag()async{
   SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setBool("visited", true);
 }
+setVisitingFlagFalse()async{
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  preferences.setBool("visited", false);
+}
 getNumber() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalNumber = sharedPreferences.getString("number");
   number = finalNumber.toString();
-  await UserApi.createNewUser();
-  print(number);
+  // await UserApi.createNewUser();
+  // print(number);
 }
 getAddress() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalAddress = sharedPreferences.getString("pin");
   address2 = finalAddress .toString();
-  print(address2);
+  // print(address2);
 }
 // setVisitingFlag() async {
 //   SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -48,7 +53,7 @@ class UserDetails {
 
   Future getData() async {
     // ignore: avoid_print
-    print(number);
+    // print(number);
     try {
       await collectionRef.doc(number).get().then((value) {
         userData.add(value.data());
@@ -149,12 +154,11 @@ class GymDetailApi {
   }
 
   Stream<QuerySnapshot> getGymDetails = FirebaseFirestore.instance
-      .collection("product_details")
-      .where("pincode", isEqualTo: address2.toString())
+  .collection("product_details")
       .snapshots();
-  Stream<QuerySnapshot> getAllGymDetails = FirebaseFirestore.instance
-      .collection("product_details")
-      .snapshots();
+  // Stream<QuerySnapshot> getAllGymDetails = FirebaseFirestore.instance
+  //     .collection("product_details")
+  //     .snapshots();
 }
 
 
@@ -164,11 +168,12 @@ class UserApi {
   // String acc=number;
   static Future createNewUser() async {
     final docUser =
-    FirebaseFirestore.instance.collection("user_details").doc(number);
+   FirebaseFirestore.instance.collection("user_details").doc(number);
     // userModel.userId = docUser.id;
     // number=docUser.id;
     final myJson = {
       'userId': docUser.id,
+      "number": docUser.id,
       // "name": name,
     };
     await docUser.set(myJson);
@@ -183,6 +188,16 @@ class UserApi {
       "name": name,
     };
     await docUser.update(myJson);
+  }
+  static Future creatUserImage(String url)async{
+    final docUser = FirebaseFirestore.instance
+        .collection("user_details")
+        .doc(number);
+    await docUser.update(
+        {
+          "image": url
+        }
+    );
   }
 
   static Future CreateUserNumber (String number) async {
@@ -232,7 +247,7 @@ class GymAllApi {
 
   Stream<QuerySnapshot> getGymDetails = FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: address2)
+      .where("pincode", isEqualTo: address2.toString())
       .snapshots();
   Stream<QuerySnapshot> getMaleGym = FirebaseFirestore.instance
       .collection("product_details")

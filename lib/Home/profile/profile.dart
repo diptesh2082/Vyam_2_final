@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vyam_2_final/Home/profile/profile_page.dart';
 import 'package:vyam_2_final/api/api.dart';
 
 class Profile extends StatefulWidget {
@@ -63,10 +64,10 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  void saveData() {
+  saveData()async {
     if (_globalKey.currentState!.validate()) {
       _globalKey.currentState!.save();
-      db.collection("user_details").doc(id).update({
+      await db.collection("user_details").doc(id).update({
         'email': emailTextEditingController.text,
         'name': nameTextEditingController.text,
         'number': phoneTextEditingController.text
@@ -197,9 +198,9 @@ class _ProfileState extends State<Profile> {
                   height: 50,
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    saveData();
-                    // Get.back();
+                  onPressed: () async {
+                    await saveData();
+                    Get.to(()=>ProfilePart());
                   },
                   child: const Text(
                     'Update',

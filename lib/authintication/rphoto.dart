@@ -1,7 +1,15 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
+import 'package:vyam_2_final/api/api.dart';
 
 import 'custom_register_route.dart';
 import 'register_gender.dart';
@@ -15,7 +23,25 @@ class Register4 extends StatefulWidget {
 
 class _Register4State extends State<Register4> {
   TextEditingController email = TextEditingController();
+  File? image;
+  Future pickImage() async {
+    try{
+      final image = await ImagePicker().pickImage(
+          source: ImageSource.gallery,
+          imageQuality: 60
+      );
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() {
+        this.image = imageTemporary;
+      });
+    } on PlatformException catch (e) {
+      // ignore: avoid_print
+      print("Faild to pick image: $e");
+    }
 
+  }
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,8 +90,13 @@ class _Register4State extends State<Register4> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
-            onPressed: (){
+            onPressed: ()async{
               Get.offAll(()=>HomePage());
+             final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
+             await ref.putFile(image!);
+             final url = await ref.getDownloadURL();
+              // print(number);
+              UserApi.creatUserImage(url);
             },
             backgroundColor: Colors.amber.shade300,
             child: const Icon(
@@ -131,12 +162,20 @@ class _Register4State extends State<Register4> {
                     Padding(
                       padding: const EdgeInsets.only(left: 12.0),
                       child: GestureDetector(
+                        onTap: (){
+                          pickImage();
+                        },
                         child: Stack(children: [
-                          const CircleAvatar(
+                           CircleAvatar(
                             radius: 51,
                               backgroundColor: Colors.white,
                               // MediaQuery.of(context).size.width * 0.3,
-                              child: Icon(Icons.camera_alt_outlined,
+                              child: image != null ? ClipOval(
+                                child: Image.file(image !,
+                                  height: 150,
+                                  width: 150,
+                                ),
+                              ): const Icon(Icons.camera_alt_outlined,
                               size: 40,
                               ),
                               // decoration: const BoxDecoration(

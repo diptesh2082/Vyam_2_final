@@ -46,6 +46,7 @@ class _GymAllState extends State<GymAll> {
             }
 
             var document = streamSnapshot.data.docs;
+            // print(document[0]);
             return document.isNotEmpty
                 ? ListView.separated(
                     physics: const  BouncingScrollPhysics(),
@@ -62,7 +63,7 @@ class _GymAllState extends State<GymAll> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    print("${document[index]["name"]}");
+                                    // print("${document[index]["name"]}");
                                     Get.to(
                                         () => GymDetails(
                                               // getID: document[index].id,

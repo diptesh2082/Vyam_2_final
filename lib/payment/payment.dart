@@ -119,200 +119,205 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               thickness: 2,
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Padding(
-                                        padding:
-                                        EdgeInsets.only(left: 10, top: 10),
-                                        child: Text(
-                                          "Workout",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "Poppins",
-                                              fontSize: 17,
-                                              color: Colors.green),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 15, top: 10),
-                                        child: Text(
-                                          getData['packageType'],
-                                          style: const TextStyle(
-                                              color: Colors.green,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "Poppins",
-                                              fontSize: 17),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.only(
-                                            right: 15, top: 10, left: 10),
-                                        child: Center(
+                              padding: const EdgeInsets.only(left: 8.0,right: 8),
+                              child: SizedBox(
+                                height: 114,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Padding(
+                                          padding:
+                                          EdgeInsets.only(left: 10),
                                           child: Text(
-                                            "Package",
-                                            textAlign: TextAlign.center,
+                                            "Workout",
                                             style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: "Poppins",
+                                                fontSize: 17,
+                                                color: Colors.green),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 15),
+                                          child: Text(
+                                            getData['packageType'],
+                                            style: const TextStyle(
+                                                color: Colors.green,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: "Poppins",
+                                                fontSize: 17),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    // const SizedBox(
+                                    //   height: 8,
+                                    // ),
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.only(
+                                              right: 15, top: 3, left: 10),
+                                          child: Center(
+                                            child: Text(
+                                              "Package",
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontFamily: "Poppins",
+                                                color: Colors.black,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 15, top: 3),
+                                          child: Text(
+                                            getData['totalMonths'],
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w700,
                                               fontFamily: "Poppins",
-                                              color: Colors.black,
                                               fontSize: 16,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Padding(
+                                          padding:
+                                          EdgeInsets.only(left: 12, top: 3),
+                                          child: Text(
+                                            "Start Date",
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontFamily: "Poppins",
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 15, top: 10),
-                                        child: Text(
-                                          getData['totalMonths'],
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontFamily: "Poppins",
-                                            fontSize: 16,
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 12, top: 3),
+                                          child: Text(
+                                            getData["startDate"],
+                                            style: const TextStyle(
+                                                fontSize: 15,
+                                                fontFamily: "Poppins",
+                                                fontWeight: FontWeight.bold),
                                           ),
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Padding(
-                                        padding:
-                                        EdgeInsets.only(left: 12, top: 5),
-                                        child: Text(
-                                          "Start Date",
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 12, top: 5),
-                                        child: Text(
-                                          getData["startDate"],
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Padding(
-                                        padding:
-                                        EdgeInsets.only(left: 12, top: 5),
-                                        child: Text(
-                                          "Valid Upto",
-                                          style: TextStyle(
-                                            fontFamily: "Poppins",
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            right: 12, top: 5),
-                                        child: Text(
-                                          getData["endDate"],
-                                          style: const TextStyle(
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Padding(
+                                          padding:
+                                          EdgeInsets.only(left: 12, top: 3),
+                                          child: Text(
+                                            "Valid Upto",
+                                            style: TextStyle(
                                               fontFamily: "Poppins",
                                               fontSize: 15,
-                                              fontWeight: FontWeight.bold),
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 12, top: 5),
+                                          child: Text(
+                                            getData["endDate"],
+                                            style: const TextStyle(
+                                                fontFamily: "Poppins",
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
                       Card(
                         child: GestureDetector(
                           onTap: () => Get.to(() => CouponDetails()),
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          "Apply promo code",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontFamily: "Poppins",
-                                            fontSize: 16,
+                          child: SizedBox(
+                            height: 57,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20.0,right: 20,),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            "Apply promo code",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Poppins",
+                                              fontSize: 16,
+                                            ),
                                           ),
-                                        ),
-                                        Image.asset(
-                                          "assets/icons/discount.png",
-                                          color: Colors.amber,
-                                        ),
-                                      ],
-                                    ),
-                                    const Text(
-                                      "No promo code selected",
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
+                                          Image.asset(
+                                            "assets/icons/discount.png",
+                                            color: Colors.amber,
+                                          ),
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                                const Icon(
-                                  CupertinoIcons.forward,
-                                  size: 20,
-                                  color: Colors.black,
-                                ),
-                              ],
+                                      const Text(
+                                        "No promo code selected",
+                                        style: TextStyle(
+                                          fontFamily: "Poppins",
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const Icon(
+                                    CupertinoIcons.forward,
+                                    size: 20,
+                                    color: Colors.black,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+
                       Card(
                         child: Padding(
-                          padding: const EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.only(left: 12.0,right: 12),
                           child: Column(
                             children: [
                               Container(
                                 alignment: Alignment.centerLeft,
                                 padding:
-                                const EdgeInsets.only(left: 10, top: 2),
+                                const EdgeInsets.only(left: 10,top: 3 ),
                                 child: const Text(
                                   "Payment",
                                   textAlign: TextAlign.start,
@@ -328,7 +333,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Padding(
-                                    padding: EdgeInsets.only(left: 12, top: 5),
+                                    padding: EdgeInsets.only(left: 12,top: 3 ),
                                     child: Text(
                                       "Total Amount",
                                       style: TextStyle(
@@ -339,7 +344,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        right: 12, top: 5),
+                                        right: 12,top: 3 ),
                                     child: Text(
                                       "₹${getData["totalPrice"]}",
                                       style: const TextStyle(
@@ -355,7 +360,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Padding(
-                                    padding: EdgeInsets.only(left: 12, top: 5),
+                                    padding: EdgeInsets.only(left: 12,top: 3 ),
                                     child: Text(
                                       "Discount",
                                       style: TextStyle(
@@ -366,7 +371,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        right: 12, top: 5),
+                                        right: 12,top: 3 ),
                                     child: Text(
                                       "₹" + totalDiscount.toString(),
                                       style: const TextStyle(
@@ -382,7 +387,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Padding(
-                                    padding: EdgeInsets.only(left: 12, top: 5),
+                                    padding: EdgeInsets.only(left: 12,top: 3 ),
                                     child: Text(
                                       "GST",
                                       style: TextStyle(
@@ -393,7 +398,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        right: 12, top: 5),
+                                        right: 12,top: 3 ),
                                     child: Text(
                                       "₹" + taxPay.toString(),
                                       style: const TextStyle(
@@ -404,7 +409,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 ],
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.only(left: 8.0,right: 8,top: 3),
                                 child: Row(
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceBetween,

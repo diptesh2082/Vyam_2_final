@@ -66,6 +66,7 @@ class _GymTypeState extends State<GymType> {
             }
 
             var document = streamSnapshot.data.docs;
+            print(document[0]);
             return document.isNotEmpty
                 ? ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),

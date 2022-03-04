@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -47,17 +48,17 @@ class _FirstHomeState extends State<FirstHome> {
   var data;
   String getDays = '0';
   int totalDays = 0;
-  var myaddress = "your location";
+  String myaddress = "your location";
   var address="";
   // var location = Get.arguments;
 
   myLocation() async {
     CollectionReference collectionReference =
-    await FirebaseFirestore.instance.collection("user_details");
+    FirebaseFirestore.instance.collection("user_details");
     collectionReference.snapshots().listen((snapshot) {
       setState(() {
         data = snapshot.docs[0].data();
-        myaddress = data["address"];
+        myaddress =  data["address"];
         // print(myaddress);
       });
     });
@@ -66,36 +67,47 @@ class _FirstHomeState extends State<FirstHome> {
   UserDetails userDetails = UserDetails();
   NotificationApi notificationApi = NotificationApi();
 
-  getAddressPin(var number) async {
+  getAddressPin(var pin) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     getAddress();
-    sharedPreferences.setString("pin", number.toString());
+    sharedPreferences.setString("pin", pin.toString());
     getAddress();
   }
-getUserDetails()async{
-  Position position = await _determinePosition();
-  await GetAddressFromLatLong(position);
-  // await UserApi.updateUserAddress(
-  //     address, [position.latitude, position.longitude], pin
-  // );
-  await getAddressPin(pin);
-  await FirebaseFirestore.instance
-      .collection("user_details")
-      .doc(number)
-      .update({
-    "address": address,
-    "lat": position.latitude,
-    "long": position.longitude,
-    "pincode": pin,
-    "locality":locality,
-  });
-  myLocation();
-}
+  // Future nearbyGyms(var document)async{
+  //   document = await document.where((element) {
+  //     return element
+  //         .get('pincode')
+  //         .toString()
+  //         .toLowerCase()
+  //         .contains(address2.toLowerCase());
+  //   }).toList();
+  // }
+  getUserDetails()async{
+    Position position = await _determinePosition();
+    await GetAddressFromLatLong(position);
+    // await UserApi.updateUserAddress(
+    //     address, [position.latitude, position.longitude], pin
+    // );
+    await getAddressPin(pin);
+    await FirebaseFirestore.instance
+        .collection("user_details")
+        .doc(number)
+        .update({
+      "address": address,
+      "lat": position.latitude,
+      "long": position.longitude,
+      "pincode": pin,
+      "locality":locality,
+    });
+    getAddressPin(pin);
+    myLocation();
+  }
   @override
   void initState() {
+    myLocation();
     getUserDetails();
-    // myLocation();
     userDetails.getData();
+
     print(address2);
     // userLocation();
 
@@ -151,6 +163,7 @@ getUserDetails()async{
   final appBarColor = Colors.grey[300];
   // final LocationController yourLocation = Get.find();
   GymDetailApi gymDetailApi = GymDetailApi();
+  final FirebaseAuth _auth= FirebaseAuth.instance;
 
   final HomeController controller = Get.put(HomeController());
   final LocationController locationController = Get.put(LocationController());
@@ -210,7 +223,7 @@ getUserDetails()async{
     subLocality="${place.subLocality}";
   }
 
-  List<DocumentSnapshot> document = [];
+  // List<DocumentSnapshot> document = [];
 
   String searchGymName = '';
   BannerApi bannerApi = BannerApi();
@@ -234,6 +247,7 @@ getUserDetails()async{
                   color: Colors.black,
                 ),
                 onPressed: () async {
+                  // print(_auth.currentUser?.phoneNumber);
                   // Get.back();
                   Position position = await _determinePosition();
                   await GetAddressFromLatLong(position);
@@ -410,7 +424,7 @@ getUserDetails()async{
                 width: size.width * .94,
                 child: SingleChildScrollView(
                   child: StreamBuilder(
-                    stream: gymAll.getGymDetails,
+                    stream: gymDetailApi.getGymDetails,
                     builder: (context, AsyncSnapshot streamSnapshot) {
                       if (streamSnapshot.connectionState ==
                           ConnectionState.waiting) {
@@ -419,7 +433,7 @@ getUserDetails()async{
                         );
                       }
 
-                      document = streamSnapshot.data.docs;
+                      var document = streamSnapshot.data.docs;
 
                       if (searchGymName.length > 0) {
                         document = document.where((element) {
@@ -428,6 +442,14 @@ getUserDetails()async{
                               .toString()
                               .toLowerCase()
                               .contains(searchGymName.toLowerCase());
+                        }).toList();
+                      }else{
+                        document = document.where((element) {
+                          return element
+                              .get('pincode')
+                              .toString()
+                          // .toLowerCase()
+                              .contains(address2.toString());
                         }).toList();
                       }
                       return document.isNotEmpty
@@ -458,7 +480,7 @@ getUserDetails()async{
                                             "name": document[index]["name"],
                                             "docs": document[index]
                                           }
-                                          );
+                                      );
                                     },
                                     child: ClipRRect(
                                       borderRadius:
@@ -506,7 +528,7 @@ getUserDetails()async{
                                             document[index]["address"],
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
-                                              overflow: TextOverflow.ellipsis,
+                                                overflow: TextOverflow.ellipsis,
                                                 color: Colors.white,
                                                 fontFamily: "Poppins",
                                                 fontSize: 12,

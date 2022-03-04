@@ -23,7 +23,7 @@ class _OtpPageState extends State<OtpPage> {
     getNumber();
     sharedPreferences.setString("number", number.toString());
     getNumber();
-    Get.offAll(() =>  HomePage());
+    // Get.offAll(() =>  HomePage());
 
   }
 
@@ -43,7 +43,14 @@ class _OtpPageState extends State<OtpPage> {
         showLoading = false;
       });
       if (authCred.user != null) {
-        getToHomePage(value[1]);
+        getToHomePage(_auth.currentUser?.phoneNumber);
+        bool? visitingFlag=await getVisitingFlag();
+        setVisitingFlag();
+        if (visitingFlag==true){
+          Get.to(()=>HomePage());
+        }else if(visitingFlag==false){
+          Get.to(()=>Register1());
+        }
 
         // SharedPreferences preferences = await SharedPreferences.getInstance();
         //
