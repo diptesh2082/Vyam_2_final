@@ -226,14 +226,14 @@ class _GymDetailsState extends State<GymDetails> {
                           style: TextStyle(
                               fontWeight: FontWeight.w400, color: Colors.grey),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         GestureDetector(
                             onTap: (){
                               Get.to(() => const Explore(),
                                   arguments: {"location": doc?["location"]});
                             },
                             child: const Icon(Icons.assistant_direction, color: Colors.green)),
-                        Text('       ')
+                        const Text('       ')
                       ]),
                       Row(children:  [
                         const Spacer(),
@@ -366,10 +366,7 @@ class _GymDetailsState extends State<GymDetails> {
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12)),
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Timing()));
+                                Get.to(()=>const Timing());
                             },
                           ),
                           const Icon(
@@ -415,7 +412,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontWeight: FontWeight.w600),
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-                      Container(
+                      SizedBox(
                         height: MediaQuery.of(context).size.height * 0.1,
                         child: ListView.separated(
                             scrollDirection: Axis.horizontal,
@@ -462,233 +459,183 @@ class _GymDetailsState extends State<GymDetails> {
                       SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 5,
-                        child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Row(
-                                    children: [
-                                      const Text(
-                                        'Trainers',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: "Poppins",
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      const Spacer(),
-                                      GestureDetector(
-                                        child: const Icon(
+                        child: GestureDetector(
+                          onTap: (){
+                            Get.to(()=>Trainer());
+                          },
+                          child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0)),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Row(
+                                      children: const [
+                                        Text(
+                                          'Trainers',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: "Poppins",
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        Spacer(),
+                                        Icon(
                                           Icons.arrow_forward_ios_outlined,
                                           size: 18,
                                         ),
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Trainer()));
-                                        },
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height / 9,
-                                  child: ListView.builder(
-                                      itemCount: trainers.length,
-                                      physics: const PageScrollPhysics(),
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                height: 65,
-                                                width: 65,
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    //border: Border.all(width: 1),
-                                                    image: DecorationImage(
-                                                        image: AssetImage(
-                                                            trainers[index]),
-                                                        fit: BoxFit.cover)),
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                    0.05,
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height / 50,
-                                  child: ListView.builder(
-                                      itemCount: trainername.length,
-                                      physics: const PageScrollPhysics(),
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(left: 8.0),
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                trainername[index],
-                                                style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontFamily: "Poppins",
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500),
-                                              ),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                    0.09,
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                                )
-                              ],
-                            )),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height / 9,
+                                    child: ListView.builder(
+                                        itemCount: trainers.length,
+                                        physics: const PageScrollPhysics(),
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) {
+                                          return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  height: 65,
+                                                  width: 65,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      //border: Border.all(width: 1),
+                                                      image: DecorationImage(
+                                                          image: AssetImage(
+                                                              trainers[index]),
+                                                          fit: BoxFit.cover)),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.05,
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                  ),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height / 50,
+                                    child: ListView.builder(
+                                        itemCount: trainername.length,
+                                        physics: const PageScrollPhysics(),
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) {
+                                          return Padding(
+                                            padding: const EdgeInsets.only(left: 8.0),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  trainername[index],
+                                                  style: const TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: "Poppins",
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w500),
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.09,
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }),
+                                  )
+                                ],
+                              )),
+                        ),
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                      Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.01,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 8.0),
-                                child: Text('Reviews',
-                                    style: TextStyle(
-                                      fontSize: 14.5,
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w700,
-                                    )),
-                              ),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.01,
-                              ),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: SizedBox(
-                                  height:50,
-                                  // MediaQuery.of(context).size.height * 0.050,
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: MediaQuery.of(context).size.width *
-                                            0.05,
-                                      ),
-                                      const Icon(
-                                        Icons.star,
-                                        color: Colors.yellow,
-                                        size: 18,
-                                      ),
-                                      const Text(
-                                        '4.7',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 15),
-                                      ),
-                                      const Text(
-                                        ' | ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 14,
-                                            color: Colors.grey),
-                                      ),
-                                      const Text(
-                                        '(113 reviews)',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 13,
-                                            color: Colors.grey),
-                                      ),
-                                      //  const Spacer(),
-                                      SizedBox(
-                                        width:
-                                        MediaQuery.of(context).size.width * 0.2,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 6.0),
-                                        child: Container(
+                      GestureDetector(
+                        onTap: (){
+                          Get.to(()=>Review());
+                        },
+                        child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height * 0.01,
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child: Text('Reviews',
+                                      style: TextStyle(
+                                        fontSize: 14.5,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w700,
+                                      )),
+                                ),
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height * 0.01,
+                                ),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: SizedBox(
+                                    height:50,
+                                    // MediaQuery.of(context).size.height * 0.050,
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
                                           width: MediaQuery.of(context).size.width *
-                                              0.28,
-                                          height: MediaQuery.of(context).size.height *
-                                              0.055,
-                                          child: Stack(
-                                            children: [
-                                              Container(
-                                                height: 30,
-                                                width: 35,
-                                                decoration: const BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    //border: Border.all(width: 1),
-                                                    image: DecorationImage(
-                                                        image: AssetImage(
-                                                            "assets/images/trainer1.png"),
-                                                        fit: BoxFit.cover)),
-                                              ),
-                                              Positioned(
-                                                left: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                    0.055,
-                                                child: Container(
+                                              0.05,
+                                        ),
+                                        const Icon(
+                                          Icons.star,
+                                          color: Colors.yellow,
+                                          size: 18,
+                                        ),
+                                        const Text(
+                                          '4.7',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 15),
+                                        ),
+                                        const Text(
+                                          ' | ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14,
+                                              color: Colors.grey),
+                                        ),
+                                        const Text(
+                                          '(113 reviews)',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 13,
+                                              color: Colors.grey),
+                                        ),
+                                        //  const Spacer(),
+                                        SizedBox(
+                                          width:
+                                          MediaQuery.of(context).size.width * 0.2,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 6.0),
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width *
+                                                0.28,
+                                            height: MediaQuery.of(context).size.height *
+                                                0.055,
+                                            child: Stack(
+                                              children: [
+                                                Container(
                                                   height: 30,
-                                                  width: 30,
-                                                  decoration: const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      //border: Border.all(width: 1),
-                                                      image: DecorationImage(
-                                                          image: AssetImage(
-                                                              "assets/images/trainer2.png"),
-                                                          fit: BoxFit.cover)),
-                                                ),
-                                              ),
-                                              Positioned(
-                                                left: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                    0.11,
-                                                child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  decoration: const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      //border: Border.all(width: 1),
-                                                      image: DecorationImage(
-                                                          image: AssetImage(
-                                                              "assets/images/trainer3.png"),
-                                                          fit: BoxFit.cover)),
-                                                ),
-                                              ),
-                                              Positioned(
-                                                left: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                    0.166,
-                                                child: Container(
-                                                  height: 30,
-                                                  width: 30,
+                                                  width: 35,
                                                   decoration: const BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       //border: Border.all(width: 1),
@@ -697,34 +644,77 @@ class _GymDetailsState extends State<GymDetails> {
                                                               "assets/images/trainer1.png"),
                                                           fit: BoxFit.cover)),
                                                 ),
-                                              ),
-                                            ],
+                                                Positioned(
+                                                  left: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.055,
+                                                  child: Container(
+                                                    height: 30,
+                                                    width: 30,
+                                                    decoration: const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        //border: Border.all(width: 1),
+                                                        image: DecorationImage(
+                                                            image: AssetImage(
+                                                                "assets/images/trainer2.png"),
+                                                            fit: BoxFit.cover)),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  left: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.11,
+                                                  child: Container(
+                                                    height: 30,
+                                                    width: 30,
+                                                    decoration: const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        //border: Border.all(width: 1),
+                                                        image: DecorationImage(
+                                                            image: AssetImage(
+                                                                "assets/images/trainer3.png"),
+                                                            fit: BoxFit.cover)),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  left: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                      0.166,
+                                                  child: Container(
+                                                    height: 30,
+                                                    width: 30,
+                                                    decoration: const BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        //border: Border.all(width: 1),
+                                                        image: DecorationImage(
+                                                            image: AssetImage(
+                                                                "assets/images/trainer1.png"),
+                                                            fit: BoxFit.cover)),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width:
-                                        MediaQuery.of(context).size.width * 0.009,
-                                      ),
+                                        SizedBox(
+                                          width:
+                                          MediaQuery.of(context).size.width * 0.009,
+                                        ),
 
-                                      GestureDetector(
-                                        child: const Icon(
+                                        const Icon(
                                           Icons.arrow_forward_ios_outlined,
                                           size: 18,
                                         ),
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => Review()));
-                                        },
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
-                            ],
-                          )),
+                                )
+                              ],
+                            )),
+                      ),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                       Container(
                         height: MediaQuery.of(context).size.height * 0.24,

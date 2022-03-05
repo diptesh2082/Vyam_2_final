@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:get/get.dart';
 
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -35,214 +36,217 @@ class _ReviewState extends State<Review> {
                 fontWeight: FontWeight.w600),
           ),
           leading: GestureDetector(
-            onTap: null,
-            child: const Icon(
+            onTap: () {
+              Get.back();
+            },
+              child: const Icon(
               Icons.arrow_back_ios_new_outlined,
               color: Colors.black,
-            ),
-          )),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          width: double.infinity,
-          child: FloatingActionButton.extended(
+              ),
+              )),
+              floatingActionButton: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+              width: double.infinity,
+              child: FloatingActionButton.extended(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+              borderRadius: BorderRadius.circular(10)),
               label: const Text(
-                'Write a review',
-                style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                    color: Colors.white),
+              'Write a review',
+              style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w700,
+              fontSize: 14,
+              color: Colors.white),
               ),
               backgroundColor: Colors.black,
               onPressed: openreviewcard),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: Container(
-        color: Colors.white10,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+              ),
+              ),
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+              body: Container(
+              color: Colors.white10,
+              child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
               const Text(
-                'Customer reviews',
-                style: TextStyle(
-                  fontFamily: 'poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
+              'Customer reviews',
+              style: TextStyle(
+              fontFamily: 'poppins',
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01,
+              height: MediaQuery.of(context).size.height * 0.01,
               ),
               Row(
-                children: [
-                  RatingBarIndicator(
-                    itemBuilder: ((context, index) {
-                      return const Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      );
-                    }),
-                    rating: 4.7,
-                    itemCount: 5,
-                    itemSize: 20.0,
-                    direction: Axis.horizontal,
-                  ),
-                  const Text('4.7 out of 5 ',
-                      style: TextStyle(
-                          fontFamily: 'poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14))
-                ],
+              children: [
+              RatingBarIndicator(
+              itemBuilder: ((context, index) {
+              return const Icon(
+              Icons.star,
+              color: Colors.amber,
+              );
+              }),
+              rating: 4.7,
+              itemCount: 5,
+              itemSize: 20.0,
+              direction: Axis.horizontal,
+              ),
+              const Text('4.7 out of 5 ',
+              style: TextStyle(
+              fontFamily: 'poppins',
+              fontWeight: FontWeight.w600,
+              fontSize: 14))
+              ],
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.012,
+              height: MediaQuery.of(context).size.height * 0.012,
               ),
               const Text(
-                '(113 reviews)',
-                style: TextStyle(
-                    fontFamily: 'poppins',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12,
-                    color: Colors.grey),
+              '(113 reviews)',
+              style: TextStyle(
+              fontFamily: 'poppins',
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+              color: Colors.grey),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
+              height: MediaQuery.of(context).size.height * 0.02,
               ),
               Column(
-                children: [
-                  Row(
-                    children: [
-                      const Text(
-                        '5 star',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Colors.black),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                      LinearPercentIndicator(
-                        lineHeight: 9,
-                        backgroundColor: Colors.white,
-                        width: MediaQuery.of(context).size.width * 0.72,
-                        percent: 0.6,
-                        trailing: const Text(
-                          '60%',
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Colors.black),
-                        ),
-                        progressColor: Colors.amber,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                  Row(
-                    children: [
-                      const Text(
-                        '4 star',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Colors.black),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                      LinearPercentIndicator(
-                        lineHeight: 9,
-                        backgroundColor: Colors.white,
-                        width: MediaQuery.of(context).size.width * 0.72,
-                        percent: 0.3,
-                        trailing: const Text(
-                          '30%',
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Colors.black),
-                        ),
-                        progressColor: Colors.amber,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                  Row(
-                    children: [
-                      const Text(
-                        '3 star',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Colors.black),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                      LinearPercentIndicator(
-                        lineHeight: 9,
-                        backgroundColor: Colors.white,
-                        width: MediaQuery.of(context).size.width * 0.72,
-                        percent: 0.15,
-                        trailing: const Text(
-                          '15%',
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Colors.black),
-                        ),
-                        progressColor: Colors.amber,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                  Row(
-                    children: [
-                      const Text(
-                        '2 star',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Colors.black),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                      LinearPercentIndicator(
-                        lineHeight: 9,
-                        backgroundColor: Colors.white,
-                        width: MediaQuery.of(context).size.width * 0.72,
-                        percent: 0.05,
-                        trailing: const Text(
-                          '5%',
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Colors.black),
-                        ),
-                        progressColor: Colors.amber,
-                      ),
+              children: [
+              Row(
+              children: [
+              const Text(
+              '5 star',
+              style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              color: Colors.black),
+              ),
+              SizedBox(
+              width: MediaQuery.of(context).size.width * 0.02,
+              ),
+              LinearPercentIndicator(
+              lineHeight: 9,
+              backgroundColor: Colors.white,
+              width: MediaQuery.of(context).size.width * 0.72,
+              percent: 0.6,
+              trailing: const Text(
+              '60%',
+              style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              color: Colors.black),
+              ),
+              progressColor: Colors.amber,
+              ),
+              ],
+              ),
+              SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Row(
+              children: [
+              const Text(
+              '4 star',
+              style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              color: Colors.black),
+              ),
+              SizedBox(
+              width: MediaQuery.of(context).size.width * 0.02,
+              ),
+              LinearPercentIndicator(
+              lineHeight: 9,
+              backgroundColor: Colors.white,
+              width: MediaQuery.of(context).size.width * 0.72,
+              percent: 0.3,
+              trailing: const Text(
+              '30%',
+              style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              color: Colors.black),
+              ),
+              progressColor: Colors.amber,
+              ),
+              ],
+              ),
+              SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Row(
+              children: [
+              const Text(
+              '3 star',
+              style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              color: Colors.black),
+              ),
+              SizedBox(
+              width: MediaQuery.of(context).size.width * 0.02,
+              ),
+              LinearPercentIndicator(
+              lineHeight: 9,
+              backgroundColor: Colors.white,
+              width: MediaQuery.of(context).size.width * 0.72,
+              percent: 0.15,
+              trailing: const Text(
+              '15%',
+              style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              color: Colors.black),
+              ),
+              progressColor: Colors.amber,
+              ),
+              ],
+              ),
+              SizedBox(
+              height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Row(
+              children: [
+              const Text(
+              '2 star',
+              style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              color: Colors.black),
+              ),
+              SizedBox(
+              width: MediaQuery.of(context).size.width * 0.02,
+              ),
+              LinearPercentIndicator(
+              lineHeight: 9,
+              backgroundColor: Colors.white,
+              width: MediaQuery.of(context).size.width * 0.72,
+              percent: 0.05,
+              trailing: const Text(
+              '5%',
+              style: TextStyle(
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              color: Colors.black),
+              ),
+              progressColor: Colors.amber,
+              ),
+
                     ],
                   ),
                   SizedBox(
