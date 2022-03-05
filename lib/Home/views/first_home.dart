@@ -249,6 +249,7 @@ class _FirstHomeState extends State<FirstHome> {
                 onPressed: () async {
                   // print(_auth.currentUser?.phoneNumber);
                   // Get.back();
+                  print(_auth.currentUser?.phoneNumber);
                   Position position = await _determinePosition();
                   await GetAddressFromLatLong(position);
                   // await UserApi.updateUserAddress(
