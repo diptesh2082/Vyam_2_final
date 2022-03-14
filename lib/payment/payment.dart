@@ -1,10 +1,16 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:vyam_2_final/Home/bookings/success_book.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/payment/custom_api.dart';
+
+import '../api/api.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
@@ -25,17 +31,33 @@ class _PaymentScreenState extends State<PaymentScreen> {
   var taxPay;
   String amount = '';
 
+
   final Razorpay _razorpay = Razorpay();
 
   @override
   void initState() {
-    setState(() {
+
+    setState((){
       var price = getData["totalPrice"];
       totalDiscount = ((price * discount) / 100).round();
       taxPay = ((price * gstTax) / 100).round();
       grandTotal = ((price - totalDiscount) + taxPay);
       amount = grandTotal.toString() + "00";
+      FirebaseFirestore.instance.collection("bookings")
+          .doc(number)
+          .collection("user_booking")
+          .doc(Get.arguments["booking_id"])
+          .update({
+            "total_price":price,
+       // "total_discount":totalDiscount,
+        "discount":totalDiscount,
+       "grand_total":grandTotal,
+       "tax_pay":taxPay,
+      })
+      ;
     });
+
+
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
@@ -67,7 +89,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
     }
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {}
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    var x =Random().nextInt(999999);
+    FocusScope.of(context).unfocus();
+      Get.to(()=>SuccessBook(),
+        arguments: {
+        "otp_pass":x
+        }
+      );
+
+      // print(x);
+       FirebaseFirestore.instance.collection("bookings")
+      .doc(number)
+      .collection("user_booking")
+      .doc(getData["booking_id"])
+      .update(
+         {
+           "otp_pass": x
+         }
+       );
+  }
   void _handlePaymentError(PaymentFailureResponse response) {
     // ignore: avoid_print
     print("Failed");
@@ -211,7 +252,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           padding: const EdgeInsets.only(
                                               right: 12, top: 3),
                                           child: Text(
-                                            getData["startDate"],
+                                            getData["startDate"].toString(),
                                             style: const TextStyle(
                                                 fontSize: 15,
                                                 fontFamily: "Poppins",
@@ -240,7 +281,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           padding: const EdgeInsets.only(
                                               right: 12, top: 5),
                                           child: Text(
-                                            getData["endDate"],
+                                            getData["endDate"].toString(),
                                             style: const TextStyle(
                                                 fontFamily: "Poppins",
                                                 fontSize: 15,
@@ -259,9 +300,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       // const SizedBox(
                       //   height: 10,
                       // ),
-                      Card(
-                        child: GestureDetector(
-                          onTap: () => Get.to(() => CouponDetails()),
+                      GestureDetector(
+                        onTap: () => Get.to(() => CouponDetails()),
+                        child: Card(
                           child: SizedBox(
                             height: 57,
                             child: Padding(
@@ -539,6 +580,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                       onPressed: () {
+                        FocusScope.of(context).unfocus();
                         _payment();
                         // Get.to(() => Packeges(
                         //   getFinalID: widget.getID,

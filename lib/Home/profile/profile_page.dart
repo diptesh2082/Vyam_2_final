@@ -29,7 +29,7 @@ class _ProfilePartState extends State<ProfilePart> {
 
   Future getUserData() async {
     DocumentReference userName =
-    await FirebaseFirestore.instance.collection('user_details').doc(id);
+    FirebaseFirestore.instance.collection('user_details').doc("+917407926060");
     userName.snapshots().listen((snapshot) {
       setState(() {
         name = snapshot.get('name');
@@ -312,7 +312,8 @@ class _ProfilePartState extends State<ProfilePart> {
                           sharedPreferences.remove('number');
                           _auth.signOut();
                           Get.to(() => const LoginPage());
-                          setVisitingFlagFalse();
+                          // setVisitingFlagFalse();
+
                         },
                         child: const Text(
                           "Log out",

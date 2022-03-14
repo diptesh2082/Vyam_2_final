@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/controllers/packages/yoga.dart';
 import 'package:vyam_2_final/controllers/packages/zumba.dart';
 
@@ -27,9 +29,65 @@ class Packeges extends StatefulWidget {
 }
 
 class _PackegesState extends State<Packeges> {
+
   BookingDetails bookingDetails = BookingDetails();
+
+  var dateTime;
+  setDate(){
+   dateTime = DateTime.now();
+  }
+
+
+  final userDetails=FirebaseFirestore.instance.collection("user_details");
+  final auth = FirebaseAuth.instance;
+  var userData ;
+  getUserData()async{
+    userDetails.doc(number).get().then((DocumentSnapshot doc) {
+      userData=doc.data();
+      // print(userData);
+    });
+  }
+  // var String booking_id;
+  final bookings= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
+  final id = FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking").doc().id.toString();
+  CreateBooking(String id)async{
+    final bookings= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
+    print(bookings);
+    // booking_id = bookings.doc().id;
+    // String id=bookings.doc().id;
+    bookings.doc(id).set({
+      "booking_id": id,
+      "booking_status": "",
+      "order_date": "",
+      "gym_name": "",
+      "vendorId": "",
+      "userId": number,
+      "user_name": "",
+      "booking_accepted": false,
+      "payment_done": false,
+      "booking_plan":"",
+      "booking_price": 0.toDouble(),
+      "package_type":"",
+      "gym_address":"",
+      "booking_date":"",
+      "plan_end_duration":"",
+      "otp_pass":"",
+
+
+
+    });
+  }
+  @override
+  void initState() {
+    getUserData();
+    setDate();
+    // print(userDetails);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -41,8 +99,9 @@ class _PackegesState extends State<Packeges> {
             color: Colors.black,
           ),
           onPressed: () {
+            // getUserData();
             Get.back();
-            // print(widget.getFinalID);
+            // print();
           },
         ),
         elevation: 0,
@@ -111,9 +170,11 @@ class _PackegesState extends State<Packeges> {
                                     children: [
                                       Row(
                                         children: [
-                                          if (int.parse(data.docs[snapshot]
+                                          if (
+                                          int.parse(data.docs[snapshot]
                                                   ['price']) >
-                                              100)
+                                              100
+                                          )
                                             Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -127,7 +188,7 @@ class _PackegesState extends State<Packeges> {
                                                           FontWeight.w500),
                                                 ),
                                                 Text(
-                                                  data.docs[snapshot]['title']
+                                                  data.docs[snapshot]['title']??""
                                                       .toUpperCase(),
                                                   style: GoogleFonts.poppins(
                                                       fontSize: 15,
@@ -138,8 +199,32 @@ class _PackegesState extends State<Packeges> {
                                               ],
                                             ),
                                           if (int.parse(data.docs[snapshot]
-                                                  ['price']) <
+                                                  ['price']) <=
                                               100)
+                                            Text(
+                                              data.docs[snapshot]['title']??""
+                                                  .toUpperCase(),
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 16,
+                                                  color: HexColor("3A3A3A"),
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          const Spacer(),
+                                        ],
+                                      ),
+                                      // const SizedBox(
+                                      //   height: 2,
+                                      // ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        // crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          if (int.parse(data.docs[snapshot]
+                                          ['price']) >
+                                              100)
+
+                                          if (int.parse(data.docs[snapshot]
+                                          ['price']) < 100)
                                             Text(
                                               data.docs[snapshot]['title']
                                                   .toUpperCase(),
@@ -148,86 +233,88 @@ class _PackegesState extends State<Packeges> {
                                                   color: HexColor("3A3A3A"),
                                                   fontWeight: FontWeight.w600),
                                             ),
-                                          const Spacer(),
+                                          // const Spacer(),
                                           Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.end,
+                                            CrossAxisAlignment.start,
                                             children: [
-                                              if (int.parse(data.docs[snapshot]
-                                                      ['price']) >
-                                                  100)
+
                                                 Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
+                                                  CrossAxisAlignment.start,
+                                                  // mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
+                                                    if (int.parse(data.docs[snapshot]
+                                                    ['discount']) >
+                                                        0)
                                                     Container(
                                                       margin:
-                                                          const EdgeInsets.all(
-                                                              5.0),
+                                                      const EdgeInsets.all(
+                                                          5.0),
                                                       padding:
-                                                          const EdgeInsets.only(
-                                                              top: 2.0,
-                                                              bottom: 2.0,
-                                                              left: 5,
-                                                              right: 5),
+                                                      const EdgeInsets.only(
+                                                          top: 2.0,
+                                                          bottom: 2.0,
+                                                          left: 5,
+                                                          right: 5),
                                                       decoration: BoxDecoration(
                                                           borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
+                                                          BorderRadius
+                                                              .circular(5),
                                                           border: Border.all(
                                                               color: HexColor(
                                                                   "49C000"))),
                                                       child: Text(
                                                         data.docs[snapshot]
-                                                                ['discount'] +
+                                                        ['discount'] +
                                                             "% off",
                                                         style:
-                                                            GoogleFonts.poppins(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                fontSize: 9,
-                                                                color: HexColor(
-                                                                    "49C000")),
+                                                        GoogleFonts.poppins(
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w600,
+                                                            fontSize: 9,
+                                                            color: HexColor(
+                                                                "49C000")),
                                                       ),
                                                     ),
                                                     Row(
                                                       children: [
                                                         Text(
                                                           "Rs "
-                                                          "${int.parse(data.docs[snapshot]['original_price'])}",
+                                                              "${int.parse(data.docs[snapshot]['original_price'])}",
                                                           style: GoogleFonts.poppins(
                                                               decoration:
-                                                                  TextDecoration
-                                                                      .lineThrough,
+                                                              TextDecoration
+                                                                  .lineThrough,
                                                               fontSize: 15,
                                                               color: HexColor(
                                                                   "BFB9B9"),
                                                               fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
+                                                              FontWeight
+                                                                  .w600),
                                                         ),
                                                         const SizedBox(
                                                           width: 2,
                                                         ),
                                                         Text(
                                                           "Rs "
-                                                          "${int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()}",
+                                                              "${int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()}",
                                                           style: GoogleFonts
                                                               .poppins(
-                                                                  fontSize: 14,
-                                                                  color: HexColor(
-                                                                      "3A3A3A"),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
+                                                              fontSize: 14,
+                                                              color: HexColor(
+                                                                  "3A3A3A"),
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w600),
                                                         ),
                                                       ],
                                                     ),
                                                   ],
                                                 ),
                                               if (int.parse(data.docs[snapshot]
-                                                      ['price']) <
+                                              ['price']) <
                                                   100)
                                                 Text(
                                                   "\$${int.parse(data.docs[snapshot]['price'])}",
@@ -235,7 +322,7 @@ class _PackegesState extends State<Packeges> {
                                                       fontSize: 16,
                                                       color: HexColor("3A3A3A"),
                                                       fontWeight:
-                                                          FontWeight.w600),
+                                                      FontWeight.w600),
                                                 ),
                                               Text(
                                                 "Inc. of all taxes",
@@ -243,34 +330,52 @@ class _PackegesState extends State<Packeges> {
                                                     fontSize: 9,
                                                     color: HexColor("B2B2B2"),
                                                     fontWeight:
-                                                        FontWeight.w400),
+                                                    FontWeight.w400),
                                               ),
                                             ],
                                           ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 2,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Image.asset(
-                                            "assets/images/gymCartoon.png",
-                                            height: 50,
-                                            color: Colors.yellow.shade600,
-                                          ),
                                           const Spacer(),
                                           MaterialButton(
-                                            elevation: 0,
-                                            onPressed: () {
+                                            elevation: 2,
+                                            onPressed: ()async {
+                                              FocusScope.of(context).unfocus();
+                                              // CreateBooking();
+                                              FocusManager.instance.primaryFocus?.unfocus();
+                                              // FocusScope.of(context).requestFocus( FocusNode());
+                                              await CreateBooking(id);
+                                              print(number);
+                                              FirebaseFirestore.instance.collection("bookings")
+                                              .doc(number)
+                                              .collection("user_booking")
+                                              .doc(id)
+                                              .update(
+                                                {
+                                                  "booking_status": "active",
+                                                  "order_date": dateTime,
+                                                  "gym_name": widget.gymName,
+                                                  "vendorId": widget.getFinalID,
+                                                  "userId": number,
+                                                  "user_name": userData["name"],
+                                                  "booking_accepted": false,
+                                                  "payment_done": false,
+                                                  "daysLeft": "50",
+                                                  "totalDays":"65"
+
+
+                                                }
+                                              )
+                                              ;
                                               bookingDetails.bookingDetails(
                                                   context,
                                                   snapshot,
                                                   data.docs,
                                                   "",
                                                   widget.gymName,
-                                                  widget.gymLocation);
-                                            },
+                                                  widget.gymLocation,
+                                                  id,
+                                                  widget.getFinalID
+                                              );
+                                             },
                                             color: HexColor("292F3D"),
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:

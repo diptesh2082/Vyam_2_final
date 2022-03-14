@@ -10,31 +10,43 @@ import 'package:vyam_2_final/authintication/register_gender.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/authintication/rphoto.dart';
+import 'package:vyam_2_final/authintication/splash_screen.dart';
 import 'Home/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // bool? visitingFlag=await getVisitingFlag();
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application
+  // progress() async{
+  //   bool? visitingFlag=await getVisitingFlag();
+  //   if (visitingFlag==true){
+  //     return HomePage();
+  //   }else if(visitingFlag==false){
+  //     return const LoginPage();
+  //   }
+  // }
 
+  // Future get visitingFlag => getVisitingFlag();
+  // This widget is the root of your application
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: Themes().lightTheme,
 
-      home:  const LoginPage()  ,
+      home: SplashScreen(),
       // initialRoute: ,
       getPages: [
         GetPage(name: HomePage.id, page: () => HomePage()),
         GetPage(name: "/login", page: () => const LoginPage()),
-        GetPage(name: OtpPage.id, page: () => OtpPage()),
+        GetPage(name: OtpPage.id, page: () => const OtpPage()),
         GetPage(
             name: RegistrationPage.id, page: () => const RegistrationPage()),
         GetPage(name: Register1.id, page: () => Register1()),

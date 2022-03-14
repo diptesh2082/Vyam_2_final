@@ -1,14 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:vyam_2_final/api/api.dart';
 
 import '../../select_date.dart';
 
 class BookingDetails {
   void bookingDetails(
-      context, index, bookingList, String gymType, getGymName, gymLocation) {
+      context, index, bookingList, String gymType, getGymName, gymLocation, booking_id,gymID) {
     List newBookingList = bookingList;
+    // final userDetails=FirebaseFirestore.instance.collection("user_details").doc(number).get();
 
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
@@ -21,7 +26,7 @@ class BookingDetails {
                 topLeft: Radius.circular(30), topRight: Radius.circular(30))),
         context: context,
         builder: (context) {
-          return Container(
+          return SizedBox(
             width: _width,
             // color: Colors.white,
             child: Column(
@@ -192,37 +197,100 @@ class BookingDetails {
                                             borderRadius:
                                             BorderRadius.circular(12)),
                                         onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder:
-                                                      (context) => SelectDate(
-                                                    months: newBookingList[
-                                                    index]
-                                                    ['title']
-                                                        .toUpperCase(),
-                                                    price: int.parse(
-                                                        bookingList[
-                                                        index]
-                                                        [
-                                                        "original_price"]) -
-                                                        (int.parse(bookingList[index]
-                                                        [
-                                                        "original_price"]) *
-                                                            int.parse(bookingList[index]
-                                                            [
-                                                            "discount"]) /
-                                                            100)
-                                                            .round(),
-                                                    packageType:
-                                                    bookingList[
-                                                    index]
-                                                    ['type'],
-                                                    getGymName:
-                                                    getGymName,
-                                                    getGymAddress:
-                                                    gymLocation,
-                                                  )));
+                                          print(number);
+                                          FirebaseFirestore.instance
+                                              .collection("bookings")
+                                              .doc(number)
+                                              .collection("user_booking")
+                                              // .where("booking_id", isEqualTo: )
+                                              .doc(booking_id).update(
+                                            {
+                                              // "time_stamp":serv
+                                              "booking_plan": newBookingList[
+                                              index]
+                                              ['title'],
+                                              "booking_price": (int.parse(bookingList[index]["original_price"]) -
+                                                  (int.parse(bookingList[index]
+                                                  [
+                                                  "original_price"]) *
+                                                      int.parse(bookingList[index]
+                                                      [
+                                                      "discount"]) /
+                                                      100)
+                                                      .round()).toDouble(),
+                                              "package_type":bookingList[
+                                              index]
+                                              ['type'],
+                                              "gym_address":gymLocation
+
+
+                                            }
+                                          )
+                                          ;
+                                          Get.to(()=>SelectDate(
+                                            months: newBookingList[
+                                            index]
+                                            ['title']
+                                                .toUpperCase(),
+                                            price: int.parse(
+                                                bookingList[
+                                                index]
+                                                [
+                                                "original_price"]) -
+                                                (int.parse(bookingList[index]
+                                                [
+                                                "original_price"]) *
+                                                    int.parse(bookingList[index]
+                                                    [
+                                                    "discount"]) /
+                                                    100)
+                                                    .round(),
+                                            packageType:
+                                            bookingList[
+                                            index]
+                                            ['type'],
+                                            getGymName:
+                                            getGymName,
+                                            getGymAddress:
+                                            gymLocation,
+                                            gymId:gymID ,
+                                            bookingId: booking_id,
+                                          ),
+                                              duration: const Duration(milliseconds: 500),
+                                          );
+                                          // Navigator.push(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder:
+                                          //             (context) => SelectDate(
+                                          //           months: newBookingList[
+                                          //           index]
+                                          //           ['title']
+                                          //               .toUpperCase(),
+                                          //           price: int.parse(
+                                          //               bookingList[
+                                          //               index]
+                                          //               [
+                                          //               "original_price"]) -
+                                          //               (int.parse(bookingList[index]
+                                          //               [
+                                          //               "original_price"]) *
+                                          //                   int.parse(bookingList[index]
+                                          //                   [
+                                          //                   "discount"]) /
+                                          //                   100)
+                                          //                   .round(),
+                                          //           packageType:
+                                          //           bookingList[
+                                          //           index]
+                                          //           ['type'],
+                                          //           getGymName:
+                                          //           getGymName,
+                                          //           getGymAddress:
+                                          //           gymLocation,
+                                          //               gymId:gymID ,
+                                          //               bookingId: booking_id,
+                                          //         )));
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.only(
@@ -255,8 +323,8 @@ class BookingDetails {
         });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Container();
+  // }
 }

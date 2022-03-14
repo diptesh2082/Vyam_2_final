@@ -2,11 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+// import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
 import 'package:vyam_2_final/Home/profile/profile_page.dart';
 import 'package:vyam_2_final/Home/views/explore.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
 import 'package:vyam_2_final/booking/bookings.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
+
+import 'icons/home_icon_icons.dart';
 
 class HomePage extends StatefulWidget {
   static String id = "/HomePage";
@@ -24,9 +27,10 @@ class _HomePageState extends State<HomePage> {
       PersistentBottomNavBarItem(
         icon: Column(
           children: const [
-            ImageIcon(
-              AssetImage("assets/icons/Vector.png"),
-              size: 30,
+            Icon(
+              HomeIcon.home_active,
+              // AssetImage("assets/icons/Vector.png"),
+              // size: 30,
             ),
             Text("Home",
             style: TextStyle(
@@ -44,9 +48,10 @@ class _HomePageState extends State<HomePage> {
       PersistentBottomNavBarItem(
         icon: Column(
           children: const [
-            ImageIcon(
-              AssetImage("assets/icons/active.png"),
-              size: 30,
+            Icon(
+                HomeIcon.active
+              // AssetImage("assets/icons/active.png"),
+              // size: 30,
             ),
             Text("Bookings",
               style: TextStyle(
@@ -64,9 +69,10 @@ class _HomePageState extends State<HomePage> {
       PersistentBottomNavBarItem(
         icon: Column(
           children: const [
-            ImageIcon(
-              AssetImage("assets/icons/Discovery.png"),
-              size: 30,
+            Icon(
+                HomeIcon.discovery,
+              // AssetImage("assets/icons/Discovery.png"),
+              size: 25,
             ),
             Text("Explore",
             style: TextStyle(
@@ -84,9 +90,10 @@ class _HomePageState extends State<HomePage> {
       PersistentBottomNavBarItem(
         icon: Column(
           children: const [
-            ImageIcon(
-              AssetImage("assets/icons/profile.png"),
-              size: 30,
+            Icon(
+                HomeIcon.active_1
+              // AssetImage("assets/icons/profile.png"),
+              // size: 30,
             ),
             Text("Profile",
               style: TextStyle(
@@ -128,6 +135,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: PersistentTabView(
         context,
         controller: _controller,

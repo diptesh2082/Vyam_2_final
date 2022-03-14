@@ -65,6 +65,8 @@ dependencies:
   reviews_slider: ^2.0.0
   flutter_rating_bar: ^4.0.0
   sliding_up_panel: ^2.0.0+1
+  intl: ^0.17.0
+
 
 
 dev_dependencies:
@@ -77,6 +79,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  flutter_native_splash: ^2.1.0
+flutter_native_splash:
+  color: "#000000"
+  image: assets/Illustrations/vyam.png
+  android: true
+  ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -113,11 +121,11 @@ flutter:
           style: italic
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+    - family: HomeIcon
+      fonts:
+        - asset: assets/icons/HomeIcon.ttf
+#         - asset: fonts/TrajanPro_Bold.ttf
+#           weight: 700
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

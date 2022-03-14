@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -15,9 +16,11 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
+import 'package:vyam_2_final/Home/views/location.dart';
 import 'package:vyam_2_final/Home/views/yogaoptions.dart';
 import 'package:vyam_2_final/Home/views/zumbaoption.dart';
 import 'package:vyam_2_final/api/api.dart';
+import 'package:vyam_2_final/authintication/splash_screen.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'package:vyam_2_final/controllers/location_controller.dart';
 import 'package:vyam_2_final/controllers/package_controller.dart';
@@ -26,12 +29,14 @@ import 'package:vyam_2_final/gymtype/yogatype.dart';
 import 'package:vyam_2_final/gymtype/zumbatype.dart';
 import '../../Notifications/notification.dart';
 import 'gyms.dart';
-
 const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
 core.GoogleMapsPlaces _places = core.GoogleMapsPlaces(apiKey: api);
 
 class FirstHome extends StatefulWidget {
+  // static bool loading=isLoading;
   const FirstHome({Key? key}) : super(key: key);
+
+  // static bool get Loading => is;
 
   @override
   State<FirstHome> createState() => _FirstHomeState();
@@ -45,22 +50,39 @@ class _FirstHomeState extends State<FirstHome> {
   var progressColor;
   var getdata;
   var textColor;
-  var data;
+  var user_data;
   String getDays = '0';
   int totalDays = 0;
-  String myaddress = "your location";
-  var address="";
+  var myaddress ;
+  var address;
+  bool isLoading=true;
   // var location = Get.arguments;
 
+  // var data;
+  // await FirebaseFirestore.instance
+  //     .collection('user_details')
+  //     .doc(number)
+  //     .get()
+  //     .then((DocumentSnapshot documentSnapshot) {
+  // if (documentSnapshot.exists) {
+  // print('Document exists on the database');
+  // setState(() {
+  // user_data=documentSnapshot.data();
+  // });
   myLocation() async {
-    CollectionReference collectionReference =
-    FirebaseFirestore.instance.collection("user_details");
-    collectionReference.snapshots().listen((snapshot) {
-      setState(() {
-        data = snapshot.docs[0].data();
-        myaddress =  data["address"];
-        // print(myaddress);
-      });
+    // number=getUserId();
+    await FirebaseFirestore.instance
+        .collection('user_details')
+        .doc(number)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        print('Document exists on the database');
+        setState(() {
+          user_data=documentSnapshot.data();
+        });
+        // user_data=documentSnapshot.data();
+      }
     });
   }
 
@@ -73,6 +95,7 @@ class _FirstHomeState extends State<FirstHome> {
     sharedPreferences.setString("pin", pin.toString());
     getAddress();
   }
+
   // Future nearbyGyms(var document)async{
   //   document = await document.where((element) {
   //     return element
@@ -82,7 +105,7 @@ class _FirstHomeState extends State<FirstHome> {
   //         .contains(address2.toLowerCase());
   //   }).toList();
   // }
-  getUserDetails()async{
+  getUserDetails() async {
     Position position = await _determinePosition();
     await GetAddressFromLatLong(position);
     // await UserApi.updateUserAddress(
@@ -97,20 +120,43 @@ class _FirstHomeState extends State<FirstHome> {
       "lat": position.latitude,
       "long": position.longitude,
       "pincode": pin,
-      "locality":locality,
+      "locality": locality,
     });
     getAddressPin(pin);
     myLocation();
   }
+  getEverything()async {
+    await getUserId();
+    await myLocation();
+    await getUserDetails();
+    await userDetails.getData();
+    isLoading=false;
+
+  }
+
   @override
   void initState() {
-    myLocation();
-    getUserDetails();
-    userDetails.getData();
+    // getUserId();
+    getEverything();
+    print(number);
+    // FocusScope.of(context).unfocus();
+    SystemChannels.textInput.invokeMethod("TextInput.hide");
+    // myLocation();
+    // getUserDetails();
+    // userDetails.getData();
+
+    // getNumber();
+    // number=getUserId();
+    // number==null?number=getUserId().toString():number=number;
 
     print(address2);
-    // userLocation();
+    setState(() {
+      myaddress = myaddress;
+      address = address;
+      pin = pin;
 
+    });
+    // userLocation();
 
     // getNumber();
 
@@ -163,11 +209,10 @@ class _FirstHomeState extends State<FirstHome> {
   final appBarColor = Colors.grey[300];
   // final LocationController yourLocation = Get.find();
   GymDetailApi gymDetailApi = GymDetailApi();
-  final FirebaseAuth _auth= FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final HomeController controller = Get.put(HomeController());
   final LocationController locationController = Get.put(LocationController());
-
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -208,19 +253,20 @@ class _FirstHomeState extends State<FirstHome> {
   // }
 
   String pin = "";
-  String locality="";
-  String subLocality="";
+  String locality = "";
+  String subLocality = "";
   GymAllApi gymAll = GymAllApi();
   // ignore: non_constant_identifier_names
   Future<void> GetAddressFromLatLong(Position position) async {
     List<Placemark> placemark =
-    await placemarkFromCoordinates(position.latitude, position.longitude);
+        await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
 
-    address = "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
+    address =
+        "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
     pin = "${place.postalCode}";
-    locality="${place.locality}";
-    subLocality="${place.subLocality}";
+    locality = "${place.locality}";
+    subLocality = "${place.subLocality}";
   }
 
   // List<DocumentSnapshot> document = [];
@@ -232,10 +278,13 @@ class _FirstHomeState extends State<FirstHome> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      appBar: AppBar(
+    return
+      Scaffold(
+      backgroundColor: const Color(0xffF4F4F4),
+      appBar:  AppBar(
+        elevation: .6,
         centerTitle: false,
-        backgroundColor: Colors.grey[100],
+        backgroundColor: const Color(0xffF4F4F4),
         title: Transform(
           transform: Matrix4.translationValues(-20.0, 0.0, 0.0),
           child: Row(
@@ -247,38 +296,28 @@ class _FirstHomeState extends State<FirstHome> {
                   color: Colors.black,
                 ),
                 onPressed: () async {
-                  // print(_auth.currentUser?.phoneNumber);
+                  FocusScope.of(context).unfocus();
                   // Get.back();
-                  print(_auth.currentUser?.phoneNumber);
-                  Position position = await _determinePosition();
-                  await GetAddressFromLatLong(position);
+                  // print(_auth.currentUser?.uid);
+                  // Position position = await _determinePosition();
+                  // await GetAddressFromLatLong(position);
                   // await UserApi.updateUserAddress(
                   //     address, [position.latitude, position.longitude], pin
                   // );
                   await getAddressPin(pin);
 
-                  setState(() {
+                  setState((){
+                    // myaddress = myaddress;
                     address = address;
                     pin = pin;
                   });
-                  await FirebaseFirestore.instance
-                      .collection("user_details")
-                      .doc(number)
-                      .update({
-                    "address": address,
-                    "lat": position.latitude,
-                    "long": position.longitude,
-                    "pincode": pin,
-                    "locality":locality,
-                    "subLocality": locality,
-                    "number": number
-                  });
+                  Get.to(()=>LocInfo());
                 },
               ),
               SizedBox(
                 width: size.width * .55,
                 child: Text(
-                  myaddress,
+                  user_data!=null ? user_data["address"]:"your Location",
                   textAlign: TextAlign.left,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -299,7 +338,9 @@ class _FirstHomeState extends State<FirstHome> {
               color: Colors.black,
             ),
             onPressed: () {
-              Get.to(const NotificationDetails());
+              FocusScope.of(context).unfocus();
+              print(number);
+              // Get.to(const NotificationDetails());
             },
           ),
         ],
@@ -312,31 +353,65 @@ class _FirstHomeState extends State<FirstHome> {
               const SizedBox(
                 height: 10,
               ),
-              CupertinoSearchTextField(
-                onChanged: (value) {
-                  setState(() {
-                    searchGymName = value.toString();
-                  });
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                child: SizedBox(
+                  height: 45,
+                  child: TextFormField(
 
-                  print(searchGymName);
-                },
-                decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(10)),
-                onSubmitted: (value) {
-                  // ignore: avoid_print
-                  print('Submitted text: $value');
-                },
+                    onChanged: (value) {
+                      // print(value.toString());
+                      setState(() {
+
+                        searchGymName = value.toString();
+                      });
+                      //
+                      // print(searchGymName);
+                    },
+                    // onSubmitted: (value) {
+                    //   // ignore: avoid_print
+                    //   print('Submitted text: $value');
+                    // },
+                    decoration: InputDecoration(
+                      prefixIcon: Image.asset("assets/images/Search.png"),
+                      hintText: 'Search',
+                      border: InputBorder.none,
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                  ),
+                ),
               ),
+
+              // CupertinoSearchTextField(
+              //   onChanged: (value) {
+              //     setState(() {
+              //       searchGymName = value.toString();
+              //     });
+              //
+              //     print(searchGymName);
+              //   },
+              //   decoration: BoxDecoration(
+              //       color: Colors.grey[300],
+              //       borderRadius: BorderRadius.circular(10)),
+              //   onSubmitted: (value) {
+              //     // ignore: avoid_print
+              //     print('Submitted text: $value');
+              //   },
+              // ),
               // const SizedBox(
               //   height: 4,
               // ),
+              const SizedBox(
+                height: 12,
+              ),
               if (getPercentage != 100) ProgressCard(context),
               const SizedBox(
                 height: 15,
               ),
               InkWell(
                 onTap: () {
+                  FocusScope.of(context).unfocus();
                   Get.to(CouponDetails());
                 },
                 child: SizedBox(
@@ -360,9 +435,15 @@ class _FirstHomeState extends State<FirstHome> {
                             height: 120,
                             child: Row(
                               children: [
-                                Image.network(data.docs[index]["image"]),
                                 const SizedBox(
-                                  width: 10,
+                                  width: 5,
+                                ),
+                                Material(
+                                    elevation: 5,
+                                    color: const Color(0xffF4F4F4),
+                                    child: Image.network(data.docs[index]["image"])),
+                                const SizedBox(
+                                  width: 5,
                                 ),
                               ],
                             ),
@@ -378,7 +459,7 @@ class _FirstHomeState extends State<FirstHome> {
               ),
               SizedBox(
                 height: 150,
-                child: ListView.builder(
+                child: ListView.separated(
                   shrinkWrap: true,
                   itemCount: controller.OptionsList.length,
                   scrollDirection: Axis.horizontal,
@@ -387,19 +468,28 @@ class _FirstHomeState extends State<FirstHome> {
                       height: 150,
                       child: Row(
                         children: [
+                          const SizedBox(
+                            width: 5,
+                          ),
                           GestureDetector(
                               onTap: () {
                                 Get.to(const GymOption());
+                                FocusScope.of(context).unfocus();
                               },
-                              child: Image.asset(
-                                  controller.OptionsList[index].imageAssets)),
+                              child: Material(
+                                elevation: 5,
+                                color: const Color(0xffF4F4F4),
+                                child: Image.asset(
+                                    controller.OptionsList[index].imageAssets),
+                              )),
                           const SizedBox(
-                            width: 10,
-                          ),
+                            width: 5,
+                          )
+
                         ],
                       ),
                     );
-                  },
+                  }, separatorBuilder: (BuildContext context, int index) {  return Divider(); },
                 ),
               ),
               const SizedBox(
@@ -444,205 +534,213 @@ class _FirstHomeState extends State<FirstHome> {
                               .toLowerCase()
                               .contains(searchGymName.toLowerCase());
                         }).toList();
-                      }else{
+                      } else {
                         document = document.where((element) {
                           return element
                               .get('pincode')
                               .toString()
-                          // .toLowerCase()
+                              // .toLowerCase()
                               .contains(address2.toString());
                         }).toList();
                       }
                       return document.isNotEmpty
                           ? ListView.separated(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: document.length,
-                        itemBuilder: (context, int index) {
-                          return Column(
-                            children: [
-                              Stack(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () async {
-                                      print("${document[index]["name"]}");
-                                      Get.to(
-                                              () => GymDetails(
-                                            // getID: document[index].id,
-                                            // gymLocation:
-                                            // document[index]
-                                            // ["location"],
-                                            // gymName: document[index]
-                                            // ["name"],
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: document.length,
+                              itemBuilder: (context, int index) {
+                                return Column(
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () async {
+                                            FocusScope.of(context).unfocus();
+                                            // print("${document[index]["name"]}");
+                                            Get.to(
+                                                () => GymDetails(
+                                                    // getID: document[index].id,
+                                                    // gymLocation:
+                                                    // document[index]
+                                                    // ["location"],
+                                                    // gymName: document[index]
+                                                    // ["name"],
+                                                    ),
+                                                arguments: {
+                                                  "id": document[index].id,
+                                                  "location": document[index]
+                                                      ["location"],
+                                                  "name": document[index]
+                                                      ["name"],
+                                                  "docs": document[index]
+                                                });
+                                          },
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            child: Material(
+                                              elevation: 5,
+                                              color: const Color(0xffF4F4F4),
+                                              child: Image.asset(
+                                                "assets/photos/gym.jpg",
+                                                fit: BoxFit.cover,
+                                                height: size.height * .25,
+                                                width: size.width * .94,
+                                              ),
+                                            ),
                                           ),
-                                          arguments: {
-                                            "id": document[index].id,
-                                            "location": document[index]["location"],
-                                            "name": document[index]["name"],
-                                            "docs": document[index]
-                                          }
-                                      );
-                                    },
-                                    child: ClipRRect(
-                                      borderRadius:
-                                      BorderRadius.circular(15),
-                                      child: Image.asset(
-                                        "assets/photos/gym.jpg",
-                                        fit: BoxFit.cover,
-                                        height: size.height * .25,
-                                        width: size.width * .94,
-                                      ),
+                                        ),
+                                        Positioned(
+                                          bottom: size.height * .009,
+                                          left: 5,
+                                          child: Container(
+                                            height: size.height * .078,
+                                            width: size.width * .45,
+                                            color: Colors.black26,
+                                            padding: const EdgeInsets.only(
+                                                left: 8, bottom: 10),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  document[index]["name"],
+                                                  textAlign: TextAlign.center,
+                                                  maxLines: 1,
+                                                  // overflow:
+                                                  // TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      color: Colors.white,
+                                                      fontFamily: "Poppins",
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                                const SizedBox(
+                                                  height: 2,
+                                                ),
+                                                Text(
+                                                  // "",
+                                                  document[index]["address"]??"",
+                                                  textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      color: Colors.white,
+                                                      fontFamily: "Poppins",
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: 5,
+                                          bottom: size.height * .008,
+                                          child: Container(
+                                            color: Colors.black26,
+                                            alignment: Alignment.bottomRight,
+                                            height: size.height * .09,
+                                            width: size.width * .22,
+                                            padding: const EdgeInsets.only(
+                                                right: 8, bottom: 10),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: const [
+                                                    // SvgPicture.asset(
+                                                    //     'assets/Icons/rating star small.svg'),
+                                                    Icon(
+                                                      CupertinoIcons.star_fill,
+                                                      color: Colors.yellow,
+                                                      size: 18,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      "4.7",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                          fontFamily: "Poppins",
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(
+                                                  height: 3,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: const [
+                                                    // SvgPicture.asset(
+                                                    //   'assets/Icons/Location.svg',
+                                                    //   color: Colors.white,
+                                                    // ),
+                                                    Icon(
+                                                      CupertinoIcons
+                                                          .location_solid,
+                                                      size: 20,
+                                                      color: Colors.white,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Text(
+                                                      "1 KM",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontFamily: "Poppins",
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  Positioned(
-                                    bottom: size.height * .009,
-                                    left: 5,
-                                    child: Container(
-                                      height: size.height * .078,
-                                      width: size.width * .45,
-                                      color: Colors.black26,
-                                      padding: const EdgeInsets.only(
-                                          left: 8, bottom: 10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            document[index]["name"],
-                                            textAlign: TextAlign.center,
-                                            maxLines: 1,
-                                            // overflow:
-                                            // TextOverflow.ellipsis,
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontFamily: "Poppins",
-                                                fontSize: 15,
-                                                fontWeight:
-                                                FontWeight.w600),
-                                          ),
-                                          const SizedBox(
-                                            height: 2,
-                                          ),
-                                          Text(
-                                            document[index]["address"],
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                overflow: TextOverflow.ellipsis,
-                                                color: Colors.white,
-                                                fontFamily: "Poppins",
-                                                fontSize: 12,
-                                                fontWeight:
-                                                FontWeight.w600),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 5,
-                                    bottom: size.height * .008,
-                                    child: Container(
-                                      color: Colors.black26,
-                                      alignment: Alignment.bottomRight,
-                                      height: size.height * .09,
-                                      width: size.width * .22,
-                                      padding: const EdgeInsets.only(
-                                          right: 8, bottom: 10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.end,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                            children: const [
-                                              // SvgPicture.asset(
-                                              //     'assets/Icons/rating star small.svg'),
-                                              Icon(
-                                                CupertinoIcons.star_fill,
-                                                color: Colors.yellow,
-                                                size: 18,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "4.7",
-                                                textAlign:
-                                                TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 15,
-                                                    fontFamily: "Poppins",
-                                                    fontWeight:
-                                                    FontWeight.w600),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 3,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                            children: const [
-                                              // SvgPicture.asset(
-                                              //   'assets/Icons/Location.svg',
-                                              //   color: Colors.white,
-                                              // ),
-                                              Icon(
-                                                CupertinoIcons
-                                                    .location_solid,
-                                                size: 20,
-                                                color: Colors.white,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "1 KM",
-                                                textAlign:
-                                                TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontFamily: "Poppins",
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                    FontWeight.w600),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                            ],
-                          );
-                        },
-                        separatorBuilder:
-                            (BuildContext context, int index) {
-                          return Divider();
-                        },
-                      )
+                                    // const SizedBox(
+                                    //   height: 10,
+                                    // )
+                                  ],
+                                );
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return const Divider();
+                              },
+                            )
                           : const Center(
-                        child: Text(
-                          "No nearby gyms in your area",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w100,
-                            fontFamily: "Poppins",
-                            fontSize: 20,
-                          ),
-                        ),
-                      );
+                              child: Text(
+                                "No nearby gyms in your area",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w100,
+                                  fontFamily: "Poppins",
+                                  fontSize: 20,
+                                ),
+                              ),
+                            );
                     },
                   ),
                 ),
@@ -657,7 +755,7 @@ class _FirstHomeState extends State<FirstHome> {
   // ignore: non_constant_identifier_names
   Card ProgressCard(BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: StreamBuilder<QuerySnapshot>(
           stream: activeBookingApi.getActiveBooking,
@@ -674,15 +772,14 @@ class _FirstHomeState extends State<FirstHome> {
             if (snapshot.hasData) {
               final data = snapshot.requireData;
               if (data.size == 0) {
-                return SizedBox();
+                return const SizedBox();
               }
-
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: 1,
                 itemBuilder: (context, index) {
-                  getDays = (data.docs[index]["daysLeft"]);
-                  totalDays = int.parse(data.docs[index]["totalDays"]);
+                  getDays = (data.docs[index]["daysLeft"]??"0");
+                  totalDays = int.parse(data.docs[index]["totalDays"] ?? "0") ;
 
                   getProgressStatus();
                   return Container(
@@ -700,11 +797,11 @@ class _FirstHomeState extends State<FirstHome> {
                               children: [
                                 Row(
                                   children: [
-                                    Text(data.docs[index]['daysLeft'],
+                                    Text(data.docs[index]['daysLeft']??"",
                                         style: GoogleFonts.poppins(
                                             color: textColor,
                                             fontWeight: FontWeight.bold)),
-                                    Text(" days to go",
+                                    Text("days to go",
                                         style: GoogleFonts.poppins(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold)),
@@ -713,7 +810,7 @@ class _FirstHomeState extends State<FirstHome> {
                                 const SizedBox(
                                   height: 5,
                                 ),
-                                Text(data.docs[index]['gym_name'],
+                                Text(data.docs[index]['gym_name']??"",
                                     style: GoogleFonts.poppins(
                                         fontSize: 13,
                                         color: Colors.black,
@@ -767,3 +864,19 @@ class _FirstHomeState extends State<FirstHome> {
     );
   }
 }
+// isLoading ? Expanded(
+//
+// child: Container(
+// color: Colors.white,
+// child:
+// // SplashScreen()
+// const Center(
+// child: CircularProgressIndicator(
+// color: Colors.amberAccent,
+// backgroundColor: Colors.white,
+//
+//
+// ),
+// ),
+// ),
+// ):

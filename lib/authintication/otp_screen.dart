@@ -44,12 +44,14 @@ class _OtpPageState extends State<OtpPage> {
       });
       if (authCred.user != null) {
         getToHomePage(_auth.currentUser?.phoneNumber);
+        // setUserId(_auth.currentUser?.phoneNumber);
         bool? visitingFlag=await getVisitingFlag();
+        setUserId(_auth.currentUser?.phoneNumber);
         setVisitingFlag();
         if (visitingFlag==true){
-          Get.to(()=>HomePage());
+          Get.offAll(()=>HomePage());
         }else if(visitingFlag==false){
-          Get.to(()=>Register1());
+          Get.offAll(()=>Register1());
         }
 
         // SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -197,7 +199,7 @@ class _OtpPageState extends State<OtpPage> {
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                  primary: elevatedButtonColor),
+                                  primary: buttonColor),
                             ),
                           ),
                           const SizedBox(

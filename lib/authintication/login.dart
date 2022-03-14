@@ -17,11 +17,16 @@ class _LoginPageState extends State<LoginPage> {
   bool showLoding = false;
   TextEditingController phoneController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  // goToHome(){
+  //   if ();
+  // }
+  //
   @override
   void initState() {
     // TODO: implement initState
     print(number);
     super.initState();
+
   }
   @override
   Widget build(BuildContext context) {
@@ -197,7 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
-                              primary: elevatedButtonColor),
+                              primary: buttonColor),
                         ),
                       ),
                       const SizedBox(

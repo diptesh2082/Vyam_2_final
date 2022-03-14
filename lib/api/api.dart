@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:location/location.dart';
@@ -6,13 +7,26 @@ import 'package:location/location.dart';
 // ignore: prefer_typing_uninitialized_variables
 var number;
 var address2;
+final booking= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
 Location location = Location();
 Geoflutterfire geo = Geoflutterfire();
+FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+getUserId() async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  var user_Id= sharedPreferences.getString("userId")?? "";
+  number=user_Id;
+  print(number);
+  return number;
+}
+setUserId(x)async{
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  preferences.setString("userId", x);
+}
 getVisitingFlag() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  bool visited= sharedPreferences.getBool("visited")?? false;
+  bool? visited= sharedPreferences.getBool("visited")?? false;
   return visited;
 }
 setVisitingFlag()async{
@@ -27,8 +41,10 @@ getNumber() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalNumber = sharedPreferences.getString("number");
   number = finalNumber.toString();
-  // await UserApi.createNewUser();
-  // print(number);
+  print(number);
+  // return number;
+  await UserApi.createNewUser();
+
 }
 getAddress() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -129,11 +145,11 @@ class UpcomingApi {
 
 class ActiveBookingApi {
   Stream<QuerySnapshot> getActiveBooking = FirebaseFirestore.instance
-      .collection('user_details')
+      .collection('bookings')
       .doc(number)
-      .collection("bookings")
-      .doc("active")
-      .collection("active_booking")
+      .collection("user_booking")
+      .where("booking_status", isEqualTo: "active")
+
       .snapshots();
 }
 
@@ -174,6 +190,7 @@ class UserApi {
     final myJson = {
       'userId': docUser.id,
       "number": docUser.id,
+      "uid":  _auth.currentUser?.uid,
       // "name": name,
     };
     await docUser.set(myJson);
@@ -238,12 +255,32 @@ class UserApi {
     await docUser.update(myJson);
   }
 }
+class GymReviews{
+  // final String uid;
+  // GymReviews({required this.uid});
+
+//   getuserAddress() {
+//     Stream<QuerySnapshot> getReviews =
+//     FirebaseFirestore.instance.collection('user_details').snapshots();
+//   }
+
+    Stream<QuerySnapshot> getGymReviews = FirebaseFirestore.instance
+    //     .collection("Reviews")
+    // .doc("GYM")
+    .collectionGroup("Transformer Gym")
+        // .where("pincode", isEqualTo: address2.toString())
+        .snapshots();
+
+
+
+}
 
 class GymAllApi {
   getuserAddress() {
     Stream<QuerySnapshot> getUser =
         FirebaseFirestore.instance.collection('user_details').snapshots();
   }
+
 
   Stream<QuerySnapshot> getGymDetails = FirebaseFirestore.instance
       .collection("product_details")

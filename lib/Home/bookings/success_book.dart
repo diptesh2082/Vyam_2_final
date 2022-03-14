@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class SuccessBook extends StatefulWidget {
@@ -43,7 +44,7 @@ class _SuccessBookState extends State<SuccessBook>
               ScaleTransition(
                 scale: scaleAnimation,
                 alignment: Alignment.center,
-                child: Icon(
+                child: const Icon(
                   Icons.verified,
                   color: Colors.green,
                   size: 85,
@@ -52,7 +53,7 @@ class _SuccessBookState extends State<SuccessBook>
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
-              Text(
+              const Text(
                 'Booking Successful!!',
                 style: TextStyle(
                     fontFamily: 'poppins',
@@ -62,7 +63,7 @@ class _SuccessBookState extends State<SuccessBook>
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.015,
               ),
-              Text(
+              const Text(
                 'Share the OTP with your \n  gym owner to start',
                 style: TextStyle(
                     fontFamily: 'poppins',
@@ -85,36 +86,37 @@ class PanelWidget extends StatefulWidget {
 class _PanelWidgetState extends State<PanelWidget> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.02,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
+        Center(
+          child: Container(
+            width: 70,
+            height: 5,
+            decoration: BoxDecoration(
+                color: Colors.grey, borderRadius: BorderRadius.circular(12)),
           ),
-          Center(
-            child: Container(
-              width: 70,
-              height: 5,
-              decoration: BoxDecoration(
-                  color: Colors.grey, borderRadius: BorderRadius.circular(12)),
-            ),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.02,
+        ),
+        const Padding(
+          padding: EdgeInsets.only(left: 8.0),
+          child: Text(
+            'Booking Details',
+            style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'poppins',
+                fontWeight: FontWeight.w600,
+                fontSize: 16),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.02,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Text(
-              'Booking Details',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'poppins',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16),
-            ),
-          ),
-          Card(
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Card(
             child: Padding(
               padding: const EdgeInsets.only(left: 6.0),
               child: Row(
@@ -122,7 +124,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                   Column(
                     children: [
                       Row(
-                        children: [
+                        children: const [
                           Text(
                             'Booking ID :',
                             style: TextStyle(
@@ -142,7 +144,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.002,
                       ),
-                      Text(
+                      const Text(
                         'Transformers gym',
                         style: TextStyle(
                             fontFamily: 'poppins',
@@ -152,7 +154,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.002,
                       ),
-                      Row(children: [
+                      Row(children: const [
                         Icon(
                           Icons.location_on,
                           size: 18,
@@ -168,7 +170,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                         height: MediaQuery.of(context).size.height * 0.002,
                       ),
                       Row(
-                        children: [
+                        children: const [
                           Text(
                             'Package  ',
                             style: TextStyle(
@@ -188,7 +190,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.002,
                       ),
-                      Text(
+                      const Text(
                         'Ends on: 6th May',
                         style: TextStyle(
                             color: Colors.grey,
@@ -207,9 +209,9 @@ class _PanelWidgetState extends State<PanelWidget> {
                                 RoundedRectangleBorder>(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ))),
-                        child: const Text(
-                          'OTP : 123456',
-                          style: TextStyle(
+                        child:  Text(
+                          'OTP : ${Get.arguments["otp_pass"]}',
+                          style: const TextStyle(
                               color: Colors.white,
                               fontFamily: 'poppins',
                               fontWeight: FontWeight.w600,
@@ -224,73 +226,73 @@ class _PanelWidgetState extends State<PanelWidget> {
                       left: 20.0,
                     ),
                     child: Container(
-                      height: 200,
-                      width: 200,
-                      decoration: BoxDecoration(
+                      height: 190,
+                      width: 190,
+                      decoration: const BoxDecoration(
                           image: DecorationImage(
-                              image: AssetImage("assets/rectangle_14.png"))),
+                              image: AssetImage("assets/icons/rectangle_14.png"))),
                     ),
                   )
                 ],
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.black87),
-                        shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ))),
-                    child: const Text(
-                      'Leave a rating',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14),
-                    ),
-                    onPressed: () {},
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+          child: Row(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black87),
+                      shape:
+                      MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ))),
+                  child: const Text(
+                    'Leave a rating',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14),
                   ),
+                  onPressed: () {},
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.09,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.black87),
-                        shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ))),
-                    child: const Text(
-                      'Track',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14),
-                    ),
-                    onPressed: () {},
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.09,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black87),
+                      shape:
+                      MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ))),
+                  child: const Text(
+                    'Track',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14),
                   ),
+                  onPressed: () {},
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

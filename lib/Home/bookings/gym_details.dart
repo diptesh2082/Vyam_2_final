@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
 import 'package:vyam_2_final/Home/bookings/review_screen.dart';
+import 'package:vyam_2_final/Home/bookings/timings.dart';
 import 'package:vyam_2_final/Home/bookings/timings_details.dart';
 import 'package:vyam_2_final/controllers/packages/packages.dart';
 
@@ -67,9 +70,10 @@ class _GymDetailsState extends State<GymDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xffF4F4F4),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(3),
           child: Container(
             //height: 800,
             width: MediaQuery.of(context).size.width,
@@ -83,7 +87,7 @@ class _GymDetailsState extends State<GymDetails> {
 
                     children: [
                       const SizedBox(
-                        height: 10,
+                        height: 6,
                       ),
 
                       ClipRRect(
@@ -143,26 +147,20 @@ class _GymDetailsState extends State<GymDetails> {
                                     )),
                               ),
                               Positioned(
-                                left: 10,
-                                  // left: MediaQuery.of(context).size.width * 0.03,
-                                  // right: MediaQuery.of(context).size.width * 0.85,
-                                  // top: 100,
-                                  right: 280,
-                                  top: 5,
-                                  child: GestureDetector(
-                                    child: Container(
-                                      height: 30,
-                                      width: 0,
-                                      color: Colors.black26,
-                                      child: const Icon(
-                                        Icons.arrow_back_outlined,
-                                        color: Colors.white70,
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      Get.back();
-                                    },
+                                // left: MediaQuery.of(context).size.width * 0.8,
+                                right: 290,
+                                // bottom: 10,
+                                top: 0,
+                                left: 0,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6.0),
+                                  child: IconButton(onPressed: (){
+                                    Get.back();
+                                  }, icon: const Icon(Icons.arrow_back,
+                                    color: Colors.white,
                                   )),
+                                ),
+                              ),
                               Positioned(
                                 // left: MediaQuery.of(context).size.width * 0.8,
                                 right: 10,
@@ -175,20 +173,22 @@ class _GymDetailsState extends State<GymDetails> {
                                       width:0,
                                       color: Colors.black45,
                                       child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Padding(
                                             padding:
-                                            const EdgeInsets.only(left: 15.0),
+                                            const EdgeInsets.only(left: 0),
                                             child: Text(
                                               _current.toString(),
-                                              style: TextStyle(color: Colors.white),
+                                              style: const TextStyle(color: Colors.white),
                                             ),
                                           ),
                                           const Text("/",
                                               style:
                                               TextStyle(color: Colors.white)),
                                           Text(images.length.toString(),
-                                              style: TextStyle(color: Colors.white))
+                                              style: const TextStyle(color: Colors.white))
                                         ],
                                       )),
                                 ),
@@ -199,7 +199,7 @@ class _GymDetailsState extends State<GymDetails> {
                       Row(
                         children: [
                           Text(
-                            '${doc["docs"]["name"]}',
+                            '${doc["docs"]["name"]??""}',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: const TextStyle(
@@ -248,10 +248,11 @@ class _GymDetailsState extends State<GymDetails> {
                                     fontSize: 8,
                                     fontWeight: FontWeight.w500)),
                             onTap: () {
+                              FocusScope.of(context).unfocus();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Timing()));
+                                      builder: (context) => const Timing()));
                             },
                           ),
                         ),
@@ -260,7 +261,7 @@ class _GymDetailsState extends State<GymDetails> {
                       ]),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                        Text(
-                        '${doc["docs"]["address"]}',
+                        '${doc["docs"]["address"]??""}',
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: const TextStyle(
@@ -270,88 +271,115 @@ class _GymDetailsState extends State<GymDetails> {
                             fontWeight: FontWeight.w400),
                       ),
                       SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.028),
-                      FittedBox(
-                        child: Row(children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: Container(
-                              height: 51,
-                              width: 49,
-                              //color: Colors.amber,
-                              decoration: const BoxDecoration(
-                                  color: Colors.amber,
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          "assets/images/time_circle.png"))),
+                          height: MediaQuery.of(context).size.height * 0.025),
+                      SizedBox(
+                        height: 60,
+                        child: FittedBox(
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.start,
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
+                                    height: 51,
+                                    width: 49,
+                                    //color: Colors.amber,
+                                    decoration: const BoxDecoration(
+                                        color: Colors.amber,
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/images/time_circle.png"))),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                          IntrinsicHeight(
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: const [
-                                      Text(' Morning (Mon-Sat)',
-                                          style: TextStyle(
-                                              fontFamily: 'poppins',
-                                              color: Colors.grey,
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w600)),
-                                      SizedBox(height: 10),
-                                      Text('6.00AM-12.00PM',
-                                          style: TextStyle(
-                                              fontFamily: 'poppins',
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              fontSize: 10)),
-                                    ],
-                                  ),
-                                  const VerticalDivider(
-                                    thickness: 1,
-                                    color: Colors.grey,
-                                  ),
-                                  Column(
-                                    // mainAxisAlignment: MainAxisAlignment.start,
-                                    //crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: const [
-                                      Text(' Evening (Mon-Sat)',
-                                          style: TextStyle(
-                                              fontFamily: 'poppins',
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.grey,
-                                              fontSize: 10)),
-                                      SizedBox(height: 10),
-                                      Text('4.00PM-11.00PM',
-                                          style: TextStyle(
-                                              fontFamily: 'poppins',
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black,
-                                              fontSize: 10)),
-                                    ],
-                                  ),
-                                  const VerticalDivider(
-                                    thickness: 1,
-                                    color: Colors.grey,
-                                  ),
-                                  Column(
-                                    //mainAxisAlignment: MainAxisAlignment.start,
-                                    //crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: const [
-                                      Text(' Sunday',
-                                          style: TextStyle(
-                                              fontFamily: 'poppins',
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.grey,
-                                              fontSize: 10)),
-                                      SizedBox(height: 10),
-                                      Text(' Closed',
-                                          style: TextStyle(
-                                              color: Colors.black, fontSize: 10)),
-                                    ],
-                                  ),
-                                ],
-                              )),
-                        ]),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            IntrinsicHeight(
+                                child: Row(
+                                  // mainAxisAlignment: MainAxisAlignment.start,
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(
+                                            doc["docs"]["timings"]["gym"]["morning_days"] ??  "Morning",
+                                            style: const TextStyle(
+                                                fontFamily: 'poppins',
+                                                color: Colors.grey,
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.w600)),
+                                        const SizedBox(height: 10),
+                                        Text(
+
+                                            doc["docs"]["timings"]["gym"]["Morning"] ?? " no information"
+                                            ,
+                                            style: const TextStyle(
+                                                fontFamily: 'poppins',
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black,
+                                                fontSize: 10)),
+                                      ],
+                                    ),
+                                    const VerticalDivider(
+                                      thickness: 1,
+                                      color: Colors.grey,
+                                    ),
+                                    Column(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      //crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+
+                                            doc["docs"]["timings"]["gym"]["evening_days"] ?? "Evening",
+                                            style: const TextStyle(
+                                                fontFamily: 'poppins',
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.grey,
+                                                fontSize: 10)),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                            doc["docs"]["timings"]["gym"]["Evening"] ?? "no information",
+                                            style: const TextStyle(
+                                                fontFamily: 'poppins',
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black,
+                                                fontSize: 10)),
+                                      ],
+                                    ),
+                                    const VerticalDivider(
+                                      thickness: 1,
+                                      color: Colors.grey,
+                                    ),
+                                    Column(
+                                      //mainAxisAlignment: MainAxisAlignment.start,
+                                      //crossAxisAlignment: CrossAxisAlignment.end,
+                                      children:[
+                                        Text(
+                                            doc["docs"]["timings"]["gym"]["closed"] ?? "closed",
+                                            style: const TextStyle(
+                                                fontFamily: 'poppins',
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.grey,
+                                                fontSize: 10)),
+                                        const SizedBox(height: 10),
+                                         Text(
+                                           // "",
+                                            doc["docs"]["timings"]["gym"]["closed"] != null ?'Closed':"no information",
+                                            style: TextStyle(
+                                                color: Colors.black, fontSize: 10)),
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                          ]),
+                        ),
                       ),
                       Row(
                         children: [
@@ -366,7 +394,12 @@ class _GymDetailsState extends State<GymDetails> {
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12)),
                             onTap: () {
-                                Get.to(()=>const Timing());
+                              FocusScope.of(context).unfocus();
+                                Get.to(()=> Timing_Screen(),
+                                  arguments: {
+                                  "timings": doc["docs"]["timings"]
+                                  }
+                                );
                             },
                           ),
                           const Icon(
@@ -461,6 +494,7 @@ class _GymDetailsState extends State<GymDetails> {
                         height: MediaQuery.of(context).size.height / 5,
                         child: GestureDetector(
                           onTap: (){
+                            FocusScope.of(context).unfocus();
                             Get.to(()=>Trainer());
                           },
                           child: Card(
@@ -560,7 +594,17 @@ class _GymDetailsState extends State<GymDetails> {
                       SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                       GestureDetector(
                         onTap: (){
-                          Get.to(()=>Review());
+                          FocusScope.of(context).unfocus();
+                          // var mink=doc["docs"];
+                          // print(mink);
+                          // print();
+                          Get.to(()=>Review(),
+                            arguments: {
+                              "gym_id":doc["id"],
+                              "docs": doc["doc"],
+                              "name":doc["name"]
+                            }
+                          );
                         },
                         child: Card(
                             shape: RoundedRectangleBorder(
@@ -626,7 +670,7 @@ class _GymDetailsState extends State<GymDetails> {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(top: 6.0),
-                                          child: Container(
+                                          child: SizedBox(
                                             width: MediaQuery.of(context).size.width *
                                                 0.28,
                                             height: MediaQuery.of(context).size.height *
@@ -983,26 +1027,49 @@ class _GymDetailsState extends State<GymDetails> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: SizedBox(
+      floatingActionButton: Container(
+        // width: MediaQuery.of(context).size.width,
+        height: 66,
         width: MediaQuery.of(context).size.width*.9,
-        child: FloatingActionButton.extended(
-          elevation: 15,
-          splashColor: Colors.amber,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)
-          ),
-          onPressed: () {
-            Get.to(() =>
-                Packeges(
-                getFinalID: doc["id"],
-                gymName: doc["name"],
-                gymLocation: doc["location"],
-            )
-            );
-          },
-          label: Text(
-            "Explore Packages",
-            style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-          ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15)
+        ),
+       
+        child: Row(
+          mainAxisAlignment:MainAxisAlignment.center,
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+
+            SizedBox(
+              height: 51,
+              width: MediaQuery.of(context).size.width*.82,
+              child: FloatingActionButton.extended(
+                // backgroundColor: Colors.white,
+                elevation: 15,
+                splashColor: Colors.amber,
+                backgroundColor: const Color(0xff292F3D),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)
+                ),
+                onPressed: () {
+                  FocusScope.of(context).unfocus();
+
+                  // print(doc["id"]);
+                  Get.to(() =>
+                      Packeges(
+                      getFinalID: doc["id"],
+                      gymName: doc["name"],
+                      gymLocation: doc["location"],
+                  )
+                  );
+                },
+                label: Text(
+                  "Explore Packages",
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

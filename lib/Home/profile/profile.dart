@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vyam_2_final/Home/profile/profile_page.dart';
@@ -30,47 +31,71 @@ class _ProfileState extends State<Profile> {
   FirebaseFirestore.instance.collection("sightings").doc();
 
   final db = FirebaseFirestore.instance;
-  String id = "7407926060";
+  String id = number;
   // UserId userId = UserId();
-  final picker = ImagePicker();
+  // final picker = ImagePicker();
   // ignore: unused_field
-  late File _image;
+  File? _image;
+
+  File? image;
+  Future pickImage() async {
+    try{
+      final image = await ImagePicker().pickImage(
+          source: ImageSource.gallery,
+          imageQuality: 60
+      );
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() {
+        this.image = imageTemporary;
+      });
+    } on PlatformException catch (e) {
+      // ignore: avoid_print
+      print("Faild to pick image: $e");
+    }
+
+  }
 
   // for selecting images from device
-  Future getImage(bool gallery) async {
-    ImagePicker picker = ImagePicker();
-    PickedFile pickedFile;
-    // Let user select photo from gallery
-    if (gallery) {
-      pickedFile = (await picker.getImage(
-        source: ImageSource.gallery,
-      ))!;
-    }
-    // Otherwise open camera to get new photo
-    else {
-      pickedFile = (await picker.getImage(
-        source: ImageSource.camera,
-      ))!;
-    }
-
-    setState(() {
-      // ignore: unnecessary_null_comparison
-      if (pickedFile != null) {
-        _image = pickedFile as File;
-        //_image = File(pickedFile.path); // Use if you only need a single picture
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
+  // Future getImage(bool gallery) async {
+  //   ImagePicker picker = ImagePicker();
+  //   PickedFile pickedFile;
+  //   // Let user select photo from gallery
+  //   if (gallery) {
+  //     pickedFile = (await picker.getImage(
+  //       source: ImageSource.gallery,
+  //       imageQuality: 50
+  //     ))!;
+  //   }
+  //   // Otherwise open camera to get new photo
+  //   else {
+  //     pickedFile = (await picker.getImage(
+  //       source: ImageSource.camera,
+  //     ))!;
+  //   }
+  //
+  //   setState(() {
+  //     // ignore: unnecessary_null_comparison
+  //     if (pickedFile != null) {
+  //       _image = pickedFile as File;
+  //       //_image = File(pickedFile.path); // Use if you only need a single picture
+  //     } else {
+  //       print('No image selected.');
+  //     }
+  //   });
+  // }
 
   saveData()async {
     if (_globalKey.currentState!.validate()) {
       _globalKey.currentState!.save();
+      final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
+      await ref.putFile(image!);
+      final url = await ref.getDownloadURL();
       await db.collection("user_details").doc(id).update({
         'email': emailTextEditingController.text,
         'name': nameTextEditingController.text,
-        'number': phoneTextEditingController.text
+        'number': phoneTextEditingController.text,
+        "image": url
       });
     }
   }
@@ -110,20 +135,47 @@ class _ProfileState extends State<Profile> {
                   height: 50,
                 ),
                 Center(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.yellowAccent,
-                    child: IconButton(
-                      iconSize: 50,
-                      onPressed: () {
-                        getImage(true);
-                      },
-                      icon: const Icon(
-                        Icons.add_a_photo_outlined,
-                        size: 70,
-                        color: Colors.black87,
+                  child:GestureDetector(
+                    onTap: (){
+                      pickImage();
+                    },
+                    child: Stack(children: [
+                      CircleAvatar(
+                        radius: 51,
+                        backgroundColor: Colors.white,
+                        // MediaQuery.of(context).size.width * 0.3,
+                        child: image != null ? ClipOval(
+                          child: Image.file(image !,
+                            height: 150,
+                            width: 150,
+                          ),
+                        ): const Icon(Icons.camera_alt_outlined,
+                          size: 40,
+                        ),
+                        // decoration: const BoxDecoration(
+                        //     shape: BoxShape/.circle, color: Colors.white)
                       ),
-                    ),
+                      Positioned(
+                        // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
+                        bottom: 14.5,
+                        // right: 20,
+                        left: 32.5,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: const Icon(
+                            Icons.add,
+                            size: 21,
+                          ),
+                          //color: Colors.amber,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red.shade400,
+                          ),
+                        ),
+                      )
+                    ]),
                   ),
+
                 ),
                 const SizedBox(
                   height: 50,

@@ -124,94 +124,92 @@ class _Register4State extends State<Register4> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      'Add your profile picture !',
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 25,
+                          color: Colors.black),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        'Add your profile picture !',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 25,
-                            color: Colors.black),
-                      ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      'Do not forget to smile',
+                      style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          color: Colors.grey),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        'Do not forget to smile',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                            color: Colors.grey),
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12.0),
-                      child: GestureDetector(
-                        onTap: (){
-                          pickImage();
-                        },
-                        child: Stack(children: [
-                           CircleAvatar(
-                            radius: 51,
-                              backgroundColor: Colors.white,
-                              // MediaQuery.of(context).size.width * 0.3,
-                              child: image != null ? ClipOval(
-                                child: Image.file(image !,
-                                  height: 150,
-                                  width: 150,
-                                ),
-                              ): const Icon(Icons.camera_alt_outlined,
-                              size: 40,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.02,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12.0),
+                    child: GestureDetector(
+                      onTap: (){
+                        pickImage();
+                      },
+                      child: Stack(children: [
+                         CircleAvatar(
+                          radius: 51,
+                            backgroundColor: Colors.white,
+                            // MediaQuery.of(context).size.width * 0.3,
+                            child: image != null ? ClipOval(
+                              child: Image.file(image !,
+                                height: 150,
+                                width: 150,
                               ),
-                              // decoration: const BoxDecoration(
-                              //     shape: BoxShape/.circle, color: Colors.white)
-                              ),
-                          Positioned(
-                            // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
-                            bottom: 14.5,
-                            // right: 20,
-                            left: 32.5,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.3,
-                              child: const Icon(
-                                Icons.add,
-                                size: 21,
-                              ),
-                              //color: Colors.amber,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.red.shade400,
-                              ),
+                            ): const Icon(Icons.camera_alt_outlined,
+                            size: 40,
                             ),
-                          )
-                        ]),
-                      ),
+                            // decoration: const BoxDecoration(
+                            //     shape: BoxShape/.circle, color: Colors.white)
+                            ),
+                        Positioned(
+                          // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
+                          bottom: 14.5,
+                          // right: 20,
+                          left: 32.5,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: const Icon(
+                              Icons.add,
+                              size: 21,
+                            ),
+                            //color: Colors.amber,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.red.shade400,
+                            ),
+                          ),
+                        )
+                      ]),
                     ),
-                    // SizedBox(
-                    //   //height: MediaQuery.of(context).size.height / 0.5,
-                    //   width: MediaQuery.of(context).size.width,
-                    //   child: Container(
-                    //       width: double.infinity,
-                    //       child: Image.asset(
-                    //           'assets/Illustrations/gym_pana_4.png')),
-                    // ),
-                  ],
-                ),
+                  ),
+                  // SizedBox(
+                  //   //height: MediaQuery.of(context).size.height / 0.5,
+                  //   width: MediaQuery.of(context).size.width,
+                  //   child: Container(
+                  //       width: double.infinity,
+                  //       child: Image.asset(
+                  //           'assets/Illustrations/gym_pana_4.png')),
+                  // ),
+                ],
               )
             ],
           )

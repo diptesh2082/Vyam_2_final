@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/controllers/packages/bookingDetails.dart';
 import 'package:vyam_2_final/global_snackbar.dart';
 import '';
+import '../../api/api.dart';
 import '../package_controller.dart';
 
 class ZumbaList extends StatefulWidget {
@@ -30,6 +31,19 @@ class ZumbaList extends StatefulWidget {
 class _ZumbaListState extends State<ZumbaList> {
   GlobalSnacbar globalSnacbar = GlobalSnacbar();
   BookingDetails bookingDetails = BookingDetails();
+  final bookings= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
+  final id = FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking").doc().id.toString();
+
+  get dateTime => DateTime.now();
+  CreateBooking(String id)async{
+    final bookings= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
+    print(bookings);
+    // booking_id = bookings.doc().id;
+    // String id=bookings.doc().id;
+    bookings.doc(id).set({
+      "booking_id": id
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,17 +120,27 @@ class _ZumbaListState extends State<ZumbaList> {
                                             fontWeight: FontWeight.w600),
                                       ),
                                       const Spacer(),
+
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 2,
+                                  ),
+                                  Row(
+                                    children: [
                                       Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                        CrossAxisAlignment.start,
                                         children: [
+
                                           Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.end,
+                                            CrossAxisAlignment.start,
                                             children: [
+                                              if ( int.parse(data.docs[snapshot]['discount']) > 0 )
                                               Container(
                                                 margin:
-                                                    const EdgeInsets.all(5.0),
+                                                const EdgeInsets.all(5.0),
                                                 padding: const EdgeInsets.only(
                                                     top: 2.0,
                                                     bottom: 2.0,
@@ -124,50 +148,50 @@ class _ZumbaListState extends State<ZumbaList> {
                                                     right: 5),
                                                 decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
+                                                    BorderRadius.circular(
+                                                        5),
                                                     border: Border.all(
                                                         color: HexColor(
                                                             "49C000"))),
                                                 child: Text(
                                                   data.docs[snapshot]
-                                                          ['discount'] +
+                                                  ['discount'] +
                                                       "% off",
                                                   style: GoogleFonts.poppins(
                                                       fontWeight:
-                                                          FontWeight.w600,
+                                                      FontWeight.w600,
                                                       fontSize: 9,
                                                       color:
-                                                          HexColor("49C000")),
+                                                      HexColor("49C000")),
                                                 ),
                                               ),
                                               Row(
                                                 children: [
                                                   Text(
                                                     "Rs "
-                                                    "${int.parse(data.docs[snapshot]['original_price'])}",
+                                                        "${int.parse(data.docs[snapshot]['original_price'])}",
                                                     style: GoogleFonts.poppins(
                                                         decoration:
-                                                            TextDecoration
-                                                                .lineThrough,
+                                                        TextDecoration
+                                                            .lineThrough,
                                                         fontSize: 15,
                                                         color:
-                                                            HexColor("BFB9B9"),
+                                                        HexColor("BFB9B9"),
                                                         fontWeight:
-                                                            FontWeight.w600),
+                                                        FontWeight.w600),
                                                   ),
                                                   const SizedBox(
                                                     width: 2,
                                                   ),
                                                   Text(
                                                     "Rs "
-                                                    "${int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()}",
+                                                        "${int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()}",
                                                     style: GoogleFonts.poppins(
                                                         fontSize: 14,
                                                         color:
-                                                            HexColor("3A3A3A"),
+                                                        HexColor("3A3A3A"),
                                                         fontWeight:
-                                                            FontWeight.w600),
+                                                        FontWeight.w600),
                                                   ),
                                                 ],
                                               ),
@@ -182,30 +206,36 @@ class _ZumbaListState extends State<ZumbaList> {
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 2,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/zumbaCartoon.png",
-                                        height: 70,
-                                        color: Colors.yellow.shade600,
-                                      ),
+
+
                                       const Spacer(),
                                       RaisedButton(
                                         elevation: 0,
-                                        onPressed: () {
-                                          print(widget.gymName);
+                                        onPressed: () async {
+                                          await CreateBooking(id);
+                                          FirebaseFirestore.instance.collection("bookings")
+                                              .doc(number)
+                                              .collection("user_booking")
+                                              .doc(id)
+                                              .update(
+                                              {
+                                                "order_date": dateTime,
+                                                "gym_name": widget.gymName,
+                                                "vandorId": widget.getDocId
+                                              }
+                                          )
+                                          ;
                                           bookingDetails.bookingDetails(
                                               context,
                                               snapshot,
                                               data.docs,
                                               "Zumba ",
                                               widget.gymName,
-                                              widget.gymLocation);
+                                              widget.gymLocation,
+                                            id,
+                                              widget.getDocId
+
+                                          );
                                         },
                                         color: HexColor("292F3D"),
                                         shape: RoundedRectangleBorder(
