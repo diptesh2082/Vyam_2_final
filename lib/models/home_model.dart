@@ -6,8 +6,9 @@ class BoardInfo {
 
 class OptionsInfo {
   final String imageAssets;
+  final String type;
 
-  OptionsInfo(this.imageAssets);
+  OptionsInfo(this.imageAssets, this.type);
 }
 
 class ProductGym {

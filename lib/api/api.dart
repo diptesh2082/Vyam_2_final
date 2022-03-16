@@ -43,7 +43,7 @@ getNumber() async {
   number = finalNumber.toString();
   print(number);
   // return number;
-  await UserApi.createNewUser();
+  // await UserApi.createNewUser();
 
 }
 getAddress() async {

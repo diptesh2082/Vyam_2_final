@@ -37,7 +37,11 @@ class _ZumbaAllState extends State<ZumbaAll> {
         padding:
             const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
         child: StreamBuilder(
-          stream: gymAll.getGymDetails,
+          stream: FirebaseFirestore.instance
+              .collection("product_details")
+              .where("pincode", isEqualTo: address2.toString())
+          .where("service",arrayContains: "zumba")
+              .snapshots(),
           builder: (context, AsyncSnapshot streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
               return const Center(

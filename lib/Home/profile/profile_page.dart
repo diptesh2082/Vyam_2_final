@@ -28,20 +28,23 @@ class _ProfilePartState extends State<ProfilePart> {
   final id = number;
 
   Future getUserData() async {
+    // print(number);
     DocumentReference userName =
-    FirebaseFirestore.instance.collection('user_details').doc("+917407926060");
+    FirebaseFirestore.instance.collection('user_details').doc(id);
     userName.snapshots().listen((snapshot) {
-      setState(() {
-        name = snapshot.get('name');
+      setState(()  {
+        name =  snapshot.get('name');
+        print(number);
         email = snapshot.get('email');
-        phone = snapshot.get('number');
-        imageUrl = snapshot.get("image");
+        phone =  snapshot.get('number');
+        imageUrl =  snapshot.get("image");
       });
     });
   }
 
   @override
   void initState() {
+    print(number);
     getUserData();
     super.initState();
   }
@@ -184,6 +187,7 @@ class _ProfilePartState extends State<ProfilePart> {
                 ListTile(
                   onTap: () {
                     print(imageUrl);
+                    print(id);
                     // Get.to(() => const MyOrdersScreen());
                   },
                   leading: const Icon(
@@ -307,9 +311,9 @@ class _ProfilePartState extends State<ProfilePart> {
                           primary: Colors.black87,
                         ),
                         onPressed: () async {
-                          SharedPreferences sharedPreferences =
-                          await SharedPreferences.getInstance();
-                          sharedPreferences.remove('number');
+                          // SharedPreferences sharedPreferences =
+                          // await SharedPreferences.getInstance();
+                          // sharedPreferences.remove('number');
                           _auth.signOut();
                           Get.to(() => const LoginPage());
                           // setVisitingFlagFalse();

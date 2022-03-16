@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vyam_2_final/controllers/package_controller.dart';
 import 'package:vyam_2_final/models/home_model.dart';
 
 class HomeController extends GetxController{
@@ -8,9 +9,9 @@ List boards  =[
   BoardInfo("assets/cards/yoga classes.png"),
 ];
 List OptionsList = [
-  OptionsInfo('assets/cards/gym.png'),
-  OptionsInfo('assets/cards/zumba.png'),
-  OptionsInfo('assets/cards/yoga.png'),
+  OptionsInfo('assets/cards/gym.png',"gym"),
+  OptionsInfo('assets/cards/zumba.png',"zumba"),
+  OptionsInfo('assets/cards/yoga.png', "yoga"),
 ];
 List <ProductGym> GymLists = [
   ProductGym(imageAssets: "assets/photos/gym.jpg", name: "Transfomer Gym", address: "Bus stand, Barakar", rating: '4.7', distance: '1'),

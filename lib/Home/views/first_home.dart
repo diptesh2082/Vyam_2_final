@@ -16,6 +16,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
+import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
 import 'package:vyam_2_final/Home/views/location.dart';
 import 'package:vyam_2_final/Home/views/yogaoptions.dart';
 import 'package:vyam_2_final/Home/views/zumbaoption.dart';
@@ -71,6 +72,7 @@ class _FirstHomeState extends State<FirstHome> {
   // });
   myLocation() async {
     // number=getUserId();
+    // print(number);
     await FirebaseFirestore.instance
         .collection('user_details')
         .doc(number)
@@ -138,7 +140,7 @@ class _FirstHomeState extends State<FirstHome> {
   void initState() {
     // getUserId();
     getEverything();
-    print(number);
+    // print(number);
     // FocusScope.of(context).unfocus();
     SystemChannels.textInput.invokeMethod("TextInput.hide");
     // myLocation();
@@ -334,13 +336,14 @@ class _FirstHomeState extends State<FirstHome> {
         actions: [
           IconButton(
             icon: const Icon(
-              CupertinoIcons.bell_fill,
+              HomeIcon.notification,
               color: Colors.black,
             ),
             onPressed: () {
+              // print(number);
               FocusScope.of(context).unfocus();
-              print(number);
-              // Get.to(const NotificationDetails());
+
+              Get.to(const NotificationDetails());
             },
           ),
         ],
@@ -473,7 +476,9 @@ class _FirstHomeState extends State<FirstHome> {
                           ),
                           GestureDetector(
                               onTap: () {
-                                Get.to(const GymOption());
+                                Get.to(()=>GymOption(),arguments: {
+                                  "type":controller.OptionsList[index].type,
+                                });
                                 FocusScope.of(context).unfocus();
                               },
                               child: Material(

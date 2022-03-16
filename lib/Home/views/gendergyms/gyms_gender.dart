@@ -9,8 +9,10 @@ import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
 class GymAll extends StatefulWidget {
+  final type;
   const GymAll({
     Key? key,
+    required this.type
   }) : super(key: key);
 
   @override
@@ -33,7 +35,16 @@ class _GymAllState extends State<GymAll> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Padding(
+      body: gymAll.getGymDetails ==null ? const Center(
+        child: Text(
+          "No nearby gyms in your area",
+          style: TextStyle(
+            fontWeight: FontWeight.w100,
+            fontFamily: "Poppins",
+            fontSize: 20,
+          ),
+        ),
+      ):Padding(
         padding:
             const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
         child: StreamBuilder(
@@ -46,17 +57,35 @@ class _GymAllState extends State<GymAll> {
             }
 
             var document = streamSnapshot.data.docs;
+              document = document.where((element) {
+                return element
+                    .get('service')
+                    .toString()
+                    .toLowerCase()
+                    .contains(widget.type);
+              }).toList();
+            if (document==null){
+              const Center(
+                  child: Text(
+                  "No nearby gyms in your area",
+                  style: TextStyle(
+                  fontWeight: FontWeight.w100,
+                  fontFamily: "Poppins",
+                  fontSize: 20,
+              ),
+            ),
+            );
+            }
             // print(document[0]);
-            return document.isNotEmpty
-                ? ListView.separated(
+            return  ListView.separated(
                     physics: const  BouncingScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: document.length,
                     itemBuilder: (context, int index) {
-                      if (
-                      // "${document[index]['gender']}".toLowerCase() ==
-                      //         "all" &&
-                          document[index]['service'].contains("gym")) {
+                      // if (
+                      // // "${document[index]['gender']}".toLowerCase() ==
+                      // //         "all" &&
+                      //     document[index]['service'].contains(widget.type)) {
                         return Column(
                           children: [
                             Stack(
@@ -214,30 +243,20 @@ class _GymAllState extends State<GymAll> {
                           ],
                         );
                       }
-                      return const Center(
-                        child: Text(
-                          "No nearby gyms in your area",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w100,
-                            fontFamily: "Poppins",
-                            fontSize: 20,
-                          ),
-                        ),
-                      );
-                    },
+                      // return const Center(
+                      //   child: Text(
+                      //     "No nearby gyms in your area",
+                      //     style: TextStyle(
+                      //       fontWeight: FontWeight.w100,
+                      //       fontFamily: "Poppins",
+                      //       fontSize: 20,
+                      //     ),
+                      //   ),
+                      // );
+                    ,
                     separatorBuilder: (BuildContext context, int index) {
-                      return Divider();
+                      return const Divider();
                     },
-                  )
-                : const Center(
-                    child: Text(
-                      "No nearby gyms in your area",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w100,
-                        fontFamily: "Poppins",
-                        fontSize: 20,
-                      ),
-                    ),
                   );
           },
         ),

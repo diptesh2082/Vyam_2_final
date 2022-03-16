@@ -17,8 +17,8 @@ import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'gendergyms/gyms_gender.dart';
 
 class GymOption extends StatefulWidget {
-  const GymOption({Key? key}) : super(key: key);
-
+  // GymOption({type, required this.type});
+// final String type;
   @override
   State<GymOption> createState() => _GymOptionState();
 }
@@ -30,6 +30,7 @@ class _GymOptionState extends State<GymOption> {
   bool _male = false;
   bool _female = false;
   bool _unisex = false;
+
   final Color _inactiveColor = HexColor("FFFFFF");
   final Color _maleColor = HexColor("292F3D");
   final Color _textInactive = HexColor("3A3A3A");
@@ -37,7 +38,8 @@ class _GymOptionState extends State<GymOption> {
   var groupValue = 0;
   final appBarColor = Colors.grey[100];
   final controller = Get.find<HomeController>();
-
+  var data=Get.arguments["type"];
+  // String type=data["type"];
   @override
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
@@ -173,16 +175,17 @@ class _GymOptionState extends State<GymOption> {
           backgroundColor: Colors.transparent,
           centerTitle: true,
           title: Text(
-            "Gyms",
+            // "",
+            data,
             style: GoogleFonts.poppins(
                 color: HexColor("3A3A3A"),
                 fontSize: 18,
                 fontWeight: FontWeight.w600),
           ),
         ),
-        body: const TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            children: [GymAll(), GymMale(), GymFemale(), GymUnisex()]),
+        body:  TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
+            children: [GymAll(type:data), GymMale(), GymFemale(), GymUnisex()]),
       ),
     );
   }

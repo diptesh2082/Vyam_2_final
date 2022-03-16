@@ -105,7 +105,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
       .doc(getData["booking_id"])
       .update(
          {
-           "otp_pass": x
+           "otp_pass": x.toString(),
+           "booking_status": "upcoming",
+           "payment_done": true,
          }
        );
   }

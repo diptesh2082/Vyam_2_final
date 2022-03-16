@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
         icon: Column(
           children: const [
             Icon(
-                HomeIcon.discovery,
+                HomeIcon.active_2,
               // AssetImage("assets/icons/Discovery.png"),
               size: 25,
             ),

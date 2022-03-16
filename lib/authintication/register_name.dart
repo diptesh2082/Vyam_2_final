@@ -18,13 +18,13 @@ class Register1 extends StatefulWidget {
 class _Register1State extends State<Register1> {
   TextEditingController nameController = TextEditingController();
   // final GlobalKey<FromState> _fromKey= GlobalKey<FromState>();
-  // final _fromKey = GlobalKey();
-  @override
-  void initState() {
-    // TODO: implement initState
-    UserApi.createNewUser();
-    super.initState();
-  }
+  // // final _fromKey = GlobalKey();
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //
+  //   super.initState();
+  // }
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -70,12 +70,13 @@ class _Register1State extends State<Register1> {
               final isValid = _formKey.currentState?.validate();
               if (isValid!){
                 _formKey.currentState?.save();
+                await UserApi.createNewUser();
                 Navigator.push(
                     context,
                     CustomPageRoute(
                       child: Register2(),
                     ));
-                UserApi.createUserName(nameController.text);
+                await UserApi.createUserName(nameController.text);
 
               }
               // ScaffoldMessenger.of(context).showSnackBar(snackBar);

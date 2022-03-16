@@ -350,7 +350,7 @@ class _PackegesState extends State<Packeges> {
                                               .doc(id)
                                               .update(
                                                 {
-                                                  "booking_status": "active",
+                                                  "booking_status": "incomplete",
                                                   "order_date": dateTime,
                                                   "gym_name": widget.gymName,
                                                   "vendorId": widget.getFinalID,

@@ -456,7 +456,7 @@ class _ReviewState extends State<Review> {
                   onPressed: () async {
                     Navigator.of(context).pop();
                     final CollectionReference review =
-                        await FirebaseFirestore.instance.collection('Reviews');
+                         FirebaseFirestore.instance.collection('Reviews');
                     FirebaseFirestore.instance
                         .runTransaction((transaction) async {
                       CollectionReference reference =
