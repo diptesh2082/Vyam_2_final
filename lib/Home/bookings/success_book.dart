@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:vyam_2_final/Home/bookings/feedback.dart';
 
 class SuccessBook extends StatefulWidget {
   @override
@@ -56,7 +57,7 @@ class _SuccessBookState extends State<SuccessBook>
               const Text(
                 'Booking Successful!!',
                 style: TextStyle(
-                    fontFamily: 'poppins',
+                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.w600,
                     fontSize: 16),
               ),
@@ -66,7 +67,7 @@ class _SuccessBookState extends State<SuccessBook>
               const Text(
                 'Share the OTP with your \n  gym owner to start',
                 style: TextStyle(
-                    fontFamily: 'poppins',
+                    fontFamily: 'Poppins',
                     fontWeight: FontWeight.w400,
                     fontSize: 16),
               ),
@@ -109,7 +110,7 @@ class _PanelWidgetState extends State<PanelWidget> {
             'Booking Details',
             style: TextStyle(
                 color: Colors.black,
-                fontFamily: 'poppins',
+                fontFamily: 'Poppins',
                 fontWeight: FontWeight.w600,
                 fontSize: 16),
           ),
@@ -128,14 +129,14 @@ class _PanelWidgetState extends State<PanelWidget> {
                           Text(
                             'Booking ID :',
                             style: TextStyle(
-                                fontFamily: 'poppins',
+                                fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12),
                           ),
                           Text(
                             '00123',
                             style: TextStyle(
-                                fontFamily: 'poppins',
+                                fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12),
                           ),
@@ -147,7 +148,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                       const Text(
                         'Transformers gym',
                         style: TextStyle(
-                            fontFamily: 'poppins',
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w600,
                             fontSize: 14),
                       ),
@@ -161,7 +162,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                         ),
                         Text('Barakar',
                             style: TextStyle(
-                                fontFamily: 'poppins',
+                                fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w500,
                                 color: Colors.grey,
                                 fontSize: 14)),
@@ -174,14 +175,14 @@ class _PanelWidgetState extends State<PanelWidget> {
                           Text(
                             'Package  ',
                             style: TextStyle(
-                                fontFamily: 'poppins',
+                                fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12),
                           ),
                           Text(
                             '3 Months',
                             style: TextStyle(
-                                fontFamily: 'poppins',
+                                fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w400,
                                 fontSize: 12),
                           ),
@@ -194,7 +195,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                         'Ends on: 6th May',
                         style: TextStyle(
                             color: Colors.grey,
-                            fontFamily: 'poppins',
+                            fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500,
                             fontSize: 12),
                       ),
@@ -213,7 +214,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                           'OTP : ${Get.arguments["otp_pass"]}',
                           style: const TextStyle(
                               color: Colors.white,
-                              fontFamily: 'poppins',
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w600,
                               fontSize: 12),
                         ),
@@ -257,7 +258,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                     'Leave a rating',
                     style: TextStyle(
                         color: Colors.white,
-                        fontFamily: 'poppins',
+                        fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
                         fontSize: 14),
                   ),
@@ -282,11 +283,13 @@ class _PanelWidgetState extends State<PanelWidget> {
                     'Track',
                     style: TextStyle(
                         color: Colors.white,
-                        fontFamily: 'poppins',
+                        fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
                         fontSize: 14),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Feedback1()));
+                  },
                 ),
               ),
             ],
