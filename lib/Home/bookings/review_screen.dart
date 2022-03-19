@@ -44,7 +44,7 @@ class _ReviewState extends State<Review> {
             'Reviews',
             textAlign: TextAlign.center,
             style: TextStyle(
-                fontFamily: 'poppins',
+                fontFamily: 'Poppins',
                 color: Colors.black,
                 fontSize: 18,
                 fontWeight: FontWeight.w600),
@@ -99,7 +99,7 @@ class _ReviewState extends State<Review> {
                         const Text(
                           'Customer reviews',
                           style: TextStyle(
-                            fontFamily: 'poppins',
+                            fontFamily: 'Poppins',
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
@@ -123,7 +123,7 @@ class _ReviewState extends State<Review> {
                             ),
                             const Text('4.7 out of 5 ',
                                 style: TextStyle(
-                                    fontFamily: 'poppins',
+                                    fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14))
                           ],
@@ -134,7 +134,7 @@ class _ReviewState extends State<Review> {
                         const Text(
                           '(113 reviews)',
                           style: TextStyle(
-                              fontFamily: 'poppins',
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w500,
                               fontSize: 12,
                               color: Colors.grey),
@@ -382,7 +382,7 @@ class _ReviewState extends State<Review> {
                                                     color: Colors.amber,
                                                   );
                                                 }),
-                                                rating: ratingvalue,
+                                                rating: document[index]['rating'],
                                                 itemCount: 5,
                                                 itemSize: 18.0,
                                                 direction: Axis.horizontal,

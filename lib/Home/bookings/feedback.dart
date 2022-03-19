@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:reviews_slider/reviews_slider.dart';
+import 'package:vyam_2_final/Home/bookings/success_book.dart';
+import 'package:vyam_2_final/OrderDetails/order_details.dart';
 import 'gym_details.dart';
 import 'review_screen.dart';
 
@@ -168,7 +170,7 @@ class _Feedback1State extends State<Feedback1> {
                         fontSize: 14),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                   
 
                     Map<String, dynamic> suggest_data = {
                       "feedback_suggestion": feedback.text,
@@ -178,6 +180,9 @@ class _Feedback1State extends State<Feedback1> {
                         .collection("Feedback")
                         .add(suggest_data);
                     feedback.clear();
+                     Navigator.of(context).pop();
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessBook()));
+
                   },
                 ),
               ),

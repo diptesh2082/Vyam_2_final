@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:vyam_2_final/Home/bookings/feedback.dart';
+import 'dart:async';
 
 class SuccessBook extends StatefulWidget {
   @override
@@ -10,70 +10,101 @@ class SuccessBook extends StatefulWidget {
 
 class _SuccessBookState extends State<SuccessBook>
     with TickerProviderStateMixin {
-  late AnimationController controller;
+   late AnimationController controller;
+  late AnimationController _concontroller;
   late Animation<double> scaleAnimation;
 
   @override
   initState() {
-    super.initState();
     controller = AnimationController(
-        vsync: this, value: 0.1, duration: Duration(milliseconds: 8000));
+        vsync: this, value: 0.1, duration: const Duration(milliseconds: 8000));
+    _concontroller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 800));
+
     scaleAnimation =
-        CurvedAnimation(parent: controller, curve: Curves.easeInOutBack);
+        CurvedAnimation(parent: controller, curve: Curves.easeInOutBack)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              setState(() {
+                Timer(const Duration(milliseconds: 200),
+                    () => _concontroller.forward());
+              });
+            }
+          });
     controller.forward();
+
+    super.initState();
   }
 
   @override
   dispose() {
     controller.dispose();
+    _concontroller.dispose();
     super.dispose();
   }
 
+
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SlidingUpPanel(
-        parallaxEnabled: true,
-        parallaxOffset: 0.5,
-        borderRadius: BorderRadius.circular(20),
-        minHeight: MediaQuery.of(context).size.height * 0.05,
-        maxHeight: MediaQuery.of(context).size.height * 0.5,
-        panelBuilder: (sc) => PanelWidget(),
-        body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ScaleTransition(
-                scale: scaleAnimation,
-                alignment: Alignment.center,
-                child: const Icon(
-                  Icons.verified,
-                  color: Colors.green,
-                  size: 85,
-                ),
+      backgroundColor: Colors.grey.shade100,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 100,
+                  ),
+                  ScaleTransition(
+                    scale: scaleAnimation,
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.verified,
+                      color: Colors.green,
+                      size: 85,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Booking Successful!!',
+                    style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  const Text(
+                    'Share the OTP with your \n  gym owner to start',
+                    style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              const Text(
-                'Booking Successful!!',
-                style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.015,
-              ),
-              const Text(
-                'Share the OTP with your \n  gym owner to start',
-                style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16),
-              ),
-            ],
+            ),
           ),
-        ),
+          const Spacer(),
+          SlideTransition(
+            position: Tween<Offset>(begin: Offset(0, 1), end: Offset.zero)
+                .animate(CurvedAnimation(
+                    parent: _concontroller, curve: Curves.easeInOut)),
+            child: Container(
+              height: 380,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(25)),
+              child: PanelWidget(),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -280,7 +311,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                             borderRadius: BorderRadius.circular(10),
                           ))),
                   child: const Text(
-                    'Track',
+                    'Feedback',
                     style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Poppins',
