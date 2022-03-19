@@ -30,6 +30,7 @@ import 'package:vyam_2_final/gymtype/yogatype.dart';
 import 'package:vyam_2_final/gymtype/zumbatype.dart';
 import '../../Notifications/notification.dart';
 import 'gyms.dart';
+var GlobalUserData;
 const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
 core.GoogleMapsPlaces _places = core.GoogleMapsPlaces(apiKey: api);
 
@@ -82,6 +83,7 @@ class _FirstHomeState extends State<FirstHome> {
         print('Document exists on the database');
         setState(() {
           user_data=documentSnapshot.data();
+          GlobalUserData=documentSnapshot.data();
         });
         // user_data=documentSnapshot.data();
       }

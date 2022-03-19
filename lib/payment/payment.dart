@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:vyam_2_final/Home/bookings/success_book.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
+import 'package:vyam_2_final/Home/views/first_home.dart';
 import 'package:vyam_2_final/payment/custom_api.dart';
 
 import '../api/api.dart';
@@ -37,7 +38,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   void initState() {
+
     print(getData);
+
+    // print(GlobalUserData);
+
+
     setState((){
       var price = getData["totalPrice"];
       setState(() {
@@ -82,7 +88,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
       'amount': amount,
       'name': 'Vyam Gym Booking',
       'description': 'Payment',
+
       'prefill': {'contact': number.toString(), 'email': ''},
+
+      'prefill': {'contact': number.toString(), 'email': GlobalUserData["email"].toString()},
+
       'external': {
         'wallets': ['paytm']
       }
