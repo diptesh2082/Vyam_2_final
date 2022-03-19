@@ -19,7 +19,7 @@ class _SuccessBookState extends State<SuccessBook>
     controller = AnimationController(
         vsync: this, value: 0.1, duration: const Duration(milliseconds: 8000));
     _concontroller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 800));
+        vsync: this, duration: const Duration(milliseconds: 500));
 
     scaleAnimation =
         CurvedAnimation(parent: controller, curve: Curves.easeInOutBack)
