@@ -65,6 +65,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         "discount":totalDiscount,
        "grand_total":grandTotal,
        "tax_pay":taxPay,
+
       })
       ;
     });
@@ -108,7 +109,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     var x =Random().nextInt(999999);
     FocusScope.of(context).unfocus();
-      Get.to(()=>SuccessBook(),
+      Get.off(()=>SuccessBook(),
         arguments: {
         "otp_pass":x
         }

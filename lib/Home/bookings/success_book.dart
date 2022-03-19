@@ -17,7 +17,7 @@ class _SuccessBookState extends State<SuccessBook>
   @override
   initState() {
     controller = AnimationController(
-        vsync: this, value: 0.1, duration: const Duration(milliseconds: 8000));
+        vsync: this, value: 0.1, duration: const Duration(milliseconds: 500));
     _concontroller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 500));
 
@@ -319,7 +319,8 @@ class _PanelWidgetState extends State<PanelWidget> {
                         fontSize: 14),
                   ),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Feedback1()));
+                    Get.off(()=>Feedback1());
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => Feedback1()));
                   },
                 ),
               ),

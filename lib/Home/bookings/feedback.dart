@@ -51,9 +51,9 @@ class _Feedback1State extends State<Feedback1> {
               color: Colors.black,
             ),
           )),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
           child: Container(
             width: double.infinity,
             height: MediaQuery.of(context).size.height / 2.2,
