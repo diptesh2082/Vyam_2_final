@@ -75,12 +75,14 @@ class _BookingDetailsState extends State<BookingDetails> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 11.0, bottom: 11.0),
                       child: Center(
-                        child: Text(
-                          "Upcoming",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 15,
-                              color: _upcoming ? _textActive : _textInactive),
+                        child: FittedBox(
+                          child: Text(
+                            "Upcoming",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                                color: _upcoming ? _textActive : _textInactive),
+                          ),
                         ),
                       ),
                     )),
@@ -92,12 +94,14 @@ class _BookingDetailsState extends State<BookingDetails> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 11.0, bottom: 11.0),
                       child: Center(
-                        child: Text(
-                          "Active",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 15,
-                              color: _active ? _textActive : _textInactive),
+                        child: FittedBox(
+                          child: Text(
+                            "Active",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                                color: _active ? _textActive : _textInactive),
+                          ),
                         ),
                       ),
                     )),
@@ -109,12 +113,14 @@ class _BookingDetailsState extends State<BookingDetails> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 11.0, bottom: 11.0),
                       child: Center(
-                        child: Text(
-                          "Older",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 15,
-                              color: _older ? _textActive : _textInactive),
+                        child: FittedBox(
+                          child: Text(
+                            "Older",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                                color: _older ? _textActive : _textInactive),
+                          ),
                         ),
                       ),
                     )),

@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
         icon: Column(
           children: const [
             Icon(
-                HomeIcon.active
+                HomeIcon.active_1
               // AssetImage("assets/icons/active.png"),
               // size: 30,
             ),
@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
         icon: Column(
           children: const [
             Icon(
-                HomeIcon.active_1
+                HomeIcon.active
               // AssetImage("assets/icons/profile.png"),
               // size: 30,
             ),

@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
+import 'package:vyam_2_final/global_snackbar.dart';
+import 'package:vyam_2_final/payment/payment.dart';
 // import 'package:vyambooking/List/list.dart';
 
 class CouponDetails extends StatefulWidget {
@@ -15,12 +19,17 @@ class CouponDetails extends StatefulWidget {
 }
 
 class _CouponDetailsState extends State<CouponDetails> {
-  List couponList = [];
+  // List couponList = [];
+  var getData=Get.arguments;
+  var coupon;
+  bool coupon_applied=false;
+  Map coupon_list={};
 
   CouponApi couponApi = CouponApi();
 
   @override
   void initState() {
+    coupon_list.clear();
     super.initState();
   }
 
@@ -53,43 +62,95 @@ class _CouponDetailsState extends State<CouponDetails> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Card(
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-              elevation: 0,
-              color: Colors.transparent,
-              child: const CupertinoTextField(
-                placeholder: "Enter coupon code",
-                padding: EdgeInsets.all(15),
-                suffix: Text(
-                  "Apply",
-                  style: TextStyle(
-                    color: Colors.redAccent,
+            SizedBox(
+              height: 60,
+              width: MediaQuery.of(context).size.width*.96,
+              child: Card(
+                shape:
+                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                elevation: 0,
+                color: Colors.transparent,
+                child:  CupertinoTextField(
+                  autofocus: false,
+                  onChanged: (value){
+                    coupon=value.trim().toLowerCase();
+                   // print(coupon);
+                  },
+                  onTap: ()async{
+                    if(coupon_list.containsKey(coupon)){
+                      coupon_applied=true;
+
+                    }else{
+                      coupon_applied=false;
+                    }
+
+                   if (coupon_applied==true){
+                      setState(() {
+                        total_discount=int.parse(coupon_list[coupon]);
+                      });
+
+
+                     Get.off(()=>const PaymentScreen(),arguments: getData);
+                     FocusScope.of(context).unfocus();
+                     Get.snackbar("coupon applyed", "congratulations",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
+                      // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
+
+                   }else{
+                     Get.snackbar( "wrong coupon","kindely put diffrent one",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
+                     // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
+                     total_discount=0;
+                   }
+                    print(coupon_applied);
+                    print(total_discount);
+                  },
+                  placeholder: "Enter coupon code",
+                  // padding: EdgeInsets.all(15),
+                  suffix: Row(
+                    children: const [
+                      Text(
+                        "Apply",
+                        style: TextStyle(
+                          color: Colors.redAccent,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                      SizedBox(
+                        width: 9,
+                      )
+                    ],
                   ),
-                  textAlign: TextAlign.start,
                 ),
               ),
             ),
-            FutureBuilder(
-                future: couponApi.getCouponData(),
-                builder: (_, snapshot) {
+            StreamBuilder(
+                stream: FirebaseFirestore.instance.collection('coupon').snapshots(),
+                builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   }
                   if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
                   }
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    couponList = snapshot.data as List;
-                    print(couponList.length);
 
-                    if (couponList.isEmpty) {
+                    var documents = snapshot.data.docs;
+                    print(documents);
+
+
+                    if (documents.isEmpty) {
                       return Center(
-                        child: Image.asset(
-                          "assets/Illustrations/notification empty.png",
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 60,
+                            ),
+                            Image.asset(
+                              "assets/Illustrations/notification empty.png",
+                            ),
+                          ],
                         ),
                       );
                     }
+                  coupon_list={};
                     return SingleChildScrollView(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 30.0),
@@ -98,8 +159,14 @@ class _CouponDetailsState extends State<CouponDetails> {
                           width: _width,
                           child: ListView.builder(
                               shrinkWrap: true,
-                              itemCount: couponList.length,
+                              itemCount: documents.length,
                               itemBuilder: (context, index) {
+
+                                coupon_list.addAll(
+                                    {
+                                      documents[index]["code"].toString().toLowerCase(): documents[index]["discount"]
+                                });
+                                print(coupon_list);
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
@@ -137,7 +204,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                                   .start,
                                                           children: [
                                                             Text(
-                                                              couponList[index]
+                                                              documents[index]
                                                                       ['title']
                                                                   .toUpperCase(),
                                                               style: GoogleFonts.poppins(
@@ -152,7 +219,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                               height: 5,
                                                             ),
                                                             Text(
-                                                              couponList[index]
+                                                              documents[index]
                                                                       ['detail']
                                                                   .toUpperCase(),
                                                               style: GoogleFonts.poppins(
@@ -170,7 +237,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                               children: [
                                                                 Text(
                                                                   "Code : " +
-                                                                      couponList[index]
+                                                                      documents[index]
                                                                               [
                                                                               'code']
                                                                           .toUpperCase(),
@@ -218,7 +285,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                         ),
                       ),
                     );
-                  }
+
                   return Center(
                     child: Image.asset(
                       "assets/Illustrations/notification empty.png",

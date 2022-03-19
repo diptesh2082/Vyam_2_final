@@ -232,32 +232,19 @@ class _GymDetailsState extends State<GymDetails> {
                               Get.to(() => const Explore(),
                                   arguments: {"location": doc?["location"]});
                             },
-                            child: const Icon(Icons.assistant_direction, color: Colors.green)),
+                            child: Column(
+                              children: const [
+                                Icon(Icons.assistant_direction, color: Colors.green),
+                            Text('Navigate',
+                              style: TextStyle(
+                                  fontFamily: 'poppins',
+                                  color: Colors.green,
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.w500))
+                              ],
+                            )
+                            ),
                         const Text('       ')
-                      ]),
-                      Row(children:  [
-                        const Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 25.0),
-                          child: GestureDetector(
-
-                            child: const Text('Navigate',
-                                style: TextStyle(
-                                    fontFamily: 'poppins',
-                                    color: Colors.green,
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.w500)),
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const Timing()));
-                            },
-                          ),
-                        ),
-
-
                       ]),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                        Text(
@@ -303,8 +290,8 @@ class _GymDetailsState extends State<GymDetails> {
                             ),
                             IntrinsicHeight(
                                 child: Row(
-                                  // mainAxisAlignment: MainAxisAlignment.start,
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Column(
                                       children: [
@@ -472,19 +459,21 @@ class _GymDetailsState extends State<GymDetails> {
                       Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0)),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.95,
-                          height: MediaQuery.of(context).size.height * 0.070,
-                          child: const Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: AutoSizeText(
-                              'Boxing | Cardio | Personal Training | Crossfit |  Zumba | Weight Training.',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Poppins",
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400),
-                              maxLines: 3,
+                        child: FittedBox(
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.95,
+                            height: 60,
+                            child: const Padding(
+                              padding: EdgeInsets.all(10.0),
+                              child: AutoSizeText(
+                                'Boxing | Cardio | Personal Training | Crossfit |  Zumba | Weight Training.',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: "Poppins",
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400),
+                                maxLines: 3,
+                              ),
                             ),
                           ),
                         ),
@@ -606,130 +595,81 @@ class _GymDetailsState extends State<GymDetails> {
                             }
                           );
                         },
-                        child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.01,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 8.0),
-                                  child: Text('Reviews',
-                                      style: TextStyle(
-                                        fontSize: 14.5,
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w700,
-                                      )),
-                                ),
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.01,
-                                ),
-                                SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: SizedBox(
-                                    height:50,
-                                    // MediaQuery.of(context).size.height * 0.050,
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width *
-                                              0.05,
-                                        ),
-                                        const Icon(
-                                          Icons.star,
-                                          color: Colors.yellow,
-                                          size: 18,
-                                        ),
-                                        const Text(
-                                          '4.7',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 15),
-                                        ),
-                                        const Text(
-                                          ' | ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 14,
-                                              color: Colors.grey),
-                                        ),
-                                        const Text(
-                                          '(113 reviews)',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 13,
-                                              color: Colors.grey),
-                                        ),
-                                        //  const Spacer(),
-                                        SizedBox(
-                                          width:
-                                          MediaQuery.of(context).size.width * 0.2,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 6.0),
-                                          child: SizedBox(
+                        child: FittedBox(
+                          child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0)),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height * 0.01,
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 8.0),
+                                    child: Text('Reviews',
+                                        style: TextStyle(
+                                          fontSize: 14.5,
+                                          fontFamily: "Poppins",
+                                          fontWeight: FontWeight.w700,
+                                        )),
+                                  ),
+                                  // SizedBox(
+                                  //   height: MediaQuery.of(context).size.height * 0.01,
+                                  // ),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: SizedBox(
+                                      height:50,
+                                      // MediaQuery.of(context).size.height * 0.050,
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
                                             width: MediaQuery.of(context).size.width *
-                                                0.28,
-                                            height: MediaQuery.of(context).size.height *
-                                                0.055,
-                                            child: Stack(
-                                              children: [
-                                                Container(
-                                                  height: 30,
-                                                  width: 35,
-                                                  decoration: const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      //border: Border.all(width: 1),
-                                                      image: DecorationImage(
-                                                          image: AssetImage(
-                                                              "assets/images/trainer1.png"),
-                                                          fit: BoxFit.cover)),
-                                                ),
-                                                Positioned(
-                                                  left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                      0.055,
-                                                  child: Container(
+                                                0.05,
+                                          ),
+                                          const Icon(
+                                            Icons.star,
+                                            color: Colors.yellow,
+                                            size: 18,
+                                          ),
+                                          const Text(
+                                            '4.7',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 15),
+                                          ),
+                                          const Text(
+                                            ' | ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 14,
+                                                color: Colors.grey),
+                                          ),
+                                          const Text(
+                                            '(113 reviews)',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 13,
+                                                color: Colors.grey),
+                                          ),
+                                          //  const Spacer(),
+                                          SizedBox(
+                                            width:
+                                            MediaQuery.of(context).size.width * 0.2,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 6.0),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context).size.width *
+                                                  0.28,
+                                              height: MediaQuery.of(context).size.height *
+                                                  0.055,
+                                              child: Stack(
+                                                children: [
+                                                  Container(
                                                     height: 30,
-                                                    width: 30,
-                                                    decoration: const BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        //border: Border.all(width: 1),
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                "assets/images/trainer2.png"),
-                                                            fit: BoxFit.cover)),
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                      0.11,
-                                                  child: Container(
-                                                    height: 30,
-                                                    width: 30,
-                                                    decoration: const BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        //border: Border.all(width: 1),
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                "assets/images/trainer3.png"),
-                                                            fit: BoxFit.cover)),
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                      0.166,
-                                                  child: Container(
-                                                    height: 30,
-                                                    width: 30,
+                                                    width: 35,
                                                     decoration: const BoxDecoration(
                                                         shape: BoxShape.circle,
                                                         //border: Border.all(width: 1),
@@ -738,26 +678,77 @@ class _GymDetailsState extends State<GymDetails> {
                                                                 "assets/images/trainer1.png"),
                                                             fit: BoxFit.cover)),
                                                   ),
-                                                ),
-                                              ],
+                                                  Positioned(
+                                                    left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                        0.055,
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      decoration: const BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          //border: Border.all(width: 1),
+                                                          image: DecorationImage(
+                                                              image: AssetImage(
+                                                                  "assets/images/trainer2.png"),
+                                                              fit: BoxFit.cover)),
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                    left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                        0.11,
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      decoration: const BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          //border: Border.all(width: 1),
+                                                          image: DecorationImage(
+                                                              image: AssetImage(
+                                                                  "assets/images/trainer3.png"),
+                                                              fit: BoxFit.cover)),
+                                                    ),
+                                                  ),
+                                                  Positioned(
+                                                    left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                        0.166,
+                                                    child: Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      decoration: const BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          //border: Border.all(width: 1),
+                                                          image: DecorationImage(
+                                                              image: AssetImage(
+                                                                  "assets/images/trainer1.png"),
+                                                              fit: BoxFit.cover)),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width:
-                                          MediaQuery.of(context).size.width * 0.009,
-                                        ),
+                                          SizedBox(
+                                            width:
+                                            MediaQuery.of(context).size.width * 0.009,
+                                          ),
 
-                                        const Icon(
-                                          Icons.arrow_forward_ios_outlined,
-                                          size: 18,
-                                        ),
-                                      ],
+                                          const Icon(
+                                            Icons.arrow_forward_ios_outlined,
+                                            size: 18,
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                )
-                              ],
-                            )),
+                                  )
+                                ],
+                              )),
+                        ),
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                       Container(

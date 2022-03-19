@@ -284,68 +284,83 @@ class _FirstHomeState extends State<FirstHome> {
       Scaffold(
       backgroundColor: const Color(0xffF4F4F4),
       appBar:  AppBar(
-        elevation: .6,
+        elevation: .0,
         centerTitle: false,
         backgroundColor: const Color(0xffF4F4F4),
-        title: Transform(
-          transform: Matrix4.translationValues(-20.0, 0.0, 0.0),
-          child: Row(
+        title: Column(
+          children: [
+            const SizedBox(
+              height: 6,
+            ),
+            Transform(
+              transform: Matrix4.translationValues(-20.0, 0.0, 0.0),
+              child: Row(
+                children: [
+                  IconButton(
+                    iconSize: 25,
+                    icon: const Icon(
+                      CupertinoIcons.location,
+                      color: Colors.black,
+                    ),
+                    onPressed: () async {
+                      FocusScope.of(context).unfocus();
+                      // Get.back();
+                      // print(_auth.currentUser?.uid);
+                      // Position position = await _determinePosition();
+                      // await GetAddressFromLatLong(position);
+                      // await UserApi.updateUserAddress(
+                      //     address, [position.latitude, position.longitude], pin
+                      // );
+                      await getAddressPin(pin);
+
+                      setState((){
+                        // myaddress = myaddress;
+                        address = address;
+                        pin = pin;
+                      });
+                      Get.to(()=>LocInfo());
+                    },
+                  ),
+                  SizedBox(
+                    width: size.width * .55,
+                    child: Text(
+                      user_data!=null ? user_data["address"]:"your Location",
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          Column(
             children: [
+              const SizedBox(
+                height: 6,
+              ),
               IconButton(
-                iconSize: 25,
                 icon: const Icon(
-                  CupertinoIcons.location,
+                  HomeIcon.notification,
                   color: Colors.black,
                 ),
-                onPressed: () async {
+                onPressed: () {
+                  // print(number);
                   FocusScope.of(context).unfocus();
-                  // Get.back();
-                  // print(_auth.currentUser?.uid);
-                  // Position position = await _determinePosition();
-                  // await GetAddressFromLatLong(position);
-                  // await UserApi.updateUserAddress(
-                  //     address, [position.latitude, position.longitude], pin
-                  // );
-                  await getAddressPin(pin);
 
-                  setState((){
-                    // myaddress = myaddress;
-                    address = address;
-                    pin = pin;
-                  });
-                  Get.to(()=>LocInfo());
+                  Get.to(const NotificationDetails());
                 },
-              ),
-              SizedBox(
-                width: size.width * .55,
-                child: Text(
-                  user_data!=null ? user_data["address"]:"your Location",
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontFamily: "Poppins",
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500),
-                ),
               ),
             ],
           ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              HomeIcon.notification,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              // print(number);
-              FocusScope.of(context).unfocus();
 
-              Get.to(const NotificationDetails());
-            },
-          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -353,34 +368,47 @@ class _FirstHomeState extends State<FirstHome> {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
+              Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: const Divider(
+                    height: 0,
+                    thickness: 1,
+                  ),
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                child: SizedBox(
-                  height: 45,
-                  child: TextFormField(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: SizedBox(
+                    height: 45,
+                    child: TextFormField(
 
-                    onChanged: (value) {
-                      // print(value.toString());
-                      setState(() {
+                      onChanged: (value) {
+                        // print(value.toString());
+                        setState(() {
 
-                        searchGymName = value.toString();
-                      });
-                      //
-                      // print(searchGymName);
-                    },
-                    // onSubmitted: (value) {
-                    //   // ignore: avoid_print
-                    //   print('Submitted text: $value');
-                    // },
-                    decoration: InputDecoration(
-                      prefixIcon: Image.asset("assets/images/Search.png"),
-                      hintText: 'Search',
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: Colors.white,
+                          searchGymName = value.toString();
+                        });
+                        //
+                        // print(searchGymName);
+                      },
+                      // onSubmitted: (value) {
+                      //   // ignore: avoid_print
+                      //   print('Submitted text: $value');
+                      // },
+                      decoration: InputDecoration(
+                        prefixIcon: Image.asset("assets/images/Search.png"),
+                        hintText: 'Search',
+                        border: InputBorder.none,
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
                     ),
                   ),
                 ),

@@ -83,6 +83,7 @@ class _SelectDateState extends State<SelectDate> {
     // print(widget.months);
     // print(widget.packageType);
     // print(widget.price);
+    total_discount=0;
     if (widget.months.contains("PAY PER SESSION")) {
       getDays = 0;
     }

@@ -21,7 +21,8 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   var getData = Get.arguments;
-  int discount = 20;
+
+  int discount =total_discount;
   int gstTax = 18;
   // ignore: prefer_typing_uninitialized_variables
   var grandTotal;
@@ -36,9 +37,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   void initState() {
-
+    print(getData);
     setState((){
       var price = getData["totalPrice"];
+      setState(() {
+        discount=total_discount;
+      });
+      print(discount);
+
       totalDiscount = ((price * discount) / 100).round();
       taxPay = ((price * gstTax) / 100).round();
       grandTotal = ((price - totalDiscount) + taxPay);
@@ -121,10 +127,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print("Wallet");
   }
 
+
   @override
   Widget build(BuildContext context) {
     // // var value = Get.arguments;
     // print(value);
+    // if (total_discount>0){
+    //     initState();
+    // }
+
     return Scaffold(
         appBar: CustomAppBar(
           backgroundColor: Colors.black87,
@@ -303,7 +314,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       //   height: 10,
                       // ),
                       GestureDetector(
-                        onTap: () => Get.to(() => CouponDetails()),
+                        onTap: () => Get.to(() => CouponDetails(),arguments: getData),
                         child: Card(
                           child: SizedBox(
                             height: 57,

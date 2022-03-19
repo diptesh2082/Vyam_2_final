@@ -130,7 +130,7 @@ var data;
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: SizedBox(
-                height: 50,
+                height: 60,
                 child: GestureDetector(
                   onTap: () async {
                     myLocation();
@@ -165,25 +165,58 @@ var data;
                     child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: Row(
-                          children: const [
-                          Icon(
-                                  Icons.my_location_outlined,
-                                  color: Colors.green,
-                                  size: 20,
+                          children: [
+                          Container(
+                            height: 39,
+                            width: 60,
+
+                            child: const Icon(
+                                    Icons.my_location_outlined,
+                                    color: Colors.green,
+                                    size: 20,
+                                  ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              color: Colors.grey[200],
+                            ),
+                          ),
+                            const Spacer(
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width*.6,
+
+                                child: const TextField(
+                                  autofocus: false,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    decoration: InputDecoration(
+
+                                            // border: InputBorde,
+                                            hintStyle: TextStyle(
+                                                fontSize: 12,
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.green),
+                                            hintMaxLines: 2,
+                                            hintText: 'Use current location'),
+                                      )
                                 ),
-                            // Spacer(
-                            //   flex:5,
-                            // ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 18.0),
-                              child: Text('Use current location',
-                              style: TextStyle(
-                                          fontSize: 12,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.green),
-                              ),
+                            const SizedBox(
+                              width: 15,
                             )
+                            // Padding(
+                            //   padding: EdgeInsets.only(left: 18.0),
+                            //   child: Text('Use current location',
+                            //   style: TextStyle(
+                            //               fontSize: 12,
+                            //               fontFamily: 'Poppins',
+                            //               fontWeight: FontWeight.w500,
+                            //               color: Colors.green),
+                            //   ),
+                            // )
                           ],
                         ),
                       // TextField(

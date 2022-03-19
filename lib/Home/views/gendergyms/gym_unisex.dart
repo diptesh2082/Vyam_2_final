@@ -9,8 +9,9 @@ import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
 class GymUnisex extends StatefulWidget {
+  final type;
   const GymUnisex({
-    Key? key,
+    Key? key, required this.type,
   }) : super(key: key);
 
   @override
@@ -46,6 +47,13 @@ class _GymUnisexState extends State<GymUnisex> {
             }
 
             var document = streamSnapshot.data.docs;
+            document = document.where((element) {
+              return element
+                  .get('service')
+                  .toString()
+                  .toLowerCase()
+                  .contains(widget.type);
+            }).toList();
             return document.isNotEmpty
                 ? ListView.separated(
                     physics: const BouncingScrollPhysics(),

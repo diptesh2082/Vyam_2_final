@@ -7,6 +7,7 @@ import 'package:location/location.dart';
 // ignore: prefer_typing_uninitialized_variables
 var number;
 var address2;
+var total_discount=0;
 final booking= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
 Location location = Location();
 Geoflutterfire geo = Geoflutterfire();
@@ -111,19 +112,19 @@ class CouponApi {
   // String number = "8859451134";
   List couponList = [];
   Future getCouponData() async {
-    var couponFirestore = FirebaseFirestore.instance.collection('coupon');
+    var couponFirestore = FirebaseFirestore.instance.collection('coupon').snapshots();
 
-    try {
-      await couponFirestore.get().then((value) {
-        for (var result in value.docs) {
-          couponList.add(result.data());
-        }
-      });
-    } catch (e) {
-      return null;
-    }
+    // try {
+    //   await couponFirestore.get().then((value) {
+    //     for (var result in value.docs) {
+    //       couponList.add(result.data());
+    //     }
+    //   });
+    // } catch (e) {
+    //   return null;
+    // }
 
-    return couponList;
+    return couponFirestore;
   }
 }
 
