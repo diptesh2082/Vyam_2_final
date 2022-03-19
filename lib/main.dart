@@ -40,8 +40,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: Themes().lightTheme,
-
-      home: SplashScreen(),
+      debugShowCheckedModeBanner: false,
+      home: number.toString().isNotEmpty ? HomePage() : const LoginPage(),
       // initialRoute: ,
       getPages: [
         GetPage(name: HomePage.id, page: () => HomePage()),

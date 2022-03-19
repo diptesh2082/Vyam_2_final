@@ -86,213 +86,217 @@ class PanelWidget extends StatefulWidget {
 class _PanelWidgetState extends State<PanelWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        Center(
-          child: Container(
-            width: 70,
-            height: 5,
-            decoration: BoxDecoration(
-                color: Colors.grey, borderRadius: BorderRadius.circular(12)),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
           ),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 8.0),
-          child: Text(
-            'Booking Details',
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'poppins',
-                fontWeight: FontWeight.w600,
-                fontSize: 16),
+          Center(
+            child: Container(
+              width: 70,
+              height: 5,
+              decoration: BoxDecoration(
+                  color: Colors.grey, borderRadius: BorderRadius.circular(12)),
+            ),
           ),
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 6.0),
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      Row(
-                        children: const [
-                          Text(
-                            'Booking ID :',
-                            style: TextStyle(
-                                fontFamily: 'poppins',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12),
-                          ),
-                          Text(
-                            '00123',
-                            style: TextStyle(
-                                fontFamily: 'poppins',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.002,
-                      ),
-                      const Text(
-                        'Transformers gym',
-                        style: TextStyle(
-                            fontFamily: 'poppins',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.002,
-                      ),
-                      Row(children: const [
-                        Icon(
-                          Icons.location_on,
-                          size: 18,
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 8.0),
+            child: Text(
+              'Booking Details',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'poppins',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16),
+            ),
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 6.0),
+                child: Row(
+                  children: [
+                    Column(
+                      children: [
+                        Row(
+                          children: const [
+                            Text(
+                              'Booking ID :',
+                              style: TextStyle(
+                                  fontFamily: 'poppins',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12),
+                            ),
+                            Text(
+                              '00123',
+                              style: TextStyle(
+                                  fontFamily: 'poppins',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12),
+                            ),
+                          ],
                         ),
-                        Text('Barakar',
-                            style: TextStyle(
-                                fontFamily: 'poppins',
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey,
-                                fontSize: 14)),
-                      ]),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.002,
-                      ),
-                      Row(
-                        children: const [
-                          Text(
-                            'Package  ',
-                            style: TextStyle(
-                                fontFamily: 'poppins',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12),
-                          ),
-                          Text(
-                            '3 Months',
-                            style: TextStyle(
-                                fontFamily: 'poppins',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.002,
-                      ),
-                      const Text(
-                        'Ends on: 6th May',
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontFamily: 'poppins',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.0035,
-                      ),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.black),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ))),
-                        child:  Text(
-                          'OTP : ${Get.arguments["otp_pass"]}',
-                          style: const TextStyle(
-                              color: Colors.white,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.002,
+                        ),
+                        const Text(
+                          'Transformers gym',
+                          style: TextStyle(
                               fontFamily: 'poppins',
                               fontWeight: FontWeight.w600,
+                              fontSize: 14),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.002,
+                        ),
+                        Row(children: const [
+                          Icon(
+                            Icons.location_on,
+                            size: 18,
+                          ),
+                          Text('Barakar',
+                              style: TextStyle(
+                                  fontFamily: 'poppins',
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey,
+                                  fontSize: 14)),
+                        ]),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.002,
+                        ),
+                        Row(
+                          children: const [
+                            Text(
+                              'Package  ',
+                              style: TextStyle(
+                                  fontFamily: 'poppins',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12),
+                            ),
+                            Text(
+                              '3 Months',
+                              style: TextStyle(
+                                  fontFamily: 'poppins',
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.002,
+                        ),
+                        const Text(
+                          'Ends on: 6th May',
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontFamily: 'poppins',
+                              fontWeight: FontWeight.w500,
                               fontSize: 12),
                         ),
-                        onPressed: () {},
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.0035,
+                        ),
+                        ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.black),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ))),
+                          child: Text(
+                            'OTP : ${Get.arguments["otp_pass"]}',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'poppins',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20.0,
                       ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20.0,
-                    ),
-                    child: Container(
-                      height: 190,
-                      width: 190,
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage("assets/icons/rectangle_14.png"))),
-                    ),
-                  )
-                ],
+                      child: Container(
+                        height: 190,
+                        width: 190,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage(
+                                    "assets/icons/rectangle_14.png"))),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
-          child: Row(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black87),
-                      shape:
-                      MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ))),
-                  child: const Text(
-                    'Leave a rating',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'poppins',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.black87),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ))),
+                    child: const Text(
+                      'Leave a rating',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'poppins',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14),
+                    ),
+                    onPressed: () {},
                   ),
-                  onPressed: () {},
                 ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.09,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black87),
-                      shape:
-                      MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ))),
-                  child: const Text(
-                    'Track',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'poppins',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.09,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.black87),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ))),
+                    child: const Text(
+                      'Track',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'poppins',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14),
+                    ),
+                    onPressed: () {},
                   ),
-                  onPressed: () {},
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
