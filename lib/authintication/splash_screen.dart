@@ -15,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    var visitingFlag= getUserId();
+    var visitingFlag = getUserId();
     // setVisitingFlag();
     // Timer(
     //     Duration(seconds: 2),
@@ -30,8 +30,10 @@ class _SplashScreenState extends State<SplashScreen> {
     //
     Timer(
       const Duration(seconds: 1),
-          () => Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => number != null ? HomePage():const LoginPage() )),
+      () {
+        print("////////////////////////");
+        print(number);
+      },
     );
   }
 
@@ -43,13 +45,12 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         height: size.height,
         width: size.width,
-        decoration: const BoxDecoration(
-          color: Colors.black
+        decoration: const BoxDecoration(color: Colors.black
             // gradient: LinearGradient(colors: [
             //   Color.fromRGBO(00, 00, 00, 1),
             //   // Color.fromRGBO(75, 80, 77, 1),
             // ], begin: Alignment.topCenter, end: Alignment.bottomCenter)
-        ),
+            ),
         child: Center(
           child: Image.asset(
             'assets/Illustrations/vyam.png',

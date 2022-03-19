@@ -10,27 +10,27 @@ class SuccessBook extends StatefulWidget {
 
 class _SuccessBookState extends State<SuccessBook>
     with TickerProviderStateMixin {
-   late AnimationController controller;
+  late AnimationController controller;
   late AnimationController _concontroller;
   late Animation<double> scaleAnimation;
 
   @override
   initState() {
     controller = AnimationController(
-        vsync: this, value: 0.1, duration: const Duration(milliseconds: 500));
+        vsync: this, value: 0.1, duration: const Duration(milliseconds: 1000));
     _concontroller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
+        vsync: this, duration: const Duration(milliseconds: 400));
 
     scaleAnimation =
-        CurvedAnimation(parent: controller, curve: Curves.easeInOutBack)
-          ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) {
-              setState(() {
-                Timer(const Duration(milliseconds: 200),
+    CurvedAnimation(parent: controller, curve: Curves.easeInOutBack)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          setState(() {
+            Timer(const Duration(milliseconds: 150),
                     () => _concontroller.forward());
-              });
-            }
           });
+        }
+      });
     controller.forward();
 
     super.initState();
@@ -95,7 +95,7 @@ class _SuccessBookState extends State<SuccessBook>
           SlideTransition(
             position: Tween<Offset>(begin: Offset(0, 1), end: Offset.zero)
                 .animate(CurvedAnimation(
-                    parent: _concontroller, curve: Curves.easeInOut)),
+                parent: _concontroller, curve: Curves.easeInOut)),
             child: Container(
               height: 380,
               width: MediaQuery.of(context).size.width,
@@ -319,8 +319,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                         fontSize: 14),
                   ),
                   onPressed: () {
-                    Get.off(()=>Feedback1());
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => Feedback1()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Feedback1()));
                   },
                 ),
               ),

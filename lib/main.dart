@@ -39,12 +39,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
+
       theme:ThemeData(
         primarySwatch: Colors.purple
       ),
       // Themes().lightTheme,
 
-      home: SplashScreen(),
+      // home: SplashScreen(),
+
+      // theme: Themes().lightTheme,
+      debugShowCheckedModeBanner: false,
+      home: number.toString().isNotEmpty ? HomePage() : const LoginPage(),
+
       // initialRoute: ,
       getPages: [
         GetPage(name: HomePage.id, page: () => HomePage()),
