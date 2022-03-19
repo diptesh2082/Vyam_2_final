@@ -1,21 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:reviews_slider/reviews_slider.dart';
+import 'package:vyam_2_final/Home/bookings/success_book.dart';
+import 'package:vyam_2_final/OrderDetails/order_details.dart';
 import 'gym_details.dart';
 import 'review_screen.dart';
 
-/*class FeedbackScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      builder: () => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Feedback(),
-      ),
-    );
-  }
-}*/
 
 class Feedback1 extends StatefulWidget {
   @override
@@ -24,10 +15,15 @@ class Feedback1 extends StatefulWidget {
 
 class _Feedback1State extends State<Feedback1> {
   int selectedvalue = 0;
-  TextEditingController suggestion = new TextEditingController();
-  void onChange(int value) {
+  late String selectedoption;
+  List<String> slider_option = ["Bad", "Average", "Good", "Great", "Awesome"];
+  TextEditingController feedback = TextEditingController();
+  void onChange(
+    int value,
+  ) {
     setState(() {
       selectedvalue = value;
+      selectedoption = slider_option[value];
     });
   }
 
@@ -38,7 +34,7 @@ class _Feedback1State extends State<Feedback1> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: true,
-          title: Text(
+          title: const Text(
             'Feedback',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -49,7 +45,7 @@ class _Feedback1State extends State<Feedback1> {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Review()));
             },
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back,
               color: Colors.black,
             ),
@@ -69,21 +65,65 @@ class _Feedback1State extends State<Feedback1> {
                 optionStyle: TextStyle(fontSize: 10),
                 onChange: onChange,
                 circleDiameter: 48,
-                options: ["Bad", "Okay", "Good", "Great", "Awesome"],
+                options: slider_option,
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.02,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  'Add your suggestions',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'poppins',
-                      fontSize: 14),
-                ),
-              ),
+              selectedvalue == 0
+                  ? const Padding(
+                      padding: EdgeInsets.only(left: 8.0),
+                      child: Text(
+                        'What went bad ?',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'poppins',
+                            fontSize: 14),
+                      ),
+                    )
+                  : selectedvalue == 1
+                      ? const Padding(
+                          padding: EdgeInsets.only(left: 8.0),
+                          child: Text(
+                            'Tell us how we can improve ?',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'poppins',
+                                fontSize: 14),
+                          ),
+                        )
+                      : selectedvalue == 2
+                          ? const Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                'What you like ?',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'poppins',
+                                    fontSize: 14),
+                              ),
+                            )
+                          : selectedvalue == 3
+                              ? const Padding(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    'What went good ?',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'poppins',
+                                        fontSize: 14),
+                                  ),
+                                )
+                              : const Padding(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    'What went well ? ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: 'poppins',
+                                        fontSize: 14),
+                                  ),
+                                ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 6,
                 child: Padding(
@@ -92,22 +132,22 @@ class _Feedback1State extends State<Feedback1> {
                     child: TextField(
                       autofocus: true,
                       maxLines: 10,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 12,
-                        fontFamily: 'poppins',
+                        fontFamily: 'Poppins',
                         fontWeight: FontWeight.w400,
                       ),
-                      controller: suggestion,
-                      decoration: InputDecoration(
+                      controller: feedback,
+                      decoration: const InputDecoration(
                           border: InputBorder.none,
                           isDense: true,
                           hintMaxLines: 4,
                           hintStyle: TextStyle(
-                              fontFamily: 'poppins',
+                              fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                               fontSize: 12),
                           hintText:
-                          ' Your feedbacks are really important for us.'),
+                              ' Your feedbacks are really important for us.'),
                     ),
                   ),
                 ),
@@ -116,30 +156,33 @@ class _Feedback1State extends State<Feedback1> {
                 child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ))),
+                        borderRadius: BorderRadius.circular(10),
+                      ))),
                   child: const Text(
                     'Submit',
                     style: TextStyle(
                         color: Colors.white,
-                        fontFamily: 'poppins',
+                        fontFamily: 'Poppins',
                         fontWeight: FontWeight.w700,
                         fontSize: 14),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    suggestion.clear();
+                   
 
                     Map<String, dynamic> suggest_data = {
-                      "feedback": suggestion.text,
-                      "feedback_review": selectedvalue.toString()
+                      "feedback_suggestion": feedback.text,
+                      "feedback_review": selectedoption.toString()
                     };
                     FirebaseFirestore.instance
                         .collection("Feedback")
                         .add(suggest_data);
+                    feedback.clear();
+                     Navigator.of(context).pop();
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SuccessBook()));
+
                   },
                 ),
               ),
