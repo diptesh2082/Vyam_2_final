@@ -78,11 +78,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   _payment() {
     var options = {
-      'key': 'rzp_test_XsqSZDutXoetVT',
+      'key': 'rzp_test_33NhqFvjcCXYkk',
       'amount': amount,
       'name': 'Vyam Gym Booking',
       'description': 'Payment',
-      'prefill': {'contact': '', 'email': ''},
+      'prefill': {'contact': number.toString(), 'email': ''},
       'external': {
         'wallets': ['paytm']
       }
