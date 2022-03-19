@@ -39,7 +39,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
-      theme: Themes().lightTheme,
+      theme:ThemeData(
+        primarySwatch: Colors.purple
+      ),
+      // Themes().lightTheme,
 
       home: SplashScreen(),
       // initialRoute: ,

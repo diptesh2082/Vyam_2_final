@@ -81,6 +81,8 @@ var data;
     locality = "${place.locality}";
     subLocality = "${place.subLocality}";
   }
+TextEditingController locController=TextEditingController();
+
   @override
   void initState() {
     myLocation();
@@ -94,39 +96,40 @@ var data;
   }
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      locController.text=data!=null ? data["address"]:"your Location";
+    });
+
     return Scaffold(
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: [
-                  const Icon(Icons.location_on_outlined),
-                  Text(
-                    // "",
-                    data!=null ? data["address"]:"your Location",
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
+      SizedBox(height: 9,),
+       Padding(
+          padding: EdgeInsets.only(left: 0,right: 0),
+          child: TextField(
+
+            controller: locController,
+              autofocus: false,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w500,
+                ),
+                decoration: const InputDecoration(
+                        prefixIcon: const Icon(Icons.location_on_outlined),
+                        suffixIcon: const Icon(Icons.edit_outlined),
+                        // border: InputBorde,
+                        hintStyle: TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w500,
+                            color: Colors.green),
+                        hintMaxLines: 2,
+                        hintText: 'Use current location'),
                   ),
-                  const Spacer(),
-                  const Icon(Icons.edit_outlined)
-                ],
-              ),
-            ),
-            const Divider(
-              height: 30,
-              indent: 8,
-              endIndent: 20,
-              thickness: 1.2,
-            ),
+        ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: SizedBox(
@@ -184,39 +187,39 @@ var data;
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width*.6,
-
-                                child: const TextField(
-                                  autofocus: false,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(left: 18.0),
+                                      child: Text('Use current location',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.green),
+                                      ),
                                     ),
-                                    decoration: InputDecoration(
-
-                                            // border: InputBorde,
-                                            hintStyle: TextStyle(
-                                                fontSize: 12,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.green),
-                                            hintMaxLines: 2,
-                                            hintText: 'Use current location'),
-                                      )
+                                // child: const TextField(
+                                //   autofocus: false,
+                                //     style: TextStyle(
+                                //       fontSize: 12,
+                                //       fontFamily: 'Poppins',
+                                //       fontWeight: FontWeight.w500,
+                                //     ),
+                                //     decoration: InputDecoration(
+                                //
+                                //             // border: InputBorde,
+                                //             hintStyle: TextStyle(
+                                //                 fontSize: 12,
+                                //                 fontFamily: 'Poppins',
+                                //                 fontWeight: FontWeight.w500,
+                                //                 color: Colors.green),
+                                //             hintMaxLines: 2,
+                                //             hintText: 'Use current location'),
+                                //       )
                                 ),
                             const SizedBox(
                               width: 15,
-                            )
-                            // Padding(
-                            //   padding: EdgeInsets.only(left: 18.0),
-                            //   child: Text('Use current location',
-                            //   style: TextStyle(
-                            //               fontSize: 12,
-                            //               fontFamily: 'Poppins',
-                            //               fontWeight: FontWeight.w500,
-                            //               color: Colors.green),
-                            //   ),
-                            // )
+                            ),
+
                           ],
                         ),
                       // TextField(
