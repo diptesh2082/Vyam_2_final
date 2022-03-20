@@ -23,12 +23,14 @@ class _ReviewState extends State<Review> {
   TextEditingController exp = TextEditingController();
   var _ratingController = TextEditingController();
   GymReviews reviews = GymReviews();
-  var doc = Get.arguments;
+  var doc =Get.arguments ;
   var review;
+  final _id=  Get.arguments["gym_id"];
   @override
   void initState() {
     // TODO: implement initState
     print(doc["name"]);
+    print(doc["gym_id"]);
     super.initState();
   }
 
@@ -321,7 +323,7 @@ class _ReviewState extends State<Review> {
                     alignment: Alignment.center,
                     child: StreamBuilder<QuerySnapshot>(
 
-                        stream: FirebaseFirestore.instance.collection("Reviews").doc("GYM").collection(doc["name"]).snapshots(),
+                        stream: FirebaseFirestore.instance.collection("Reviews").doc("GYM").collection(" mahtab5752@gmail.com").snapshots(),
                         builder: ((context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -332,6 +334,7 @@ class _ReviewState extends State<Review> {
                             );
                           }
                           var document = snapshot.data.docs;
+                          print(document);
                           // document = document.where((element) {
                           //   return  element
                           //       .get('gym_id')
@@ -346,6 +349,7 @@ class _ReviewState extends State<Review> {
                                   shrinkWrap: true,
                                   itemCount: document.length,
                                   itemBuilder: (context, int index) {
+
                                     return Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -382,14 +386,14 @@ class _ReviewState extends State<Review> {
                                                     color: Colors.amber,
                                                   );
                                                 }),
-                                                rating: document[index]['rating'],
+                                                rating: double.parse(document[index]['rating']),
                                                 itemCount: 5,
                                                 itemSize: 18.0,
                                                 direction: Axis.horizontal,
                                               ),
                                                Text(
                                                 // "",
-                                                document[index]["experience"],
+                                                document!=null?document[index]["experience"] ?? "":"",
 // snapshot.data.docs[index]['experience'],
                                                 style: const TextStyle(
                                                     fontFamily: 'Poppins',
@@ -467,7 +471,7 @@ class _ReviewState extends State<Review> {
                         "experience": exp.text
                       };
                       await reference
-                          .doc("Transformer Gym")
+                          .doc("GYM")
                           .collection(number)
                           .add(review_data);
 

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:get/get.dart';
@@ -39,13 +40,7 @@ class _GymDetailsState extends State<GymDetails> {
     "assets/images/trainer3.png",
   ];
 
-  final images = [
-    "assets/images/rectangle_14.png",
-    "assets/images/transf1.jpeg",
-    "assets/images/transf2.jpeg",
-    "assets/images/transf3.jpeg",
-    "assets/images/transf5.jpeg",
-  ];
+
 
   List<IconData> icons = [
     Icons.ac_unit,
@@ -62,11 +57,18 @@ class _GymDetailsState extends State<GymDetails> {
     "P/T",
     "Alarm",
   ];
+
   var doc =Get.arguments;
+  final images =Get.arguments["docs"]["images"];
 
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
   final List _isSelected = [true, false, false, false, false, false];
   int _current = 1;
+  @override
+  void initState() {
+    print(images);
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -244,133 +246,146 @@ class _GymDetailsState extends State<GymDetails> {
                               ],
                             )
                             ),
-                        const Text('       ')
+                        // const Text('       ')
                       ]),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                      const SizedBox(height: 1),
                        Text(
-                        '${doc["docs"]["address"]??""}',
+                        '${doc?["docs"]["address"]??""}',
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                        maxLines: 2,
                         style: const TextStyle(
                             color: Colors.black,
                             fontFamily: "Poppins",
                             fontSize: 12,
                             fontWeight: FontWeight.w400),
                       ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.025),
-                      SizedBox(
-                        height: 60,
-                        child: FittedBox(
-                          child: Row(
-                            // mainAxisAlignment: MainAxisAlignment.start,
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    height: 51,
-                                    width: 49,
-                                    //color: Colors.amber,
-                                    decoration: const BoxDecoration(
-                                        color: Colors.amber,
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                "assets/images/time_circle.png"))),
+                      const SizedBox(
+                          height: 2),
+                      GestureDetector(
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                          Get.to(()=> Timing_Screen(),
+                              arguments: {
+                                "timings": doc["docs"]["timings"]
+                              }
+                          );
+                        },
+                        child: SizedBox(
+                          height: 60,
+                          child: FittedBox(
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.start,
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      height: 51,
+                                      width: 49,
+                                      //color: Colors.amber,
+                                      child: const Center(child: Icon(CupertinoIcons.clock_fill)),
+                                      decoration: const BoxDecoration(
+                                          color: Colors.amber,
+                                          // image: DecorationImage(
+                                          //     image: AssetImage(
+                                          //         "assets/images/time_circle.png")
+                                          // )
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            IntrinsicHeight(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Text(
-                                            doc["docs"]["timings"]["gym"]["morning_days"] ??  "Morning",
-                                            style: const TextStyle(
-                                                fontFamily: 'poppins',
-                                                color: Colors.grey,
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w600)),
-                                        const SizedBox(height: 10),
-                                        Text(
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              IntrinsicHeight(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Text(
+                                              doc["docs"]["timings"]["gym"]["morning_days"] ??  "Morning",
+                                              style: const TextStyle(
+                                                  fontFamily: 'poppins',
+                                                  color: Colors.grey,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w600)),
+                                          const SizedBox(height: 10),
+                                          Text(
 
-                                            doc["docs"]["timings"]["gym"]["Morning"] ?? " no information"
-                                            ,
-                                            style: const TextStyle(
-                                                fontFamily: 'poppins',
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black,
-                                                fontSize: 10)),
-                                      ],
-                                    ),
-                                    const VerticalDivider(
-                                      thickness: 1,
-                                      color: Colors.grey,
-                                    ),
-                                    Column(
-                                      // mainAxisAlignment: MainAxisAlignment.start,
-                                      //crossAxisAlignment: CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
+                                              doc["docs"]["timings"]["gym"]["Morning"] ?? " no information"
+                                              ,
+                                              style: const TextStyle(
+                                                  fontFamily: 'poppins',
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black,
+                                                  fontSize: 10)),
+                                        ],
+                                      ),
+                                      const VerticalDivider(
+                                        thickness: 1,
+                                        color: Colors.grey,
+                                      ),
+                                      Column(
+                                        // mainAxisAlignment: MainAxisAlignment.start,
+                                        //crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
 
-                                            doc["docs"]["timings"]["gym"]["evening_days"] ?? "Evening",
-                                            style: const TextStyle(
-                                                fontFamily: 'poppins',
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.grey,
-                                                fontSize: 10)),
-                                        const SizedBox(height: 10),
-                                        Text(
-                                            doc["docs"]["timings"]["gym"]["Evening"] ?? "no information",
-                                            style: const TextStyle(
-                                                fontFamily: 'poppins',
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black,
-                                                fontSize: 10)),
-                                      ],
-                                    ),
-                                    const VerticalDivider(
-                                      thickness: 1,
-                                      color: Colors.grey,
-                                    ),
-                                    Column(
-                                      //mainAxisAlignment: MainAxisAlignment.start,
-                                      //crossAxisAlignment: CrossAxisAlignment.end,
-                                      children:[
-                                        Text(
-                                            doc["docs"]["timings"]["gym"]["closed"] ?? "closed",
-                                            style: const TextStyle(
-                                                fontFamily: 'poppins',
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.grey,
-                                                fontSize: 10)),
-                                        const SizedBox(height: 10),
-                                         Text(
-                                           // "",
-                                            doc["docs"]["timings"]["gym"]["closed"] != null ?'Closed':"no information",
-                                            style: TextStyle(
-                                                color: Colors.black, fontSize: 10)),
-                                      ],
-                                    ),
-                                  ],
-                                )),
-                          ]),
+                                              doc["docs"]["timings"]["gym"]["evening_days"] ?? "Evening",
+                                              style: const TextStyle(
+                                                  fontFamily: 'poppins',
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.grey,
+                                                  fontSize: 10)),
+                                          const SizedBox(height: 10),
+                                          Text(
+                                              doc["docs"]["timings"]["gym"]["Evening"] ?? "no information",
+                                              style: const TextStyle(
+                                                  fontFamily: 'poppins',
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black,
+                                                  fontSize: 10)),
+                                        ],
+                                      ),
+                                      const VerticalDivider(
+                                        thickness: 1,
+                                        color: Colors.grey,
+                                      ),
+                                      Column(
+                                        //mainAxisAlignment: MainAxisAlignment.start,
+                                        //crossAxisAlignment: CrossAxisAlignment.end,
+                                        children:[
+                                          Text(
+                                              doc["docs"]["timings"]["gym"]["closed"] ?? "closed",
+                                              style: const TextStyle(
+                                                  fontFamily: 'poppins',
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.grey,
+                                                  fontSize: 10)),
+                                          const SizedBox(height: 10),
+                                           Text(
+                                             // "",
+                                              doc["docs"]["timings"]["gym"]["closed"] != null ?'Closed':"no information",
+                                              style: TextStyle(
+                                                  color: Colors.black, fontSize: 10)),
+                                        ],
+                                      ),
+                                    ],
+                                  )),
+                            ]),
+                          ),
                         ),
                       ),
                       Row(
                         children: [
-                          const Text(' '),
+                          // const Text(' '),
                           const Spacer(),
                           GestureDetector(
                             child: const Text("View more",
@@ -404,7 +419,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontSize: 16,
                             fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.022),
+                      const SizedBox(height: 6),
                       const ReadMoreText(
                         'Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac  Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac ',
                         trimLines: 3,
@@ -422,7 +437,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontWeight: FontWeight.w400,
                             fontSize: 12),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+                      const SizedBox(height:8),
                       const Text(
                         'Amenities',
                         style: TextStyle(
@@ -431,7 +446,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontSize: 16,
                             fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+                      const SizedBox(height: 6),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.1,
                         child: ListView.separated(
@@ -455,7 +470,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontSize: 16,
                             fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                      const SizedBox(height: 6,),
                       Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0)),
@@ -478,9 +493,9 @@ class _GymDetailsState extends State<GymDetails> {
                           ),
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      const SizedBox(height: 3),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height / 5,
+                        height: 160,
                         child: GestureDetector(
                           onTap: (){
                             FocusScope.of(context).unfocus();
@@ -493,7 +508,7 @@ class _GymDetailsState extends State<GymDetails> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(10.0),
+                                    padding: const EdgeInsets.only(top: 12,left: 12,right: 6),
                                     child: Row(
                                       children: const [
                                         Text(
@@ -513,7 +528,7 @@ class _GymDetailsState extends State<GymDetails> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: MediaQuery.of(context).size.height / 9,
+                                    height: 90,
                                     child: ListView.builder(
                                         itemCount: trainers.length,
                                         physics: const PageScrollPhysics(),
@@ -580,7 +595,7 @@ class _GymDetailsState extends State<GymDetails> {
                               )),
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      const SizedBox(height: 5),
                       GestureDetector(
                         onTap: (){
                           FocusScope.of(context).unfocus();
@@ -752,74 +767,75 @@ class _GymDetailsState extends State<GymDetails> {
                       ),
                       SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.24,
+                        // height: MediaQuery.of(context).size.height * 0.24,
                         child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height:
-                                  MediaQuery.of(context).size.height * 0.02,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 8.0),
-                                  child: Text('Rules',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w700,
-                                      )),
-                                ),
-                                SizedBox(
-                                  height:
-                                  MediaQuery.of(context).size.height * 0.015,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 30.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "•  Bring your towel and use it.",
-                                        style: TextStyle(fontSize: 13),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                        MediaQuery.of(context).size.height *
-                                            0.015,
-                                      ),
-                                      const Text("•  Bring seperate shoes.",
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 8.0),
+                                    child: Text(
+                                        'Rules',
                                         style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12),),
-                                      SizedBox(
-                                        height:
-                                        MediaQuery.of(context).size.height *
-                                            0.015,
-                                      ),
-                                      const Text("•  Re-rack equipments",
-                                          style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 12)),
-                                      SizedBox(
-                                        height:
-                                        MediaQuery.of(context).size.height *
-                                            0.015,
-                                      ),
-                                      const Text(
-                                          "•  No heavy lifting without spotter",
-                                          style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 12)),
-                                    ],
+                                          fontSize: 14,
+                                          fontFamily: "Poppins",
+                                          fontWeight: FontWeight.w700,
+                                        )),
                                   ),
-                                ),
-                              ],
+                                  SizedBox(
+                                    height:
+                                    MediaQuery.of(context).size.height * 0.015,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 30.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          "•  Bring your towel and use it.",
+                                          style: TextStyle(fontSize: 13),
+                                        ),
+                                        SizedBox(
+                                          height:
+                                          MediaQuery.of(context).size.height *
+                                              0.015,
+                                        ),
+                                        const Text("•  Bring seperate shoes.",
+                                          style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12),),
+                                        SizedBox(
+                                          height:
+                                          MediaQuery.of(context).size.height *
+                                              0.015,
+                                        ),
+                                        const Text("•  Re-rack equipments",
+                                            style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 12)),
+                                        SizedBox(
+                                          height:
+                                          MediaQuery.of(context).size.height *
+                                              0.015,
+                                        ),
+                                        const Text(
+                                            "•  No heavy lifting without spotter",
+                                            style: TextStyle(
+                                                fontFamily: 'Poppins',
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 12)),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             )),
                       ),
                       SizedBox(
@@ -1021,7 +1037,7 @@ class _GymDetailsState extends State<GymDetails> {
       floatingActionButton: Container(
         // width: MediaQuery.of(context).size.width,
         height: 66,
-        width: MediaQuery.of(context).size.width*.9,
+        width: MediaQuery.of(context).size.width*.88,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15)
@@ -1034,7 +1050,7 @@ class _GymDetailsState extends State<GymDetails> {
 
             SizedBox(
               height: 51,
-              width: MediaQuery.of(context).size.width*.82,
+              width: MediaQuery.of(context).size.width*.85,
               child: FloatingActionButton.extended(
                 // backgroundColor: Colors.white,
                 elevation: 15,
@@ -1051,7 +1067,8 @@ class _GymDetailsState extends State<GymDetails> {
                       getFinalID: doc["id"],
                       gymName: doc["name"],
                       gymLocation: doc["location"],
-                  )
+                  ),
+                    duration: const Duration(milliseconds: 300)
                   );
                 },
                 label: Text(
@@ -1069,7 +1086,7 @@ class _GymDetailsState extends State<GymDetails> {
   Widget gymImages(String images, int index) => SizedBox(
     height: 70,
     width: double.infinity,
-    child: Image.asset(
+    child: Image.network(
       images,
       fit: BoxFit.cover,
     ),

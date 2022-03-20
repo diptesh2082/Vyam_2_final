@@ -34,17 +34,18 @@ class _ProfilePartState extends State<ProfilePart> {
     userName.snapshots().listen((snapshot) {
       setState(()  {
         name =  snapshot.get('name');
-        print(number);
+        // print(number);
         email = snapshot.get('email');
         phone =  snapshot.get('number');
         imageUrl =  snapshot.get("image");
       });
     });
   }
-
+  // final FirebaseAuth _auth =FirebaseAuth.instance;
   @override
   void initState() {
-    print(number);
+    // print(number);
+    print(_auth.currentUser?.phoneNumber);
     getUserData();
     super.initState();
   }
@@ -52,7 +53,8 @@ class _ProfilePartState extends State<ProfilePart> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // final FirebaseAuth _auth =FirebaseAuth.instance;
+
+    // print(_auth.currentUser?.uid);
 
     return Scaffold(
         appBar: AppBar(
@@ -74,109 +76,111 @@ class _ProfilePartState extends State<ProfilePart> {
               children: [
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Container(
-                    height: 150,
-                    decoration: const BoxDecoration(
-                      color: Colors.white30,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: size.width * .01),
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Stack(children: [
-                                          CircleAvatar(
-                                            // backgroundImage: ,
-                                            radius: 51,
-                                            backgroundColor: Colors.white,
-                                            // MediaQuery.of(context).size.width * 0.3,
-                                            backgroundImage:
-                                            // imageUrl != null?
-                                            NetworkImage(imageUrl)
-                                           // : Image.asset("asset/"),
-                                           //  // decoration: const BoxDecoration(
-                                            //     shape: BoxShape/.circle, color: Colors.white)
-                                          ),
-                                          // Positioned(
-                                          //   // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
-                                          //   bottom: 14.5,
-                                          //   // right: 20,
-                                          //   left: 32.5,
-                                          //   child: Container(
-                                          //     width: MediaQuery.of(context).size.width * 0.3,
-                                          //     child: const Icon(
-                                          //       Icons.add,
-                                          //       size: 21,
-                                          //     ),
-                                          //     //color: Colors.amber,
-                                          //     decoration: BoxDecoration(
-                                          //       shape: BoxShape.circle,
-                                          //       color: Colors.red.shade400,
-                                          //     ),
-                                          //   ),
-                                          // )
-                                        ]),
+                  child: FittedBox(
+                    child: Container(
+                      height: 151,
+                      decoration: const BoxDecoration(
+                        color: Colors.white30,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: size.width * .01),
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Stack(children: [
+                                            CircleAvatar(
+                                              // backgroundImage: ,
+                                                radius: 51,
+                                                backgroundColor: Colors.white,
+                                                // MediaQuery.of(context).size.width * 0.3,
+                                                backgroundImage:
+                                                // imageUrl != null?
+                                                NetworkImage(imageUrl)
+                                              // : Image.asset("asset/"),
+                                              //  // decoration: const BoxDecoration(
+                                              //     shape: BoxShape/.circle, color: Colors.white)
+                                            ),
+                                            // Positioned(
+                                            //   // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
+                                            //   bottom: 14.5,
+                                            //   // right: 20,
+                                            //   left: 32.5,
+                                            //   child: Container(
+                                            //     width: MediaQuery.of(context).size.width * 0.3,
+                                            //     child: const Icon(
+                                            //       Icons.add,
+                                            //       size: 21,
+                                            //     ),
+                                            //     //color: Colors.amber,
+                                            //     decoration: BoxDecoration(
+                                            //       shape: BoxShape.circle,
+                                            //       color: Colors.red.shade400,
+                                            //     ),
+                                            //   ),
+                                            // )
+                                          ]),
+                                        ),
                                       ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          name,
+                                          style: const TextStyle(
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context).size.width*.1,
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              Get.to(() => Profile());
+                                            },
+                                            icon: const Icon(Icons.edit))
+                                      ],
+                                    ),
+                                    Text(
+                                      email,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      phone,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontWeight: FontWeight.w400),
                                     ),
                                   ],
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 18,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        name,
-                                        style: const TextStyle(
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                       SizedBox(
-                                        width: MediaQuery.of(context).size.width*.1,
-                                      ),
-                                      IconButton(
-                                          onPressed: () {
-                                            Get.to(() => Profile());
-                                          },
-                                          icon: const Icon(Icons.edit))
-                                    ],
-                                  ),
-                                  Text(
-                                    email,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: const TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  Text(
-                                    phone,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: const TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              ),
 
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -196,7 +200,7 @@ class _ProfilePartState extends State<ProfilePart> {
                   ),
                   title: const Text(
                     "Contact Us",
-                    style: TextStyle(fontSize: 18, fontFamily: "Poppins"),
+                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
                   ),
                 ),
                 const Divider(
@@ -212,7 +216,7 @@ class _ProfilePartState extends State<ProfilePart> {
                   ),
                   title: const Text(
                     "About Us",
-                    style: TextStyle(fontSize: 18, fontFamily: "Poppins"),
+                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
                   ),
                 ),
                 const Divider(
@@ -228,7 +232,7 @@ class _ProfilePartState extends State<ProfilePart> {
                   ),
                   title: const Text(
                     "Terms & Condition",
-                    style: TextStyle(fontSize: 18, fontFamily: "Poppins"),
+                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
                   ),
                 ),
                 const Divider(
@@ -244,7 +248,7 @@ class _ProfilePartState extends State<ProfilePart> {
                   ),
                   title: const Text(
                     "Privacy Policy",
-                    style: TextStyle(fontSize: 18, fontFamily: "Poppins"),
+                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
                   ),
                 ),
                 const Divider(
@@ -260,7 +264,7 @@ class _ProfilePartState extends State<ProfilePart> {
                   ),
                   title: const Text(
                     "FAQ",
-                    style: TextStyle(fontSize: 18, fontFamily: "Poppins"),
+                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
                   ),
                 ),
                 const Divider(
@@ -276,7 +280,7 @@ class _ProfilePartState extends State<ProfilePart> {
                   ),
                   title: const Text(
                     "Rate Us",
-                    style: TextStyle(fontSize: 18, fontFamily: "Poppins"),
+                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
                   ),
                 ),
                 const Divider(
@@ -292,7 +296,7 @@ class _ProfilePartState extends State<ProfilePart> {
                   ),
                   title: const Text(
                     "Share & Earn",
-                    style: TextStyle(fontSize: 18, fontFamily: "Poppins"),
+                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
                   ),
                 ),
                 const Divider(
@@ -329,7 +333,7 @@ class _ProfilePartState extends State<ProfilePart> {
                   ),
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 40,
                 )
               ],
             ),

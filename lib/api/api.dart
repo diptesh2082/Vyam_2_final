@@ -150,7 +150,6 @@ class ActiveBookingApi {
       .doc(number)
       .collection("user_booking")
       .where("booking_status", isEqualTo: "active")
-
       .snapshots();
 }
 

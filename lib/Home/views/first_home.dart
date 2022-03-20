@@ -80,7 +80,7 @@ class _FirstHomeState extends State<FirstHome> {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        print('Document exists on the database');
+        // print('Document exists on the database');
         setState(() {
           user_data=documentSnapshot.data();
           GlobalUserData=documentSnapshot.data();
@@ -147,13 +147,14 @@ class _FirstHomeState extends State<FirstHome> {
     SystemChannels.textInput.invokeMethod("TextInput.hide");
     // myLocation();
     // getUserDetails();
-    // userDetails.getData();
+    userDetails.getData();
+    getProgressStatus();
 
     // getNumber();
     // number=getUserId();
     // number==null?number=getUserId().toString():number=number;
 
-    print(address2);
+    // print(address2);
     setState(() {
       myaddress = myaddress;
       address = address;
@@ -161,6 +162,7 @@ class _FirstHomeState extends State<FirstHome> {
 
     });
     // userLocation();
+    // ProgressCard(context);
 
     // getNumber();
 
@@ -183,9 +185,10 @@ class _FirstHomeState extends State<FirstHome> {
 
     super.initState();
   }
-
+bool showCard=false;
   getProgressStatus() {
     int finalDate = int.parse(getDays);
+    print(getDays);
     finalDate = totalDays - finalDate;
     finaldaysLeft = finalDate / totalDays;
     getPercentage = finaldaysLeft * 100;
@@ -193,18 +196,27 @@ class _FirstHomeState extends State<FirstHome> {
     if (getPercentage >= 90) {
       progressColor = Colors.red;
       textColor = Colors.red;
+      showCard=true;
     }
     if (getPercentage <= 89 && getPercentage >= 75) {
+      showCard=true;
+
       progressColor = const Color.fromARGB(255, 255, 89, 0);
       textColor = const Color.fromARGB(255, 255, 89, 0);
+
     }
     if (getPercentage <= 74 && getPercentage >= 50) {
       progressColor = Colors.orange;
       textColor = Colors.orange;
+      showCard=true;
     }
     if (getPercentage <= 49 && getPercentage >= 0) {
       progressColor = Colors.yellow;
       textColor = Colors.yellow;
+      showCard=true;
+    }
+    else{
+      showCard=false;
     }
   }
 
@@ -282,8 +294,10 @@ class _FirstHomeState extends State<FirstHome> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return
-      Scaffold(
+    return isLoading?const Center(
+      child: CircularProgressIndicator(),
+    )
+      :Scaffold(
       backgroundColor: const Color(0xffF4F4F4),
       appBar:  AppBar(
         elevation: .0,
@@ -438,6 +452,7 @@ class _FirstHomeState extends State<FirstHome> {
               const SizedBox(
                 height: 12,
               ),
+
               if (getPercentage != 100) ProgressCard(context),
               const SizedBox(
                 height: 15,
@@ -472,7 +487,7 @@ class _FirstHomeState extends State<FirstHome> {
                                   width: 5,
                                 ),
                                 Material(
-                                    elevation: 5,
+                                    elevation: 0,
                                     color: const Color(0xffF4F4F4),
                                     child: Image.network(data.docs[index]["image"])),
                                 const SizedBox(
@@ -511,12 +526,8 @@ class _FirstHomeState extends State<FirstHome> {
                                 });
                                 FocusScope.of(context).unfocus();
                               },
-                              child: Material(
-                                elevation: 5,
-                                color: const Color(0xffF4F4F4),
-                                child: Image.asset(
-                                    controller.OptionsList[index].imageAssets),
-                              )),
+                              child: Image.asset(
+                                  controller.OptionsList[index].imageAssets)),
                           const SizedBox(
                             width: 5,
                           )
@@ -524,7 +535,7 @@ class _FirstHomeState extends State<FirstHome> {
                         ],
                       ),
                     );
-                  }, separatorBuilder: (BuildContext context, int index) {  return Divider(); },
+                  }, separatorBuilder: (BuildContext context, int index) {  return const Divider(); },
                 ),
               ),
               const SizedBox(
@@ -550,7 +561,9 @@ class _FirstHomeState extends State<FirstHome> {
                 width: size.width * .94,
                 child: SingleChildScrollView(
                   child: StreamBuilder(
-                    stream: gymDetailApi.getGymDetails,
+                    stream: FirebaseFirestore.instance
+                        .collection("product_details")
+                        .snapshots(),
                     builder: (context, AsyncSnapshot streamSnapshot) {
                       if (streamSnapshot.connectionState ==
                           ConnectionState.waiting) {
@@ -607,20 +620,25 @@ class _FirstHomeState extends State<FirstHome> {
                                                       ["location"],
                                                   "name": document[index]
                                                       ["name"],
-                                                  "docs": document[index]
+                                                  "docs": document[index],
                                                 });
                                           },
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(15),
-                                            child: Material(
-                                              elevation: 5,
-                                              color: const Color(0xffF4F4F4),
-                                              child: Image.asset(
-                                                "assets/photos/gym.jpg",
-                                                fit: BoxFit.cover,
-                                                height: size.height * .25,
-                                                width: size.width * .94,
+                                            child: FittedBox(
+                                              child: Material(
+                                                elevation: 5,
+                                                color: const Color(0xffF4F4F4),
+                                                child: SizedBox(
+                                                  child: Image.network(
+                                                      document[index]["images"][0],
+                                                    // height: 195,
+                                                    // width: double.infinity,
+                                                  ),
+                                                  height: 190,
+                                                  width: MediaQuery.of(context).size.width*.95,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -629,9 +647,13 @@ class _FirstHomeState extends State<FirstHome> {
                                           bottom: size.height * .009,
                                           left: 5,
                                           child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(6),
+                                              color: Colors.white10,
+                                            ),
                                             height: size.height * .078,
                                             width: size.width * .45,
-                                            color: Colors.black26,
+
                                             padding: const EdgeInsets.only(
                                                 left: 8, bottom: 10),
                                             child: Column(
@@ -677,7 +699,11 @@ class _FirstHomeState extends State<FirstHome> {
                                           right: 5,
                                           bottom: size.height * .008,
                                           child: Container(
-                                            color: Colors.black26,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(6),
+                                              color: Colors.black26,
+                                            ),
+
                                             alignment: Alignment.bottomRight,
                                             height: size.height * .09,
                                             width: size.width * .22,
@@ -793,7 +819,12 @@ class _FirstHomeState extends State<FirstHome> {
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: StreamBuilder<QuerySnapshot>(
-          stream: activeBookingApi.getActiveBooking,
+          stream: FirebaseFirestore.instance
+              .collection('bookings')
+              .doc(number)
+              .collection("user_booking")
+              .where("booking_status", isEqualTo: "active")
+              .snapshots(),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -815,7 +846,8 @@ class _FirstHomeState extends State<FirstHome> {
                 itemBuilder: (context, index) {
                   getDays = (data.docs[index]["daysLeft"]??"0");
                   totalDays = int.parse(data.docs[index]["totalDays"] ?? "0") ;
-
+                  print(totalDays);
+                  // print(snapshot.data.length,);
                   getProgressStatus();
                   return Container(
                       width: MediaQuery.of(context).size.width,
