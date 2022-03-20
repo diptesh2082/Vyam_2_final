@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
@@ -47,13 +48,14 @@ class ActiveEvent extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OrderDetails(
+                          Get.to(() => OrderDetails(
                                     index: index,
                                     orderList: data.docs,
-                                  )));
+                                  ),
+                          arguments: {
+
+                          }
+                          );
                         },
                         child: FittedBox(
                           child: Card(
@@ -154,13 +156,23 @@ class ActiveEvent extends StatelessWidget {
                                             //     .contains("Pay") ||
                                             //     data.docs[index]['workout']
                                             //         .contains("pay"))
-                                              Text(
-                                                "",
-                                                // "data.docs[index]['workout'].toUpperCase()",
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 12,
-                                                    color: HexColor("3A3A3A"),
-                                                    fontWeight: FontWeight.w700),
+                                              Container(
+
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(6),
+                                                  color: Colors.black,
+                                                ),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(4.0),
+                                                  child: Text(
+                                                    "OTP:- ${data.docs[index]["otp_pass"]??""}",
+                                                    // "data.docs[index]['workout'].toUpperCase()",
+                                                    style: GoogleFonts.poppins(
+                                                        fontSize: 12,
+                                                        color: Colors.white,
+                                                        fontWeight: FontWeight.w700),
+                                                  ),
+                                                ),
                                               ),
                                             const SizedBox(
                                               height: 6,
