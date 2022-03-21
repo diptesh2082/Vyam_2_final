@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:vyam_2_final/Helpers/request_helpers.dart';
+import 'package:vyam_2_final/Home/views/scratch_map.dart';
 import 'package:vyam_2_final/api/api.dart';
 import '../../controllers/gym_controller.dart';
 import 'package:location/location.dart' as ln;
@@ -68,7 +70,6 @@ class _ExploreState extends State<Explore> {
     yield stream;
   }
 
-
   void initMarker(specify, specifyId) async {
     var markerIdVal = specifyId;
     final MarkerId markerId = MarkerId(markerIdVal);
@@ -104,11 +105,15 @@ class _ExploreState extends State<Explore> {
   @override
   void initState() {
     getMarkerData();
-    if(doc != null){
+    if (doc != null) {
       _gotoLocation(doc["location"].latitude, doc["location"].longitude);
     }
     super.initState();
   }
+
+  late List<PlacesApiHelperModel>? _list = [];
+
+  bool showPlacessuggesstions = true;
 
   @override
   Widget build(BuildContext context) {
@@ -117,16 +122,23 @@ class _ExploreState extends State<Explore> {
         title: Transform(
           transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
           child: TextField(
-            onChanged: (value) {
-              setState(() {
-                searchGymName = value.toString();
-              });
-              // print(searchGymName);
+            onChanged: (value) async {
+              _list = await RequestHelper().getPlaces(query: value);
+              setState(() {});
+              if (value.isEmpty) {
+                _list!.clear();
+                setState(() {});
+              }
             },
             decoration: const InputDecoration(
                 hintText: 'Barakar, West Bengal',
                 hintStyle: TextStyle(fontWeight: FontWeight.bold),
                 prefixIcon: Icon(Icons.search)),
+            onTap: () {
+              setState(() {
+                showPlacessuggesstions = true;
+              });
+            },
           ),
         ),
         backgroundColor: Colors.white,
@@ -142,81 +154,113 @@ class _ExploreState extends State<Explore> {
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
-            markers: Set<Marker>.of(markers.values),
+            //   markers: Set<Marker>.of(markers.values),
           ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 20.0),
-              height: 150.0,
-              child: StreamBuilder(
-                  stream: gymDetailApi.getGymDetails,
-                  builder: (context, AsyncSnapshot streamSnapshot) {
-                    if (streamSnapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
+          showPlacessuggesstions
+              ? Container(
+                  color: Colors.white.withOpacity(0.9),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _list!.length,
+                    itemBuilder: ((context, index) {
+                      return ListTile(
+                        title: Text(_list![index].mainText!),
+                        subtitle: Text(_list![index].secondaryText!),
+                        onTap: () async {
+                          final res = await RequestHelper()
+                              .getCoordinatesFromAddresss(
+                                  _list![index].mainText!);
+                          print(res.latitude);
+                          print(res.longitude);
+                          _gotoLocation(res.latitude, res.longitude);
+                          FocusScope.of(context).unfocus();
+                          setState(() {
+                            showPlacessuggesstions = false;
+                          });
+                        },
                       );
-                    }
+                    }),
+                  ),
+                )
+              : Container(),
 
-                    document = streamSnapshot.data.docs;
+          // Align(
+          //   alignment: Alignment.bottomLeft,
+          //   child: Container(
+          //     margin: const EdgeInsets.symmetric(vertical: 20.0),
+          //     height: 150.0,
+          //     child: StreamBuilder(
+          //         stream: gymDetailApi.getGymDetails,
+          //         builder: (context, AsyncSnapshot streamSnapshot) {
+          //           if (streamSnapshot.connectionState ==
+          //               ConnectionState.waiting) {
+          //             return const Center(
+          //               child: CircularProgressIndicator(),
+          //             );
+          //           }
 
-                    if (searchGymName.isNotEmpty) {
-                      document = document.where((element) {
-                        return element
-                            .get('name')
-                            .toString()
-                            .toLowerCase()
-                            .contains(searchGymName.toLowerCase());
-                      }).toList();
-                    }
-                    return document.isNotEmpty
-                        ? ListView.separated(
-                          
-                            scrollDirection: Axis.horizontal,
-                            itemCount: document.length,
-                            itemBuilder: (context, index) {
-                              return Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24.0),
-                                ),
-                                elevation: 8,
-                                child: Row(
-                                  children: [
-                                    _boxes(
-                                        "assets/photos/gym.jpg",
-                                        document[index]["location"].latitude,
-                                        document[index]["location"].longitude,
-                                        document[index]["name"],
-                                        "Asansol",
-                                        document[index]["address"],
-                                        "4.7")
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return Divider();
-                            },
-                          )
-                        : const Text(
-                            "No results found",
-                            style: TextStyle(fontSize: 24),
-                          );
-                  }),
-            ),
-          ),
+          //           document = streamSnapshot.data.docs;
+
+          //           if (searchGymName.isNotEmpty) {
+          //             document = document.where((element) {
+          //               return element
+          //                   .get('name')
+          //                   .toString()
+          //                   .toLowerCase()
+          //                   .contains(searchGymName.toLowerCase());
+          //             }).toList();
+          //           }
+          //           return document.isNotEmpty
+          //               ? ListView.separated(
+          //                   scrollDirection: Axis.horizontal,
+          //                   itemCount: document.length,
+          //                   itemBuilder: (context, index) {
+          //                     return Card(
+          //                       shape: RoundedRectangleBorder(
+          //                         borderRadius: BorderRadius.circular(24.0),
+          //                       ),
+          //                       elevation: 8,
+          //                       child: Row(
+          //                         children: [
+          //                           _boxes(
+          //                               "assets/photos/gym.jpg",
+          //                               document[index]["name"],
+          //                               document[index]["location"],
+          //                               document[index]["address"],
+          //                               "4.7")
+          //                         ],
+          //                       ),
+          //                     );
+          //                   },
+          //                   separatorBuilder:
+          //                       (BuildContext context, int index) {
+          //                     return const Divider();
+          //                   },
+          //                 )
+          //               : const Text(
+          //                   "No results found",
+          //                   style: TextStyle(fontSize: 24),
+          //                 );
+          //         }),
+          //   ),
+          // ),
         ],
       ),
     );
   }
 
-  Widget _boxes(String _image, double lat, double long, String name,
-      String location, String address, String review) {
+  Widget _boxes(
+    String _image,
+    String name,
+    GeoPoint location,
+    String address,
+    String review,
+  ) {
     return GestureDetector(
       onTap: () {
-        _gotoLocation(lat, long);
+        // _gotoLocation(lat, long);
       },
       child: FittedBox(
         child: Material(
@@ -244,7 +288,11 @@ class _ExploreState extends State<Explore> {
                 SizedBox(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0, right: 30),
-                    child: myDetailsContainer1(name, location, address, review),
+                    child: myDetailsContainer1(
+                        name,
+                        '${location.latitude}, ${location.longitude}',
+                        address,
+                        review),
                   ),
                 ),
               ],

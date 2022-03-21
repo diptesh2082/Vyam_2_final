@@ -10,7 +10,7 @@ class SuccessBook extends StatefulWidget {
 
 class _SuccessBookState extends State<SuccessBook>
     with TickerProviderStateMixin {
-   late AnimationController controller;
+  late AnimationController controller;
   late AnimationController _concontroller;
   late Animation<double> scaleAnimation;
 
@@ -42,7 +42,6 @@ class _SuccessBookState extends State<SuccessBook>
     _concontroller.dispose();
     super.dispose();
   }
-
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,7 +124,6 @@ class _PanelWidgetState extends State<PanelWidget> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.02,
           ),
-<<<<<<< HEAD
           Center(
             child: Container(
               width: 70,
@@ -182,123 +180,6 @@ class _PanelWidgetState extends State<PanelWidget> {
                           'Transformers gym',
                           style: TextStyle(
                               fontFamily: 'poppins',
-=======
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 8.0),
-          child: Text(
-            'Booking Details',
-            style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w600,
-                fontSize: 16),
-          ),
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 6.0),
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      Row(
-                        children: const [
-                          Text(
-                            'Booking ID :',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12),
-                          ),
-                          Text(
-                            '00123',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.002,
-                      ),
-                      const Text(
-                        'Transformers gym',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.002,
-                      ),
-                      Row(children: const [
-                        Icon(
-                          Icons.location_on,
-                          size: 18,
-                        ),
-                        Text('Barakar',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey,
-                                fontSize: 14)),
-                      ]),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.002,
-                      ),
-                      Row(
-                        children: const [
-                          Text(
-                            'Package  ',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12),
-                          ),
-                          Text(
-                            '3 Months',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.002,
-                      ),
-                      const Text(
-                        'Ends on: 6th May',
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.0035,
-                      ),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.black),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ))),
-                        child:  Text(
-                          'OTP : ${Get.arguments["otp_pass"]}',
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Poppins',
->>>>>>> 6e7d48de905f6375d09eb114214e094e0eb0d698
                               fontWeight: FontWeight.w600,
                               fontSize: 14),
                         ),
@@ -391,7 +272,6 @@ class _PanelWidgetState extends State<PanelWidget> {
               ),
             ),
           ),
-<<<<<<< HEAD
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
             child: Row(
@@ -416,34 +296,8 @@ class _PanelWidgetState extends State<PanelWidget> {
                           fontSize: 14),
                     ),
                     onPressed: () {},
-=======
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
-          child: Row(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black87),
-                      shape:
-                      MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ))),
-                  child: const Text(
-                    'Leave a rating',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14),
->>>>>>> 6e7d48de905f6375d09eb114214e094e0eb0d698
                   ),
                 ),
-<<<<<<< HEAD
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.09,
                 ),
@@ -468,34 +322,6 @@ class _PanelWidgetState extends State<PanelWidget> {
                     ),
                     onPressed: () {},
                   ),
-=======
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.09,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black87),
-                      shape:
-                      MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ))),
-                  child: const Text(
-                    'Feedback',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14),
-                  ),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Feedback1()));
-                  },
->>>>>>> 6e7d48de905f6375d09eb114214e094e0eb0d698
                 ),
               ],
             ),

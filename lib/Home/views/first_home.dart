@@ -30,6 +30,7 @@ import 'package:vyam_2_final/gymtype/yogatype.dart';
 import 'package:vyam_2_final/gymtype/zumbatype.dart';
 import '../../Notifications/notification.dart';
 import 'gyms.dart';
+
 const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
 core.GoogleMapsPlaces _places = core.GoogleMapsPlaces(apiKey: api);
 
@@ -54,9 +55,9 @@ class _FirstHomeState extends State<FirstHome> {
   var user_data;
   String getDays = '0';
   int totalDays = 0;
-  var myaddress ;
+  var myaddress;
   var address;
-  bool isLoading=true;
+  bool isLoading = true;
   // var location = Get.arguments;
 
   // var data;
@@ -81,7 +82,7 @@ class _FirstHomeState extends State<FirstHome> {
       if (documentSnapshot.exists) {
         print('Document exists on the database');
         setState(() {
-          user_data=documentSnapshot.data();
+          user_data = documentSnapshot.data();
         });
         // user_data=documentSnapshot.data();
       }
@@ -127,13 +128,14 @@ class _FirstHomeState extends State<FirstHome> {
     getAddressPin(pin);
     myLocation();
   }
-  getEverything()async {
+
+  getEverything() async {
     await getUserId();
     await myLocation();
     await getUserDetails();
     await userDetails.getData();
-    isLoading=false;
 
+    isLoading = false;
   }
 
   @override
@@ -156,7 +158,6 @@ class _FirstHomeState extends State<FirstHome> {
       myaddress = myaddress;
       address = address;
       pin = pin;
-
     });
     // userLocation();
 
@@ -280,481 +281,516 @@ class _FirstHomeState extends State<FirstHome> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return
-      Scaffold(
-      backgroundColor: const Color(0xffF4F4F4),
-      appBar:  AppBar(
-        elevation: .6,
-        centerTitle: false,
-        backgroundColor: const Color(0xffF4F4F4),
-        title: Transform(
-          transform: Matrix4.translationValues(-20.0, 0.0, 0.0),
-          child: Row(
-            children: [
-              IconButton(
-                iconSize: 25,
-                icon: const Icon(
-                  CupertinoIcons.location,
-                  color: Colors.black,
-                ),
-                onPressed: () async {
-                  FocusScope.of(context).unfocus();
-                  // Get.back();
-                  // print(_auth.currentUser?.uid);
-                  // Position position = await _determinePosition();
-                  // await GetAddressFromLatLong(position);
-                  // await UserApi.updateUserAddress(
-                  //     address, [position.latitude, position.longitude], pin
-                  // );
-                  await getAddressPin(pin);
+    return isLoading
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : Scaffold(
+            backgroundColor: const Color(0xffF4F4F4),
+            appBar: AppBar(
+              elevation: .6,
+              centerTitle: false,
+              backgroundColor: const Color(0xffF4F4F4),
+              title: Transform(
+                transform: Matrix4.translationValues(-20.0, 0.0, 0.0),
+                child: Row(
+                  children: [
+                    IconButton(
+                      iconSize: 25,
+                      icon: const Icon(
+                        CupertinoIcons.location,
+                        color: Colors.black,
+                      ),
+                      onPressed: () async {
+                        FocusScope.of(context).unfocus();
+                        // Get.back();
+                        // print(_auth.currentUser?.uid);
+                        // Position position = await _determinePosition();
+                        // await GetAddressFromLatLong(position);
+                        // await UserApi.updateUserAddress(
+                        //     address, [position.latitude, position.longitude], pin
+                        // );
+                        await getAddressPin(pin);
 
-                  setState((){
-                    // myaddress = myaddress;
-                    address = address;
-                    pin = pin;
-                  });
-                  Get.to(()=>LocInfo());
-                },
-              ),
-              SizedBox(
-                width: size.width * .55,
-                child: Text(
-                  user_data!=null ? user_data["address"]:"your Location",
-                  textAlign: TextAlign.left,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontFamily: "Poppins",
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              HomeIcon.notification,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              // print(number);
-              FocusScope.of(context).unfocus();
-
-              Get.to(const NotificationDetails());
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                child: SizedBox(
-                  height: 45,
-                  child: TextFormField(
-
-                    onChanged: (value) {
-                      // print(value.toString());
-                      setState(() {
-
-                        searchGymName = value.toString();
-                      });
-                      //
-                      // print(searchGymName);
-                    },
-                    // onSubmitted: (value) {
-                    //   // ignore: avoid_print
-                    //   print('Submitted text: $value');
-                    // },
-                    decoration: InputDecoration(
-                      prefixIcon: Image.asset("assets/images/Search.png"),
-                      hintText: 'Search',
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: Colors.white,
+                        setState(() {
+                          // myaddress = myaddress;
+                          address = address;
+                          pin = pin;
+                        });
+                        Get.to(() => LocInfo());
+                      },
                     ),
-                  ),
+                    SizedBox(
+                      width: size.width * .55,
+                      child: Text(
+                        user_data != null
+                            ? user_data["address"]
+                            : "your Location",
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontFamily: "Poppins",
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ],
                 ),
               ),
+              actions: [
+                IconButton(
+                  icon: const Icon(
+                    HomeIcon.notification,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    // print(number);
+                    FocusScope.of(context).unfocus();
 
-              // CupertinoSearchTextField(
-              //   onChanged: (value) {
-              //     setState(() {
-              //       searchGymName = value.toString();
-              //     });
-              //
-              //     print(searchGymName);
-              //   },
-              //   decoration: BoxDecoration(
-              //       color: Colors.grey[300],
-              //       borderRadius: BorderRadius.circular(10)),
-              //   onSubmitted: (value) {
-              //     // ignore: avoid_print
-              //     print('Submitted text: $value');
-              //   },
-              // ),
-              // const SizedBox(
-              //   height: 4,
-              // ),
-              const SizedBox(
-                height: 12,
-              ),
-              if (getPercentage != 100) ProgressCard(context),
-              const SizedBox(
-                height: 15,
-              ),
-              InkWell(
-                onTap: () {
-                  FocusScope.of(context).unfocus();
-                  Get.to(CouponDetails());
-                },
-                child: SizedBox(
-                  height: 135,
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: bannerApi.getBanner,
-                    builder: (context, AsyncSnapshot streamSnapshot) {
-                      if (streamSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      final data = streamSnapshot.requireData;
-                      return ListView.builder(
-                        // controller: _controller.,
+                    Get.to(const NotificationDetails());
+                  },
+                ),
+              ],
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                      child: SizedBox(
+                        height: 45,
+                        child: TextFormField(
+                          onChanged: (value) {
+                            // print(value.toString());
+                            setState(() {
+                              searchGymName = value.toString();
+                            });
+                            //
+                            // print(searchGymName);
+                          },
+                          // onSubmitted: (value) {
+                          //   // ignore: avoid_print
+                          //   print('Submitted text: $value');
+                          // },
+                          decoration: InputDecoration(
+                            prefixIcon: Image.asset("assets/images/Search.png"),
+                            hintText: 'Search',
+                            border: InputBorder.none,
+                            filled: true,
+                            fillColor: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // CupertinoSearchTextField(
+                    //   onChanged: (value) {
+                    //     setState(() {
+                    //       searchGymName = value.toString();
+                    //     });
+                    //
+                    //     print(searchGymName);
+                    //   },
+                    //   decoration: BoxDecoration(
+                    //       color: Colors.grey[300],
+                    //       borderRadius: BorderRadius.circular(10)),
+                    //   onSubmitted: (value) {
+                    //     // ignore: avoid_print
+                    //     print('Submitted text: $value');
+                    //   },
+                    // ),
+                    // const SizedBox(
+                    //   height: 4,
+                    // ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    if (getPercentage != 100) ProgressCard(context),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        FocusScope.of(context).unfocus();
+                        Get.to(CouponDetails());
+                      },
+                      child: SizedBox(
+                        height: 135,
+                        child: StreamBuilder<QuerySnapshot>(
+                          stream: bannerApi.getBanner,
+                          builder: (context, AsyncSnapshot streamSnapshot) {
+                            if (streamSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            final data = streamSnapshot.requireData;
+                            return ListView.builder(
+                              // controller: _controller.,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: data.size,
+                              itemBuilder: (context, int index) {
+                                return SizedBox(
+                                  height: 120,
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      Material(
+                                          elevation: 5,
+                                          color: const Color(0xffF4F4F4),
+                                          child: Image.network(
+                                              data.docs[index]["image"])),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SizedBox(
+                      height: 150,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: controller.OptionsList.length,
                         scrollDirection: Axis.horizontal,
-                        itemCount: data.size,
                         itemBuilder: (context, int index) {
                           return SizedBox(
-                            height: 120,
+                            height: 150,
                             child: Row(
                               children: [
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                Material(
-                                    elevation: 5,
-                                    color: const Color(0xffF4F4F4),
-                                    child: Image.network(data.docs[index]["image"])),
+                                GestureDetector(
+                                    onTap: () {
+                                      Get.to(() => GymOption(), arguments: {
+                                        "type":
+                                            controller.OptionsList[index].type,
+                                      });
+                                      FocusScope.of(context).unfocus();
+                                    },
+                                    child: Material(
+                                      elevation: 5,
+                                      color: const Color(0xffF4F4F4),
+                                      child: Image.asset(controller
+                                          .OptionsList[index].imageAssets),
+                                    )),
                                 const SizedBox(
                                   width: 5,
-                                ),
+                                )
                               ],
                             ),
                           );
                         },
-                      );
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                height: 150,
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: controller.OptionsList.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, int index) {
-                    return SizedBox(
-                      height: 150,
-                      child: Row(
-                        children: [
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                Get.to(()=>GymOption(),arguments: {
-                                  "type":controller.OptionsList[index].type,
-                                });
-                                FocusScope.of(context).unfocus();
-                              },
-                              child: Material(
-                                elevation: 5,
-                                color: const Color(0xffF4F4F4),
-                                child: Image.asset(
-                                    controller.OptionsList[index].imageAssets),
-                              )),
-                          const SizedBox(
-                            width: 5,
-                          )
-
-                        ],
+                        separatorBuilder: (BuildContext context, int index) {
+                          return Divider();
+                        },
                       ),
-                    );
-                  }, separatorBuilder: (BuildContext context, int index) {  return Divider(); },
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const SizedBox(
-                height: 30,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Nearby Gyms",
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                width: size.width * .94,
-                child: SingleChildScrollView(
-                  child: StreamBuilder(
-                    stream: gymDetailApi.getGymDetails,
-                    builder: (context, AsyncSnapshot streamSnapshot) {
-                      if (streamSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Nearby Gyms",
+                          style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      width: size.width * .94,
+                      child: SingleChildScrollView(
+                        child: StreamBuilder(
+                          stream: gymDetailApi.getGymDetails,
+                          builder: (context, AsyncSnapshot streamSnapshot) {
+                            if (streamSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
 
-                      var document = streamSnapshot.data.docs;
+                            var document = streamSnapshot.data.docs;
 
-                      if (searchGymName.length > 0) {
-                        document = document.where((element) {
-                          return element
-                              .get('name')
-                              .toString()
-                              .toLowerCase()
-                              .contains(searchGymName.toLowerCase());
-                        }).toList();
-                      } else {
-                        document = document.where((element) {
-                          return element
-                              .get('pincode')
-                              .toString()
-                              // .toLowerCase()
-                              .contains(address2.toString());
-                        }).toList();
-                      }
-                      return document.isNotEmpty
-                          ? ListView.separated(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: document.length,
-                              itemBuilder: (context, int index) {
-                                return Column(
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () async {
-                                            FocusScope.of(context).unfocus();
-                                            // print("${document[index]["name"]}");
-                                            Get.to(
-                                                () => GymDetails(
-                                                    // getID: document[index].id,
-                                                    // gymLocation:
-                                                    // document[index]
-                                                    // ["location"],
-                                                    // gymName: document[index]
-                                                    // ["name"],
+                            if (searchGymName.length > 0) {
+                              document = document.where((element) {
+                                return element
+                                    .get('name')
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(searchGymName.toLowerCase());
+                              }).toList();
+                            } else {
+                              document = document.where((element) {
+                                return element
+                                    .get('pincode')
+                                    .toString()
+                                    // .toLowerCase()
+                                    .contains(address2.toString());
+                              }).toList();
+                            }
+                            return document.isNotEmpty
+                                ? ListView.separated(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: document.length,
+                                    itemBuilder: (context, int index) {
+                                      return Column(
+                                        children: [
+                                          Stack(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  FocusScope.of(context)
+                                                      .unfocus();
+                                                  // print("${document[index]["name"]}");
+                                                  Get.to(
+                                                      () => GymDetails(
+                                                          // getID: document[index].id,
+                                                          // gymLocation:
+                                                          // document[index]
+                                                          // ["location"],
+                                                          // gymName: document[index]
+                                                          // ["name"],
+                                                          ),
+                                                      arguments: {
+                                                        "id":
+                                                            document[index].id,
+                                                        "location":
+                                                            document[index]
+                                                                ["location"],
+                                                        "name": document[index]
+                                                            ["name"],
+                                                        "docs": document[index]
+                                                      });
+                                                },
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  child: Material(
+                                                    elevation: 5,
+                                                    color:
+                                                        const Color(0xffF4F4F4),
+                                                    child: Image.asset(
+                                                      "assets/photos/gym.jpg",
+                                                      fit: BoxFit.cover,
+                                                      height: size.height * .25,
+                                                      width: size.width * .94,
                                                     ),
-                                                arguments: {
-                                                  "id": document[index].id,
-                                                  "location": document[index]
-                                                      ["location"],
-                                                  "name": document[index]
-                                                      ["name"],
-                                                  "docs": document[index]
-                                                });
-                                          },
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            child: Material(
-                                              elevation: 5,
-                                              color: const Color(0xffF4F4F4),
-                                              child: Image.asset(
-                                                "assets/photos/gym.jpg",
-                                                fit: BoxFit.cover,
-                                                height: size.height * .25,
-                                                width: size.width * .94,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
+                                              Positioned(
+                                                bottom: size.height * .009,
+                                                left: 5,
+                                                child: Container(
+                                                  height: size.height * .078,
+                                                  width: size.width * .45,
+                                                  color: Colors.black26,
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 8, bottom: 10),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        document[index]["name"],
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        maxLines: 1,
+                                                        // overflow:
+                                                        // TextOverflow.ellipsis,
+                                                        style: const TextStyle(
+                                                            color: Colors.white,
+                                                            fontFamily:
+                                                                "Poppins",
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 2,
+                                                      ),
+                                                      Text(
+                                                        // "",
+                                                        document[index]
+                                                                ["address"] ??
+                                                            "",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: const TextStyle(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            color: Colors.white,
+                                                            fontFamily:
+                                                                "Poppins",
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                right: 5,
+                                                bottom: size.height * .008,
+                                                child: Container(
+                                                  color: Colors.black26,
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  height: size.height * .09,
+                                                  width: size.width * .22,
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 8, bottom: 10),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: const [
+                                                          // SvgPicture.asset(
+                                                          //     'assets/Icons/rating star small.svg'),
+                                                          Icon(
+                                                            CupertinoIcons
+                                                                .star_fill,
+                                                            color:
+                                                                Colors.yellow,
+                                                            size: 18,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Text(
+                                                            "4.7",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 15,
+                                                                fontFamily:
+                                                                    "Poppins",
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 3,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: const [
+                                                          // SvgPicture.asset(
+                                                          //   'assets/Icons/Location.svg',
+                                                          //   color: Colors.white,
+                                                          // ),
+                                                          Icon(
+                                                            CupertinoIcons
+                                                                .location_solid,
+                                                            size: 20,
+                                                            color: Colors.white,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Text(
+                                                            "1 KM",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontFamily:
+                                                                    "Poppins",
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                        Positioned(
-                                          bottom: size.height * .009,
-                                          left: 5,
-                                          child: Container(
-                                            height: size.height * .078,
-                                            width: size.width * .45,
-                                            color: Colors.black26,
-                                            padding: const EdgeInsets.only(
-                                                left: 8, bottom: 10),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  document[index]["name"],
-                                                  textAlign: TextAlign.center,
-                                                  maxLines: 1,
-                                                  // overflow:
-                                                  // TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontFamily: "Poppins",
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                                const SizedBox(
-                                                  height: 2,
-                                                ),
-                                                Text(
-                                                  // "",
-                                                  document[index]["address"]??"",
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      color: Colors.white,
-                                                      fontFamily: "Poppins",
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 5,
-                                          bottom: size.height * .008,
-                                          child: Container(
-                                            color: Colors.black26,
-                                            alignment: Alignment.bottomRight,
-                                            height: size.height * .09,
-                                            width: size.width * .22,
-                                            padding: const EdgeInsets.only(
-                                                right: 8, bottom: 10),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: const [
-                                                    // SvgPicture.asset(
-                                                    //     'assets/Icons/rating star small.svg'),
-                                                    Icon(
-                                                      CupertinoIcons.star_fill,
-                                                      color: Colors.yellow,
-                                                      size: 18,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "4.7",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15,
-                                                          fontFamily: "Poppins",
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 3,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: const [
-                                                    // SvgPicture.asset(
-                                                    //   'assets/Icons/Location.svg',
-                                                    //   color: Colors.white,
-                                                    // ),
-                                                    Icon(
-                                                      CupertinoIcons
-                                                          .location_solid,
-                                                      size: 20,
-                                                      color: Colors.white,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "1 KM",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontFamily: "Poppins",
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                          // const SizedBox(
+                                          //   height: 10,
+                                          // )
+                                        ],
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return const Divider();
+                                    },
+                                  )
+                                : const Center(
+                                    child: Text(
+                                      "No nearby gyms in your area",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w100,
+                                        fontFamily: "Poppins",
+                                        fontSize: 20,
+                                      ),
                                     ),
-                                    // const SizedBox(
-                                    //   height: 10,
-                                    // )
-                                  ],
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const Divider();
-                              },
-                            )
-                          : const Center(
-                              child: Text(
-                                "No nearby gyms in your area",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w100,
-                                  fontFamily: "Poppins",
-                                  fontSize: 20,
-                                ),
-                              ),
-                            );
-                    },
-                  ),
+                                  );
+                          },
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+              ),
+            ),
+          );
   }
 
   // ignore: non_constant_identifier_names
@@ -783,8 +819,8 @@ class _FirstHomeState extends State<FirstHome> {
                 shrinkWrap: true,
                 itemCount: 1,
                 itemBuilder: (context, index) {
-                  getDays = (data.docs[index]["daysLeft"]??"0");
-                  totalDays = int.parse(data.docs[index]["totalDays"] ?? "0") ;
+                  getDays = (data.docs[index]["daysLeft"] ?? "0");
+                  totalDays = int.parse(data.docs[index]["totalDays"] ?? "0");
 
                   getProgressStatus();
                   return Container(
@@ -802,7 +838,7 @@ class _FirstHomeState extends State<FirstHome> {
                               children: [
                                 Row(
                                   children: [
-                                    Text(data.docs[index]['daysLeft']??"",
+                                    Text(data.docs[index]['daysLeft'] ?? "",
                                         style: GoogleFonts.poppins(
                                             color: textColor,
                                             fontWeight: FontWeight.bold)),
@@ -815,7 +851,7 @@ class _FirstHomeState extends State<FirstHome> {
                                 const SizedBox(
                                   height: 5,
                                 ),
-                                Text(data.docs[index]['gym_name']??"",
+                                Text(data.docs[index]['gym_name'] ?? "",
                                     style: GoogleFonts.poppins(
                                         fontSize: 13,
                                         color: Colors.black,

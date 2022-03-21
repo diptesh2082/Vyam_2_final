@@ -11,7 +11,7 @@ import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/regitration_from.dart';
 
 class ProfilePart extends StatefulWidget {
-  ProfilePart({Key? key}) : super(key: key);
+  const ProfilePart({Key? key}) : super(key: key);
 
   @override
   State<ProfilePart> createState() => _ProfilePartState();
@@ -24,22 +24,26 @@ class _ProfilePartState extends State<ProfilePart> {
   String name = "";
   String email = "";
   String phone = "";
-  var imageUrl="";
+  String? imageUrl = "";
   final id = number;
 
   Future getUserData() async {
     // print(number);
-    DocumentReference userName =
-    FirebaseFirestore.instance.collection('user_details').doc(id);
-    userName.snapshots().listen((snapshot) {
-      setState(()  {
-        name =  snapshot.get('name');
-        print(number);
-        email = snapshot.get('email');
-        phone =  snapshot.get('number');
-        imageUrl =  snapshot.get("image");
+    try {
+      DocumentReference userName =
+          FirebaseFirestore.instance.collection('user_details').doc(id);
+      userName.snapshots().listen((snapshot) {
+        setState(() {
+          name = snapshot.get('name');
+          print(number);
+          email = snapshot.get('email');
+          phone = snapshot.get('number');
+          imageUrl = snapshot.get("image");
+        });
       });
-    });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -88,44 +92,32 @@ class _ProfilePartState extends State<ProfilePart> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(left: size.width * .01),
+                                padding:
+                                    EdgeInsets.only(left: size.width * .01),
                                 child: Stack(
                                   children: [
                                     Positioned(
                                       child: Align(
                                         alignment: Alignment.center,
-                                        child: Stack(children: [
-                                          CircleAvatar(
-                                            // backgroundImage: ,
-                                            radius: 51,
-                                            backgroundColor: Colors.white,
-                                            // MediaQuery.of(context).size.width * 0.3,
-                                            backgroundImage:
-                                            // imageUrl != null?
-                                            NetworkImage(imageUrl)
-                                           // : Image.asset("asset/"),
-                                           //  // decoration: const BoxDecoration(
-                                            //     shape: BoxShape/.circle, color: Colors.white)
-                                          ),
-                                          // Positioned(
-                                          //   // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
-                                          //   bottom: 14.5,
-                                          //   // right: 20,
-                                          //   left: 32.5,
-                                          //   child: Container(
-                                          //     width: MediaQuery.of(context).size.width * 0.3,
-                                          //     child: const Icon(
-                                          //       Icons.add,
-                                          //       size: 21,
-                                          //     ),
-                                          //     //color: Colors.amber,
-                                          //     decoration: BoxDecoration(
-                                          //       shape: BoxShape.circle,
-                                          //       color: Colors.red.shade400,
-                                          //     ),
-                                          //   ),
-                                          // )
-                                        ]),
+                                        child: Stack(
+                                          children: [
+                                            imageUrl == null
+                                                ? const CircleAvatar(
+                                                    radius: 51,
+                                                    child: Text('V'),
+                                                  )
+                                                : CircleAvatar(
+                                                    // backgroundImage: ,
+                                                    radius: 51,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    // MediaQuery.of(context).size.width * 0.3,
+                                                    backgroundImage:
+                                                        // imageUrl != null?
+                                                        NetworkImage(imageUrl!),
+                                                  ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -145,8 +137,10 @@ class _ProfilePartState extends State<ProfilePart> {
                                             fontFamily: "Poppins",
                                             fontWeight: FontWeight.w600),
                                       ),
-                                       SizedBox(
-                                        width: MediaQuery.of(context).size.width*.1,
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .1,
                                       ),
                                       IconButton(
                                           onPressed: () {
@@ -173,7 +167,6 @@ class _ProfilePartState extends State<ProfilePart> {
                                   ),
                                 ],
                               ),
-
                             ],
                           ),
                         ],
@@ -316,8 +309,7 @@ class _ProfilePartState extends State<ProfilePart> {
                           // sharedPreferences.remove('number');
                           _auth.signOut();
                           Get.to(() => const LoginPage());
-                          // setVisitingFlagFalse();
-
+                          setVisitingFlagFalse();
                         },
                         child: const Text(
                           "Log out",
