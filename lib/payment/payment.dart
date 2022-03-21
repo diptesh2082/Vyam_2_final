@@ -199,7 +199,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           child: Text(
                                             "Workout",
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold,
+                                                fontWeight: FontWeight.w600,
                                                 fontFamily: "Poppins",
                                                 fontSize: 17,
                                                 color: Colors.green),
@@ -212,7 +212,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             getData['packageType'],
                                             style: const TextStyle(
                                                 color: Colors.green,
-                                                fontWeight: FontWeight.bold,
+                                                fontWeight: FontWeight.w600,
                                                 fontFamily: "Poppins",
                                                 fontSize: 17),
                                           ),
@@ -226,18 +226,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const Padding(
+                                        Padding(
                                           padding: EdgeInsets.only(
                                               right: 15, top: 3, left: 10),
                                           child: Center(
                                             child: Text(
                                               "Package",
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontFamily: "Poppins",
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600
                                               ),
                                             ),
                                           ),
@@ -246,12 +244,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           padding: const EdgeInsets.only(
                                               right: 15, top: 3),
                                           child: Text(
-                                            getData['totalMonths'],
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontFamily: "Poppins",
-                                              fontSize: 16,
-                                            ),
+                                            getData['totalMonths']??"",
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 15.5,
+                                                // color: ,
+                                                fontWeight: FontWeight.w600),
                                           ),
                                         )
                                       ],

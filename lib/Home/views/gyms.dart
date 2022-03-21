@@ -103,13 +103,16 @@ class _GymOptionState extends State<GymOption> {
                         color: _all ? _maleColor : _inactiveColor),
                     child: Padding(
                       padding: const EdgeInsets.only(top: 11.0, bottom: 11.0),
-                      child: Center(
-                        child: Text(
-                          "All",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 15,
-                              color: _all ? _textActive : _textInactive),
+                      child: Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Center(
+                          child: Text(
+                            "All",
+                            style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                                color: _all ? _textActive : _textInactive),
+                          ),
                         ),
                       ),
                     )),
@@ -137,13 +140,18 @@ class _GymOptionState extends State<GymOption> {
                         color: _female ? _maleColor : _inactiveColor),
                     child: Padding(
                       padding: const EdgeInsets.only(top: 11.0, bottom: 11.0),
-                      child: Center(
-                        child: Text(
-                          "Female",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 15,
-                              color: _female ? _textActive : _textInactive),
+                      child: FittedBox(
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Text(
+                              "Female",
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 15,
+                                  color: _female ? _textActive : _textInactive),
+                            ),
+                          ),
                         ),
                       ),
                     )),
@@ -154,13 +162,18 @@ class _GymOptionState extends State<GymOption> {
                         color: _unisex ? _maleColor : _inactiveColor),
                     child: Padding(
                       padding: const EdgeInsets.only(top: 11.0, bottom: 11.0),
-                      child: Center(
-                        child: Text(
-                          "Unisex",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 15,
-                              color: _unisex ? _textActive : _textInactive),
+                      child: FittedBox(
+                        child: Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Center(
+                            child: Text(
+                              "Unisex",
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 15,
+                                  color: _unisex ? _textActive : _textInactive),
+                            ),
+                          ),
                         ),
                       ),
                     )),

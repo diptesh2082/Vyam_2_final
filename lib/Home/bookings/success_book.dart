@@ -93,7 +93,7 @@ class _SuccessBookState extends State<SuccessBook>
           ),
           const Spacer(),
           SlideTransition(
-            position: Tween<Offset>(begin: Offset(0, 1), end: Offset.zero)
+            position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
                 .animate(CurvedAnimation(
                 parent: _concontroller, curve: Curves.easeInOut)),
             child: Container(
@@ -318,8 +318,8 @@ class _PanelWidgetState extends State<PanelWidget> {
                         fontWeight: FontWeight.w600,
                         fontSize: 14),
                   ),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Feedback1()));
+                  onPressed: ()async {
+                   await Navigator.push(context, MaterialPageRoute(builder: (context) => Feedback1()));
                   },
                 ),
               ),

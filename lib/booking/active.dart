@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -236,11 +237,15 @@ class ActiveEvent extends StatelessWidget {
                                       child: SizedBox(
                                         height: 130,
                                         width: 130,
-                                        child: Image.network(
+                                        child: CachedNetworkImage(
                                           // "",
-                                          data.docs[index]['gym_details']["img"],
+
                                           fit: BoxFit.cover,
                                           height: 150,
+                                          imageUrl: data.docs[index]['gym_details']["image"],
+                                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                              CircularProgressIndicator(value: downloadProgress.progress,),
+                                          errorWidget: (context, url, error) => const Icon(Icons.error),
                                         ),
                                       ),
                                     ),

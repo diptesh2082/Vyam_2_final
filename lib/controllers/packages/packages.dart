@@ -72,6 +72,11 @@ class _PackegesState extends State<Packeges> {
       "booking_date":"",
       "plan_end_duration":"",
       "otp_pass":"",
+      "gym_details": {
+        "image":Get.arguments["doc"]["images"][0],
+        "name": widget.gymName,
+
+      },
 
 
 
@@ -343,8 +348,8 @@ class _PackegesState extends State<Packeges> {
                                               FocusManager.instance.primaryFocus?.unfocus();
                                               // FocusScope.of(context).requestFocus( FocusNode());
                                               await CreateBooking(id);
-                                              print(number);
-                                              FirebaseFirestore.instance.collection("bookings")
+                                              // print(number);
+                                              await FirebaseFirestore.instance.collection("bookings")
                                               .doc(number)
                                               .collection("user_booking")
                                               .doc(id)
@@ -359,6 +364,9 @@ class _PackegesState extends State<Packeges> {
                                                   "booking_accepted": false,
                                                   "payment_done": false,
                                                   "daysLeft": "50",
+                                                  // "gym_details":{
+                                                  //   "name":widget.gymName
+                                                  // },
                                                   "totalDays":"65"
 
 

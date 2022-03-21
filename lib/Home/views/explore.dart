@@ -12,7 +12,8 @@ import 'package:vyam_2_final/api/api.dart';
 import '../../controllers/gym_controller.dart';
 import 'package:location/location.dart' as ln;
 
-const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
+const String api = "AIzaSyALizG8X8mmx1Awohm4h0GOt25z0cfD3eY";
+// AIzaSyALizG8X8mmx1Awohm4h0GOt25z0cfD3eY
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
 
 class Explore extends StatefulWidget {

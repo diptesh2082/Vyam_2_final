@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,16 +19,11 @@ import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
 import 'package:vyam_2_final/Home/views/location.dart';
-import 'package:vyam_2_final/Home/views/yogaoptions.dart';
-import 'package:vyam_2_final/Home/views/zumbaoption.dart';
+
 import 'package:vyam_2_final/api/api.dart';
-import 'package:vyam_2_final/authintication/splash_screen.dart';
+
 import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'package:vyam_2_final/controllers/location_controller.dart';
-import 'package:vyam_2_final/controllers/package_controller.dart';
-import 'package:vyam_2_final/gymtype/gymtype.dart';
-import 'package:vyam_2_final/gymtype/yogatype.dart';
-import 'package:vyam_2_final/gymtype/zumbatype.dart';
 import '../../Notifications/notification.dart';
 import 'gyms.dart';
 var GlobalUserData;
@@ -489,7 +485,11 @@ bool showCard=false;
                                 Material(
                                     elevation: 0,
                                     color: const Color(0xffF4F4F4),
-                                    child: Image.network(data.docs[index]["image"])),
+                                    child: CachedNetworkImage(  imageUrl: data.docs[index]["image"],
+                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                          CircularProgressIndicator(value: downloadProgress.progress),
+                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                    )),
                                 const SizedBox(
                                   width: 5,
                                 ),
@@ -571,6 +571,9 @@ bool showCard=false;
                           child: CircularProgressIndicator(),
                         );
                       }
+                      if(streamSnapshot.hasError){
+                        return const Center(child: Text("check your internet connection"));
+                      }
 
                       var document = streamSnapshot.data.docs;
 
@@ -631,8 +634,11 @@ bool showCard=false;
                                                 elevation: 5,
                                                 color: const Color(0xffF4F4F4),
                                                 child: SizedBox(
-                                                  child: Image.network(
-                                                      document[index]["images"][0],
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: document[index]["images"][0],
+                                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                        CircularProgressIndicator(value: downloadProgress.progress),
+                                                    errorWidget: (context, url, error) => const Icon(Icons.error),
                                                     // height: 195,
                                                     // width: double.infinity,
                                                   ),
@@ -844,8 +850,8 @@ bool showCard=false;
                 shrinkWrap: true,
                 itemCount: 1,
                 itemBuilder: (context, index) {
-                  getDays = (data.docs[index]["daysLeft"]??"0");
-                  totalDays = int.parse(data.docs[index]["totalDays"] ?? "0") ;
+                  getDays = data.docs[index]["daysLeft"]??0;
+                  totalDays = data.docs[index]["totalDays"] ?? 0 ;
                   print(totalDays);
                   // print(snapshot.data.length,);
                   getProgressStatus();

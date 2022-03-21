@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -101,11 +102,16 @@ class _ProfilePartState extends State<ProfilePart> {
                                             CircleAvatar(
                                               // backgroundImage: ,
                                                 radius: 51,
+
                                                 backgroundColor: Colors.white,
                                                 // MediaQuery.of(context).size.width * 0.3,
-                                                backgroundImage:
-                                                // imageUrl != null?
-                                                NetworkImage(imageUrl)
+                                                backgroundImage:  NetworkImage(imageUrl),
+                                                // onBackgroundImageError: const Icon(Icons.camera_alt),
+                                                // // imageUrl != null?
+                                                // NetworkImage(imageUrl),
+                                                // child: imageUrl!=null ? ClipRRect(
+                                                //     borderRadius: BorderRadius.circular(60),
+                                                //     child: CachedNetworkImage(imageUrl: imageUrl)):const Icon(Icons.camera_alt),
                                               // : Image.asset("asset/"),
                                               //  // decoration: const BoxDecoration(
                                               //     shape: BoxShape/.circle, color: Colors.white)

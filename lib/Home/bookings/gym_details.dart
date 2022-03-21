@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,6 +61,7 @@ class _GymDetailsState extends State<GymDetails> {
 
   var doc =Get.arguments;
   final images =Get.arguments["docs"]["images"];
+  final docs=Get.arguments["docs"];
 
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
   final List _isSelected = [true, false, false, false, false, false];
@@ -1060,15 +1062,19 @@ class _GymDetailsState extends State<GymDetails> {
                 ),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-
+                  // print(docs["images"]);
                   // print(doc["id"]);
                   Get.to(() =>
+
                       Packeges(
                       getFinalID: doc["id"],
                       gymName: doc["name"],
                       gymLocation: doc["location"],
                   ),
-                    duration: const Duration(milliseconds: 300)
+                    duration: const Duration(milliseconds: 300),
+                    arguments: {
+                    "doc":docs,
+                    }
                   );
                 },
                 label: Text(
@@ -1086,9 +1092,12 @@ class _GymDetailsState extends State<GymDetails> {
   Widget gymImages(String images, int index) => SizedBox(
     height: 70,
     width: double.infinity,
-    child: Image.network(
-      images,
+    child: CachedNetworkImage(
+      imageUrl: images,
       fit: BoxFit.cover,
+      progressIndicatorBuilder: (context, url, downloadProgress) =>
+          CircularProgressIndicator(value: downloadProgress.progress),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
     ),
   );
 
