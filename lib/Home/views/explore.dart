@@ -185,67 +185,66 @@ class _ExploreState extends State<Explore> {
                   ),
                 )
               : Container(),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 20.0),
+              height: 150.0,
+              child: StreamBuilder(
+                  stream: gymDetailApi.getGymDetails,
+                  builder: (context, AsyncSnapshot streamSnapshot) {
+                    if (streamSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
 
-          // Align(
-          //   alignment: Alignment.bottomLeft,
-          //   child: Container(
-          //     margin: const EdgeInsets.symmetric(vertical: 20.0),
-          //     height: 150.0,
-          //     child: StreamBuilder(
-          //         stream: gymDetailApi.getGymDetails,
-          //         builder: (context, AsyncSnapshot streamSnapshot) {
-          //           if (streamSnapshot.connectionState ==
-          //               ConnectionState.waiting) {
-          //             return const Center(
-          //               child: CircularProgressIndicator(),
-          //             );
-          //           }
+                    document = streamSnapshot.data.docs;
 
-          //           document = streamSnapshot.data.docs;
-
-          //           if (searchGymName.isNotEmpty) {
-          //             document = document.where((element) {
-          //               return element
-          //                   .get('name')
-          //                   .toString()
-          //                   .toLowerCase()
-          //                   .contains(searchGymName.toLowerCase());
-          //             }).toList();
-          //           }
-          //           return document.isNotEmpty
-          //               ? ListView.separated(
-          //                   scrollDirection: Axis.horizontal,
-          //                   itemCount: document.length,
-          //                   itemBuilder: (context, index) {
-          //                     return Card(
-          //                       shape: RoundedRectangleBorder(
-          //                         borderRadius: BorderRadius.circular(24.0),
-          //                       ),
-          //                       elevation: 8,
-          //                       child: Row(
-          //                         children: [
-          //                           _boxes(
-          //                               "assets/photos/gym.jpg",
-          //                               document[index]["name"],
-          //                               document[index]["location"],
-          //                               document[index]["address"],
-          //                               "4.7")
-          //                         ],
-          //                       ),
-          //                     );
-          //                   },
-          //                   separatorBuilder:
-          //                       (BuildContext context, int index) {
-          //                     return const Divider();
-          //                   },
-          //                 )
-          //               : const Text(
-          //                   "No results found",
-          //                   style: TextStyle(fontSize: 24),
-          //                 );
-          //         }),
-          //   ),
-          // ),
+                    if (searchGymName.isNotEmpty) {
+                      document = document.where((element) {
+                        return element
+                            .get('name')
+                            .toString()
+                            .toLowerCase()
+                            .contains(searchGymName.toLowerCase());
+                      }).toList();
+                    }
+                    return document.isNotEmpty
+                        ? ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: document.length,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24.0),
+                                ),
+                                elevation: 8,
+                                child: Row(
+                                  children: [
+                                    _boxes(
+                                        "assets/photos/gym.jpg",
+                                        document[index]["name"],
+                                        document[index]["location"],
+                                        document[index]["address"],
+                                        "4.7")
+                                  ],
+                                ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const Divider();
+                            },
+                          )
+                        : const Text(
+                            "No results found",
+                            style: TextStyle(fontSize: 24),
+                          );
+                  }),
+            ),
+          ),
         ],
       ),
     );
