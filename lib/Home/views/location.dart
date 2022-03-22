@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vyam_2_final/Helpers/request_helpers.dart';
 
 import '../../api/api.dart';
 
@@ -14,9 +15,9 @@ class LocInfo extends StatefulWidget {
 }
 
 class _LocInfoState extends State<LocInfo> {
-var data;
+  var data;
   myLocation() async {
-   await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('user_details')
         .doc(number)
         .get()
@@ -24,14 +25,14 @@ var data;
       if (documentSnapshot.exists) {
         print('Document exists on the database');
         setState(() {
-         data=documentSnapshot.data();
-         isLoading=false;
+          data = documentSnapshot.data();
+          isLoading = false;
         });
-
       }
     });
   }
- bool  isLoading= true;
+
+  bool isLoading = true;
 
   getAddressPin(var pin) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -66,6 +67,7 @@ var data;
 
     return await Geolocator.getCurrentPosition();
   }
+
   String pin = "";
   String locality = "";
   String subLocality = "";
@@ -76,12 +78,14 @@ var data;
     await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
 
-    address = "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
+    address =
+    "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
     pin = "${place.postalCode}";
     locality = "${place.locality}";
     subLocality = "${place.subLocality}";
   }
-TextEditingController locController=TextEditingController();
+
+  TextEditingController locController = TextEditingController();
 
   @override
   void initState() {
@@ -94,10 +98,11 @@ TextEditingController locController=TextEditingController();
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     setState(() {
-      locController.text=data!=null ? data["address"]:"your Location";
+      locController.text = data != null ? data["address"] : "your Location";
     });
 
     return Scaffold(
@@ -105,31 +110,46 @@ TextEditingController locController=TextEditingController();
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-      SizedBox(height: 9,),
-       Padding(
-          padding: EdgeInsets.only(left: 0,right: 0),
-          child: TextField(
-
-            controller: locController,
-              autofocus: false,
+            const SizedBox(
+              height: 9,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 0, right: 0),
+              child: TextFormField(
+                controller: locController,
+                autofocus: false,
+                onFieldSubmitted: (value) async {
+                  print(value);
+                  if (value.isEmpty) return;
+                  final res =
+                  await RequestHelper().getCoordinatesFromAddresss(value);
+                  FirebaseFirestore.instance
+                      .collection('user_details')
+                      .doc(number)
+                      .update({
+                    "location": GeoPoint(res.latitude, res.longitude),
+                    "lat": res.latitude,
+                    "long": res.longitude,
+                  });
+                },
                 style: const TextStyle(
                   fontSize: 12,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w500,
                 ),
                 decoration: const InputDecoration(
-                        prefixIcon: const Icon(Icons.location_on_outlined),
-                        suffixIcon: const Icon(Icons.edit_outlined),
-                        // border: InputBorde,
-                        hintStyle: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                            color: Colors.green),
-                        hintMaxLines: 2,
-                        hintText: 'Use current location'),
-                  ),
-        ),
+                    prefixIcon: Icon(Icons.location_on_outlined),
+                    suffixIcon: Icon(Icons.edit_outlined),
+                    // border: InputBorde,
+                    hintStyle: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        color: Colors.green),
+                    hintMaxLines: 2,
+                    hintText: 'Use current location'),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: SizedBox(
@@ -166,86 +186,84 @@ TextEditingController locController=TextEditingController();
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0)),
                     child: Padding(
-                        padding: const EdgeInsets.only(left: 10.0),
-                        child: Row(
-                          children: [
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Row(
+                        children: [
                           Container(
                             height: 39,
                             width: 60,
-
                             child: const Icon(
-                                    Icons.my_location_outlined,
-                                    color: Colors.green,
-                                    size: 20,
-                                  ),
+                              Icons.my_location_outlined,
+                              color: Colors.green,
+                              size: 20,
+                            ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(7),
                               color: Colors.grey[200],
                             ),
                           ),
-                            const Spacer(
+                          const Spacer(),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * .6,
+                            child: const Padding(
+                              padding: EdgeInsets.only(left: 18.0),
+                              child: Text(
+                                'Use current location',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.green),
+                              ),
                             ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width*.6,
-                                    child: const Padding(
-                                      padding: EdgeInsets.only(left: 18.0),
-                                      child: Text('Use current location',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.green),
-                                      ),
-                                    ),
-                                // child: const TextField(
-                                //   autofocus: false,
-                                //     style: TextStyle(
-                                //       fontSize: 12,
-                                //       fontFamily: 'Poppins',
-                                //       fontWeight: FontWeight.w500,
-                                //     ),
-                                //     decoration: InputDecoration(
-                                //
-                                //             // border: InputBorde,
-                                //             hintStyle: TextStyle(
-                                //                 fontSize: 12,
-                                //                 fontFamily: 'Poppins',
-                                //                 fontWeight: FontWeight.w500,
-                                //                 color: Colors.green),
-                                //             hintMaxLines: 2,
-                                //             hintText: 'Use current location'),
-                                //       )
-                                ),
-                            const SizedBox(
-                              width: 15,
-                            ),
-
-                          ],
-                        ),
+                            // child: const TextField(
+                            //   autofocus: false,
+                            //     style: TextStyle(
+                            //       fontSize: 12,
+                            //       fontFamily: 'Poppins',
+                            //       fontWeight: FontWeight.w500,
+                            //     ),
+                            //     decoration: InputDecoration(
+                            //
+                            //             // border: InputBorde,
+                            //             hintStyle: TextStyle(
+                            //                 fontSize: 12,
+                            //                 fontFamily: 'Poppins',
+                            //                 fontWeight: FontWeight.w500,
+                            //                 color: Colors.green),
+                            //             hintMaxLines: 2,
+                            //             hintText: 'Use current location'),
+                            //       )
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                        ],
+                      ),
                       // TextField(
-                        //   // autofocus: true,
-                        //   style: TextStyle(
-                        //     fontSize: 12,
-                        //     fontFamily: 'Poppins',
-                        //     fontWeight: FontWeight.w500,
-                        //   ),
-                        //   // controller: search,
-                        //   maxLines: 3,
-                        //   decoration: InputDecoration(
-                        //       prefixIcon: Icon(
-                        //         Icons.my_location_outlined,
-                        //         color: Colors.green,
-                        //         size: 20,
-                        //       ),
-                        //       border: InputBorder.none,
-                        //       hintStyle: TextStyle(
-                        //           fontSize: 12,
-                        //           fontFamily: 'Poppins',
-                        //           fontWeight: FontWeight.w500,
-                        //           color: Colors.green),
-                        //       hintMaxLines: 2,
-                        //       hintText: 'Use current location'),
-                        // )
+                      //   // autofocus: true,
+                      //   style: TextStyle(
+                      //     fontSize: 12,
+                      //     fontFamily: 'Poppins',
+                      //     fontWeight: FontWeight.w500,
+                      //   ),
+                      //   // controller: search,
+                      //   maxLines: 3,
+                      //   decoration: InputDecoration(
+                      //       prefixIcon: Icon(
+                      //         Icons.my_location_outlined,
+                      //         color: Colors.green,
+                      //         size: 20,
+                      //       ),
+                      //       border: InputBorder.none,
+                      //       hintStyle: TextStyle(
+                      //           fontSize: 12,
+                      //           fontFamily: 'Poppins',
+                      //           fontWeight: FontWeight.w500,
+                      //           color: Colors.green),
+                      //       hintMaxLines: 2,
+                      //       hintText: 'Use current location'),
+                      // )
                     ),
                   ),
                 ),

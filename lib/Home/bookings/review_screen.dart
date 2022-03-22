@@ -10,7 +10,6 @@ import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/colors/color.dart';
 
 import 'gym_details.dart';
-
 class Review extends StatefulWidget {
   @override
   _ReviewState createState() => _ReviewState();
@@ -30,7 +29,8 @@ class _ReviewState extends State<Review> {
   void initState() {
     // TODO: implement initState
     print(doc["name"]);
-    print(doc["gym_id"]);
+    print(_id);
+    // print("25");
     super.initState();
   }
 
@@ -78,7 +78,11 @@ class _ReviewState extends State<Review> {
               ),
               backgroundColor: buttonColor,
               onPressed: (){
-                Get.to(()=>AddReview());
+                Get.to(()=>AddReview(),
+                arguments: {
+                  "gym_id":_id,
+                }
+                );
               }),
         ),
       ),
@@ -323,7 +327,7 @@ class _ReviewState extends State<Review> {
                     alignment: Alignment.center,
                     child: StreamBuilder<QuerySnapshot>(
 
-                        stream: FirebaseFirestore.instance.collection("Reviews").doc("GYM").collection(" mahtab5752@gmail.com").snapshots(),
+                        stream: FirebaseFirestore.instance.collection("Reviews").doc("GYM").collection("${_id}").snapshots(),
                         builder: ((context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {

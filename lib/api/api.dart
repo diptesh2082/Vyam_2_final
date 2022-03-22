@@ -191,6 +191,7 @@ class UserApi {
       'userId': docUser.id,
       "number": docUser.id,
       "uid":  _auth.currentUser?.uid,
+      "subLocality":""
       // "name": name,
     };
     await docUser.set(myJson);

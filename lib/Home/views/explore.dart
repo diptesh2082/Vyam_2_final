@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +9,13 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:vyam_2_final/Helpers/request_helpers.dart';
+// import 'package:vyam_2_final/Home/views/scratch_map.dart';
 import 'package:vyam_2_final/api/api.dart';
 import '../../controllers/gym_controller.dart';
 import 'package:location/location.dart' as ln;
 
-const String api = "AIzaSyALizG8X8mmx1Awohm4h0GOt25z0cfD3eY";
-// AIzaSyALizG8X8mmx1Awohm4h0GOt25z0cfD3eY
+const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
 
 class Explore extends StatefulWidget {
@@ -56,7 +58,7 @@ class _ExploreState extends State<Explore> {
     var pos = await location.getLocation();
 
     GeoFirePoint point =
-        geo.point(latitude: pos.latitude!, longitude: pos.longitude!);
+    geo.point(latitude: pos.latitude!, longitude: pos.longitude!);
     final CollectionReference users = firestore.collection("product_details");
 
     double radius = 10;
@@ -69,14 +71,13 @@ class _ExploreState extends State<Explore> {
     yield stream;
   }
 
-
   void initMarker(specify, specifyId) async {
     var markerIdVal = specifyId;
     final MarkerId markerId = MarkerId(markerIdVal);
     final Marker marker = Marker(
       markerId: markerId,
       position:
-          LatLng(specify['location'].latitude, specify['location'].longitude),
+      LatLng(specify['location'].latitude, specify['location'].longitude),
       infoWindow: InfoWindow(title: 'Gym', snippet: specify['name']),
     );
     setState(() {
@@ -105,11 +106,16 @@ class _ExploreState extends State<Explore> {
   @override
   void initState() {
     getMarkerData();
-    if(doc != null){
+    if (doc != null) {
       _gotoLocation(doc["location"].latitude, doc["location"].longitude);
     }
     super.initState();
   }
+
+  late List<PlacesApiHelperModel>? _list = [];
+
+  bool showPlacessuggesstions = true;
+  TextEditingController test_controller= TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -118,16 +124,27 @@ class _ExploreState extends State<Explore> {
         title: Transform(
           transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
           child: TextField(
-            onChanged: (value) {
-              setState(() {
-                searchGymName = value.toString();
-              });
-              // print(searchGymName);
+            controller:test_controller,
+            onChanged: (value) async {
+              _list = await RequestHelper().getPlaces(query: value);
+              setState(() {});
+              if (value.isEmpty) {
+                _list!.clear();
+                setState(() {});
+              }
             },
             decoration: const InputDecoration(
                 hintText: 'Barakar, West Bengal',
                 hintStyle: TextStyle(fontWeight: FontWeight.bold),
                 prefixIcon: Icon(Icons.search)),
+            onTap: () {
+              setState(() {
+
+                FocusScope.of(context).unfocus();
+                showPlacessuggesstions? showPlacessuggesstions =true:showPlacessuggesstions=false ;
+                test_controller.clear();
+              });
+            },
           ),
         ),
         backgroundColor: Colors.white,
@@ -143,15 +160,47 @@ class _ExploreState extends State<Explore> {
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
-            markers: Set<Marker>.of(markers.values),
+            //   markers: Set<Marker>.of(markers.values),
           ),
+          showPlacessuggesstions
+              ? Container(
+            color: Colors.white.withOpacity(0.9),
+            padding:
+            const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            child: _list==null?Container()
+                : ListView.builder(
+              shrinkWrap: true,
+              itemCount: _list!.length,
+              itemBuilder: ((context, index) {
+                return ListTile(
+                  title: Text(_list![index].mainText!),
+                  subtitle: Text(_list![index].secondaryText!),
+                  onTap: () async {
+                    final res = await RequestHelper()
+                        .getCoordinatesFromAddresss(
+                        _list![index].mainText!);
+                    print(res.latitude);
+                    print(res.longitude);
+                    _gotoLocation(res.latitude, res.longitude);
+                    FocusScope.of(context).unfocus();
+                    setState(() {
+                      showPlacessuggesstions = false;
+                    });
+                  },
+                );
+              }),
+            ),
+          )
+              : Container(),
           Align(
             alignment: Alignment.bottomLeft,
             child: Container(
               margin: const EdgeInsets.symmetric(vertical: 20.0),
               height: 150.0,
               child: StreamBuilder(
-                  stream: gymDetailApi.getGymDetails,
+                  stream:  FirebaseFirestore.instance
+                      .collection("product_details")
+                      .snapshots(),
                   builder: (context, AsyncSnapshot streamSnapshot) {
                     if (streamSnapshot.connectionState ==
                         ConnectionState.waiting) {
@@ -161,50 +210,53 @@ class _ExploreState extends State<Explore> {
                     }
 
                     document = streamSnapshot.data.docs;
-
-                    if (searchGymName.isNotEmpty) {
-                      document = document.where((element) {
-                        return element
-                            .get('name')
-                            .toString()
-                            .toLowerCase()
-                            .contains(searchGymName.toLowerCase());
-                      }).toList();
-                    }
+                    document = document.where((element) {
+                      return element
+                          .get('pincode')
+                          .toString()
+                      // .toLowerCase()
+                          .contains(address2.toString());
+                    }).toList();
+                    // if (searchGymName.isNotEmpty) {
+                    //   document = document.where((element) {
+                    //     return element
+                    //         .get('name')
+                    //         .toString()
+                    //         .toLowerCase()
+                    //         .contains(searchGymName.toLowerCase());
+                    //   }).toList();
+                    // }
                     return document.isNotEmpty
                         ? ListView.separated(
-                          
-                            scrollDirection: Axis.horizontal,
-                            itemCount: document.length,
-                            itemBuilder: (context, index) {
-                              return Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24.0),
-                                ),
-                                elevation: 8,
-                                child: Row(
-                                  children: [
-                                    _boxes(
-                                        "assets/photos/gym.jpg",
-                                        document[index]["location"].latitude,
-                                        document[index]["location"].longitude,
-                                        document[index]["name"],
-                                        "Asansol",
-                                        document[index]["address"],
-                                        "4.7")
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return Divider();
-                            },
-                          )
+                      scrollDirection: Axis.horizontal,
+                      itemCount: document.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24.0),
+                          ),
+                          elevation: 8,
+                          child: Row(
+                            children: [
+                              _boxes(
+                                  document[index]["display_picture"],
+                                  document[index]["name"],
+                                  document[index]["location"],
+                                  document[index]["address"],
+                                  "4.7")
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder:
+                          (BuildContext context, int index) {
+                        return const Divider();
+                      },
+                    )
                         : const Text(
-                            "No results found",
-                            style: TextStyle(fontSize: 24),
-                          );
+                      "No results found",
+                      style: TextStyle(fontSize: 24),
+                    );
                   }),
             ),
           ),
@@ -213,11 +265,16 @@ class _ExploreState extends State<Explore> {
     );
   }
 
-  Widget _boxes(String _image, double lat, double long, String name,
-      String location, String address, String review) {
+  Widget _boxes(
+      String _image,
+      String name,
+      GeoPoint location,
+      String address,
+      String review,
+      ) {
     return GestureDetector(
       onTap: () {
-        _gotoLocation(lat, long);
+        // _gotoLocation(lat, long);
       },
       child: FittedBox(
         child: Material(
@@ -235,9 +292,9 @@ class _ExploreState extends State<Explore> {
                     padding: const EdgeInsets.all(12.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(24.0),
-                      child: Image(
+                      child: CachedNetworkImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(_image),
+                        imageUrl: _image,
                       ),
                     ),
                   ),
@@ -245,7 +302,11 @@ class _ExploreState extends State<Explore> {
                 SizedBox(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0, right: 30),
-                    child: myDetailsContainer1(name, location, address, review),
+                    child: myDetailsContainer1(
+                        name,
+                        '${location.latitude}, ${location.longitude}',
+                        address,
+                        review),
                   ),
                 ),
               ],

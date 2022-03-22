@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:vyam_2_final/Home/bookings/review_screen.dart';
+import 'package:vyam_2_final/api/api.dart';
 
 
 class AddReview extends StatefulWidget {
@@ -65,8 +66,8 @@ class _AddReviewState extends State<AddReview> {
                   "experience": exp.text
                 };
                 await reference
-                    .doc("Transformer Gym")
-                    .collection("9045291663")
+                    .doc("${Get.arguments["gym_id"]}")
+                    .collection(number)
                     .add(review_data);
 
                 title.clear();
@@ -110,7 +111,7 @@ class _AddReviewState extends State<AddReview> {
                     ratingvalue = value;
                   });
                 }),
-            SizedBox(
+            const SizedBox(
               // height: MediaQuery.of(context).size.height * 0.022,
               height: 22,
             ),

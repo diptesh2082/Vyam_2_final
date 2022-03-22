@@ -50,7 +50,8 @@ class _OtpPageState extends State<OtpPage> {
         setVisitingFlag();
         if (visitingFlag==true){
           Get.offAll(()=>HomePage());
-        }else if(visitingFlag==false){
+        }
+        else if(visitingFlag==false){
           Get.offAll(()=>Register1());
         }
 

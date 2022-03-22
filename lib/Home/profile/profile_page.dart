@@ -27,6 +27,7 @@ class _ProfilePartState extends State<ProfilePart> {
   String phone = "";
   var imageUrl="";
   final id = number;
+  bool Loading=true;
 
   Future getUserData() async {
     // print(number);
@@ -39,6 +40,7 @@ class _ProfilePartState extends State<ProfilePart> {
         email = snapshot.get('email');
         phone =  snapshot.get('number');
         imageUrl =  snapshot.get("image");
+        Loading=false;
       });
     });
   }
@@ -57,7 +59,9 @@ class _ProfilePartState extends State<ProfilePart> {
 
     // print(_auth.currentUser?.uid);
 
-    return Scaffold(
+    return  Loading?const Center(
+      child: CircularProgressIndicator(),
+    ) :Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.grey[100],
           centerTitle: true,
@@ -105,7 +109,7 @@ class _ProfilePartState extends State<ProfilePart> {
 
                                                 backgroundColor: Colors.white,
                                                 // MediaQuery.of(context).size.width * 0.3,
-                                                backgroundImage:  NetworkImage(imageUrl),
+                                                backgroundImage:  CachedNetworkImageProvider(imageUrl),
                                                 // onBackgroundImageError: const Icon(Icons.camera_alt),
                                                 // // imageUrl != null?
                                                 // NetworkImage(imageUrl),

@@ -69,7 +69,7 @@ class _SelectDateState extends State<SelectDate> {
   var getDays;
   var _focusedDay;
   var _selectedDay;
-  String year = DateTime.now().year.toString();
+  String year = DateTime.now().year.toString( );
   String day = DateTime.now().day.toString();
   String endday = DateTime.now().day.toString();
   final bookings= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
@@ -85,7 +85,7 @@ class _SelectDateState extends State<SelectDate> {
     // print(widget.price);
     total_discount=0;
     if (widget.months.contains("PAY PER SESSION")) {
-      getDays = 0;
+      getDays = 1;
     }
     if (widget.months.contains("1")) {
       getDays = 28;
