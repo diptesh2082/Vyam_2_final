@@ -17,7 +17,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await getNumber();
-  print(number);
+  getAddress();
+  print(address2);
+  // print(number);
+  // print(number);
+  // print(number);
   // bool? visitingFlag=await getVisitingFlag();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
@@ -51,7 +55,7 @@ class MyApp extends StatelessWidget {
 
       // theme: Themes().lightTheme,
       debugShowCheckedModeBanner: false,
-      home: number !=null ? HomePage() : const LoginPage(),
+      home: number !=null ? HomePage(): const LoginPage(),
 
       // initialRoute: ,
       getPages: [

@@ -304,7 +304,7 @@ bool showCard=false;
   @override
   void dispose() {
     // TODO: implement dispose
-    controller.dispose();
+    // controller.dispose();
     locationController.dispose();
     super.dispose();
   }

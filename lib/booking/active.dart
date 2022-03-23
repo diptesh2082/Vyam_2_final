@@ -39,9 +39,10 @@ class ActiveEvent extends StatelessWidget {
                 ),
               );
             }
+            var document = snapshot.data.docs;
             return  Padding(
               padding: const EdgeInsets.only(top: 30.0),
-              child: ListView.builder(
+              child: document.isNotEmpty? ListView.builder(
                   itemCount: data.size,
                   itemBuilder: (context, index) {
                     var end_time= data.docs[index]['plan_end_duration'];
@@ -257,7 +258,13 @@ class ActiveEvent extends StatelessWidget {
                         ),
                       ),
                     );
-                  }),
+                  }
+                  ):Center(
+                child: Image.asset(
+                  "assets/icons/activeEmpty.png",
+                  height: _width * 0.8,
+                ),
+              ),
             );
           }
           return Center(

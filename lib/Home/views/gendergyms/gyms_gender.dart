@@ -121,7 +121,7 @@ class _GymAllState extends State<GymAll> {
                                   child: CachedNetworkImage(
                                     imageUrl: document[index]["images"][0],
                                     progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                        CircularProgressIndicator(value: downloadProgress.progress),
+                                        Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
                                     errorWidget: (context, url, error) => const Icon(Icons.error),
                                     // height: 195,
                                     // width: double.infinity,

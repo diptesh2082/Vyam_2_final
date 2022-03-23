@@ -42,7 +42,8 @@ setVisitingFlagFalse()async{
 getNumber() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalNumber = sharedPreferences.getString("number");
-  number = finalNumber.toString();
+  print(finalNumber);
+  number = finalNumber;
   print(number);
   // return number;
   // await UserApi.createNewUser();
@@ -51,8 +52,11 @@ getNumber() async {
 getAddress() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalAddress = sharedPreferences.getString("pin");
-  address2 = finalAddress .toString();
-  // print(address2);
+  address2 = finalAddress;
+  print(address2);
+  print(address2);
+  print(address2);
+  print(address2);
 }
 // setVisitingFlag() async {
 //   SharedPreferences preferences = await SharedPreferences.getInstance();
