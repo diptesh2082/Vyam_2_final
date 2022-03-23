@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:location/location.dart';
+import 'package:vyam_2_final/Home/views/first_home.dart';
 
 // ignore: prefer_typing_uninitialized_variables
 var number;
@@ -285,21 +286,21 @@ class GymAllApi {
 
   Stream<QuerySnapshot> getGymDetails = FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: address2.toString())
+      .where("pincode", isEqualTo: GlobalUserLocation)
       .snapshots();
   Stream<QuerySnapshot> getMaleGym = FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: address2)
+      .where("pincode", isEqualTo: GlobalUserLocation)
       .where("gender", isEqualTo: "male")
       .snapshots();
   Stream<QuerySnapshot> getFemaleGym = FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: address2)
+      .where("pincode", isEqualTo: GlobalUserLocation)
       .where("gender", isEqualTo: "female")
       .snapshots();
   Stream<QuerySnapshot> getUnisexGym = FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: address2)
+      .where("pincode", isEqualTo: GlobalUserLocation)
       .where("gender", isEqualTo: "unisex")
       .snapshots();
 }

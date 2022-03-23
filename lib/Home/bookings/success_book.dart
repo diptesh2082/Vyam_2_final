@@ -40,6 +40,7 @@ class _SuccessBookState extends State<SuccessBook>
   dispose() {
     controller.dispose();
     _concontroller.dispose();
+    // scaleAnimation.dispose();
     super.dispose();
   }
 

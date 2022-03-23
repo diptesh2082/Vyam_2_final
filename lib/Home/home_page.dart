@@ -133,6 +133,13 @@ class _HomePageState extends State<HomePage> {
     // NotificationDetails(),
   ];
   @override
+  void dispose() {
+    // TODO: implement dispose
+    controller.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -68,6 +69,47 @@ class _OtpPageState extends State<OtpPage> {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Some Error Occured. Try Again Later')));
     }
+  }
+
+  var docId=Get.arguments[1];
+  Future<void> checkExist(String docID) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('user_details')
+          .doc(docID)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists)  {
+          // print('Document exists on the database');
+          // setState(() {
+             setVisitingFlag();
+             print(getVisitingFlag());
+          // });
+          // user_data=documentSnapshot.data();
+        }else{
+          setVisitingFlagFalse();
+          print(getVisitingFlag());
+        }
+      });
+    } catch (e) {
+      // If any error
+      setVisitingFlagFalse();
+      print(getVisitingFlag());
+    }
+  }
+
+  // var flag;
+  // get()async{
+  //   bool? flag= await getVisitingFlag();
+  //   return flag;
+  // }
+  @override
+  void initState() {
+    print("+91$docId");
+    checkExist("+91$docId");
+    // flag = get();
+    // print(flag);
+    super.initState();
   }
 
   @override
@@ -185,6 +227,7 @@ class _OtpPageState extends State<OtpPage> {
                             height: size.height / 17,
                             child: ElevatedButton(
                               onPressed: () async {
+                                print(getVisitingFlag());
                                 AuthCredential phoneAuthCredential =
                                     PhoneAuthProvider.credential(
                                         verificationId: value[0],

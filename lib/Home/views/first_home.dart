@@ -28,6 +28,7 @@ import '../../Notifications/notification.dart';
 import 'gyms.dart';
 
 var GlobalUserData;
+var GlobalUserLocation;
 const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
 core.GoogleMapsPlaces _places = core.GoogleMapsPlaces(apiKey: api);
 
@@ -82,9 +83,11 @@ class _FirstHomeState extends State<FirstHome> {
       if (documentSnapshot.exists) {
         // print('Document exists on the database');
         setState(() {
-          user_data=documentSnapshot.data();
+          user_data= documentSnapshot.data();
           GlobalUserData=documentSnapshot.data();
+          GlobalUserLocation=user_data["pincode"];
         });
+        print(GlobalUserLocation);
         // user_data=documentSnapshot.data();
       }
     });
@@ -133,62 +136,16 @@ class _FirstHomeState extends State<FirstHome> {
   getEverything()async {
     await getUserId();
     await myLocation();
-    await getUserDetails();
+    // await getUserDetails();
     await userDetails.getData();
-    // setState(() {
-      isLoading=false;
-    // });
-
-
-  }
-
-  @override
-  void initState() {
-    // getUserId();
-    getEverything();
-    // print(number);
-    // FocusScope.of(context).unfocus();
-    SystemChannels.textInput.invokeMethod("TextInput.hide");
-    // myLocation();
-    // getUserDetails();
-    userDetails.getData();
-    getProgressStatus();
-
-    // getNumber();
-    // number=getUserId();
-    // number==null?number=getUserId().toString():number=number;
-
-    // print(address2);
     setState(() {
-      myaddress = myaddress;
-      address = address;
-      pin = pin;
-
+      isLoading=false;
     });
-    // userLocation();
-    // ProgressCard(context);
 
-    // getNumber();
 
-    // int getDays = int.parse(daysLeft[0]["dayleft"]);
-    // getDays = 28 - getDays;
-    // finaldaysLeft = getDays / 28;
-    // getPercentage = finaldaysLeft * 100;
-    // if (getPercentage >= 90) {
-    //   progressColor = Colors.red;
-    // }
-    // if (getPercentage <= 89 && getPercentage >= 75) {
-    //   progressColor = const Color.fromARGB(255, 255, 89, 0);
-    // }
-    // if (getPercentage <= 74 && getPercentage >= 50) {
-    //   progressColor = Colors.orange;
-    // }
-    // if (getPercentage <= 49 && getPercentage >= 0) {
-    //   progressColor = Colors.yellow;
-    // }
-
-    super.initState();
   }
+
+
 bool showCard=false;
   getProgressStatus()async {
     int finalDate = int.parse(getDays);
@@ -297,10 +254,67 @@ bool showCard=false;
 
   String searchGymName = '';
   BannerApi bannerApi = BannerApi();
+  @override
+  void initState() {
+    // getUserId();
+    getEverything();
+    // print(number);
+    // FocusScope.of(context).unfocus();
+    SystemChannels.textInput.invokeMethod("TextInput.hide");
+    // myLocation();
+    // getUserDetails();
+    userDetails.getData();
+    getProgressStatus();
+
+    // getNumber();
+    // number=getUserId();
+    // number==null?number=getUserId().toString():number=number;
+
+    // print(address2);
+    setState(() {
+      // myaddress = myaddress;
+      address = address;
+      pin = pin;
+
+    });
+    // userLocation();
+    // ProgressCard(context);
+
+    // getNumber();
+
+    // int getDays = int.parse(daysLeft[0]["dayleft"]);
+    // getDays = 28 - getDays;
+    // finaldaysLeft = getDays / 28;
+    // getPercentage = finaldaysLeft * 100;
+    // if (getPercentage >= 90) {
+    //   progressColor = Colors.red;
+    // }
+    // if (getPercentage <= 89 && getPercentage >= 75) {
+    //   progressColor = const Color.fromARGB(255, 255, 89, 0);
+    // }
+    // if (getPercentage <= 74 && getPercentage >= 50) {
+    //   progressColor = Colors.orange;
+    // }
+    // if (getPercentage <= 49 && getPercentage >= 0) {
+    //   progressColor = Colors.yellow;
+    // }
+
+    super.initState();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    controller.dispose();
+    locationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    // setState(() {
+    //   GlobalUserLocation= user_data["address"];
+    // });
 
     return isLoading?const Center(
       child: CircularProgressIndicator(
@@ -342,6 +356,7 @@ bool showCard=false;
                         // myaddress = myaddress;
                         address = address;
                         pin = pin;
+                        GlobalUserLocation=user_data["address"];
                       });
                       Get.to(()=>LocInfo());
                     },
@@ -349,7 +364,7 @@ bool showCard=false;
                   SizedBox(
                     width: size.width * .55,
                     child: Text(
-                      user_data!=null ? user_data["address"]:"your Location",
+                      user_data["address"] ?? "your Location",
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -379,7 +394,6 @@ bool showCard=false;
                 onPressed: () {
                   // print(number);
                   FocusScope.of(context).unfocus();
-
                   Get.to(const NotificationDetails());
                 },
               ),
@@ -427,8 +441,8 @@ bool showCard=false;
                       //   // ignore: avoid_print
                       //   print('Submitted text: $value');
                       // },
-                      decoration: InputDecoration(
-                        prefixIcon: Image.asset("assets/images/Search.png"),
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.search),
                         hintText: 'Search',
                         border: InputBorder.none,
                         filled: true,
@@ -576,6 +590,7 @@ bool showCard=false;
                   child: StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection("product_details")
+                    .where("pincode",isEqualTo: user_data["pincode"])
                         .snapshots(),
                     builder: (context, AsyncSnapshot streamSnapshot) {
                       if (streamSnapshot.connectionState ==
@@ -598,15 +613,16 @@ bool showCard=false;
                               .toLowerCase()
                               .contains(searchGymName.toLowerCase());
                         }).toList();
-                      } else {
-                        document = document.where((element) {
-                          return element
-                              .get('pincode')
-                              .toString()
-                              // .toLowerCase()
-                              .contains(address2.toString());
-                        }).toList();
                       }
+                      // else {
+                      //   document = document.where((element) {
+                      //     return element
+                      //         .get('pincode')
+                      //         .toString()
+                      //         // .toLowerCase()
+                      //         .contains(address2.toString());
+                      //   }).toList();
+                      // }
                       return document.isNotEmpty
                           ? ListView.separated(
                               physics: const NeverScrollableScrollPhysics(),

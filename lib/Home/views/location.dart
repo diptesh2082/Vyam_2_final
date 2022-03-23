@@ -4,8 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Helpers/request_helpers.dart';
+import 'package:vyam_2_final/Home/home_page.dart';
+import 'package:vyam_2_final/Home/views/first_home.dart';
 
 import '../../api/api.dart';
 
@@ -84,6 +87,18 @@ class _LocInfoState extends State<LocInfo> {
     locality = "${place.locality}";
     subLocality = "${place.subLocality}";
   }
+  Future<void> GetAddressFromGeoPoint(GeoPoint position) async {
+    List<Placemark> placemark =
+    await placemarkFromCoordinates(position.latitude, position.longitude);
+    Placemark place = placemark[0];
+
+    address =
+    "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
+    pin = "${place.postalCode}";
+    locality = "${place.locality}";
+    subLocality = "${place.subLocality}";
+    print(pin);
+  }
 
   TextEditingController locController = TextEditingController();
 
@@ -123,14 +138,23 @@ class _LocInfoState extends State<LocInfo> {
                   if (value.isEmpty) return;
                   final res =
                   await RequestHelper().getCoordinatesFromAddresss(value);
-                  FirebaseFirestore.instance
+                  setState(()  {
+                    GlobalUserLocation=value;
+                    locController.text=value;
+                  });
+                  await GetAddressFromGeoPoint( GeoPoint(res.latitude, res.longitude));
+
+                  await FirebaseFirestore.instance
                       .collection('user_details')
                       .doc(number)
                       .update({
                     "location": GeoPoint(res.latitude, res.longitude),
                     "lat": res.latitude,
                     "long": res.longitude,
+                    "address":value.trim(),
+                    "pincode":pin
                   });
+                  Get.off(()=>HomePage());
                 },
                 style: const TextStyle(
                   fontSize: 12,
@@ -179,8 +203,9 @@ class _LocInfoState extends State<LocInfo> {
                       "pincode": pin,
                       "locality": locality,
                       "subLocality": locality,
-                      "number": number
+                      // "number": number
                     });
+                    Get.off(()=>HomePage());
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(

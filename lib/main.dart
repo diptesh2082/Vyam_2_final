@@ -16,6 +16,8 @@ import 'Home/home_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await getNumber();
+  print(number);
   // bool? visitingFlag=await getVisitingFlag();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
@@ -23,7 +25,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   // progress() async{
   //   bool? visitingFlag=await getVisitingFlag();
   //   if (visitingFlag==true){
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application
   @override
   Widget build(BuildContext context) {
+
     return GetMaterialApp(
       title: 'Flutter Demo',
 
@@ -49,7 +51,7 @@ class MyApp extends StatelessWidget {
 
       // theme: Themes().lightTheme,
       debugShowCheckedModeBanner: false,
-      home: number.toString().isNotEmpty ? HomePage() : const LoginPage(),
+      home: number !=null ? HomePage() : const LoginPage(),
 
       // initialRoute: ,
       getPages: [

@@ -37,6 +37,13 @@ class _YogaOptionState extends State<YogaOption> {
   var groupValue = 0;
   final appBarColor = Colors.grey[100];
   final controller = Get.find<HomeController>();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    controller.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

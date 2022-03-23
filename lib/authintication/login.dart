@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,10 +22,12 @@ class _LoginPageState extends State<LoginPage> {
   //   if ();
   // }
   //
+
   @override
   void initState() {
     // TODO: implement initState
     print(number);
+
     super.initState();
 
   }
@@ -186,6 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                                   setState(() {
                                     showLoding = false;
                                   });
+                                  // checkExist("+91${phoneController.text}");
                                   Get.to(() => const OtpPage(), arguments: [
                                     verificationID,
                                     phoneController.text

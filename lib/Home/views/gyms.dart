@@ -41,6 +41,12 @@ class _GymOptionState extends State<GymOption> {
   var data=Get.arguments["type"];
   // String type=data["type"];
   @override
+  void dispose() {
+    // TODO: implement dispose
+    controller.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;

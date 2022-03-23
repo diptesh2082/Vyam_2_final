@@ -10,6 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:vyam_2_final/Helpers/request_helpers.dart';
+import 'package:vyam_2_final/Home/views/first_home.dart';
 // import 'package:vyam_2_final/Home/views/scratch_map.dart';
 import 'package:vyam_2_final/api/api.dart';
 import '../../controllers/gym_controller.dart';
@@ -105,12 +106,22 @@ class _ExploreState extends State<Explore> {
 
   @override
   void initState() {
+    print(address2.toString());
     getMarkerData();
     if (doc != null) {
       _gotoLocation(doc["location"].latitude, doc["location"].longitude);
     }
     super.initState();
   }
+
+  @override
+  dispose() {
+    controller.dispose();
+    // _controller.dispose();
+    // _initialCameraPosition.dispose();
+    super.dispose();
+  }
+
 
   late List<PlacesApiHelperModel>? _list = [];
 
@@ -200,6 +211,7 @@ class _ExploreState extends State<Explore> {
               child: StreamBuilder(
                   stream:  FirebaseFirestore.instance
                       .collection("product_details")
+                  .where("pincode",isEqualTo: GlobalUserLocation.toString())
                       .snapshots(),
                   builder: (context, AsyncSnapshot streamSnapshot) {
                     if (streamSnapshot.connectionState ==
@@ -210,13 +222,13 @@ class _ExploreState extends State<Explore> {
                     }
 
                     document = streamSnapshot.data.docs;
-                    document = document.where((element) {
-                      return element
-                          .get('pincode')
-                          .toString()
-                      // .toLowerCase()
-                          .contains(address2.toString());
-                    }).toList();
+                    // document = document.where((element) {
+                    //   return element
+                    //       .get('pincode')
+                    //       .toString()
+                    //   // .toLowerCase()
+                    //       .contains(address2.toString());
+                    // }).toList();
                     // if (searchGymName.isNotEmpty) {
                     //   document = document.where((element) {
                     //     return element
@@ -243,7 +255,8 @@ class _ExploreState extends State<Explore> {
                                   document[index]["name"],
                                   document[index]["location"],
                                   document[index]["address"],
-                                  "4.7")
+                                  document[index]["rating"].toString()
+                              )
                             ],
                           ),
                         );
