@@ -63,6 +63,7 @@ class _ProfilePartState extends State<ProfilePart> {
       child: CircularProgressIndicator(),
     ) :Scaffold(
         appBar: AppBar(
+          elevation: 0,
           backgroundColor: Colors.grey[100],
           centerTitle: true,
           title: const Text(
@@ -83,7 +84,7 @@ class _ProfilePartState extends State<ProfilePart> {
                   scrollDirection: Axis.horizontal,
                   child: FittedBox(
                     child: Container(
-                      height: 151,
+                      // height: 151,
                       decoration: const BoxDecoration(
                         color: Colors.white30,
                       ),
@@ -92,6 +93,9 @@ class _ProfilePartState extends State<ProfilePart> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            const SizedBox(
+                              height: 9,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -110,15 +114,6 @@ class _ProfilePartState extends State<ProfilePart> {
                                                 backgroundColor: Colors.white,
                                                 // MediaQuery.of(context).size.width * 0.3,
                                                 backgroundImage:  CachedNetworkImageProvider(imageUrl),
-                                                // onBackgroundImageError: const Icon(Icons.camera_alt),
-                                                // // imageUrl != null?
-                                                // NetworkImage(imageUrl),
-                                                // child: imageUrl!=null ? ClipRRect(
-                                                //     borderRadius: BorderRadius.circular(60),
-                                                //     child: CachedNetworkImage(imageUrl: imageUrl)):const Icon(Icons.camera_alt),
-                                              // : Image.asset("asset/"),
-                                              //  // decoration: const BoxDecoration(
-                                              //     shape: BoxShape/.circle, color: Colors.white)
                                             ),
                                             // Positioned(
                                             //   // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
@@ -145,7 +140,7 @@ class _ProfilePartState extends State<ProfilePart> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  width: 15,
+                                  width: 9,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,131 +184,147 @@ class _ProfilePartState extends State<ProfilePart> {
 
                               ],
                             ),
+                            const SizedBox(
+                              height: 18,
+                            )
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-                const Divider(
-                  color: Colors.black54,
-                ),
-                ListTile(
-                  onTap: () {
-                    print(imageUrl);
-                    print(id);
-                    // Get.to(() => const MyOrdersScreen());
-                  },
-                  leading: const Icon(
-                    CupertinoIcons.chat_bubble_text,
-                    color: Colors.black54,
-                  ),
-                  title: const Text(
-                    "Contact Us",
-                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                  ),
-                ),
-                const Divider(
-                  thickness: 1,
-                ),
-                ListTile(
-                  onTap: () {
-                    // Get.to(() => const MyOrdersScreen());
-                  },
-                  leading: const Icon(
-                    CupertinoIcons.exclamationmark_bubble,
-                    color: Colors.black54,
-                  ),
-                  title: const Text(
-                    "About Us",
-                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                  ),
-                ),
-                const Divider(
-                  thickness: 1,
-                ),
-                ListTile(
-                  onTap: () {
-                    // Get.to(() => const MyOrdersScreen());
-                  },
-                  leading: const Icon(
-                    CupertinoIcons.news,
-                    color: Colors.black54,
-                  ),
-                  title: const Text(
-                    "Terms & Condition",
-                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                  ),
-                ),
-                const Divider(
-                  thickness: 1,
-                ),
-                ListTile(
-                  onTap: () {
-                    // Get.to(() => const MyOrdersScreen());
-                  },
-                  leading: const Icon(
-                    Icons.privacy_tip_outlined,
-                    color: Colors.black54,
-                  ),
-                  title: const Text(
-                    "Privacy Policy",
-                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                  ),
-                ),
-                const Divider(
-                  thickness: 1,
-                ),
-                ListTile(
-                  onTap: () {
-                    Get.to(() => const Faq());
-                  },
-                  leading: const Icon(
-                    Icons.forum_outlined,
-                    color: Colors.black54,
-                  ),
-                  title: const Text(
-                    "FAQ",
-                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                  ),
-                ),
-                const Divider(
-                  thickness: 1,
-                ),
-                ListTile(
-                  onTap: () {
-                    // Get.to(() => const MyOrdersScreen());
-                  },
-                  leading: const Icon(
-                    Icons.star_border_outlined,
-                    color: Colors.black54,
-                  ),
-                  title: const Text(
-                    "Rate Us",
-                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                  ),
-                ),
-                const Divider(
-                  thickness: 1,
-                ),
-                ListTile(
-                  onTap: () {
-                    // Get.to(() => const MyOrdersScreen());
-                  },
-                  leading: const Icon(
-                    Icons.share,
-                    color: Colors.black54,
-                  ),
-                  title: const Text(
-                    "Share & Earn",
-                    style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                  ),
-                ),
-                const Divider(
-                  thickness: 1,
+                Column(
+                  children: [
+                    const Divider(
+                      color: Colors.black54,
+                      thickness: .3,
+                      height: 0,
+                    ),
+                    ListTile(
+                      onTap: () {
+                        // print(imageUrl);
+                        // print(id);
+                        // Get.to(() => const MyOrdersScreen());
+                      },
+                      leading: const Icon(
+                        CupertinoIcons.chat_bubble_text,
+                        color: Colors.black54,
+                      ),
+                      title: const Text(
+                        "Contact Us",
+                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                      ),
+                    ),
+                    const Divider(
+                      thickness: .3,
+                      height: 0,
+                    ),
+                    ListTile(
+                      onTap: () {
+                        // Get.to(() => const MyOrdersScreen());
+                      },
+                      leading: const Icon(
+                        CupertinoIcons.exclamationmark_bubble,
+                        color: Colors.black54,
+                      ),
+                      title: const Text(
+                        "About Us",
+                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                      ),
+                    ),
+                    const Divider(
+                      thickness: .3,
+                      height: 0,
+                    ),
+                    ListTile(
+                      onTap: () {
+                        // Get.to(() => const MyOrdersScreen());
+                      },
+                      leading: const Icon(
+                        CupertinoIcons.news,
+                        color: Colors.black54,
+                      ),
+                      title: const Text(
+                        "Terms & Condition",
+                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                      ),
+                    ),
+                    const Divider(
+                      thickness: .3,
+                      height: 0,
+                    ),
+                    ListTile(
+                      onTap: () {
+                        // Get.to(() => const MyOrdersScreen());
+                      },
+                      leading: const Icon(
+                        Icons.privacy_tip_outlined,
+                        color: Colors.black54,
+                      ),
+                      title: const Text(
+                        "Privacy Policy",
+                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                      ),
+                    ),
+                    const Divider(
+                      thickness: .3,
+                      height: 0,
+                    ),
+                    ListTile(
+                      onTap: () {
+                        Get.to(() => const Faq());
+                      },
+                      leading: const Icon(
+                        Icons.forum_outlined,
+                        color: Colors.black54,
+                      ),
+                      title: const Text(
+                        "FAQ",
+                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                      ),
+                    ),
+                    const Divider(
+                      thickness: .3,
+                      height: 0,
+                    ),
+                    ListTile(
+                      onTap: () {
+                        // Get.to(() => const MyOrdersScreen());
+                      },
+                      leading: const Icon(
+                        Icons.star_border_outlined,
+                        color: Colors.black54,
+                      ),
+                      title: const Text(
+                        "Rate Us",
+                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                      ),
+                    ),
+                    const Divider(
+                      thickness: .3,
+                      height: 0,
+                    ),
+                    ListTile(
+                      onTap: () {
+                        // Get.to(() => const MyOrdersScreen());
+                      },
+                      leading: const Icon(
+                        Icons.share,
+                        color: Colors.black54,
+                      ),
+                      title: const Text(
+                        "Share & Earn",
+                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                      ),
+                    ),
+                    const Divider(
+                      thickness: .3,
+                      height: 0,
+                    ),
+                  ],
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 24,
                 ),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
@@ -338,6 +349,7 @@ class _ProfilePartState extends State<ProfilePart> {
                         child: const Text(
                           "Log out",
                           style: TextStyle(
+                            color: Colors.white,
                               fontSize: 15,
                               fontFamily: "Poppins",
                               fontWeight: FontWeight.w600),
@@ -345,7 +357,7 @@ class _ProfilePartState extends State<ProfilePart> {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 )
               ],
             ),

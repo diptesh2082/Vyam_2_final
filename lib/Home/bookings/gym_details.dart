@@ -213,7 +213,8 @@ class _GymDetailsState extends State<GymDetails> {
                                 fontWeight: FontWeight.w600),
                           ),
                           const Spacer(),
-                          const Text('OPEN NOW',
+                          const Text(
+                              'OPEN NOW',
                               style: TextStyle(
                                   color: Colors.lightGreen, fontSize: 14)),
                         ],
@@ -225,9 +226,9 @@ class _GymDetailsState extends State<GymDetails> {
                           Icons.location_on,
                           size: 18,
                         ),
-                        const Text(
-                          'Barakar',
-                          style: TextStyle(
+                         Text(
+                          '${doc["docs"]["branch"]??""}',
+                          style: const TextStyle(
                               fontWeight: FontWeight.w400, color: Colors.grey),
                         ),
                         const Spacer(),
@@ -250,7 +251,7 @@ class _GymDetailsState extends State<GymDetails> {
                             ),
                         // const Text('       ')
                       ]),
-                      const SizedBox(height: 1),
+                      const SizedBox(height: 5),
                        Text(
                         '${doc?["docs"]["address"]??""}',
                         overflow: TextOverflow.ellipsis,
@@ -262,7 +263,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontWeight: FontWeight.w400),
                       ),
                       const SizedBox(
-                          height: 2),
+                          height: 5),
                       GestureDetector(
                         onTap: () {
                           FocusScope.of(context).unfocus();
@@ -413,6 +414,7 @@ class _GymDetailsState extends State<GymDetails> {
                           )
                         ],
                       ),
+                      // SizedBox(height: ,),
                       const Text(
                         'Description',
                         style: TextStyle(
@@ -439,7 +441,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontWeight: FontWeight.w400,
                             fontSize: 12),
                       ),
-                      const SizedBox(height:8),
+                      const SizedBox(height:10),
                       const Text(
                         'Amenities',
                         style: TextStyle(
@@ -448,7 +450,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontSize: 16,
                             fontWeight: FontWeight.w600),
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 9),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.1,
                         child: ListView.separated(
@@ -461,8 +463,8 @@ class _GymDetailsState extends State<GymDetails> {
                             ),
                             itemCount: amenities_name.length),
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
+                      const SizedBox(
+                        height: 12,
                       ),
                       const Text(
                         'Workouts',
@@ -495,7 +497,7 @@ class _GymDetailsState extends State<GymDetails> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 3),
+                      const SizedBox(height: 5),
                       SizedBox(
                           height: 145, //MediaQuery.of(context).size.height / 4.7,
                           child: GestureDetector(
@@ -584,9 +586,7 @@ class _GymDetailsState extends State<GymDetails> {
                                                                             .circle,
                                                                         //border: Border.all(width: 1),
                                                                         image: DecorationImage(
-                                                                            image: AssetImage(
-                                                                                trainers[
-                                                                                index]),
+                                                                            image: CachedNetworkImageProvider(trainerdoc[index]['images']),
                                                                             fit: BoxFit
                                                                                 .cover)),
                                                                   ),
@@ -800,81 +800,78 @@ class _GymDetailsState extends State<GymDetails> {
                               )),
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                      Container(
-                        // height: MediaQuery.of(context).size.height * 0.24,
-                        child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
+                      const SizedBox(height: 9),
+                      Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
 
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 8.0),
-                                    child: Text(
-                                        'Rules',
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                      'Rules',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w700,
+                                      )),
+                                ),
+                                SizedBox(
+                                  height:
+                                  MediaQuery.of(context).size.height * 0.015,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 30.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        "•  Bring your towel and use it.",
+                                        style: TextStyle(fontSize: 13),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                        MediaQuery.of(context).size.height *
+                                            0.015,
+                                      ),
+                                      const Text("•  Bring seperate shoes.",
                                         style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.w700,
-                                        )),
-                                  ),
-                                  SizedBox(
-                                    height:
-                                    MediaQuery.of(context).size.height * 0.015,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 30.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          "•  Bring your towel and use it.",
-                                          style: TextStyle(fontSize: 13),
-                                        ),
-                                        SizedBox(
-                                          height:
-                                          MediaQuery.of(context).size.height *
-                                              0.015,
-                                        ),
-                                        const Text("•  Bring seperate shoes.",
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12),),
+                                      SizedBox(
+                                        height:
+                                        MediaQuery.of(context).size.height *
+                                            0.015,
+                                      ),
+                                      const Text("•  Re-rack equipments",
                                           style: TextStyle(
                                               fontFamily: 'Poppins',
                                               fontWeight: FontWeight.w400,
-                                              fontSize: 12),),
-                                        SizedBox(
-                                          height:
-                                          MediaQuery.of(context).size.height *
-                                              0.015,
-                                        ),
-                                        const Text("•  Re-rack equipments",
-                                            style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12)),
-                                        SizedBox(
-                                          height:
-                                          MediaQuery.of(context).size.height *
-                                              0.015,
-                                        ),
-                                        const Text(
-                                            "•  No heavy lifting without spotter",
-                                            style: TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 12)),
-                                      ],
-                                    ),
+                                              fontSize: 12)),
+                                      SizedBox(
+                                        height:
+                                        MediaQuery.of(context).size.height *
+                                            0.015,
+                                      ),
+                                      const Text(
+                                          "•  No heavy lifting without spotter",
+                                          style: TextStyle(
+                                              fontFamily: 'Poppins',
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12)),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            )),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
+                                ),
+                              ],
+                            ),
+                          )),
+                      const SizedBox(
+                        height: 15,
                       ),
                       const Text('Safety protocols',
                           style: TextStyle(
@@ -1099,13 +1096,13 @@ class _GymDetailsState extends State<GymDetails> {
                 onPressed: () {
                   FocusScope.of(context).unfocus();
                   // print(docs["images"]);
-                  print(doc["id"]);
+                  print(docs["address"]);
                   Get.to(() =>
 
                       Packeges(
                       getFinalID: doc["id"],
-                      gymName: doc["name"],
-                      gymLocation: doc["location"],
+                      gymName: docs["name"],
+                      gymLocation: docs["address"],
                   ),
                     duration: const Duration(milliseconds: 300),
                     arguments: {
@@ -1115,7 +1112,9 @@ class _GymDetailsState extends State<GymDetails> {
                 },
                 label: Text(
                   "Explore Packages",
-                  style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.bold,
+                  color: Colors.white
+                  ),
                 ),
               ),
             ),

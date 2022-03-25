@@ -96,6 +96,7 @@ class _GymUnisexState extends State<GymUnisex> {
                                 color: const Color(0xffF4F4F4),
                                 child: SizedBox(
                                   child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
                                     imageUrl: document[index]["images"][0],
                                     progressIndicatorBuilder: (context, url, downloadProgress) =>
                                         Center(child: CircularProgressIndicator(value: downloadProgress.progress)),

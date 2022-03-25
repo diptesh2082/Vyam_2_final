@@ -196,7 +196,12 @@ class UserApi {
       'userId': docUser.id,
       "number": docUser.id,
       "uid":  _auth.currentUser?.uid,
-      "subLocality":""
+      "subLocality":"",
+      "locality":"",
+      "name": "",
+      "email": "",
+      "location":GeoPoint(0,0),
+
       // "name": name,
     };
     await docUser.set(myJson);

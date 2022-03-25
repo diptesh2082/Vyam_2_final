@@ -233,7 +233,8 @@ class _ZumbaListState extends State<ZumbaList> {
                                               widget.gymName,
                                               widget.gymLocation,
                                             id,
-                                              widget.getDocId
+                                              widget.getDocId,
+                                            ""
 
                                           );
                                         },

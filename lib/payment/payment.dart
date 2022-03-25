@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -171,20 +172,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               padding: const EdgeInsets.only(left: 8),
                               child: DetailBox(
                                 getData['gymName'].toString(),
-                                getData['landmark'].toString(),
-                                getData['address'].toString(),
+                                getData['gym_details']["branch"].toString(),
+                                getData["gym_details"]['address'].toString(),
+                                getData["gym_details"]['display_picture']
                               ),
                             ),
                             const SizedBox(
-                              height: 10,
+                              height: 15,
                             ),
                             const Divider(
                               color: Colors.black26,
                               height: 10,
-                              thickness: 2,
+                              thickness: .3,
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 8.0,right: 8),
+                              padding: const EdgeInsets.only(left: 8.0,right: 8,top: 10,bottom: 12),
                               child: SizedBox(
                                 height: 114,
                                 child: Column(
@@ -199,9 +201,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           child: Text(
                                             "Workout",
                                             style: TextStyle(
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w700,
                                                 fontFamily: "Poppins",
-                                                fontSize: 17,
+                                                fontSize: 16,
                                                 color: Colors.green),
                                           ),
                                         ),
@@ -212,9 +214,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             getData['packageType'],
                                             style: const TextStyle(
                                                 color: Colors.green,
-                                                fontWeight: FontWeight.w600,
+                                                fontWeight: FontWeight.w700,
                                                 fontFamily: "Poppins",
-                                                fontSize: 17),
+                                                fontSize: 16),
                                           ),
                                         )
                                       ],
@@ -227,7 +229,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       MainAxisAlignment.spaceBetween,
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(
+                                          padding: const EdgeInsets.only(
                                               right: 15, top: 3, left: 10),
                                           child: Center(
                                             child: Text(
@@ -235,7 +237,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.poppins(
                                                   fontSize: 16,
-                                                  fontWeight: FontWeight.w600
+                                                  fontWeight: FontWeight.w500
                                               ),
                                             ),
                                           ),
@@ -246,26 +248,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           child: Text(
                                             getData['totalMonths']??"",
                                             style: GoogleFonts.poppins(
-                                                fontSize: 15.5,
+                                                fontSize: 16,
                                                 // color: ,
-                                                fontWeight: FontWeight.w600),
+                                                fontWeight: FontWeight.w500),
                                           ),
                                         )
                                       ],
                                     ),
+
                                     Row(
                                       mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const Padding(
+                                         Padding(
                                           padding:
                                           EdgeInsets.only(left: 12, top: 3),
                                           child: Text(
                                             "Start Date",
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w600,
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              // fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                         ),
@@ -274,10 +277,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                               right: 12, top: 3),
                                           child: Text(
                                             getData["startDate"].toString(),
-                                            style: const TextStyle(
-                                                fontSize: 15,
-                                                fontFamily: "Poppins",
-                                                fontWeight: FontWeight.bold),
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
                                           ),
                                         ),
                                       ],
@@ -286,15 +288,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                       children: [
-                                        const Padding(
+                                     Padding(
                                           padding:
                                           EdgeInsets.only(left: 12, top: 3),
                                           child: Text(
                                             "Valid Upto",
-                                            style: TextStyle(
-                                              fontFamily: "Poppins",
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600,
+                                            style: GoogleFonts.poppins(
+                                              // fontFamily: "Poppins",
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                         ),
@@ -303,10 +305,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                               right: 12, top: 5),
                                           child: Text(
                                             getData["endDate"].toString(),
-                                            style: const TextStyle(
-                                                fontFamily: "Poppins",
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold),
+                                            style: GoogleFonts.poppins(
+
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500),
                                           ),
                                         ),
                                       ],
@@ -318,16 +320,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ],
                         ),
                       ),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
+                      const SizedBox(
+                        height: 9,
+                      ),
                       GestureDetector(
                         onTap: () => Get.to(() => CouponDetails(),arguments: getData),
                         child: Card(
                           child: SizedBox(
                             height: 57,
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 20.0,right: 20,),
+                              padding: const EdgeInsets.only(left: 20.0,right: 20,top: 3,bottom: 3),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
@@ -337,11 +339,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     children: [
                                       Row(
                                         children: [
-                                          const Text(
+                                          Text(
                                             "Apply promo code",
-                                            style: TextStyle(
+                                            style: GoogleFonts.poppins(
                                               fontWeight: FontWeight.w600,
-                                              fontFamily: "Poppins",
                                               fontSize: 16,
                                             ),
                                           ),
@@ -351,10 +352,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           ),
                                         ],
                                       ),
-                                      const Text(
+                                  Text(
                                         "No promo code selected",
-                                        style: TextStyle(
-                                          fontFamily: "Poppins",
+                                        style: GoogleFonts.poppins(
+                                          // fontFamily: "Poppins",
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12,
+                                          color: Colors.grey
                                         ),
                                       )
                                     ],
@@ -370,23 +374,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ),
                         ),
                       ),
+                      const SizedBox(
+                        height: 9,
+                      ),
 
                       Card(
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 12.0,right: 12),
+                          padding: const EdgeInsets.only(left: 12.0,right: 12,top: 10,bottom: 10),
                           child: Column(
                             children: [
                               Container(
                                 alignment: Alignment.centerLeft,
                                 padding:
-                                const EdgeInsets.only(left: 10,top: 3 ),
-                                child: const Text(
+                             const EdgeInsets.only(left: 10,top: 3 ),
+                                child:  Text(
                                   "Payment",
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
+                                  style: GoogleFonts.poppins(
                                       color: Colors.green,
-                                      fontFamily: "Poppins",
-                                      fontSize: 17,
+                                      // fontFamily: "Poppins",
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w700),
                                 ),
                               ),
@@ -394,13 +401,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 12,top: 3 ),
+                                 Padding(
+                                    padding: const EdgeInsets.only(left: 12,top: 3 ),
                                     child: Text(
                                       "Total Amount",
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 15,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500
                                       ),
                                     ),
                                   ),
@@ -411,7 +418,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       "₹${getData["totalPrice"]}",
                                       style: const TextStyle(
                                           fontFamily: "Poppins",
-                                          fontSize: 15,
+                                          fontSize: 16,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -421,13 +428,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 12,top: 3 ),
+                              Padding(
+                                    padding: const EdgeInsets.only(left: 12,top: 3 ),
                                     child: Text(
                                       "Discount",
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 15,
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500
                                       ),
                                     ),
                                   ),
@@ -437,7 +444,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     child: Text(
                                       "₹" + totalDiscount.toString(),
                                       style: const TextStyle(
-                                          fontSize: 15,
+                                          fontSize: 16,
                                           fontFamily: "Poppins",
                                           fontWeight: FontWeight.bold),
                                     ),
@@ -448,13 +455,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 12,top: 3 ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 12,top: 3 ),
                                     child: Text(
                                       "GST",
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 15,
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500
                                       ),
                                     ),
                                   ),
@@ -464,7 +471,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     child: Text(
                                       "₹" + taxPay.toString(),
                                       style: const TextStyle(
-                                          fontSize: 15,
+                                          fontSize: 16,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -500,7 +507,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 30,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0),
@@ -511,10 +518,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               children: [
                                 Image.asset("assets/icons/best discounts.png",
                                     height: 25, width: 25),
-                                const Text(
+                                const SizedBox(
+                                  height: 3,
+                                ),
+                             Text(
                                   "Best Discount",
-                                  style: TextStyle(
-                                    fontFamily: "Poppins",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      color: Colors.grey[400],
+                                      fontWeight: FontWeight.w500
                                   ),
                                 )
                               ],
@@ -523,10 +535,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               children: [
                                 Image.asset("assets/icons/secured payments.png",
                                     height: 25, width: 25),
-                                const Text(
+                                const SizedBox(
+                                  height: 3,
+                                ),
+                                Text(
                                   "Secured Payment",
-                                  style: TextStyle(
-                                    fontFamily: "Poppins",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      color: Colors.grey[400],
+                                      fontWeight: FontWeight.w500
                                   ),
                                 )
                               ],
@@ -536,9 +553,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               children: [
                                 Image.asset("assets/icons/customer support.png",
                                     height: 25, width: 25),
-                                const Text(
+                                const SizedBox(
+                                  height: 3,
+                                ),
+                               Text(
                                   "24/7 support",
-                                  style: TextStyle(fontFamily: "Poppins"),
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 12,
+                                    color: Colors.grey[400],
+                                    fontWeight: FontWeight.w500
+                                ),
                                 )
                               ],
                             )
@@ -630,7 +654,8 @@ class DetailBox extends StatelessWidget {
   final getGymName;
   final getLocation;
   final getLandmark;
-  const DetailBox(this.getGymName, this.getLandmark, this.getLocation,
+  final image;
+  const DetailBox(this.getGymName, this.getLandmark, this.getLocation,this.image,
       {Key? key})
       : super(key: key);
   @override
@@ -642,11 +667,11 @@ class DetailBox extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Container(
-              height: 131,
-              width: size.width * .45,
-              decoration: const BoxDecoration(
+              height: 105,
+              width: size.width * .42,
+              decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage('assets/images/transf1.jpeg'),
+                      image: CachedNetworkImageProvider(image),
                       fit: BoxFit.cover)),
             ),
           ),
@@ -700,7 +725,7 @@ class DetailBox extends StatelessWidget {
                       getLocation,
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
+                      maxLines: 2,
                       style: const TextStyle(fontSize: 15),
                     ),
                   ],

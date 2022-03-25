@@ -21,7 +21,7 @@ import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
 import 'package:vyam_2_final/Home/views/location.dart';
 
 import 'package:vyam_2_final/api/api.dart';
-
+import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'package:vyam_2_final/controllers/location_controller.dart';
 import '../../Notifications/notification.dart';
@@ -57,6 +57,7 @@ class _FirstHomeState extends State<FirstHome> {
   var myaddress ;
   var address;
   bool isLoading=true;
+  var value2;
 
   var day_left;
   // var location = Get.arguments;
@@ -232,7 +233,7 @@ bool showCard=false;
   //
   //  }
   // }
-
+TextEditingController searchController=TextEditingController();
   String pin = "";
   String locality = "";
   String subLocality = "";
@@ -251,7 +252,7 @@ bool showCard=false;
   }
 
   // List<DocumentSnapshot> document = [];
-
+  final app_bar_controller = ScrollController();
   String searchGymName = '';
   BannerApi bannerApi = BannerApi();
   @override
@@ -322,17 +323,18 @@ bool showCard=false;
     )
       :Scaffold(
       backgroundColor: const Color(0xffF4F4F4),
-      appBar:  AppBar(
+      appBar: ScrollAppBar(
+        controller: app_bar_controller,
         elevation: .0,
         centerTitle: false,
         backgroundColor: const Color(0xffF4F4F4),
         title: Column(
           children: [
             const SizedBox(
-              height: 6,
+              height: 12,
             ),
             Transform(
-              transform: Matrix4.translationValues(-20.0, 0.0, 0.0),
+              transform: Matrix4.translationValues(-15.0, 0.0, 0.0),
               child: Row(
                 children: [
                   IconButton(
@@ -384,7 +386,7 @@ bool showCard=false;
           Column(
             children: [
               const SizedBox(
-                height: 6,
+                height: 8,
               ),
               IconButton(
                 icon: const Icon(
@@ -403,55 +405,22 @@ bool showCard=false;
         ],
       ),
       body: SingleChildScrollView(
+        controller: app_bar_controller,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: const Divider(
-                    height: 0,
-                    thickness: 1,
-                  ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: const Divider(
+                  height: 0,
+                  thickness: 1,
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: SizedBox(
-                    height: 45,
-                    child: TextFormField(
-
-                      onChanged: (value) {
-                        // print(value.toString());
-                        setState(() {
-
-                          searchGymName = value.toString();
-                        });
-                        //
-                        // print(searchGymName);
-                      },
-                      // onSubmitted: (value) {
-                      //   // ignore: avoid_print
-                      //   print('Submitted text: $value');
-                      // },
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.search),
-                        hintText: 'Search',
-                        border: InputBorder.none,
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              Search(context),
 
               // CupertinoSearchTextField(
               //   onChanged: (value) {
@@ -584,54 +553,120 @@ bool showCard=false;
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                width: size.width * .94,
-                child: SingleChildScrollView(
-                  child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection("product_details")
-                    .where("pincode",isEqualTo: user_data["pincode"])
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot streamSnapshot) {
-                      if (streamSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      if(streamSnapshot.hasError){
-                        return const Center(child: Text("check your internet connection"));
-                      }
+              Container(child: buildGymBox())
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-                      var document = streamSnapshot.data.docs;
+  Padding Search(BuildContext context) {
 
-                      if (searchGymName.length > 0) {
-                        document = document.where((element) {
-                          return element
-                              .get('name')
-                              .toString()
-                              .toLowerCase()
-                              .contains(searchGymName.toLowerCase());
-                        }).toList();
-                      }
-                      // else {
-                      //   document = document.where((element) {
-                      //     return element
-                      //         .get('pincode')
-                      //         .toString()
-                      //         // .toLowerCase()
-                      //         .contains(address2.toString());
-                      //   }).toList();
-                      // }
-                      return document.isNotEmpty
-                          ? ListView.separated(
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: document.length,
-                              itemBuilder: (context, int index) {
-                                return Column(
-                                  children: [
-                                    Stack(
+    return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: SizedBox(
+                  height: 45,
+                  child: TextFormField(
+                    onFieldSubmitted: (value)async{
+                      FocusScope.of(context).unfocus();
+                      // showCard=true;
+                    },
+                    controller:searchController,
+                    onTap: (){
+                      // showCard=false;
+                      // print(showCard);
+                    },
+
+                      onChanged: (value) {
+                      // print(value.toString());
+                      setState(() {
+
+                        searchGymName = value.toString();
+                        // value2=value.toString();
+                      });
+                      //
+                      // print(searchGymName);
+                    },
+                    // onEditingComplete: (){
+                    //   setState(() {
+                    //     // var value;
+                    //     searchGymName=value2.toString();
+                    //   });
+                    // },
+                    // onSubmitted: (value) {
+                    //   // ignore: avoid_print
+                    //   print('Submitted text: $value');
+                    // },
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.search),
+                      hintText: 'Search',
+                      border: InputBorder.none,
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            );
+  }
+
+  SizedBox buildGymBox() {
+    Size size=MediaQuery.of(context).size;
+    return SizedBox(
+              width: size.width * .94,
+              child: SingleChildScrollView(
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection("product_details")
+                  .where("pincode",isEqualTo: user_data["pincode"])
+                  // .where("name",isGreaterThanOrEqualTo: searchGymName.toString())
+                      .snapshots(),
+                  builder: (context, AsyncSnapshot streamSnapshot) {
+                    if (streamSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if(streamSnapshot.hasError){
+                      return const Center(child: Text("check your internet connection"));
+                    }
+
+                    var document = streamSnapshot.data.docs;
+
+                    if (searchGymName.length > 0){
+                      document = document.where((element) {
+                        return element
+                            .get('name')
+                            .toString()
+                            .toLowerCase()
+                            .contains(searchGymName.toString());
+                      }).toList();
+                    }
+                    // else {
+                    //   document = document.where((element) {
+                    //     return element
+                    //         .get('pincode')
+                    //         .toString()
+                    //         // .toLowerCase()
+                    //         .contains(address2.toString());
+                    //   }).toList();
+                    // }
+                    return document.isNotEmpty
+                        ? ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: document.length,
+                            itemBuilder: (context, int index) {
+                              return FittedBox(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Container(
+                                    color: Colors.black,
+                                    child: Stack(
                                       children: [
                                         GestureDetector(
                                           onTap: () async {
@@ -655,26 +690,17 @@ bool showCard=false;
                                                   "docs": document[index],
                                                 });
                                           },
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            child: FittedBox(
-                                              child: Material(
-                                                elevation: 5,
-                                                color: const Color(0xffF4F4F4),
-                                                child: SizedBox(
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: document[index]["display_picture"],
-                                                    progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                        Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
-                                                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                                                    // height: 195,
-                                                    // width: double.infinity,
-                                                  ),
-                                                  height: 190,
-                                                  width: MediaQuery.of(context).size.width*.95,
-                                                ),
-                                              ),
+                                          child: FittedBox(
+                                            child: CachedNetworkImage(
+                                              height: 195,
+                                              fit: BoxFit.cover,
+                                              width: MediaQuery.of(context).size.width,
+                                              imageUrl: document[index]["display_picture"],
+                                              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                  Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
+                                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                                              // height: 195,
+                                              // width: double.infinity,
                                             ),
                                           ),
                                         ),
@@ -816,36 +842,29 @@ bool showCard=false;
                                         ),
                                       ],
                                     ),
-                                    // const SizedBox(
-                                    //   height: 10,
-                                    // )
-                                  ],
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return const Divider();
-                              },
-                            )
-                          : const Center(
-                              child: Text(
-                                "No nearby gyms in your area",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w100,
-                                  fontFamily: "Poppins",
-                                  fontSize: 20,
+                                  ),
                                 ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const Divider();
+                            },
+                          )
+                        : const Center(
+                            child: Text(
+                              "No nearby gyms in your area",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w100,
+                                fontFamily: "Poppins",
+                                fontSize: 20,
                               ),
-                            );
-                    },
-                  ),
+                            ),
+                          );
+                  },
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+              ),
+            );
   }
 
   // ignore: non_constant_identifier_names
@@ -875,7 +894,9 @@ bool showCard=false;
               if (data.size == 0) {
                 return const SizedBox();
               }
-              return ListView.builder(
+              var document=snapshot.data.docs;
+              return document.isNotEmpty ?
+              ListView.builder(
                 shrinkWrap: true,
                 itemCount: 1,
                 itemBuilder: (context, index) {
@@ -983,7 +1004,7 @@ bool showCard=false;
                     ],
                   );
                 },
-              );
+              ):Container();
             }
             return const CircularProgressIndicator();
           }),

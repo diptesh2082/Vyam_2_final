@@ -233,7 +233,8 @@ class _YogaListState extends State<YogaList> {
                                               widget.gymName,
                                               widget.gymLocation
                                               , id,
-                                              widget.getDocID
+                                              widget.getDocID,
+                                            ""
                                           );
 
                                         },

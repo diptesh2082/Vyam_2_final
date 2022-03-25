@@ -358,13 +358,14 @@ class _SelectDateState extends State<SelectDate> {
               "endDate": (months[end_mon - 1] + ", " + endday + ", " + year),
               "address": widget.getGymAddress,
               "vendorId":widget.gymId,
-              "booking_id":widget.bookingId
+              "booking_id":widget.bookingId,
+              "gym_details":Get.arguments["docs"]
             },
             );
           },
           label: Text(
             "Proceed",
-            style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+            style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: Colors.white),
           ),
         )
                // : Container(),

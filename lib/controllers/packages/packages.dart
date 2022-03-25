@@ -33,6 +33,7 @@ class _PackegesState extends State<Packeges> {
   BookingDetails bookingDetails = BookingDetails();
 
   var dateTime;
+  bool isLoading=true;
   setDate(){
    dateTime = DateTime.now();
   }
@@ -43,7 +44,11 @@ class _PackegesState extends State<Packeges> {
   var userData ;
   getUserData()async{
     userDetails.doc(number).get().then((DocumentSnapshot doc) {
-      userData=doc.data();
+      userData= doc.data();
+      setState(()  {
+        isLoading= false;
+      });
+
       // print(userData);
     });
   }
@@ -58,8 +63,8 @@ class _PackegesState extends State<Packeges> {
     bookings.doc(id).set({
       "booking_id": id,
       "booking_status": "",
-      "order_date": "",
-      "gym_name": "",
+      "order_date": DateTime.now(),
+      // "gym_name": "",
       "vendorId": "",
       "userId": number,
       "user_name": "",
@@ -69,14 +74,21 @@ class _PackegesState extends State<Packeges> {
       "booking_price": 0.toDouble(),
       "package_type":"",
       "gym_address":"",
-      "booking_date":"",
-      "plan_end_duration":"",
+      "booking_date":DateTime.now(),
+      "plan_end_duration":DateTime.now(),
       "otp_pass":"",
       "gym_details": {
         "image":Get.arguments["doc"]["images"][0],
         "name": widget.gymName,
 
       },
+      "daysLeft":"",
+      "discount":"0",
+      "grand_total":"",
+      "tax_pay":"",
+      "totalDays":"",
+      "total_price":"",
+
 
 
 
@@ -86,6 +98,7 @@ class _PackegesState extends State<Packeges> {
   void initState() {
     getUserData();
     setDate();
+
     // print(userDetails);
     super.initState();
   }
@@ -95,7 +108,12 @@ class _PackegesState extends State<Packeges> {
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
-    return Scaffold(
+    return isLoading? Container(
+      color: Colors.white,
+      child: const Center(
+        child: CircularProgressIndicator(),
+      ),
+    ) :Scaffold(
       appBar: AppBar(
         leading: IconButton(
           iconSize: 25,
@@ -136,8 +154,15 @@ class _PackegesState extends State<Packeges> {
                       .collection("gym")
                       .snapshots(),
                   builder: ((context, snapshot) {
+                    if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                     if (snapshot.hasData) {
                       final data = snapshot.requireData;
+
                       if (data.size == 0) {
                         return Center(
                           child: Padding(
@@ -151,6 +176,7 @@ class _PackegesState extends State<Packeges> {
                           ),
                         );
                       }
+
                       return ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
@@ -357,7 +383,7 @@ class _PackegesState extends State<Packeges> {
                                                 {
                                                   "booking_status": "incomplete",
                                                   "order_date": dateTime,
-                                                  "gym_name": widget.gymName,
+                                                  // "gym_name": widget.gymName,
                                                   "vendorId": widget.getFinalID,
                                                   "userId": number,
                                                   "user_name": userData["name"],
@@ -381,7 +407,8 @@ class _PackegesState extends State<Packeges> {
                                                   widget.gymName,
                                                   widget.gymLocation,
                                                   id,
-                                                  widget.getFinalID
+                                                  widget.getFinalID,
+                                                  Get.arguments["doc"],
                                               );
                                              },
                                             color: HexColor("292F3D"),

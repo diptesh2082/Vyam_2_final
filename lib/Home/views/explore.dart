@@ -106,7 +106,7 @@ class _ExploreState extends State<Explore> {
 
   @override
   void initState() {
-    print(address2.toString());
+
     getMarkerData();
     if (doc != null) {
       _gotoLocation(doc["location"].latitude, doc["location"].longitude);
@@ -136,6 +136,7 @@ class _ExploreState extends State<Explore> {
           transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
           child: TextField(
             controller:test_controller,
+            autofocus: false,
             onChanged: (value) async {
               _list = await RequestHelper().getPlaces(query: value);
               setState(() {});
@@ -145,7 +146,7 @@ class _ExploreState extends State<Explore> {
               }
             },
             decoration: const InputDecoration(
-                hintText: 'Barakar, West Bengal',
+                hintText: 'Search places',
                 hintStyle: TextStyle(fontWeight: FontWeight.bold),
                 prefixIcon: Icon(Icons.search)),
             onTap: () {

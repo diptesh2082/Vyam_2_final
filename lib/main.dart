@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
 import 'package:vyam_2_final/Themes/themes.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
 
       theme:ThemeData(
-        primarySwatch: Colors.purple
+        primarySwatch: Colors.grey
       ),
       // Themes().lightTheme,
 
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
 
       // theme: Themes().lightTheme,
       debugShowCheckedModeBanner: false,
-      home: number !=null ? HomePage(): const LoginPage(),
+      home: number !=null ? HomePage():  Onboarding1(),
 
       // initialRoute: ,
       getPages: [

@@ -11,7 +11,7 @@ import '../../select_date.dart';
 
 class BookingDetails {
   void bookingDetails(
-      context, index, bookingList, String gymType, getGymName, gymLocation, booking_id,gymID) {
+      context, index, bookingList, String gymType, getGymName, gymLocation, booking_id,gymID,docs) {
     List newBookingList = bookingList;
     // final userDetails=FirebaseFirestore.instance.collection("user_details").doc(number).get();
 
@@ -256,6 +256,9 @@ class BookingDetails {
                                             gymId:gymID ,
                                             bookingId: booking_id,
                                           ),
+                                              arguments: {
+                                            "docs":docs
+                                              },
                                               duration: const Duration(milliseconds: 500),
                                           );
                                           // Navigator.push(
