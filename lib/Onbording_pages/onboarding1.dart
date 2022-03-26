@@ -89,7 +89,11 @@ class Onboarding1 extends StatelessWidget {
                                   width: size.width/3,
                                   child: ElevatedButton(
                                       onPressed: _controller.forwardAction,
-                                      child: const Text("Next"),
+                                      child: const Text("Next",
+                                      style: TextStyle(
+                                          color: Colors.white
+                                      ),
+                                      ),
                                       style: ElevatedButton.styleFrom(
                                         primary: buttonColor,
                                         shape: RoundedRectangleBorder(

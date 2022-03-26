@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:vyam_2_final/Home/bookings/success_book.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
@@ -33,7 +34,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   // ignore: prefer_typing_uninitialized_variables
   var taxPay;
   String amount = '';
-
+  final app_bar_controller = ScrollController();
 
   final Razorpay _razorpay = Razorpay();
 
@@ -108,9 +109,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    var x =Random().nextInt(999999);
+    var x = await Random().nextInt(999999);
     FocusScope.of(context).unfocus();
-      Get.off(()=>SuccessBook(),
+      Get.offAll(()=>SuccessBook(),
         arguments: {
         "otp_pass":x
         }
@@ -149,9 +150,28 @@ class _PaymentScreenState extends State<PaymentScreen> {
     // }
 
     return Scaffold(
-        appBar: CustomAppBar(
-          backgroundColor: Colors.black87,
-          title: "Your Order",
+        appBar: ScrollAppBar(
+          controller: app_bar_controller,
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.white,
+          title: const Text(
+            // "Add Your Location Here",
+            "Booking Summary",
+            style: TextStyle(
+                fontFamily: "Poppins",
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.black),
+          ),
+          leading: IconButton(
+            color: Colors.black,
+            onPressed: () {
+              Get.back();
+            },
+            icon: const Icon(Icons.arrow_back_ios),
+          ),
+
         ),
         backgroundColor: Colors.black,
         body: Container(
@@ -160,6 +180,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             backgroundColor: Colors.transparent,
             body: SafeArea(
               child: SingleChildScrollView(
+                // controller: app_bar_controller,
                 padding: const EdgeInsets.only(top: 10),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

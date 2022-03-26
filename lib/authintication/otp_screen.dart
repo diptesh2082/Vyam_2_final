@@ -239,6 +239,7 @@ class _OtpPageState extends State<OtpPage> {
                                 "Verify",
                                 style: TextStyle(
                                   fontSize: 17.5,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

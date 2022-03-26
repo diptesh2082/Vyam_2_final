@@ -328,59 +328,48 @@ TextEditingController searchController=TextEditingController();
         elevation: .0,
         centerTitle: false,
         backgroundColor: const Color(0xffF4F4F4),
-        title: Column(
-          children: [
-            const SizedBox(
-              height: 12,
-            ),
-            Transform(
-              transform: Matrix4.translationValues(-15.0, 0.0, 0.0),
-              child: Row(
-                children: [
-                  IconButton(
-                    iconSize: 25,
-                    icon: const Icon(
-                      CupertinoIcons.location,
-                      color: Colors.black,
-                    ),
-                    onPressed: () async {
-                      FocusScope.of(context).unfocus();
-                      // Get.back();
-                      // print(_auth.currentUser?.uid);
-                      // Position position = await _determinePosition();
-                      // await GetAddressFromLatLong(position);
-                      // await UserApi.updateUserAddress(
-                      //     address, [position.latitude, position.longitude], pin
-                      // );
-                      await getAddressPin(pin);
+        leading:      IconButton(
+          iconSize: 24,
+          icon: const Icon(
+            CupertinoIcons.location,
+            color: Color(0xff3A3A3A),
+          ),
+          onPressed: () async {
+            FocusScope.of(context).unfocus();
+            // Get.back();
+            // print(_auth.currentUser?.uid);
+            // Position position = await _determinePosition();
+            // await GetAddressFromLatLong(position);
+            // await UserApi.updateUserAddress(
+            //     address, [position.latitude, position.longitude], pin
+            // );
+            await getAddressPin(pin);
 
-                      setState((){
-                        // myaddress = myaddress;
-                        address = address;
-                        pin = pin;
-                        GlobalUserLocation=user_data["address"];
-                      });
-                      Get.to(()=>LocInfo());
-                    },
-                  ),
-                  SizedBox(
-                    width: size.width * .55,
-                    child: Text(
-                      user_data["address"] ?? "your Location",
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontFamily: "Poppins",
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ],
-              ),
+            setState((){
+              // myaddress = myaddress;
+              address = address;
+              pin = pin;
+              GlobalUserLocation=user_data["address"];
+            });
+            Get.to(()=>LocInfo());
+          },
+        ),
+        title: Transform(
+
+          transform:Matrix4.translationValues(-21, 0, 0),
+          child: SizedBox(
+            width: size.width * .606,
+            child: Text(
+              user_data["address"] ?? "your Location",
+              textAlign: TextAlign.left,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: GoogleFonts.poppins(
+                  color: const Color(0xff3A3A3A),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500),
             ),
-          ],
+          ),
         ),
         actions: [
           Column(
@@ -404,157 +393,160 @@ TextEditingController searchController=TextEditingController();
 
         ],
       ),
-      body: SingleChildScrollView(
-        controller: app_bar_controller,
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: const Divider(
-                  height: 0,
-                  thickness: 1,
+      body: Snap(
+        controller: app_bar_controller.appBar,
+        child: SingleChildScrollView(
+          controller: app_bar_controller,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0,right: 10),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: const Divider(
+                    height: .3,
+                    thickness: 1,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Search(context),
+                const SizedBox(
+                  height: 12,
+                ),
+                Search(context),
 
-              // CupertinoSearchTextField(
-              //   onChanged: (value) {
-              //     setState(() {
-              //       searchGymName = value.toString();
-              //     });
-              //
-              //     print(searchGymName);
-              //   },
-              //   decoration: BoxDecoration(
-              //       color: Colors.grey[300],
-              //       borderRadius: BorderRadius.circular(10)),
-              //   onSubmitted: (value) {
-              //     // ignore: avoid_print
-              //     print('Submitted text: $value');
-              //   },
-              // ),
-              // const SizedBox(
-              //   height: 4,
-              // ),
-              const SizedBox(
-                height: 12,
-              ),
+                // CupertinoSearchTextField(
+                //   onChanged: (value) {
+                //     setState(() {
+                //       searchGymName = value.toString();
+                //     });
+                //
+                //     print(searchGymName);
+                //   },
+                //   decoration: BoxDecoration(
+                //       color: Colors.grey[300],
+                //       borderRadius: BorderRadius.circular(10)),
+                //   onSubmitted: (value) {
+                //     // ignore: avoid_print
+                //     print('Submitted text: $value');
+                //   },
+                // ),
+                // const SizedBox(
+                //   height: 4,
+                // ),
+                const SizedBox(
+                  height: 12,
+                ),
 
-              if (getPercentage != 100) ProgressCard(context),
-              const SizedBox(
-                height: 15,
-              ),
-              InkWell(
-                onTap: () {
-                  FocusScope.of(context).unfocus();
-                  Get.to(CouponDetails());
-                },
-                child: SizedBox(
-                  height: 135,
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: bannerApi.getBanner,
-                    builder: (context, AsyncSnapshot streamSnapshot) {
-                      if (streamSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      final data = streamSnapshot.requireData;
-                      return ListView.builder(
-                        // controller: _controller.,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: data.size,
-                        itemBuilder: (context, int index) {
-                          return SizedBox(
-                            height: 120,
-                            child: Row(
-                              children: [
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Material(
-                                    elevation: 0,
-                                    color: const Color(0xffF4F4F4),
-                                    child: CachedNetworkImage(  imageUrl: data.docs[index]["image"],
-                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                          Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
-                                      errorWidget: (context, url, error) => Icon(Icons.error),
-                                    )),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                              ],
-                            ),
+                if (getPercentage != 100) ProgressCard(context),
+                const SizedBox(
+                  height: 15,
+                ),
+                InkWell(
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                    Get.to(CouponDetails());
+                  },
+                  child: SizedBox(
+                    height: 135,
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: bannerApi.getBanner,
+                      builder: (context, AsyncSnapshot streamSnapshot) {
+                        if (streamSnapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
                           );
-                        },
-                      );
-                    },
+                        }
+                        final data = streamSnapshot.requireData;
+                        return ListView.builder(
+                          // controller: _controller.,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: data.size,
+                          itemBuilder: (context, int index) {
+                            return SizedBox(
+                              height: 120,
+                              child: Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Material(
+                                      elevation: 0,
+                                      color: const Color(0xffF4F4F4),
+                                      child: CachedNetworkImage(  imageUrl: data.docs[index]["image"],
+                                        progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                            Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
+                                        errorWidget: (context, url, error) => Icon(Icons.error),
+                                      )),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                height: 150,
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: controller.OptionsList.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, int index) {
-                    return SizedBox(
-                      height: 150,
-                      child: Row(
-                        children: [
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                Get.to(()=>GymOption(),arguments: {
-                                  "type":controller.OptionsList[index].type,
-                                });
-                                FocusScope.of(context).unfocus();
-                              },
-                              child: Image.asset(
-                                  controller.OptionsList[index].imageAssets)),
-                          const SizedBox(
-                            width: 5,
-                          )
+                const SizedBox(
+                  height: 15,
+                ),
+                SizedBox(
+                  height: 150,
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: controller.OptionsList.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, int index) {
+                      return SizedBox(
+                        height: 150,
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            GestureDetector(
+                                onTap: () {
+                                  Get.to(()=>GymOption(),arguments: {
+                                    "type":controller.OptionsList[index].type,
+                                  });
+                                  FocusScope.of(context).unfocus();
+                                },
+                                child: Image.asset(
+                                    controller.OptionsList[index].imageAssets)),
+                            const SizedBox(
+                              width: 5,
+                            )
 
-                        ],
-                      ),
-                    );
-                  }, separatorBuilder: (BuildContext context, int index) {  return const Divider(); },
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const SizedBox(
-                height: 30,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Nearby Gyms",
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
+                          ],
+                        ),
+                      );
+                    }, separatorBuilder: (BuildContext context, int index) {  return const Divider(); },
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(child: buildGymBox())
-            ],
+                const SizedBox(
+                  height: 10,
+                ),
+                const SizedBox(
+                  height: 30,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Nearby Gyms",
+                      style: TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(child: buildGymBox())
+              ],
+            ),
           ),
         ),
       ),
@@ -564,11 +556,11 @@ TextEditingController searchController=TextEditingController();
   Padding Search(BuildContext context) {
 
     return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 3.0),
+              padding: const EdgeInsets.only(left: 5.0,right: 5,bottom: 3),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(14),
                 child: SizedBox(
-                  height: 45,
+                  height: 51,
                   child: TextFormField(
                     onFieldSubmitted: (value)async{
                       FocusScope.of(context).unfocus();
@@ -617,6 +609,7 @@ TextEditingController searchController=TextEditingController();
     Size size=MediaQuery.of(context).size;
     return SizedBox(
               width: size.width * .94,
+              // height: 195,
               child: SingleChildScrollView(
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance
@@ -665,6 +658,7 @@ TextEditingController searchController=TextEditingController();
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: Container(
+                                    // height: 195,
                                     color: Colors.black,
                                     child: Stack(
                                       children: [
@@ -692,7 +686,7 @@ TextEditingController searchController=TextEditingController();
                                           },
                                           child: FittedBox(
                                             child: CachedNetworkImage(
-                                              height: 195,
+                                              height: 210,
                                               fit: BoxFit.cover,
                                               width: MediaQuery.of(context).size.width,
                                               imageUrl: document[index]["display_picture"],
@@ -848,7 +842,10 @@ TextEditingController searchController=TextEditingController();
                             },
                             separatorBuilder:
                                 (BuildContext context, int index) {
-                              return const Divider();
+                              return const Divider(
+                                height: 24,
+                                thickness: 0,
+                              );
                             },
                           )
                         : const Center(

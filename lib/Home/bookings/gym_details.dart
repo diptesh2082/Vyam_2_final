@@ -6,6 +6,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+
+import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
+
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
@@ -68,16 +71,16 @@ class _GymDetailsState extends State<GymDetails> {
   int _current = 1;
   @override
   void initState() {
-    print(doc);
+    // print(doc);
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF4F4F4),
+      // backgroundColor: const Color(0xffffffff),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(3),
+          padding: const EdgeInsets.all(5),
           child: Container(
             //height: 800,
             width: MediaQuery.of(context).size.width,
@@ -99,28 +102,30 @@ class _GymDetailsState extends State<GymDetails> {
                           child: Stack(
                             //mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              CarouselSlider.builder(
-                                itemCount: images.length,
-                                itemBuilder: (context, index, realIndex) {
-                                  final image = images[index];
-                                  return gymImages(image, index);
-                                },
-                                options: CarouselOptions(
-                                  height: 255,
-                                    autoPlay: true,
-                                    viewportFraction: 1,
-                                    onPageChanged: (index, reason) {
-                                      setState(() {
-                                        _current = index + 1;
-                                        for (int i = 0; i < images.length; i++) {
-                                          if (i == index) {
-                                            _isSelected[i] = true;
-                                          } else {
-                                            _isSelected[i] = false;
+                              FullScreenWidget(
+                                child: CarouselSlider.builder(
+                                  itemCount: images.length,
+                                  itemBuilder: (context, index, realIndex) {
+                                    final image = images[index];
+                                    return gymImages(image, index);
+                                  },
+                                  options: CarouselOptions(
+                                    height: 255,
+                                      autoPlay: true,
+                                      viewportFraction: 1,
+                                      onPageChanged: (index, reason) {
+                                        setState(() {
+                                          _current = index + 1;
+                                          for (int i = 0; i < images.length; i++) {
+                                            if (i == index) {
+                                              _isSelected[i] = true;
+                                            } else {
+                                              _isSelected[i] = false;
+                                            }
                                           }
-                                        }
-                                      });
-                                    }),
+                                        });
+                                      }),
+                                ),
                               ),
                               Positioned(
                                 left: MediaQuery.of(context).size.width/3,
@@ -199,7 +204,7 @@ class _GymDetailsState extends State<GymDetails> {
                               )
                             ],
                           )),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                      SizedBox(height: 12),
                       Row(
                         children: [
                           Text(
@@ -216,7 +221,10 @@ class _GymDetailsState extends State<GymDetails> {
                           const Text(
                               'OPEN NOW',
                               style: TextStyle(
-                                  color: Colors.lightGreen, fontSize: 14)),
+                                fontFamily: "poppins",
+                                  color: Colors.lightGreen, fontSize: 14,
+                              fontWeight: FontWeight.w500
+                              )),
                         ],
                       ),
                       SizedBox(
@@ -238,20 +246,20 @@ class _GymDetailsState extends State<GymDetails> {
                                   arguments: {"location": doc?["location"]});
                             },
                             child: Column(
-                              children: const [
+                              children: [
                                 Icon(Icons.assistant_direction, color: Colors.green),
                             Text('Navigate',
-                              style: TextStyle(
-                                  fontFamily: 'poppins',
+                              style: GoogleFonts.poppins(
                                   color: Colors.green,
                                   fontSize: 8,
-                                  fontWeight: FontWeight.w500))
+                                  fontWeight: FontWeight.w600))
                               ],
                             )
                             ),
-                        // const Text('       ')
-                      ]),
-                      const SizedBox(height: 5),
+                        const Text('   ')
+                      ]
+                      ),
+                      const SizedBox(height: 12),
                        Text(
                         '${doc?["docs"]["address"]??""}',
                         overflow: TextOverflow.ellipsis,
@@ -263,7 +271,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontWeight: FontWeight.w400),
                       ),
                       const SizedBox(
-                          height: 5),
+                          height: 12),
                       GestureDetector(
                         onTap: () {
                           FocusScope.of(context).unfocus();
@@ -391,12 +399,13 @@ class _GymDetailsState extends State<GymDetails> {
                           // const Text(' '),
                           const Spacer(),
                           GestureDetector(
-                            child: const Text("View more",
+                            child: const Text(
+                                "View more",
                                 style: TextStyle(
                                     fontFamily: "Poppins",
                                     decoration: TextDecoration.underline,
                                     color: Colors.green,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                     fontSize: 12)),
                             onTap: () {
                               FocusScope.of(context).unfocus();
@@ -414,7 +423,7 @@ class _GymDetailsState extends State<GymDetails> {
                           )
                         ],
                       ),
-                      // SizedBox(height: ,),
+                      const SizedBox(height: 3,),
                       const Text(
                         'Description',
                         style: TextStyle(
@@ -423,7 +432,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontSize: 16,
                             fontWeight: FontWeight.w600),
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 9),
                       const ReadMoreText(
                         'Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac  Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac ',
                         trimLines: 3,
@@ -441,7 +450,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontWeight: FontWeight.w400,
                             fontSize: 12),
                       ),
-                      const SizedBox(height:10),
+                      const SizedBox(height:12),
                       const Text(
                         'Amenities',
                         style: TextStyle(
@@ -450,7 +459,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontSize: 16,
                             fontWeight: FontWeight.w600),
                       ),
-                      const SizedBox(height: 9),
+                      const SizedBox(height: 12),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.1,
                         child: ListView.separated(
@@ -474,7 +483,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontSize: 16,
                             fontWeight: FontWeight.w600),
                       ),
-                      const SizedBox(height: 6,),
+                      const SizedBox(height: 12),
                       Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0)),
@@ -497,7 +506,7 @@ class _GymDetailsState extends State<GymDetails> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 8),
                       SizedBox(
                           height: 145, //MediaQuery.of(context).size.height / 4.7,
                           child: GestureDetector(
@@ -620,7 +629,7 @@ class _GymDetailsState extends State<GymDetails> {
                                     ])),
                           )),
 
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 8),
                       FittedBox(
                         child: GestureDetector(
                           onTap: (){
@@ -658,7 +667,7 @@ class _GymDetailsState extends State<GymDetails> {
                                     padding: EdgeInsets.only(left: 8.0),
                                     child: Text('Reviews',
                                         style: TextStyle(
-                                          fontSize: 14.5,
+                                          fontSize: 14,
                                           fontFamily: "Poppins",
                                           fontWeight: FontWeight.w700,
                                         )),
@@ -675,7 +684,7 @@ class _GymDetailsState extends State<GymDetails> {
                                         children: [
                                           SizedBox(
                                             width: MediaQuery.of(context).size.width *
-                                                0.05,
+                                                0.03,
                                           ),
                                           const Icon(
                                             Icons.star,
@@ -800,7 +809,7 @@ class _GymDetailsState extends State<GymDetails> {
                               )),
                         ),
                       ),
-                      const SizedBox(height: 9),
+                      const SizedBox(height: 12),
                       Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0)),
@@ -825,7 +834,7 @@ class _GymDetailsState extends State<GymDetails> {
                                   MediaQuery.of(context).size.height * 0.015,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 30.0),
+                                  padding: const EdgeInsets.only(left: 21.0),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
@@ -871,7 +880,7 @@ class _GymDetailsState extends State<GymDetails> {
                             ),
                           )),
                       const SizedBox(
-                        height: 15,
+                        height: 18,
                       ),
                       const Text('Safety protocols',
                           style: TextStyle(
@@ -879,8 +888,8 @@ class _GymDetailsState extends State<GymDetails> {
                             fontFamily: "Poppins",
                             fontWeight: FontWeight.w700,
                           )),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
+                      const SizedBox(
+                        height: 18,
                       ),
                       FittedBox(
                         child: Column(

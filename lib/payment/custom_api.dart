@@ -19,7 +19,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       centerTitle: true,
-      backgroundColor: Colors.grey[100],
+      elevation: 0,
+      backgroundColor: Colors.white,
       title: const Text(
         // "Add Your Location Here",
         "Booking Summary",

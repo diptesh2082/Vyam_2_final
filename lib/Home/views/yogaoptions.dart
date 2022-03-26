@@ -40,7 +40,7 @@ class _YogaOptionState extends State<YogaOption> {
   @override
   void dispose() {
     // TODO: implement dispose
-    controller.dispose();
+    // controller.dispose();
 
     super.dispose();
   }

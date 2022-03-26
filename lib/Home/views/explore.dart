@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -73,9 +74,10 @@ class _ExploreState extends State<Explore> {
   }
 
   void initMarker(specify, specifyId) async {
-    var markerIdVal = specifyId;
-    final MarkerId markerId = MarkerId(markerIdVal);
-    final Marker marker = Marker(
+    var markerIdVal = await specifyId;
+    final MarkerId markerId =   MarkerId(markerIdVal);
+    final Marker marker =  Marker(
+      icon: BitmapDescriptor.defaultMarker,
       markerId: markerId,
       position:
       LatLng(specify['location'].latitude, specify['location'].longitude),
@@ -88,7 +90,7 @@ class _ExploreState extends State<Explore> {
 
   getMarkerData() async {
     await Firebase.initializeApp();
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('product_details')
         .get()
         .catchError((e) {
@@ -96,6 +98,7 @@ class _ExploreState extends State<Explore> {
     }).then((myMockData) {
       if (myMockData.docs.isNotEmpty) {
         for (int i = 0; i < myMockData.docs.length; i++) {
+          // print(myMockData.docs[i].id);
           initMarker(myMockData.docs[i].data(), myMockData.docs[i].id);
         }
       }
@@ -106,7 +109,6 @@ class _ExploreState extends State<Explore> {
 
   @override
   void initState() {
-
     getMarkerData();
     if (doc != null) {
       _gotoLocation(doc["location"].latitude, doc["location"].longitude);
@@ -116,7 +118,7 @@ class _ExploreState extends State<Explore> {
 
   @override
   dispose() {
-    controller.dispose();
+    // controller.dispose();
     // _controller.dispose();
     // _initialCameraPosition.dispose();
     super.dispose();
@@ -165,6 +167,7 @@ class _ExploreState extends State<Explore> {
       body: Stack(
         children: [
           GoogleMap(
+            // markers: ,
             mapType: MapType.terrain,
             initialCameraPosition: _initialCameraPosition,
             myLocationEnabled: true,
@@ -172,7 +175,7 @@ class _ExploreState extends State<Explore> {
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
-            //   markers: Set<Marker>.of(markers.values),
+              markers: Set<Marker>.of(markers.values),
           ),
           showPlacessuggesstions
               ? Container(
@@ -191,8 +194,8 @@ class _ExploreState extends State<Explore> {
                     final res = await RequestHelper()
                         .getCoordinatesFromAddresss(
                         _list![index].mainText!);
-                    print(res.latitude);
-                    print(res.longitude);
+                    // print(res.latitude);
+                    // print(res.longitude);
                     _gotoLocation(res.latitude, res.longitude);
                     FocusScope.of(context).unfocus();
                     setState(() {
@@ -266,10 +269,12 @@ class _ExploreState extends State<Explore> {
                           (BuildContext context, int index) {
                         return const Divider();
                       },
-                    )
-                        : const Text(
+                    ) : Text(
                       "No results found",
-                      style: TextStyle(fontSize: 24),
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16
+                      ),
                     );
                   }),
             ),
@@ -288,7 +293,7 @@ class _ExploreState extends State<Explore> {
       ) {
     return GestureDetector(
       onTap: () {
-        // _gotoLocation(lat, long);
+        _gotoLocation(location.latitude, location.longitude);
       },
       child: FittedBox(
         child: Material(

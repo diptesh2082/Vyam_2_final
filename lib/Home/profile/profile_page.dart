@@ -63,8 +63,8 @@ class _ProfilePartState extends State<ProfilePart> {
       child: CircularProgressIndicator(),
     ) :Scaffold(
         appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.grey[100],
+          elevation: 1,
+          backgroundColor: Colors.white,
           centerTitle: true,
           title: const Text(
             "Profile",
@@ -93,9 +93,9 @@ class _ProfilePartState extends State<ProfilePart> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const SizedBox(
-                              height: 9,
-                            ),
+                            // const SizedBox(
+                            //   height: 9,
+                            // ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [

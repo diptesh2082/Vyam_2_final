@@ -68,10 +68,13 @@ class _SelectDateState extends State<SelectDate> {
   var end_mon;
   var getDays;
   var _focusedDay;
+  var _pressedDay;
   var _selectedDay;
+  bool swap=false;
   String year = DateTime.now().year.toString( );
   String day = DateTime.now().day.toString();
   String endday = DateTime.now().day.toString();
+  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
   final bookings= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
   addBookingData(){
 
@@ -159,6 +162,24 @@ class _SelectDateState extends State<SelectDate> {
                       selectedDayPredicate: (day) {
                         return isSameDay(_selectedDay, day);
                       },
+
+                      // onDayLongPressed: (selectedDay, pressedDay) => setState(() {
+                      //   _selectedDay = selectedDay;
+                      //   print(_selectedDay);
+                      //   _focusedDay = DateTime.now();
+                      //   print(_focusedDay);
+                      //   day = _selectedDay.day.toString();
+                      //   endday = _selectedDay
+                      //       .add(Duration(days: getDays))
+                      //       .day
+                      //       .toString();
+                      //   current_mon = _selectedDay.month;
+                      //   selected_week = _selectedDay.weekday;
+                      //
+                      //   end_mon = _selectedDay.add(Duration(days: getDays)).month;
+                      //   end_week =
+                      //       _selectedDay.add(Duration(days: getDays)).weekday;
+                      // }),
                       onDaySelected: (selectedDay, focusedDay) => setState(() {
                         _selectedDay = selectedDay;
                         _focusedDay = _selectedDay;

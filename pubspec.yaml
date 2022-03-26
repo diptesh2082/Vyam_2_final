@@ -68,6 +68,9 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   intl: ^0.17.0
   scroll_app_bar: ^2.0.0
+  full_screen_image_null_safe: ^2.0.0
+
+
  
 
 

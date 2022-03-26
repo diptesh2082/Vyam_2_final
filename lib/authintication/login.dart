@@ -202,6 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                             "Continue",
                             style: TextStyle(
                               fontSize: 17.5,
+                                  color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
