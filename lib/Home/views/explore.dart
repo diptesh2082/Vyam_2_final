@@ -345,11 +345,11 @@ splashLocation(latitude,longitude)async{
                     }),
               ),
             ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Positioned(
-                // top: 9,
-                // left: 1,
+            Positioned(
+              // top: 9,
+              // left: 1,
+              child: Align(
+                alignment: Alignment.topCenter,
                 child: Column(
                   children: [
                     const SizedBox(

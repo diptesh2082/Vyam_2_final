@@ -197,7 +197,7 @@ class _ProfileState extends State<Profile> {
                   },
                   controller: nameTextEditingController,
                   decoration: const InputDecoration(
-                    hintText: 'Jessica James',
+                    hintText: 'name',
                   ),
                 ),
                 const SizedBox(
@@ -220,7 +220,7 @@ class _ProfileState extends State<Profile> {
                   },
                   controller: emailTextEditingController,
                   decoration: const InputDecoration(
-                    hintText: 'alma.lawson@example.com',
+                    hintText: 'email@example.com',
                   ),
                 ),
                 const SizedBox(
@@ -234,13 +234,14 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 TextFormField(
-                  validator: (val) {
-                    if (val!.isEmpty || val.length < 10) {
-                      return "Please Provide valid Phone number";
-                    } else {
-                      return null;
-                    }
-                  },
+                  // validator: (val) {
+                  //   if (val!.isEmpty || val.length < 10) {
+                  //     return "Please Provide valid Phone number";
+                  //   } else {
+                  //     return null;
+                  //   }
+                  // },
+                  readOnly: true,
                   controller: phoneTextEditingController,
                   decoration: const InputDecoration(
                     hintText: '1200-112-304',
@@ -256,7 +257,7 @@ class _ProfileState extends State<Profile> {
                   },
                   child: const Text(
                     'Update',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.black87,
