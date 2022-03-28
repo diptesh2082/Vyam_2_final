@@ -141,11 +141,10 @@ class BannerApi {
 
 class UpcomingApi {
   Stream<QuerySnapshot> getUpcomingEvents = FirebaseFirestore.instance
-      .collection('user_details')
+      .collection('bookings')
       .doc(number)
-      .collection("bookings")
-      .doc("upcoming")
-      .collection("upcoming_booking")
+      .collection("user_booking")
+      .where("booking_status", isEqualTo: "upcoming")
       .snapshots();
 }
 

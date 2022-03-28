@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/profile/faq.dart';
 import 'package:vyam_2_final/Home/profile/profile.dart';
@@ -62,16 +63,17 @@ class _ProfilePartState extends State<ProfilePart> {
     return  Loading?const Center(
       child: CircularProgressIndicator(),
     ) :Scaffold(
+      backgroundColor: Colors.white,
         appBar: AppBar(
-          elevation: 1,
+          elevation: 0.3,
           backgroundColor: Colors.white,
           centerTitle: true,
-          title: const Text(
+          title:  Text(
             "Profile",
-            style: TextStyle(
-                fontFamily: "Poppins",
-                fontSize: 25,
-                fontWeight: FontWeight.w500,
+            style: GoogleFonts.poppins(
+                // fontFamily: "Poppins",
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
                 color: Colors.black),
           ),
         ),
@@ -86,7 +88,7 @@ class _ProfilePartState extends State<ProfilePart> {
                     child: Container(
                       // height: 151,
                       decoration: const BoxDecoration(
-                        color: Colors.white30,
+                        color: Colors.white,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0),

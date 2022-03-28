@@ -72,6 +72,7 @@ class _GymDetailsState extends State<GymDetails> {
   @override
   void initState() {
     // print(doc);
+
     super.initState();
   }
   @override
@@ -164,6 +165,7 @@ class _GymDetailsState extends State<GymDetails> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(6.0),
                                   child: IconButton(onPressed: (){
+                                    FocusScope.of(context).unfocus();
                                     Get.back();
                                   }, icon: const Icon(Icons.arrow_back,
                                     color: Colors.white,
@@ -1081,7 +1083,7 @@ class _GymDetailsState extends State<GymDetails> {
       floatingActionButton: Container(
         // width: MediaQuery.of(context).size.width,
         height: 66,
-        width: MediaQuery.of(context).size.width*.88,
+        width: MediaQuery.of(context).size.width*.95,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15)

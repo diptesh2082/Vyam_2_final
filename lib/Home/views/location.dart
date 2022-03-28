@@ -537,7 +537,7 @@ class _LocInfoState extends State<LocInfo> {
 
               ],
             ),
-            showPlacessuggesstions?
+            _list!=null && _list!.isNotEmpty ?
             Positioned(
               top: 60,
               child: Container(
@@ -549,7 +549,7 @@ class _LocInfoState extends State<LocInfo> {
                 child: _list==null?Container()
                     : ListView.builder(
                   shrinkWrap: true,
-                  itemCount: _list!.length,
+                  itemCount: _list?.length,
                   itemBuilder: ((context, index) {
                     return ListTile(
                       title: Text(_list![index].mainText!),
@@ -584,7 +584,8 @@ class _LocInfoState extends State<LocInfo> {
                   }),
                 ),
               ),
-            ):const SizedBox(),
+            )
+                :const SizedBox(),
 
           ],
         ),

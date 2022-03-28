@@ -54,9 +54,9 @@ class ActiveEvent extends StatelessWidget {
                                     index: index,
                                     orderList: data.docs,
                                   ),
-                          arguments: {
-
-                          }
+                              arguments: {
+                                "doc":data.docs[index]
+                              }
                           );
                         },
                         child: FittedBox(
@@ -84,7 +84,7 @@ class ActiveEvent extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Booking ID : ${data.docs[index]['booking_id']??""}",
+                                              "Booking ID : ${data.docs[index]['id']??""}",
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("3A3A3A"),
                                                   fontSize: 12,
@@ -111,7 +111,7 @@ class ActiveEvent extends StatelessWidget {
                                                   width: 4.5,
                                                 ),
                                                 Text(
-                                                  "",
+                                                    "${data.docs[index]["gym_details"]["branch"]??""}",
                                                   // data.docs[index]['gym_name'],
                                                   style: GoogleFonts.poppins(
                                                       color: HexColor("3A3A3A"),
@@ -158,24 +158,26 @@ class ActiveEvent extends StatelessWidget {
                                             //     .contains("Pay") ||
                                             //     data.docs[index]['workout']
                                             //         .contains("pay"))
-                                              Container(
 
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(6),
-                                                  color: Colors.black,
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(4.0),
-                                                  child: Text(
-                                                    "OTP:- ${data.docs[index]["otp_pass"]??""}",
-                                                    // "data.docs[index]['workout'].toUpperCase()",
-                                                    style: GoogleFonts.poppins(
-                                                        fontSize: 12,
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.w700),
-                                                  ),
-                                                ),
-                                              ),
+                                            /////////otp section
+                                            //   Container(
+                                            //
+                                            //     decoration: BoxDecoration(
+                                            //       borderRadius: BorderRadius.circular(6),
+                                            //       color: Colors.black,
+                                            //     ),
+                                            //     child: Padding(
+                                            //       padding: const EdgeInsets.all(4.0),
+                                            //       child: Text(
+                                            //         "OTP:- ${data.docs[index]["otp_pass"]??""}",
+                                            //         // "data.docs[index]['workout'].toUpperCase()",
+                                            //         style: GoogleFonts.poppins(
+                                            //             fontSize: 12,
+                                            //             color: Colors.white,
+                                            //             fontWeight: FontWeight.w700),
+                                            //       ),
+                                            //     ),
+                                            //   ),
                                             const SizedBox(
                                               height: 6,
                                             ),

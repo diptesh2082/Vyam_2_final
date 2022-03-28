@@ -46,7 +46,7 @@ class _FirstHomeState extends State<FirstHome> {
   ActiveBookingApi activeBookingApi = ActiveBookingApi();
 
   double finaldaysLeft = 0;
-  double progress=0;
+  double progress = 0;
   var getPercentage;
   var progressColor;
   var getdata;
@@ -54,9 +54,9 @@ class _FirstHomeState extends State<FirstHome> {
   var user_data;
   String getDays = '0';
   int totalDays = 0;
-  var myaddress ;
+  var myaddress;
   var address;
-  bool isLoading=true;
+  bool isLoading = true;
   var value2;
 
   var day_left;
@@ -84,9 +84,9 @@ class _FirstHomeState extends State<FirstHome> {
       if (documentSnapshot.exists) {
         // print('Document exists on the database');
         setState(() {
-          user_data= documentSnapshot.data();
-          GlobalUserData=documentSnapshot.data();
-          GlobalUserLocation=user_data["pincode"];
+          user_data = documentSnapshot.data();
+          GlobalUserData = documentSnapshot.data();
+          GlobalUserLocation = user_data["pincode"];
         });
         print(GlobalUserLocation);
         // user_data=documentSnapshot.data();
@@ -127,62 +127,61 @@ class _FirstHomeState extends State<FirstHome> {
       "address": address,
       "lat": position.latitude,
       "long": position.longitude,
-      "location":GeoPoint(position.latitude,position.latitude,),
+      "location": GeoPoint(
+        position.latitude,
+        position.latitude,
+      ),
       "pincode": pin,
       "locality": locality,
     });
     getAddressPin(pin);
     myLocation();
   }
-  getEverything()async {
+
+  getEverything() async {
     await getUserId();
     await myLocation();
     // await getUserDetails();
     await userDetails.getData();
     setState(() {
-      isLoading=false;
+      isLoading = false;
     });
-
-
   }
 
-
-bool showCard=false;
-  getProgressStatus()async {
+  bool showCard = false;
+  getProgressStatus() async {
     int finalDate = int.parse(getDays);
     // print(getDays);
     finalDate = totalDays - finalDate;
     finaldaysLeft = finalDate / totalDays;
-    day_left= totalDays-int.parse(getDays);
+    day_left = totalDays - int.parse(getDays);
     // progress=double.parse((100 * getDays/totalDays).toInt());
-    getPercentage = 100 * int.parse(getDays.toString())/totalDays;
-    progress=double.parse(getPercentage.toString())/100;
+    getPercentage = 100 * int.parse(getDays.toString()) / totalDays;
+    progress = double.parse(getPercentage.toString()) / 100;
     // locationController.YourLocation(location);
     print(getPercentage);
     if (getPercentage >= 90) {
       progressColor = Colors.red;
       textColor = Colors.red;
-      showCard=true;
+      showCard = true;
     }
     if (getPercentage <= 89 && getPercentage >= 75) {
-      showCard=true;
+      showCard = true;
 
       progressColor = const Color.fromARGB(255, 255, 89, 0);
       textColor = const Color.fromARGB(255, 255, 89, 0);
-
     }
     if (getPercentage <= 74 && getPercentage >= 50) {
       progressColor = Colors.orange;
       textColor = Colors.orange;
-      showCard=true;
+      showCard = true;
     }
     if (getPercentage <= 49 && getPercentage >= 0) {
       progressColor = Colors.yellow;
       textColor = Colors.amberAccent;
-      showCard=true;
-    }
-    else{
-      showCard=false;
+      showCard = true;
+    } else {
+      showCard = false;
     }
   }
 
@@ -233,7 +232,7 @@ bool showCard=false;
   //
   //  }
   // }
-TextEditingController searchController=TextEditingController();
+  TextEditingController searchController = TextEditingController();
   String pin = "";
   String locality = "";
   String subLocality = "";
@@ -276,7 +275,6 @@ TextEditingController searchController=TextEditingController();
       // myaddress = myaddress;
       address = address;
       pin = pin;
-
     });
     // userLocation();
     // ProgressCard(context);
@@ -302,6 +300,7 @@ TextEditingController searchController=TextEditingController();
 
     super.initState();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -317,551 +316,581 @@ TextEditingController searchController=TextEditingController();
     //   GlobalUserLocation= user_data["address"];
     // });
 
-    return isLoading?const Center(
-      child: CircularProgressIndicator(
-      ),
-    )
-      :Scaffold(
-      backgroundColor: const Color(0xffF4F4F4),
-      appBar: ScrollAppBar(
-        controller: app_bar_controller,
-        elevation: .0,
-        centerTitle: false,
-        backgroundColor: const Color(0xffF4F4F4),
-        leading:      IconButton(
-          iconSize: 24,
-          icon: const Icon(
-            CupertinoIcons.location,
-            color: Color(0xff3A3A3A),
-          ),
-          onPressed: () async {
-            FocusScope.of(context).unfocus();
-            // Get.back();
-            // print(_auth.currentUser?.uid);
-            // Position position = await _determinePosition();
-            // await GetAddressFromLatLong(position);
-            // await UserApi.updateUserAddress(
-            //     address, [position.latitude, position.longitude], pin
-            // );
-            await getAddressPin(pin);
-
-            setState((){
-              // myaddress = myaddress;
-              address = address;
-              pin = pin;
-              GlobalUserLocation=user_data["address"];
-            });
-            Get.to(()=>LocInfo());
-          },
-        ),
-        title: Transform(
-
-          transform:Matrix4.translationValues(-21, 0, 0),
-          child: SizedBox(
-            width: size.width * .606,
-            child: Text(
-              user_data["address"] ?? "your Location",
-              textAlign: TextAlign.left,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              style: GoogleFonts.poppins(
-                  color: const Color(0xff3A3A3A),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
-        ),
-        actions: [
-          Column(
-            children: [
-              const SizedBox(
-                height: 8,
-              ),
-              IconButton(
+    return isLoading
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : Scaffold(
+            backgroundColor: const Color(0xffF4F4F4),
+            appBar: ScrollAppBar(
+              controller: app_bar_controller,
+              elevation: .0,
+              centerTitle: false,
+              backgroundColor: const Color(0xffF4F4F4),
+              leading: IconButton(
+                iconSize: 24,
                 icon: const Icon(
-                  HomeIcon.notification,
-                  color: Colors.black,
+                  CupertinoIcons.location,
+                  color: Color(0xff3A3A3A),
                 ),
-                onPressed: () {
-                  // print(number);
+                onPressed: () async {
                   FocusScope.of(context).unfocus();
-                  Get.to(const NotificationDetails());
+                  // Get.back();
+                  // print(_auth.currentUser?.uid);
+                  // Position position = await _determinePosition();
+                  // await GetAddressFromLatLong(position);
+                  // await UserApi.updateUserAddress(
+                  //     address, [position.latitude, position.longitude], pin
+                  // );
+                  await getAddressPin(pin);
+
+                  setState(() {
+                    // myaddress = myaddress;
+                    address = address;
+                    pin = pin;
+                    GlobalUserLocation = user_data["address"];
+                  });
+                  Get.to(() => LocInfo());
                 },
               ),
-            ],
-          ),
-
-        ],
-      ),
-      body: Snap(
-        controller: app_bar_controller.appBar,
-        child: SingleChildScrollView(
-          controller: app_bar_controller,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10.0,right: 10),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: const Divider(
-                    height: .3,
-                    thickness: 1,
+              title: Transform(
+                transform: Matrix4.translationValues(-21, 0, 0),
+                child: SizedBox(
+                  width: size.width * .606,
+                  child: Text(
+                    user_data["address"] ?? "your Location",
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: GoogleFonts.poppins(
+                        color: const Color(0xff3A3A3A),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
-                const SizedBox(
-                  height: 12,
+              ),
+              actions: [
+                Column(
+                  children: [
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    IconButton(
+                      icon: const Icon(
+                        HomeIcon.notification,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        // print(number);
+                        FocusScope.of(context).unfocus();
+                        Get.to(const NotificationDetails());
+                      },
+                    ),
+                  ],
                 ),
-                Search(context),
+              ],
+            ),
+            body: Snap(
+              controller: app_bar_controller.appBar,
+              child: SingleChildScrollView(
+                controller: app_bar_controller,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0, right: 10),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: const Divider(
+                          height: .3,
+                          thickness: 1,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Search(context),
 
-                // CupertinoSearchTextField(
-                //   onChanged: (value) {
-                //     setState(() {
-                //       searchGymName = value.toString();
-                //     });
-                //
-                //     print(searchGymName);
-                //   },
-                //   decoration: BoxDecoration(
-                //       color: Colors.grey[300],
-                //       borderRadius: BorderRadius.circular(10)),
-                //   onSubmitted: (value) {
-                //     // ignore: avoid_print
-                //     print('Submitted text: $value');
-                //   },
-                // ),
-                // const SizedBox(
-                //   height: 4,
-                // ),
-                const SizedBox(
-                  height: 12,
-                ),
+                      // CupertinoSearchTextField(
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       searchGymName = value.toString();
+                      //     });
+                      //
+                      //     print(searchGymName);
+                      //   },
+                      //   decoration: BoxDecoration(
+                      //       color: Colors.grey[300],
+                      //       borderRadius: BorderRadius.circular(10)),
+                      //   onSubmitted: (value) {
+                      //     // ignore: avoid_print
+                      //     print('Submitted text: $value');
+                      //   },
+                      // ),
+                      // const SizedBox(
+                      //   height: 4,
+                      // ),
+                      const SizedBox(
+                        height: 12,
+                      ),
 
-                if (getPercentage != 100) ProgressCard(context),
-                const SizedBox(
-                  height: 15,
-                ),
-                InkWell(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                    Get.to(CouponDetails());
-                  },
-                  child: SizedBox(
-                    height: 135,
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: bannerApi.getBanner,
-                      builder: (context, AsyncSnapshot streamSnapshot) {
-                        if (streamSnapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        final data = streamSnapshot.requireData;
-                        return ListView.builder(
-                          // controller: _controller.,
+                      if (getPercentage != 100) ProgressCard(context),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                          Get.to(CouponDetails());
+                        },
+                        child: SizedBox(
+                          height: 135,
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: bannerApi.getBanner,
+                            builder: (context, AsyncSnapshot streamSnapshot) {
+                              if (streamSnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                              final data = streamSnapshot.requireData;
+                              return ListView.builder(
+                                // controller: _controller.,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: data.size,
+                                itemBuilder: (context, int index) {
+                                  return SizedBox(
+                                    height: 120,
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Material(
+                                            elevation: 0,
+                                            color: const Color(0xffF4F4F4),
+                                            child: CachedNetworkImage(
+                                              imageUrl: data.docs[index]
+                                                  ["image"],
+                                              // progressIndicatorBuilder: (context,
+                                                      // url, downloadProgress) =>
+                                                  // Center(
+                                                  //     child: CircularProgressIndicator(
+                                                  //         value:
+                                                  //             downloadProgress
+                                                  //                 .progress)),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
+                                            )),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      SizedBox(
+                        height: 150,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: controller.OptionsList.length,
                           scrollDirection: Axis.horizontal,
-                          itemCount: data.size,
                           itemBuilder: (context, int index) {
                             return SizedBox(
-                              height: 120,
+                              height: 150,
                               child: Row(
                                 children: [
                                   const SizedBox(
                                     width: 5,
                                   ),
-                                  Material(
-                                      elevation: 0,
-                                      color: const Color(0xffF4F4F4),
-                                      child: CachedNetworkImage(  imageUrl: data.docs[index]["image"],
-                                        progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                            Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
-                                        errorWidget: (context, url, error) => Icon(Icons.error),
-                                      )),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Get.to(() => GymOption(), arguments: {
+                                          "type": controller
+                                              .OptionsList[index].type,
+                                        });
+                                        FocusScope.of(context).unfocus();
+                                      },
+                                      child: Image.asset(controller
+                                          .OptionsList[index].imageAssets)),
                                   const SizedBox(
                                     width: 5,
-                                  ),
+                                  )
                                 ],
                               ),
                             );
                           },
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                SizedBox(
-                  height: 150,
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: controller.OptionsList.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, int index) {
-                      return SizedBox(
-                        height: 150,
-                        child: Row(
-                          children: [
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            GestureDetector(
-                                onTap: () {
-                                  Get.to(()=>GymOption(),arguments: {
-                                    "type":controller.OptionsList[index].type,
-                                  });
-                                  FocusScope.of(context).unfocus();
-                                },
-                                child: Image.asset(
-                                    controller.OptionsList[index].imageAssets)),
-                            const SizedBox(
-                              width: 5,
-                            )
-
-                          ],
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Divider();
+                          },
                         ),
-                      );
-                    }, separatorBuilder: (BuildContext context, int index) {  return const Divider(); },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const SizedBox(
+                        height: 30,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Nearby Gyms",
+                            style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(child: buildGymBox())
+                    ],
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const SizedBox(
-                  height: 30,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Nearby Gyms",
-                      style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(child: buildGymBox())
-              ],
+              ),
             ),
+          );
+  }
+
+  Container Search(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width * .92,
+      height: 51,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+        color: Colors.white,
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: TextField(
+          textAlignVertical: TextAlignVertical.bottom,
+          onSubmitted: (value) async {
+            FocusScope.of(context).unfocus();
+// showCard=true;
+          },
+          controller: searchController,
+          onTap: () {
+            FocusScope.of(context).unfocus();
+// showCard=false;
+// print(showCard);
+          },
+
+          onChanged: (value) {
+// print(value.toString());
+            setState(() {
+              searchGymName = value.toString();
+// value2=value.toString();
+            });
+//
+// print(searchGymName);
+          },
+// onEditingComplete: (){
+//   setState(() {
+//     // var value;
+//     searchGymName=value2.toString();
+//   });
+// },
+// onSubmitted: (value) {
+//   // ignore: avoid_print
+//   print('Submitted text: $value');
+// },
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.search),
+            hintText: 'Search',
+            border: InputBorder.none,
+            filled: true,
+            fillColor: Colors.white,
           ),
         ),
       ),
     );
   }
 
-  Padding Search(BuildContext context) {
-
-    return Padding(
-              padding: const EdgeInsets.only(left: 5.0,right: 5,bottom: 3),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(14),
-                child: SizedBox(
-                  height: 51,
-                  child: TextFormField(
-                    onFieldSubmitted: (value)async{
-                      FocusScope.of(context).unfocus();
-                      // showCard=true;
-                    },
-                    controller:searchController,
-                    onTap: (){
-                      // showCard=false;
-                      // print(showCard);
-                    },
-
-                      onChanged: (value) {
-                      // print(value.toString());
-                      setState(() {
-
-                        searchGymName = value.toString();
-                        // value2=value.toString();
-                      });
-                      //
-                      // print(searchGymName);
-                    },
-                    // onEditingComplete: (){
-                    //   setState(() {
-                    //     // var value;
-                    //     searchGymName=value2.toString();
-                    //   });
-                    // },
-                    // onSubmitted: (value) {
-                    //   // ignore: avoid_print
-                    //   print('Submitted text: $value');
-                    // },
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.search),
-                      hintText: 'Search',
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            );
-  }
-
   SizedBox buildGymBox() {
-    Size size=MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return SizedBox(
-              width: size.width * .94,
-              // height: 195,
-              child: SingleChildScrollView(
-                child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection("product_details")
-                  .where("pincode",isEqualTo: user_data["pincode"])
-                  // .where("name",isGreaterThanOrEqualTo: searchGymName.toString())
-                      .snapshots(),
-                  builder: (context, AsyncSnapshot streamSnapshot) {
-                    if (streamSnapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if(streamSnapshot.hasError){
-                      return const Center(child: Text("check your internet connection"));
-                    }
+      width: size.width * .94,
+      // height: 195,
+      child: SingleChildScrollView(
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection("product_details")
+              .where("pincode", isEqualTo: user_data["pincode"])
+              // .where("name",isGreaterThanOrEqualTo: searchGymName.toString())
+              .snapshots(),
+          builder: (context, AsyncSnapshot streamSnapshot) {
+            if (streamSnapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (streamSnapshot.hasError) {
+              return const Center(
+                  child: Text("check your internet connection"));
+            }
 
-                    var document = streamSnapshot.data.docs;
+            var document = streamSnapshot.data.docs;
 
-                    if (searchGymName.length > 0){
-                      document = document.where((element) {
-                        return element
-                            .get('name')
-                            .toString()
-                            .toLowerCase()
-                            .contains(searchGymName.toString());
-                      }).toList();
-                    }
-                    // else {
-                    //   document = document.where((element) {
-                    //     return element
-                    //         .get('pincode')
-                    //         .toString()
-                    //         // .toLowerCase()
-                    //         .contains(address2.toString());
-                    //   }).toList();
-                    // }
-                    return document.isNotEmpty
-                        ? ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: document.length,
-                            itemBuilder: (context, int index) {
-                              return FittedBox(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Container(
-                                    // height: 195,
-                                    color: Colors.black,
-                                    child: Stack(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () async {
-                                            FocusScope.of(context).unfocus();
-                                            // print("${document[index]["name"]} ${document[index].id}");
-                                            Get.to(
-                                                () => GymDetails(
-                                                    // getID: document[index].id,
-                                                    // gymLocation:
-                                                    // document[index]
-                                                    // ["location"],
-                                                    // gymName: document[index]
-                                                    // ["name"],
-                                                    ),
-                                                arguments: {
-                                                  "id": document[index].id,
-                                                  "location": document[index]
-                                                      ["location"],
-                                                  "name": document[index]
-                                                      ["name"],
-                                                  "docs": document[index],
-                                                });
-                                          },
-                                          child: FittedBox(
-                                            child: CachedNetworkImage(
-                                              height: 210,
-                                              fit: BoxFit.cover,
-                                              width: MediaQuery.of(context).size.width,
-                                              imageUrl: document[index]["display_picture"],
-                                              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                  Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
-                                              errorWidget: (context, url, error) => const Icon(Icons.error),
-                                              // height: 195,
-                                              // width: double.infinity,
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          bottom: size.height * .009,
-                                          left: 5,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(6),
-                                              color: Colors.white10,
-                                            ),
-                                            height: size.height * .078,
-                                            width: size.width * .45,
-
-                                            padding: const EdgeInsets.only(
-                                                left: 8, bottom: 10),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  document[index]["name"],
-                                                  textAlign: TextAlign.center,
-                                                  maxLines: 1,
-                                                  // overflow:
-                                                  // TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontFamily: "Poppins",
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                                const SizedBox(
-                                                  height: 2,
-                                                ),
-                                                Text(
-                                                  // "",
-                                                  document[index]["address"]??"",
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      color: Colors.white,
-                                                      fontFamily: "Poppins",
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          right: 5,
-                                          bottom: size.height * .008,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(6),
-                                              color: Colors.black26,
-                                            ),
-
-                                            alignment: Alignment.bottomRight,
-                                            height: size.height * .09,
-                                            width: size.width * .22,
-                                            padding: const EdgeInsets.only(
-                                                right: 8, bottom: 10),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: const [
-                                                    // SvgPicture.asset(
-                                                    //     'assets/Icons/rating star small.svg'),
-                                                    Icon(
-                                                      CupertinoIcons.star_fill,
-                                                      color: Colors.yellow,
-                                                      size: 18,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "4.7",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 15,
-                                                          fontFamily: "Poppins",
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 3,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: const [
-                                                    // SvgPicture.asset(
-                                                    //   'assets/Icons/Location.svg',
-                                                    //   color: Colors.white,
-                                                    // ),
-                                                    Icon(
-                                                      CupertinoIcons
-                                                          .location_solid,
-                                                      size: 20,
-                                                      color: Colors.white,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "1 KM",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontFamily: "Poppins",
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w600),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+            if (searchGymName.length > 0) {
+              document = document.where((element) {
+                return element
+                    .get('name')
+                    .toString()
+                    .toLowerCase()
+                    .contains(searchGymName.toString());
+              }).toList();
+            }
+            // else {
+            //   document = document.where((element) {
+            //     return element
+            //         .get('pincode')
+            //         .toString()
+            //         // .toLowerCase()
+            //         .contains(address2.toString());
+            //   }).toList();
+            // }
+            return document.isNotEmpty
+                ? ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: document.length,
+                    itemBuilder: (context, int index) {
+                      return FittedBox(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            // height: 195,
+                            color: Colors.black,
+                            child: GestureDetector(
+                              onTap: () async {
+                                FocusScope.of(context).unfocus();
+                                // print("${document[index]["name"]} ${document[index].id}");
+                                Get.to(
+                                        () => GymDetails(
+                                      // getID: document[index].id,
+                                      // gymLocation:
+                                      // document[index]
+                                      // ["location"],
+                                      // gymName: document[index]
+                                      // ["name"],
+                                    ),
+                                    arguments: {
+                                      "id": document[index].id,
+                                      "location": document[index]
+                                      ["location"],
+                                      "name": document[index]["name"],
+                                      "docs": document[index],
+                                    });
+                              },
+                              child: Stack(
+                                children: [
+                                  FittedBox(
+                                    child: CachedNetworkImage(
+                                      height: 210,
+                                      fit: BoxFit.cover,
+                                      width: MediaQuery.of(context).size.width,
+                                      imageUrl: document[index]
+                                              ["display_picture"] ??
+                                          "",
+                                      progressIndicatorBuilder: (context, url,
+                                              downloadProgress) =>
+                                          Center(
+                                              child: CircularProgressIndicator(
+                                                  value: downloadProgress
+                                                      .progress)),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                      // height: 195,
+                                      // width: double.infinity,
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return const Divider(
-                                height: 24,
-                                thickness: 0,
-                              );
-                            },
-                          )
-                        : const Center(
-                            child: Text(
-                              "No nearby gyms in your area",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w100,
-                                fontFamily: "Poppins",
-                                fontSize: 20,
+                                  Positioned(
+                                    top: 0,
+                                    // bottom: size.height * .008,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        gradient: const LinearGradient(colors: [
+                                          Color(0xaf000000),
+                                          Colors.transparent
+                                        ],
+                                          begin: Alignment(0.0,1),
+                                          end: Alignment(0.0,-1)
+                                        )
+                                      ),
+                                      alignment: Alignment.bottomRight,
+                                      height: 210,
+                                      width: 500,
+                                      padding: const EdgeInsets.only(
+                                          right: 8, bottom: 10),
+
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: size.height * .009,
+                                    left: 5,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        // color: Colors.white10,
+                                      ),
+                                      height: size.height * .078,
+                                      width: size.width * .45,
+                                      padding: const EdgeInsets.only(
+                                          left: 8, bottom: 10),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            document[index]["name"] ?? "",
+                                            textAlign: TextAlign.center,
+                                            maxLines: 1,
+                                            // overflow:
+                                            // TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontFamily: "Poppins",
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          const SizedBox(
+                                            height: 2,
+                                          ),
+                                          Text(
+                                            // "",
+                                            document[index]["address"] ?? "",
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                                overflow: TextOverflow.ellipsis,
+                                                color: Colors.white,
+                                                fontFamily: "Poppins",
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 5,
+                                    bottom: size.height * .008,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        // color: Colors.black26,
+                                      ),
+                                      alignment: Alignment.bottomRight,
+                                      height: size.height * .09,
+                                      width: size.width * .22,
+                                      padding: const EdgeInsets.only(
+                                          right: 8, bottom: 10),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              // SvgPicture.asset(
+                                              //     'assets/Icons/rating star small.svg'),
+                                              const Icon(
+                                                CupertinoIcons.star_fill,
+                                                color: Colors.yellow,
+                                                size: 18,
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                "${document[index]["rating"] ?? ""}",
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15,
+                                                    fontFamily: "Poppins",
+                                                    fontWeight: FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 3,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: const [
+                                              // SvgPicture.asset(
+                                              //   'assets/Icons/Location.svg',
+                                              //   color: Colors.white,
+                                              // ),
+                                              Icon(
+                                                CupertinoIcons.location_solid,
+                                                size: 20,
+                                                color: Colors.white,
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                "1 KM",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: "Poppins",
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+
+                                ],
                               ),
                             ),
-                          );
-                  },
-                ),
-              ),
-            );
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return  Container(
+                        height: 15,
+                      );
+                    },
+                  )
+                : SingleChildScrollView(
+                    controller: app_bar_controller,
+                    child: const Center(
+                      child: Text(
+                        "No nearby gyms in your area",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w100,
+                          fontFamily: "Poppins",
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  );
+          },
+        ),
+      ),
+    );
   }
 
   // ignore: non_constant_identifier_names
@@ -891,117 +920,128 @@ TextEditingController searchController=TextEditingController();
               if (data.size == 0) {
                 return const SizedBox();
               }
-              var document=snapshot.data.docs;
-              return document.isNotEmpty ?
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  getDays = data.docs[index]["daysLeft"]??0;
-                  totalDays = data.docs[index]["totalDays"] ?? 0 ;
-                  print(totalDays);
-                  print(getDays);
-                 final percent= 100 * int.parse(getDays.toString())~/totalDays;
-                  // print(snapshot.data.length,);
-                  getProgressStatus();
-                  return Stack(
-                    children: [
-                      Container(
-                        height: 130,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Row(children: [
-                              if (finaldaysLeft != 1)
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(day_left != null ?day_left.toString():"",
-                                            style: GoogleFonts.poppins(
-                                                color: textColor,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold)),
-                                        const SizedBox(
-                                          width: 2,
-                                        ),
-                                        Text("days to go",
-                                            style: GoogleFonts.poppins(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold)),
-                                      ],
+              var document = snapshot.data.docs;
+              return document.isNotEmpty
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: 1,
+                      itemBuilder: (context, index) {
+                        getDays = data.docs[index]["daysLeft"] ?? 0;
+                        totalDays = data.docs[index]["totalDays"] ?? 0;
+                        print(totalDays);
+                        print(getDays);
+                        final percent =
+                            100 * int.parse(getDays.toString()) ~/ totalDays;
+                        // print(snapshot.data.length,);
+                        getProgressStatus();
+                        return Stack(
+                          children: [
+                            Container(
+                                height: 130,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Row(children: [
+                                    if (finaldaysLeft != 1)
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                  day_left != null
+                                                      ? day_left.toString()
+                                                      : "",
+                                                  style: GoogleFonts.poppins(
+                                                      color: textColor,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                              const SizedBox(
+                                                width: 2,
+                                              ),
+                                              Text("days to go",
+                                                  style: GoogleFonts.poppins(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                            ],
+                                          ),
+                                          // const SizedBox(
+                                          //   height: 5,
+                                          // ),
+                                          Text(
+                                              data.docs[index]['gym_name'] ??
+                                                  "",
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 13,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w400)),
+                                          // const SizedBox(
+                                          //   height: 5,
+                                          // ),
+                                          Text("Stay Strong !",
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 13,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold)),
+                                        ],
+                                      ),
+                                    if (finaldaysLeft == 1)
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                              "Your Subscription has been expired",
+                                              style: GoogleFonts.poppins(
+                                                  color: Colors.red,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold)),
+                                          InkWell(
+                                            onTap: () {
+                                              print("buy");
+                                            },
+                                            child: Text("Buy new packages",
+                                                style: GoogleFonts.poppins(
+                                                    color: Colors.red,
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                          ),
+                                        ],
+                                      ),
+                                    const Spacer(),
+                                    CircularPercentIndicator(
+                                      animation: true,
+                                      radius: 42.67,
+                                      lineWidth: 12.0,
+                                      percent: progress,
+                                      progressColor: progressColor,
                                     ),
-                                    // const SizedBox(
-                                    //   height: 5,
-                                    // ),
-                                    Text(data.docs[index]['gym_name']??"",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w400)),
-                                    // const SizedBox(
-                                    //   height: 5,
-                                    // ),
-                                    Text("Stay Strong !",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 13,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                ),
-                              if (finaldaysLeft == 1)
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Your Subscription has been expired",
-                                        style: GoogleFonts.poppins(
-                                            color: Colors.red,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold)),
-                                    InkWell(
-                                      onTap: () {
-                                        print("buy");
-                                      },
-                                      child: Text("Buy new packages",
-                                          style: GoogleFonts.poppins(
-                                              color: Colors.red,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.bold)),
-                                    ),
-                                  ],
-                                ),
-                              const Spacer(),
-                              CircularPercentIndicator(
-                                animation: true,
-                                radius: 42.67,
-                                lineWidth: 12.0,
-                                percent: progress,
-                                progressColor: progressColor,
+                                  ]),
+                                )),
+                            Positioned(
+                              right: MediaQuery.of(context).size.width * .109,
+                              bottom: 53,
+                              child: Text(
+                                "${percent}%",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
                               ),
-
-                            ]),
-                          )),
-                      Positioned(
-                        right: MediaQuery.of(context).size.width*.109,
-                        bottom: 53,
-
-                        child: Text(
-                      "${percent}%",
-                      style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold
-                      ),
-                        ),)
-                    ],
-                  );
-                },
-              ):Container();
+                            )
+                          ],
+                        );
+                      },
+                    )
+                  : Container();
             }
             return const CircularProgressIndicator();
           }),

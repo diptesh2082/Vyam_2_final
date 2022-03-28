@@ -109,7 +109,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    var x = await Random().nextInt(999999);
+    var x = await Random().nextInt(9999);
     FocusScope.of(context).unfocus();
       Get.offAll(()=>SuccessBook(),
         arguments: {

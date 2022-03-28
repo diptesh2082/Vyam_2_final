@@ -78,9 +78,9 @@ class _PackegesState extends State<Packeges> {
       "plan_end_duration":DateTime.now(),
       "otp_pass":"",
       "gym_details": {
-        "image":Get.arguments["doc"]["images"][0],
+        "image":Get.arguments["doc"]["display_picture"],
         "name": widget.gymName,
-
+        "branch":Get.arguments["doc"]["branch"]
       },
       "daysLeft":"",
       "discount":"0",
@@ -393,7 +393,7 @@ class _PackegesState extends State<Packeges> {
                                                   // "gym_details":{
                                                   //   "name":widget.gymName
                                                   // },
-                                                  "totalDays":"65"
+                                                  "totalDays":"65",
 
 
                                                 }
