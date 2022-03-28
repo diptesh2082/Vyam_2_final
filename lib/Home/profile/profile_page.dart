@@ -35,14 +35,34 @@ class _ProfilePartState extends State<ProfilePart> {
     DocumentReference userName =
     FirebaseFirestore.instance.collection('user_details').doc(id);
     userName.snapshots().listen((snapshot) {
-      setState(()  {
-        name =  snapshot.get('name');
+      try{
+        if (snapshot.exists)  {
+          setState(()  {
+            name =  snapshot.get('name');
+            // print(number);
+            email = snapshot.get('email');
+            phone =  snapshot.get('number');
+            imageUrl =  snapshot.get("image");
+            Loading=false;
+          });
+        }else{
+          name =  "";
+          // print(number);
+          email = "";
+          phone =  "";
+          imageUrl =  "";
+          Loading=false;
+        }
+      }catch(e){
+        name =  "";
         // print(number);
-        email = snapshot.get('email');
-        phone =  snapshot.get('number');
-        imageUrl =  snapshot.get("image");
+        email = "";
+        phone =  "";
+        imageUrl =  "";
         Loading=false;
-      });
+      }
+
+
     });
   }
   // final FirebaseAuth _auth =FirebaseAuth.instance;

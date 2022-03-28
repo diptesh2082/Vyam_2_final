@@ -89,7 +89,7 @@ class Onboarding1 extends StatelessWidget {
                                   width: size.width/3,
                                   child: ElevatedButton(
                                       onPressed: _controller.forwardAction,
-                                      child: const Text("Next",
+                                      child: const Text("Get Started",
                                       style: TextStyle(
                                           color: Colors.white
                                       ),
@@ -140,9 +140,11 @@ class Onboarding1 extends StatelessWidget {
                 ),
               ),
               Positioned(
+                top: 5,
+                right: 5,
                 child: SizedBox(
-                  height: 30,
-                  width: 60,
+                  // height: 30,
+                  // width: 60,
                   child: TextButton(
                       style: TextButton.styleFrom(
                           primary: Colors.black,
@@ -153,16 +155,18 @@ class Onboarding1 extends StatelessWidget {
                       onPressed: (){
                         Get.offAllNamed("/login");
                       },
-                      child: const Text(
-                        "SKIP",
-                        style: TextStyle(
-                            fontSize: 15
+                      child: const Padding(
+                        padding: EdgeInsets.only(bottom: 1.0),
+                        child: Text(
+                          "Skip",
+                          style: TextStyle(
+                              fontSize: 15
+                          ),
                         ),
                       )
                   ),
                 ),
-                top: 7,
-                right: 5,
+
               ),
             ],
           )

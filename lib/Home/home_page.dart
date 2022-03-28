@@ -6,9 +6,11 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:vyam_2_final/Home/profile/profile_page.dart';
 import 'package:vyam_2_final/Home/views/explore.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
+import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/booking/bookings.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 
+import '../api/api.dart';
 import 'icons/home_icon_icons.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,6 +22,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  getInfo()async{
+    await checkExist(number);
+    exist== false?Get.off(Register1()):Get.to(()=>HomePage());
+    super.initState();
+  }
+  void initState() {
+    // TODO: implement initState
+   getInfo();
+  }
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
   List<PersistentBottomNavBarItem> _navBarsItems() {

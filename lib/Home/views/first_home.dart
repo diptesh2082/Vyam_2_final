@@ -19,12 +19,15 @@ import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
 import 'package:vyam_2_final/Home/views/location.dart';
+import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
 
 import 'package:vyam_2_final/api/api.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
+import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'package:vyam_2_final/controllers/location_controller.dart';
 import '../../Notifications/notification.dart';
+import '../home_page.dart';
 import 'gyms.dart';
 
 var GlobalUserData;
@@ -76,22 +79,31 @@ class _FirstHomeState extends State<FirstHome> {
   myLocation() async {
     // number=getUserId();
     // print(number);
-    await FirebaseFirestore.instance
-        .collection('user_details')
-        .doc(number)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        // print('Document exists on the database');
-        setState(() {
-          user_data = documentSnapshot.data();
-          GlobalUserData = documentSnapshot.data();
-          GlobalUserLocation = user_data["pincode"];
-        });
-        print(GlobalUserLocation);
-        // user_data=documentSnapshot.data();
-      }
-    });
+    try{
+      await FirebaseFirestore.instance
+          .collection('user_details')
+          .doc(number)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          // print('Document exists on the database');
+          setState(() {
+            user_data = documentSnapshot.data();
+            GlobalUserData = documentSnapshot.data();
+            GlobalUserLocation = user_data["pincode"];
+          });
+          print(GlobalUserLocation);
+          // user_data=documentSnapshot.data();
+        }
+      });
+    }catch(e){
+      setState(() {
+        user_data = {};
+        GlobalUserData = {};
+        GlobalUserLocation = user_data["pincode"];
+      });
+    }
+
   }
 
   UserDetails userDetails = UserDetails();
@@ -120,29 +132,51 @@ class _FirstHomeState extends State<FirstHome> {
     //     address, [position.latitude, position.longitude], pin
     // );
     await getAddressPin(pin);
-    await FirebaseFirestore.instance
-        .collection("user_details")
-        .doc(number)
-        .update({
-      "address": address,
-      "lat": position.latitude,
-      "long": position.longitude,
-      "location": GeoPoint(
-        position.latitude,
-        position.latitude,
-      ),
-      "pincode": pin,
-      "locality": locality,
-    });
+    try{
+      await FirebaseFirestore.instance
+          .collection("user_details")
+          .doc(number)
+          .update({
+        "address": address,
+        "lat": position.latitude,
+        "long": position.longitude,
+        "location": GeoPoint(
+          position.latitude,
+          position.latitude,
+        ),
+        "pincode": pin,
+        "locality": locality,
+      });
+    }catch(e){
+      FirebaseFirestore.instance
+          .collection("user_details")
+          .doc()
+          .set({
+        "address": address,
+        "lat": position.latitude,
+        "long": position.longitude,
+        "location": GeoPoint(
+          position.latitude,
+          position.latitude,
+        ),
+        "pincode": pin,
+        "locality": locality,
+        "from":"notfull"
+      });
+    }
+
     getAddressPin(pin);
     myLocation();
   }
+
 
   getEverything() async {
     await getUserId();
     await myLocation();
     // await getUserDetails();
     await userDetails.getData();
+
+
     setState(() {
       isLoading = false;
     });

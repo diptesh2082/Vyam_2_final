@@ -284,6 +284,36 @@ class GymReviews{
 
 
 }
+var exist;
+Future<void> checkExist(String docID) async {
+  try {
+    await FirebaseFirestore.instance
+        .collection('user_details')
+        .doc(docID)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists)  {
+        // print('Document exists on the database');
+        // setState(() {
+        exist= true;
+        setVisitingFlag();
+        print(getVisitingFlag());
+        // });
+        // user_data=documentSnapshot.data();
+      }else{
+        exist=false;
+        setVisitingFlagFalse();
+        print(getVisitingFlag());
+      }
+    });
+  } catch (e) {
+    // If any error
+    setVisitingFlagFalse();
+    print(getVisitingFlag());
+    exist=false;
+  }
+}
+
 
 class GymAllApi {
   getuserAddress() {
