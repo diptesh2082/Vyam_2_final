@@ -26,7 +26,6 @@ class _HomePageState extends State<HomePage> {
   getInfo()async{
     await checkExist(number);
     exist== false?Get.off(Register1()):Get.off(()=>HomePage());
-    super.initState();
   }
   void initState() {
     // TODO: implement initState
@@ -149,7 +148,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     // TODO: implement dispose
-    controller.dispose();
+    // controller.dispose();
     _controller.dispose();
     super.dispose();
   }

@@ -353,10 +353,10 @@ class _ProfilePartState extends State<ProfilePart> {
                           SharedPreferences sharedPreferences =
                           await SharedPreferences.getInstance();
                           sharedPreferences.remove('number');
-                          getNumber();
-                          print(number);
+                          // getNumber();
+                          // print(number);
                           _auth.signOut();
-                          Get.to(() => const LoginPage());
+                          Get.offAll(() => const LoginPage());
                           // setVisitingFlagFalse();
 
                         },
