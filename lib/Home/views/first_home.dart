@@ -381,17 +381,38 @@ class _FirstHomeState extends State<FirstHome> {
               ),
               title: Transform(
                 transform: Matrix4.translationValues(-21, 0, 0),
-                child: SizedBox(
-                  width: size.width * .606,
-                  child: Text(
-                    user_data["address"] ?? "your Location",
-                    textAlign: TextAlign.left,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: GoogleFonts.poppins(
-                        color: const Color(0xff3A3A3A),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500),
+                child: GestureDetector(
+                  onTap: () async {
+                    FocusScope.of(context).unfocus();
+                    // Get.back();
+                    // print(_auth.currentUser?.uid);
+                    // Position position = await _determinePosition();
+                    // await GetAddressFromLatLong(position);
+                    // await UserApi.updateUserAddress(
+                    //     address, [position.latitude, position.longitude], pin
+                    // );
+                    await getAddressPin(pin);
+
+                    setState(() {
+                      // myaddress = myaddress;
+                      address = address;
+                      pin = pin;
+                      GlobalUserLocation = user_data["address"];
+                    });
+                    Get.to(() => LocInfo());
+                  },
+                  child: SizedBox(
+                    width: size.width * .606,
+                    child: Text(
+                      user_data["address"] ?? "your Location",
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: GoogleFonts.poppins(
+                          color: const Color(0xff3A3A3A),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ),
               ),

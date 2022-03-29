@@ -34,28 +34,30 @@ class _Register1State extends State<Register1> {
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Container(
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-            Text('1', //_current1.toString(),
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400)),
-            Text("/",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400)),
-            Text('4', //rimages.length.toString(),
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400))
-          ])),
+          title: Transform(
+
+            transform: Matrix4.translationValues(-20,  0, 0),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+              Text('1', //_current1.toString(),
+                  style: TextStyle(
+              color: Colors.black,
+              fontFamily: "Poppins",
+              fontSize: 14,
+              fontWeight: FontWeight.w400)),
+              Text("/",
+                  style: TextStyle(
+              color: Colors.black,
+              fontFamily: "Poppins",
+              fontSize: 14,
+              fontWeight: FontWeight.w400)),
+              Text('4', //rimages.length.toString(),
+                  style: TextStyle(
+              color: Colors.black,
+              fontFamily: "Poppins",
+              fontSize: 14,
+              fontWeight: FontWeight.w400))
+            ]),
+          ),
           leading: GestureDetector(
             onTap: null,
             child: const Icon(
@@ -76,7 +78,7 @@ class _Register1State extends State<Register1> {
                     CustomPageRoute(
                       child: Register2(),
                     ));
-                await UserApi.createUserName(nameController.text);
+                await UserApi.createUserName(nameController.text.trim());
 
               }
               // ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -93,12 +95,11 @@ class _Register1State extends State<Register1> {
       ),
       body: Stack(
         children: [
-          Hero(
-              tag: "register",
-              child: 
-              Padding(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/8.5),
-                  child: Image.asset('assets/Illustrations/gym_pana_1.png'))),
+          Center(
+            child: Padding(
+              padding: EdgeInsets.all(21),
+                child: Image.asset('assets/Illustrations/Fitness stats-pana_1.png')),
+          ),
           Form(
               key: _formKey,
               child: Rname(context)),
@@ -152,41 +153,49 @@ class _Register1State extends State<Register1> {
                         // MediaQuery.of(context).size.height * 0.02,
                       ),
                       Container(
+                        width: MediaQuery.of(context).size.width * .92,
+                        height: 51,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(14),
                           color: Colors.white,
-                          height: 50,
-                          width: MediaQuery.of(context).size.width*.9,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                            child: SizedBox(
-                            // height: 50,
-                            child: TextFormField(
-                            // textInputAction: TextInputAction.done,
+                        ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Material(
+                                color: Colors.white,
+                                elevation: 15,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 12.0),
+                                  child: TextFormField(
+                                  // textInputAction: TextInputAction.done,
 
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                            ),
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w400,
+                                  ),
 
-                            controller: nameController,
-                            decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                  fontSize: 12,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w600,
+                                  controller: nameController,
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      hintText: "Full Name"),
+                                  validator: (value){
+                                    if(value!.isEmpty || value.length < 4){
+                                      return "Enter your full name";
+                                    }else{
+                                      return null;
+                                    }
+                                  },
+                                  ),
                                 ),
-                                hintText: "Full Name"),
-                            validator: (value){
-                              if(value!.isEmpty || value.length < 4){
-                                return "Enter your full name";
-                              }else{
-                                return null;
-                              }
-                            },
+                              ),
                             ),
-                            ),
-                          )),
+                          ),
                       // SizedBox(
                       //   width: MediaQuery.of(context).size.width,
                       //   child: Container(

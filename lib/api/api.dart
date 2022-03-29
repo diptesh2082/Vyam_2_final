@@ -145,6 +145,7 @@ class UpcomingApi {
       .doc(number)
       .collection("user_booking")
       .where("booking_status", isEqualTo: "upcoming")
+  .orderBy("order_date",descending: true)
       .snapshots();
 }
 

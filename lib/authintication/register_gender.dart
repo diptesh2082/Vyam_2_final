@@ -88,11 +88,11 @@ class _Register3State extends State<Register3> {
       ),
       body: Stack(
         children: [
-          Hero(
-              tag: "register",
-              child: Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/8.5),
-                  child: Image.asset('assets/Illustrations/gym_pana_3.png'))),
+          Center(
+            child: Padding(
+                padding: EdgeInsets.all(30),
+                child: Image.asset('assets/Illustrations/undraw_energizer_re.png')),
+          ),
           rgender(context),
         ],
       ),

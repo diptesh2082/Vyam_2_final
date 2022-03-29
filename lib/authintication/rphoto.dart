@@ -107,12 +107,12 @@ class _Register4State extends State<Register4> {
       ),
       body: Stack(
         children: [
-          Hero(
-              tag: "register",
-              child: Padding(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/8.5),
-                child: Image.asset('assets/Illustrations/gym_pana_4.png'),
-              )),
+          Center(
+            child: Padding(
+              padding: EdgeInsets.all(30),
+              child: Image.asset('assets/Illustrations/undraw_meditation_re_0.png'),
+            ),
+          ),
           rphoto(context),
         ],
       ),

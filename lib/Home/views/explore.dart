@@ -230,10 +230,11 @@ splashLocation(latitude,longitude)async{
             Align(
               alignment: Alignment.bottomLeft,
               child: Container(
+                padding: const EdgeInsets.only(left: 6),
                 margin: const EdgeInsets.symmetric(vertical: 18.0),
                 // color: Colors.white.withOpacity(0),
                 height: 136.0,
-                // width: ,
+                // width: 250,
                 child: StreamBuilder(
                     stream:  FirebaseFirestore.instance
                         .collection("product_details")
@@ -290,7 +291,7 @@ splashLocation(latitude,longitude)async{
                               // });
                             },
                             child: SizedBox(
-                              width: 300,
+                              // width: 300,
                               child: FittedBox(
                                 child: GestureDetector(
                                   onTap: () {
@@ -332,14 +333,18 @@ splashLocation(latitude,longitude)async{
                         },
                         separatorBuilder:
                             (BuildContext context, int index) {
-                          return const Divider(
+                          return Container(
+                            width: 10,
                           );
                         },
-                      ) : Text(
-                        "No results found",
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16
+                      ) : Padding(
+                        padding: const EdgeInsets.only(left: 8.0,top: 30),
+                        child: Text(
+                          "No Fitness Option Available Here",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16
+                          ),
                         ),
                       );
                     }),
@@ -349,51 +354,56 @@ splashLocation(latitude,longitude)async{
               // top: 9,
               // left: 1,
               child: Align(
-                alignment: Alignment.topCenter,
+                alignment: Alignment.center,
                 child: Column(
                   children: [
                     const SizedBox(
-                      height: 10,
+                      height: 24,
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width*.93,
-                      height: 51,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14),
-                        color: Colors.white,
-                      ),
-                      child: TextField(
-                        textAlignVertical: TextAlignVertical.center,
-                        controller:test_controller,
-                        autofocus: false,
-                        onChanged: (value) async {
-                          _list = await RequestHelper().getPlaces(query: value);
-                          setState(() {});
-                          if (value.isEmpty) {
-                            _list!.clear();
+                    Material(
+                      elevation: 8,
+                      borderRadius: BorderRadius.circular(15),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width*.93,
+                        height: 51,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(14),
+                          color: Colors.white,
+                        ),
+                        child: TextField(
+                          textAlignVertical: TextAlignVertical.center,
+                          controller:test_controller,
+                          autofocus: false,
+                          onChanged: (value) async {
+                            _list = await RequestHelper().getPlaces(query: value);
                             setState(() {});
-                          }
-                        },
-                        onSubmitted: (value){
-                          FocusScope.of(context).unfocus();
-                          setState(() {
-                            showPlacessuggesstions? showPlacessuggesstions =true:showPlacessuggesstions=false ;
-                          });
-
-                        },
-                        decoration: const InputDecoration(
-                            hintText: 'Search places',
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                            prefixIcon: Icon(Icons.search)),
-                        onTap: () {
-                          setState(() {
-
+                            if (value.isEmpty) {
+                              _list!.clear();
+                              setState(() {});
+                            }
+                          },
+                          onSubmitted: (value){
                             FocusScope.of(context).unfocus();
-                            showPlacessuggesstions? showPlacessuggesstions =false:showPlacessuggesstions=true ;
-                            test_controller.clear();
-                          });
-                        },
+                            setState(() {
+                              showPlacessuggesstions=false ;
+                              _list!.clear();
+                            });
+
+                          },
+                          decoration: const InputDecoration(
+                              hintText: 'Search places',
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                              prefixIcon: Icon(Icons.search)),
+                          onTap: () {
+                            setState(() {
+                              _list!.clear();
+                              FocusScope.of(context).unfocus();
+                              showPlacessuggesstions? showPlacessuggesstions =false:showPlacessuggesstions=true ;
+                              test_controller.clear();
+                            });
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -402,7 +412,7 @@ splashLocation(latitude,longitude)async{
             ),
             _list!=null && _list!.isNotEmpty
                 ? Positioned(
-              top: 50,
+              top: 76,
                   child: Container(
                     width: MediaQuery.of(context).size.width,
               color: Colors.white.withOpacity(0.9),
@@ -455,7 +465,7 @@ splashLocation(latitude,longitude)async{
                         onPressed: ()async{
                           final pos=await location.getLocation();
                           _gotoLocation(pos.latitude!, pos.longitude!);
-                    },
+                        },
                         // child: Center(
                         //   child: const Icon(Icons.my_location_outlined
                         //   ),
@@ -508,7 +518,7 @@ splashLocation(latitude,longitude)async{
         // },
 
         child: SizedBox(
-          width: 550,
+          width: 600,
           child: Material(
               color: Colors.white,
               elevation: 14.0,
@@ -533,6 +543,7 @@ splashLocation(latitude,longitude)async{
                       ),
                     ),
                     SizedBox(
+                      width: 239,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0, right: 30),
                         child: myDetailsContainer1(
@@ -553,7 +564,7 @@ splashLocation(latitude,longitude)async{
   Widget myDetailsContainer1(
       String name, String location, String address, String review) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
@@ -568,7 +579,7 @@ splashLocation(latitude,longitude)async{
         ),
         const SizedBox(height: 5.0),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             const Icon(
               CupertinoIcons.location_solid,
@@ -598,12 +609,13 @@ splashLocation(latitude,longitude)async{
         ),
         const SizedBox(height: 5.0),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Icon(
               CupertinoIcons.star_fill,
               color: Colors.amber,
             ),
+            const SizedBox(width: 3,),
             Text(
               review,
               style: const TextStyle(
