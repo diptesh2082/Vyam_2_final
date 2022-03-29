@@ -2,8 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/api/api.dart';
+import 'package:vyam_2_final/authintication/google_signin.dart';
 import 'package:vyam_2_final/authintication/otp_screen.dart';
+import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/colors/color.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,14 +19,30 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   bool showLoding = false;
   TextEditingController phoneController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   // goToHome(){
   //   if ();
   // }
-  //
+
+
+  googleIn()async {
+    print('hhhhhhhhhhhhhh');
+    // FirebaseService().signInwithGoogle();
+    FirebaseService service = new FirebaseService();
+    try {
+
+      await service.signInwithGoogle();
+      setState(() {
+        showLoding=false;
+      });
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        Text(e.message!);
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -198,12 +219,12 @@ class _LoginPageState extends State<LoginPage> {
                                 codeAutoRetrievalTimeout:
                                     (verificationID) async {});
                           },
-                          child: const Text(
+                          child: Text(
                             "Continue",
-                            style: TextStyle(
-                              fontSize: 17.5,
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
                                   color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                           style: ElevatedButton.styleFrom(
@@ -250,7 +271,13 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.white,
                             ),
                             child: IconButton(
-                                onPressed: () {},
+                                onPressed: () async{
+                                  setState(() {
+                                    showLoding= true;
+                                  });
+                                  await googleIn();
+
+                                },
                                 icon: Image.asset(
                                   "assets/icons/google.png",
                                 )),

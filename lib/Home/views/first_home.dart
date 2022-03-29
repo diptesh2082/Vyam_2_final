@@ -170,9 +170,10 @@ class _FirstHomeState extends State<FirstHome> {
 
   getEverything() async {
     await getUserId();
+    // print("userid ${number}");
     await myLocation();
     // await getUserDetails();
-    await userDetails.getData();
+    // await userDetails.getData();
 
 
     setState(() {
@@ -333,13 +334,6 @@ class _FirstHomeState extends State<FirstHome> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    // controller.dispose();
-    locationController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -605,6 +599,7 @@ class _FirstHomeState extends State<FirstHome> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(15),
         child: TextField(
+          autofocus: false,
           textAlignVertical: TextAlignVertical.bottom,
           onSubmitted: (value) async {
             FocusScope.of(context).unfocus();
@@ -614,11 +609,15 @@ class _FirstHomeState extends State<FirstHome> {
           onTap: () {
             FocusScope.of(context).unfocus();
 // showCard=false;
-// print(showCard);
+// print(showCard);                  FocusScope.of(context).unfocus();
           },
 
           onChanged: (value) {
 // print(value.toString());
+          if (value.length==0){
+            FocusScope.of(context).unfocus();
+          }
+//             FocusScope.of(context).unfocus();
             setState(() {
               searchGymName = value.toString();
 // value2=value.toString();
@@ -697,6 +696,7 @@ class _FirstHomeState extends State<FirstHome> {
                     shrinkWrap: true,
                     itemCount: document.length,
                     itemBuilder: (context, int index) {
+
                       return FittedBox(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
@@ -757,7 +757,7 @@ class _FirstHomeState extends State<FirstHome> {
                                           Colors.transparent
                                         ],
                                           begin: Alignment(0.0,1),
-                                          end: Alignment(0.0,-1)
+                                          end: Alignment(0.0,-.6)
                                         )
                                       ),
                                       alignment: Alignment.bottomRight,
@@ -942,7 +942,7 @@ class _FirstHomeState extends State<FirstHome> {
               return const Center(child: CircularProgressIndicator());
             }
             if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
+              return const SizedBox();
             }
             if (!snapshot.hasData) {
               return Container();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:vyam_2_final/colors/color.dart';
 import 'package:vyam_2_final/controllers/onbording_controller.dart';
@@ -89,9 +90,12 @@ class Onboarding1 extends StatelessWidget {
                                   width: size.width/3,
                                   child: ElevatedButton(
                                       onPressed: _controller.forwardAction,
-                                      child: const Text("Get Started",
-                                      style: TextStyle(
-                                          color: Colors.white
+                                      child: Text(
+                                        index==2?"Get Started":"Next",
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700
                                       ),
                                       ),
                                       style: ElevatedButton.styleFrom(

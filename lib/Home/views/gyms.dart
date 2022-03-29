@@ -43,7 +43,7 @@ class _GymOptionState extends State<GymOption> {
   @override
   void dispose() {
     // TODO: implement dispose
-    // controller.dispose();
+
     super.dispose();
   }
   @override

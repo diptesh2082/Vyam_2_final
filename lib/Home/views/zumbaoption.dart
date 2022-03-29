@@ -42,7 +42,7 @@ class _ZumbaOptionState extends State<ZumbaOption> {
   @override
   void dispose() {
     // TODO: implement dispose
-    // controller.dispose();
+
     super.dispose();
   }
 

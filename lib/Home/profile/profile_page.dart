@@ -11,7 +11,8 @@ import 'package:vyam_2_final/Home/profile/profile.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/regitration_from.dart';
-
+String male="https://firebasestorage.googleapis.com/v0/b/vyam-f99ab.appspot.com/o/user_images%2FAvatar%20(1).png?alt=media&token=e30afe98-5559-4288-94e9-3bc734f047d9";
+String female="https://firebasestorage.googleapis.com/v0/b/vyam-f99ab.appspot.com/o/user_images%2FAvatar.png?alt=media&token=4cd8e6ae-d54c-45d1-aede-9b695982dba6";
 class ProfilePart extends StatefulWidget {
   ProfilePart({Key? key}) : super(key: key);
 
@@ -26,6 +27,7 @@ class _ProfilePartState extends State<ProfilePart> {
   String name = "";
   String email = "";
   String phone = "";
+  String gender="";
   var imageUrl="";
   final id = number;
   bool Loading=true;
@@ -40,18 +42,13 @@ class _ProfilePartState extends State<ProfilePart> {
           setState(()  {
             name =  snapshot.get('name');
             // print(number);
-            email = snapshot.get('email');
+            email =  snapshot.get('email');
             phone =  snapshot.get('number');
+            gender = snapshot.get("gender");
             imageUrl =  snapshot.get("image");
+
             Loading=false;
           });
-        }else{
-          name =  "";
-          // print(number);
-          email = "";
-          phone =  "";
-          imageUrl =  "";
-          Loading=false;
         }
       }catch(e){
         name =  "";
@@ -69,8 +66,9 @@ class _ProfilePartState extends State<ProfilePart> {
   @override
   void initState() {
     // print(number);
-    print(_auth.currentUser?.phoneNumber);
+    print(_auth.currentUser?.email);
     getUserData();
+    print(imageUrl);
     super.initState();
   }
 
@@ -80,9 +78,12 @@ class _ProfilePartState extends State<ProfilePart> {
 
     // print(_auth.currentUser?.uid);
 
-    return  Loading?const Center(
+    if (Loading) {
+      return const Center(
       child: CircularProgressIndicator(),
-    ) :Scaffold(
+    );
+    } else {
+      return Scaffold(
       backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0.3,
@@ -129,32 +130,23 @@ class _ProfilePartState extends State<ProfilePart> {
                                         child: Align(
                                           alignment: Alignment.center,
                                           child: Stack(children: [
+                                            imageUrl == ""?
                                             CircleAvatar(
                                               // backgroundImage: ,
                                                 radius: 51,
 
                                                 backgroundColor: Colors.white,
                                                 // MediaQuery.of(context).size.width * 0.3,
-                                                backgroundImage:  CachedNetworkImageProvider(imageUrl),
+                                                backgroundImage:  gender.toLowerCase()=="male"?AssetImage("assets/Illustrations/Avatarmale.png"):AssetImage("assets/Illustrations/Avatar.png"),
+                                            ): CircleAvatar(
+                                              // backgroundImage: ,
+                                              radius: 51,
+
+                                              backgroundColor: Colors.white,
+                                              // MediaQuery.of(context).size.width * 0.3,
+                                              backgroundImage:  CachedNetworkImageProvider(imageUrl),
                                             ),
-                                            // Positioned(
-                                            //   // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
-                                            //   bottom: 14.5,
-                                            //   // right: 20,
-                                            //   left: 32.5,
-                                            //   child: Container(
-                                            //     width: MediaQuery.of(context).size.width * 0.3,
-                                            //     child: const Icon(
-                                            //       Icons.add,
-                                            //       size: 21,
-                                            //     ),
-                                            //     //color: Colors.amber,
-                                            //     decoration: BoxDecoration(
-                                            //       shape: BoxShape.circle,
-                                            //       color: Colors.red.shade400,
-                                            //     ),
-                                            //   ),
-                                            // )
+                                       
                                           ]),
                                         ),
                                       ),
@@ -385,6 +377,7 @@ class _ProfilePartState extends State<ProfilePart> {
             ),
           ),
         ));
+    }
   }
 }
 // accountName: Text("Name",style: TextStyle(

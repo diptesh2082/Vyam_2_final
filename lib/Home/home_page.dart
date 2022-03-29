@@ -25,11 +25,12 @@ class _HomePageState extends State<HomePage> {
   @override
   getInfo()async{
     await checkExist(number);
-    exist== false?Get.off(Register1()):Get.to(()=>HomePage());
+    exist== false?Get.off(Register1()):Get.off(()=>HomePage());
     super.initState();
   }
   void initState() {
     // TODO: implement initState
+
    getInfo();
   }
   final PersistentTabController _controller =
@@ -124,6 +125,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> _buildScreens() {
+    FocusScope.of(context).unfocus();
     return [
       const FirstHome(),
       const BookingDetails(),

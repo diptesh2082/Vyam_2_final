@@ -200,6 +200,16 @@ class UserApi {
       "name": "",
       "email": "",
       "location":GeoPoint(0,0),
+      "image":"",
+      "address":"",
+      // "lat": 0,
+      // "long": 0,
+      "location": GeoPoint(
+        0,
+        0,
+      ),
+      "pincode": "",
+      "locality": "",
 
       // "name": name,
     };
