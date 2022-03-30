@@ -118,7 +118,7 @@ class _OtpPageState extends State<OtpPage> {
   }
 
   Timer? _timer;
-  int _start = 10;
+  int _start = 25;
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -255,10 +255,13 @@ class _OtpPageState extends State<OtpPage> {
                                               "Implement Function For starting Resend OTP Request");
                                         }
                                       : null,
-                                  child: const Text(
+                                  child: Text(
                                     "Resend OTP",
-                                    style:
-                                        TextStyle(color: Colors.orangeAccent),
+                                    style: TextStyle(
+                                      color: activateButton!
+                                          ? Colors.orangeAccent
+                                          : Colors.grey[350],
+                                    ),
                                   ))
                             ],
                           ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 class OrderDetails extends StatefulWidget {
   const OrderDetails({Key? key, required this.index, required this.orderList})
@@ -17,7 +16,7 @@ class OrderDetails extends StatefulWidget {
 
 class _OrderDetailsState extends State<OrderDetails> {
   List getOderDetails = [];
-  var doc=Get.arguments;
+  var doc = Get.arguments;
 
   @override
   void initState() {
@@ -62,7 +61,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 child: Card(
                   elevation: 3,
                   child: Container(
-                    width: MediaQuery.of(context).size.width*.95,
+                    width: MediaQuery.of(context).size.width * .95,
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(8)),
                     child: Column(
@@ -74,10 +73,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: CachedNetworkImage(
-
                                   fit: BoxFit.cover,
                                   height: 150,
-                                  width: 145, imageUrl: doc["doc"]['gym_details']["image"],
+                                  width: 145,
+                                  imageUrl: doc["doc"]['gym_details']["image"],
                                 ),
                               ),
                             ),
@@ -90,12 +89,12 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 padding: const EdgeInsets.only(
                                     top: 22.0, bottom: 20),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Booking ID : " +
-                                          doc["doc"]['id'],
+                                      "Booking ID : " + doc["doc"]['id'],
                                       style: GoogleFonts.poppins(
                                           color: HexColor("3A3A3A"),
                                           fontSize: 12,
@@ -105,7 +104,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                       height: 4,
                                     ),
                                     Text(
-                                      doc["doc"]['gym_details']["name"]??"",
+                                      doc["doc"]['gym_details']["name"] ?? "",
                                       style: GoogleFonts.poppins(
                                           color: HexColor("3A3A3A"),
                                           fontSize: 14,
@@ -121,7 +120,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                           width: 4.5,
                                         ),
                                         Text(
-                                          doc["doc"]["gym_details"]['branch']??"",
+                                          doc["doc"]["gym_details"]['branch'] ??
+                                              "",
                                           style: GoogleFonts.poppins(
                                               color: HexColor("3A3A3A"),
                                               fontSize: 14,
@@ -150,7 +150,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                 ),
                                                 Text(
                                                   doc["doc"]
-                                                      ['plan_end_duration'].toDate().year.toString(),
+                                                          ['plan_end_duration']
+                                                      .toDate()
+                                                      .year
+                                                      .toString(),
                                                   style: GoogleFonts.poppins(
                                                       color: HexColor("A3A3A3"),
                                                       fontSize: 12,
@@ -232,8 +235,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               child: Text(
                                                 // "",
                                                 "OTP : " +
-                                                    doc["doc"]
-                                                        ['otp_pass'],
+                                                    doc["doc"]['otp_pass'],
                                                 style: GoogleFonts.poppins(
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w700,
@@ -333,14 +335,12 @@ class _OrderDetailsState extends State<OrderDetails> {
                             //   ),
                             // if (getOderDetails[widget.index]['workout']
                             //     .contains("Months"))
-                              Text(
-                                // getOderDetails[widget.index]['workout']
-                              "Gym"
-                                    .toUpperCase(),
-                                style: GoogleFonts.poppins(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700),
-                              ),
+                            Text(
+                              // getOderDetails[widget.index]['workout']
+                              "Gym".toUpperCase(),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16, fontWeight: FontWeight.w700),
+                            ),
                           ],
                         ),
                         Row(
@@ -353,7 +353,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             const Spacer(),
                             Text(
                               // getOderDetails[widget.index]['workout']
-                                "${doc["doc"]["booking_plan"]??""}"
+                              "${doc["doc"]["booking_plan"] ?? ""}"
                                   .toUpperCase(),
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
@@ -434,8 +434,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             ),
                             const Spacer(),
                             Text(
-                              "Rs " +
-                                  doc["doc"]['total_price'].toString(),
+                              "Rs " + doc["doc"]['total_price'].toString(),
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
@@ -466,7 +465,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             ),
                             const Spacer(),
                             Text(
-                                doc["doc"]['discount'].toString(),
+                              doc["doc"]['discount'].toString(),
                               // getOderDetails[widget.index]['promocode'],
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
@@ -484,8 +483,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             ),
                             const Spacer(),
                             Text(
-                              "Rs " +
-                                  doc["doc"]['grand_total'].toString() ,
+                              "Rs " + doc["doc"]['grand_total'].toString(),
                               style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,

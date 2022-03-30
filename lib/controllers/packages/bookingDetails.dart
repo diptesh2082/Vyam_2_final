@@ -11,8 +11,8 @@ import 'package:vyam_2_final/golbal_variables.dart';
 import '../../select_date.dart';
 
 class BookingDetails {
-  void bookingDetails(
-      context, index, bookingList, String gymType, getGymName, gymLocation, booking_id,gymID,docs) {
+  void bookingDetails(context, index, bookingList, String gymType, getGymName,
+      gymLocation, booking_id, gymID, docs) {
     List newBookingList = bookingList;
     // final userDetails=FirebaseFirestore.instance.collection("user_details").doc(number).get();
 
@@ -56,7 +56,7 @@ class BookingDetails {
                           children: [
                             Text(
                               "Rs "
-                                  "${int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["original_price"]) * int.parse(bookingList[index]["discount"]) / 100).round()}",
+                              "${int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["original_price"]) * int.parse(bookingList[index]["discount"]) / 100).round()}",
                               style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontSize: 42,
@@ -119,7 +119,7 @@ class BookingDetails {
                                         "Pay per session")
                                       Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "Package validity",
@@ -191,12 +191,12 @@ class BookingDetails {
                                     ),
                                     Padding(
                                       padding:
-                                      const EdgeInsets.only(bottom: 8.0),
+                                          const EdgeInsets.only(bottom: 8.0),
                                       child: MaterialButton(
                                         color: HexColor("292F3D"),
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(12)),
+                                                BorderRadius.circular(12)),
                                         onPressed: () {
                                           print(number);
                                           FirebaseFirestore.instance
@@ -204,63 +204,52 @@ class BookingDetails {
                                               .doc(number)
                                               .collection("user_booking")
                                               // .where("booking_id", isEqualTo: )
-                                              .doc(booking_id).update(
-                                            {
-                                              // "time_stamp":serv
-                                              "booking_plan": newBookingList[
-                                              index]
-                                              ['title'],
-                                              "booking_price": (int.parse(bookingList[index]["original_price"]) -
-                                                  (int.parse(bookingList[index]
-                                                  [
-                                                  "original_price"]) *
-                                                      int.parse(bookingList[index]
-                                                      [
-                                                      "discount"]) /
-                                                      100)
-                                                      .round()).toDouble(),
-                                              "package_type":bookingList[
-                                              index]
-                                              ['type'],
-                                              "gym_address":gymLocation
-
-
-                                            }
-                                          )
-                                          ;
-                                          Get.to(()=>SelectDate(
-                                            months: newBookingList[
-                                            index]
-                                            ['title']
-                                                .toUpperCase(),
-                                            price: int.parse(
-                                                bookingList[
-                                                index]
-                                                [
-                                                "original_price"]) -
-                                                (int.parse(bookingList[index]
-                                                [
-                                                "original_price"]) *
-                                                    int.parse(bookingList[index]
-                                                    [
-                                                    "discount"]) /
-                                                    100)
-                                                    .round(),
-                                            packageType:
-                                            bookingList[
-                                            index]
-                                            ['type'],
-                                            getGymName:
-                                            getGymName,
-                                            getGymAddress:
-                                            gymLocation,
-                                            gymId:gymID ,
-                                            bookingId: booking_id,
-                                          ),
-                                              arguments: {
-                                            "docs":docs
-                                              },
-                                              duration: const Duration(milliseconds: 500),
+                                              .doc(booking_id)
+                                              .update({
+                                            // "time_stamp":serv
+                                            "booking_plan":
+                                                newBookingList[index]['title'],
+                                            "booking_price": (int.parse(
+                                                        bookingList[index][
+                                                            "original_price"]) -
+                                                    (int.parse(bookingList[
+                                                                    index][
+                                                                "original_price"]) *
+                                                            int.parse(bookingList[
+                                                                    index]
+                                                                ["discount"]) /
+                                                            100)
+                                                        .round())
+                                                .toDouble(),
+                                            "package_type": bookingList[index]
+                                                ['type'],
+                                            "gym_address": gymLocation
+                                          });
+                                          Get.to(
+                                            () => SelectDate(
+                                              months: newBookingList[index]
+                                                      ['title']
+                                                  .toUpperCase(),
+                                              price: int.parse(
+                                                      bookingList[index]
+                                                          ["original_price"]) -
+                                                  (int.parse(bookingList[index][
+                                                              "original_price"]) *
+                                                          int.parse(bookingList[
+                                                                  index]
+                                                              ["discount"]) /
+                                                          100)
+                                                      .round(),
+                                              packageType: bookingList[index]
+                                                  ['type'],
+                                              getGymName: getGymName,
+                                              getGymAddress: gymLocation,
+                                              gymId: gymID,
+                                              bookingId: booking_id,
+                                            ),
+                                            arguments: {"docs": docs},
+                                            duration: const Duration(
+                                                milliseconds: 500),
                                           );
                                           // Navigator.push(
                                           //     context,
