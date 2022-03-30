@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +27,6 @@ class _OtpPageState extends State<OtpPage> {
     sharedPreferences.setString("number", number.toString());
     getNumber();
     // Get.offAll(() =>  HomePage());
-
   }
 
   var value = Get.arguments;
@@ -40,20 +41,20 @@ class _OtpPageState extends State<OtpPage> {
     });
     try {
       final authCred = await _auth.signInWithCredential(phoneAuthCredential);
+      // _auth.verifyPhoneNumber();
       setState(() {
         showLoading = false;
       });
       if (authCred.user != null) {
         getToHomePage(_auth.currentUser?.phoneNumber);
         // setUserId(_auth.currentUser?.phoneNumber);
-        bool? visitingFlag=await getVisitingFlag();
-        setUserId(_auth.currentUser?.phoneNumber);
-        setVisitingFlag();
-        if (visitingFlag==true){
-          Get.offAll(()=>HomePage());
-        }
-        else if(visitingFlag==false){
-          Get.offAll(()=>Register1());
+        bool? visitingFlag = await getVisitingFlag();
+        await setUserId(_auth.currentUser?.phoneNumber);
+        await setVisitingFlag();
+        if (visitingFlag == true) {
+          Get.offAll(() => HomePage());
+        } else if (visitingFlag == false) {
+          Get.offAll(() => Register1());
         }
 
         // SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -71,7 +72,7 @@ class _OtpPageState extends State<OtpPage> {
     }
   }
 
-  var docId=Get.arguments[1];
+  var docId = Get.arguments[1];
   Future<void> checkExist(String docID) async {
     try {
       await FirebaseFirestore.instance
@@ -79,14 +80,14 @@ class _OtpPageState extends State<OtpPage> {
           .doc(docID)
           .get()
           .then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists)  {
+        if (documentSnapshot.exists) {
           // print('Document exists on the database');
           // setState(() {
-             setVisitingFlag();
-             print(getVisitingFlag());
+          setVisitingFlag();
+          print(getVisitingFlag());
           // });
           // user_data=documentSnapshot.data();
-        }else{
+        } else {
           setVisitingFlagFalse();
           print(getVisitingFlag());
         }
@@ -103,13 +104,47 @@ class _OtpPageState extends State<OtpPage> {
   //   bool? flag= await getVisitingFlag();
   //   return flag;
   // }
+
+  Timer? timer;
+
   @override
   void initState() {
     print("+91$docId");
     checkExist("+91$docId");
+    startTimer();
     // flag = get();
     // print(flag);
     super.initState();
+  }
+
+  Timer? _timer;
+  int _start = 10;
+
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_start == 0) {
+          setState(() {
+            activateButton = true;
+            timer.cancel();
+          });
+        } else {
+          setState(() {
+            _start--;
+          });
+        }
+      },
+    );
+  }
+
+  bool? activateButton = false;
+
+  @override
+  void dispose() {
+    _timer!.cancel();
+    super.dispose();
   }
 
   @override
@@ -207,11 +242,19 @@ class _OtpPageState extends State<OtpPage> {
                           SizedBox(
                             height: size.height / 15,
                           ),
+                          Container(
+                            child: Text(_start.toString()),
+                          ),
                           Row(
                             children: [
                               const Text("Didn’t you receive the OTP? "),
                               TextButton(
-                                  onPressed: () {},
+                                  onPressed: activateButton!
+                                      ? () {
+                                          print(
+                                              "Implement Function For starting Resend OTP Request");
+                                        }
+                                      : null,
                                   child: const Text(
                                     "Resend OTP",
                                     style:
@@ -230,8 +273,11 @@ class _OtpPageState extends State<OtpPage> {
                                 print(getVisitingFlag());
                                 AuthCredential phoneAuthCredential =
                                     PhoneAuthProvider.credential(
-                                        verificationId: value[0],
-                                        smsCode: otpController.text);
+                                  verificationId: value[0],
+                                  smsCode: otpController.text,
+                                );
+                                print("/////////////// Below is the Token");
+                                print(phoneAuthCredential.asMap());
                                 signInWithPhoneAuthCred(phoneAuthCredential);
                                 // Get.toNamed(RegistrationPage.id);
                               },

@@ -26,16 +26,14 @@ class _LoginPageState extends State<LoginPage> {
   //   if ();
   // }
 
-
-  googleIn()async {
+  googleIn() async {
     print('hhhhhhhhhhhhhh');
     // FirebaseService().signInwithGoogle();
     FirebaseService service = new FirebaseService();
     try {
-
       await service.signInwithGoogle();
       setState(() {
-        showLoding=false;
+        showLoding = false;
       });
     } catch (e) {
       if (e is FirebaseAuthException) {
@@ -50,8 +48,8 @@ class _LoginPageState extends State<LoginPage> {
     print(number);
 
     super.initState();
-
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -223,12 +221,11 @@ class _LoginPageState extends State<LoginPage> {
                             "Continue",
                             style: GoogleFonts.poppins(
                               fontSize: 14,
-                                  color: Colors.white,
+                              color: Colors.white,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          style: ElevatedButton.styleFrom(
-                              primary: buttonColor),
+                          style: ElevatedButton.styleFrom(primary: buttonColor),
                         ),
                       ),
                       const SizedBox(
@@ -271,12 +268,11 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.white,
                             ),
                             child: IconButton(
-                                onPressed: () async{
+                                onPressed: () async {
                                   setState(() {
-                                    showLoding= true;
+                                    showLoding = true;
                                   });
                                   await googleIn();
-
                                 },
                                 icon: Image.asset(
                                   "assets/icons/google.png",
