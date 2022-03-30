@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

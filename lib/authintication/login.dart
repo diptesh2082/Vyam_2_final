@@ -10,6 +10,7 @@ import 'package:vyam_2_final/authintication/google_signin.dart';
 import 'package:vyam_2_final/authintication/otp_screen.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/colors/color.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

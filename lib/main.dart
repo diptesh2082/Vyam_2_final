@@ -12,6 +12,7 @@ import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/authintication/rphoto.dart';
 import 'package:vyam_2_final/authintication/splash_screen.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 import 'Home/home_page.dart';
 
 void main() async {

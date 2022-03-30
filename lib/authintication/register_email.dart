@@ -59,7 +59,7 @@ class _Register2State extends State<Register2> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
-            onPressed: () {
+            onPressed: ()async {
               final isValid = _formKey.currentState?.validate();
               if (isValid!){
                 _formKey.currentState?.save();
@@ -68,7 +68,7 @@ class _Register2State extends State<Register2> {
                     CustomPageRoute(
                       child: Register3(),
                     ));
-                UserApi.CreateUserEmail(emailController.text.trim());
+                await UserApi.CreateUserEmail(emailController.text.trim());
               }
 
             },

@@ -21,6 +21,7 @@ import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
 // import 'package:vyam_2_final/Home/views/scratch_map.dart';
 import 'package:vyam_2_final/api/api.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 import '../../controllers/gym_controller.dart';
 import 'package:location/location.dart' as ln;
 

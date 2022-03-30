@@ -7,6 +7,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 import 'package:vyam_2_final/payment/payment.dart';
 
 import 'api/api.dart';
@@ -82,10 +83,7 @@ class _SelectDateState extends State<SelectDate> {
 
   @override
   void initState() {
-    // print(widget.getGymName);
-    // print(widget.months);
-    // print(widget.packageType);
-    // print(widget.price);
+
     total_discount=0;
     if (widget.months.contains("PAY PER SESSION")) {
       getDays = 1;

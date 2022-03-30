@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vyam_2_final/Home/profile/profile_page.dart';
 import 'package:vyam_2_final/api/api.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 class Profile extends StatefulWidget {
   Profile({Key? key}) : super(key: key);

@@ -10,6 +10,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/api/api.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 import 'custom_register_route.dart';
 import 'register_gender.dart';

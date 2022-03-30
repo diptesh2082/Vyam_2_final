@@ -4,10 +4,10 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:location/location.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 // ignore: prefer_typing_uninitialized_variables
-var number;
-var address2;
+
 var total_discount=0;
 final booking= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
 Location location = Location();
@@ -189,23 +189,23 @@ class UserApi {
   // String acc=number;
   static Future createNewUser() async {
     final docUser =
-   FirebaseFirestore.instance.collection("user_details").doc(number);
+    FirebaseFirestore.instance.collection("user_details").doc(number);
     // userModel.userId = docUser.id;
     // number=docUser.id;
     final myJson = {
       'userId': docUser.id,
-      "number": docUser.id,
+      "number": _auth.currentUser?.phoneNumber.toString(),
       "uid":  _auth.currentUser?.uid,
       "subLocality":"",
       "locality":"",
-      "name": "",
-      "email": "",
-      "location":GeoPoint(0,0),
-      "image":"",
+      "name": _auth.currentUser?.displayName.toString(),
+      "email": _auth.currentUser?.email.toString(),
+      // "location":GeoPoint(0,0),
+      "image":_auth.currentUser?.photoURL.toString(),
       "address":"",
       // "lat": 0,
       // "long": 0,
-      "location": GeoPoint(
+      "location": const GeoPoint(
         0,
         0,
       ),
@@ -335,11 +335,11 @@ class GymAllApi {
 
   Stream<QuerySnapshot> getGymDetails = FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserLocation)
+      .where("pincode", isEqualTo: GlobalUserLocation.toString())
       .snapshots();
   Stream<QuerySnapshot> getMaleGym = FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserLocation)
+      .where("pincode", isEqualTo: GlobalUserLocation.toString())
       .where("gender", isEqualTo: "male")
       .snapshots();
   Stream<QuerySnapshot> getFemaleGym = FirebaseFirestore.instance

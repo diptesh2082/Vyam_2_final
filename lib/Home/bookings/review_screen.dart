@@ -8,6 +8,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:vyam_2_final/Home/bookings/add_review.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/colors/color.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 import 'gym_details.dart';
 class Review extends StatefulWidget {

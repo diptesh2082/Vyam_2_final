@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 import '../../select_date.dart';
 

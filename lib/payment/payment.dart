@@ -11,6 +11,7 @@ import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:vyam_2_final/Home/bookings/success_book.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 import 'package:vyam_2_final/payment/custom_api.dart';
 
 import '../api/api.dart';
@@ -94,7 +95,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       'name': 'Vyam Gym Booking',
       'description': 'Payment',
 
-      'prefill': {'contact': number.toString(), 'email': ''},
+      // 'prefill': {'contact': number.toString(), 'email': ''},
 
       'prefill': {'contact': number.toString(), 'email': GlobalUserData["email"].toString()},
 

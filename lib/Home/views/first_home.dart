@@ -25,12 +25,12 @@ import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'package:vyam_2_final/controllers/location_controller.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 import '../../Notifications/notification.dart';
 import '../home_page.dart';
 import 'gyms.dart';
 
-var GlobalUserData;
-var GlobalUserLocation;
+
 const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
 core.GoogleMapsPlaces _places = core.GoogleMapsPlaces(apiKey: api);
 
@@ -62,6 +62,7 @@ class _FirstHomeState extends State<FirstHome> {
   var value2;
 
   var day_left;
+  final auth = FirebaseAuth.instance;
   // var location = Get.arguments;
 
   // var data;
@@ -430,8 +431,9 @@ class _FirstHomeState extends State<FirstHome> {
                       ),
                       onPressed: () {
                         // print(number);
-                        FocusScope.of(context).unfocus();
-                        Get.to(const NotificationDetails());
+                        // print(auth.currentUser!.providerData);
+                        // FocusScope.of(context).unfocus();
+                        // Get.to(const NotificationDetails());
                       },
                     ),
                   ],

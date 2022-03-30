@@ -14,6 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Helpers/request_helpers.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 import '../../api/api.dart';
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);

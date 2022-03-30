@@ -6,6 +6,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/api/api.dart';
+import 'package:vyam_2_final/authintication/phoneNumber.dart';
+import 'package:vyam_2_final/authintication/register_email.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 
 class FirebaseService {
@@ -46,7 +48,7 @@ class FirebaseService {
           Get.offAll(()=>HomePage());
         }
         else if(visitingFlag==false){
-          Get.offAll(()=>Register1());
+          Get.offAll(()=>PhoneRegistar());
         }
         setUserId(_auth.currentUser?.email);
         setVisitingFlag();

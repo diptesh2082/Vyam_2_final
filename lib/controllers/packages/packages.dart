@@ -9,6 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/controllers/packages/yoga.dart';
 import 'package:vyam_2_final/controllers/packages/zumba.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 import '../package_controller.dart';
 import 'bookingDetails.dart';
