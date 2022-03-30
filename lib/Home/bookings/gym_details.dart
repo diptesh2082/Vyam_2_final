@@ -1,3 +1,4 @@
+
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -6,11 +7,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+// import 'package:photo_view/photo_view.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:readmore/readmore.dart';
 import 'package:vyam_2_final/Home/bookings/review_screen.dart';
 import 'package:vyam_2_final/Home/bookings/timings.dart';
@@ -43,6 +47,8 @@ class _GymDetailsState extends State<GymDetails> {
     "assets/images/trainer2.png",
     "assets/images/trainer3.png",
   ];
+  double _scale=1.0;
+  double __previousScale=1.0;
 
 
 
@@ -134,7 +140,7 @@ class _GymDetailsState extends State<GymDetails> {
                                 bottom: 0,
                                 child: SizedBox(
                                     height: 25,
-                                    width: double.maxFinite,
+                                    width: MediaQuery.of(context).size.width,
                                     // color: Colors.black26,
                                     child: Row(
                                       children: [
@@ -150,7 +156,8 @@ class _GymDetailsState extends State<GymDetails> {
                                                       BorderRadius.circular(10.0),
                                                       color: _isSelected[i]
                                                           ? Colors.white
-                                                          : Colors.grey),
+                                                          : Colors.grey,
+                                                  ),
                                                 )),
                                           )
                                       ],
@@ -206,7 +213,7 @@ class _GymDetailsState extends State<GymDetails> {
                               )
                             ],
                           )),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       Row(
                         children: [
                           Text(
@@ -249,7 +256,7 @@ class _GymDetailsState extends State<GymDetails> {
                             },
                             child: Column(
                               children: [
-                                Icon(Icons.assistant_direction, color: Colors.green),
+                                const Icon(Icons.assistant_direction, color: Colors.green),
                             Text('Navigate',
                               style: GoogleFonts.poppins(
                                   color: Colors.green,
@@ -1063,7 +1070,13 @@ class _GymDetailsState extends State<GymDetails> {
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                   )),
-                              onTap: null),
+                            onTap: () async {
+                              var number =
+                              (doc["docs"]['number']);
+                              FlutterPhoneDirectCaller.callNumber(
+                                  number);
+                            },
+                          ),
                           const Icon(
                             Icons.phone_in_talk,
                             size: 18,
@@ -1135,45 +1148,60 @@ class _GymDetailsState extends State<GymDetails> {
     );
   }
 
-  Widget gymImages(String images, int index) => SizedBox(
-    height: 70,
-    width: double.infinity,
-    child: CachedNetworkImage(
-      imageUrl: images,
-      fit: BoxFit.cover,
-      progressIndicatorBuilder: (context, url, downloadProgress) =>
-          Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
+  Widget gymImages(String images, int index) => PinchZoom(
+    resetDuration: const Duration(milliseconds: 1000),
+    maxScale: 2.5,
+    onZoomStart: (){print('Start zooming');},
+    onZoomEnd: (){print('Stop zooming');},
+    child: AspectRatio(
+      aspectRatio: 1.5,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: FittedBox(
+          fit: BoxFit.cover,
+            child: CachedNetworkImage(imageUrl: images,)),
+      ),
+      // width: MediaQuery.of(context).size.width,
+      // height: 500,
+      // height: 500,
+      // decoration: BoxDecoration(
+      //   image: DecorationImage(
+      //     image: CachedNetworkImageProvider(images),
+      //         fit: BoxFit.cover
+      //   )
+      //
+      // ),
+
+
+
     ),
   );
 
-  Widget amenities(int index) => Container(
-    child: FittedBox(
-      child: Column(
-        children: [
-          Container(
-            height: 47.2,
-            width: 40,
-            child: Icon(
-              icons[index],
-              size: 16,
-            ),
-            //color: Colors.amber,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.amber.shade400,
-            ),
+  Widget amenities(int index) => FittedBox(
+    child: Column(
+      children: [
+        Container(
+          height: 47.2,
+          width: 40,
+          child: Icon(
+            icons[index],
+            size: 16,
           ),
-          Text(
-            amenities_name[index],
-            //textAlign: TextAlign.center,
-            style: const TextStyle(
-                fontFamily: 'poppins',
-                fontWeight: FontWeight.w300,
-                fontSize: 8),
+          //color: Colors.amber,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.amber.shade400,
           ),
-        ],
-      ),
+        ),
+        Text(
+          amenities_name[index],
+          //textAlign: TextAlign.center,
+          style: const TextStyle(
+              fontFamily: 'poppins',
+              fontWeight: FontWeight.w300,
+              fontSize: 8),
+        ),
+      ],
     ),
   );
 

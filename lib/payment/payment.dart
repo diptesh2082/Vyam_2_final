@@ -24,7 +24,8 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   var getData = Get.arguments;
-
+  late PersistentBottomSheetController _controller; // <------ Instance variable
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   int discount =total_discount;
   int gstTax = 18;
   // ignore: prefer_typing_uninitialized_variables
@@ -37,6 +38,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final app_bar_controller = ScrollController();
 
   final Razorpay _razorpay = Razorpay();
+
 
   @override
   void initState() {
@@ -647,7 +649,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           borderRadius: BorderRadius.circular(12)),
                       onPressed: () {
                         FocusScope.of(context).unfocus();
-                        _payment();
+                        _bottomsheet(context);
+                        // _payment();
                         // Get.to(() => Packeges(
                         //   getFinalID: widget.getID,
                         //   gymName: widget.gymName,
@@ -669,6 +672,311 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         ));
   }
+  _bottomsheet(BuildContext context)async {
+
+    var _width = MediaQuery.of(context).size.width;
+    var _height = MediaQuery.of(context).size.height;
+    bool onlinePay=true;
+    // _controller = await _scaffoldKey.currentState.showBottomSheet
+    return showModalBottomSheet(
+      // isDismissible: false,
+        isScrollControlled: true,
+        // enableDrag: false,
+        context: context,
+        elevation: 8,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        builder: (context) {
+          return Builder(
+            builder: (BuildContext context ) {
+              return SingleChildScrollView(
+                child: Container(
+                  // height: 5,
+                  // height: 600,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.only(right: 8.0, top: 8),
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            child: CircleAvatar(
+                              radius: 10.0,
+                              backgroundColor: Colors.grey,
+                              child: Icon(
+                                Icons.close,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      const Text(
+                        "Payment methods",
+                        style: TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: SizedBox(
+                          height: 60,
+                          child: GestureDetector(
+                            onTap: (){
+
+                              setState((){
+                                onlinePay= false;
+                              });
+
+                              _PaymentScreenState();
+
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Row(children: [
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Image.asset(
+                                  "assets/images/bi_cash.png",
+                                  width: 60,
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                const Text(
+                                  "Cash",
+                                  style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                ),
+                                const Spacer(),
+                                onlinePay==false? const Icon(
+                                  Icons.check,
+                                  color: Colors.black,
+                                  size: 15,
+                                ):const SizedBox(),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                              ]),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: SizedBox(
+                          height: 60,
+                          child: GestureDetector(
+                            onTap: (){
+                              _payment();
+                              setState(() {
+                              onlinePay=true;
+                              });
+                              _PaymentScreenState();
+
+                              print(onlinePay);
+
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Row(children: [
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Image.asset(
+                                  "assets/images/UPI-logo.png",
+                                  width: 60,
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                const Text(
+                                  "Online",
+                                  style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                ),
+                                const Spacer(),
+                                onlinePay==true? const Icon(
+                                  Icons.check,
+                                  color: Colors.black,
+                                  size: 15,
+                                ):const SizedBox(),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                              ]),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: SizedBox(
+                          // height: 155,
+                          child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0, top: 8,right: 8,bottom: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Payment",
+                                      style: GoogleFonts.poppins(
+                                        // fontFamily: "Poppins",
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 18,
+                                          color: Colors.green),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children:  [
+                                        Text(
+                                          "Total amount",
+                                          style: GoogleFonts.poppins(
+                                            // fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16),
+                                        ),
+                                        const Spacer(),
+                                        Text(
+                                            "₹${getData["totalPrice"]}",
+                                          style: GoogleFonts.poppins(
+
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 6,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Discount",
+                                          style: GoogleFonts.poppins(
+                                            // fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16),
+                                        ),
+                                        const Spacer(),
+                                        Text(
+                                          "₹${getData["discount"]??"0"}",
+                                          style: GoogleFonts.poppins(
+                                            // fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 7,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 7,
+                                    ),
+                                    Row(
+                                      children:  [
+                                        Text(
+                                          "Grand Total",
+                                          style: GoogleFonts.poppins(
+                                              color: Colors.green,
+
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16),
+                                        ),
+                                        const Spacer(),
+                                        Text(
+                                          "₹${grandTotal.toString()}",
+                                          style: GoogleFonts.poppins(
+                                              color: Colors.green,
+
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          child: FloatingActionButton.extended(
+                              backgroundColor: const Color(0xff292F3D),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              label: Text(
+                                'Pay  ${grandTotal.toString()} securely',
+                                style: const TextStyle(
+                                    fontFamily: 'poppins',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                    color: Colors.white),
+                              ),
+
+                              onPressed: () {
+                                print('hhhhhhhhhhhhhh');
+                              }),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }
+          );
+        });
+  }
+
 }
 
 class DetailBox extends StatelessWidget {
@@ -757,3 +1065,23 @@ class DetailBox extends StatelessWidget {
     );
   }
 }
+
+
+
+// class myBottomSheet extends StatefulWidget {
+//   const myBottomSheet({Key? key}) : super(key: key);
+//
+//   @override
+//   State<myBottomSheet> createState() => _myBottomSheetState();
+// }
+//
+// class _myBottomSheetState extends State<myBottomSheet> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       child: showModalBottomSheet(
+//           ),
+//     );
+//   }
+// }
+

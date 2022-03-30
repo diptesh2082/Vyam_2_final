@@ -17,6 +17,7 @@ import 'package:location/location.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vyam_2_final/Helpers/request_helpers.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
+import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
 // import 'package:vyam_2_final/Home/views/scratch_map.dart';
 import 'package:vyam_2_final/api/api.dart';
@@ -394,7 +395,7 @@ splashLocation(latitude,longitude)async{
                               hintText: 'Search places',
                               border: InputBorder.none,
                               hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                              prefixIcon: Icon(Icons.search)),
+                              prefixIcon: Icon(Profileicon.search)),
                           onTap: () {
                             setState(() {
                               _list!.clear();
