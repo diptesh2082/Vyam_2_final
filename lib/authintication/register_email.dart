@@ -49,11 +49,7 @@ class _Register2State extends State<Register2> {
           ])),
           leading: GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context,
-                  CustomPageRoute(
-                    child: Register1(),
-                  ));
+              Navigator.push(context, CustomPageRoute(child: Register1(),));
             },
             child: const Icon(
               Icons.arrow_back_ios_new_outlined,
@@ -72,7 +68,7 @@ class _Register2State extends State<Register2> {
                     CustomPageRoute(
                       child: Register3(),
                     ));
-                UserApi.CreateUserEmail(emailController.text);
+                UserApi.CreateUserEmail(emailController.text.trim());
               }
 
             },
@@ -84,12 +80,12 @@ class _Register2State extends State<Register2> {
       ),
       body: Stack(
         children: [
-          Hero(
-              tag: "register",
-              child: Padding(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/8.5),
-                child: Image.asset('assets/Illustrations/gym_pana_2.png'),
-              )),
+          Center(
+            child: Padding(
+              padding: EdgeInsets.all(30),
+              child: Image.asset('assets/Illustrations/undraw_indoor_bike_4.png'),
+            ),
+          ),
           Form(
               key: _formKey,
               child: remail(context)),
@@ -111,7 +107,7 @@ class _Register2State extends State<Register2> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
+                        height: MediaQuery.of(context).size.height * 0.015,
                       ),
                       const Padding(
                         padding: EdgeInsets.only(
@@ -144,11 +140,15 @@ class _Register2State extends State<Register2> {
                         height: MediaQuery.of(context).size.height * 0.02,
                       ),
                       Container(
-                          color: Colors.white,
+
                           height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                          ),
                           width: MediaQuery.of(context).size.width*.9,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                            padding: const EdgeInsets.only(left: 12.0, right: 8.0),
                             child: TextFormField(
 
                             style: const TextStyle(

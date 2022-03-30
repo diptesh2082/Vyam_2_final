@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
+import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/location.dart';
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
 
@@ -356,7 +357,7 @@ class _FirstHomeState extends State<FirstHome> {
               leading: IconButton(
                 iconSize: 24,
                 icon: const Icon(
-                  CupertinoIcons.location,
+                 Profileicon.location,
                   color: Color(0xff3A3A3A),
                 ),
                 onPressed: () async {
@@ -381,17 +382,38 @@ class _FirstHomeState extends State<FirstHome> {
               ),
               title: Transform(
                 transform: Matrix4.translationValues(-21, 0, 0),
-                child: SizedBox(
-                  width: size.width * .606,
-                  child: Text(
-                    user_data["address"] ?? "your Location",
-                    textAlign: TextAlign.left,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: GoogleFonts.poppins(
-                        color: const Color(0xff3A3A3A),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500),
+                child: GestureDetector(
+                  onTap: () async {
+                    FocusScope.of(context).unfocus();
+                    // Get.back();
+                    // print(_auth.currentUser?.uid);
+                    // Position position = await _determinePosition();
+                    // await GetAddressFromLatLong(position);
+                    // await UserApi.updateUserAddress(
+                    //     address, [position.latitude, position.longitude], pin
+                    // );
+                    await getAddressPin(pin);
+
+                    setState(() {
+                      // myaddress = myaddress;
+                      address = address;
+                      pin = pin;
+                      GlobalUserLocation = user_data["address"];
+                    });
+                    Get.to(() => LocInfo());
+                  },
+                  child: SizedBox(
+                    width: size.width * .606,
+                    child: Text(
+                      user_data["address"] ?? "your Location",
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: GoogleFonts.poppins(
+                          color: const Color(0xff3A3A3A),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500),
+                    ),
                   ),
                 ),
               ),
@@ -636,7 +658,7 @@ class _FirstHomeState extends State<FirstHome> {
 //   print('Submitted text: $value');
 // },
           decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.search),
+            prefixIcon: Icon(Profileicon.search),
             hintText: 'Search',
             border: InputBorder.none,
             filled: true,

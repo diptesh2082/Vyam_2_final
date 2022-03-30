@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,14 +22,16 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
-  TextEditingController nameTextEditingController = TextEditingController();
+  TextEditingController nameTextEditingController = TextEditingController(text: Get.arguments["name"]);
 
-  TextEditingController emailTextEditingController = TextEditingController();
+  TextEditingController emailTextEditingController = TextEditingController(text: Get.arguments["email"]);
 
-  TextEditingController phoneTextEditingController = TextEditingController();
+  TextEditingController phoneTextEditingController = TextEditingController(text: Get.arguments["number"]);
 
   DocumentReference sightingRef =
   FirebaseFirestore.instance.collection("sightings").doc();
+  var imageUrl=Get.arguments["imageUrl"];
+  var gender=Get.arguments["gender"];
 
   final db = FirebaseFirestore.instance;
   String id = number;
@@ -140,20 +143,21 @@ class _ProfileState extends State<Profile> {
                       pickImage();
                     },
                     child: Stack(children: [
+                      imageUrl == ""?
                       CircleAvatar(
+                        // backgroundImage: ,
                         radius: 51,
+
                         backgroundColor: Colors.white,
                         // MediaQuery.of(context).size.width * 0.3,
-                        child: image != null ? ClipOval(
-                          child: Image.file(image !,
-                            height: 150,
-                            width: 150,
-                          ),
-                        ): const Icon(Icons.camera_alt_outlined,
-                          size: 40,
-                        ),
-                        // decoration: const BoxDecoration(
-                        //     shape: BoxShape/.circle, color: Colors.white)
+                        backgroundImage:  gender.toLowerCase()=="male"?AssetImage("assets/Illustrations/Avatarmale.png"):AssetImage("assets/Illustrations/Avatar.png"),
+                      ): CircleAvatar(
+                        // backgroundImage: ,
+                        radius: 51,
+
+                        backgroundColor: Colors.white,
+                        // MediaQuery.of(context).size.width * 0.3,
+                        backgroundImage:  CachedNetworkImageProvider(imageUrl),
                       ),
                       Positioned(
                         // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,

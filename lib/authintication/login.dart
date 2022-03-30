@@ -281,22 +281,7 @@ class _LoginPageState extends State<LoginPage> {
                           const SizedBox(
                             width: 15,
                           ),
-                          Container(
-                            height: 65,
-                            width: 65,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(50)),
-                            child: IconButton(
-                                onPressed: () {},
-                                color: Colors.white,
-                                // iconSize: 30,
-                                icon: Image.asset(
-                                  "assets/icons/facebook.png",
 
-                                  // fit: BoxFit.cover,
-                                )),
-                          ),
                         ],
                       ),
                       const SizedBox(

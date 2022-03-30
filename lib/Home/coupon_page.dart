@@ -26,6 +26,41 @@ class _CouponDetailsState extends State<CouponDetails> {
   Map coupon_list={};
 
   CouponApi couponApi = CouponApi();
+  _couponpopup(context) => showDialog(
+      context: context,
+      builder: (context) => GestureDetector(
+        onTap: (){
+          Get.off(()=>const PaymentScreen(),arguments: getData);
+        },
+        child: AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(16))),
+          content: SizedBox(
+            height: 180,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    "VYAM30 Applied",
+                    style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(height: 15),
+                  Text(
+                    "You save 50.00",
+                    style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontSize: 16,
+                        color: Colors.green,
+                        fontWeight: FontWeight.w700),
+                  ),
+                ]),
+          ),
+        ),
+      ));
 
   @override
   void initState() {
@@ -76,45 +111,50 @@ class _CouponDetailsState extends State<CouponDetails> {
                     coupon=value.trim().toLowerCase();
                    // print(coupon);
                   },
-                  onTap: ()async{
-                    if(coupon_list.containsKey(coupon)){
-                      coupon_applied=true;
 
-                    }else{
-                      coupon_applied=false;
-                    }
-
-                   if (coupon_applied==true){
-                      setState(() {
-                        total_discount=int.parse(coupon_list[coupon]);
-                      });
-
-
-                     Get.off(()=>const PaymentScreen(),arguments: getData);
-                     FocusScope.of(context).unfocus();
-                     Get.snackbar("coupon applyed", "congratulations",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
-                      // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
-
-                   }else{
-                     Get.snackbar( "wrong coupon","kindely put diffrent one",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
-                     // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
-                     total_discount=0;
-                   }
-                    print(coupon_applied);
-                    print(total_discount);
-                  },
                   placeholder: "Enter coupon code",
                   // padding: EdgeInsets.all(15),
                   suffix: Row(
-                    children: const [
-                      Text(
-                        "Apply",
-                        style: TextStyle(
-                          color: Colors.redAccent,
+                    children: [
+                      GestureDetector(
+                        onTap: ()async{
+
+                          if(coupon_list.containsKey(coupon)){
+                            coupon_applied=true;
+                            await _couponpopup(context);
+
+                          }else{
+                            coupon_applied=false;
+                          }
+
+                          if (coupon_applied==true){
+                            setState(() {
+                              total_discount=int.parse(coupon_list[coupon]);
+                            });
+
+
+                            Get.off(()=>const PaymentScreen(),arguments: getData);
+                            FocusScope.of(context).unfocus();
+                            Get.snackbar("coupon applyed", "congratulations",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
+                            // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
+
+                          }else{
+                            Get.snackbar( "wrong coupon","kindely put diffrent one",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
+                            // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
+                            total_discount=0;
+                          }
+                          print(coupon_applied);
+                          print(total_discount);
+                        },
+                        child: const Text(
+                          "Apply",
+                          style: TextStyle(
+                            color: Colors.redAccent,
+                          ),
+                          textAlign: TextAlign.start,
                         ),
-                        textAlign: TextAlign.start,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 9,
                       )
                     ],
