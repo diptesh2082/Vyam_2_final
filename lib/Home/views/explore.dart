@@ -377,12 +377,23 @@ splashLocation(latitude,longitude)async{
                           controller:test_controller,
                           autofocus: false,
                           onChanged: (value) async {
+                            if (value.length==0){
+                              // setState(() {
+                                FocusScope.of(context).unfocus();
+                            }
+                              // });
                             _list = await RequestHelper().getPlaces(query: value);
-                            setState(() {});
+                            setState(() {
+
+                            });
                             if (value.isEmpty) {
                               _list!.clear();
                               setState(() {});
                             }
+
+
+
+
                           },
                           onSubmitted: (value){
                             FocusScope.of(context).unfocus();
