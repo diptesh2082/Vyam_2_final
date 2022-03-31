@@ -89,19 +89,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
       'amount': amount,
       'name': 'Vyam Gym Booking',
       'description': 'Payment',
-<<<<<<< HEAD
 
       // 'prefill': {'contact': number.toString(), 'email': ''},
 
       'prefill': {'contact': number.toString(), 'email': GlobalUserData["email"].toString()},
 
-=======
-      'prefill': {'contact': number.toString(), 'email': ''},
-      'prefill': {
-        'contact': number.toString(),
-        'email': GlobalUserData["email"].toString()
-      },
->>>>>>> 377a1a6c7f4b77c0a9f7ae935c198253466bc35d
+
+      // 'prefill': {
+      //   'contact': number.toString(),
+      //   'email': GlobalUserData["email"].toString()
+      // },
+
       'external': {
         'wallets': ['paytm']
       }

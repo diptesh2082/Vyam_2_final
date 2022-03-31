@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 
 import 'package:get/get.dart';
@@ -14,7 +14,7 @@ import 'package:google_fonts/google_fonts.dart';
 // import 'package:photo_view/photo_view.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:readmore/readmore.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 import 'package:vyam_2_final/Home/bookings/review_screen.dart';
 import 'package:vyam_2_final/Home/bookings/timings.dart';
 import 'package:vyam_2_final/Home/bookings/timings_details.dart';
@@ -1071,6 +1071,7 @@ class _GymDetailsState extends State<GymDetails> {
                             fontWeight: FontWeight.w600,
                           )),
                       GestureDetector(
+
                         child: const Text('Call now ',
                             style: TextStyle(
                               decoration: TextDecoration.underline,

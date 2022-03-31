@@ -33,7 +33,8 @@ class _ProfileState extends State<Profile> {
   FirebaseFirestore.instance.collection("sightings").doc();
   var imageUrl=Get.arguments["imageUrl"];
   var gender=Get.arguments["gender"];
-
+  bool selected=false;
+  bool isLoading=false;
   final db = FirebaseFirestore.instance;
   String id = number;
   // UserId userId = UserId();
@@ -98,9 +99,15 @@ class _ProfileState extends State<Profile> {
       await db.collection("user_details").doc(id).update({
         'email': emailTextEditingController.text,
         'name': nameTextEditingController.text,
-        'number': phoneTextEditingController.text,
+        // 'number': phoneTextEditingController.text,
         "image": url
       });
+      setState(() {
+        imageUrl=url;
+        // isLoading=false;
+      });
+      // print(imageUrl);
+
     }
   }
 
@@ -128,7 +135,10 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: Padding(
+      body: isLoading?const Center(
+        child: CircularProgressIndicator(),
+      )
+          :Padding(
         padding: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
           child: Form(
@@ -141,6 +151,9 @@ class _ProfileState extends State<Profile> {
                 Center(
                   child:GestureDetector(
                     onTap: (){
+                      setState(() {
+                        selected=true;
+                      });
                       pickImage();
                     },
                     child: Stack(children: [
@@ -158,7 +171,12 @@ class _ProfileState extends State<Profile> {
 
                         backgroundColor: Colors.white,
                         // MediaQuery.of(context).size.width * 0.3,
-                        backgroundImage:  CachedNetworkImageProvider(imageUrl),
+                        child: selected?ClipOval(
+                          child: Image.file(image !,
+                            height: 150,
+                            width: 150,
+                          ),
+                        ) :CachedNetworkImage( imageUrl: imageUrl,),
                       ),
                       Positioned(
                         // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
@@ -257,8 +275,13 @@ class _ProfileState extends State<Profile> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
+
+                    setState(() {
+                      isLoading=true;
+
+                    });
                     await saveData();
-                    Get.to(()=>ProfilePart());
+                    Get.back();
                   },
                   child: const Text(
                     'Update',

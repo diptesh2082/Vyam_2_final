@@ -20,4 +20,6 @@ List <ProductGym> GymLists = [
   ProductGym(imageAssets: "assets/photos/gyms 4.jpeg", name: "GymX studios", address: "GymX studios", rating: '4.7', distance: '6'),
   ProductGym(imageAssets: "assets/photos/gyms 5.jpg", name: "Transfomer Gym", address: "Bus stand, Barakar", rating: '4.7', distance: '7'),
 ];
+
+
 }
