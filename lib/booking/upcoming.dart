@@ -48,7 +48,7 @@ class UpcomingEvent extends StatelessWidget {
             if (data.size == 0) {
               return Center(
                 child: Image.asset(
-                  "assets/icons/activeEmpty.png",
+                  "assets/icons/upcomingEmpty.png",
                   height: _width * 0.8,
                 ),
               );
@@ -275,7 +275,7 @@ class UpcomingEvent extends StatelessWidget {
                   }
               ):Center(
                 child: Image.asset(
-                  "assets/icons/activeEmpty.png",
+                  "assets/icons/upcomingEmpty.png",
                   height: _width * 0.8,
                 ),
               ),
@@ -283,7 +283,7 @@ class UpcomingEvent extends StatelessWidget {
           }
           return Center(
             child: Image.asset(
-              "assets/icons/activeEmpty.png",
+              "assets/icons/upcomingEmpty.png",
               height: _width * 0.8,
             ),
           );

@@ -12,6 +12,8 @@ import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/colors/color.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
+
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -26,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   // goToHome(){
   //   if ();
   // }
+  var resending_token;
 
   googleIn() async {
     print('hhhhhhhhhhhhhh');
@@ -204,12 +207,15 @@ class _LoginPageState extends State<LoginPage> {
                                     showLoding = false;
                                   });
                                 },
-                                codeSent:
-                                    (verificationID, resendingToken) async {
+
+                              codeSent:
+                                (verificationID, resendingToken) async {
                                   setState(() {
                                     showLoding = false;
                                   });
+                                  print("/////////////////////////////////////////////////////////////////////////////////$resendingToken");
                                   // checkExist("+91${phoneController.text}");
+                                  resending_token=resendingToken;
                                   Get.to(() => const OtpPage(), arguments: [
                                     verificationID,
                                     phoneController.text,

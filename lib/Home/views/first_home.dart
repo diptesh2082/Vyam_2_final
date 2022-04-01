@@ -174,8 +174,7 @@ class _FirstHomeState extends State<FirstHome> {
     await getUserId();
     // print("userid ${number}");
     await myLocation();
-    await getUserDetails();
-    // await userDetails.getData();
+    await userDetails.getData();
 
 
     setState(() {
@@ -299,7 +298,7 @@ class _FirstHomeState extends State<FirstHome> {
     SystemChannels.textInput.invokeMethod("TextInput.hide");
     // myLocation();
     // getUserDetails();
-    userDetails.getData();
+    // userDetails.getData();
     getProgressStatus();
 
     // getNumber();
@@ -407,7 +406,7 @@ class _FirstHomeState extends State<FirstHome> {
                   child: SizedBox(
                     width: size.width * .606,
                     child: Text(
-                      GlobalUserData["address"] ?? "Tap here to choose your Location",
+                      GlobalUserData["address"]==""?"Tap here to choose your Location":GlobalUserData["address"],
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -431,7 +430,8 @@ class _FirstHomeState extends State<FirstHome> {
                         color: Colors.black,
                       ),
                       onPressed: () {
-                        // print(number);
+
+                        print(GlobalUserData);
                         // print(auth.currentUser!.providerData);
                         // FocusScope.of(context).unfocus();
                         // Get.to(const NotificationDetails());
@@ -746,14 +746,16 @@ class _FirstHomeState extends State<FirstHome> {
                     shrinkWrap: true,
                     itemCount: document.length,
                     itemBuilder: (context, int index) {
-
+                      var distance=calculateDistance(GlobalUserData["location"].latitude, GlobalUserData["location"].longitude, document[index]["location"].latitude, document[index]["location"].longitude);
+                      distance=double.parse((distance).toStringAsFixed(1));
+                          print(distance);
                       return FittedBox(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Container(
                             // height: 195,
                             color: Colors.black,
-                            child: GestureDetector(
+                             child: GestureDetector(
                               onTap: () async {
                                 FocusScope.of(context).unfocus();
                                 // setState(() {
@@ -919,23 +921,23 @@ class _FirstHomeState extends State<FirstHome> {
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
-                                            children: const [
+                                            children: [
                                               // SvgPicture.asset(
                                               //   'assets/Icons/Location.svg',
                                               //   color: Colors.white,
                                               // ),
-                                              Icon(
+                                              const Icon(
                                                 CupertinoIcons.location_solid,
                                                 size: 20,
                                                 color: Colors.white,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 5,
                                               ),
                                               Text(
-                                                "1 KM",
+                                                "$distance",
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.white,
                                                     fontFamily: "Poppins",
                                                     fontSize: 12,

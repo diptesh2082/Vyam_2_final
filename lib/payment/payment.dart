@@ -16,6 +16,9 @@ import 'package:vyam_2_final/payment/custom_api.dart';
 
 import '../api/api.dart';
 
+bool GlobalCouponApplied=false;
+var GlobalCoupon;
+String CouponDetailsMap="0";
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
 
@@ -211,7 +214,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         );
       }else{
-        var x =  Random().nextInt(9999-1000);
+        var x =  Random().nextInt(9999);
+        if (x<1000){
+          x=x+1000;
+        }
         FocusScope.of(context).unfocus();
         Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x});
 
@@ -588,7 +594,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           ),
                                         ],
                                       ),
-                                      GlobalCouponApplied ? RichText(
+                                       RichText(
                                           text: TextSpan(
                                                 style: GoogleFonts.poppins(
                                                   // fontFamily: "Poppins",
@@ -596,31 +602,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                     fontSize: 12,
                                                     color: Colors.grey),
                                             children:  <TextSpan>[
-                                              const TextSpan(
-                                                text: "Promo "
+                                               TextSpan(
+                                                text: GlobalCouponApplied?"Promo ":"No Promo "
                                               ),
                                               TextSpan(
-                                                  text: "${GlobalCoupon} ",
+                                                  text: GlobalCouponApplied?"${GlobalCoupon} ":"code ",
                                                 style: GoogleFonts.poppins(
                                                   // fontFamily: "Poppins",
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 12,
                                                     color: Colors.amber),
                                               ),
-                                              const TextSpan(
-                                                  text: "Applied"
+                                               TextSpan(
+                                                  text: GlobalCouponApplied?"Applied":"Sselected"
                                               ),
                                             ]
 
-                                          )):
-                                       Text(
-                                        "No promo code selected",
-                                        style: GoogleFonts.poppins(
-                                            // fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: Colors.grey),
-                                      )
+                                          ))
                                     ],
                                   ),
                                   const Icon(

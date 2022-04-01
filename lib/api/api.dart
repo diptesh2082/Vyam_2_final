@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:location/location.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
+import 'dart:math' show cos, sqrt, asin;
 
 // ignore: prefer_typing_uninitialized_variables
 var visiting_flag;
@@ -55,9 +56,9 @@ getAddress() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalAddress = sharedPreferences.getString("pin");
   address2 = finalAddress;
-  print(address2);
-  print(address2);
-  print(address2);
+  // print(address2);
+  // print(address2);
+  // print(address2);
   print(address2);
 }
 // setVisitingFlag() async {
@@ -345,10 +346,20 @@ myLocation() async {
         print(GlobalUserLocation);
         // user_data=documentSnapshot.data();
       }
+      else{
+        GlobalUserData = {
+          "pincode":"700091",
+          "address": "Tap here to choose your location"
+        };
+        GlobalUserLocation = "700091";
+      }
     });
   }catch(e){
 
-      GlobalUserData = {};
+      GlobalUserData = {
+        "pincode":"700091",
+        "address": "Tap here to choose your location"
+      };
       GlobalUserLocation = "700091";
 
   }
@@ -404,4 +415,15 @@ class GymAllApi {
 //     return couponList;
 //   }
 // }
+// distance(lat1,long1,lat2,long2){
+
+
+double calculateDistance(lat1, lon1, lat2, lon2){
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 - c((lat2 - lat1) * p)/2 +
+        c(lat1 * p) * c(lat2 * p) *
+            (1 - c((lon2 - lon1) * p))/2;
+    return 12742 * asin(sqrt(a));
+}
 

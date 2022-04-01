@@ -27,6 +27,7 @@ class LocInfo extends StatefulWidget {
 class _LocInfoState extends State<LocInfo> {
   FocusNode myFocousNode=FocusNode();
   var data;
+  bool isLoading=false;
   final Completer<GoogleMapController> _controller = Completer();
   // ln.Location location = ln.Location();
   late GoogleMapController mapcontroller;
@@ -49,7 +50,7 @@ class _LocInfoState extends State<LocInfo> {
     });
   }
 
-  bool isLoading = true;
+  // bool isLoading = true;
 
   getAddressPin(var pin) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -140,7 +141,17 @@ class _LocInfoState extends State<LocInfo> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
+    return isLoading?
+        Container(
+          color: Colors.white,
+          child: const Center(
+            child: LinearProgressIndicator(
+              // color: Colors.amber,
+              backgroundColor: Colors.white,
+            ),
+          ),
+        )
+        :Scaffold(
       // appBar: AppBar(
       //   centerTitle: true,
       //   leading: const Icon(Icons.location_on_outlined,color: Colors.black,),
@@ -240,6 +251,7 @@ class _LocInfoState extends State<LocInfo> {
                     onFieldSubmitted: (value) async {
                       FocusScope.of(context).unfocus();
                       print(value);
+                      isLoading=true;
                       if (value.isEmpty) return;
                       final res =
                       await RequestHelper().getCoordinatesFromAddresss(value);
@@ -281,7 +293,7 @@ class _LocInfoState extends State<LocInfo> {
                             fontWeight: FontWeight.w500,
                             color: Colors.green),
                         hintMaxLines: 2,
-                        hintText: 'Use current location'),
+                        hintText: 'Search your location here'),
                   ),
                 ),
               ],
@@ -333,8 +345,9 @@ class _LocInfoState extends State<LocInfo> {
                     height: 60,
                     child: GestureDetector(
                       onTap: () async {
-                        myLocation();
-                        print(data);
+                        isLoading=  true;
+                        await myLocation();
+                        // print(data);
                         Position position = await _determinePosition();
                         await GetAddressFromLatLong(position);
                         // await UserApi.updateUserAddress(
@@ -358,7 +371,7 @@ class _LocInfoState extends State<LocInfo> {
                           "subLocality": locality,
                           // "number": number
                         });
-                        Get.off(()=>HomePage());
+                        await Get.off(()=>HomePage());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -464,79 +477,163 @@ class _LocInfoState extends State<LocInfo> {
                 const SizedBox(
                   height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 0),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Kolkata, West Bengal',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: Colors.black),
-                      ),
-                      const Spacer(),
-                      Transform(
-                        transform: Matrix4.rotationY(pi),
-                        child: const Icon(
-                          Icons.call_made_sharp,
-                          size: 20,
+                InkWell(
+                  onTap: () async{
+                    FocusScope.of(context).unfocus();
+                    String value='Kolkata, West Bengal';
+                    print(value);
+                    isLoading=true;
+                    if (value.isEmpty) return;
+                    final res =
+                    await RequestHelper().getCoordinatesFromAddresss(value);
+                    setState(()  {
+                      GlobalUserLocation=value;
+                      locController.text=value;
+                    });
+                    await GetAddressFromGeoPoint( GeoPoint(res.latitude, res.longitude));
+
+                    await FirebaseFirestore.instance
+                        .collection('user_details')
+                        .doc(number)
+                        .update({
+                      "location": GeoPoint(res.latitude, res.longitude),
+                      "lat": res.latitude,
+                      "long": res.longitude,
+                      "address":value.trim(),
+                      "pincode":pin
+                    });
+                    Get.off(()=>HomePage());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 0),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Kolkata, West Bengal',
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: Colors.black),
                         ),
-                      )
-                    ],
+                        const Spacer(),
+                        Transform(
+                          transform: Matrix4.rotationY(pi),
+                          child: const Icon(
+                            Icons.call_made_sharp,
+                            size: 20,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 0),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Asansol, West Bengal',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: Colors.black),
-                      ),
-                      const Spacer(),
-                      Transform(
-                        transform: Matrix4.rotationY(pi),
-                        child: const Icon(
-                          Icons.call_made_sharp,
-                          size: 20,
+                InkWell(
+                  onTap: () async{
+                    FocusScope.of(context).unfocus();
+                    String value='Asansol, West Bengal';
+                    print(value);
+                    isLoading=true;
+                    if (value.isEmpty) return;
+                    final res =
+                    await RequestHelper().getCoordinatesFromAddresss(value);
+                    setState(()  {
+                      GlobalUserLocation=value;
+                      locController.text=value;
+                    });
+                    await GetAddressFromGeoPoint( GeoPoint(res.latitude, res.longitude));
+
+                    await FirebaseFirestore.instance
+                        .collection('user_details')
+                        .doc(number)
+                        .update({
+                      "location": GeoPoint(res.latitude, res.longitude),
+                      "lat": res.latitude,
+                      "long": res.longitude,
+                      "address":value.trim(),
+                      "pincode":pin
+                    });
+                    Get.off(()=>HomePage());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 0),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Asansol, West Bengal',
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: Colors.black),
                         ),
-                      )
-                    ],
+                        const Spacer(),
+                        Transform(
+                          transform: Matrix4.rotationY(pi),
+                          child: const Icon(
+                            Icons.call_made_sharp,
+                            size: 20,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 0),
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Durgapur, West Bengal',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: Colors.black),
-                      ),
-                      const Spacer(),
-                      Transform(
-                        transform: Matrix4.rotationY(pi),
-                        child: const Icon(
-                          Icons.call_made_sharp,
-                          size: 20,
+                InkWell(
+                  onTap: () async{
+                    FocusScope.of(context).unfocus();
+                    String value='Kolkata, West Bengal';
+                    print(value);
+                    isLoading=true;
+                    if (value.isEmpty) return;
+                    final res =
+                    await RequestHelper().getCoordinatesFromAddresss(value);
+                    setState(()  {
+                      GlobalUserLocation=value;
+                      locController.text=value;
+                    });
+                    await GetAddressFromGeoPoint( GeoPoint(res.latitude, res.longitude));
+
+                    await FirebaseFirestore.instance
+                        .collection('user_details')
+                        .doc(number)
+                        .update({
+                      "location": GeoPoint(res.latitude, res.longitude),
+                      "lat": res.latitude,
+                      "long": res.longitude,
+                      "address":value.trim(),
+                      "pincode":pin
+                    });
+                    Get.off(()=>HomePage());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 0),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Durgapur, West Bengal',
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: Colors.black),
                         ),
-                      )
-                    ],
+                        const Spacer(),
+                        Transform(
+                          transform: Matrix4.rotationY(pi),
+                          child: const Icon(
+                            Icons.call_made_sharp,
+                            size: 20,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 )
 
@@ -560,6 +657,7 @@ class _LocInfoState extends State<LocInfo> {
                       title: Text(_list![index].mainText!),
                       subtitle: Text(_list![index].secondaryText!),
                       onTap: () async {
+                        isLoading=true;
                         final res = await RequestHelper()
                             .getCoordinatesFromAddresss(
                             _list![index].mainText!);

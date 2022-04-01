@@ -9,9 +9,7 @@ import 'package:vyam_2_final/global_snackbar.dart';
 import 'package:vyam_2_final/payment/payment.dart';
 // import 'package:vyambooking/List/list.dart';
 
-bool GlobalCouponApplied=false;
-var GlobalCoupon;
-String CouponDetailsMap="0";
+
 class CouponDetails extends StatefulWidget {
   CouponDetails({
     Key? key,
@@ -169,7 +167,7 @@ class _CouponDetailsState extends State<CouponDetails> {
 
                           if (coupon_applied==true){
                             setState(() {
-                              total_discount=int.parse(coupon_list[coupon]);
+                              // total_discount=int.parse(coupon_list[coupon]);
                             });
 
 
