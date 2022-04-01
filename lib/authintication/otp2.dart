@@ -21,13 +21,13 @@ class OtpPage2 extends StatefulWidget {
 }
 
 class _OtpPage2State extends State<OtpPage2> {
-  getToHomePage(var number) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    getNumber();
-    sharedPreferences.setString("number", number.toString());
-    getNumber();
-    // Get.offAll(() =>  HomePage());
-  }
+  // getToHomePage(var number) async {
+  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  //   getNumber();
+  //   sharedPreferences.setString("number", number.toString());
+  //   getNumber();
+  //   // Get.offAll(() =>  HomePage());
+  // }
 
   var value = Get.arguments;
   // var id = Get.arguments["id"];

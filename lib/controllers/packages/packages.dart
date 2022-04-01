@@ -65,21 +65,21 @@ class _PackegesState extends State<Packeges> {
       .id
       .toString();
   CreateBooking(String id) async {
-    final bookings = FirebaseFirestore.instance
+    final bookings =  FirebaseFirestore.instance
         .collection("bookings")
         .doc(number)
         .collection("user_booking");
     print(bookings);
     // booking_id = bookings.doc().id;
     // String id=bookings.doc().id;
-    bookings.doc(id).set({
+   await bookings.doc(id).set({
       "booking_id": id,
-      "booking_status": "",
+      "booking_status": "incomplete",
       "order_date": DateTime.now(),
       // "gym_name": "",
-      "vendorId": "",
+     "vendorId": widget.getFinalID,
       "userId": number,
-      "user_name": "",
+     "user_name": GlobalUserData["name"],
       "booking_accepted": false,
       "payment_done": false,
       "booking_plan": "",
@@ -94,13 +94,32 @@ class _PackegesState extends State<Packeges> {
         "name": widget.gymName,
         "branch": Get.arguments["doc"]["branch"]
       },
-      "daysLeft": "",
+     "daysLeft": "50",
       "discount": "0",
       "grand_total": "",
       "tax_pay": "",
       "totalDays": "",
       "total_price": "",
-      "id": "423"
+      "id": "423",
+
+     // "gym_details":{
+     //   "name":widget.gymName
+     // },
+
+    });
+    print(id);
+    FirebaseFirestore
+        .instance
+        .collection("bookings")
+        .doc(number)
+        .collection(
+        "user_booking")
+        .doc(id)
+        .update({
+
+      // "gym_name": widget.gymName,
+
+
     });
   }
 
@@ -108,6 +127,9 @@ class _PackegesState extends State<Packeges> {
   void initState() {
     getUserData();
     setDate();
+    CreateBooking(id);
+    // print(number);
+
 
     // print(userDetails);
     super.initState();
@@ -418,34 +440,7 @@ class _PackegesState extends State<Packeges> {
                                                         .instance.primaryFocus
                                                         ?.unfocus();
                                                     // FocusScope.of(context).requestFocus( FocusNode());
-                                                    await CreateBooking(id);
-                                                    // print(number);
-                                                    print(id);
-                                                    await FirebaseFirestore
-                                                        .instance
-                                                        .collection("bookings")
-                                                        .doc(number)
-                                                        .collection(
-                                                            "user_booking")
-                                                        .doc(id)
-                                                        .update({
-                                                      "booking_status":
-                                                          "incomplete",
-                                                      "order_date": dateTime,
-                                                      // "gym_name": widget.gymName,
-                                                      "vendorId":
-                                                          widget.getFinalID,
-                                                      "userId": number,
-                                                      "user_name":
-                                                          userData["name"],
-                                                      "booking_accepted": false,
-                                                      "payment_done": false,
-                                                      "daysLeft": "50",
-                                                      // "gym_details":{
-                                                      //   "name":widget.gymName
-                                                      // },
-                                                      "totalDays": "65",
-                                                    });
+
                                                     bookingDetails
                                                         .bookingDetails(
                                                       context,

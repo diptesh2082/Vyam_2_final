@@ -24,11 +24,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
   getInfo()async{
     await checkExist(number);
     exist== false?Get.off(const LoginPage()):Get.off(()=>HomePage());
   }
+  @override
   void initState() {
     // TODO: implement initState
 

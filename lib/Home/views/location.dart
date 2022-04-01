@@ -13,6 +13,7 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Helpers/request_helpers.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
+import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
@@ -24,6 +25,7 @@ class LocInfo extends StatefulWidget {
 }
 
 class _LocInfoState extends State<LocInfo> {
+  FocusNode myFocousNode=FocusNode();
   var data;
   final Completer<GoogleMapController> _controller = Completer();
   // ln.Location location = ln.Location();
@@ -214,6 +216,7 @@ class _LocInfoState extends State<LocInfo> {
                   child: TextFormField(
                     controller: locController,
                     autofocus: false,
+                    focusNode: myFocousNode,
                     onChanged: (value) async {
                       _list = await RequestHelper().getPlaces(query: value);
                       setState(() {});
@@ -264,10 +267,11 @@ class _LocInfoState extends State<LocInfo> {
                       fontWeight: FontWeight.w500,
                     ),
                     decoration:  InputDecoration(
-                        prefixIcon: const Icon(Icons.location_on_outlined),
+                        prefixIcon: const Icon(Profileicon.location),
                         suffixIcon: IconButton(
                           onPressed: (){
                             locController.clear();
+                            FocusScope.of(context).requestFocus(myFocousNode);
                           }, icon: const Icon( Icons.edit_outlined),
                         ),
                         // border: InputBorde,

@@ -212,11 +212,16 @@ class _LoginPageState extends State<LoginPage> {
                                   // checkExist("+91${phoneController.text}");
                                   Get.to(() => const OtpPage(), arguments: [
                                     verificationID,
-                                    phoneController.text
+                                    phoneController.text,
+                                    resendingToken
                                   ]);
                                 },
+                                // forceResendingToken: (re){
+                                //
+                                // },
                                 codeAutoRetrievalTimeout:
-                                    (verificationID) async {});
+                                    (verificationID) async {
+                                    });
                           },
                           child: Text(
                             "Continue",

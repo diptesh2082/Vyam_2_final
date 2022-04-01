@@ -90,7 +90,7 @@ class _FirstHomeState extends State<FirstHome> {
           setState(() {
             user_data = documentSnapshot.data();
             GlobalUserData = documentSnapshot.data();
-            GlobalUserLocation = user_data["pincode"];
+            // GlobalUserLocation = GlobalUserData["pincode"];
           });
           print(GlobalUserLocation);
           // user_data=documentSnapshot.data();
@@ -100,7 +100,7 @@ class _FirstHomeState extends State<FirstHome> {
       setState(() {
         user_data = {};
         GlobalUserData = {};
-        GlobalUserLocation = user_data["pincode"];
+        GlobalUserLocation = "";
       });
     }
 
@@ -174,7 +174,7 @@ class _FirstHomeState extends State<FirstHome> {
     await getUserId();
     // print("userid ${number}");
     await myLocation();
-    // await getUserDetails();
+    await getUserDetails();
     // await userDetails.getData();
 
 
@@ -293,6 +293,7 @@ class _FirstHomeState extends State<FirstHome> {
   void initState() {
     // getUserId();
     getEverything();
+    // print("yfrffuyifyifyuifyify${GlobalUserData["pincode"]}");
     // print(number);
     // FocusScope.of(context).unfocus();
     SystemChannels.textInput.invokeMethod("TextInput.hide");
@@ -406,7 +407,7 @@ class _FirstHomeState extends State<FirstHome> {
                   child: SizedBox(
                     width: size.width * .606,
                     child: Text(
-                      user_data["address"] ?? "your Location",
+                      GlobalUserData["address"] ?? "Tap here to choose your Location",
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -446,25 +447,24 @@ class _FirstHomeState extends State<FirstHome> {
                 controller: app_bar_controller,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10),
-                  child: Stack(
+                  child: Column(
                     children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: const Divider(
+                          height: .3,
+                          thickness: 1,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      Search(context),
+                      if (searchGymName.isNotEmpty)
                       Column(
                         children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: const Divider(
-                              height: .3,
-                              thickness: 1,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          Search(context),
-                          if (searchGymName.length>0)
                           Container(
-
-                            height: 600,
+                            // height: (searchGymName.length<=2)?500:null,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               color: Colors.white,
@@ -475,156 +475,159 @@ class _FirstHomeState extends State<FirstHome> {
                                   height: 6,
                                 ),
                                 buildGymBox(),
+                                const SizedBox(
+                                  height: 500,
+                                )
                               ],
                             ),
                           ),
-
-                          // CupertinoSearchTextField(
-                          //   onChanged: (value) {
-                          //     setState(() {
-                          //       searchGymName = value.toString();
-                          //     });
-                          //
-                          //     print(searchGymName);
-                          //   },
-                          //   decoration: BoxDecoration(
-                          //       color: Colors.grey[300],
-                          //       borderRadius: BorderRadius.circular(10)),
-                          //   onSubmitted: (value) {
-                          //     // ignore: avoid_print
-                          //     print('Submitted text: $value');
-                          //   },
-                          // ),
-                          // const SizedBox(
-                          //   height: 4,
-                          // ),
-                          const SizedBox(
-                            height: 12,
-                          ),
-
-                          if (getPercentage != 100) ProgressCard(context),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                              Get.to(CouponDetails());
-                            },
-                            child: SizedBox(
-                              height: 135,
-                              child: StreamBuilder<QuerySnapshot>(
-                                stream: bannerApi.getBanner,
-                                builder: (context, AsyncSnapshot streamSnapshot) {
-                                  if (streamSnapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  }
-                                  final data = streamSnapshot.requireData;
-                                  return ListView.builder(
-                                    // controller: _controller.,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: data.size,
-                                    itemBuilder: (context, int index) {
-                                      return SizedBox(
-                                        height: 120,
-                                        child: Row(
-                                          children: [
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Material(
-                                                elevation: 0,
-                                                color: const Color(0xffF4F4F4),
-                                                child: CachedNetworkImage(
-                                                  imageUrl: data.docs[index]
-                                                      ["image"],
-                                                  // progressIndicatorBuilder: (context,
-                                                          // url, downloadProgress) =>
-                                                      // Center(
-                                                      //     child: CircularProgressIndicator(
-                                                      //         value:
-                                                      //             downloadProgress
-                                                      //                 .progress)),
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                          Icon(Icons.error),
-                                                )),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          SizedBox(
-                            height: 150,
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              itemCount: controller.OptionsList.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, int index) {
-                                return SizedBox(
-                                  height: 150,
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      GestureDetector(
-                                          onTap: () {
-                                            Get.to(() => GymOption(), arguments: {
-                                              "type": controller
-                                                  .OptionsList[index].type,
-                                            });
-                                            FocusScope.of(context).unfocus();
-                                          },
-                                          child: Image.asset(controller
-                                              .OptionsList[index].imageAssets)),
-                                      const SizedBox(
-                                        width: 5,
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (BuildContext context, int index) {
-                                return const Divider();
-                              },
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const SizedBox(
-                            height: 30,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Nearby Gyms",
-                                style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(child: buildGymBox())
                         ],
                       ),
+
+                      // CupertinoSearchTextField(
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       searchGymName = value.toString();
+                      //     });
+                      //
+                      //     print(searchGymName);
+                      //   },
+                      //   decoration: BoxDecoration(
+                      //       color: Colors.grey[300],
+                      //       borderRadius: BorderRadius.circular(10)),
+                      //   onSubmitted: (value) {
+                      //     // ignore: avoid_print
+                      //     print('Submitted text: $value');
+                      //   },
+                      // ),
+                      // const SizedBox(
+                      //   height: 4,
+                      // ),
+                      const SizedBox(
+                        height: 9,
+                      ),
+
+                      if (getPercentage != 100) ProgressCard(context),
+                      const SizedBox(
+                        height: 9,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                          Get.to(CouponDetails());
+                        },
+                        child: SizedBox(
+                          height: 135,
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: bannerApi.getBanner,
+                            builder: (context, AsyncSnapshot streamSnapshot) {
+                              if (streamSnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                              final data = streamSnapshot.requireData;
+                              return ListView.builder(
+                                // controller: _controller.,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: data.size,
+                                itemBuilder: (context, int index) {
+                                  return SizedBox(
+                                    height: 120,
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Material(
+                                            elevation: 0,
+                                            color: const Color(0xffF4F4F4),
+                                            child: CachedNetworkImage(
+                                              imageUrl: data.docs[index]
+                                                  ["image"],
+                                              // progressIndicatorBuilder: (context,
+                                                      // url, downloadProgress) =>
+                                                  // Center(
+                                                  //     child: CircularProgressIndicator(
+                                                  //         value:
+                                                  //             downloadProgress
+                                                  //                 .progress)),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
+                                            )),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      SizedBox(
+                        height: 150,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: controller.OptionsList.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, int index) {
+                            return SizedBox(
+                              height: 150,
+                              child: Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        Get.to(() => GymOption(), arguments: {
+                                          "type": controller
+                                              .OptionsList[index].type,
+                                        });
+                                        FocusScope.of(context).unfocus();
+                                      },
+                                      child: Image.asset(controller
+                                          .OptionsList[index].imageAssets)),
+                                  const SizedBox(
+                                    width: 5,
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Divider();
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const SizedBox(
+                        height: 30,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Nearby Gyms",
+                            style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(child: buildGymBox())
                     ],
                   ),
                 ),
@@ -652,13 +655,12 @@ class _FirstHomeState extends State<FirstHome> {
           },
           controller: searchController,
           onTap: () {
-            FocusScope.of(context).unfocus();
+            // FocusScope.of(context).unfocus();
 // showCard=false;
 // print(showCard);                  FocusScope.of(context).unfocus();
           },
 
           onChanged: (value) {
-// print(value.toString());
           if (value.length==0){
             FocusScope.of(context).unfocus();
           }
@@ -703,7 +705,7 @@ class _FirstHomeState extends State<FirstHome> {
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("product_details")
-              .where("pincode", isEqualTo: user_data["pincode"])
+              .where("pincode", isEqualTo: GlobalUserData["pincode"])
               // .where("name",isGreaterThanOrEqualTo: searchGymName.toString())
               .snapshots(),
           builder: (context, AsyncSnapshot streamSnapshot) {
@@ -754,10 +756,10 @@ class _FirstHomeState extends State<FirstHome> {
                             child: GestureDetector(
                               onTap: () async {
                                 FocusScope.of(context).unfocus();
-                                setState(() {
-                                  searchGymName="";
-                                  searchController.clear();
-                                });
+                                // setState(() {
+                                //   // searchGymName="";
+                                //   searchController.clear();
+                                // });
 
                                 // print("${document[index]["name"]} ${document[index].id}");
                                 Get.to(

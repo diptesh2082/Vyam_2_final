@@ -15,12 +15,17 @@ import 'package:vyam_2_final/authintication/splash_screen.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'Home/home_page.dart';
 
+// bool visitingFlag = false;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await getNumber();
   getAddress();
-  print(address2);
+  getVisitingFlag();
+  // visitingFlag = await getVisitingFlag();
+  await myLocation();
+  // print("UIYUIYUIYTUYTr${number}");
+  print(GlobalUserData);
   // print(number);
   // print(number);
   // print(number);
@@ -57,7 +62,7 @@ class MyApp extends StatelessWidget {
 
       // theme: Themes().lightTheme,
       debugShowCheckedModeBanner: false,
-      home: number !=null ? HomePage():  Onboarding1(),
+      home: visiting_flag ? HomePage():  Onboarding1(),
 
       // initialRoute: ,
       getPages: [

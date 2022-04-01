@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
@@ -28,6 +29,7 @@ class _OtpPageState extends State<OtpPage> {
     getNumber();
     // Get.offAll(() =>  HomePage());
   }
+  bool showError=false;
 
   var value = Get.arguments;
   // var id = Get.arguments["id"];
@@ -64,11 +66,13 @@ class _OtpPageState extends State<OtpPage> {
     } on FirebaseAuthException catch (e) {
       setState(() {
         showLoading = false;
+        showError=true;
       });
       // ignore: avoid_print
       print(e.message);
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Some Error Occured. Try Again Later')));
+
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //     const SnackBar(content: Text('Some Error Occured. Try Again Later')));
     }
   }
 
@@ -118,7 +122,7 @@ class _OtpPageState extends State<OtpPage> {
   }
 
   Timer? _timer;
-  int _start = 25;
+  int _start = 20;
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -239,15 +243,24 @@ class _OtpPageState extends State<OtpPage> {
                               ],
                             ),
                           ),
+                          showError? Text("please input correct otp",   style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.red
+                          ),):const SizedBox(),
                           SizedBox(
                             height: size.height / 15,
                           ),
-                          Container(
-                            child: Text(_start.toString()),
-                          ),
+                          Text(_start.toString()),
                           Row(
                             children: [
-                              const Text("Didn’t you receive the OTP? "),
+                             Text("Didn’t you receive the OTP? ",
+                              style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                // color: Colors.red
+                              ),
+                              ),
                               TextButton(
                                   onPressed: activateButton!
                                       ? () {

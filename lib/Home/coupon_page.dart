@@ -9,6 +9,9 @@ import 'package:vyam_2_final/global_snackbar.dart';
 import 'package:vyam_2_final/payment/payment.dart';
 // import 'package:vyambooking/List/list.dart';
 
+bool GlobalCouponApplied=false;
+var GlobalCoupon;
+String CouponDetailsMap="0";
 class CouponDetails extends StatefulWidget {
   CouponDetails({
     Key? key,
@@ -28,37 +31,32 @@ class _CouponDetailsState extends State<CouponDetails> {
   CouponApi couponApi = CouponApi();
   _couponpopup(context) => showDialog(
       context: context,
-      builder: (context) => GestureDetector(
-        onTap: (){
-          Get.off(()=>const PaymentScreen(),arguments: getData);
-        },
-        child: AlertDialog(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16))),
-          content: SizedBox(
-            height: 180,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    "VYAM30 Applied",
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(height: 15),
-                  Text(
-                    "You save 50.00",
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 16,
-                        color: Colors.green,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ]),
-          ),
+      builder: (context) => AlertDialog(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(16))),
+        content: SizedBox(
+          height: 180,
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Text(
+                  "VYAM30 Applied",
+                  style: TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
+                ),
+                SizedBox(height: 15),
+                Text(
+                  "You save 50.00",
+                  style: TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 16,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w700),
+                ),
+              ]),
         ),
       ));
 
@@ -121,10 +119,52 @@ class _CouponDetailsState extends State<CouponDetails> {
 
                           if(coupon_list.containsKey(coupon)){
                             coupon_applied=true;
-                            await _couponpopup(context);
+                            GlobalCoupon=coupon;
+                            setState(() {
+                              CouponDetailsMap=coupon_list[coupon];
+                              GlobalCouponApplied=true;
+                            });
+
+                              Get.back();
+                            // Get.off(()=>const PaymentScreen(),arguments: getData);
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(16))),
+                                content: SizedBox(
+                                  height: 180,
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: const [
+                                        Text(
+                                          "VYAM30 Applied",
+                                          style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(height: 15),
+                                        Text(
+                                          "You save 50.00",
+                                          style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              fontSize: 16,
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                      ]),
+                                ),
+                              ),
+                            );
+
 
                           }else{
                             coupon_applied=false;
+                            GlobalCouponApplied=false;
+                            GlobalCoupon=null;
+                            CouponDetailsMap="0";
                           }
 
                           if (coupon_applied==true){
@@ -133,7 +173,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                             });
 
 
-                            Get.off(()=>const PaymentScreen(),arguments: getData);
+                            // Get.off(()=>const PaymentScreen(),arguments: getData);
                             FocusScope.of(context).unfocus();
                             Get.snackbar("coupon applyed", "congratulations",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
                             // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
@@ -143,8 +183,8 @@ class _CouponDetailsState extends State<CouponDetails> {
                             // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
                             total_discount=0;
                           }
-                          print(coupon_applied);
-                          print(total_discount);
+                          // print(coupon_applied);
+                          // print(total_discount);
                         },
                         child: const Text(
                           "Apply",

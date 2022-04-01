@@ -131,7 +131,7 @@ class _ProfilePartState extends State<ProfilePart> {
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Stack(children: [
-                                          imageUrl == ""?
+                                          imageUrl == "" || imageUrl == "null"?
                                           CircleAvatar(
                                             // backgroundImage: ,
                                               radius: 51,
@@ -367,14 +367,14 @@ class _ProfilePartState extends State<ProfilePart> {
                           primary: Colors.black87,
                         ),
                         onPressed: () async {
-                          SharedPreferences sharedPreferences =
-                          await SharedPreferences.getInstance();
-                          sharedPreferences.remove('number');
+                          // SharedPreferences sharedPreferences =
+                          // await SharedPreferences.getInstance();
+                          // sharedPreferences.remove('number');
                           // getNumber();
                           // print(number);
                           _auth.signOut();
                           Get.offAll(() => const LoginPage());
-                          // setVisitingFlagFalse();
+                          setVisitingFlagFalse();
 
                         },
                         child: const Text(

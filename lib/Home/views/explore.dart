@@ -240,7 +240,7 @@ splashLocation(latitude,longitude)async{
                 child: StreamBuilder(
                     stream:  FirebaseFirestore.instance
                         .collection("product_details")
-                    .where("pincode",isEqualTo: GlobalUserLocation.toString())
+                    .where("pincode",isEqualTo: GlobalUserData["pincode"].toString())
                         .snapshots(),
                     builder: (context, AsyncSnapshot streamSnapshot) {
                       if (streamSnapshot.connectionState ==

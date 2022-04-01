@@ -7,7 +7,7 @@ import 'package:vyam_2_final/Home/views/first_home.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
 // ignore: prefer_typing_uninitialized_variables
-
+var visiting_flag;
 var total_discount=0;
 final booking= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
 Location location = Location();
@@ -18,9 +18,9 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 getUserId() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var user_Id= sharedPreferences.getString("userId")?? "";
-  number=user_Id;
-  print(number);
-  return number;
+  // number=user_Id;
+  // print(number);
+  return user_Id;
 }
 setUserId(x)async{
   SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -29,11 +29,13 @@ setUserId(x)async{
 getVisitingFlag() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   bool? visited= sharedPreferences.getBool("visited")?? false;
+  visiting_flag=visited;
   return visited;
 }
 setVisitingFlag()async{
   SharedPreferences preferences = await SharedPreferences.getInstance();
   preferences.setBool("visited", true);
+
 }
 setVisitingFlagFalse()async{
   SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -304,7 +306,7 @@ Future<void> checkExist(String docID) async {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists)  {
-        // print('Document exists on the database');
+        print('Document exists on the database');
         // setState(() {
         exist= true;
         setVisitingFlag();
@@ -324,6 +326,35 @@ Future<void> checkExist(String docID) async {
     exist=false;
   }
 }
+myLocation() async {
+  // number=getUserId();
+  // print(number);
+  try{
+    await FirebaseFirestore.instance
+        .collection('user_details')
+        .doc(number)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        // print('Document exists on the database');
+
+          var user_data = documentSnapshot.data();
+          GlobalUserData = documentSnapshot.data();
+          // GlobalUserLocation = GlobalUserData["pincode"]??"Tap here to tap your location";
+
+        print(GlobalUserLocation);
+        // user_data=documentSnapshot.data();
+      }
+    });
+  }catch(e){
+
+      GlobalUserData = {};
+      GlobalUserLocation = "700091";
+
+  }
+
+}
+
 
 
 class GymAllApi {
@@ -335,21 +366,21 @@ class GymAllApi {
 
   Stream<QuerySnapshot> getGymDetails = FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserLocation.toString())
+      .where("pincode", isEqualTo: GlobalUserData["pincode"].toString())
       .snapshots();
   Stream<QuerySnapshot> getMaleGym = FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserLocation.toString())
+      .where("pincode", isEqualTo: GlobalUserData["pincode"].toString())
       .where("gender", isEqualTo: "male")
       .snapshots();
   Stream<QuerySnapshot> getFemaleGym = FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserLocation)
+      .where("pincode", isEqualTo: GlobalUserData["pincode"].toString())
       .where("gender", isEqualTo: "female")
       .snapshots();
   Stream<QuerySnapshot> getUnisexGym = FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserLocation)
+      .where("pincode", isEqualTo: GlobalUserData["pincode"].toString())
       .where("gender", isEqualTo: "unisex")
       .snapshots();
 }

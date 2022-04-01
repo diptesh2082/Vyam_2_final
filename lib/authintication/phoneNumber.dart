@@ -83,7 +83,7 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
                     },
                     verificationFailed: (verificationFailed) async {
                       Get.snackbar(
-                          "Fail", "${verificationFailed.message}");
+                          "Fail", "varification faild");
                       // ignore: avoid_print
                       print(verificationFailed.message);
                       setState(() {

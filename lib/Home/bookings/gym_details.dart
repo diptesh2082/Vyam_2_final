@@ -49,7 +49,7 @@ class _GymDetailsState extends State<GymDetails> {
   ];
   double _scale = 1.0;
   double __previousScale = 1.0;
-
+  bool touch=false;
   List<IconData> icons = [
     Icons.ac_unit,
     Icons.lock_rounded,
@@ -105,30 +105,28 @@ class _GymDetailsState extends State<GymDetails> {
                       child: Stack(
                         //mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          FullScreenWidget(
-                            child: CarouselSlider.builder(
-                              itemCount: images.length,
-                              itemBuilder: (context, index, realIndex) {
-                                final image = images[index];
-                                return gymImages(image, index);
-                              },
-                              options: CarouselOptions(
-                                  height: 255,
-                                  autoPlay: true,
-                                  viewportFraction: 1,
-                                  onPageChanged: (index, reason) {
-                                    setState(() {
-                                      _current = index + 1;
-                                      for (int i = 0; i < images.length; i++) {
-                                        if (i == index) {
-                                          _isSelected[i] = true;
-                                        } else {
-                                          _isSelected[i] = false;
-                                        }
+                          CarouselSlider.builder(
+                            itemCount: images.length,
+                            itemBuilder: (context, index, realIndex) {
+                              final image = images[index];
+                              return gymImages(image, index);
+                            },
+                            options: CarouselOptions(
+                                height: 255,
+                                autoPlay: true,
+                                viewportFraction: 1,
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    _current = index + 1;
+                                    for (int i = 0; i < images.length; i++) {
+                                      if (i == index) {
+                                        _isSelected[i] = true;
+                                      } else {
+                                        _isSelected[i] = false;
                                       }
-                                    });
-                                  }),
-                            ),
+                                    }
+                                  });
+                                }),
                           ),
                           Positioned(
                             left: MediaQuery.of(context).size.width / 3,
@@ -1156,37 +1154,40 @@ class _GymDetailsState extends State<GymDetails> {
     );
   }
 
-  Widget gymImages(String images, int index) => PinchZoom(
-        resetDuration: const Duration(milliseconds: 1000),
-        maxScale: 2.5,
-        onZoomStart: () {
-          print('Start zooming');
-        },
-        onZoomEnd: () {
-          print('Stop zooming');
-        },
-        child: AspectRatio(
-          aspectRatio: 1.5,
+  Widget gymImages(String images, int index) => GestureDetector(
+    // onTap:(){
+    //   setState(() {
+    //     touch?touch=false:touch=true;
+    //   });
+    // },
+    child: FullScreenWidget(
+
+      child: AspectRatio(
+        aspectRatio: 10/1,
+        child: PinchZoom(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: FittedBox(
+            child: Center(
+              child: CachedNetworkImage(
+                imageUrl: images,
                 fit: BoxFit.cover,
-                child: CachedNetworkImage(
-                  imageUrl: images,
-                )),
+              ),
+            ),
           ),
-          // width: MediaQuery.of(context).size.width,
-          // height: 500,
-          // height: 500,
-          // decoration: BoxDecoration(
-          //   image: DecorationImage(
-          //     image: CachedNetworkImageProvider(images),
-          //         fit: BoxFit.cover
-          //   )
-          //
-          // ),
         ),
-      );
+        // width: MediaQuery.of(context).size.width,
+        // height: 500,
+        // height: 500,
+        // decoration: BoxDecoration(
+        //   image: DecorationImage(
+        //     image: CachedNetworkImageProvider(images),
+        //         fit: BoxFit.cover
+        //   )
+        //
+        // ),
+      ),
+    ),
+  );
 
   Widget amenities(int index) => FittedBox(
         child: Column(

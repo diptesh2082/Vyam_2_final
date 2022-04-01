@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -9,6 +11,7 @@ import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/phoneNumber.dart';
 import 'package:vyam_2_final/authintication/register_email.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 class FirebaseService {
   getToHomePage(var number) async {
@@ -40,14 +43,15 @@ class FirebaseService {
         print(auth.currentUser!.email);
         getToHomePage(auth.currentUser!.email);
         setUserId(_auth.currentUser?.email);
-        bool? visitingFlag=await getVisitingFlag();
-
-
-        if (visitingFlag==true){
+        // var visitingFlag=await get;
+        // checkExist(_auth.currentUser?.email);
+        await checkExist("${_auth.currentUser?.email}");
+        // number.toString()==_auth.currentUser?.email.toString()
+        if (exist==true){
 
           Get.offAll(()=>HomePage());
         }
-        else if(visitingFlag==false){
+        else if(exist==false){
           Get.offAll(()=>PhoneRegistar());
         }
         setUserId(_auth.currentUser?.email);
