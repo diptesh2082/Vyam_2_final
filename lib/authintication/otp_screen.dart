@@ -10,12 +10,18 @@ import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 // import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/colors/color.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 import '../api/api.dart';
 
 class OtpPage extends StatefulWidget {
   static String id = "/otp_screen";
-  const OtpPage({Key? key}) : super(key: key);
+
+  final  verificationID;
+  final number;
+  final resendingToken;
+
+  OtpPage({Key? key,required this.verificationID,required this.number,required this.resendingToken}) : super(key: key);
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -31,7 +37,7 @@ class _OtpPageState extends State<OtpPage> {
   }
   bool showError=false;
 
-  var value = Get.arguments;
+  // var value = Get.arguments;
   // var id = Get.arguments["id"];
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool showLoading = false;
@@ -79,7 +85,7 @@ class _OtpPageState extends State<OtpPage> {
     }
   }
 
-  var docId = Get.arguments[1];
+  // var docId = Get.arguments[1];
   Future<void> checkExist(String docID) async {
     try {
       await FirebaseFirestore.instance
@@ -116,8 +122,8 @@ class _OtpPageState extends State<OtpPage> {
 
   @override
   void initState() {
-    print("+91$docId");
-    checkExist("tsyyedstegr +91$docId");
+    // print("+91$docId");
+    // checkExist("tsyyedstegr +91$docId");
     startTimer();
     // flag = get();
     // print(flag);
@@ -209,7 +215,7 @@ class _OtpPageState extends State<OtpPage> {
                             height: size.height / 50,
                           ),
                           Text(//number settings
-                              "Enter the OTP sent to ${value[1]}"),
+                              "Enter the OTP sent to ${widget.number}"),
                           const SizedBox(
                             height: 20,
                           ),
@@ -270,13 +276,21 @@ class _OtpPageState extends State<OtpPage> {
                                     // setState(() {
                                     //   _timer;
                                     // });
-
-                                    print("+91${docId}");
+                                    // Get.off(() =>
+                                    //     const OtpPage(),
+                                    //   // arguments: [
+                                    //     //         verificationID,
+                                    //     //         "+91${docId}",
+                                    //     //         resendingToken
+                                    //     //       ]
+                                    // );
+                                    print(widget.number);
+                                    // print("+91${docId}");
                                     var _forceResendingToken;
                                     await _auth.verifyPhoneNumber(
                                         timeout: const Duration(seconds: 25),
                                         forceResendingToken: _forceResendingToken,
-                                        phoneNumber: "+91${docId}",
+                                        phoneNumber: widget.number,
                                         verificationCompleted:
                                             (phoneAuthCredential) async {
                                           setState(() {
@@ -301,13 +315,15 @@ class _OtpPageState extends State<OtpPage> {
                                           // setState(() {
                                           //   _timer;
                                           // });
-                                         await Get.off(() =>  OtpPage(), arguments: [
-                                            verificationID,
-                                            "+91${docId}",
-                                            resendingToken
-                                          ]);
+                                          Navigator.push((context), MaterialPageRoute(builder:(context)=>OtpPage(verificationID: verificationID,number: widget.number , resendingToken: resendingToken)));
+
+                                          // await Get.off(() =>  OtpPage(), arguments: [
+                                          //   verificationID,
+                                          //   "+91${docId}",
+                                          //   resendingToken
+                                          // ]);
                                           print("$resendingToken");
-                                          // checkExist("+91${phoneController.text}");
+                                          checkExist(widget.number);
                                           var resending_token=resendingToken;
                                           // setState(() {
                                           //   const OtpPage();
@@ -346,7 +362,7 @@ class _OtpPageState extends State<OtpPage> {
                                 print(getVisitingFlag());
                                 AuthCredential phoneAuthCredential =
                                     PhoneAuthProvider.credential(
-                                  verificationId: value[0],
+                                  verificationId: widget.verificationID,
                                   smsCode: otpController.text,
                                 );
                                 print("/////////////// Below is the Token");

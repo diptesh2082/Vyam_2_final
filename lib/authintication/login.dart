@@ -219,11 +219,8 @@ class _LoginPageState extends State<LoginPage> {
                                   print("$resendingToken");
                                   // checkExist("+91${phoneController.text}");
                                   resending_token=resendingToken;
-                                  Get.to(() => const OtpPage(), arguments: [
-                                    verificationID,
-                                    phoneController.text,
-                                    resendingToken
-                                  ]);
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpPage(verificationID: verificationID,number: "+91${phoneController.text.trim()}" , resendingToken: resending_token,)));
+
                                 },
                                 // forceResendingToken: (re){
                                 //
