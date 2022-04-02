@@ -108,6 +108,7 @@ class _ProfilePartState extends State<ProfilePart> {
                 FittedBox(
                   child: Container(
                     // height: 151,
+                    width: MediaQuery.of(context).size.width,
                     decoration: const BoxDecoration(
                       color: Colors.white,
                     ),
@@ -122,6 +123,7 @@ class _ProfilePartState extends State<ProfilePart> {
                           // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(left: size.width * .01),
@@ -157,7 +159,7 @@ class _ProfilePartState extends State<ProfilePart> {
                               const SizedBox(
                                 width: 9,
                               ),
-
+                              // Spacer(),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,

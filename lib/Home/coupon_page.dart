@@ -131,28 +131,38 @@ class _CouponDetailsState extends State<CouponDetails> {
                                 shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(Radius.circular(16))),
                                 content: SizedBox(
-                                  height: 180,
-                                  child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: const [
-                                        Text(
-                                          "VYAM30 Applied",
-                                          style: TextStyle(
-                                              fontFamily: "Poppins",
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        SizedBox(height: 15),
-                                        Text(
-                                          "You save 50.00",
-                                          style: TextStyle(
-                                              fontFamily: "Poppins",
-                                              fontSize: 16,
-                                              color: Colors.green,
-                                              fontWeight: FontWeight.w700),
-                                        ),
-                                      ]),
+                                  height: 160,
+                                  width: 160,
+                                  child: FittedBox(
+                                    child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset("assets/icons/icons8-approval.gif",
+                                          height: 70,
+                                            width: 70,
+                                          ),
+                                          const SizedBox(
+                                            height: 9,
+                                          ),
+                                          Text(
+                                            "$coupon Applied",
+                                            style: const TextStyle(
+                                                fontFamily: "Poppins",
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Text(
+                                            "You save ${coupon_list[coupon]}",
+                                            style: const TextStyle(
+                                                fontFamily: "Poppins",
+                                                fontSize: 16,
+                                                color: Colors.green,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ]),
+                                  ),
                                 ),
                               ),
                             );
@@ -173,7 +183,7 @@ class _CouponDetailsState extends State<CouponDetails> {
 
                             // Get.off(()=>const PaymentScreen(),arguments: getData);
                             FocusScope.of(context).unfocus();
-                            Get.snackbar("coupon applyed", "congratulations",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
+                            // Get.snackbar("coupon applyed", "congratulations",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
                             // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
 
                           }else{

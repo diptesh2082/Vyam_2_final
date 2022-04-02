@@ -607,14 +607,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                               ),
                                               TextSpan(
                                                   text: GlobalCouponApplied?"${GlobalCoupon} ":"code ",
-                                                style: GoogleFonts.poppins(
+                                                style: GlobalCouponApplied? GoogleFonts.poppins(
                                                   // fontFamily: "Poppins",
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 12,
-                                                    color: Colors.amber),
+                                                    color: Colors.amber):GoogleFonts.poppins(
+                                                  // fontFamily: "Poppins",
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12,
+                                                    color: Colors.grey),
                                               ),
                                                TextSpan(
-                                                  text: GlobalCouponApplied?"Applied":"Sselected"
+                                                  text: GlobalCouponApplied?"Applied":"Selected"
                                               ),
                                             ]
 
