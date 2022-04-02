@@ -315,7 +315,7 @@ class _OtpPageState extends State<OtpPage> {
                                           // setState(() {
                                           //   _timer;
                                           // });
-                                          Navigator.push((context), MaterialPageRoute(builder:(context)=>OtpPage(verificationID: verificationID,number: widget.number , resendingToken: resendingToken)));
+                                          Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>OtpPage(verificationID: verificationID,number: widget.number , resendingToken: resendingToken)));
 
                                           // await Get.off(() =>  OtpPage(), arguments: [
                                           //   verificationID,

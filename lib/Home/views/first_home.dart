@@ -1010,6 +1010,7 @@ class _FirstHomeState extends State<FirstHome> {
                 return const SizedBox();
               }
               var document = snapshot.data.docs;
+              print(document);
               return document.isNotEmpty
                   ? ListView.builder(
                       shrinkWrap: true,
@@ -1067,7 +1068,7 @@ class _FirstHomeState extends State<FirstHome> {
                                           //   height: 5,
                                           // ),
                                           Text(
-                                              data.docs[index]['gym_name'] ??
+                                              data.docs[index]['gym_details']["name"] ??
                                                   "",
                                               style: GoogleFonts.poppins(
                                                   fontSize: 13,
