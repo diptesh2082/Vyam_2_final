@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:vyam_2_final/OrderDetails/active_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 import '../OrderDetails/order_details.dart';
 
@@ -50,7 +51,7 @@ class ActiveEvent extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Get.to(() => OrderDetails(
+                          Get.to(() => ActiveOrderDetails(
                                     index: index,
                                     orderList: data.docs,
                                   ),
