@@ -206,6 +206,7 @@ class UserApi {
       // "location":GeoPoint(0,0),
       "image":_auth.currentUser?.photoURL.toString(),
       "address":"",
+      "gender":"",
       // "lat": 0,
       // "long": 0,
       "location": const GeoPoint(
@@ -299,6 +300,7 @@ class GymReviews{
 
 }
 var exist;
+var user_details;
 Future<void> checkExist(String docID) async {
   try {
     await FirebaseFirestore.instance
@@ -310,6 +312,7 @@ Future<void> checkExist(String docID) async {
         print('Document exists on the database');
         // setState(() {
         exist= true;
+
         setVisitingFlag();
         print(getVisitingFlag());
         // });
@@ -339,9 +342,9 @@ myLocation() async {
       if (documentSnapshot.exists) {
         // print('Document exists on the database');
 
-          var user_data = documentSnapshot.data();
-          GlobalUserData = documentSnapshot.data();
-          // GlobalUserLocation = GlobalUserData["pincode"]??"Tap here to tap your location";
+        var user_data = documentSnapshot.data();
+        GlobalUserData = documentSnapshot.data();
+        // GlobalUserLocation = GlobalUserData["pincode"]??"Tap here to tap your location";
 
         print(GlobalUserLocation);
         // user_data=documentSnapshot.data();
@@ -349,18 +352,47 @@ myLocation() async {
       else{
         GlobalUserData = {
           "pincode":"700091",
-          "address": "Tap here to choose your location"
+          "address": "Tap here to choose your location",
+          "gender":""
         };
         GlobalUserLocation = "700091";
       }
     });
   }catch(e){
 
-      GlobalUserData = {
-        "pincode":"700091",
-        "address": "Tap here to choose your location"
-      };
-      GlobalUserLocation = "700091";
+    GlobalUserData = {
+      "pincode":"700091",
+      "address": "Tap here to choose your location",
+      "gender":""
+    };
+    GlobalUserLocation = "700091";
+
+  }
+
+}
+var vendorDetails;
+vendorData(String id) async {
+  // number=getUserId();
+  // print(number);
+  try{
+    await FirebaseFirestore.instance
+        .collection('product_details')
+        .doc(id)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        // print('Document exists on the database');
+        vendorDetails=documentSnapshot.data();
+        return documentSnapshot.data();
+
+      }
+      else{
+          return {};
+      }
+    });
+  }catch(e){
+
+    print(e);
 
   }
 

@@ -1,8 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:vyam_2_final/api/api.dart';
+import 'package:vyam_2_final/api/maps_launcher_api.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 class OrderDetails extends StatefulWidget {
   const OrderDetails({Key? key, required this.index, required this.orderList})
@@ -17,10 +22,16 @@ class OrderDetails extends StatefulWidget {
 class _OrderDetailsState extends State<OrderDetails> {
   List getOderDetails = [];
   var doc = Get.arguments;
+// var gym__details;
+  var gym_id= Get.arguments["doc"]["vendorId"];
+  var booking_id=Get.arguments["doc"]["booking_id"];
 
   @override
   void initState() {
     getOderDetails = widget.orderList;
+    // print(doc["doc"]["vendorId"]);
+    vendorData(gym_id);
+    print(booking_id);
     super.initState();
   }
 
@@ -190,26 +201,33 @@ class _OrderDetailsState extends State<OrderDetails> {
                                           width: 5,
                                         ),
                                         const Spacer(),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 20.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              Image.asset(
-                                                "assets/icons/bx_bxs-direction-right.png",
-                                                height: 20,
-                                              ),
-                                              Text(
-                                                "Navigate",
-                                                style: GoogleFonts.poppins(
-                                                    color: HexColor("49C000"),
-                                                    fontSize: 10,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ],
+                                        GestureDetector(
+                                          onTap: ()async{
+                                            print( vendorDetails['location'].latitude);
+                                            await MapsLaucherApi().launchMaps(vendorDetails['location'].latitude,
+                                                vendorDetails['location'].longitude);
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 20.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  "assets/icons/bx_bxs-direction-right.png",
+                                                  height: 20,
+                                                ),
+                                                Text(
+                                                  "Navigate",
+                                                  style: GoogleFonts.poppins(
+                                                      color: HexColor("49C000"),
+                                                      fontSize: 10,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -253,39 +271,53 @@ class _OrderDetailsState extends State<OrderDetails> {
                                           //   FlutterPhoneDirectCaller.callNumber(
                                           //       number);
                                           // },
-                                          child: Container(
-                                              decoration: BoxDecoration(
-                                                  color: HexColor("292F3D"),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 14,
-                                                    right: 14,
-                                                    top: 6,
-                                                    bottom: 6),
-                                                child: Row(
-                                                  children: [
-                                                    Image.asset(
-                                                        "assets/icons/call.png"),
-                                                    const SizedBox(
-                                                      width: 5,
-                                                    ),
-                                                    Text(
-                                                      "Call",
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              color: HexColor(
-                                                                  "FFFFFF")),
-                                                    ),
-                                                  ],
-                                                ),
-                                              )),
+                                          child: GestureDetector(
+
+                                              onTap: () async {
+                                                var number = (vendorDetails['number']);
+                                                print(number);
+                                                String telephoneUrl = "tel:${number.toString()}";
+                                                if (await canLaunch(telephoneUrl)) {
+                                                  await launch(telephoneUrl);
+                                                } else {
+                                                  throw "Error occured trying to call that number.";
+                                                }
+                                              },
+
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                    color: HexColor("292F3D"),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 14,
+                                                      right: 14,
+                                                      top: 6,
+                                                      bottom: 6),
+                                                  child: Row(
+                                                    children: [
+                                                      Image.asset(
+                                                          "assets/icons/call.png"),
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        "Call",
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                color: HexColor(
+                                                                    "FFFFFF")),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )),
+                                          ),
                                         ),
                                         const Spacer()
                                       ],
@@ -510,21 +542,131 @@ class _OrderDetailsState extends State<OrderDetails> {
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 children: [
-                  Container(
-                      decoration: BoxDecoration(
-                          color: HexColor("292F3D"),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 10, top: 10, bottom: 10),
-                        child: Text(
-                          "Cancel Order",
-                          style: GoogleFonts.poppins(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              color: HexColor("FFFFFF")),
-                        ),
-                      )),
+                  GestureDetector(
+                    onTap: ()async{
+                        // Get.off(()=>const PaymentScreen(),arguments: getData);
+                      vendorData(booking_id);
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(16))),
+                            content: SizedBox(
+                              height: 160,
+                              width: 160,
+                              child: FittedBox(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                        "Are you sure ?",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 12
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height:1,
+                                    ),
+                                    Text(
+                                      "You want to cancel ?",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 12
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height:15,
+                                    ),
+                                    Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          // Image.asset("assets/icons/icons8-approval.gif",
+                                          //   height: 70,
+                                          //   width: 70,
+                                          // ),
+
+
+                                          GestureDetector(
+                                            onTap:()async{
+                                              Navigator.pop(context);
+                                              await FirebaseFirestore.instance.collection("bookings").doc(number)
+                                                  .collection("user_booking")
+                                                  .doc(booking_id)
+                                                  .update({
+                                                  "booking_status":"cancel"
+                                              });
+
+                                            },
+                                            child: Container(
+                                              height: 20,
+                                                width: 28,
+                                                decoration: BoxDecoration(
+                                                    color: HexColor("292F3D"),
+                                                    borderRadius: BorderRadius.circular(2)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 4, right: 3, top: 2, bottom: 2),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "yes",
+                                                      style: GoogleFonts.poppins(
+                                                          fontSize: 9,
+                                                          fontWeight: FontWeight.w700,
+                                                          color: HexColor("FFFFFF")),
+                                                    ),
+                                                  ),
+                                                )),
+                                          ),
+                                          const SizedBox(width: 15),
+                                          GestureDetector(
+                                            onTap: (){
+                                              Navigator.pop(context);
+                                            },
+                                            child: Container(
+                                              height: 20,
+                                                width: 28,
+                                                decoration: BoxDecoration(
+                                                    color: HexColor("292F3D"),
+                                                    borderRadius: BorderRadius.circular(2)),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 4, right: 3, top: 2, bottom: 2),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "No",
+                                                      style: GoogleFonts.poppins(
+                                                          fontSize: 9,
+                                                          fontWeight: FontWeight.w700,
+                                                          color: HexColor("FFFFFF")),
+                                                    ),
+                                                  ),
+                                                )),
+                                          ),
+                                        ]),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+
+
+                      },
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: HexColor("292F3D"),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, top: 10, bottom: 10),
+                          child: Text(
+                            "Cancel Order",
+                            style: GoogleFonts.poppins(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w700,
+                                color: HexColor("FFFFFF")),
+                          ),
+                        )),
+                  ),
                   const Spacer(),
                   Container(
                     decoration: const BoxDecoration(

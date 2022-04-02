@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   googleIn() async {
     print('hhhhhhhhhhhhhh');
     // FirebaseService().signInwithGoogle();
-    FirebaseService service = new FirebaseService();
+    FirebaseService service = FirebaseService();
     try {
       await service.signInwithGoogle();
       setState(() {
@@ -190,7 +190,10 @@ class _LoginPageState extends State<LoginPage> {
                             setState(() {
                               showLoding = true;
                             });
+                            var _forceResendingToken;
                             await _auth.verifyPhoneNumber(
+                              timeout: const Duration(seconds: 25),
+                                forceResendingToken: _forceResendingToken,
                                 phoneNumber: "+91${phoneController.text}",
                                 verificationCompleted:
                                     (phoneAuthCredential) async {
@@ -213,7 +216,7 @@ class _LoginPageState extends State<LoginPage> {
                                   setState(() {
                                     showLoding = false;
                                   });
-                                  print("/////////////////////////////////////////////////////////////////////////////////$resendingToken");
+                                  print("$resendingToken");
                                   // checkExist("+91${phoneController.text}");
                                   resending_token=resendingToken;
                                   Get.to(() => const OtpPage(), arguments: [

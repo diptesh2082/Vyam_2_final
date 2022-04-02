@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vyam_2_final/api/api.dart';
 
 
@@ -15,6 +16,7 @@ class Register2 extends StatefulWidget {
 }
 
 class _Register2State extends State<Register2> {
+  var name= Get.arguments["name"];
   TextEditingController emailController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -63,12 +65,14 @@ class _Register2State extends State<Register2> {
               final isValid = _formKey.currentState?.validate();
               if (isValid!){
                 _formKey.currentState?.save();
-                Navigator.push(
-                    context,
-                    CustomPageRoute(
-                      child: Register3(),
-                    ));
-                await UserApi.CreateUserEmail(emailController.text.trim());
+                Get.to(
+                    ()=>Register3(),
+                  arguments: {
+                      "name":name,
+                    "email":emailController.text.trim()
+                  }
+                    );
+                // await UserApi.CreateUserEmail(emailController.text.trim());
               }
 
             },

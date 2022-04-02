@@ -35,7 +35,7 @@ class _ProfilePartState extends State<ProfilePart> {
   bool Loading=true;
 
   Future getUserData() async {
-    // print(number);
+    print(id);
     DocumentReference userName =
     FirebaseFirestore.instance.collection('user_details').doc(id);
     userName.snapshots().listen((snapshot) {
@@ -53,13 +53,17 @@ class _ProfilePartState extends State<ProfilePart> {
           });
         }
       }catch(e){
-        name =  "";
-        // print(number);
-        email = "";
-        phone =  "";
-        imageUrl =  "";
-        Loading=false;
+        setState(() {
+          name =  "";
+          // print(number);
+          email = "";
+          phone =  "";
+          imageUrl =  "";
+          Loading=false;
+        });
+
       }
+      Loading=false;
 
 
     });
@@ -68,9 +72,10 @@ class _ProfilePartState extends State<ProfilePart> {
   @override
   void initState() {
     // print(number);
-    print(_auth.currentUser?.email);
-    getUserData();
-    print(imageUrl);
+    // print(_auth.currentUser?.email);
+     getUserData();
+     Loading=false;
+    // print(imageUrl);
     super.initState();
   }
 
@@ -140,7 +145,7 @@ class _ProfilePartState extends State<ProfilePart> {
 
                                               backgroundColor: Colors.white,
                                               // MediaQuery.of(context).size.width * 0.3,
-                                              backgroundImage:  gender.toLowerCase()=="male"?AssetImage("assets/Illustrations/Avatarmale.png"):AssetImage("assets/Illustrations/Avatar.png"),
+                                              backgroundImage:  gender.toLowerCase()=="male"?const AssetImage("assets/Illustrations/Avatarmale.png"):AssetImage("assets/Illustrations/Avatar.png"),
                                           ): CircleAvatar(
                                             // backgroundImage: ,
                                             radius: 51,
@@ -167,8 +172,11 @@ class _ProfilePartState extends State<ProfilePart> {
                                   Row(
                                     children: [
                                       Text(
-                                        name,
+                                        name!=""?name:"no name",
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
+
                                             fontFamily: "Poppins",
                                             fontWeight: FontWeight.w600),
                                       ),
@@ -177,16 +185,19 @@ class _ProfilePartState extends State<ProfilePart> {
                                       ),
                                       IconButton(
                                           onPressed: () {
-                                            Get.to(() => Profile(),
-                                            arguments: {
-                                              "name":name,
-                                              "email":email,
-                                              "imageUrl":imageUrl,
-                                              "number":phone,
-                                              "gender":gender.toLowerCase()
-
-                                            }
-                                            );
+                                            print(name);
+                                            // print(email);
+                                            // print(id);
+                                            // Get.to(() => Profile(),
+                                            // arguments: {
+                                            //   "name":name,
+                                            //   "email":email,
+                                            //   "imageUrl":imageUrl,
+                                            //   "number":phone,
+                                            //   "gender":gender.toLowerCase()
+                                            //
+                                            // }
+                                            // );
                                           },
                                           icon: const Icon(Icons.edit))
                                     ],
@@ -196,7 +207,7 @@ class _ProfilePartState extends State<ProfilePart> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        email,
+                                        email!="null"?email:"no email",
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                         style: const TextStyle(
@@ -204,7 +215,7 @@ class _ProfilePartState extends State<ProfilePart> {
                                             fontWeight: FontWeight.w400),
                                       ),
                                       Text(
-                                        phone,
+                                        phone!=""?phone:"no Phone number",
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                         style: const TextStyle(

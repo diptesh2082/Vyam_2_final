@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:vyam_2_final/api/api.dart';
 
 
@@ -18,7 +19,8 @@ class Register3 extends StatefulWidget {
 
 class _Register3State extends State<Register3> {
   String gender="";
-
+  var name= Get.arguments["name"];
+  var email=Get.arguments["email"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +66,12 @@ class _Register3State extends State<Register3> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
-            onPressed: () {
+            onPressed: ()async {
+              // await setVisitingFlag();
+              await UserApi.createNewUser();
+              await UserApi.createUserName(name);
+              await UserApi.CreateUserEmail(email);
+              await UserApi.CreateUserGender(gender);
               Navigator.push(
                   context,
                   CustomPageRoute(
@@ -78,7 +85,7 @@ class _Register3State extends State<Register3> {
                       child: Register4(),
                       type: PageTransitionType.rightToLeftWithFade)*/
                   );
-              UserApi.CreateUserGender(gender);
+
             },
             backgroundColor: Colors.amber.shade300,
             child: const Icon(

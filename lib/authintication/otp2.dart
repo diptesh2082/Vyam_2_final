@@ -21,6 +21,10 @@ class OtpPage2 extends StatefulWidget {
 }
 
 class _OtpPage2State extends State<OtpPage2> {
+  // getInfo()async{
+  //   await checkExist(number);
+  //   GlobalUserData["gender"]==""?Get.off(const LoginPage()):Get.off(()=>HomePage());
+  // }
   // getToHomePage(var number) async {
   //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   //   getNumber();

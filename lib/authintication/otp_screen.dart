@@ -41,6 +41,7 @@ class _OtpPageState extends State<OtpPage> {
     setState(() {
       showLoading = true;
     });
+
     try {
       final authCred = await _auth.signInWithCredential(phoneAuthCredential);
       // _auth.verifyPhoneNumber();
@@ -50,12 +51,14 @@ class _OtpPageState extends State<OtpPage> {
       if (authCred.user != null) {
         getToHomePage(_auth.currentUser?.phoneNumber);
         // setUserId(_auth.currentUser?.phoneNumber);
-        bool? visitingFlag = await getVisitingFlag();
+        // bool? visitingFlag = await getVisitingFlag();
+        await checkExist("${_auth.currentUser?.phoneNumber}");
         await setUserId(_auth.currentUser?.phoneNumber);
         await setVisitingFlag();
-        if (visitingFlag == true) {
+        print(exist);
+        if (exist == true) {
           Get.offAll(() => HomePage());
-        } else if (visitingFlag == false) {
+        } else if (exist == false) {
           Get.offAll(() => Register1());
         }
 
@@ -114,7 +117,7 @@ class _OtpPageState extends State<OtpPage> {
   @override
   void initState() {
     print("+91$docId");
-    checkExist("+91$docId");
+    checkExist("tsyyedstegr +91$docId");
     startTimer();
     // flag = get();
     // print(flag);
@@ -263,9 +266,63 @@ class _OtpPageState extends State<OtpPage> {
                               ),
                               TextButton(
                                   onPressed: activateButton!
-                                      ? () {
-                                          print(
-                                              "Implement Function For starting Resend OTP Request");
+                                      ? ()async {
+                                    // setState(() {
+                                    //   _timer;
+                                    // });
+
+                                    print("+91${docId}");
+                                    var _forceResendingToken;
+                                    await _auth.verifyPhoneNumber(
+                                        timeout: const Duration(seconds: 25),
+                                        forceResendingToken: _forceResendingToken,
+                                        phoneNumber: "+91${docId}",
+                                        verificationCompleted:
+                                            (phoneAuthCredential) async {
+                                          setState(() {
+                                            showLoading = false;
+                                          });
+                                        },
+                                        verificationFailed: (verificationFailed) async {
+                                          Get.snackbar(
+                                              "Fail", "${verificationFailed.message}");
+                                          // ignore: avoid_print
+                                          print(verificationFailed.message);
+                                          setState(() {
+                                            showLoading = false;
+                                          });
+                                        },
+
+                                        codeSent:
+                                            (verificationID, resendingToken) async {
+                                          setState(() {
+                                            // showLoding = false;
+                                          });
+                                          // setState(() {
+                                          //   _timer;
+                                          // });
+                                         await Get.off(() =>  OtpPage(), arguments: [
+                                            verificationID,
+                                            "+91${docId}",
+                                            resendingToken
+                                          ]);
+                                          print("$resendingToken");
+                                          // checkExist("+91${phoneController.text}");
+                                          var resending_token=resendingToken;
+                                          // setState(() {
+                                          //   const OtpPage();
+                                          // });
+                                          // startTimer();
+
+                                        },
+                                        // forceResendingToken: (re){
+                                        //
+                                        // },
+                                        codeAutoRetrievalTimeout:
+                                            (verificationID) async {
+                                        });
+                                          // print(
+                                          //     "Implement Function For starting Resend OTP Request");
                                         }
                                       : null,
                                   child: Text(

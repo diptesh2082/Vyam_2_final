@@ -292,13 +292,7 @@ class _FirstHomeState extends State<FirstHome> {
   void initState() {
     // getUserId();
     getEverything();
-    // print("yfrffuyifyifyuifyify${GlobalUserData["pincode"]}");
-    // print(number);
-    // FocusScope.of(context).unfocus();
-    SystemChannels.textInput.invokeMethod("TextInput.hide");
-    // myLocation();
-    // getUserDetails();
-    // userDetails.getData();
+    // SystemChannels.textInput.invokeMethod("TextInput.hide");
     getProgressStatus();
 
     // getNumber();
@@ -334,6 +328,12 @@ class _FirstHomeState extends State<FirstHome> {
     // }
 
     super.initState();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    locationController;
+    super.dispose();
   }
 
 
@@ -748,7 +748,7 @@ class _FirstHomeState extends State<FirstHome> {
                     itemBuilder: (context, int index) {
                       var distance=calculateDistance(GlobalUserData["location"].latitude, GlobalUserData["location"].longitude, document[index]["location"].latitude, document[index]["location"].longitude);
                       distance=double.parse((distance).toStringAsFixed(1));
-                          print(distance);
+                          // print(distance);
                       return FittedBox(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),

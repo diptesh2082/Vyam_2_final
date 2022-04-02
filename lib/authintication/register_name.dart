@@ -72,13 +72,14 @@ class _Register1State extends State<Register1> {
               final isValid = _formKey.currentState?.validate();
               if (isValid!){
                 _formKey.currentState?.save();
-                await UserApi.createNewUser();
-                Navigator.push(
-                    context,
-                    CustomPageRoute(
-                      child: Register2(),
-                    ));
-                await UserApi.createUserName(nameController.text.trim());
+                // await UserApi.createNewUser();
+                Get.to(
+                    ()=>Register2(),
+                  arguments: {
+                      "name":nameController.text.trim()
+                  }
+                    );
+                // await UserApi.createUserName(nameController.text.trim());
 
               }
               // ScaffoldMessenger.of(context).showSnackBar(snackBar);

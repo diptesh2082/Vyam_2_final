@@ -269,7 +269,9 @@ class _LocInfoState extends State<LocInfo> {
                         "lat": res.latitude,
                         "long": res.longitude,
                         "address":value.trim(),
-                        "pincode":pin
+                        "pincode":pin,
+                        "locality": locality,
+                        "subLocality": subLocality,
                       });
                       Get.off(()=>HomePage());
                     },
@@ -363,6 +365,7 @@ class _LocInfoState extends State<LocInfo> {
                             .collection("user_details")
                             .doc(number)
                             .update({
+                          "location": GeoPoint( position.latitude,position.longitude),
                           "address": address,
                           "lat": position.latitude,
                           "long": position.longitude,
@@ -500,7 +503,9 @@ class _LocInfoState extends State<LocInfo> {
                       "lat": res.latitude,
                       "long": res.longitude,
                       "address":value.trim(),
-                      "pincode":pin
+                      "pincode":pin,
+                      "locality": locality,
+                      "subLocality": subLocality,
                     });
                     Get.off(()=>HomePage());
                   },
@@ -554,7 +559,9 @@ class _LocInfoState extends State<LocInfo> {
                       "lat": res.latitude,
                       "long": res.longitude,
                       "address":value.trim(),
-                      "pincode":pin
+                      "pincode":pin,
+                      "locality": locality,
+                      "subLocality": subLocality,
                     });
                     Get.off(()=>HomePage());
                   },
@@ -608,7 +615,9 @@ class _LocInfoState extends State<LocInfo> {
                       "lat": res.latitude,
                       "long": res.longitude,
                       "address":value.trim(),
-                      "pincode":pin
+                      "pincode":pin,
+                      "locality": locality,
+                      "subLocality": subLocality,
                     });
                     Get.off(()=>HomePage());
                   },
@@ -679,7 +688,9 @@ class _LocInfoState extends State<LocInfo> {
                           "lat": res.latitude,
                           "long": res.longitude,
                           "address":address,
-                          "pincode":pin
+                          "pincode":pin,
+                          "locality": locality,
+                          "subLocality": subLocality,
                         });
                         Get.off(()=>HomePage());
                       },
