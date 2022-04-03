@@ -149,7 +149,6 @@ class _ProfilePartState extends State<ProfilePart> {
                                           ): CircleAvatar(
                                             // backgroundImage: ,
                                             radius: 51,
-
                                             backgroundColor: Colors.white,
                                             // MediaQuery.of(context).size.width * 0.3,
                                             backgroundImage:  CachedNetworkImageProvider(imageUrl),
@@ -186,18 +185,18 @@ class _ProfilePartState extends State<ProfilePart> {
                                       IconButton(
                                           onPressed: () {
                                             print(name);
-                                            // print(email);
-                                            // print(id);
-                                            // Get.to(() => Profile(),
-                                            // arguments: {
-                                            //   "name":name,
-                                            //   "email":email,
-                                            //   "imageUrl":imageUrl,
-                                            //   "number":phone,
-                                            //   "gender":gender.toLowerCase()
-                                            //
-                                            // }
-                                            // );
+                                            print(email);
+                                            print(id);
+                                            Get.to(() => Profile(),
+                                            arguments: {
+                                              "name":name,
+                                              "email":email,
+                                              "imageUrl":imageUrl,
+                                              "number":phone,
+                                              "gender":gender.toLowerCase()
+
+                                            }
+                                            );
                                           },
                                           icon: const Icon(Icons.edit))
                                     ],

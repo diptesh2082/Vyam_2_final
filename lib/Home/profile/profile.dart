@@ -157,46 +157,58 @@ class _ProfileState extends State<Profile> {
                       pickImage();
                     },
                     child: Stack(children: [
-                      imageUrl == ""?
                       CircleAvatar(
-                        // backgroundImage: ,
                         radius: 51,
-
                         backgroundColor: Colors.white,
                         // MediaQuery.of(context).size.width * 0.3,
-                        backgroundImage:  gender.toLowerCase()=="male"?AssetImage("assets/Illustrations/Avatarmale.png"):AssetImage("assets/Illustrations/Avatar.png"),
-                      ): CircleAvatar(
-                        // backgroundImage: ,
-                        radius: 51,
-
-                        backgroundColor: Colors.white,
-                        // MediaQuery.of(context).size.width * 0.3,
-                        child: selected?ClipOval(
+                        child: image != null ? ClipOval(
                           child: Image.file(image !,
                             height: 150,
                             width: 150,
                           ),
-                        ) :CachedNetworkImage( imageUrl: imageUrl,),
-                      ),
-                      Positioned(
-                        // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
-                        bottom: 14.5,
-                        // right: 20,
-                        left: 32.5,
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          child: const Icon(
-                            Icons.add,
-                            size: 21,
-                          ),
-                          //color: Colors.amber,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.red.shade400,
-                          ),
+                        ): const Icon(Icons.camera_alt_outlined,
+                          size: 40,
                         ),
-                      )
-                    ]),
+                        // decoration: const BoxDecoration(
+                        //     shape: BoxShape/.circle, color: Colors.white)
+                      ),
+                      // if (imageUrl == "")
+                      // CircleAvatar(
+                      //   // backgroundImage: ,
+                      //   radius: 51,
+                      //
+                      //   backgroundColor: Colors.white,
+                      //   // MediaQuery.of(context).size.width * 0.3,
+                      //   backgroundImage:  gender.toLowerCase()=="male"?const AssetImage("assets/Illustrations/Avatarmale.png"):const AssetImage("assets/Illustrations/Avatar.png"),
+                      // ),
+                      // selected? CircleAvatar(
+                      //   // backgroundImage: ,
+                      //   radius: 60,
+                      //   backgroundImage: FileImage(image !,
+                      //   )
+                      //
+                      //   // child:
+                      // ) :CachedNetworkImage( imageUrl: imageUrl,),
+                      // Positioned(
+                        // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
+                      //   bottom: 14.5,
+                      //   // right: 20,
+                      //   left: 32.5,
+                      //   child: Container(
+                      //     width: MediaQuery.of(context).size.width * 0.3,
+                      //     child: const Icon(
+                      //       Icons.add,
+                      //       size: 21,
+                      //     ),
+                      //     //color: Colors.amber,
+                      //     decoration: BoxDecoration(
+                      //       shape: BoxShape.circle,
+                      //       color: Colors.red.shade400,
+                      //     ),
+                      //   ),
+                      // )
+                    ]
+                  ),
                   ),
 
                 ),
