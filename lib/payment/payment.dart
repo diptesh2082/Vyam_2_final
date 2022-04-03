@@ -96,6 +96,35 @@ class _PaymentScreenState extends State<PaymentScreen> {
   //
 
   final Razorpay _razorpay = Razorpay();
+  // var booking_id=getData["booking_id"];
+  var booking_details;
+  getBookingData(String booking_id)async{
+    try{
+      await FirebaseFirestore.instance
+          .collection('bookings')
+          .doc(number)
+          .collection("user_booking")
+          .doc(booking_id)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          print('Document exists on the database');
+
+          booking_details= documentSnapshot.data();
+          // });
+
+          // return documentSnapshot.data();
+
+        }
+
+      });
+    }catch(e){
+
+      print(e);
+
+    }
+
+  }
 
   @override
   void initState() {
@@ -219,10 +248,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
           x=x+1000;
         }
         FocusScope.of(context).unfocus();
-        Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x});
+        await getBookingData(getData["booking_id"]);
+        await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_details});
 
         // print(x);
-        FirebaseFirestore.instance
+        await FirebaseFirestore.instance
             .collection("bookings")
             .doc(number)
             .collection("user_booking")
@@ -342,7 +372,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     }else{
       var x =  Random().nextInt(9999);
       FocusScope.of(context).unfocus();
-      Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x});
+      Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_id":booking_id});
 
       // print(x);
       FirebaseFirestore.instance

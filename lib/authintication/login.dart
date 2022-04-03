@@ -192,7 +192,7 @@ class _LoginPageState extends State<LoginPage> {
                             });
                             var _forceResendingToken;
                             await _auth.verifyPhoneNumber(
-                              timeout: const Duration(seconds: 25),
+                              timeout: const Duration(seconds: 30),
                                 forceResendingToken: _forceResendingToken,
                                 phoneNumber: "+91${phoneController.text}",
                                 verificationCompleted:
@@ -216,9 +216,9 @@ class _LoginPageState extends State<LoginPage> {
                                   setState(() {
                                     showLoding = false;
                                   });
-                                  print("$resendingToken");
+                                  // print("$resendingToken");
                                   // checkExist("+91${phoneController.text}");
-                                  resending_token=resendingToken;
+                                  resending_token= await resendingToken;
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpPage(verificationID: verificationID,number: "+91${phoneController.text.trim()}" , resendingToken: resending_token,)));
 
                                 },

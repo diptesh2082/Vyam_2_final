@@ -190,10 +190,12 @@ class _FirstHomeState extends State<FirstHome> {
     finaldaysLeft = finalDate / totalDays;
     day_left = totalDays - int.parse(getDays);
     // progress=double.parse((100 * getDays/totalDays).toInt());
+    print("$getDays");
+    print(totalDays);
     getPercentage = 100 * int.parse(getDays.toString()) / totalDays;
-    progress = double.parse(getPercentage.toString()) / 100;
+    progress = (double.parse(getPercentage.toString()) / 100);
     // locationController.YourLocation(location);
-    print(getPercentage);
+    print("reytedry${getPercentage}");
     if (getPercentage >= 90) {
       progressColor = Colors.red;
       textColor = Colors.red;
@@ -1021,8 +1023,8 @@ class _FirstHomeState extends State<FirstHome> {
                         print(totalDays);
                         print(getDays);
                         final percent =
-                            100 * int.parse(getDays.toString()) ~/ totalDays;
-                        // print(snapshot.data.length,);
+                            double.parse((100 * int.parse(getDays.toString()) ~/ totalDays).toStringAsFixed(1));
+                        print(percent);
                         getProgressStatus();
                         return Stack(
                           children: [

@@ -64,9 +64,9 @@ class UpcomingEvent extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Get.to(() => OrderDetails(
-                            index: index,
-                            orderList: data.docs,
+                          Get.to(() => const OrderDetails(
+                            // index: index,
+                            // orderList: data.docs,
                           ),
                               arguments: {
                                 "doc":data.docs[index]

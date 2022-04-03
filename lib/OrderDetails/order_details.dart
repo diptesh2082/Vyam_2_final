@@ -10,10 +10,10 @@ import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
 class OrderDetails extends StatefulWidget {
-  const OrderDetails({Key? key, required this.index, required this.orderList})
+  const OrderDetails({Key? key, })
       : super(key: key);
-  final index;
-  final orderList;
+  // final index;
+  // final orderList;
 
   @override
   _OrderDetailsState createState() => _OrderDetailsState();
@@ -28,7 +28,7 @@ class _OrderDetailsState extends State<OrderDetails> {
 
   @override
   void initState() {
-    getOderDetails = widget.orderList;
+    // getOderDetails = widget.orderList;
     // print(doc["doc"]["vendorId"]);
     vendorData(gym_id);
     print(booking_id);

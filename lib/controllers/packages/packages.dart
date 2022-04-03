@@ -94,7 +94,7 @@ class _PackegesState extends State<Packeges> {
         "name": widget.gymName,
         "branch": Get.arguments["doc"]["branch"]
       },
-     "daysLeft": "50",
+     "daysLeft": "21",
       "discount": "0",
       "grand_total": "",
       "tax_pay": "",

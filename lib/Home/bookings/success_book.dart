@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,6 +7,8 @@ import 'package:vyam_2_final/Home/bookings/feedback.dart';
 import 'dart:async';
 
 import 'package:vyam_2_final/Home/home_page.dart';
+import 'package:vyam_2_final/OrderDetails/order_details.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 class SuccessBook extends StatefulWidget {
   @override
@@ -17,8 +21,16 @@ class _SuccessBookState extends State<SuccessBook>
   late AnimationController _concontroller;
   late Animation<double> scaleAnimation;
 
+  // get
+  // String booking_id=Get.arguments["booking_id"];
+
+
   @override
   initState() {
+    // getBookingData();
+    // print(booking_details);
+    // print("htffht"+booking_id);
+
     controller = AnimationController(
         vsync: this, value: 0.1, duration: const Duration(milliseconds: 1000));
     _concontroller = AnimationController(
@@ -120,8 +132,21 @@ class PanelWidget extends StatefulWidget {
 }
 
 class _PanelWidgetState extends State<PanelWidget> {
+  var booking_details=Get.arguments["booking_details"];
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    // getBookingData(booking_id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // print(booking_id);
+    // print(booking_details);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -169,10 +194,11 @@ class _PanelWidgetState extends State<PanelWidget> {
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12),
                             ),
-                            const Text(
-                              '00123',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
+                             Text(
+                               booking_details["id"]??'00123',
+                               // "",
+                              style: GoogleFonts.poppins(
+                                  // fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12),
                             ),
@@ -182,7 +208,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                           height: 5,
                         ),
                          Text(
-                          'Transformers gym',
+                          '${booking_details["gym_details"]["name"]??'00123'}',
                           style: GoogleFonts.poppins(
                               // fontFamily: 'Poppins',
                               fontWeight: FontWeight.w600,
@@ -196,7 +222,8 @@ class _PanelWidgetState extends State<PanelWidget> {
                             Icons.location_on,
                             size: 18,
                           ),
-                          Text('Barakar',
+                          Text(
+                              '${booking_details["gym_details"]["branch"]}',
                               style: GoogleFonts.poppins(
                                   // fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
@@ -209,17 +236,17 @@ class _PanelWidgetState extends State<PanelWidget> {
                           height: MediaQuery.of(context).size.height * 0.002,
                         ),
                         Row(
-                          children: const [
+                          children:  [
                             Text(
                               'Package  ',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
+                              style: GoogleFonts.poppins(
+
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12),
                             ),
                             Text(
-                              '3 Months',
-                              style: TextStyle(
+                              '${booking_details["booking_plan"]}',
+                              style: const TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12),
@@ -271,11 +298,13 @@ class _PanelWidgetState extends State<PanelWidget> {
                         left: 20.0,
                       ),
                       child: Container(
-                        height: 147,
+                        height: 133,
                         width: 155,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
                             image: DecorationImage(
-                                image: AssetImage("assets/icons/rectangle_14.png"))),
+                              fit: BoxFit.cover,
+                                image: CachedNetworkImageProvider(booking_details["gym_details"]["image"]))),
                       ),
                     )
                   ],
@@ -338,7 +367,14 @@ class _PanelWidgetState extends State<PanelWidget> {
                         fontSize: 14),
                   ),
                   onPressed: ()async {
-                   await Navigator.push(context, MaterialPageRoute(builder: (context) => Feedback1()));
+                   await    Get.to(() => const OrderDetails(
+                     // index: index,
+                     // orderList: data.docs,
+                   ),
+                       arguments: {
+                         "doc":booking_details
+                       }
+                   );;
                   },
                 ),
               ),

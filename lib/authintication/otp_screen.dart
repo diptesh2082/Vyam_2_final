@@ -55,17 +55,17 @@ class _OtpPageState extends State<OtpPage> {
         showLoading = false;
       });
       if (authCred.user != null) {
-        getToHomePage(_auth.currentUser?.phoneNumber);
+       await getToHomePage(_auth.currentUser?.phoneNumber);
         // setUserId(_auth.currentUser?.phoneNumber);
         // bool? visitingFlag = await getVisitingFlag();
         await checkExist("${_auth.currentUser?.phoneNumber}");
         await setUserId(_auth.currentUser?.phoneNumber);
         await setVisitingFlag();
-        print(exist);
-        if (exist == true) {
-          Get.offAll(() => HomePage());
-        } else if (exist == false) {
-          Get.offAll(() => Register1());
+        print("rtet5ete5t35e4t5et $visiting_flag");
+        if (visiting_flag == true) {
+          Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>HomePage()));
+        } else if (visiting_flag == false) {
+          Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>Register1()));
         }
 
         // SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -322,13 +322,9 @@ class _OtpPageState extends State<OtpPage> {
                                           //   "+91${docId}",
                                           //   resendingToken
                                           // ]);
-                                          print("$resendingToken");
+                                          // print("$resendingToken");
                                           checkExist(widget.number);
                                           var resending_token=resendingToken;
-                                          // setState(() {
-                                          //   const OtpPage();
-                                          // });
-                                          // startTimer();
 
                                         },
                                         // forceResendingToken: (re){
