@@ -157,6 +157,7 @@ class _ProfileState extends State<Profile> {
                       pickImage();
                     },
                     child: Stack(children: [
+                      imageUrl==""?
                       CircleAvatar(
                         radius: 51,
                         backgroundColor: Colors.white,
@@ -171,7 +172,12 @@ class _ProfileState extends State<Profile> {
                         ),
                         // decoration: const BoxDecoration(
                         //     shape: BoxShape/.circle, color: Colors.white)
-                      ),
+                      ):
+                      CircleAvatar(
+                        backgroundImage: CachedNetworkImageProvider(imageUrl),
+                        radius: 51,
+                      )
+                      ,
                       // if (imageUrl == "")
                       // CircleAvatar(
                       //   // backgroundImage: ,
