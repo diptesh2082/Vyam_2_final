@@ -309,6 +309,7 @@ class GymReviews{
 }
 var exist;
 var user_details;
+
 Future<void> checkExist(String docID) async {
   try {
     await FirebaseFirestore.instance
@@ -378,6 +379,38 @@ myLocation() async {
   }
 
 }
+
+var emailId;
+var emailhai;
+checkEmailExist(String email)async{
+  try{
+    await FirebaseFirestore.instance
+        .collection('user_details')
+        .where("email",isEqualTo:email)
+        .get()
+        .then((QuerySnapshot snapshot) {
+      if (snapshot.docs.isNotEmpty) {
+        // print('Document exists on the database');
+        emailId=snapshot.docs[0].id;
+        // print(snapshot.docs[0].id);
+        emailhai=true;
+        // email=true as bool;
+        // return true;
+
+      }
+      else{
+        emailhai=false;
+        // return false;
+      }
+    });
+  }catch(e){
+
+    print(e);
+
+  }
+
+}
+
 var vendorDetails;
 vendorData(String id) async {
   // number=getUserId();

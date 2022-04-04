@@ -95,7 +95,7 @@ class ActiveEvent extends StatelessWidget {
                                               height: 4,
                                             ),
                                             Text(
-                                                data.docs[index]['gym_name']??"",
+                                                data.docs[index]['gym_details']["name"]??"",
                                               // data.docs[index]['gym_name'],
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("3A3A3A"),

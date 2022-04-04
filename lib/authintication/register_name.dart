@@ -19,12 +19,12 @@ class _Register1State extends State<Register1> {
   TextEditingController nameController = TextEditingController();
   // final GlobalKey<FromState> _fromKey= GlobalKey<FromState>();
   // // final _fromKey = GlobalKey();
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {

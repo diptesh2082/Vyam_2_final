@@ -31,11 +31,11 @@ import '../home_page.dart';
 import 'gyms.dart';
 
 
-const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
-core.GoogleMapsPlaces _places = core.GoogleMapsPlaces(apiKey: api);
+// const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
+// core.GoogleMapsPlaces _places = core.GoogleMapsPlaces(apiKey: api);
 
 class FirstHome extends StatefulWidget {
-  // static bool loading=isLoading;
+
   const FirstHome({Key? key}) : super(key: key);
 
   // static bool get Loading => is;
@@ -65,20 +65,7 @@ class _FirstHomeState extends State<FirstHome> {
   final auth = FirebaseAuth.instance;
   // var location = Get.arguments;
 
-  // var data;
-  // await FirebaseFirestore.instance
-  //     .collection('user_details')
-  //     .doc(number)
-  //     .get()
-  //     .then((DocumentSnapshot documentSnapshot) {
-  // if (documentSnapshot.exists) {
-  // print('Document exists on the database');
-  // setState(() {
-  // user_data=documentSnapshot.data();
-  // });
   myLocation() async {
-    // number=getUserId();
-    // print(number);
     try{
       await FirebaseFirestore.instance
           .collection('user_details')
@@ -86,12 +73,13 @@ class _FirstHomeState extends State<FirstHome> {
           .get()
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
-          // print('Document exists on the database');
-          setState(() {
+          if(mounted) {
+            setState(() {
             user_data = documentSnapshot.data();
             GlobalUserData = documentSnapshot.data();
             // GlobalUserLocation = GlobalUserData["pincode"];
           });
+          }
           print(GlobalUserLocation);
           // user_data=documentSnapshot.data();
         }
@@ -116,21 +104,9 @@ class _FirstHomeState extends State<FirstHome> {
     getAddress();
   }
 
-  // Future nearbyGyms(var document)async{
-  //   document = await document.where((element) {
-  //     return element
-  //         .get('pincode')
-  //         .toString()
-  //         .toLowerCase()
-  //         .contains(address2.toLowerCase());
-  //   }).toList();
-  // }
   getUserDetails() async {
     Position position = await _determinePosition();
     await GetAddressFromLatLong(position);
-    // await UserApi.updateUserAddress(
-    //     address, [position.latitude, position.longitude], pin
-    // );
     await getAddressPin(pin);
     try{
       await FirebaseFirestore.instance
@@ -302,49 +278,21 @@ class _FirstHomeState extends State<FirstHome> {
     // number==null?number=getUserId().toString():number=number;
 
     // print(address2);
-    setState(() {
+    if (mounted) {
+      setState(() {
       // myaddress = myaddress;
       address = address;
       pin = pin;
     });
-    // userLocation();
-    // ProgressCard(context);
-
-    // getNumber();
-
-    // int getDays = int.parse(daysLeft[0]["dayleft"]);
-    // getDays = 28 - getDays;
-    // finaldaysLeft = getDays / 28;
-    // getPercentage = finaldaysLeft * 100;
-    // if (getPercentage >= 90) {
-    //   progressColor = Colors.red;
-    // }
-    // if (getPercentage <= 89 && getPercentage >= 75) {
-    //   progressColor = const Color.fromARGB(255, 255, 89, 0);
-    // }
-    // if (getPercentage <= 74 && getPercentage >= 50) {
-    //   progressColor = Colors.orange;
-    // }
-    // if (getPercentage <= 49 && getPercentage >= 0) {
-    //   progressColor = Colors.yellow;
-    // }
+    }
 
     super.initState();
-  }
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    locationController;
-    super.dispose();
   }
 
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // setState(() {
-    //   GlobalUserLocation= user_data["address"];
-    // });
 
     return isLoading
         ? const Center(
@@ -365,21 +313,15 @@ class _FirstHomeState extends State<FirstHome> {
                 ),
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
-                  // Get.back();
-                  // print(_auth.currentUser?.uid);
-                  // Position position = await _determinePosition();
-                  // await GetAddressFromLatLong(position);
-                  // await UserApi.updateUserAddress(
-                  //     address, [position.latitude, position.longitude], pin
-                  // );
                   await getAddressPin(pin);
-
-                  setState(() {
+                  if (mounted) {
+                    setState(() {
                     // myaddress = myaddress;
                     address = address;
                     pin = pin;
                     GlobalUserLocation = user_data["address"];
                   });
+                  }
                   Get.to(() => LocInfo());
                 },
               ),
@@ -388,21 +330,15 @@ class _FirstHomeState extends State<FirstHome> {
                 child: GestureDetector(
                   onTap: () async {
                     FocusScope.of(context).unfocus();
-                    // Get.back();
-                    // print(_auth.currentUser?.uid);
-                    // Position position = await _determinePosition();
-                    // await GetAddressFromLatLong(position);
-                    // await UserApi.updateUserAddress(
-                    //     address, [position.latitude, position.longitude], pin
-                    // );
                     await getAddressPin(pin);
-
-                    setState(() {
+                    if (mounted) {
+                      setState(() {
                       // myaddress = myaddress;
                       address = address;
                       pin = pin;
                       GlobalUserLocation = user_data["address"];
                     });
+                    }
                     Get.to(() => LocInfo());
                   },
                   child: SizedBox(
@@ -434,9 +370,7 @@ class _FirstHomeState extends State<FirstHome> {
                       onPressed: () {
 
                         print(GlobalUserData);
-                        // print(auth.currentUser!.providerData);
-                        // FocusScope.of(context).unfocus();
-                        // Get.to(const NotificationDetails());
+
                       },
                     ),
                   ],
@@ -474,162 +408,141 @@ class _FirstHomeState extends State<FirstHome> {
                             child: Column(
                               children: [
                                 const SizedBox(
-                                  height: 6,
+                                  // height: 6,
                                 ),
                                 buildGymBox(),
                                 const SizedBox(
-                                  height: 500,
+                                  // height: 500,
                                 )
                               ],
                             ),
                           ),
                         ],
                       ),
-
-                      // CupertinoSearchTextField(
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       searchGymName = value.toString();
-                      //     });
-                      //
-                      //     print(searchGymName);
-                      //   },
-                      //   decoration: BoxDecoration(
-                      //       color: Colors.grey[300],
-                      //       borderRadius: BorderRadius.circular(10)),
-                      //   onSubmitted: (value) {
-                      //     // ignore: avoid_print
-                      //     print('Submitted text: $value');
-                      //   },
-                      // ),
-                      // const SizedBox(
-                      //   height: 4,
-                      // ),
                       const SizedBox(
                         height: 9,
                       ),
-
-                      if (getPercentage != 100) ProgressCard(context),
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          FocusScope.of(context).unfocus();
-                          Get.to(CouponDetails());
-                        },
-                        child: SizedBox(
-                          height: 135,
-                          child: StreamBuilder<QuerySnapshot>(
-                            stream: bannerApi.getBanner,
-                            builder: (context, AsyncSnapshot streamSnapshot) {
-                              if (streamSnapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                              final data = streamSnapshot.requireData;
-                              return ListView.builder(
-                                // controller: _controller.,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: data.size,
-                                itemBuilder: (context, int index) {
-                                  return SizedBox(
-                                    height: 120,
-                                    child: Row(
-                                      children: [
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Material(
-                                            elevation: 0,
-                                            color: const Color(0xffF4F4F4),
-                                            child: CachedNetworkImage(
-                                              imageUrl: data.docs[index]
+                      if (searchGymName.isEmpty)
+                      Column(
+                        children: [
+                          if (getPercentage != 100) ProgressCard(context),
+                          const SizedBox(
+                            height: 9,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              Get.to(CouponDetails());
+                            },
+                            child: SizedBox(
+                              height: 135,
+                              child: StreamBuilder<QuerySnapshot>(
+                                stream: bannerApi.getBanner,
+                                builder: (context, AsyncSnapshot streamSnapshot) {
+                                  if (streamSnapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                  final data = streamSnapshot.requireData;
+                                  return ListView.builder(
+                                    // controller: _controller.,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: data.size,
+                                    itemBuilder: (context, int index) {
+                                      return SizedBox(
+                                        height: 120,
+                                        child: Row(
+                                          children: [
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Material(
+                                                elevation: 0,
+                                                color: const Color(0xffF4F4F4),
+                                                child: CachedNetworkImage(
+                                                  imageUrl: data.docs[index]
                                                   ["image"],
-                                              // progressIndicatorBuilder: (context,
-                                                      // url, downloadProgress) =>
-                                                  // Center(
-                                                  //     child: CircularProgressIndicator(
-                                                  //         value:
-                                                  //             downloadProgress
-                                                  //                 .progress)),
-                                              errorWidget:
-                                                  (context, url, error) =>
+                                                  errorWidget:
+                                                      (context, url, error) =>
                                                       Icon(Icons.error),
-                                            )),
-                                        const SizedBox(
-                                          width: 5,
+                                                )),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      );
+                                    },
                                   );
                                 },
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      SizedBox(
-                        height: 150,
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          itemCount: controller.OptionsList.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, int index) {
-                            return SizedBox(
-                              height: 150,
-                              child: Row(
-                                children: [
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  GestureDetector(
-                                      onTap: () {
-                                        Get.to(() => GymOption(), arguments: {
-                                          "type": controller
-                                              .OptionsList[index].type,
-                                        });
-                                        FocusScope.of(context).unfocus();
-                                      },
-                                      child: Image.asset(controller
-                                          .OptionsList[index].imageAssets)),
-                                  const SizedBox(
-                                    width: 5,
-                                  )
-                                ],
                               ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return const Divider();
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Nearby Gyms",
-                            style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600),
+                            ),
                           ),
-                        ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          SizedBox(
+                            height: 150,
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              itemCount: controller.OptionsList.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, int index) {
+                                return SizedBox(
+                                  height: 150,
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      GestureDetector(
+                                          onTap: () {
+                                            Get.to(() => GymOption(), arguments: {
+                                              "type": controller
+                                                  .OptionsList[index].type,
+                                            });
+                                            FocusScope.of(context).unfocus();
+                                          },
+                                          child: Image.asset(controller
+                                              .OptionsList[index].imageAssets)),
+                                      const SizedBox(
+                                        width: 5,
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (BuildContext context, int index) {
+                                return const Divider();
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const SizedBox(
+                            height: 30,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Nearby Gyms",
+                                style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(child: buildGymBox())
+                        ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(child: buildGymBox())
+
+
                     ],
                   ),
                 ),
@@ -653,39 +566,22 @@ class _FirstHomeState extends State<FirstHome> {
           textAlignVertical: TextAlignVertical.bottom,
           onSubmitted: (value) async {
             FocusScope.of(context).unfocus();
-// showCard=true;
+
           },
           controller: searchController,
-          onTap: () {
-            // FocusScope.of(context).unfocus();
-// showCard=false;
-// print(showCard);                  FocusScope.of(context).unfocus();
-          },
 
           onChanged: (value) {
           if (value.length==0){
             FocusScope.of(context).unfocus();
           }
-//             FocusScope.of(context).unfocus();
-            setState(() {
+            if(mounted) {
+              setState(() {
               searchGymName = value.toString();
-              // isLoading=true;
-// value2=value.toString();
-            });
 
-//
-// print(searchGymName);
+            });
+            }
           },
-// onEditingComplete: (){
-//   setState(() {
-//     // var value;
-//     searchGymName=value2.toString();
-//   });
-// },
-// onSubmitted: (value) {
-//   // ignore: avoid_print
-//   print('Submitted text: $value');
-// },
+
           decoration: const InputDecoration(
             prefixIcon: Icon(Profileicon.search),
             hintText: 'Search',
@@ -732,16 +628,7 @@ class _FirstHomeState extends State<FirstHome> {
                     .contains(searchGymName.toString());
               }).toList();
             }
-            // isLoading=false;
-            // else {
-            //   document = document.where((element) {
-            //     return element
-            //         .get('pincode')
-            //         .toString()
-            //         // .toLowerCase()
-            //         .contains(address2.toString());
-            //   }).toList();
-            // }
+
             return document.isNotEmpty
                 ? ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
@@ -760,21 +647,9 @@ class _FirstHomeState extends State<FirstHome> {
                              child: GestureDetector(
                               onTap: () async {
                                 FocusScope.of(context).unfocus();
-                                // setState(() {
-                                //   // searchGymName="";
-                                //   searchController.clear();
-                                // });
 
-                                // print("${document[index]["name"]} ${document[index].id}");
                                 Get.to(
-                                        () => GymDetails(
-                                      // getID: document[index].id,
-                                      // gymLocation:
-                                      // document[index]
-                                      // ["location"],
-                                      // gymName: document[index]
-                                      // ["name"],
-                                    ),
+                                        () => GymDetails(),
                                     arguments: {
                                       "id": document[index].id,
                                       "location": document[index]
@@ -1121,7 +996,7 @@ class _FirstHomeState extends State<FirstHome> {
                                   ]),
                                 )),
                             Positioned(
-                              right: MediaQuery.of(context).size.width * .109,
+                              right: MediaQuery.of(context).size.width * .1,
                               bottom: 53,
                               child: Text(
                                 "${percent}%",

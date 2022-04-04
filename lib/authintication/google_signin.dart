@@ -13,6 +13,8 @@ import 'package:vyam_2_final/authintication/register_email.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 var userName;
+var userEmail;
+var userPhoto;
 class FirebaseService {
   getToHomePage(var number) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -41,19 +43,24 @@ class FirebaseService {
         // bool? visitingFlag=await getVisitingFlag();
         final auth =  FirebaseAuth.instance;
         print(auth.currentUser!.email);
-        getToHomePage(auth.currentUser!.email);
-        setUserId(_auth.currentUser?.email);
-        await setNumber(_auth.currentUser!.email);
+        // getToHomePage(auth.currentUser!.email);
+        // setUserId(_auth.currentUser?.email);
+        // await setNumber(_auth.currentUser!.email);
         // var visitingFlag=await get;
         // checkExist(_auth.currentUser?.email);
-        await checkExist("${_auth.currentUser?.email}");
+        await checkEmailExist("${_auth.currentUser?.email}");
         // number.toString()==_auth.currentUser?.email.toString()
-        if (exist==true){
+        print(emailhai);
+        print(emailId);
+        if (emailhai== true){
+          await setNumber(emailId);
 
           Get.offAll(()=>HomePage());
         }
-        else if(exist==false){
+        else if(emailhai== false){
           userName=_auth.currentUser!.displayName;
+          userEmail=_auth.currentUser!.email;
+          userPhoto=_auth.currentUser!.photoURL;
           Get.offAll(()=>PhoneRegistar());
         }
         setUserId(_auth.currentUser?.email);

@@ -356,7 +356,21 @@ class _SelectDateState extends State<SelectDate> {
             print(endDate);
             // print((months[current_mon - 1] + " ," + day + ", " + year));
             // print(months[end_mon - 1] + ", " + endday + ", " + year);
-
+            Get.to(() => const PaymentScreen(),
+              duration: const Duration(milliseconds: 500),
+              arguments: {
+                "gymName": widget.getGymName,
+                "totalMonths": widget.months,
+                "packageType": widget.packageType,
+                "totalPrice": widget.price,
+                "startDate": (months[current_mon - 1] + " ," + day + ", " + year),
+                "endDate": (months[end_mon - 1] + ", " + endday + ", " + year),
+                "address": widget.getGymAddress,
+                "vendorId":widget.gymId,
+                "booking_id":widget.bookingId,
+                "gym_details":Get.arguments["docs"]
+              },
+            );
             await FirebaseFirestore.instance.collection("bookings")
                 .doc(number)
                 .collection("user_booking")
@@ -366,21 +380,7 @@ class _SelectDateState extends State<SelectDate> {
               "plan_end_duration":endDate,
               "totalDays":totalDays
             });
-            Get.to(() => const PaymentScreen(),
-              duration: const Duration(milliseconds: 500),
-              arguments: {
-              "gymName": widget.getGymName,
-              "totalMonths": widget.months,
-              "packageType": widget.packageType,
-              "totalPrice": widget.price,
-              "startDate": (months[current_mon - 1] + " ," + day + ", " + year),
-              "endDate": (months[end_mon - 1] + ", " + endday + ", " + year),
-              "address": widget.getGymAddress,
-              "vendorId":widget.gymId,
-              "booking_id":widget.bookingId,
-              "gym_details":Get.arguments["docs"]
-            },
-            );
+
           },
           label: Text(
             "Proceed",

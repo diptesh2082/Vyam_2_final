@@ -56,14 +56,15 @@ class _OtpPageState extends State<OtpPage> {
       });
       if (authCred.user != null) {
        await getToHomePage(_auth.currentUser?.phoneNumber);
-        // setUserId(_auth.currentUser?.phoneNumber);
+        setUserId(_auth.currentUser?.phoneNumber);
         // bool? visitingFlag = await getVisitingFlag();
+       await setNumber(_auth.currentUser!.phoneNumber);
         await checkExist("${_auth.currentUser?.phoneNumber}");
         await setUserId(_auth.currentUser?.phoneNumber);
         await setVisitingFlag();
         // print("rtet5ete5t35e4t5et $visiting_flag");
         if (visiting_flag == true) {
-          Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>HomePage()));
+          Get.offAll(()=>HomePage());
         } else if (visiting_flag == false) {
           Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>Register1()));
         }

@@ -61,10 +61,13 @@ class _OtpPage2State extends State<OtpPage2> {
         //   "number":value[1]
         // });
         print(userName);
+        setUserId(_auth.currentUser?.phoneNumber);
+        setNumber(_auth.currentUser?.phoneNumber);
           Get.off(() => Register3(),arguments: {
             "name":userName,
-            "email":number,
+            "email":userEmail,
             "number":widget.number,
+            "image":userPhoto
           });
         // }
 

@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
 
-   getInfo();
+   // getInfo();
   }
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);

@@ -91,7 +91,7 @@ class _Register3State extends State<Register3> {
               await UserApi.CreateUserEmail(email);
               await UserApi.CreateUserGender(gender);
               await FirebaseFirestore.instance.collection("user_details").doc(number).update({
-                "number":user_number
+                "number":number
               });
 
 

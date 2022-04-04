@@ -35,10 +35,12 @@ class Explore extends StatefulWidget {
   State<Explore> createState() => _ExploreState();
 }
 
+double lat=GlobalUserData["location"].latitude;
+double long = GlobalUserData["location"].longitude;
 class _ExploreState extends State<Explore> {
-  static const _initialCameraPosition = CameraPosition(
-    target: LatLng(23.7217038, 86.7921423),
-    zoom: 11.5,
+  static final _initialCameraPosition = CameraPosition(
+    target: LatLng(lat, long),
+    zoom: 12,
   );
 
   final Completer<GoogleMapController> _controller = Completer();
