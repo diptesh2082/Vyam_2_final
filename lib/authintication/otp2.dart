@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vyam_2_final/authintication/google_signin.dart';
 
 import 'package:vyam_2_final/authintication/register_gender.dart';
 import 'package:vyam_2_final/colors/color.dart';
@@ -14,7 +15,10 @@ import '../golbal_variables.dart';
 
 class OtpPage2 extends StatefulWidget {
   static String id = "/otp_screen";
-  const OtpPage2({Key? key}) : super(key: key);
+  final  verificationID;
+  final number;
+  final resendingToken;
+  const OtpPage2({Key? key,required this.verificationID,required this.number,required this.resendingToken}) : super(key: key);
 
   @override
   State<OtpPage2> createState() => _OtpPage2State();
@@ -33,7 +37,7 @@ class _OtpPage2State extends State<OtpPage2> {
   //   // Get.offAll(() =>  HomePage());
   // }
 
-  var value = Get.arguments;
+  // var value = Get.arguments;
   // var id = Get.arguments["id"];
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool showLoading = false;
@@ -45,17 +49,23 @@ class _OtpPage2State extends State<OtpPage2> {
     });
     try {
       final authCred = await _auth.signInWithCredential(phoneAuthCredential);
-      // _auth.verifyPhoneNumber();
+      // _auth.verifyPhoneNumber();ftzz
       setState(() {
         showLoading = false;
       });
       if (authCred.user != null) {
-
-        await setVisitingFlag();
-        await FirebaseFirestore.instance.collection("user_details").doc(number).update({
-          "number":value[1]
-        });
-          Get.offAll(() => Register3());
+        print(authCred.user);
+        // await setNumber(_auth.currentUser!.email);
+        // await setVisitingFlag();
+        // await FirebaseFirestore.instance.collection("user_details").doc(number).update({
+        //   "number":value[1]
+        // });
+        print(userName);
+          Get.off(() => Register3(),arguments: {
+            "name":userName,
+            "email":number,
+            "number":widget.number,
+          });
         // }
 
         // SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -73,7 +83,7 @@ class _OtpPage2State extends State<OtpPage2> {
     }
   }
 
-  var docId = Get.arguments[1];
+  // var docId = Get.arguments[1];
   Future<void> checkExist(String docID) async {
     try {
       await FirebaseFirestore.instance
@@ -110,8 +120,8 @@ class _OtpPage2State extends State<OtpPage2> {
 
   @override
   void initState() {
-    print("+91$docId");
-    checkExist("+91$docId");
+    // print("+91$docId");
+    // checkExist("+91$docId");
     startTimer();
     // flag = get();
     // print(flag);
@@ -119,7 +129,7 @@ class _OtpPage2State extends State<OtpPage2> {
   }
 
   Timer? _timer;
-  int _start = 10;
+  int _start = 25;
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -203,7 +213,7 @@ class _OtpPage2State extends State<OtpPage2> {
                           height: size.height / 50,
                         ),
                         Text(//number settings
-                            "Enter the OTP sent to ${value[1]}"),
+                            "Enter the OTP sent to ${widget.number}"),
                         const SizedBox(
                           height: 20,
                         ),
@@ -243,17 +253,62 @@ class _OtpPage2State extends State<OtpPage2> {
                         SizedBox(
                           height: size.height / 15,
                         ),
-                        Container(
-                          child: Text(_start.toString()),
-                        ),
+                        Text(_start.toString()),
                         Row(
                           children: [
                             const Text("Didn’t you receive the OTP? "),
                             TextButton(
                                 onPressed: activateButton!
-                                    ? () {
-                                  print(
-                                      "Implement Function For starting Resend OTP Request");
+                                    ? ()async {
+                                  print(widget.number);
+                                  // print("+91${docId}");
+                                  var _forceResendingToken;
+                                  await _auth.verifyPhoneNumber(
+                                      timeout: const Duration(seconds: 25),
+                                      forceResendingToken: _forceResendingToken,
+                                      phoneNumber: widget.number,
+                                      verificationCompleted:
+                                          (phoneAuthCredential) async {
+                                        setState(() {
+                                          showLoading = false;
+                                        });
+                                      },
+                                      verificationFailed: (verificationFailed) async {
+                                        Get.snackbar(
+                                            "Fail", "${verificationFailed.message}");
+                                        // ignore: avoid_print
+                                        print(verificationFailed.message);
+                                        setState(() {
+                                          showLoading = false;
+                                        });
+                                      },
+
+                                      codeSent:
+                                          (verificationID, resendingToken) async {
+                                        setState(() {
+                                          // showLoding = false;
+                                        });
+                                        // setState(() {
+                                        //   _timer;
+                                        // });
+                                        Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>OtpPage2(verificationID: verificationID,number: widget.number , resendingToken: resendingToken)));
+
+                                        // await Get.off(() =>  OtpPage(), arguments: [
+                                        //   verificationID,
+                                        //   "+91${docId}",
+                                        //   resendingToken
+                                        // ]);
+                                        // print("$resendingToken");
+                                        // checkExist(widget.number);
+                                        // var resending_token=resendingToken;
+
+                                      },
+                                      // forceResendingToken: (re){
+                                      //
+                                      // },
+                                      codeAutoRetrievalTimeout:
+                                          (verificationID) async {
+                                      });
                                 }
                                     : null,
                                 child: const Text(
@@ -274,7 +329,7 @@ class _OtpPage2State extends State<OtpPage2> {
                               print(getVisitingFlag());
                               AuthCredential phoneAuthCredential =
                               PhoneAuthProvider.credential(
-                                verificationId: value[0],
+                                verificationId: widget.verificationID,
                                 smsCode: otpController.text,
                               );
                               print("/////////////// Below is the Token");

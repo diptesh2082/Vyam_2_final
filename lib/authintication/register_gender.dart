@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyam_2_final/api/api.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 
 
 import 'register_email.dart';
@@ -21,6 +23,10 @@ class _Register3State extends State<Register3> {
   String gender="";
   var name= Get.arguments["name"];
   var email=Get.arguments["email"];
+  var user_number=Get.arguments["number"];
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,28 +34,26 @@ class _Register3State extends State<Register3> {
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Container(
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+          title: Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
             Text('3', //_current1.toString(),
                 style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400)),
+            color: Colors.black,
+            fontFamily: "Poppins",
+            fontSize: 14,
+            fontWeight: FontWeight.w400)),
             Text("/",
                 style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400)),
+            color: Colors.black,
+            fontFamily: "Poppins",
+            fontSize: 14,
+            fontWeight: FontWeight.w400)),
             Text('4', //rimages.length.toString(),
                 style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400))
-          ])),
+            color: Colors.black,
+            fontFamily: "Poppins",
+            fontSize: 14,
+            fontWeight: FontWeight.w400))
+          ]),
           leading: GestureDetector(
             onTap: () {
               Navigator.push(
@@ -67,24 +71,29 @@ class _Register3State extends State<Register3> {
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
             onPressed: ()async {
-              // await setVisitingFlag();
-              await UserApi.createNewUser();
-              await UserApi.createUserName(name);
-              await UserApi.CreateUserEmail(email);
-              await UserApi.CreateUserGender(gender);
               Navigator.push(
                   context,
                   CustomPageRoute(
                     child: Register4(),
                   )
-                  /* PageTransition(
+                /* PageTransition(
                       curve: Curves.easeIn,
                       ctx: context,
                       duration: Duration(milliseconds: 50),
                       opaque: true,
                       child: Register4(),
                       type: PageTransitionType.rightToLeftWithFade)*/
-                  );
+              );
+              // print(name);
+              // await setVisitingFlag();
+              await UserApi.createNewUser();
+              await UserApi.createUserName(name);
+              await UserApi.CreateUserEmail(email);
+              await UserApi.CreateUserGender(gender);
+              await FirebaseFirestore.instance.collection("user_details").doc(number).update({
+                "number":user_number
+              });
+
 
             },
             backgroundColor: Colors.amber.shade300,

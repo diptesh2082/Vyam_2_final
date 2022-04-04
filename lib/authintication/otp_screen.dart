@@ -61,7 +61,7 @@ class _OtpPageState extends State<OtpPage> {
         await checkExist("${_auth.currentUser?.phoneNumber}");
         await setUserId(_auth.currentUser?.phoneNumber);
         await setVisitingFlag();
-        print("rtet5ete5t35e4t5et $visiting_flag");
+        // print("rtet5ete5t35e4t5et $visiting_flag");
         if (visiting_flag == true) {
           Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>HomePage()));
         } else if (visiting_flag == false) {

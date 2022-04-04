@@ -53,18 +53,15 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
                         fontSize: 14,
                         fontWeight: FontWeight.w400))
               ])),
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.push(context, CustomPageRoute(child: Register1(),));
-            },
-            child: const Icon(
-              Icons.arrow_back_ios_new_outlined,
-              color: Colors.black,
-            ),
+          leading: const Icon(
+            Icons.arrow_back_ios_new_outlined,
+            color: Colors.black,
           )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
+          // clipBehavior: Clip.none,
             onPressed: ()async {
               final isValid = _formKey.currentState?.validate();
               if (isValid!){
@@ -96,12 +93,15 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
                         showLoding = false;
                       });
                       // checkExist("+91${phoneController.text}");
-                      await UserApi.createNewUser();
-                      print(phoneController.text);
-                      Get.to(() => const OtpPage2(), arguments: [
-                        verificationID,
-                        "+91${phoneController.text}"
-                      ]);
+                      // print(phoneController.text);
+                      var resending_token= await resendingToken;
+                      Get.to(() =>  OtpPage2(verificationID: verificationID ,number: "+91${phoneController.text.trim()}",resendingToken: resending_token,),
+                      //     arguments: [
+                      //   verificationID,
+                      //   "+91${phoneController.text.trim()}",
+                      //   resendingToken
+                      // ]
+                      );
                     },
                     codeAutoRetrievalTimeout:
                         (verificationID) async {});
@@ -125,21 +125,22 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
         child: CircularProgressIndicator(),
       )
           :SafeArea(
-        child: Stack(
-          fit: StackFit.passthrough,
-          children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(30),
-                child: Image.asset('assets/Illustrations/undraw_fitness_stats_6.png'),
-              ),
+            child: Stack(
+              // fit: StackFit.passthrough,
+              alignment: Alignment.center,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Image.asset('assets/Illustrations/undraw_fitness_stats_6.png'),
+                  ),
+                ),
+                Form(
+                    key: _formKey,
+                    child: phoneNumber(context)),
+              ],
             ),
-            Form(
-                key: _formKey,
-                child: phoneNumber(context)),
-          ],
-        ),
-      ),
+          ),
     );
   }
 

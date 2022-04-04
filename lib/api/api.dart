@@ -52,6 +52,14 @@ getNumber() async {
   // await UserApi.createNewUser();
 
 }
+setNumber( id) async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  // SharedPreferences preferences = await SharedPreferences.getInstance();
+  sharedPreferences.setString("number", id);
+  // return number;
+  // await UserApi.createNewUser();
+
+}
 getAddress() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalAddress = sharedPreferences.getString("pin");

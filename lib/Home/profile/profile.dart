@@ -92,23 +92,34 @@ class _ProfileState extends State<Profile> {
 
   saveData()async {
     if (_globalKey.currentState!.validate()) {
-      _globalKey.currentState!.save();
-      final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
-      await ref.putFile(image!);
-      final url = await ref.getDownloadURL();
-      await db.collection("user_details").doc(id).update({
-        'email': emailTextEditingController.text,
-        'name': nameTextEditingController.text,
-        // 'number': phoneTextEditingController.text,
-        "image": url
-      });
-      setState(() {
-        imageUrl=url;
-        // isLoading=false;
-      });
+      try{
+        _globalKey.currentState!.save();
+        final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
+        await ref.putFile(image!);
+        final url = await ref.getDownloadURL();
+        await db.collection("user_details").doc(id).update({
+          'email': emailTextEditingController.text,
+          'name': nameTextEditingController.text,
+          // 'number': phoneTextEditingController.text,
+          "image": url
+        });
+        setState(() {
+          imageUrl=url;
+          // isLoading=false;
+        });
+      }catch (e){
+        imageUrl="";
+      }
+
       // print(imageUrl);
 
     }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    print(imageUrl);
+    super.initState();
   }
 
   @override
@@ -157,7 +168,7 @@ class _ProfileState extends State<Profile> {
                       pickImage();
                     },
                     child: Stack(children: [
-                      imageUrl==""?
+                      image != null  ?
                       CircleAvatar(
                         radius: 51,
                         backgroundColor: Colors.white,
@@ -173,9 +184,22 @@ class _ProfileState extends State<Profile> {
                         // decoration: const BoxDecoration(
                         //     shape: BoxShape/.circle, color: Colors.white)
                       ):
-                      CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(imageUrl),
-                        radius: 51,
+                      Container(
+                        child: imageUrl == "" || imageUrl == "null"?
+                        CircleAvatar(
+                          // backgroundImage: ,
+                          radius: 51,
+
+                          backgroundColor: Colors.white,
+                          // MediaQuery.of(context).size.width * 0.3,
+                          backgroundImage:  gender.toLowerCase()=="male"?const AssetImage("assets/Illustrations/Avatarmale.png"):AssetImage("assets/Illustrations/Avatar.png"),
+                        ): CircleAvatar(
+                          // backgroundImage: ,
+                          radius: 51,
+                          backgroundColor: Colors.white,
+                          // MediaQuery.of(context).size.width * 0.3,
+                          backgroundImage:  CachedNetworkImageProvider(imageUrl),
+                        ),
                       )
                       ,
                       // if (imageUrl == "")
@@ -261,7 +285,7 @@ class _ProfileState extends State<Profile> {
                   },
                   controller: emailTextEditingController,
                   decoration: const InputDecoration(
-                    hintText: 'email@example.com',
+                    hintText: 'email',
                   ),
                 ),
                 const SizedBox(

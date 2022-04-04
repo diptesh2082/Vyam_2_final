@@ -12,7 +12,7 @@ import 'package:vyam_2_final/authintication/phoneNumber.dart';
 import 'package:vyam_2_final/authintication/register_email.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
-
+var userName;
 class FirebaseService {
   getToHomePage(var number) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -43,6 +43,7 @@ class FirebaseService {
         print(auth.currentUser!.email);
         getToHomePage(auth.currentUser!.email);
         setUserId(_auth.currentUser?.email);
+        await setNumber(_auth.currentUser!.email);
         // var visitingFlag=await get;
         // checkExist(_auth.currentUser?.email);
         await checkExist("${_auth.currentUser?.email}");
@@ -52,6 +53,7 @@ class FirebaseService {
           Get.offAll(()=>HomePage());
         }
         else if(exist==false){
+          userName=_auth.currentUser!.displayName;
           Get.offAll(()=>PhoneRegistar());
         }
         setUserId(_auth.currentUser?.email);

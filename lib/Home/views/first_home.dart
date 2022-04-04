@@ -190,12 +190,12 @@ class _FirstHomeState extends State<FirstHome> {
     finaldaysLeft = finalDate / totalDays;
     day_left = totalDays - int.parse(getDays);
     // progress=double.parse((100 * getDays/totalDays).toInt());
-    print("$getDays");
-    print(totalDays);
+    // print("$getDays");
+    // print(totalDays);
     getPercentage = 100 * int.parse(getDays.toString()) / totalDays;
     progress = (double.parse(getPercentage.toString()) / 100);
     // locationController.YourLocation(location);
-    print("reytedry${getPercentage}");
+    // print("reytedry${getPercentage}");
     if (getPercentage >= 90) {
       progressColor = Colors.red;
       textColor = Colors.red;
@@ -876,15 +876,15 @@ class _FirstHomeState extends State<FirstHome> {
                                   ),
                                   Positioned(
                                     right: 5,
-                                    bottom: size.height * .008,
+                                    bottom:2,
                                     child: Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(6),
                                         // color: Colors.black26,
                                       ),
                                       alignment: Alignment.bottomRight,
-                                      height: size.height * .09,
-                                      width: size.width * .22,
+                                      height: 60,
+                                      width: 100,
                                       padding: const EdgeInsets.only(
                                           right: 8, bottom: 10),
                                       child: Column(
@@ -937,7 +937,7 @@ class _FirstHomeState extends State<FirstHome> {
                                                 width: 5,
                                               ),
                                               Text(
-                                                "$distance",
+                                                "$distance Km",
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
                                                     color: Colors.white,

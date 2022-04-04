@@ -266,8 +266,8 @@ class _LocInfoState extends State<LocInfo> {
                           .doc(number)
                           .update({
                         "location": GeoPoint(res.latitude, res.longitude),
-                        "lat": res.latitude,
-                        "long": res.longitude,
+                        // "lat": res.latitude,
+                        // "long": res.longitude,
                         "address":value.trim(),
                         "pincode":pin,
                         "locality": locality,
@@ -367,8 +367,8 @@ class _LocInfoState extends State<LocInfo> {
                             .update({
                           "location": GeoPoint( position.latitude,position.longitude),
                           "address": address,
-                          "lat": position.latitude,
-                          "long": position.longitude,
+                          // "lat": position.latitude,
+                          // "long": position.longitude,
                           "pincode": pin,
                           "locality": locality,
                           "subLocality": locality,
@@ -500,8 +500,8 @@ class _LocInfoState extends State<LocInfo> {
                         .doc(number)
                         .update({
                       "location": GeoPoint(res.latitude, res.longitude),
-                      "lat": res.latitude,
-                      "long": res.longitude,
+                      // "lat": res.latitude,
+                      // "long": res.longitude,
                       "address":value.trim(),
                       "pincode":pin,
                       "locality": locality,
@@ -556,8 +556,8 @@ class _LocInfoState extends State<LocInfo> {
                         .doc(number)
                         .update({
                       "location": GeoPoint(res.latitude, res.longitude),
-                      "lat": res.latitude,
-                      "long": res.longitude,
+                      // "lat": res.latitude,
+                      // "long": res.longitude,
                       "address":value.trim(),
                       "pincode":pin,
                       "locality": locality,
@@ -612,8 +612,8 @@ class _LocInfoState extends State<LocInfo> {
                         .doc(number)
                         .update({
                       "location": GeoPoint(res.latitude, res.longitude),
-                      "lat": res.latitude,
-                      "long": res.longitude,
+                      // "lat": res.latitude,
+                      // "long": res.longitude,
                       "address":value.trim(),
                       "pincode":pin,
                       "locality": locality,
@@ -685,8 +685,8 @@ class _LocInfoState extends State<LocInfo> {
                             .doc(number)
                             .update({
                           "location": GeoPoint(res.latitude, res.longitude),
-                          "lat": res.latitude,
-                          "long": res.longitude,
+                          // "lat": res.latitude,
+                          // "long": res.longitude,
                           "address":address,
                           "pincode":pin,
                           "locality": locality,
