@@ -79,13 +79,7 @@ class _Register1State extends State<Register1> {
                       "name":nameController.text.trim()
                   }
                     );
-                // await UserApi.createUserName(nameController.text.trim());
-
               }
-              // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-
-              // Get.to(()=> isVlid Register2);
             },
             backgroundColor: Colors.amber.shade300,
             child: const Icon(

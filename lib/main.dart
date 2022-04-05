@@ -22,9 +22,8 @@ void main() async {
   await getNumber();
   getAddress();
   getVisitingFlag();
-  // visitingFlag = await getVisitingFlag();
   await myLocation();
-  // print("UIYUIYUIYTUYTr${number}");
+  await checkExistAcc(number);
   print(GlobalUserData);
   // print(number);
   // print(number);

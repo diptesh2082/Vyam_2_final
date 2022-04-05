@@ -199,8 +199,9 @@ class UserApi {
   // static const number = "";
   // String acc=number;
   static Future createNewUser() async {
+    print(number);
     final docUser =
-    FirebaseFirestore.instance.collection("user_details").doc(number);
+     FirebaseFirestore.instance.collection("user_details").doc(number);
     // userModel.userId = docUser.id;
     // number=docUser.id;
     final myJson = {

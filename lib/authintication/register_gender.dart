@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyam_2_final/api/api.dart';
+import 'package:vyam_2_final/authintication/google_signin.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
 
@@ -92,7 +93,8 @@ class _Register3State extends State<Register3> {
               await UserApi.CreateUserEmail(email);
               await UserApi.CreateUserGender(gender);
               await FirebaseFirestore.instance.collection("user_details").doc(number).update({
-                "number":number
+                "number":number,
+                "image":userPhoto
               });
 
 

@@ -59,9 +59,9 @@ class FirebaseService {
           Get.offAll(()=>HomePage());
         }
         else if(emailhai== false){
-          userName=_auth.currentUser!.displayName;
+          userName= _auth.currentUser!.displayName;
           userEmail=_auth.currentUser!.email;
-          userPhoto=_auth.currentUser!.photoURL;
+          userPhoto=await _auth.currentUser!.photoURL;
           Get.offAll(()=>PhoneRegistar());
         }
         setUserId(_auth.currentUser?.email);

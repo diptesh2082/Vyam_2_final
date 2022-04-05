@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
+import 'package:vyam_2_final/authintication/google_signin.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 // import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/colors/color.dart';
@@ -64,6 +65,7 @@ class _OtpPageState extends State<OtpPage> {
         if (visiting_flag == true) {
           Get.offAll(()=>HomePage());
         } else if (visiting_flag == false) {
+          userPhoto="null";
           Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>Register1()));
         }
         // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage()));
