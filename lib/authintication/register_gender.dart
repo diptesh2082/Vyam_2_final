@@ -86,6 +86,7 @@ class _Register3State extends State<Register3> {
               );
               // print(name);
               // await setVisitingFlag();
+              await setVisitingFlag();
               await UserApi.createNewUser();
               await UserApi.createUserName(name);
               await UserApi.CreateUserEmail(email);

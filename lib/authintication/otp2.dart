@@ -87,31 +87,6 @@ class _OtpPage2State extends State<OtpPage2> {
   }
 
   // var docId = Get.arguments[1];
-  Future<void> checkExist(String docID) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('user_details')
-          .doc(docID)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          // print('Document exists on the database');
-          // setState(() {
-          setVisitingFlag();
-          print(getVisitingFlag());
-          // });
-          // user_data=documentSnapshot.data();
-        } else {
-          setVisitingFlagFalse();
-          print(getVisitingFlag());
-        }
-      });
-    } catch (e) {
-      // If any error
-      setVisitingFlagFalse();
-      print(getVisitingFlag());
-    }
-  }
 
   // var flag;
   // get()async{

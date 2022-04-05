@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/otp2.dart';
 
-
-import 'otp_screen.dart';
-import 'register_gender.dart';
-import 'register_name.dart';
+//
+// import 'otp_screen.dart';
+// import 'register_gender.dart';
+// import 'register_name.dart';
 
 import 'custom_register_route.dart';
 
@@ -24,6 +24,12 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
   TextEditingController phoneController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    setVisitingFlagFalse();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -56,21 +56,16 @@ class _OtpPageState extends State<OtpPage> {
       });
       if (authCred.user != null) {
        await getToHomePage(_auth.currentUser?.phoneNumber);
-        setUserId(_auth.currentUser?.phoneNumber);
-        // bool? visitingFlag = await getVisitingFlag();
        await setNumber(_auth.currentUser!.phoneNumber);
         await checkExist("${_auth.currentUser?.phoneNumber}");
         await setUserId(_auth.currentUser?.phoneNumber);
-        await setVisitingFlag();
-        // print("rtet5ete5t35e4t5et $visiting_flag");
+        // await setVisitingFlag();
+       print(visiting_flag);
         if (visiting_flag == true) {
           Get.offAll(()=>HomePage());
         } else if (visiting_flag == false) {
           Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>Register1()));
         }
-
-        // SharedPreferences preferences = await SharedPreferences.getInstance();
-        //
         // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage()));
       }
     } on FirebaseAuthException catch (e) {
@@ -95,39 +90,30 @@ class _OtpPageState extends State<OtpPage> {
           .get()
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
-          // print('Document exists on the database');
-          // setState(() {
           setVisitingFlag();
           print(getVisitingFlag());
           // });
           // user_data=documentSnapshot.data();
         } else {
           setVisitingFlagFalse();
-          print(getVisitingFlag());
         }
       });
     } catch (e) {
       // If any error
       setVisitingFlagFalse();
-      print(getVisitingFlag());
+
     }
   }
 
-  // var flag;
-  // get()async{
-  //   bool? flag= await getVisitingFlag();
-  //   return flag;
-  // }
+
 
   Timer? timer;
 
   @override
   void initState() {
-    // print("+91$docId");
-    // checkExist("tsyyedstegr +91$docId");
+
     startTimer();
-    // flag = get();
-    // print(flag);
+
     super.initState();
   }
 

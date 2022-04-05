@@ -307,6 +307,33 @@ class GymReviews{
 
 
 }
+
+Future<void> checkExistAcc(String docID) async {
+  try {
+    await FirebaseFirestore.instance
+        .collection('user_details')
+        .doc(docID)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        // print('Document exists on the database');
+        // setState(() {
+        setVisitingFlag();
+        print(getVisitingFlag());
+        // });
+        // user_data=documentSnapshot.data();
+      } else {
+        setVisitingFlagFalse();
+        print(getVisitingFlag());
+      }
+    });
+  } catch (e) {
+    // If any error
+    setVisitingFlagFalse();
+    print(getVisitingFlag());
+  }
+}
+
 var exist;
 var user_details;
 

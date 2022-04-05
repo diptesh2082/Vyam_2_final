@@ -31,13 +31,13 @@ class _ProfilePartState extends State<ProfilePart> {
   String phone = "";
   String gender="";
   var imageUrl="";
-  final id = number;
+  // final id = number;
   bool Loading=true;
 
   Future getUserData() async {
-    print(id);
+    print("user is here"+number);
     DocumentReference userName =
-    FirebaseFirestore.instance.collection('user_details').doc(id);
+    FirebaseFirestore.instance.collection('user_details').doc(number);
     userName.snapshots().listen((snapshot) {
       try{
         if (snapshot.exists)  {
@@ -186,7 +186,7 @@ class _ProfilePartState extends State<ProfilePart> {
                                           onPressed: () {
                                             print(name);
                                             print(email);
-                                            print(id);
+                                            print(number);
                                             Get.to(() => Profile(),
                                             arguments: {
                                               "name":name,
