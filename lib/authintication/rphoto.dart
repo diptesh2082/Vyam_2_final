@@ -93,6 +93,7 @@ class _Register4State extends State<Register4> {
         child: FloatingActionButton(
             onPressed: ()async{
               Get.offAll(()=>HomePage());
+              await getUserLocation();
              final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
              await ref.putFile(image!);
              final url = await ref.getDownloadURL();
@@ -110,7 +111,7 @@ class _Register4State extends State<Register4> {
         children: [
           Center(
             child: Padding(
-              padding: EdgeInsets.all(30),
+              padding: const EdgeInsets.all(30),
               child: Image.asset('assets/Illustrations/undraw_meditation_re_0.png'),
             ),
           ),

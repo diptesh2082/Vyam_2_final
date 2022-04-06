@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:location/location.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
@@ -11,7 +13,8 @@ import 'dart:math' show cos, sqrt, asin;
 var visiting_flag;
 var total_discount=0;
 final booking= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
-Location location = Location();
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Location location = Location();
 Geoflutterfire geo = Geoflutterfire();
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -476,24 +479,29 @@ class GymAllApi {
   }
 
 
-  Stream<QuerySnapshot> getGymDetails = FirebaseFirestore.instance
+  Stream<QuerySnapshot> getGymDetails =   FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserData["pincode"].toString())
-      .snapshots();
-  Stream<QuerySnapshot> getMaleGym = FirebaseFirestore.instance
+      .where("pincode", isEqualTo: GlobalUserData["pincode"])
+      .orderBy("location")
+    .snapshots();
+  Stream<QuerySnapshot> getMaleGym =   FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserData["pincode"].toString())
+      .where("pincode", isEqualTo: GlobalUserData["pincode"])
       .where("gender", isEqualTo: "male")
+      .orderBy("location")
       .snapshots();
-  Stream<QuerySnapshot> getFemaleGym = FirebaseFirestore.instance
+  Stream<QuerySnapshot> getFemaleGym =   FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserData["pincode"].toString())
+      .where("pincode", isEqualTo: GlobalUserData["pincode"])
       .where("gender", isEqualTo: "female")
+      // .orderBy("location")
       .snapshots();
-  Stream<QuerySnapshot> getUnisexGym = FirebaseFirestore.instance
+  Stream<QuerySnapshot> getUnisexGym =  FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserData["pincode"].toString())
+      .where("pincode", isEqualTo: GlobalUserData["pincode"])
       .where("gender", isEqualTo: "unisex")
+      // .orderBy("location")
+
       .snapshots();
 }
 
@@ -527,4 +535,96 @@ double calculateDistance(lat1, lon1, lat2, lon2){
             (1 - c((lon2 - lon1) * p))/2;
     return 12742 * asin(sqrt(a));
 }
+
+Future<Position> _determinePosition() async {
+  bool serviceEnabled;
+  LocationPermission permission;
+
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    await Geolocator.openLocationSettings();
+    return Future.error('Location services are disabled.');
+  }
+
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      return Future.error('Location permissions are denied');
+    }
+  }
+
+  if (permission == LocationPermission.deniedForever) {
+    // Permissions are denied forever, handle appropriately.
+    return Future.error(
+        'Location permissions are permanently denied, we cannot request permissions.');
+  }
+
+  return await Geolocator.getCurrentPosition();
+}
+
+String pin = "";
+String locality = "";
+String subLocality = "";
+String myaddress = "your location";
+var address = "";
+Future<void> GetAddressFromLatLong(Position position) async {
+  List<Placemark> placemark =
+  await placemarkFromCoordinates(position.latitude, position.longitude);
+  Placemark place = placemark[0];
+
+  address =
+  "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
+  pin = "${place.postalCode}";
+  locality = "${place.locality}";
+  subLocality = "${place.subLocality}";
+}
+Future<void> GetAddressFromGeoPoint(GeoPoint position) async {
+  List<Placemark> placemark =
+  await placemarkFromCoordinates(position.latitude, position.longitude);
+  Placemark place = placemark[0];
+
+  address =
+  "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
+  pin = "${place.postalCode}";
+  locality = "${place.locality}";
+  subLocality = "${place.subLocality}";
+  print(pin);
+}
+getAddressPin(var pin) async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  getAddress();
+  sharedPreferences.setString("pin", pin.toString());
+  getAddress();
+}
+getUserLocation()async{
+  // isLoading=  true;
+  await myLocation();
+  // print(data);
+  Position position = await _determinePosition();
+  await GetAddressFromLatLong(position);
+  // await UserApi.updateUserAddress(
+  //     address, [position.latitude, position.longitude], pin
+  // );
+  await getAddressPin(pin);
+  // setState(() {
+    myaddress = myaddress;
+    address = address;
+    pin = pin;
+  // });
+  await FirebaseFirestore.instance
+      .collection("user_details")
+      .doc(number)
+      .update({
+    "location": GeoPoint( position.latitude,position.longitude),
+    "address": address,
+    // "lat": position.latitude,
+    // "long": position.longitude,
+    "pincode": pin,
+    "locality": locality,
+    "subLocality": locality,
+    // "number": number
+  });
+}
+
 

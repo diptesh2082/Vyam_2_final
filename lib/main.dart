@@ -23,7 +23,7 @@ void main() async {
   getAddress();
   getVisitingFlag();
   await myLocation();
-  await checkExistAcc(number);
+  // await checkExistAcc(number);
   print(GlobalUserData);
   // print(number);
   // print(number);

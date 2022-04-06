@@ -9,6 +9,7 @@ import 'package:vyam_2_final/authintication/google_signin.dart';
 
 import 'package:vyam_2_final/authintication/register_gender.dart';
 import 'package:vyam_2_final/colors/color.dart';
+import 'package:vyam_2_final/page_trangition/fade_route.dart';
 
 import '../api/api.dart';
 import '../golbal_variables.dart';
@@ -39,6 +40,13 @@ class _OtpPage2State extends State<OtpPage2> {
 
   // var value = Get.arguments;
   // var id = Get.arguments["id"];
+  getToHomePage(var number) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    getNumber();
+    sharedPreferences.setString("number", number.toString());
+    getNumber();
+    // Get.offAll(() =>  HomePage());
+  }
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool showLoading = false;
   TextEditingController otpController = TextEditingController();
@@ -61,6 +69,7 @@ class _OtpPage2State extends State<OtpPage2> {
         //   "number":value[1]
         // });
         print(userName);
+        await getToHomePage(_auth.currentUser?.phoneNumber);
         setUserId(_auth.currentUser?.phoneNumber);
         setNumber(_auth.currentUser?.phoneNumber);
           Get.off(() => Register3(),arguments: {
@@ -98,11 +107,9 @@ class _OtpPage2State extends State<OtpPage2> {
 
   @override
   void initState() {
-    // print("+91$docId");
-    // checkExist("+91$docId");
+
     startTimer();
-    // flag = get();
-    // print(flag);
+
     super.initState();
   }
 
@@ -242,7 +249,7 @@ class _OtpPage2State extends State<OtpPage2> {
                                   // print("+91${docId}");
                                   var _forceResendingToken;
                                   await _auth.verifyPhoneNumber(
-                                      timeout: const Duration(seconds: 25),
+                                      timeout: const Duration(seconds: 23),
                                       forceResendingToken: _forceResendingToken,
                                       phoneNumber: widget.number,
                                       verificationCompleted:
@@ -269,16 +276,9 @@ class _OtpPage2State extends State<OtpPage2> {
                                         // setState(() {
                                         //   _timer;
                                         // });
-                                        Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>OtpPage2(verificationID: verificationID,number: widget.number , resendingToken: resendingToken)));
+                                        Navigator.pushReplacement((context), FadeRoute(page:OtpPage2(verificationID: verificationID,number: widget.number , resendingToken: resendingToken)));
 
-                                        // await Get.off(() =>  OtpPage(), arguments: [
-                                        //   verificationID,
-                                        //   "+91${docId}",
-                                        //   resendingToken
-                                        // ]);
-                                        // print("$resendingToken");
-                                        // checkExist(widget.number);
-                                        // var resending_token=resendingToken;
+
 
                                       },
                                       // forceResendingToken: (re){
@@ -289,10 +289,13 @@ class _OtpPage2State extends State<OtpPage2> {
                                       });
                                 }
                                     : null,
-                                child: const Text(
+                                child: Text(
                                   "Resend OTP",
-                                  style:
-                                  TextStyle(color: Colors.orangeAccent),
+                                  style: TextStyle(
+                                   color: activateButton!
+                                        ? Colors.orangeAccent
+                                        : Colors.grey[350],
+                                  ),
                                 ))
                           ],
                         ),

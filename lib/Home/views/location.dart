@@ -480,7 +480,63 @@ class _LocInfoState extends State<LocInfo> {
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
+                ),
+                InkWell(
+                  onTap: () async{
+                    FocusScope.of(context).unfocus();
+                    String value='kolkata,salt-lake, sector2,700091';
+                    print(value);
+                    isLoading=true;
+                    if (value.isEmpty) return;
+                    final res =
+                    await RequestHelper().getCoordinatesFromAddresss(value);
+                    setState(()  {
+                      GlobalUserLocation=value;
+                      locController.text=value;
+                    });
+                    await GetAddressFromGeoPoint( GeoPoint(res.latitude, res.longitude));
+
+                    await FirebaseFirestore.instance
+                        .collection('user_details')
+                        .doc(number)
+                        .update({
+                      "location": GeoPoint(res.latitude, res.longitude),
+                      // "lat": res.latitude,
+                      // "long": res.longitude,
+                      "address":value.trim(),
+                      "pincode":pin,
+                      "locality": locality,
+                      "subLocality": subLocality,
+                    });
+                    Get.off(()=>HomePage());
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 0),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'kolkata,salt-lake, sector 2',
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: Colors.black),
+                        ),
+                        const Spacer(),
+                        Transform(
+                          transform: Matrix4.rotationY(pi),
+                          child: const Icon(
+                            Icons.call_made_sharp,
+                            size: 20,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
                 ),
                 InkWell(
                   onTap: () async{
@@ -535,9 +591,11 @@ class _LocInfoState extends State<LocInfo> {
                     ),
                   ),
                 ),
+
                 const SizedBox(
                   height: 15,
                 ),
+
                 InkWell(
                   onTap: () async{
                     FocusScope.of(context).unfocus();

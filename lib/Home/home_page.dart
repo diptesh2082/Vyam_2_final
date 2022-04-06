@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 // import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
@@ -28,11 +29,11 @@ class _HomePageState extends State<HomePage> {
     await checkExist(number);
     exist== false?Get.off(const LoginPage()):Get.off(()=>HomePage());
   }
+
   @override
   void initState() {
     // TODO: implement initState
-
-   // getInfo();
+   getInfo();
   }
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);
