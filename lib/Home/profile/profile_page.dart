@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/profile/faq.dart';
@@ -33,6 +34,7 @@ class _ProfilePartState extends State<ProfilePart> {
   var imageUrl="";
   // final id = number;
   bool Loading=true;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future getUserData() async {
     print("user is here"+number);
@@ -384,7 +386,8 @@ class _ProfilePartState extends State<ProfilePart> {
                           // sharedPreferences.remove('number');
                           // getNumber();
                           // print(number);
-                          _auth.signOut();
+                          await _googleSignIn.signOut();
+                          await _auth.signOut();
                           Get.offAll(() => const LoginPage());
                           setVisitingFlagFalse();
 

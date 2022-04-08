@@ -46,6 +46,7 @@ class _Register4State extends State<Register4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -92,7 +93,8 @@ class _Register4State extends State<Register4> {
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
             onPressed: ()async{
-              Get.offAll(()=>HomePage());
+
+              await Get.offAll(()=>HomePage());
               await getUserLocation();
              final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
              await ref.putFile(image!);

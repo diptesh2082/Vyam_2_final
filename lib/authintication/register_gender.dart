@@ -31,6 +31,7 @@ class _Register3State extends State<Register3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -72,7 +73,15 @@ class _Register3State extends State<Register3> {
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
             onPressed: ()async {
-              Navigator.push(
+              await UserApi.createNewUser();
+              await FirebaseFirestore.instance.collection("user_details").doc(number).update({
+                "number":number,
+                "image":userPhoto,
+                "name":name,
+                "email":email,
+                "gender":gender
+              });
+              await Navigator.push(
                   context,
                   CustomPageRoute(
                     child: Register4(),
@@ -88,14 +97,11 @@ class _Register3State extends State<Register3> {
               // print(name);
               // await setVisitingFlag();
               await setVisitingFlag();
-              await UserApi.createNewUser();
-              await UserApi.createUserName(name);
-              await UserApi.CreateUserEmail(email);
-              await UserApi.CreateUserGender(gender);
-              await FirebaseFirestore.instance.collection("user_details").doc(number).update({
-                "number":number,
-                "image":userPhoto
-              });
+
+              // await UserApi.createUserName(name);
+              // await UserApi.CreateUserEmail(email);
+              // await UserApi.CreateUserGender(gender);
+
 
 
             },

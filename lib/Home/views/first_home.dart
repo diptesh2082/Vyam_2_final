@@ -85,11 +85,13 @@ class _FirstHomeState extends State<FirstHome> {
         }
       });
     }catch(e){
-      setState(() {
+      if(mounted) {
+        setState(() {
         user_data = {};
         GlobalUserData = {};
         GlobalUserLocation = "";
       });
+      }
     }
 
   }
@@ -148,14 +150,14 @@ class _FirstHomeState extends State<FirstHome> {
 
   getEverything() async {
     await getUserId();
-    // print("userid ${number}");
     await myLocation();
     await userDetails.getData();
 
-
-    setState(() {
+    if(mounted) {
+      setState(() {
       isLoading = false;
     });
+    }
   }
 
   bool showCard = false;
@@ -166,8 +168,7 @@ class _FirstHomeState extends State<FirstHome> {
     finaldaysLeft = finalDate / totalDays;
     day_left = totalDays - int.parse(getDays);
     // progress=double.parse((100 * getDays/totalDays).toInt());
-    // print("$getDays");
-    // print(totalDays);
+
     getPercentage = 100 * int.parse(getDays.toString()) / totalDays;
     progress = (double.parse(getPercentage.toString()) / 100);
     // locationController.YourLocation(location);
@@ -234,16 +235,6 @@ class _FirstHomeState extends State<FirstHome> {
     return await Geolocator.getCurrentPosition();
   }
 
-  // Future<void> userLocation()async{
-  //   final docUser= await FirebaseFirestore.instance.collection("user_list").doc("7407926060");
-  //  final snapshot = await  docUser.get();
-  //  if (snapshot.exists){
-  //    setState(() {
-  //      address=snapshot.data as String;
-  //    });
-  //
-  //  }
-  // }
   TextEditingController searchController = TextEditingController();
   String pin = "";
   String locality = "";
@@ -256,7 +247,8 @@ class _FirstHomeState extends State<FirstHome> {
     Placemark place = placemark[0];
 
     address =
-        "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
+        address =
+        "${place.name??""}, "+"${place.street??""}, ${place.locality??""}, ${place.subAdministrativeArea??""}, ${place.postalCode??""}";
     pin = "${place.postalCode}";
     locality = "${place.locality}";
     subLocality = "${place.subLocality}";
@@ -272,12 +264,6 @@ class _FirstHomeState extends State<FirstHome> {
     getEverything();
     // SystemChannels.textInput.invokeMethod("TextInput.hide");
     getProgressStatus();
-    // userL
-    // getNumber();
-    // number=getUserId();
-    // number==null?number=getUserId().toString():number=number;
-
-    // print(address2);
     if (mounted) {
       setState(() {
       // myaddress = myaddress;
@@ -342,7 +328,7 @@ class _FirstHomeState extends State<FirstHome> {
                     Get.to(() => LocInfo());
                   },
                   child: SizedBox(
-                    width: size.width * .606,
+                    width: size.width * .666,
                     child: Text(
                       GlobalUserData["address"]==""?"Tap here to choose your Location":GlobalUserData["address"],
                       textAlign: TextAlign.left,
@@ -410,6 +396,7 @@ class _FirstHomeState extends State<FirstHome> {
                                 const SizedBox(
                                   // height: 6,
                                 ),
+
                                 buildGymBox(),
                                 const SizedBox(
                                   // height: 500,
@@ -603,10 +590,8 @@ class _FirstHomeState extends State<FirstHome> {
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("product_details")
-              .where("pincode", isEqualTo: GlobalUserData["pincode"])
+              .where("locality".toLowerCase(), isEqualTo: GlobalUserData["locality"].toLowerCase())
           .orderBy("location")
-              // .withConverter(fromFirestore: fromFirestore, toFirestore: toFirestore)
-              // .where("name",isGreaterThanOrEqualTo: searchGymName.toString())
               .snapshots(),
           builder: (context, AsyncSnapshot streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
@@ -630,17 +615,21 @@ class _FirstHomeState extends State<FirstHome> {
                     .contains(searchGymName.toString());
               }).toList();
             }
+            //  document.where((element) {
+            //   print(element);
+            // });
 
             return document.isNotEmpty
                 ? ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: document.length,
-                    itemBuilder: (context, int index) {
+                    itemBuilder: (context,  index) {
                       var distance=calculateDistance(GlobalUserData["location"].latitude, GlobalUserData["location"].longitude, document[index]["location"].latitude, document[index]["location"].longitude);
                       distance=double.parse((distance).toStringAsFixed(1));
                           // print(distance);
-                      return FittedBox(
+                      if(distance<=50) {
+                        return FittedBox(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: Container(
@@ -835,6 +824,8 @@ class _FirstHomeState extends State<FirstHome> {
                           ),
                         ),
                       );
+                      }
+                      return Container();
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       return  Container(

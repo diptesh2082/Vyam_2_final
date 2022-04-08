@@ -35,9 +35,12 @@ class Explore extends StatefulWidget {
   State<Explore> createState() => _ExploreState();
 }
 
-double lat=GlobalUserData["location"].latitude;
-double long = GlobalUserData["location"].longitude;
+var lat;
+// =GlobalUserData["location"].latitude;
+var long;
+// = GlobalUserData["location"].longitude;
 class _ExploreState extends State<Explore> {
+
   static final _initialCameraPosition = CameraPosition(
     target: LatLng(lat, long),
     zoom: 12,
@@ -124,6 +127,11 @@ class _ExploreState extends State<Explore> {
   @override
   void initState() {
     // print(location.latitude);
+    setState(() {
+      lat=GlobalUserData["location"].latitude;
+      long = GlobalUserData["location"].longitude;
+    });
+
     getMarkerData();
     if (doc != null) {
       _gotoLocation(doc["location"].latitude, doc["location"].longitude);
@@ -134,7 +142,7 @@ class _ExploreState extends State<Explore> {
   @override
   dispose() {
     // controller.dispose();
-    // _controller.dispose();
+    // // _controller.dispose();
     // _initialCameraPosition.dispose();
     super.dispose();
   }
@@ -220,7 +228,10 @@ splashLocation(latitude,longitude)async{
             GoogleMap(
               // markers: ,
               mapType: MapType.terrain,
-              initialCameraPosition: _initialCameraPosition,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(GlobalUserData["location"].latitude!,GlobalUserData["location"].longitude!),
+                zoom: 10,
+              ),
               myLocationEnabled: true,
               myLocationButtonEnabled: false,
               compassEnabled: true,
@@ -242,7 +253,8 @@ splashLocation(latitude,longitude)async{
                 child: StreamBuilder(
                     stream:  FirebaseFirestore.instance
                         .collection("product_details")
-                    .where("pincode",isEqualTo: GlobalUserData["pincode"].toString())
+                        .where("locality".toLowerCase(), isEqualTo: GlobalUserData["locality"].toLowerCase())
+                        .orderBy("location")
                         .snapshots(),
                     builder: (context, AsyncSnapshot streamSnapshot) {
                       if (streamSnapshot.connectionState ==
@@ -288,11 +300,6 @@ splashLocation(latitude,longitude)async{
                               print(_currentItem);
                               splashLocation(document[_currentItem]["location"].latitude, document[_currentItem]["location"].longitude);
 
-                                // });
-                              // setState(()asy {
-                              //   _gotoLocation(document[info.visibleFraction.toInt()]["location"].latitude, document[info.visibleFraction.toInt()]["location"].longitude);
-                              //
-                              // });
                             },
                             child: SizedBox(
                               // width: 300,
@@ -491,29 +498,6 @@ splashLocation(latitude,longitude)async{
           ],
         ),
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      // floatingActionButton: SizedBox(
-      //   height: 33,
-      //   width: 27,
-      //   child: FloatingActionButton.extended(
-      //     // backgroundColor: Colors.white,
-      //     elevation: 15,
-      //     splashColor: Colors.amber,
-      //     backgroundColor: const Color(0xff292F3D),
-      //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)
-      //     ),
-      //     onPressed: () {
-      //       FocusScope.of(context).unfocus();
-      //     },
-      //     label: Text(
-      //       "",
-      //       // "Explore Packages",
-      //       style: GoogleFonts.poppins(fontWeight: FontWeight.bold,
-      //           color: Colors.white
-      //       ),
-      //     ),
-      //   ),
-      // ),
     );
   }
 

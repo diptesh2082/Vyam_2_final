@@ -33,6 +33,7 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
           backgroundColor: Colors.transparent,

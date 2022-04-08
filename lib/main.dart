@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,7 @@ import 'package:vyam_2_final/authintication/splash_screen.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'Home/home_page.dart';
 
-// bool visitingFlag = false;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -23,29 +24,14 @@ void main() async {
   getAddress();
   getVisitingFlag();
   await myLocation();
-  // await checkExistAcc(number);
   print(GlobalUserData);
-  // print(number);
-  // print(number);
-  // print(number);
-  // bool? visitingFlag=await getVisitingFlag();
-  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-  // progress() async{
-  //   bool? visitingFlag=await getVisitingFlag();
-  //   if (visitingFlag==true){
-  //     return HomePage();
-  //   }else if(visitingFlag==false){
-  //     return const LoginPage();
-  //   }
-  // }
 
-  // Future get visitingFlag => getVisitingFlag();
-  // This widget is the root of your application
   @override
   Widget build(BuildContext context) {
 
@@ -61,7 +47,22 @@ class MyApp extends StatelessWidget {
 
       // theme: Themes().lightTheme,
       debugShowCheckedModeBanner: false,
-      home: visiting_flag ? HomePage():  Onboarding1(),
+      home:StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (snapshot.hasData) {
+            return  HomePage();
+          }
+
+          return  Onboarding1();
+        },
+      ),
 
       // initialRoute: ,
       getPages: [

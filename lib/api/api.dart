@@ -293,13 +293,6 @@ class UserApi {
   }
 }
 class GymReviews{
-  // final String uid;
-  // GymReviews({required this.uid});
-
-//   getuserAddress() {
-//     Stream<QuerySnapshot> getReviews =
-//     FirebaseFirestore.instance.collection('user_details').snapshots();
-//   }
 
     Stream<QuerySnapshot> getGymReviews = FirebaseFirestore.instance
     //     .collection("Reviews")
@@ -598,14 +591,10 @@ getAddressPin(var pin) async {
   getAddress();
 }
 getUserLocation()async{
-  // isLoading=  true;
   await myLocation();
-  // print(data);
+
   Position position = await _determinePosition();
   await GetAddressFromLatLong(position);
-  // await UserApi.updateUserAddress(
-  //     address, [position.latitude, position.longitude], pin
-  // );
   await getAddressPin(pin);
   // setState(() {
     myaddress = myaddress;

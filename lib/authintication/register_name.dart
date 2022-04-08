@@ -92,7 +92,7 @@ class _Register1State extends State<Register1> {
         children: [
           Center(
             child: Padding(
-              padding: EdgeInsets.all(21),
+              padding: const EdgeInsets.all(21),
                 child: Image.asset('assets/Illustrations/Fitness stats-pana_1.png')),
           ),
           Form(

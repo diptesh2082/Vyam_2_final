@@ -124,7 +124,7 @@ class _OtpPageState extends State<OtpPage> {
   }
 
   Timer? _timer;
-  int _start = 25;
+  int _start = 30;
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -287,7 +287,7 @@ class _OtpPageState extends State<OtpPage> {
 
                                       var _forceResendingToken;
                                       await _auth.verifyPhoneNumber(
-                                          timeout: const Duration(seconds: 23),
+                                          timeout: const Duration(seconds: 27),
                                           forceResendingToken: _forceResendingToken,
                                           phoneNumber: widget.number,
                                           verificationCompleted:
@@ -315,12 +315,6 @@ class _OtpPageState extends State<OtpPage> {
                                                 (context), FadeRoute(
                                                 page: OtpPage(verificationID: verificationID,number: widget.number , resendingToken: resendingToken)));
 
-                                            // await Get.off(() =>  OtpPage(), arguments: [
-                                            //   verificationID,
-                                            //   "+91${docId}",
-                                            //   resendingToken
-                                            // ]);
-                                            // print("$resendingToken");
                                             checkExist(widget.number);
                                             var resending_token=resendingToken;
 

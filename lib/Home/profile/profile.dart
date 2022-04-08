@@ -97,10 +97,7 @@ class _ProfileState extends State<Profile> {
         final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
         await ref.putFile(image!);
         final url = await ref.getDownloadURL();
-        await db.collection("user_details").doc(id).update({
-          'email': emailTextEditingController.text,
-          'name': nameTextEditingController.text,
-          // 'number': phoneTextEditingController.text,
+        await db.collection("user_details").doc(number).update({
           "image": url
         });
         setState(() {
@@ -317,13 +314,18 @@ class _ProfileState extends State<Profile> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
+                    await FirebaseFirestore.instance.collection("user_details")
+                    .doc(number).update({
+                      'email': emailTextEditingController.text,
+                      'name': nameTextEditingController.text,
+                    });
 
                     setState(() {
                       isLoading=true;
 
                     });
                     await saveData();
-                    Get.back();
+                    await Get.offAll( ()=>ProfilePart());
                   },
                   child: const Text(
                     'Update',

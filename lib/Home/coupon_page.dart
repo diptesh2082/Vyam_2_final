@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -255,117 +256,171 @@ class _CouponDetailsState extends State<CouponDetails> {
                                       documents[index]["code"].toString().toLowerCase(): documents[index]["discount"]
                                 });
                                 print(coupon_list);
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
+                                return SafeArea(
+                                  child: Stack(
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    alignment: Alignment.centerLeft,
                                     children: [
-                                      Card(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8)),
-                                        elevation: 8,
-                                        color: Colors.transparent,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          width: _width * 0.9,
-                                          child: Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 22.0,
-                                                    left: 18,
-                                                    bottom: 22),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: GestureDetector(
+                                          onTap: ()async{
+                                            print(documents[index]["code"].toString());
+                                            print(coupon_list);
+                                            // if(coupon_list.containsKey(documents[index]["code"].toLowerCase().toString())){
+                                              coupon_applied=true;
+                                              GlobalCoupon=documents[index]["code"].toString();
+                                              setState(() {
+                                                CouponDetailsMap=documents[index]["discount"].toString();
+                                                GlobalCouponApplied=true;
+                                              });
+
+                                               Get.back();
+                                              // Get.off(()=>const PaymentScreen(),arguments: getData);
+                                               showDialog(
+                                                context: context,
+                                                builder: (context) => AlertDialog(
+                                                  shape: const RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.all(Radius.circular(16))),
+                                                  content: SizedBox(
+                                                    height: 160,
+                                                    width: 160,
+                                                    child: FittedBox(
+                                                      child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          mainAxisAlignment: MainAxisAlignment.center,
                                                           children: [
-                                                            Text(
-                                                              documents[index]
-                                                                      ['title']
-                                                                  .toUpperCase(),
-                                                              style: GoogleFonts.poppins(
-                                                                  color: HexColor(
-                                                                      "3A3A3A"),
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
+                                                            Image.asset("assets/icons/icons8-approval.gif",
+                                                              height: 70,
+                                                              width: 70,
                                                             ),
                                                             const SizedBox(
-                                                              height: 5,
+                                                              height: 9,
                                                             ),
                                                             Text(
-                                                              documents[index]
-                                                                      ['detail']
-                                                                  .toUpperCase(),
-                                                              style: GoogleFonts.poppins(
-                                                                  color: HexColor(
-                                                                      "3A3A3A"),
+                                                              "${documents[index]["code"].toString()} Applied",
+                                                              style: const TextStyle(
+                                                                  fontFamily: "Poppins",
                                                                   fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w200),
+                                                                  fontWeight: FontWeight.w600),
                                                             ),
-                                                            const SizedBox(
-                                                              height: 5,
+                                                            const SizedBox(height: 6),
+                                                            Text(
+                                                              "You save ${documents[index]["discount"].toString()}",
+                                                              style: const TextStyle(
+                                                                  fontFamily: "Poppins",
+                                                                  fontSize: 16,
+                                                                  color: Colors.green,
+                                                                  fontWeight: FontWeight.w600),
                                                             ),
-                                                            Row(
-                                                              children: [
-                                                                Text(
-                                                                  "Code : " +
-                                                                      documents[index]
-                                                                              [
-                                                                              'code']
-                                                                          .toUpperCase(),
-                                                                  style: GoogleFonts.poppins(
-                                                                      color: HexColor(
-                                                                          "3A3A3A"),
-                                                                      fontSize:
-                                                                          12,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w200),
-                                                                ),
-                                                                // const Spacer(),
-                                                                const SizedBox(
-                                                                  // width: MediaQuery.of(context).size.width*.2,
-                                                                ),
-                                                                // const Text(
-                                                                //   "Apply",
-                                                                //   style:
-                                                                //       TextStyle(
-                                                                //     color: Colors
-                                                                //         .red,
-                                                                //   ),
-                                                                //   textAlign:
-                                                                //       TextAlign
-                                                                //           .end,
-                                                                // )
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ],
+                                                          ]),
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
+                                              );
+
+
+                                            // }else{
+                                            //   coupon_applied=false;
+                                            //   GlobalCouponApplied=false;
+                                            //   GlobalCoupon=null;
+                                            //   CouponDetailsMap="0";
+                                            // }
+
+                                            if (coupon_applied==true){
+                                              setState(() {
+                                                // total_discount=int.parse(coupon_list[coupon]);
+                                              });
+
+
+                                              // Get.off(()=>const PaymentScreen(),arguments: getData);
+                                              FocusScope.of(context).unfocus();
+                                              // Get.snackbar("coupon applyed", "congratulations",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
+                                              // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
+
+                                            }else{
+                                              Get.snackbar( "wrong coupon","kindely put diffrent one",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
+                                              // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
+                                              total_discount=0;
+                                            }
+                                            // print(coupon_applied);
+                                            // print(total_discount);
+                                          },
+                                          child: Card(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.circular(6)),
+                                            child: Container(
+                                              height: 100,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                          top: 41,
+                                          child: CircleAvatar(
+                                            radius: 20,
+                                            backgroundColor: Colors.grey.shade100,
+                                          )),
+                                      Positioned(
+                                        left: 45,
+                                        child: FittedBox(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                documents[index]['title']
+                                                    .toUpperCase(),
+                                                style: GoogleFonts.poppins(
+                                                    color: HexColor("3A3A3A"),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600),
+                                              ),
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Text(
+                                                documents[index]['detail']
+                                                    .toUpperCase(),
+                                                style: GoogleFonts.poppins(
+                                                    color: HexColor("3A3A3A"),
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w200),
                                               ),
                                             ],
                                           ),
                                         ),
                                       ),
+                                      Positioned(
+                                        top: 12,
+                                        left: _width*.5,
+                                        child: const DottedLine(
+                                          direction: Axis.vertical,
+                                          lineLength: 100,
+                                          dashGapLength: 8,
+                                          lineThickness: 1.5,
+                                          dashColor: Colors.amber,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 40,
+                                        left: 200,
+                                        child: Text(
+                                          documents[index]['code'].toUpperCase(),
+                                          style: GoogleFonts.poppins(
+                                              color: HexColor("3A3A3A"),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w200),
+                                        ),
+                                      ),
+                                      Positioned(
+                                          top: 41,
+                                          right: 0,
+                                          child: CircleAvatar(
+                                            radius: 20,
+                                            backgroundColor: Colors.grey.shade100,
+                                          ))
                                     ],
                                   ),
                                 );

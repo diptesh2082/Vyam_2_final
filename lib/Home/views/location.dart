@@ -97,9 +97,9 @@ class _LocInfoState extends State<LocInfo> {
     List<Placemark> placemark =
     await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
-
+    print(place);
     address =
-    "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
+    "${place.name??""}, "+"${place.street??""}, ${place.locality??""}, ${place.subAdministrativeArea??""}, ${place.postalCode??""}";
     pin = "${place.postalCode}";
     locality = "${place.locality}";
     subLocality = "${place.subLocality}";
@@ -110,7 +110,7 @@ class _LocInfoState extends State<LocInfo> {
     Placemark place = placemark[0];
 
     address =
-    "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
+        "${place.name??""}, "+"${place.street??""}, ${place.locality??""}, ${place.subAdministrativeArea??""}, ${place.postalCode??""}";
     pin = "${place.postalCode}";
     locality = "${place.locality}";
     subLocality = "${place.subLocality}";
@@ -206,19 +206,6 @@ class _LocInfoState extends State<LocInfo> {
           alignment: Alignment.center,
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Positioned(
-            //   // top: 2,
-            //   right: 0,
-            //   top: 100,
-            //   child: Container(
-            //     height: 10,
-            //     width: 10,
-            //     color: Colors.black,
-            //   ),
-            // ),
-            // const SizedBox(
-            //   height: 15,
-            // ),
             Column(
               children: [
                 const SizedBox(
@@ -257,6 +244,7 @@ class _LocInfoState extends State<LocInfo> {
                       if (value.isEmpty) return;
                       final res =
                       await RequestHelper().getCoordinatesFromAddresss(value);
+                      // print("fhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkg"+value);
                       setState(()  {
                         GlobalUserLocation=value;
                         locController.text=value;
@@ -303,40 +291,6 @@ class _LocInfoState extends State<LocInfo> {
               ],
             ),
 
-            // showPlacessuggesstions
-            //     ? Positioned(
-            //   top: 20,
-            //       left: 5,
-            //       child: Container(
-            //   height: 300,
-            //   color: Colors.black,
-            //   padding:
-            //   const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-            //   child: _list==null?Container()
-            //         : ListView.builder(
-            //       shrinkWrap: true,
-            //       itemCount: _list!.length,
-            //       itemBuilder: ((context, index) {
-            //         return ListTile(
-            //           title: Text(_list![index].mainText!),
-            //           subtitle: Text(_list![index].secondaryText!),
-            //           onTap: () async {
-            //             final res = await RequestHelper()
-            //                 .getCoordinatesFromAddresss(
-            //                 _list![index].mainText!);
-            //             print(res.latitude);
-            //             print(res.longitude);
-            //             _gotoLocation(res.latitude, res.longitude);
-            //             FocusScope.of(context).unfocus();
-            //             setState(() {
-            //               showPlacessuggesstions = false;
-            //             });
-            //           },
-            //         );
-            //       }),
-            //   ),
-            // ),
-            //     ):Container(),
 
             Column(
               children: [
@@ -655,7 +609,7 @@ class _LocInfoState extends State<LocInfo> {
                 InkWell(
                   onTap: () async{
                     FocusScope.of(context).unfocus();
-                    String value='Kolkata, West Bengal';
+                    String value='Durgapur, West Bengal';
                     print(value);
                     isLoading=true;
                     if (value.isEmpty) return;
@@ -736,8 +690,8 @@ class _LocInfoState extends State<LocInfo> {
                         // _gotoLocation(res.latitude, res.longitude);
                         FocusScope.of(context).unfocus();
                         setState(() {
-                          locController.text=address;
-                          GlobalUserLocation= address;
+                          locController.text=_list![index].mainText!;
+                          GlobalUserLocation= _list![index].mainText!;
                           showPlacessuggesstions = false;
                         });
                         await FirebaseFirestore.instance
