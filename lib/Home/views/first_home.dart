@@ -11,6 +11,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_webservice/places.dart' as core;
+import 'package:hexcolor/hexcolor.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
@@ -63,6 +64,8 @@ class _FirstHomeState extends State<FirstHome> {
 
   var day_left;
   final auth = FirebaseAuth.instance;
+
+
   // var location = Get.arguments;
 
   myLocation() async {
@@ -79,6 +82,7 @@ class _FirstHomeState extends State<FirstHome> {
             GlobalUserData = documentSnapshot.data();
             // GlobalUserLocation = GlobalUserData["pincode"];
           });
+
           }
           print(GlobalUserLocation);
           // user_data=documentSnapshot.data();
@@ -146,18 +150,136 @@ class _FirstHomeState extends State<FirstHome> {
     getAddressPin(pin);
     myLocation();
   }
-
+  late LocationPermission permission;
 
   getEverything() async {
     await getUserId();
     await myLocation();
     await userDetails.getData();
-
     if(mounted) {
       setState(() {
-      isLoading = false;
-    });
+        isLoading = false;
+      });
     }
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    print("service status $serviceEnabled");
+    if (!serviceEnabled) {
+      showDialog(context: context,
+          builder:(context)=> AlertDialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(16))),
+            content: SizedBox(
+              height: 140,
+              width: 120,
+              child: FittedBox(
+                child: Column(
+                  children: [
+                    Text(
+                      "Please turn on your location.",
+                      style: GoogleFonts.poppins(
+                          fontSize: 10
+                      ),
+                    ),
+                    const SizedBox(
+                      height:15,
+                    ),
+                    Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Image.asset("assets/icons/icons8-approval.gif",
+                          //   height: 70,
+                          //   width: 70,
+                          // ),
+
+                          // const SizedBox(width: 15),
+                          GestureDetector(
+                            onTap: ()async{
+                              Navigator.pop(context);
+
+                            },
+                            child: Container(
+                                height: 24,
+                                width: 45,
+                                decoration: BoxDecoration(
+                                    color: HexColor("292F3D"),
+                                    borderRadius: BorderRadius.circular(6)),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 4, right: 3, top: 2, bottom: 2),
+                                  child: Center(
+                                    child: Text(
+                                      "No",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.w700,
+                                          color: HexColor("FFFFFF")),
+                                    ),
+                                  ),
+                                )),
+                          ),
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          GestureDetector(
+                            onTap: ()async{
+
+                              Position position = await _determinePosition();
+                              await GetAddressFromLatLong(position);
+                              if(mounted) {
+                                setState(() {
+                                myaddress = myaddress;
+                                address = address;
+                                pin = pin;
+                              });
+                              }
+                              await FirebaseFirestore.instance
+                                  .collection("user_details")
+                                  .doc(number)
+                                  .update({
+                                "location": GeoPoint(position.latitude, position.longitude),
+                                "address": address,
+                                // "lat": position.latitude,
+                                // "long": position.longitude,
+                                "pincode": pin,
+                                "locality": locality,
+                                "subLocality": locality,
+                                // "number": number
+                              });
+                              await Get.offAll(()=>HomePage());
+                            },
+                            child: Container(
+                                height: 24,
+                                width: 45,
+                                decoration: BoxDecoration(
+                                    color: HexColor("292F3D"),
+                                    borderRadius: BorderRadius.circular(6)),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 4, right: 3, top: 2, bottom: 2),
+                                  child: Center(
+                                    child: Text(
+                                      "Yes",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.w700,
+                                          color: HexColor("FFFFFF")),
+                                    ),
+                                  ),
+                                )),
+                          ),
+                        ]),
+                  ],
+                ),
+              ),
+            ),
+          ),
+      );
+    }
+
+    // }
+
+
   }
 
   bool showCard = false;

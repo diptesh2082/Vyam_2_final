@@ -21,10 +21,10 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 getUserId() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  var user_Id= sharedPreferences.getString("userId")?? "";
+  var userId= sharedPreferences.getString("userId")?? "";
   // number=user_Id;
   // print(number);
-  return user_Id;
+  return userId;
 }
 setUserId(x)async{
   SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -375,7 +375,7 @@ myLocation() async {
       if (documentSnapshot.exists) {
         // print('Document exists on the database');
 
-        var user_data = documentSnapshot.data();
+        var userData = documentSnapshot.data();
         GlobalUserData = documentSnapshot.data();
         // GlobalUserLocation = GlobalUserData["pincode"]??"Tap here to tap your location";
 
@@ -571,6 +571,20 @@ Future<void> GetAddressFromLatLong(Position position) async {
   pin = "${place.postalCode}";
   locality = "${place.locality}";
   subLocality = "${place.subLocality}";
+  await FirebaseFirestore.instance
+      .collection("user_details")
+      .doc(number)
+      .update({
+    "location": GeoPoint( position.latitude,position.longitude),
+    "address": address,
+    // "lat": position.latitude,
+    // "long": position.longitude,
+    "pincode": pin,
+    "locality": locality,
+    "subLocality": locality,
+    // "number": number
+  });
+  await myLocation();
 }
 Future<void> GetAddressFromGeoPoint(GeoPoint position) async {
   List<Placemark> placemark =
@@ -591,29 +605,75 @@ getAddressPin(var pin) async {
   getAddress();
 }
 getUserLocation()async{
-  await myLocation();
+
 
   Position position = await _determinePosition();
   await GetAddressFromLatLong(position);
   await getAddressPin(pin);
-  // setState(() {
-    myaddress = myaddress;
-    address = address;
-    pin = pin;
-  // });
-  await FirebaseFirestore.instance
-      .collection("user_details")
-      .doc(number)
-      .update({
-    "location": GeoPoint( position.latitude,position.longitude),
-    "address": address,
-    // "lat": position.latitude,
-    // "long": position.longitude,
-    "pincode": pin,
-    "locality": locality,
-    "subLocality": locality,
-    // "number": number
-  });
+
+
 }
+
+checkUserLocation(bool serviceEnabled,LocationPermission permission)async{
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {}
+  //   await Geolocator.openLocationSettings();
+  //   return Future.error('Location services are disabled.');
+  // }
+  // permission = await Geolocator.checkPermission();
+  // if (permission == LocationPermission.denied) {
+  //   permission = await Geolocator.requestPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     return Future.error('Location permissions are denied');
+  //   }
+  // }
+  // if (permission == LocationPermission.deniedForever) {
+  //   // Permissions are denied forever, handle appropriately.
+  //   return Future.error(
+  //       'Location permissions are permanently denied, we cannot request permissions.');
+  // }
+
+
+  // return await Geolocator.getCurrentPosition();
+}
+
+Future<Position> determinePosition() async {
+  bool serviceEnabled;
+  LocationPermission permission;
+
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    await Geolocator.openLocationSettings();
+    return Future.error('Location services are disabled.');
+  }
+
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      return Future.error('Location permissions are denied');
+    }
+  }
+
+  if (permission == LocationPermission.deniedForever) {
+    // Permissions are denied forever, handle appropriately.
+    return Future.error(
+        'Location permissions are permanently denied, we cannot request permissions.');
+  }
+
+
+  return await Geolocator.getCurrentPosition();
+}
+// Future<void> GetAddressFromLatLong(Position position) async {
+//   List<Placemark> placemark =
+//   await placemarkFromCoordinates(position.latitude, position.longitude);
+//   Placemark place = placemark[0];
+//   print(place);
+//   address =
+//       "${place.name??""}, "+"${place.street??""}, ${place.locality??""}, ${place.subAdministrativeArea??""}, ${place.postalCode??""}";
+//   pin = "${place.postalCode}";
+//   locality = "${place.locality}";
+//   subLocality = "${place.subLocality}";
+// }
 
 

@@ -330,7 +330,7 @@ class _LocInfoState extends State<LocInfo> {
                           "subLocality": locality,
                           // "number": number
                         });
-                        await Get.off(()=>HomePage());
+                        await Get.offAll(()=>HomePage());
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
@@ -701,7 +701,7 @@ class _LocInfoState extends State<LocInfo> {
                           "location": GeoPoint(res.latitude, res.longitude),
                           // "lat": res.latitude,
                           // "long": res.longitude,
-                          "address":address,
+                          "address":_list![index].mainText!,
                           "pincode":pin,
                           "locality": locality,
                           "subLocality": subLocality,
