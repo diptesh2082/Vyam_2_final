@@ -95,7 +95,6 @@ class _Register4State extends State<Register4> {
             onPressed: ()async{
 
               await Get.offAll(()=>HomePage());
-              await getUserLocation();
              final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
              await ref.putFile(image!);
              final url = await ref.getDownloadURL();

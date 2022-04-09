@@ -26,38 +26,10 @@ class _CouponDetailsState extends State<CouponDetails> {
   var coupon;
   bool coupon_applied=false;
   Map coupon_list={};
+  FocusNode myNode=FocusNode();
 
   CouponApi couponApi = CouponApi();
-  _couponpopup(context) => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16))),
-        content: SizedBox(
-          height: 180,
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  "VYAM30 Applied",
-                  style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
-                ),
-                SizedBox(height: 15),
-                Text(
-                  "You save 50.00",
-                  style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 16,
-                      color: Colors.green,
-                      fontWeight: FontWeight.w700),
-                ),
-              ]),
-        ),
-      ));
+  TextEditingController couponController=TextEditingController();
 
   @override
   void initState() {
@@ -104,10 +76,12 @@ class _CouponDetailsState extends State<CouponDetails> {
                 color: Colors.transparent,
                 child:  CupertinoTextField(
                   autofocus: false,
-                  onChanged: (value){
-                    coupon=value.trim().toLowerCase();
-                   // print(coupon);
-                  },
+                  controller: couponController,
+                  focusNode: myNode,
+                  // onChanged: (value){
+                  //   coupon=value.trim().toLowerCase();
+                  //  // print(coupon);
+                  // },
 
                   placeholder: "Enter coupon code",
                   // padding: EdgeInsets.all(15),
@@ -115,6 +89,8 @@ class _CouponDetailsState extends State<CouponDetails> {
                     children: [
                       GestureDetector(
                         onTap: ()async{
+                          coupon= await couponController.text.trim().toLowerCase();
+                          print(coupon);
 
                           if(coupon_list.containsKey(coupon)){
                             coupon_applied=true;
@@ -223,6 +199,9 @@ class _CouponDetailsState extends State<CouponDetails> {
 
                     var documents = snapshot.data.docs;
                     print(documents);
+                    var list=[];
+                    // list.addAll({documents[0]["code"].toString().toLowerCase(): documents[index]["discount"]);
+                    print(list);
 
 
                     if (documents.isEmpty) {
@@ -265,84 +244,13 @@ class _CouponDetailsState extends State<CouponDetails> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: GestureDetector(
                                           onTap: ()async{
-                                            print(documents[index]["code"].toString());
-                                            print(coupon_list);
-                                            // if(coupon_list.containsKey(documents[index]["code"].toLowerCase().toString())){
-                                              coupon_applied=true;
-                                              GlobalCoupon=documents[index]["code"].toString();
+                                            if(mounted) {
                                               setState(() {
-                                                CouponDetailsMap=documents[index]["discount"].toString();
-                                                GlobalCouponApplied=true;
-                                              });
-
-                                               Get.back();
-                                              // Get.off(()=>const PaymentScreen(),arguments: getData);
-                                               showDialog(
-                                                context: context,
-                                                builder: (context) => AlertDialog(
-                                                  shape: const RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.all(Radius.circular(16))),
-                                                  content: SizedBox(
-                                                    height: 160,
-                                                    width: 160,
-                                                    child: FittedBox(
-                                                      child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            Image.asset("assets/icons/icons8-approval.gif",
-                                                              height: 70,
-                                                              width: 70,
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 9,
-                                                            ),
-                                                            Text(
-                                                              "${documents[index]["code"].toString()} Applied",
-                                                              style: const TextStyle(
-                                                                  fontFamily: "Poppins",
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.w600),
-                                                            ),
-                                                            const SizedBox(height: 6),
-                                                            Text(
-                                                              "You save ${documents[index]["discount"].toString()}",
-                                                              style: const TextStyle(
-                                                                  fontFamily: "Poppins",
-                                                                  fontSize: 16,
-                                                                  color: Colors.green,
-                                                                  fontWeight: FontWeight.w600),
-                                                            ),
-                                                          ]),
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-
-
-                                            // }else{
-                                            //   coupon_applied=false;
-                                            //   GlobalCouponApplied=false;
-                                            //   GlobalCoupon=null;
-                                            //   CouponDetailsMap="0";
-                                            // }
-
-                                            if (coupon_applied==true){
-                                              setState(() {
-                                                // total_discount=int.parse(coupon_list[coupon]);
-                                              });
-
-
-                                              // Get.off(()=>const PaymentScreen(),arguments: getData);
-                                              FocusScope.of(context).unfocus();
-                                              // Get.snackbar("coupon applyed", "congratulations",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
-                                              // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
-
-                                            }else{
-                                              Get.snackbar( "wrong coupon","kindely put diffrent one",backgroundColor: Colors.grey[200],snackPosition: SnackPosition.BOTTOM);
-                                              // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);
-                                              total_discount=0;
+                                              couponController.text=  documents[index]["code"].toString();
+                                              myNode.requestFocus();
+                                            });
                                             }
+
                                             // print(coupon_applied);
                                             // print(total_discount);
                                           },

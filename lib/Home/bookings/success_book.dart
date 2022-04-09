@@ -374,7 +374,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                        arguments: {
                          "doc":booking_details
                        }
-                   );;
+                   );
                   },
                 ),
               ),

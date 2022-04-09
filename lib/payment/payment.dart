@@ -211,45 +211,45 @@ class _PaymentScreenState extends State<PaymentScreen> {
       print("the  theory${response.paymentId}");
       print("the  theory${response.paymentId}");
       print(response.orderId);
-      if (response.orderId!=null || response.signature !=null) {
-        Get.back();
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16))),
-            content: SizedBox(
-              height: 180,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.cancel,
-                      color: Colors.red,
-                      size: 50,
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      'Payment Failed',
-                      style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ]),
-            ),
-          ),
-        );
-      }else{
+      // if (response.orderId!=null && response.signature !=null) {
+      //   Get.back();
+      //   showDialog(
+      //     context: context,
+      //     builder: (context) => AlertDialog(
+      //       shape: const RoundedRectangleBorder(
+      //           borderRadius: BorderRadius.all(Radius.circular(16))),
+      //       content: SizedBox(
+      //         height: 180,
+      //         child: Column(
+      //             crossAxisAlignment: CrossAxisAlignment.center,
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: const [
+      //               Icon(
+      //                 Icons.cancel,
+      //                 color: Colors.red,
+      //                 size: 50,
+      //               ),
+      //               SizedBox(height: 15),
+      //               Text(
+      //                 'Payment Failed',
+      //                 style: TextStyle(
+      //                     fontFamily: "Poppins",
+      //                     fontSize: 16,
+      //                     color: Colors.black,
+      //                     fontWeight: FontWeight.w700),
+      //               ),
+      //             ]),
+      //       ),
+      //     ),
+      //   );
+      // }else{
         var x =  Random().nextInt(9999);
         if (x<1000){
           x=x+1000;
         }
         FocusScope.of(context).unfocus();
         await getBookingData(getData["booking_id"]);
-        await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_details});
+
 
         // print(x);
         await FirebaseFirestore.instance
@@ -262,7 +262,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
           "booking_status": "upcoming",
           "payment_done": true,
         });
-      }
+      await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_details});
+      // }
 
 
     // } catch (e) {
