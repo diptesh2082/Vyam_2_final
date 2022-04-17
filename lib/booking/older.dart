@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:vyam_2_final/OrderDetails/active_details.dart';
 import 'package:vyam_2_final/OrderDetails/older_order_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
@@ -18,6 +21,7 @@ class OlderEvent extends StatelessWidget {
 
   final double _width;
   List events = [];
+  ActiveBookingApi activeBookingApi = ActiveBookingApi();
 
   @override
   Widget build(BuildContext context) {
@@ -35,209 +39,244 @@ class OlderEvent extends StatelessWidget {
             if (data.size == 0) {
               return Center(
                 child: Image.asset(
-                  "assets/icons/olderEmpty.png",
+                  "assets/icons/activeEmpty.png",
                   height: _width * 0.8,
                 ),
               );
             }
-            return Padding(
+            var document = snapshot.data.docs;
+            return  Padding(
               padding: const EdgeInsets.only(top: 30.0),
-              child: ListView.builder(
-                  itemCount: data.docs.length,
+              child: document.isNotEmpty? ListView.builder(
+                  itemCount: data.size,
                   itemBuilder: (context, index) {
+                    var end_time= data.docs[index]['plan_end_duration'];
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OlderOderDetails(
-                                        index: index,
-                                        orderList: data.docs,
-                                      )));
+                          Get.to(() => ActiveOrderDetails(
+                            index: index,
+                            orderList: data.docs,
+                          ),
+                              arguments: {
+                                "doc":data.docs[index]
+                              }
+                          );
                         },
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8)),
-                          elevation: 8,
-                          color: Colors.transparent,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
+                        child: FittedBox(
+                          child: Card(
+                            shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8)),
-                            width: _width * 0.9,
-                            child: Row(
-                              children: [
-                                Flexible(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 22.0, left: 20, bottom: 22),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Booking ID : " +
-                                                data.docs[index]['id'],
-                                            style: GoogleFonts.poppins(
-                                                color: HexColor("3A3A3A"),
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          const SizedBox(
-                                            height: 4,
-                                          ),
-                                          Text(
-                                            data.docs[index]['gym_name'],
-                                            style: GoogleFonts.poppins(
-                                                color: HexColor("3A3A3A"),
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.location_on,
-                                                size: 20,
-                                              ),
-                                              const SizedBox(
-                                                width: 4.5,
-                                              ),
-                                              Text(
-                                                data.docs[index]['location'],
-                                                style: GoogleFonts.poppins(
-                                                    color: HexColor("3A3A3A"),
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 6,
-                                          ),
-                                          if (data.docs[index]["workout"]
-                                                  .contains("months") ||
-                                              data.docs[index]["workout"]
-                                                  .contains("Months") ||
-                                              data.docs[index]["workout"]
-                                                  .contains("month"))
+                            elevation: 8,
+                            color: Colors.transparent,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8)),
+                              width: _width * 0.9,
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                      flex: 1,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 9.0, left: 9, bottom: 9,right: 9),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Booking ID : ${data.docs[index]['id']??""}",
+                                              style: GoogleFonts.poppins(
+                                                  color: HexColor("3A3A3A"),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            const SizedBox(
+                                              height: 4,
+                                            ),
+                                            Text(
+                                              data.docs[index]['gym_details']["name"]??"",
+                                              // data.docs[index]['gym_name'],
+                                              style: GoogleFonts.poppins(
+                                                  color: HexColor("3A3A3A"),
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
                                             Row(
                                               children: [
-                                                Text(
-                                                  "Package : ",
-                                                  style: GoogleFonts.poppins(
-                                                      color: HexColor("3A3A3A"),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w700),
+                                                const Icon(
+                                                  Icons.location_on,
+                                                  size: 20,
+                                                ),
+                                                const SizedBox(
+                                                  width: 4.5,
                                                 ),
                                                 Text(
-                                                  data.docs[index]['workout']
-                                                      .toUpperCase(),
+                                                  "${data.docs[index]["gym_details"]["branch"]??""}",
+                                                  // data.docs[index]['gym_name'],
                                                   style: GoogleFonts.poppins(
-                                                      fontSize: 12,
                                                       color: HexColor("3A3A3A"),
+                                                      fontSize: 14,
                                                       fontWeight:
-                                                          FontWeight.w500),
+                                                      FontWeight.w500),
                                                 ),
                                               ],
                                             ),
-                                          if (data.docs[index]['workout']
-                                                  .contains("Pay") ||
-                                              data.docs[index]['workout']
-                                                  .contains("pay"))
-                                            Text(
-                                              data.docs[index]['workout']
-                                                  .toUpperCase(),
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 12,
-                                                  color: HexColor("3A3A3A"),
-                                                  fontWeight: FontWeight.w700),
+                                            const SizedBox(
+                                              height: 6,
                                             ),
-                                          const SizedBox(
-                                            height: 6,
-                                          ),
-                                          Text(
-                                            data.docs[index]['end_date'],
-                                            style: GoogleFonts.poppins(
-                                                color: HexColor("A3A3A3"),
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          const SizedBox(
-                                            height: 6,
-                                          ),
-                                          const SizedBox(
-                                            width: 2,
-                                          ),
-                                          Text(
-                                            data.docs[index]['type'],
-                                            style: GoogleFonts.poppins(
-                                                color: HexColor("3A3A3A"),
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            children: [
-                                              for (int i = 1;
-                                                  i <=
-                                                      int.parse(data.docs[index]
-                                                          ['rating']);
-                                                  i++)
-                                                Icon(
-                                                  Icons.star,
-                                                  color: HexColor("FFC700"),
-                                                  size: 15,
-                                                ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              InkWell(
-                                                child: Text(
-                                                  "Edit review",
+                                            // if (
+                                            // data.docs[index]["workout"]
+                                            //     .contains("months") ||
+                                            //     data.docs[index]["workout"]
+                                            //         .contains("Months") ||
+                                            //     data.docs[index]["workout"]
+                                            //         .contains("month"))
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Package : ${data.docs[index]["booking_plan"]??""}",
                                                   style: GoogleFonts.poppins(
-                                                      decoration: TextDecoration
-                                                          .underline,
+                                                      color: HexColor("3A3A3A"),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.w700),
+                                                ),
+                                                Text(
+                                                  "",
+                                                  // data.docs[index]['workout']
+                                                  //     .toUpperCase(),
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 12,
+                                                      color: HexColor("3A3A3A"),
+                                                      fontWeight:
+                                                      FontWeight.w500),
+                                                ),
+                                              ],
+                                            ),
+                                            // if (
+                                            // data.docs[index]['workout']
+                                            //     .contains("Pay") ||
+                                            //     data.docs[index]['workout']
+                                            //         .contains("pay"))
+
+                                            /////////otp section
+                                            //   Container(
+                                            //
+                                            //     decoration: BoxDecoration(
+                                            //       borderRadius: BorderRadius.circular(6),
+                                            //       color: Colors.black,
+                                            //     ),
+                                            //     child: Padding(
+                                            //       padding: const EdgeInsets.all(4.0),
+                                            //       child: Text(
+                                            //         "OTP:- ${data.docs[index]["otp_pass"]??""}",
+                                            //         // "data.docs[index]['workout'].toUpperCase()",
+                                            //         style: GoogleFonts.poppins(
+                                            //             fontSize: 12,
+                                            //             color: Colors.white,
+                                            //             fontWeight: FontWeight.w700),
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Ends on : ",
+                                                  style: GoogleFonts.poppins(
+                                                      color: HexColor("A3A3A3"),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.w500),
+                                                ),
+                                                Text(
+                                                  // "",
+
+                                                  "${end_time.toDate().day??""}| ${end_time.toDate().month??""}| ${end_time.toDate().year??""}",
+                                                  style: GoogleFonts.poppins(
+                                                      color: HexColor("A3A3A3"),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.w500),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 6,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.amber,
+                                                      shape: BoxShape.circle),
+                                                  width: 6,
+                                                  height: 6,
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  "Older Bookings",
+                                                  // "data.docs[index]['type'].toUpperCase()",
+                                                  style: GoogleFonts.poppins(
                                                       color: HexColor("3A3A3A"),
                                                       fontSize: 10,
                                                       fontWeight:
-                                                          FontWeight.w500),
+                                                      FontWeight.w500),
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                                Flexible(
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                  // Spacer(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 9),
                                     child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    data.docs[index]['image'],
-                                    fit: BoxFit.cover,
-                                    height: 150,
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: SizedBox(
+                                        height: 130,
+                                        width: 130,
+                                        child: CachedNetworkImage(
+                                          // "",
+
+                                          fit: BoxFit.cover,
+                                          height: 150,
+                                          imageUrl: data.docs[index]['gym_details']["image"],
+                                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                              CircularProgressIndicator(value: downloadProgress.progress,),
+                                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                )),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                     );
-                  }),
+                  }
+              ):Center(
+                child: Image.asset(
+                  "assets/icons/activeEmpty.png",
+                  height: _width * 0.8,
+                ),
+              ),
             );
           }
           return Center(
             child: Image.asset(
-              "assets/icons/olderEmpty.png",
+              "assets/icons/activeEmpty.png",
               height: _width * 0.8,
             ),
           );

@@ -13,10 +13,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:location/location.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vyam_2_final/Helpers/request_helpers.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
+import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
 // import 'package:vyam_2_final/Home/views/scratch_map.dart';
@@ -103,6 +105,11 @@ class _ExploreState extends State<Explore> {
     });
   }
 
+  // if (!serviceEnabled) {
+  // await Geolocator.openLocationSettings();
+  // return Future.error('Location services are disabled.');
+  // }
+
   getMarkerData() async {
     await Firebase.initializeApp();
     await FirebaseFirestore.instance
@@ -122,12 +129,169 @@ class _ExploreState extends State<Explore> {
   }
   var _currentItem =0;
 
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition();
+  }
+
   var doc = Get.arguments;
+  getEverything() async {
+    if(mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    print("service status $serviceEnabled");
+    if (!serviceEnabled) {
+      setState(() {
+        location_service =  false;
+      });
+      showDialog(context: context,
+        builder:(context)=> AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(16))),
+          content: SizedBox(
+            height: 220,
+            width: 180,
+            child: Column(
+              children: [
+                Image.asset("assets/icons/Group188.png",
+                  height: 50,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Enable device location",
+                  style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  width: 180,
+                  child: Text(
+                    "Please enable location for accurate location and nearest gyms",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height:15,
+                ),
+                Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Image.asset("assets/icons/icons8-approval.gif",
+                      //   height: 70,
+                      //   width: 70,
+                      // ),
+
+                      // const SizedBox(width: 15),
+                      GestureDetector(
+                        onTap: ()async{
+
+                          Position position = await _determinePosition();
+                          await GetAddressFromLatLong(position);
+                          if(mounted) {
+                            setState(() {
+                              myaddress = myaddress;
+                              address = address;
+                              pin = pin;
+                            });
+                          }
+                          await FirebaseFirestore.instance
+                              .collection("user_details")
+                              .doc(number)
+                              .update({
+                            "location": GeoPoint(position.latitude, position.longitude),
+                            "address": address,
+                            // "lat": position.latitude,
+                            // "long": position.longitude,
+                            "pincode": pin,
+                            "locality": locality,
+                            "subLocality": locality,
+                            // "number": number
+                          });
+                          setState(() {
+                            location_service =  true;
+                          });
+
+                          // await Get.offAll(()=>HomePage());
+                        },
+                        child: Container(
+                            height: 51,
+                            width: 145,
+                            decoration: BoxDecoration(
+                                color: HexColor("292F3D"),
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 3, right: 3, top: 2, bottom: 2),
+                              child: Center(
+                                child: Text(
+                                  "Enable Location",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      color: HexColor("FFFFFF")),
+                                ),
+                              ),
+                            )),
+                      ),
+                    ]),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    // }
+
+
+  }
 
   @override
   void initState() {
     // print(location.latitude);
+
+    getEverything();
+
     setState(() {
+
+
+      // });
       lat=GlobalUserData["location"].latitude;
       long = GlobalUserData["location"].longitude;
     });
@@ -225,6 +389,7 @@ splashLocation(latitude,longitude)async{
       body: SafeArea(
         child: Stack(
           children: [
+            if(location_service==true)
             GoogleMap(
               // markers: ,
               mapType: MapType.terrain,
@@ -241,7 +406,7 @@ splashLocation(latitude,longitude)async{
               },
                 markers: Set<Marker>.of(markers.values),
             ),
-
+            if(location_service==true)
             Align(
               alignment: Alignment.bottomLeft,
               child: Container(

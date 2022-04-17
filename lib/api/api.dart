@@ -12,6 +12,7 @@ import 'dart:math' show cos, sqrt, asin;
 // ignore: prefer_typing_uninitialized_variables
 var visiting_flag;
 var total_discount=0;
+bool location_service =  true;
 final booking= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Location location = Location();
@@ -174,11 +175,10 @@ class ActiveBookingApi {
 
 class OlderBookingApi {
   Stream<QuerySnapshot> getOlderBooking = FirebaseFirestore.instance
-      .collection('user_details')
+      .collection('bookings')
       .doc(number)
-      .collection("bookings")
-      .doc("older")
-      .collection("older_booking")
+      .collection("user_booking")
+      .where("booking_status", whereIn: ["completed","cancelled"])
       .snapshots();
 }
 

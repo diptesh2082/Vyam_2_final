@@ -45,7 +45,7 @@ class _LocInfoState extends State<LocInfo> {
         print('Document exists on the database');
         setState(() {
           data = documentSnapshot.data();
-          isLoading = false;
+          // isLoading = false;
           locController.text =  data != null ?  data["address"] : "your Location";
         });
       }
@@ -303,7 +303,10 @@ class _LocInfoState extends State<LocInfo> {
                     height: 60,
                     child: GestureDetector(
                       onTap: () async {
-                        isLoading=  true;
+                        setState(()  {
+                          isLoading=  true;
+                        });
+
                         await myLocation();
                         // print(data);
                         Position position = await _determinePosition();

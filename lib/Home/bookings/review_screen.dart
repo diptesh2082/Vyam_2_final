@@ -328,7 +328,7 @@ class _ReviewState extends State<Review> {
                     alignment: Alignment.center,
                     child: StreamBuilder<QuerySnapshot>(
 
-                        stream: FirebaseFirestore.instance.collection("Reviews").doc("GYM").collection("${_id}").snapshots(),
+                        stream: FirebaseFirestore.instance.collection("Reviews").where("gym_id",isEqualTo: "${_id}"   ).snapshots(),
                         builder: ((context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -349,75 +349,79 @@ class _ReviewState extends State<Review> {
                           // }).toList();
                           // print(document.length);
                           return document.isNotEmpty
-                              ? ListView.separated(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: document.length,
-                                  itemBuilder: (context, int index) {
+                              ? Column(
+                                children: [
+                                  ListView.separated(
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: document.length,
+                                      itemBuilder: (context, int index) {
 
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ListTile(
-                                          leading: Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ListTile(
+                                              leading: Container(
+                                                height: 50,
+                                                width: 50,
+                                                decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
 //border: Border.all(width: 1),
-                                                image: DecorationImage(
-                                                    image: AssetImage(
-                                                        "assets/images/trainer1.png"),
-                                                    fit: BoxFit.cover)),
-                                          ),
-                                          title: Text(
-                                            // "",
-                                            document[index]["title"],
-// snapshot.data.docs[index]['name'],
-                                            style: const TextStyle(
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 12),
-                                          ),
-                                          subtitle: Column(
-                                            // mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              RatingBarIndicator(
-                                                itemBuilder: ((context, index) {
-                                                  return const Icon(
-                                                    Icons.star,
-                                                    color: Colors.amber,
-                                                  );
-                                                }),
-                                                rating: double.parse(document[index]['rating']),
-                                                itemCount: 5,
-                                                itemSize: 18.0,
-                                                direction: Axis.horizontal,
+                                                    image: DecorationImage(
+                                                        image: AssetImage(
+                                                            "assets/images/trainer1.png"),
+                                                        fit: BoxFit.cover)),
                                               ),
-                                               Text(
+                                              title: Text(
                                                 // "",
-                                                document!=null?document[index]["experience"] ?? "":"",
-// snapshot.data.docs[index]['experience'],
+                                                document[index]["title"],
+// snapshot.data.docs[index]['name'],
                                                 style: const TextStyle(
                                                     fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w400,
+                                                    fontWeight: FontWeight.w600,
                                                     fontSize: 12),
                                               ),
-                                            ],
-                                          ),
-                                        ),
+                                              subtitle: Column(
+                                                // mainAxisAlignment: MainAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  RatingBarIndicator(
+                                                    itemBuilder: ((context, index) {
+                                                      return const Icon(
+                                                        Icons.star,
+                                                        color: Colors.amber,
+                                                      );
+                                                    }),
+                                                    rating: double.parse(document[index]['rating']),
+                                                    itemCount: 5,
+                                                    itemSize: 18.0,
+                                                    direction: Axis.horizontal,
+                                                  ),
+                                                   Text(
+                                                    // "",
+                                                    document!=null?document[index]["experience"] ?? "":"",
+// snapshot.data.docs[index]['experience'],
+                                                    style: const TextStyle(
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.w400,
+                                                        fontSize: 12),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
 
 
-                                      ],
-                                    );
-                                  },
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
-                                    return Divider();
-                                  },
-                                )
+                                          ],
+                                        );
+                                      },
+                                      separatorBuilder:
+                                          (BuildContext context, int index) {
+                                        return Divider();
+                                      },
+                                    ),
+                                ],
+                              )
                               : const Center(
                                   child: Text(
                                     "No Review",
@@ -429,6 +433,9 @@ class _ReviewState extends State<Review> {
                                   ),
                                 );
                         })),
+                  ),
+                  SizedBox(
+                    height: 80,
                   )
                 ],
               ),

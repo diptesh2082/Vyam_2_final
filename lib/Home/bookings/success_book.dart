@@ -58,67 +58,73 @@ class _SuccessBookState extends State<SuccessBook>
     // scaleAnimation.dispose();
     super.dispose();
   }
-
+  bool shouldPop = true;
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.width*.36,
-                ),
-                ScaleTransition(
-                  scale: scaleAnimation,
-                  alignment: Alignment.center,
-                  child: const Icon(
-                    Icons.verified,
-                    color: Colors.green,
-                    size: 85,
+    return WillPopScope(
+      onWillPop: ()async {
+       await Get.offAll(()=>HomePage());
+       return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width*.36,
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Text(
-                  'Booking Successful!!',
-                  style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                 Text(
-                  'Share the OTP with your \n  gym owner to start',
-                  style: GoogleFonts.poppins(
-                      // fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16),
-                ),
-              ],
+                  ScaleTransition(
+                    scale: scaleAnimation,
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.verified,
+                      color: Colors.green,
+                      size: 85,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Booking Successful!!',
+                    style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16),
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                   Text(
+                    'Share the OTP with your \n  gym owner to start',
+                    style: GoogleFonts.poppins(
+                        // fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const Spacer(),
-          SlideTransition(
-            position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
-                .animate(CurvedAnimation(
-                parent: _concontroller, curve: Curves.easeInOut)),
-            child: Container(
-              height: MediaQuery.of(context).size.height*.57,
-              width: MediaQuery.of(context).size.width*.99,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(25)),
-              child: const PanelWidget(),
-            ),
-          )
-        ],
+            const Spacer(),
+            SlideTransition(
+              position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
+                  .animate(CurvedAnimation(
+                  parent: _concontroller, curve: Curves.easeInOut)),
+              child: Container(
+                height: MediaQuery.of(context).size.height*.57,
+                width: MediaQuery.of(context).size.width*.99,
+                decoration: BoxDecoration(
+                    color: Colors.white, borderRadius: BorderRadius.circular(25)),
+                child: const PanelWidget(),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

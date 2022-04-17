@@ -114,7 +114,7 @@ class _OtpPage2State extends State<OtpPage2> {
   }
 
   Timer? _timer;
-  int _start = 25;
+  int _start = 30;
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -249,7 +249,7 @@ class _OtpPage2State extends State<OtpPage2> {
                                   // print("+91${docId}");
                                   var _forceResendingToken;
                                   await _auth.verifyPhoneNumber(
-                                      timeout: const Duration(seconds: 23),
+                                      timeout: const Duration(seconds: 27),
                                       forceResendingToken: _forceResendingToken,
                                       phoneNumber: widget.number,
                                       verificationCompleted:

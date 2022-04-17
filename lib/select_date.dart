@@ -7,6 +7,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:vyam_2_final/DatePickerScreen.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'package:vyam_2_final/payment/payment.dart';
 
@@ -29,6 +30,7 @@ class SelectDate extends StatefulWidget {
       required this.getGymAddress,
        required this.gymId, this.bookingId})
       : super(key: key);
+
   final String months;
 
   @override
@@ -322,6 +324,9 @@ class _SelectDateState extends State<SelectDate> {
                     ),
                   ),
                 ),
+                ElevatedButton(onPressed: (){
+                  Get.to(DatePickerScreen());
+                }, child: Text("tappppppp")),
                 const SizedBox(
                   height: 20,
                 ),
