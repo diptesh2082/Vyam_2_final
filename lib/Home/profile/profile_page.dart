@@ -8,14 +8,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
+import 'package:vyam_2_final/Home/profile/About_Us.dart';
+import 'package:vyam_2_final/Home/profile/Contact_Us.dart';
 import 'package:vyam_2_final/Home/profile/faq.dart';
 import 'package:vyam_2_final/Home/profile/profile.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
-String male="https://firebasestorage.googleapis.com/v0/b/vyam-f99ab.appspot.com/o/user_images%2FAvatar%20(1).png?alt=media&token=e30afe98-5559-4288-94e9-3bc734f047d9";
-String female="https://firebasestorage.googleapis.com/v0/b/vyam-f99ab.appspot.com/o/user_images%2FAvatar.png?alt=media&token=4cd8e6ae-d54c-45d1-aede-9b695982dba6";
+
+import 'Terms_&_Conditions.dart';
+
+String male =
+    "https://firebasestorage.googleapis.com/v0/b/vyam-f99ab.appspot.com/o/user_images%2FAvatar%20(1).png?alt=media&token=e30afe98-5559-4288-94e9-3bc734f047d9";
+String female =
+    "https://firebasestorage.googleapis.com/v0/b/vyam-f99ab.appspot.com/o/user_images%2FAvatar.png?alt=media&token=4cd8e6ae-d54c-45d1-aede-9b695982dba6";
+
 class ProfilePart extends StatefulWidget {
   ProfilePart({Key? key}) : super(key: key);
 
@@ -30,53 +38,51 @@ class _ProfilePartState extends State<ProfilePart> {
   String name = "";
   String email = "";
   String phone = "";
-  String gender="";
-  var imageUrl="";
+  String gender = "";
+  var imageUrl = "";
   // final id = number;
-  bool Loading=true;
+  bool Loading = true;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Future getUserData() async {
-    print("user is here"+number);
+    print("user is here" + number);
     DocumentReference userName =
-    FirebaseFirestore.instance.collection('user_details').doc(number);
+        FirebaseFirestore.instance.collection('user_details').doc(number);
     userName.snapshots().listen((snapshot) {
-      try{
-        if (snapshot.exists)  {
-          setState(()  {
-            name =  snapshot.get('name');
+      try {
+        if (snapshot.exists) {
+          setState(() {
+            name = snapshot.get('name');
             // print(number);
-            email =  snapshot.get('email');
-            phone =  snapshot.get('number');
+            email = snapshot.get('email');
+            phone = snapshot.get('number');
             gender = snapshot.get("gender");
-            imageUrl =  snapshot.get("image");
+            imageUrl = snapshot.get("image");
 
-            Loading=false;
+            Loading = false;
           });
         }
-      }catch(e){
+      } catch (e) {
         setState(() {
-          name =  "";
+          name = "";
           // print(number);
           email = "";
-          phone =  "";
-          imageUrl =  "";
-          Loading=false;
+          phone = "";
+          imageUrl = "";
+          Loading = false;
         });
-
       }
-      Loading=false;
-
-
+      Loading = false;
     });
   }
+
   // final FirebaseAuth _auth =FirebaseAuth.instance;
   @override
   void initState() {
     // print(number);
     // print(_auth.currentUser?.email);
-     getUserData();
-     Loading=false;
+    getUserData();
+    Loading = false;
     // print(imageUrl);
     super.initState();
   }
@@ -89,360 +95,374 @@ class _ProfilePartState extends State<ProfilePart> {
 
     if (Loading) {
       return const Center(
-      child: CircularProgressIndicator(),
-    );
+        child: CircularProgressIndicator(),
+      );
     } else {
       return Scaffold(
-      backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0.3,
           backgroundColor: Colors.white,
-          centerTitle: true,
-          title:  Text(
-            "Profile",
-            style: GoogleFonts.poppins(
-                // fontFamily: "Poppins",
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Colors.black),
+          appBar: AppBar(
+            elevation: 0.3,
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: Text(
+              "Profile",
+              style: GoogleFonts.poppins(
+                  // fontFamily: "Poppins",
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black),
+            ),
           ),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              children: [
-                FittedBox(
-                  child: Container(
-                    // height: 151,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // const SizedBox(
-                          //   height: 9,
-                          // ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: size.width * .01),
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      child: Align(
-                                        alignment: Alignment.center,
-                                        child: Stack(children: [
-                                          imageUrl == "" || imageUrl == "null"?
-                                          CircleAvatar(
-                                            // backgroundImage: ,
-                                              radius: 51,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                children: [
+                  FittedBox(
+                    child: Container(
+                      // height: 151,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // const SizedBox(
+                            //   height: 9,
+                            // ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(left: size.width * .01),
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Stack(children: [
+                                            imageUrl == "" || imageUrl == "null"
+                                                ? CircleAvatar(
+                                                    // backgroundImage: ,
+                                                    radius: 51,
 
-                                              backgroundColor: Colors.white,
-                                              // MediaQuery.of(context).size.width * 0.3,
-                                              backgroundImage:  gender.toLowerCase()=="male"?const AssetImage("assets/Illustrations/Avatarmale.png"):AssetImage("assets/Illustrations/Avatar.png"),
-                                          ): CircleAvatar(
-                                            // backgroundImage: ,
-                                            radius: 51,
-                                            backgroundColor: Colors.white,
-                                            // MediaQuery.of(context).size.width * 0.3,
-                                            backgroundImage:  CachedNetworkImageProvider(imageUrl),
-                                          ),
-
-                                        ]),
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    // MediaQuery.of(context).size.width * 0.3,
+                                                    backgroundImage: gender
+                                                                .toLowerCase() ==
+                                                            "male"
+                                                        ? const AssetImage(
+                                                            "assets/Illustrations/Avatarmale.png")
+                                                        : AssetImage(
+                                                            "assets/Illustrations/Avatar.png"),
+                                                  )
+                                                : CircleAvatar(
+                                                    // backgroundImage: ,
+                                                    radius: 51,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    // MediaQuery.of(context).size.width * 0.3,
+                                                    backgroundImage:
+                                                        CachedNetworkImageProvider(
+                                                            imageUrl),
+                                                  ),
+                                          ]),
+                                        ),
                                       ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 9,
+                                ),
+                                // Spacer(),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          name != "" ? name : "no name",
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              .1,
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              print(name);
+                                              print(email);
+                                              print(number);
+                                              Get.to(() => Profile(),
+                                                  arguments: {
+                                                    "name": name,
+                                                    "email": email,
+                                                    "imageUrl": imageUrl,
+                                                    "number": phone,
+                                                    "gender":
+                                                        gender.toLowerCase()
+                                                  });
+                                            },
+                                            icon: const Icon(Icons.edit))
+                                      ],
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          email != "null" ? email : "no email",
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                        Text(
+                                          phone != ""
+                                              ? phone
+                                              : "no Phone number",
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 9,
-                              ),
-                              // Spacer(),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        name!=""?name:"no name",
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      SizedBox(
-                                        width: MediaQuery.of(context).size.width*.1,
-                                      ),
-                                      IconButton(
-                                          onPressed: () {
-                                            print(name);
-                                            print(email);
-                                            print(number);
-                                            Get.to(() => Profile(),
-                                            arguments: {
-                                              "name":name,
-                                              "email":email,
-                                              "imageUrl":imageUrl,
-                                              "number":phone,
-                                              "gender":gender.toLowerCase()
-
-                                            }
-                                            );
-                                          },
-                                          icon: const Icon(Icons.edit))
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        email!="null"?email:"no email",
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        style: const TextStyle(
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                      Text(
-                                        phone!=""?phone:"no Phone number",
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        style: const TextStyle(
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-
-                            ],
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 18,
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      const Divider(
+                        color: Colors.black54,
+                        thickness: .3,
+                        height: 0,
+                      ),
+                      ListTile(
+                        onTap: () {
+                          Get.to(() => const ContactUs());
+                        },
+                        leading: const Icon(
+                          Profileicon.contact_us__1_,
+                          color: Colors.black54,
+                        ),
+                        title: const Text(
+                          "Contact Us",
+                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                        ),
+                      ),
+                      const Divider(
+                        thickness: .3,
+                        height: 0,
+                      ),
+                      ListTile(
+                        onTap: () {
+                          Get.to(() => const AboutUs());
+                        },
+                        leading: const Icon(
+                          CupertinoIcons.exclamationmark_bubble,
+                          color: Colors.black54,
+                        ),
+                        title: const Text(
+                          "About Us",
+                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                        ),
+                      ),
+                      const Divider(
+                        thickness: .3,
+                        height: 0,
+                      ),
+                      ListTile(
+                        onTap: () {
+                          Get.to(() => const TermsAndCondition());
+                        },
+                        leading: const Icon(
+                          CupertinoIcons.news,
+                          color: Colors.black54,
+                        ),
+                        title: const Text(
+                          "Terms & Condition",
+                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                        ),
+                      ),
+                      const Divider(
+                        thickness: .3,
+                        height: 0,
+                      ),
+                      ListTile(
+                        onTap: () {
+                          // Get.to(() => const MyOrdersScreen());
+                        },
+                        leading: const Icon(
+                          Icons.privacy_tip_outlined,
+                          color: Colors.black54,
+                        ),
+                        title: const Text(
+                          "Privacy Policy",
+                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                        ),
+                      ),
+                      const Divider(
+                        thickness: .3,
+                        height: 0,
+                      ),
+                      ListTile(
+                        onTap: () {
+                          Get.to(() => const Faq());
+                        },
+                        leading: const Icon(
+                          Icons.forum_outlined,
+                          color: Colors.black54,
+                        ),
+                        title: const Text(
+                          "FAQ",
+                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                        ),
+                      ),
+                      const Divider(
+                        thickness: .3,
+                        height: 0,
+                      ),
+                      ListTile(
+                        onTap: () {
+                          // Get.to(() => const MyOrdersScreen());
+                        },
+                        leading: const Icon(
+                          Icons.star_border_outlined,
+                          color: Colors.black54,
+                        ),
+                        title: const Text(
+                          "Rate Us",
+                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                        ),
+                      ),
+                      const Divider(
+                        thickness: .3,
+                        height: 0,
+                      ),
+                      ListTile(
+                        onTap: () {
+                          // Get.to(() => const MyOrdersScreen());
+                        },
+                        leading: const Icon(
+                          Profileicon.share_app,
+                          color: Colors.black54,
+                        ),
+                        title: const Text(
+                          "Share & Earn",
+                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                        ),
+                      ),
+                      const Divider(
+                        thickness: .3,
+                        height: 0,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: SizedBox(
+                      width: 120,
+                      height: 40,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.black87,
                           ),
+                          onPressed: () async {
+                            // SharedPreferences sharedPreferences =
+                            // await SharedPreferences.getInstance();
+                            // sharedPreferences.remove('number');
+                            // getNumber();
+                            // print(number);
+                            await _googleSignIn.signOut();
+                            await _auth.signOut();
+                            Get.offAll(() => const LoginPage());
+                            setVisitingFlagFalse();
+                          },
+                          child: const Text(
+                            "Log out",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w600),
+                          )),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 3.0),
+                            child: SizedBox(
+                                height: 38,
+                                width: 91,
+                                child: Image.asset(
+                                    "assets/Illustrations/Keep_the.png")),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 3.0),
+                            child: SizedBox(
+                                height: 50,
+                                width: 134,
+                                child: Image.asset(
+                                    "assets/Illustrations/Grind_on.png")),
+                          ),
+                          SizedBox(
+                              height: 21,
+                              width: 221,
+                              child: Image.asset(
+                                  "assets/Illustrations/Group_187.png")),
                           const SizedBox(
-                            height: 18,
+                            height: 21,
                           )
                         ],
                       ),
                     ),
                   ),
-                ),
-                Column(
-                  children: [
-                    const Divider(
-                      color: Colors.black54,
-                      thickness: .3,
-                      height: 0,
-                    ),
-                    ListTile(
-                      onTap: () {
-                        // print(imageUrl);
-                        // print(id);
-                        // Get.to(() => const MyOrdersScreen());
-                      },
-                      leading: const Icon(
-                        Profileicon.contact_us__1_,
-                        color: Colors.black54,
-                      ),
-                      title: const Text(
-                        "Contact Us",
-                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                      ),
-                    ),
-                    const Divider(
-                      thickness: .3,
-                      height: 0,
-                    ),
-                    ListTile(
-                      onTap: () {
-                        // Get.to(() => const MyOrdersScreen());
-                      },
-                      leading: const Icon(
-                        CupertinoIcons.exclamationmark_bubble,
-                        color: Colors.black54,
-                      ),
-                      title: const Text(
-                        "About Us",
-                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                      ),
-                    ),
-                    const Divider(
-                      thickness: .3,
-                      height: 0,
-                    ),
-                    ListTile(
-                      onTap: () {
-                        // Get.to(() => const MyOrdersScreen());
-                      },
-                      leading: const Icon(
-                        CupertinoIcons.news,
-                        color: Colors.black54,
-                      ),
-                      title: const Text(
-                        "Terms & Condition",
-                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                      ),
-                    ),
-                    const Divider(
-                      thickness: .3,
-                      height: 0,
-                    ),
-                    ListTile(
-                      onTap: () {
-                        // Get.to(() => const MyOrdersScreen());
-                      },
-                      leading: const Icon(
-                        Icons.privacy_tip_outlined,
-                        color: Colors.black54,
-                      ),
-                      title: const Text(
-                        "Privacy Policy",
-                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                      ),
-                    ),
-                    const Divider(
-                      thickness: .3,
-                      height: 0,
-                    ),
-                    ListTile(
-                      onTap: () {
-                        Get.to(() => const Faq());
-                      },
-                      leading: const Icon(
-                        Icons.forum_outlined,
-                        color: Colors.black54,
-                      ),
-                      title: const Text(
-                        "FAQ",
-                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                      ),
-                    ),
-                    const Divider(
-                      thickness: .3,
-                      height: 0,
-                    ),
-                    ListTile(
-                      onTap: () {
-                        // Get.to(() => const MyOrdersScreen());
-                      },
-                      leading: const Icon(
-                        Icons.star_border_outlined,
-                        color: Colors.black54,
-                      ),
-                      title: const Text(
-                        "Rate Us",
-                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                      ),
-                    ),
-                    const Divider(
-                      thickness: .3,
-                      height: 0,
-                    ),
-                    ListTile(
-                      onTap: () {
-                        // Get.to(() => const MyOrdersScreen());
-                      },
-                      leading:  const Icon(
-                        Profileicon.share_app,
-                        color: Colors.black54,
-                      ),
-                      title: const Text(
-                        "Share & Earn",
-                        style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
-                      ),
-                    ),
-                    const Divider(
-                      thickness: .3,
-                      height: 0,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: SizedBox(
-                    width: 120,
-                    height: 40,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.black87,
-                        ),
-                        onPressed: () async {
-                          // SharedPreferences sharedPreferences =
-                          // await SharedPreferences.getInstance();
-                          // sharedPreferences.remove('number');
-                          // getNumber();
-                          // print(number);
-                          await _googleSignIn.signOut();
-                          await _auth.signOut();
-                          Get.offAll(() => const LoginPage());
-                          setVisitingFlagFalse();
-
-                        },
-                        child: const Text(
-                          "Log out",
-                          style: TextStyle(
-                            color: Colors.white,
-                              fontSize: 15,
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w600),
-                        )),
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 3.0),
-                          child: SizedBox(
-                              height: 38,
-                              width: 91,
-                              child: Image.asset("assets/Illustrations/Keep_the.png")),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 3.0),
-                          child: SizedBox(
-                              height: 50,
-                              width: 134,
-                              child: Image.asset("assets/Illustrations/Grind_on.png")),
-                        ),
-                        SizedBox(
-                            height: 21,
-                            width: 221,
-                            child: Image.asset("assets/Illustrations/Group_187.png")),
-                        const SizedBox(
-                          height: 21,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-
-              ],
+                ],
+              ),
             ),
-          ),
-        ));
+          ));
     }
   }
 }
