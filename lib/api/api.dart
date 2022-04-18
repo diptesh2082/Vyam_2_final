@@ -11,6 +11,7 @@ import 'dart:math' show cos, sqrt, asin;
 
 // ignore: prefer_typing_uninitialized_variables
 var visiting_flag;
+bool onlinePay = true;
 var total_discount=0;
 bool location_service =  true;
 final booking= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");

@@ -324,9 +324,6 @@ class _SelectDateState extends State<SelectDate> {
                     ),
                   ),
                 ),
-                ElevatedButton(onPressed: (){
-                  Get.to(DatePickerScreen());
-                }, child: Text("tappppppp")),
                 const SizedBox(
                   height: 20,
                 ),

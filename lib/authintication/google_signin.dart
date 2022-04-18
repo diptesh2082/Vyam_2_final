@@ -52,7 +52,7 @@ class FirebaseService {
         // number.toString()==_auth.currentUser?.email.toString()
         print(emailhai);
         print(emailId);
-        if (emailhai== true){
+        if (emailhai== true || visiting_flag == true){
           await setNumber(emailId);
           await setUserId(emailId);
           await getToHomePage(emailId);

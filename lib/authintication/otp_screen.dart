@@ -67,7 +67,7 @@ class _OtpPageState extends State<OtpPage> {
        print(visiting_flag);
         if (visiting_flag == true) {
           Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>HomePage()));
-          Get.offAll(()=>HomePage());
+          // Get.offAll(()=>HomePage());
         } else if (visiting_flag == false) {
           userPhoto="null";
           Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>Register1()));

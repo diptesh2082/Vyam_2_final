@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:vyam_2_final/Home/bookings/success_book.dart';
@@ -939,6 +940,146 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         ));
   }
+  Pay()async{
+    await FirebaseFirestore.instance
+        .collection("bookings")
+        .doc(number)
+        .collection("user_booking")
+        .doc(booking_id)
+        .update({
+      "discount": GlobalCouponApplied?(int.parse(CouponDetailsMap)):totalDiscount,
+      "grand_total":  GlobalCouponApplied?(grandTotal-int.parse(CouponDetailsMap)).toString():grandTotal.toString(),
+      "tax_pay": taxPay,
+    });
+    _payment();
+    setState(() {
+      GlobalCouponApplied=false;
+      onlinePay = true;
+    });
+    _PaymentScreenState();
+
+    print(onlinePay);
+  }
+  makeSure()async{
+    showDialog(context: context,
+      builder:(context)=> AlertDialog(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(16))),
+        content: SizedBox(
+          height: 170,
+          width: 280,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Proceed payment in cash ?",
+                style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+              const SizedBox(
+                height:15,
+              ),
+              Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: (){
+                          Navigator.pop(context);
+                      },
+                      child: Container(
+                          height: 38,
+                          width: 90,
+                          decoration: BoxDecoration(
+                              color: HexColor("FFECB2"),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 3, right: 3, top: 2, bottom: 2),
+                            child: Center(
+                              child: Text(
+                                "Cancel",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                    color: HexColor("030202")),
+                              ),
+                            ),
+                          )),
+                    ),
+                    // Image.asset("assets/icons/icons8-approval.gif",
+                    //   height: 70,
+                    //   width: 70,
+                    // ),
+
+                    const SizedBox(width: 15),
+                    GestureDetector(
+                      onTap: ()async{
+                        await FirebaseFirestore.instance
+                            .collection("bookings")
+                            .doc(number)
+                            .collection("user_booking")
+                            .doc(booking_id)
+                            .update({
+                          "discount": GlobalCouponApplied?(int.parse(CouponDetailsMap)):totalDiscount,
+                          "grand_total":  GlobalCouponApplied?(grandTotal-int.parse(CouponDetailsMap)).toString():grandTotal.toString(),
+                          "tax_pay": taxPay,
+                        });
+                        var x =  Random().nextInt(9999);
+                        if (x<1000){
+                          x=x+1000;
+                        }
+                        FocusScope.of(context).unfocus();
+                        await getBookingData(getData["booking_id"]);
+
+
+                        // print(x);
+                        await FirebaseFirestore.instance
+                            .collection("bookings")
+                            .doc(number)
+                            .collection("user_booking")
+                            .doc(getData["booking_id"])
+                            .update({
+                          "otp_pass": x.toString(),
+                          "booking_status": "upcoming",
+                          "payment_done": false,
+                        });
+                        await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_details});
+                      },
+                      child: Container(
+                          height: 38,
+                          width: 90,
+                          decoration: BoxDecoration(
+                              color: HexColor("27AE60"),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 3, right: 3, top: 2, bottom: 2),
+                            child: Center(
+                              child: Text(
+                                "Proceed",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                    color: HexColor("030105")),
+                              ),
+                            ),
+                          )),
+                    ),
+                  ]),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  OffPay()async{
+    print("ho66e bhai");
+  makeSure();
+
+  }
 
   _bottomsheet(BuildContext context) async {
     var _width = MediaQuery.of(context).size.width;
@@ -953,7 +1094,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         elevation: 8,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         builder: (context) {
-          return Builder(builder: (BuildContext context) {
+          return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
             return SingleChildScrollView(
               child: Container(
                 // height: 5,
@@ -1007,7 +1148,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               onlinePay = false;
                             });
 
-                            _PaymentScreenState();
+                            // _PaymentScreenState();
                           },
                           child: Card(
                             shape: RoundedRectangleBorder(
@@ -1031,13 +1172,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     fontSize: 14),
                               ),
                               const Spacer(),
-                              onlinePay == false
-                                  ? const Icon(
+                              if(onlinePay == false)
+                                   const Icon(
                                       Icons.check,
                                       color: Colors.black,
                                       size: 15,
-                                    )
-                                  : const SizedBox(),
+                                    ),
                               const SizedBox(
                                 width: 5,
                               ),
@@ -1054,25 +1194,28 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       child: SizedBox(
                         height: 60,
                         child: GestureDetector(
-                          onTap: () async {
-                            await FirebaseFirestore.instance
-                                .collection("bookings")
-                                .doc(number)
-                                .collection("user_booking")
-                                .doc(booking_id)
-                                .update({
-                              "discount": GlobalCouponApplied?(int.parse(CouponDetailsMap)):totalDiscount,
-                              "grand_total":  GlobalCouponApplied?(grandTotal-int.parse(CouponDetailsMap)).toString():grandTotal.toString(),
-                              "tax_pay": taxPay,
-                            });
-                            _payment();
+                          onTap: ()  {
                             setState(() {
-                              GlobalCouponApplied=false;
-                              onlinePay = true;
+                              onlinePay=true;
                             });
-                            _PaymentScreenState();
-
-                            print(onlinePay);
+                            // await FirebaseFirestore.instance
+                            //     .collection("bookings")
+                            //     .doc(number)
+                            //     .collection("user_booking")
+                            //     .doc(booking_id)
+                            //     .update({
+                            //   "discount": GlobalCouponApplied?(int.parse(CouponDetailsMap)):totalDiscount,
+                            //   "grand_total":  GlobalCouponApplied?(grandTotal-int.parse(CouponDetailsMap)).toString():grandTotal.toString(),
+                            //   "tax_pay": taxPay,
+                            // });
+                            // _payment();
+                            // setState(() {
+                            //   GlobalCouponApplied=false;
+                            //   onlinePay = true;
+                            // });
+                            // _PaymentScreenState();
+                            //
+                            // print(onlinePay);
                           },
                           child: Card(
                             shape: RoundedRectangleBorder(
@@ -1096,13 +1239,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     fontSize: 14),
                               ),
                               const Spacer(),
-                              onlinePay == true
-                                  ? const Icon(
+                              if(onlinePay == true)
+                                   const Icon(
                                       Icons.check,
                                       color: Colors.black,
                                       size: 15,
-                                    )
-                                  : const SizedBox(),
+                                    ),
                               const SizedBox(
                                 width: 5,
                               ),
@@ -1235,6 +1377,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             ),
                             onPressed: () {
                               print('hhhhhhhhhhhhhh');
+                              onlinePay==true?Pay():OffPay();
                             }),
                       ),
                     ),
@@ -1248,6 +1391,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           });
         });
   }
+
 }
 
 class DetailBox extends StatelessWidget {
@@ -1334,6 +1478,7 @@ class DetailBox extends StatelessWidget {
       ),
     );
   }
+
 }
 
 
