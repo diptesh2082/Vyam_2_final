@@ -21,6 +21,12 @@ Geoflutterfire geo = Geoflutterfire();
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+
+getInfo()async{
+  await checkExist(number);
+  print(exist);
+  // == false?Get.off(const LoginPage()):Get.off(()=>HomePage());
+}
 getUserId() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var userId= sharedPreferences.getString("userId")?? "";

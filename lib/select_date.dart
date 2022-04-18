@@ -28,7 +28,8 @@ class SelectDate extends StatefulWidget {
       required this.packageType,
       required this.getGymName,
       required this.getGymAddress,
-       required this.gymId, this.bookingId})
+       required this.gymId, this.bookingId
+      })
       : super(key: key);
 
   final String months;
@@ -215,7 +216,7 @@ class _SelectDateState extends State<SelectDate> {
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: HexColor("3A3A3A"))),
-                      firstDay: DateTime(1990),
+                      firstDay: DateTime.now(),
                       lastDay: DateTime(2050),
                       focusedDay: _selectedDay,
                     ),

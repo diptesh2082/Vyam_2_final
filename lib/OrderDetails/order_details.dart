@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/api/maps_launcher_api.dart';
@@ -402,7 +403,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             const Spacer(),
                             Text(
                               // getOderDetails[widget.index]['start_date'],
-                              "${doc["doc"]["booking_date"].toDate().month}/${doc["doc"]["booking_date"].toDate().day}/${doc["doc"]["booking_date"].toDate().year}",
+                              "${DateFormat("MMMM,dd,yyyy").format(doc["doc"]["booking_date"].toDate())}",
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
@@ -417,7 +418,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             ),
                             const Spacer(),
                             Text(
-                              "${doc["doc"]["plan_end_duration"].toDate().month}/${doc["doc"]["plan_end_duration"].toDate().day}/${doc["doc"]["plan_end_duration"].toDate().year}",
+                              "${DateFormat("MMMM,dd,yyyy").format(doc["doc"]["plan_end_duration"].toDate())}",
                               // getOderDetails[widget.index]['end_date'],
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),

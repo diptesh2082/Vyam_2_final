@@ -28,14 +28,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  getInfo() async {
-    await checkExist(number);
-    exist == false ? Get.off(const LoginPage()) : Get.off(() => HomePage());
-  }
+// <<<<<<< sarvagya
+//   getInfo() async {
+//     await checkExist(number);
+//     exist == false ? Get.off(const LoginPage()) : Get.off(() => HomePage());
+//   }
+// =======
+  // getInfo()async{
+  //   await checkExist(number);
+  //   exist;
+  //   // == false?Get.off(const LoginPage()):Get.off(()=>HomePage());
+  // }
+// >>>>>>> master
 
   int _counter = 0;
   @override
   void initState() {
+// <<<<<<< sarvagya
     super.initState();
     getInfo();
 
@@ -99,6 +108,7 @@ class _HomePageState extends State<HomePage> {
             icon: '@mipmap/launcher_icon'),
       ),
     );
+
   }
 
   final PersistentTabController _controller =

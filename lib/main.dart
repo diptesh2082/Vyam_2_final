@@ -56,6 +56,8 @@ Future<void> main() async {
     sound: true,
   );
 
+  await getInfo();
+
   runApp(const MyApp());
 }
 
@@ -83,8 +85,8 @@ class MyApp extends StatelessWidget {
             );
           }
 
-          if (snapshot.hasData) {
-            return HomePage();
+          if (snapshot.hasData && exist) {
+            return  HomePage();
           }
 
           return Onboarding1();
