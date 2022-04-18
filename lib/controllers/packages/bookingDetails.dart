@@ -243,8 +243,7 @@ class BookingDetails {
                                                         ["discount"]) /
                                                         100)
                                                         .round(),
-                                                packageType: bookingList[index]
-                                                ['type'],
+                                                packageType: bookingList[index]['title'],
                                                 getGymName: getGymName,
                                                 getGymAddress: gymLocation,
                                                 gymId: gymID,

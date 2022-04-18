@@ -73,6 +73,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   width: 400,
                   child: Card(
                     child: SfDateRangePicker(
+                      minDate: DateTime.now(),
                       //Daddy Widget aka Calender Widget
                       monthCellStyle: const DateRangePickerMonthCellStyle(
                         // TextStyle of each date
@@ -210,11 +211,11 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   duration: const Duration(milliseconds: 500),
                   arguments: {
                     "gymName": widget.getGymName,
-                    // "totalMonths": widget.months,
+                    "totalMonths": widget.months,
                     "packageType": widget.packageType,
-                    "totalPrice": widget.price,
-                    "startDate": DateFormat("MMMM,E,yyyy").format(startDate),
-                    "endDate":  DateFormat("MMMM,E,yyyy").format(startDate),
+                    "totalPrice": widget.price*(1+endDate.difference(startDate).inDays),
+                    "startDate": DateFormat("MMMM,dd,yyyy").format(startDate),
+                    "endDate":  DateFormat("MMMM,dd,yyyy").format(endDate),
                     "address": widget.getGymAddress,
                     "vendorId":widget.gymId,
                     "booking_id":widget.bookingId,
@@ -244,12 +245,18 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    DateTime s_Date = args.value!.startDate;
-    DateTime e_Date = args.value!.endDate;
-    setState(() {
-      startDate=s_Date;
-      endDate=e_Date;
-    });
+    try{
+      DateTime s_Date = args.value.startDate;
+      DateTime e_Date = args.value.endDate;
+      setState(() {
+        startDate=s_Date;
+        endDate=e_Date;
+      });
+    }catch(e){
+      print(e);
+    }
+
+
 
     // print(DateFormat("dd,MMMM,yyyy").format(startDate));
     // print(DateFormat("dd,MMMM,yyyy").format(endDate));
