@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
@@ -8,6 +10,9 @@ import 'package:location/location.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'dart:math' show cos, sqrt, asin;
+
+import '../Notifications/notification.dart';
+import '../main.dart';
 
 // ignore: prefer_typing_uninitialized_variables
 var visiting_flag;
@@ -337,6 +342,7 @@ Future<void> checkExistAcc(String docID) async {
     print(getVisitingFlag());
   }
 }
+
 
 var exist;
 var user_details;
