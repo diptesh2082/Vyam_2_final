@@ -25,15 +25,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  getInfo()async{
-    await checkExist(number);
-    exist== false?Get.off(const LoginPage()):Get.off(()=>HomePage());
-  }
+  // getInfo()async{
+  //   await checkExist(number);
+  //   exist;
+  //   // == false?Get.off(const LoginPage()):Get.off(()=>HomePage());
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
-   getInfo();
+   // getInfo();
   }
   final PersistentTabController _controller =
       PersistentTabController(initialIndex: 0);

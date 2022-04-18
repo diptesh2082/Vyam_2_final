@@ -25,7 +25,7 @@ void main() async {
   getVisitingFlag();
   await myLocation();
   print(GlobalUserData);
-
+  await getInfo();
   runApp(const MyApp());
 }
 
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
             );
           }
 
-          if (snapshot.hasData) {
+          if (snapshot.hasData && exist) {
             return  HomePage();
           }
 
