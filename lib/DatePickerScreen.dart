@@ -129,10 +129,10 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                       children: [
                          Text(
                           '${widget.months}',
-                          style: TextStyle(
-                              fontFamily: 'PoppinsSemiBold',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12),
+                          style: GoogleFonts.poppins(
+                              // fontFamily: 'PoppinsSemiBold',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -141,7 +141,10 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                               children: [
                                 Text('STARTS', style: regularStyle),
                                 Text(DateFormat("dd,MMMM").format(startDate), style: boldStyle),
-                                Text('Monday', style: regularStyle),
+                                Text(DateFormat("E").format(startDate), style:  GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12
+                                )),
                               ],
                             ),
                             Icon(
@@ -153,7 +156,10 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                               children: [
                                 Text('ENDS', style: regularStyle),
                                 Text(DateFormat("dd,MMMM").format(endDate), style: boldStyle),
-                                Text('Wednesday', style: regularStyle),
+                                Text(DateFormat("E").format(endDate), style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12
+                                )),
                               ],
                             )
                           ],

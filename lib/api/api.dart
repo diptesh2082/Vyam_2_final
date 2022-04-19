@@ -5,6 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:location/location.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
@@ -19,6 +20,10 @@ var visiting_flag;
 bool onlinePay = true;
 var total_discount=0;
 bool location_service =  true;
+bool GlobalCouponApplied=false;
+var GlobalCoupon;
+Map coupon_list={};
+String CouponDetailsMap="0";
 final booking= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Location location = Location();
@@ -26,6 +31,17 @@ Geoflutterfire geo = Geoflutterfire();
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+class couponClass extends GetxController{
+  RxBool GlobalCouponApplied=false.obs;
+  RxString GlobalCoupon="".obs;
+  RxString CouponDetailsMap = "".obs;
+  // Map coupon_list={}.obs;
+  couponAdd(bool gca,String gc){
+    GlobalCouponApplied=gca as RxBool;
+    GlobalCoupon=gc as RxString;
+    // coupon_list=
+  }
+}
 
 getInfo()async{
   await checkExist(number);
