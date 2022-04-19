@@ -7,10 +7,12 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/profile/About_Us.dart';
 import 'package:vyam_2_final/Home/profile/Contact_Us.dart';
 import 'package:vyam_2_final/Home/profile/faq.dart';
+import 'package:vyam_2_final/Home/profile/privacyPolicy.dart';
 import 'package:vyam_2_final/Home/profile/profile.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
@@ -32,6 +34,8 @@ class ProfilePart extends StatefulWidget {
 }
 
 class _ProfilePartState extends State<ProfilePart> {
+  final String playStoreUrl =
+      'https://play.google.com/store/apps/details?id=com.findnearestfitness.vyam';
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   UserDetails userDetails = UserDetails();
@@ -319,7 +323,7 @@ class _ProfilePartState extends State<ProfilePart> {
                       ),
                       ListTile(
                         onTap: () {
-                          // Get.to(() => const MyOrdersScreen());
+                          Get.to(() => const PrivacyPolicy());
                         },
                         leading: const Icon(
                           Icons.privacy_tip_outlined,
@@ -353,7 +357,7 @@ class _ProfilePartState extends State<ProfilePart> {
                       ),
                       ListTile(
                         onTap: () {
-                          // Get.to(() => const MyOrdersScreen());
+                          launch(playStoreUrl);
                         },
                         leading: const Icon(
                           Icons.star_border_outlined,

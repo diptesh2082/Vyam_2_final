@@ -10,9 +10,12 @@ import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
+import '../cancel_page.dart';
+
 class OrderDetails extends StatefulWidget {
-  const OrderDetails({Key? key, })
-      : super(key: key);
+  const OrderDetails({
+    Key? key,
+  }) : super(key: key);
   // final index;
   // final orderList;
 
@@ -24,8 +27,8 @@ class _OrderDetailsState extends State<OrderDetails> {
   List getOderDetails = [];
   var doc = Get.arguments;
 // var gym__details;
-  var gym_id= Get.arguments["doc"]["vendorId"];
-  var booking_id=Get.arguments["doc"]["booking_id"];
+  var gym_id = Get.arguments["doc"]["vendorId"];
+  var booking_id = Get.arguments["doc"]["booking_id"];
 
   @override
   void initState() {
@@ -203,10 +206,14 @@ class _OrderDetailsState extends State<OrderDetails> {
                                         ),
                                         const Spacer(),
                                         GestureDetector(
-                                          onTap: ()async{
-                                            print( vendorDetails['location'].latitude);
-                                            await MapsLaucherApi().launchMaps(vendorDetails['location'].latitude,
-                                                vendorDetails['location'].longitude);
+                                          onTap: () async {
+                                            print(vendorDetails['location']
+                                                .latitude);
+                                            await MapsLaucherApi().launchMaps(
+                                                vendorDetails['location']
+                                                    .latitude,
+                                                vendorDetails['location']
+                                                    .longitude);
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.only(
@@ -273,18 +280,19 @@ class _OrderDetailsState extends State<OrderDetails> {
                                           //       number);
                                           // },
                                           child: GestureDetector(
-
-                                              onTap: () async {
-                                                var number = (vendorDetails['number']);
-                                                print(number);
-                                                String telephoneUrl = "tel:${number.toString()}";
-                                                if (await canLaunch(telephoneUrl)) {
-                                                  await launch(telephoneUrl);
-                                                } else {
-                                                  throw "Error occured trying to call that number.";
-                                                }
-                                              },
-
+                                            onTap: () async {
+                                              var number =
+                                                  (vendorDetails['number']);
+                                              print(number);
+                                              String telephoneUrl =
+                                                  "tel:${number.toString()}";
+                                              if (await canLaunch(
+                                                  telephoneUrl)) {
+                                                await launch(telephoneUrl);
+                                              } else {
+                                                throw "Error occured trying to call that number.";
+                                              }
+                                            },
                                             child: Container(
                                                 decoration: BoxDecoration(
                                                     color: HexColor("292F3D"),
@@ -292,11 +300,12 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                         BorderRadius.circular(
                                                             10)),
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 14,
-                                                      right: 14,
-                                                      top: 6,
-                                                      bottom: 6),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 14,
+                                                          right: 14,
+                                                          top: 6,
+                                                          bottom: 6),
                                                   child: Row(
                                                     children: [
                                                       Image.asset(
@@ -544,114 +553,125 @@ class _OrderDetailsState extends State<OrderDetails> {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: ()async{
-                        // Get.off(()=>const PaymentScreen(),arguments: getData);
+                    onTap: () async {
+                      Get.off(() => CancelDetails(
+                            bookingId: booking_id,
+                          ));
                       vendorData(booking_id);
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(16))),
-                            content: SizedBox(
-                              height: 160,
-                              width: 160,
-                              child: FittedBox(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                        "Are you sure ?",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height:1,
-                                    ),
-                                    Text(
-                                      "You want to cancel ?",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 12
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height:15,
-                                    ),
-                                    Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          // Image.asset("assets/icons/icons8-approval.gif",
-                                          //   height: 70,
-                                          //   width: 70,
-                                          // ),
-
-
-                                          GestureDetector(
-                                            onTap:()async{
-                                              Navigator.pop(context);
-                                              await FirebaseFirestore.instance.collection("bookings").doc(number)
-                                                  .collection("user_booking")
-                                                  .doc(booking_id)
-                                                  .update({
-                                                  "booking_status":"cancel"
-                                              });
-
-                                            },
-                                            child: Container(
-                                              height: 20,
-                                                width: 28,
-                                                decoration: BoxDecoration(
-                                                    color: HexColor("292F3D"),
-                                                    borderRadius: BorderRadius.circular(2)),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 4, right: 3, top: 2, bottom: 2),
-                                                  child: Center(
-                                                    child: Text(
-                                                      "yes",
-                                                      style: GoogleFonts.poppins(
-                                                          fontSize: 9,
-                                                          fontWeight: FontWeight.w700,
-                                                          color: HexColor("FFFFFF")),
-                                                    ),
-                                                  ),
-                                                )),
-                                          ),
-                                          const SizedBox(width: 15),
-                                          GestureDetector(
-                                            onTap: (){
-                                              Navigator.pop(context);
-                                            },
-                                            child: Container(
-                                              height: 20,
-                                                width: 28,
-                                                decoration: BoxDecoration(
-                                                    color: HexColor("292F3D"),
-                                                    borderRadius: BorderRadius.circular(2)),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 4, right: 3, top: 2, bottom: 2),
-                                                  child: Center(
-                                                    child: Text(
-                                                      "No",
-                                                      style: GoogleFonts.poppins(
-                                                          fontSize: 9,
-                                                          fontWeight: FontWeight.w700,
-                                                          color: HexColor("FFFFFF")),
-                                                    ),
-                                                  ),
-                                                )),
-                                          ),
-                                        ]),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-
-
-                      },
+                      // showDialog(
+                      //   context: context,
+                      //   builder: (context) => AlertDialog(
+                      //     shape: const RoundedRectangleBorder(
+                      //         borderRadius:
+                      //             BorderRadius.all(Radius.circular(16))),
+                      //     content: SizedBox(
+                      //       height: 160,
+                      //       width: 160,
+                      //       child: FittedBox(
+                      //         child: Column(
+                      //           children: [
+                      //             Text(
+                      //               "Are you sure ?",
+                      //               style: GoogleFonts.poppins(fontSize: 12),
+                      //             ),
+                      //             const SizedBox(
+                      //               height: 1,
+                      //             ),
+                      //             Text(
+                      //               "You want to cancel ?",
+                      //               style: GoogleFonts.poppins(fontSize: 12),
+                      //             ),
+                      //             const SizedBox(
+                      //               height: 15,
+                      //             ),
+                      //             Row(
+                      //                 crossAxisAlignment:
+                      //                     CrossAxisAlignment.center,
+                      //                 mainAxisAlignment:
+                      //                     MainAxisAlignment.center,
+                      //                 children: [
+                      //                   // Image.asset("assets/icons/icons8-approval.gif",
+                      //                   //   height: 70,
+                      //                   //   width: 70,
+                      //                   // ),
+                      //
+                      //                   GestureDetector(
+                      //                     onTap: () async {
+                      //                       Navigator.pop(context);
+                      //                       await FirebaseFirestore.instance
+                      //                           .collection("bookings")
+                      //                           .doc(number)
+                      //                           .collection("user_booking")
+                      //                           .doc(booking_id)
+                      //                           .update({
+                      //                         "booking_status": "cancel"
+                      //                       });
+                      //                     },
+                      //                     child: Container(
+                      //                         height: 20,
+                      //                         width: 28,
+                      //                         decoration: BoxDecoration(
+                      //                             color: HexColor("292F3D"),
+                      //                             borderRadius:
+                      //                                 BorderRadius.circular(2)),
+                      //                         child: Padding(
+                      //                           padding: const EdgeInsets.only(
+                      //                               left: 4,
+                      //                               right: 3,
+                      //                               top: 2,
+                      //                               bottom: 2),
+                      //                           child: Center(
+                      //                             child: Text(
+                      //                               "yes",
+                      //                               style: GoogleFonts.poppins(
+                      //                                   fontSize: 9,
+                      //                                   fontWeight:
+                      //                                       FontWeight.w700,
+                      //                                   color:
+                      //                                       HexColor("FFFFFF")),
+                      //                             ),
+                      //                           ),
+                      //                         )),
+                      //                   ),
+                      //                   const SizedBox(width: 15),
+                      //                   GestureDetector(
+                      //                     onTap: () {
+                      //                       Navigator.pop(context);
+                      //                     },
+                      //                     child: Container(
+                      //                         height: 20,
+                      //                         width: 28,
+                      //                         decoration: BoxDecoration(
+                      //                             color: HexColor("292F3D"),
+                      //                             borderRadius:
+                      //                                 BorderRadius.circular(2)),
+                      //                         child: Padding(
+                      //                           padding: const EdgeInsets.only(
+                      //                               left: 4,
+                      //                               right: 3,
+                      //                               top: 2,
+                      //                               bottom: 2),
+                      //                           child: Center(
+                      //                             child: Text(
+                      //                               "No",
+                      //                               style: GoogleFonts.poppins(
+                      //                                   fontSize: 9,
+                      //                                   fontWeight:
+                      //                                       FontWeight.w700,
+                      //                                   color:
+                      //                                       HexColor("FFFFFF")),
+                      //                             ),
+                      //                           ),
+                      //                         )),
+                      //                   ),
+                      //                 ]),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // );
+                    },
                     child: Container(
                         decoration: BoxDecoration(
                             color: HexColor("292F3D"),

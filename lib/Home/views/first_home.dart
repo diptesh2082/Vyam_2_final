@@ -573,7 +573,7 @@ class _FirstHomeState extends State<FirstHome> {
                         color: Colors.black,
                       ),
                       onPressed: () {
-
+                            Get.to(()=>NotificationDetails());
                         print(GlobalUserData);
 
                       },

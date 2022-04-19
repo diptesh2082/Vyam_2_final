@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AboutUs extends StatefulWidget {
-  const AboutUs({Key? key}) : super(key: key);
+class PrivacyPolicy extends StatefulWidget {
+  const PrivacyPolicy({Key? key}) : super(key: key);
 
   @override
-  State<AboutUs> createState() => _AboutUsState();
+  State<PrivacyPolicy> createState() => _PrivacyPolicyState();
 }
 
-class _AboutUsState extends State<AboutUs> {
+class _PrivacyPolicyState extends State<PrivacyPolicy> {
   String text =
       'Praesent sed tellus arcu. Donec ante nunc, semper sed eros a, condimentum hendrerit sapien. Vestibulum volutpat orci eu placerat malesuada. Phasellus non faucibus odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. In suscipit neque in enim laoreet tincidunt. Sed auctor neque eget est accumsan';
   @override
@@ -16,7 +16,7 @@ class _AboutUsState extends State<AboutUs> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("About Us"),
+          title: Text("Privacy Policy"),
           centerTitle: true,
           foregroundColor: Color(0xff3A3A3A),
           backgroundColor: Color(0xffE5E5E5),

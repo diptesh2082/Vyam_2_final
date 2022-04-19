@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,7 +11,7 @@ import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:readmore/readmore.dart';
 // import 'package:url_launcher/url_launcher.dart';
@@ -49,7 +49,7 @@ class _GymDetailsState extends State<GymDetails> {
   ];
   double _scale = 1.0;
   double __previousScale = 1.0;
-  bool touch=false;
+  bool touch = false;
   List<IconData> icons = [
     Icons.ac_unit,
     Icons.lock_rounded,
@@ -73,6 +73,7 @@ class _GymDetailsState extends State<GymDetails> {
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
   final List _isSelected = [true, false, false, false, false, false];
   int _current = 1;
+  var listIndex = 0;
   @override
   void initState() {
     // print(doc);
@@ -105,11 +106,12 @@ class _GymDetailsState extends State<GymDetails> {
                       child: Stack(
                         //mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          FullScreenWidget(
+                          GestureDetector(
                             child: CarouselSlider.builder(
                               itemCount: images.length,
                               itemBuilder: (context, index, realIndex) {
                                 final image = images[index];
+                                listIndex = index;
                                 return gymImages(image, index);
                               },
                               options: CarouselOptions(
@@ -129,6 +131,33 @@ class _GymDetailsState extends State<GymDetails> {
                                     });
                                   }),
                             ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                  opaque: false,
+                                  barrierColor: Colors.white.withOpacity(0),
+                                  pageBuilder: (BuildContext context, _, __) {
+                                    return GestureDetector(
+                                      child: PhotoView(
+                                        imageProvider:
+                                            NetworkImage(images[listIndex]),
+                                        initialScale:
+                                            PhotoViewComputedScale.contained,
+                                        minScale:
+                                            PhotoViewComputedScale.contained *
+                                                0.8,
+                                        maxScale:
+                                            PhotoViewComputedScale.contained *
+                                                1.8,
+                                        basePosition: Alignment.center,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              );
+                              ;
+                            },
                           ),
                           Positioned(
                             left: MediaQuery.of(context).size.width / 3,
@@ -1071,7 +1100,6 @@ class _GymDetailsState extends State<GymDetails> {
                             fontWeight: FontWeight.w600,
                           )),
                       GestureDetector(
-
                         child: const Text('Call now ',
                             style: TextStyle(
                               decoration: TextDecoration.underline,
@@ -1156,31 +1184,29 @@ class _GymDetailsState extends State<GymDetails> {
     );
   }
 
-  Widget gymImages(String images, int index) => FullScreenWidget(
-    child: InteractiveViewer(
-      maxScale: 2.5,
-      child: AspectRatio(
-        aspectRatio: 16/9,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: CachedNetworkImage(
-            imageUrl: images,
-            fit: BoxFit.cover,
+  Widget gymImages(String images, int index) => InteractiveViewer(
+        maxScale: 2.5,
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: CachedNetworkImage(
+              imageUrl: images,
+              fit: BoxFit.cover,
+            ),
           ),
+          // width: MediaQuery.of(context).size.width,
+          // height: 500,
+          // height: 500,
+          // decoration: BoxDecoration(
+          //   image: DecorationImage(
+          //     image: CachedNetworkImageProvider(images),
+          //         fit: BoxFit.cover
+          //   )
+          //
+          // ),
         ),
-        // width: MediaQuery.of(context).size.width,
-        // height: 500,
-        // height: 500,
-        // decoration: BoxDecoration(
-        //   image: DecorationImage(
-        //     image: CachedNetworkImageProvider(images),
-        //         fit: BoxFit.cover
-        //   )
-        //
-        // ),
-      ),
-    ),
-  );
+      );
 
   Widget amenities(int index) => FittedBox(
         child: Column(
