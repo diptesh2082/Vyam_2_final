@@ -141,15 +141,15 @@ class _GymDetailsState extends State<GymDetails> {
                                     return GestureDetector(
                                       child: PhotoView(
                                         imageProvider:
-                                            NetworkImage(images[listIndex]),
+                                            CachedNetworkImageProvider( images[listIndex]),
                                         initialScale:
                                             PhotoViewComputedScale.contained,
                                         minScale:
                                             PhotoViewComputedScale.contained *
-                                                0.8,
+                                                0.95,
                                         maxScale:
                                             PhotoViewComputedScale.contained *
-                                                1.8,
+                                                2.5,
                                         basePosition: Alignment.center,
                                       ),
                                     );
