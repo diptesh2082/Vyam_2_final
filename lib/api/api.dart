@@ -78,7 +78,7 @@ getNumber() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalNumber = sharedPreferences.getString("number");
   print(finalNumber);
-  number = finalNumber;
+  number = finalNumber!;
   print(number);
   // return number;
   // await UserApi.createNewUser();
@@ -95,7 +95,7 @@ setNumber( id) async {
 getAddress() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalAddress = sharedPreferences.getString("pin");
-  address2 = finalAddress;
+  address2 = finalAddress.toString();
   // print(address2);
   // print(address2);
   // print(address2);

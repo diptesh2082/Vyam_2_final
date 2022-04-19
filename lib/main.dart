@@ -37,7 +37,13 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await getNumber();
+  try{
+    await getNumber();
+  }catch
+  (e){
+    number="";
+  }
+
   getAddress();
   getVisitingFlag();
   await myLocation();
