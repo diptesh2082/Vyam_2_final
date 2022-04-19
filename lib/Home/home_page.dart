@@ -253,13 +253,13 @@ class _HomePageState extends State<HomePage> {
         ),
         navBarStyle: NavBarStyle.style3,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showNotification();
-        },
-        tooltip: 'Icrement',
-        child: Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     showNotification();
+      //   },
+      //   tooltip: 'Icrement',
+      //   child: Icon(Icons.add),
+      // ),
     );
   }
 }
