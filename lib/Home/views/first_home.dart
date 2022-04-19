@@ -568,20 +568,28 @@ class _FirstHomeState extends State<FirstHome> {
                     const SizedBox(
                       height: 8,
                     ),
-                    IconButton(
-                      icon: Badge(
-                        badgeContent: Text("9"),
-                        borderRadius: BorderRadius.circular(5),
-                        child: const Icon(
-                          HomeIcon.notification,
-                          color: Colors.black,
-                        ),
-                      ),
-                      onPressed: () {
-                            Get.to(()=>NotificationDetails());
-                        print(GlobalUserData);
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Badge(
+                            badgeContent: Text("9"),
+                            borderRadius: BorderRadius.circular(5),
+                            child: const ImageIcon(
+                              AssetImage("assets/icons/Notification.png"),
+                              size:27,
+                              color: Colors.black,
+                            ),
+                          ),
+                          onPressed: () {
+                                Get.to(()=>NotificationDetails());
+                            print(GlobalUserData);
 
-                      },
+                          },
+                        ),
+                        SizedBox(
+                          width: 5,
+                        )
+                      ],
                     ),
                   ],
                 ),
