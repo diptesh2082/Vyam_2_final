@@ -291,8 +291,8 @@ class _ProfilePartState extends State<ProfilePart> {
                         onTap: () {
                           Get.to(() => const AboutUs());
                         },
-                        leading: const Icon(
-                          CupertinoIcons.exclamationmark_bubble,
+                        leading:  ImageIcon(
+                          AssetImage("assets/icons/about_us.png"),
                           color: Colors.black54,
                         ),
                         title: const Text(
@@ -308,8 +308,8 @@ class _ProfilePartState extends State<ProfilePart> {
                         onTap: () {
                           Get.to(() => const TermsAndCondition());
                         },
-                        leading: const Icon(
-                          CupertinoIcons.news,
+                        leading: const ImageIcon(
+                          AssetImage("assets/icons/terms_and_conditions.png"),
                           color: Colors.black54,
                         ),
                         title: const Text(
@@ -325,8 +325,8 @@ class _ProfilePartState extends State<ProfilePart> {
                         onTap: () {
                           Get.to(() => const PrivacyPolicy());
                         },
-                        leading: const Icon(
-                          Icons.privacy_tip_outlined,
+                        leading: const ImageIcon(
+                          AssetImage("assets/icons/privacy_policy.png"),
                           color: Colors.black54,
                         ),
                         title: const Text(
@@ -342,8 +342,8 @@ class _ProfilePartState extends State<ProfilePart> {
                         onTap: () {
                           Get.to(() => const Faq());
                         },
-                        leading: const Icon(
-                          Icons.forum_outlined,
+                        leading: const ImageIcon(
+                          AssetImage("assets/icons/faq.png"),
                           color: Colors.black54,
                         ),
                         title: const Text(
@@ -359,8 +359,8 @@ class _ProfilePartState extends State<ProfilePart> {
                         onTap: () {
                           launch(playStoreUrl);
                         },
-                        leading: const Icon(
-                          Icons.star_border_outlined,
+                        leading: const ImageIcon(
+                          AssetImage("assets/icons/rate_us.png"),
                           color: Colors.black54,
                         ),
                         title: const Text(
@@ -376,8 +376,8 @@ class _ProfilePartState extends State<ProfilePart> {
                         onTap: () {
                           // Get.to(() => const MyOrdersScreen());
                         },
-                        leading: const Icon(
-                          Profileicon.share_app,
+                        leading: const ImageIcon(
+                          AssetImage("assets/icons/share_app.png"),
                           color: Colors.black54,
                         ),
                         title: const Text(
@@ -404,9 +404,9 @@ class _ProfilePartState extends State<ProfilePart> {
                             primary: Colors.black87,
                           ),
                           onPressed: () async {
-                            // SharedPreferences sharedPreferences =
-                            // await SharedPreferences.getInstance();
-                            // sharedPreferences.remove('number');
+                            SharedPreferences sharedPreferences =
+                            await SharedPreferences.getInstance();
+                            sharedPreferences.remove('number');
                             // getNumber();
                             // print(number);
                             await _googleSignIn.signOut();

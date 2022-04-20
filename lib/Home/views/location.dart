@@ -1,7 +1,7 @@
 import 'dart:async';
 // import 'dart:html';
 import 'dart:math';
-
+import 'package:dio/dio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +88,9 @@ class _LocInfoState extends State<LocInfo> {
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    return await Geolocator.getCurrentPosition();
+    return await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.best
+    );
   }
 
   String pin = "";
@@ -97,15 +99,21 @@ class _LocInfoState extends State<LocInfo> {
   String myaddress = "your location";
   var address = "";
   Future<void> GetAddressFromLatLong(Position position) async {
-    List<Placemark> placemark =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
-    Placemark place = placemark[0];
-    print(place);
-    address = "${place.name ?? ""}, " +
-        "${place.street ?? ""}, ${place.locality ?? ""}, ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
-    pin = "${place.postalCode}";
-    locality = "${place.locality}";
-    subLocality = "${place.subLocality}";
+
+    try{
+      List<Placemark> placemark =
+      await placemarkFromCoordinates(position.latitude, position.longitude);
+      Placemark place = placemark[0];
+      print(placemark);
+      print(placemark[1]);
+      address =
+          "${place.name??""},"+"${place.subLocality??""}, ${place.locality??""}, ${place.subAdministrativeArea??""}, ${place.postalCode??""}";
+      pin = "${place.postalCode}";
+      locality = "${place.locality}";
+      subLocality = "${place.subLocality}";
+    }catch(e){
+
+    }
   }
 
   Future<void> GetAddressFromGeoPoint(GeoPoint position) async {
@@ -113,8 +121,12 @@ class _LocInfoState extends State<LocInfo> {
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
 
-    address = "${place.name ?? ""}, " +
-        "${place.street ?? ""}, ${place.locality ?? ""}, ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
+    print(placemark);
+    print(placemark[1]);
+    // var add = await Geocoder.local.findAddressesFromCoordinates(
+    //     coordinates);
+    address =
+        "${place.name??""}, "+"${place.street??""}, ${place.locality??""}, ${place.subAdministrativeArea??""}, ${place.postalCode??""}";
     pin = "${place.postalCode}";
     locality = "${place.locality}";
     subLocality = "${place.subLocality}";
@@ -141,6 +153,12 @@ class _LocInfoState extends State<LocInfo> {
     });
     // TODO: implement initState
     super.initState();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    locController.dispose();
+    super.dispose();
   }
 
   @override

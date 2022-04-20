@@ -2,8 +2,10 @@
 
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
+import 'package:vyam_2_final/api/api.dart';
 
 // import '../private_variable.dart';
 final placesApiKey="AIzaSyD-lbw_9Rs2jniKN2iVZ1zhh_9dtFvN7IM";
@@ -38,6 +40,7 @@ class RequestHelper {
 
   Future getCoordinatesFromAddresss(mainText) async {
     try {
+      // List<Location> address = await GetAddressFromLatLong(position);
       List<Location> locations = await locationFromAddress(mainText);
       final map = locations[0].toJson();
       print(map['longitude']);

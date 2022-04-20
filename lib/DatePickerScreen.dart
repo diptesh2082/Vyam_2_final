@@ -73,6 +73,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   width: 400,
                   child: Card(
                     child: SfDateRangePicker(
+                      minDate: DateTime.now(),
                       //Daddy Widget aka Calender Widget
                       monthCellStyle: const DateRangePickerMonthCellStyle(
                         // TextStyle of each date
@@ -128,10 +129,10 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                       children: [
                          Text(
                           '${widget.months}',
-                          style: TextStyle(
-                              fontFamily: 'PoppinsSemiBold',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12),
+                          style: GoogleFonts.poppins(
+                              // fontFamily: 'PoppinsSemiBold',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -140,7 +141,10 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                               children: [
                                 Text('STARTS', style: regularStyle),
                                 Text(DateFormat("dd,MMMM").format(startDate), style: boldStyle),
-                                Text('Monday', style: regularStyle),
+                                Text(DateFormat("E").format(startDate), style:  GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12
+                                )),
                               ],
                             ),
                             Icon(
@@ -152,7 +156,10 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                               children: [
                                 Text('ENDS', style: regularStyle),
                                 Text(DateFormat("dd,MMMM").format(endDate), style: boldStyle),
-                                Text('Wednesday', style: regularStyle),
+                                Text(DateFormat("E").format(endDate), style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12
+                                )),
                               ],
                             )
                           ],
@@ -164,27 +171,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 142),
-                child: GestureDetector(
-                  child: SizedBox(
-                    height: 54,
-                    width: 358,
-                    child: Card(
-                      child: Center(
-                        child: Text('Proceed', style: buttonTextStyle),
-                      ),
-                      color: HexColor('#292F3D'),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 10,
-                      shadowColor: Colors.black,
-                    ),
-                  ),
-                  onTap: () {},
-                ),
-              ),
+
             ],
           ),
         ),
@@ -210,11 +197,11 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   duration: const Duration(milliseconds: 500),
                   arguments: {
                     "gymName": widget.getGymName,
-                    // "totalMonths": widget.months,
+                    "totalMonths": widget.months,
                     "packageType": widget.packageType,
-                    "totalPrice": widget.price,
-                    "startDate": DateFormat("MMMM,E,yyyy").format(startDate),
-                    "endDate":  DateFormat("MMMM,E,yyyy").format(startDate),
+                    "totalPrice": widget.price*(1+endDate.difference(startDate).inDays),
+                    "startDate": DateFormat("MMMM,dd,yyyy").format(startDate),
+                    "endDate":  DateFormat("MMMM,dd,yyyy").format(endDate),
                     "address": widget.getGymAddress,
                     "vendorId":widget.gymId,
                     "booking_id":widget.bookingId,
@@ -244,12 +231,18 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    DateTime s_Date = args.value!.startDate;
-    DateTime e_Date = args.value!.endDate;
-    setState(() {
-      startDate=s_Date;
-      endDate=e_Date;
-    });
+    try{
+      DateTime s_Date = args.value.startDate;
+      DateTime e_Date = args.value.endDate;
+      setState(() {
+        startDate=s_Date;
+        endDate=e_Date;
+      });
+    }catch(e){
+      print(e);
+    }
+
+
 
     // print(DateFormat("dd,MMMM,yyyy").format(startDate));
     // print(DateFormat("dd,MMMM,yyyy").format(endDate));

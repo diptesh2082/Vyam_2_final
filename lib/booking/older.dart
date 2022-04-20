@@ -21,7 +21,7 @@ class OlderEvent extends StatelessWidget {
 
   final double _width;
   List events = [];
-  ActiveBookingApi activeBookingApi = ActiveBookingApi();
+  // ActiveBookingApi activeBookingApi = ActiveBookingApi();
 
   @override
   Widget build(BuildContext context) {

@@ -1,19 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:location/location.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'dart:math' show cos, sqrt, asin;
 
+import '../Notifications/notification.dart';
+import '../main.dart';
+
 // ignore: prefer_typing_uninitialized_variables
 var visiting_flag;
 bool onlinePay = true;
 var total_discount=0;
 bool location_service =  true;
+bool GlobalCouponApplied=false;
+var GlobalCoupon;
+Map coupon_list={};
+String CouponDetailsMap="0";
 final booking= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Location location = Location();
@@ -21,6 +31,23 @@ Geoflutterfire geo = Geoflutterfire();
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+class couponClass extends GetxController{
+  RxBool GlobalCouponApplied=false.obs;
+  RxString GlobalCoupon="".obs;
+  RxString CouponDetailsMap = "".obs;
+  // Map coupon_list={}.obs;
+  couponAdd(bool gca,String gc){
+    GlobalCouponApplied=gca as RxBool;
+    GlobalCoupon=gc as RxString;
+    // coupon_list=
+  }
+}
+
+getInfo()async{
+  await checkExist(number);
+  print(exist);
+  // == false?Get.off(const LoginPage()):Get.off(()=>HomePage());
+}
 getUserId() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var userId= sharedPreferences.getString("userId")?? "";
@@ -51,7 +78,7 @@ getNumber() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalNumber = sharedPreferences.getString("number");
   print(finalNumber);
-  number = finalNumber;
+  number = finalNumber!;
   print(number);
   // return number;
   // await UserApi.createNewUser();
@@ -68,7 +95,7 @@ setNumber( id) async {
 getAddress() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalAddress = sharedPreferences.getString("pin");
-  address2 = finalAddress;
+  address2 = finalAddress.toString();
   // print(address2);
   // print(address2);
   // print(address2);
@@ -332,6 +359,7 @@ Future<void> checkExistAcc(String docID) async {
   }
 }
 
+
 var exist;
 var user_details;
 
@@ -413,18 +441,18 @@ checkEmailExist(String email)async{
         .collection('user_details')
         .where("email",isEqualTo:email)
         .get()
-        .then((QuerySnapshot snapshot) {
+        .then((QuerySnapshot snapshot) async {
       if (snapshot.docs.isNotEmpty) {
         // print('Document exists on the database');
-        emailId=snapshot.docs[0].id;
+        emailId=await snapshot.docs[0].id;
         // print(snapshot.docs[0].id);
-        emailhai=true;
+        emailhai=await true;
         // email=true as bool;
         // return true;
 
       }
       else{
-        emailhai=false;
+        emailhai= await false;
         // return false;
       }
     });

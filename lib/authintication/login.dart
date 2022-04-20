@@ -53,6 +53,12 @@ class _LoginPageState extends State<LoginPage> {
 
     super.initState();
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

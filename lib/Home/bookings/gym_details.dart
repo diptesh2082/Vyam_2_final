@@ -6,13 +6,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:readmore/readmore.dart';
 // import 'package:url_launcher/url_launcher.dart';
@@ -142,15 +141,15 @@ class _GymDetailsState extends State<GymDetails> {
                                     return GestureDetector(
                                       child: PhotoView(
                                         imageProvider:
-                                            NetworkImage(images[listIndex]),
+                                            CachedNetworkImageProvider( images[listIndex]),
                                         initialScale:
                                             PhotoViewComputedScale.contained,
                                         minScale:
                                             PhotoViewComputedScale.contained *
-                                                0.8,
+                                                0.95,
                                         maxScale:
                                             PhotoViewComputedScale.contained *
-                                                1.8,
+                                                2.5,
                                         basePosition: Alignment.center,
                                       ),
                                       onTap: () {

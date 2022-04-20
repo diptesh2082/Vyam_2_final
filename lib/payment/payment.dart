@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -16,10 +17,10 @@ import 'package:vyam_2_final/golbal_variables.dart';
 import 'package:vyam_2_final/payment/custom_api.dart';
 
 import '../api/api.dart';
+import '../main.dart';
 
-bool GlobalCouponApplied=false;
-var GlobalCoupon;
-String CouponDetailsMap="0";
+
+
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
 
@@ -40,43 +41,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
   // ignore: prefer_typing_uninitialized_variables
   var taxPay;
   String amount = '';
-  String booking_id = Get.arguments["booking_id"];
+  var booking_id = Get.arguments["booking_id"];
   final app_bar_controller = ScrollController();
-  _couponpopup(context) => showDialog(
-      context: context,
-      builder: (context) => GestureDetector(
-        onTap: (){
-          Get.off(()=>const PaymentScreen(),arguments: getData);
-        },
-        child: AlertDialog(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16))),
-          content: SizedBox(
-            height: 180,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    "VYAM30 Applied",
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  SizedBox(height: 15),
-                  Text(
-                    "You save 50.00",
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 16,
-                        color: Colors.green,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ]),
-          ),
-        ),
-      ));
+   showNotification(String title,String info) async {
+    // setState(() {
+    //   _counter++;
+    // });
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      "${title}",
+      "$info",
+      NotificationDetails(
+        android: AndroidNotificationDetails(channel.id, channel.name,
+            channelDescription: channel.description,
+            importance: Importance.high,
+            color: Colors.blue,
+            playSound: true,
+            icon: '@mipmap/launcher_icon'),
+      ),
+    );
+
+  }
   // getAnimation(){
   //   controller = AnimationController(
   //       vsync: this, value: 0.1, duration: const Duration(milliseconds: 1000));
@@ -133,8 +118,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
     // GlobalCouponApplied?_couponpopup(context):const SizedBox();
 
     // print(GlobalUserData);
-    GlobalCouponApplied=false;
-    print(booking_id);
+    myCouponController.GlobalCouponApplied.value=false;
+    myCouponController.GlobalCoupon.value="";
+    myCouponController.CouponDetailsMap.value="";
+    print(myCouponController.GlobalCouponApplied.value);
 
     setState(() {
       var price = getData["totalPrice"];
@@ -166,6 +153,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
     super.initState();
   }
+  couponClass myCouponController= Get.put(couponClass());
 
   @override
   void dispose() {
@@ -176,7 +164,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   _payment() {
     var options = {
       'key': 'rzp_test_33NhqFvjcCXYkk',
-      'amount': (GlobalCouponApplied?(grandTotal-int.parse(CouponDetailsMap)):grandTotal)*100,
+      'amount': (myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value)):grandTotal)*100,
       'name': 'Vyam Gym Booking',
       'description': 'Payment',
       // "order_id":"test_jukjktgtu",
@@ -263,6 +251,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
           "booking_status": "upcoming",
           "payment_done": true,
         });
+      await showNotification("Thank You","Booking Successful");
+
       await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_details});
       // }
 
@@ -626,35 +616,38 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           ),
                                         ],
                                       ),
-                                       RichText(
-                                          text: TextSpan(
-                                                style: GoogleFonts.poppins(
-                                                  // fontFamily: "Poppins",
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 12,
-                                                    color: Colors.grey),
-                                            children:  <TextSpan>[
-                                               TextSpan(
-                                                text: GlobalCouponApplied?"Promo ":"No Promo "
-                                              ),
-                                              TextSpan(
-                                                  text: GlobalCouponApplied?"${GlobalCoupon} ":"code ",
-                                                style: GlobalCouponApplied? GoogleFonts.poppins(
-                                                  // fontFamily: "Poppins",
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 12,
-                                                    color: Colors.amber):GoogleFonts.poppins(
-                                                  // fontFamily: "Poppins",
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 12,
-                                                    color: Colors.grey),
-                                              ),
-                                               TextSpan(
-                                                  text: GlobalCouponApplied?"Applied":"Selected"
-                                              ),
-                                            ]
+                                       Obx(()=>
+                                        RichText(
+                                            text: TextSpan(
+                                                  style: GoogleFonts.poppins(
+                                                    // fontFamily: "Poppins",
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 12,
+                                                      color: Colors.grey),
+                                              children:  <TextSpan>[
+                                                 TextSpan(
+                                                  text: myCouponController.GlobalCouponApplied.value?"Promo ":"No Promo "
+                                                ),
+                                                TextSpan(
+                                                    text: myCouponController.GlobalCouponApplied.value?"${ myCouponController.GlobalCoupon.value} ":"code ",
+                                                  style: myCouponController.GlobalCouponApplied.value? GoogleFonts.poppins(
+                                                    // fontFamily: "Poppins",
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 12,
+                                                      color: Colors.amber
+                                                  ):GoogleFonts.poppins(
+                                                    // fontFamily: "Poppins",
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 12,
+                                                      color: Colors.grey),
+                                                ),
+                                                 TextSpan(
+                                                    text: GlobalCouponApplied?"Applied":"Selected"
+                                                ),
+                                              ]
 
-                                          ))
+                                            )),
+                                       )
                                     ],
                                   ),
                                   const Icon(
@@ -671,133 +664,135 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       const SizedBox(
                         height: 9,
                       ),
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 12.0, right: 12, top: 10, bottom: 10),
-                          child: Column(
-                            children: [
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                padding:
-                                    const EdgeInsets.only(left: 10, top: 3),
-                                child: Text(
-                                  "Payment",
-                                  textAlign: TextAlign.start,
-                                  style: GoogleFonts.poppins(
-                                      color: Colors.green,
-                                      // fontFamily: "Poppins",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700),
+                      Obx(()=>
+                         Card(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 12.0, right: 12, top: 10, bottom: 10),
+                            child: Column(
+                              children: [
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding:
+                                      const EdgeInsets.only(left: 10, top: 3),
+                                  child: Text(
+                                    "Payment",
+                                    textAlign: TextAlign.start,
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.green,
+                                        // fontFamily: "Poppins",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700),
+                                  ),
                                 ),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.only(left: 12, top: 3),
-                                    child: Text(
-                                      "Total Amount",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 12, top: 3),
-                                    child: Text(
-                                      "₹${getData["totalPrice"]}",
-                                      style: const TextStyle(
-                                          fontFamily: "Poppins",
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.only(left: 12, top: 3),
-                                    child: Text(
-                                      "Discount",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 12, top: 3),
-                                    child: Text(
-                                      "₹  ${GlobalCouponApplied? CouponDetailsMap.toString() :totalDiscount.toString()}",
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: "Poppins",
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.only(left: 12, top: 3),
-                                    child: Text(
-                                      "GST",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: 12, top: 3),
-                                    child: Text(
-                                      "₹" + taxPay.toString(),
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0, right: 8, top: 3),
-                                child: Row(
+                                Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Text(
-                                      "Grand Total",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: "Poppins",
-                                          color: Colors.green,
-                                          fontWeight: FontWeight.w700),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 12, top: 3),
+                                      child: Text(
+                                        "Total Amount",
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
                                     ),
-                                    Text(
-                                      "₹ ${GlobalCouponApplied?(grandTotal-int.parse(CouponDetailsMap)):grandTotal.toString()}",
-                                      style: const TextStyle(
-                                          fontFamily: "Poppins",
-                                          color: Colors.green,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 12, top: 3),
+                                      child: Text(
+                                        "₹${getData["totalPrice"]}",
+                                        style: const TextStyle(
+                                            fontFamily: "Poppins",
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 12, top: 3),
+                                      child: Text(
+                                        "Discount",
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 12, top: 3),
+                                      child: Text(
+                                        "₹  ${myCouponController.GlobalCouponApplied.value? myCouponController.CouponDetailsMap.value.toString() :totalDiscount.toString()}",
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontFamily: "Poppins",
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 12, top: 3),
+                                      child: Text(
+                                        "GST",
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: 12, top: 3),
+                                      child: Text(
+                                        "₹" + taxPay.toString(),
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8, top: 3),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        "Grand Total",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontFamily: "Poppins",
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      Text(
+                                        "₹ ${myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value)):grandTotal.toString()}",
+                                        style: const TextStyle(
+                                            fontFamily: "Poppins",
+                                            color: Colors.green,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -883,25 +878,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        "₹ ${GlobalCouponApplied?(grandTotal-int.parse(CouponDetailsMap)):grandTotal.toString()} /-",
-                        style: const TextStyle(
-                            fontFamily: "Poppins", fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        "Inc all taxes",
-                        style: TextStyle(fontFamily: "Poppins"),
-                      ),
-                    )
-                  ],
+                Obx(()=>
+                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                       padding: const EdgeInsets.only(left: 8.0),
+                       child: Text(
+                         "₹ ${myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value)):grandTotal.toString()} /-",
+                         style: const TextStyle(
+                             fontFamily: "Poppins", fontWeight: FontWeight.bold),
+                       ),
+                        ),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          "Inc all taxes",
+                          style: TextStyle(fontFamily: "Poppins"),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 const Spacer(),
                 Padding(
@@ -947,8 +944,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
         .collection("user_booking")
         .doc(booking_id)
         .update({
-      "discount": GlobalCouponApplied?(int.parse(CouponDetailsMap)):totalDiscount,
-      "grand_total":  GlobalCouponApplied?(grandTotal-int.parse(CouponDetailsMap)).toString():grandTotal.toString(),
+      "discount": myCouponController.GlobalCouponApplied.value?(int.parse(myCouponController.CouponDetailsMap.value)):totalDiscount,
+      "grand_total":  myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value)).toString():grandTotal.toString(),
       "tax_pay": taxPay,
     });
     _payment();
@@ -1023,8 +1020,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             .collection("user_booking")
                             .doc(booking_id)
                             .update({
-                          "discount": GlobalCouponApplied?(int.parse(CouponDetailsMap)):totalDiscount,
-                          "grand_total":  GlobalCouponApplied?(grandTotal-int.parse(CouponDetailsMap)).toString():grandTotal.toString(),
+                          "discount": myCouponController.GlobalCouponApplied.value?(int.parse(myCouponController.CouponDetailsMap.value)):totalDiscount,
+                          "grand_total":  myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value)).toString():grandTotal.toString(),
                           "tax_pay": taxPay,
                         });
                         var x =  Random().nextInt(9999);
@@ -1046,7 +1043,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           "booking_status": "upcoming",
                           "payment_done": false,
                         });
+                        await showNotification("Thank You","Booking Successful");
+
                         await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_details});
+
                       },
                       child: Container(
                           height: 38,
@@ -1076,7 +1076,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
   OffPay()async{
-    print("ho66e bhai");
   makeSure();
 
   }
@@ -1314,12 +1313,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                             fontSize: 16),
                                       ),
                                       const Spacer(),
-                                      Text(
-                                        "₹  ${GlobalCouponApplied? CouponDetailsMap.toString() :totalDiscount.toString()}",
-                                        style: GoogleFonts.poppins(
-                                            // fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),
+                                      Obx(()=> Text(
+                                          "₹  ${myCouponController.GlobalCouponApplied.value? myCouponController.CouponDetailsMap.value.toString() :totalDiscount.toString()}",
+                                          style: GoogleFonts.poppins(
+                                              // fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16),
+                                        ),
                                       ),
                                       const SizedBox(
                                         width: 7,
@@ -1340,7 +1340,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       ),
                                       const Spacer(),
                                       Text(
-                                        "₹${GlobalCouponApplied?(grandTotal-int.parse(CouponDetailsMap)):grandTotal.toString()}",
+                                        "₹${myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value)):grandTotal.toString()}",
                                         style: GoogleFonts.poppins(
                                             color: Colors.green,
                                             fontWeight: FontWeight.w700,
@@ -1368,7 +1368,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             label: Text(
-                              'Pay  ₹${GlobalCouponApplied?(grandTotal-int.parse(CouponDetailsMap)):grandTotal.toString()} securely',
+                              'Pay  ₹${myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value)):grandTotal.toString()} securely',
                               style: const TextStyle(
                                   fontFamily: 'poppins',
                                   fontWeight: FontWeight.w700,

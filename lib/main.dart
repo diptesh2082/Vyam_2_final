@@ -37,7 +37,13 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await getNumber();
+  try{
+    await getNumber();
+  }catch
+  (e){
+    number="";
+  }
+
   getAddress();
   getVisitingFlag();
   await myLocation();
@@ -55,6 +61,8 @@ Future<void> main() async {
     badge: true,
     sound: true,
   );
+
+  await getInfo();
 
   runApp(const MyApp());
 }
@@ -83,8 +91,8 @@ class MyApp extends StatelessWidget {
             );
           }
 
-          if (snapshot.hasData) {
-            return HomePage();
+          if (snapshot.hasData && exist) {
+            return  HomePage();
           }
 
           return Onboarding1();

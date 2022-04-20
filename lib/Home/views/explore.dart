@@ -194,13 +194,46 @@ class _ExploreState extends State<Explore> {
     print("service status $serviceEnabled");
     if (!serviceEnabled) {
       setState(() {
+        isLoading=true;
         location_service =  false;
       });
       showDialog(context: context,
         // barrierDismissible: location_service,
         builder:(context)=> WillPopScope(
           onWillPop: () async{
-             getEverything();
+            try{
+              Position position = await _determinePosition();
+              await GetAddressFromLatLong(position);
+              if(mounted) {
+                setState(() {
+                  myaddress = myaddress;
+                  address = address;
+                  pin = pin;
+
+                });
+              }
+              await FirebaseFirestore.instance
+                  .collection("user_details")
+                  .doc(number)
+                  .update({
+                "location": GeoPoint(position.latitude, position.longitude),
+                "address": address,
+                // "lat": position.latitude,
+                // "long": position.longitude,
+                "pincode": pin,
+                "locality": locality,
+                "subLocality": locality,
+                // "number": number
+              });
+              setState(() {
+                location_service =  true;
+                // isLoading=false;
+              });
+
+            }catch(e){
+              getEverything();
+            }
+
 
              // if(location)
             // setState(() {
@@ -344,8 +377,8 @@ class _ExploreState extends State<Explore> {
 
   @override
   dispose() {
-    // controller.dispose();
-    // // _controller.dispose();
+    controller.dispose();
+    // _controller.dispose();
     // _initialCameraPosition.dispose();
     super.dispose();
   }
