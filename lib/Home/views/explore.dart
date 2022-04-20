@@ -67,7 +67,7 @@ class _ExploreState extends State<Explore> {
     var pos = await location.getLocation();
     // print(pos.l);
 
-    mapcontroller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+    mapcontroller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(pos.latitude!, pos.longitude!),
       zoom: 17.0,
     )));
@@ -379,6 +379,7 @@ class _ExploreState extends State<Explore> {
   dispose() {
     controller.dispose();
     // _controller.dispose();
+    mapcontroller.dispose();
     // _initialCameraPosition.dispose();
     super.dispose();
   }
@@ -868,8 +869,10 @@ splashLocation(latitude,longitude)async{
   }
 
   Future<void> _gotoLocation(double lat, double long) async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+
+      final GoogleMapController controller = await _controller.future;
+
+    await controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(lat, long),
       zoom: 17,
     )));

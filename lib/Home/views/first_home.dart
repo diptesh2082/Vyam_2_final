@@ -380,39 +380,43 @@ class _FirstHomeState extends State<FirstHome> {
 
   bool showCard = false;
   getProgressStatus() async {
-    int finalDate = int.parse(getDays);
-    // print(getDays);
-    finalDate = totalDays - finalDate;
-    finaldaysLeft = finalDate / totalDays;
-    day_left = totalDays - int.parse(getDays);
-    // progress=double.parse((100 * getDays/totalDays).toInt());
+    try{
+      int finalDate = int.parse(getDays);
+      // print(getDays);
+      finalDate = totalDays - finalDate;
+      finaldaysLeft = finalDate / totalDays;
+      day_left = totalDays - int.parse(getDays);
+      // progress=double.parse((100 * getDays/totalDays).toInt());
 
-    getPercentage = 100 * int.parse(getDays.toString()) / totalDays;
-    progress = (double.parse(getPercentage.toString()) / 100);
-    // locationController.YourLocation(location);
-    // print("reytedry${getPercentage}");
-    if (getPercentage >= 90) {
-      progressColor = Colors.red;
-      textColor = Colors.red;
-      showCard = true;
-    }
-    if (getPercentage <= 89 && getPercentage >= 75) {
-      showCard = true;
+      getPercentage = 100 * int.parse(getDays.toString()) / totalDays;
+      progress = (double.parse(getPercentage.toString()) / 100);
+      // locationController.YourLocation(location);
+      // print("reytedry${getPercentage}");
+      if (getPercentage >= 90) {
+        progressColor = Colors.red;
+        textColor = Colors.red;
+        showCard = true;
+      }
+      if (getPercentage <= 89 && getPercentage >= 75) {
+        showCard = true;
 
-      progressColor = const Color.fromARGB(255, 255, 89, 0);
-      textColor = const Color.fromARGB(255, 255, 89, 0);
-    }
-    if (getPercentage <= 74 && getPercentage >= 50) {
-      progressColor = Colors.orange;
-      textColor = Colors.orange;
-      showCard = true;
-    }
-    if (getPercentage <= 49 && getPercentage >= 0) {
-      progressColor = Colors.yellow;
-      textColor = Colors.amberAccent;
-      showCard = true;
-    } else {
-      showCard = false;
+        progressColor = const Color.fromARGB(255, 255, 89, 0);
+        textColor = const Color.fromARGB(255, 255, 89, 0);
+      }
+      if (getPercentage <= 74 && getPercentage >= 50) {
+        progressColor = Colors.orange;
+        textColor = Colors.orange;
+        showCard = true;
+      }
+      if (getPercentage <= 49 && getPercentage >= 0) {
+        progressColor = Colors.yellow;
+        textColor = Colors.amberAccent;
+        showCard = true;
+      } else {
+        showCard = false;
+      }
+    }catch(e){
+      showCard=false;
     }
   }
 
@@ -478,10 +482,7 @@ class _FirstHomeState extends State<FirstHome> {
   BannerApi bannerApi = BannerApi();
   @override
   void initState() {
-
-    // getUserId();
     getEverything();
-    // SystemChannels.textInput.invokeMethod("TextInput.hide");
     getProgressStatus();
     if (mounted) {
       setState(() {
@@ -1157,7 +1158,7 @@ class _FirstHomeState extends State<FirstHome> {
                       shrinkWrap: true,
                       itemCount: 1,
                       itemBuilder: (context, index) {
-                        getDays = (data.docs[index]["booking_date"].toDate().difference(DateTime.now()).inDays).toString() ;
+                        getDays = (DateTime.now().difference(data.docs[index]["booking_date"].toDate()).inDays).toString() ;
                         totalDays = data.docs[index]["totalDays"] ?? 0;
                         print(totalDays);
                         print(getDays);
