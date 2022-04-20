@@ -171,27 +171,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 142),
-                child: GestureDetector(
-                  child: SizedBox(
-                    height: 54,
-                    width: 358,
-                    child: Card(
-                      child: Center(
-                        child: Text('Proceed', style: buttonTextStyle),
-                      ),
-                      color: HexColor('#292F3D'),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      elevation: 10,
-                      shadowColor: Colors.black,
-                    ),
-                  ),
-                  onTap: () {},
-                ),
-              ),
+
             ],
           ),
         ),
