@@ -224,7 +224,7 @@ class _CancelDetailsState extends State<CancelDetails> {
                                                 .collection("user_booking")
                                                 .doc(widget.bookingId)
                                                 .update({
-                                              "booking_status": "cancel"
+                                              "booking_status": "cancelled"
                                             });
 
                                             Map<String, dynamic> cancel_data = {
