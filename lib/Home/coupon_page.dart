@@ -40,6 +40,13 @@ class _CouponDetailsState extends State<CouponDetails> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    myCouponController.dispose();
+    couponController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;

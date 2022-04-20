@@ -25,6 +25,12 @@ class _Register1State extends State<Register1> {
 
     super.initState();
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    nameController.dispose();
+    super.dispose();
+  }
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {

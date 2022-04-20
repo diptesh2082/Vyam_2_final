@@ -152,6 +152,12 @@ class _LocInfoState extends State<LocInfo> {
     // TODO: implement initState
     super.initState();
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    locController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -377,8 +377,8 @@ class _ExploreState extends State<Explore> {
 
   @override
   dispose() {
-    // controller.dispose();
-    // // _controller.dispose();
+    controller.dispose();
+    // _controller.dispose();
     // _initialCameraPosition.dispose();
     super.dispose();
   }

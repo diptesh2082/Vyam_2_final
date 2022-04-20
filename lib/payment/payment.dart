@@ -630,11 +630,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                 ),
                                                 TextSpan(
                                                     text: myCouponController.GlobalCouponApplied.value?"${ myCouponController.GlobalCoupon.value} ":"code ",
-                                                  style: GlobalCouponApplied? GoogleFonts.poppins(
+                                                  style: myCouponController.GlobalCouponApplied.value? GoogleFonts.poppins(
                                                     // fontFamily: "Poppins",
                                                       fontWeight: FontWeight.w700,
                                                       fontSize: 12,
-                                                      color: Colors.amber):GoogleFonts.poppins(
+                                                      color: Colors.amber
+                                                  ):GoogleFonts.poppins(
                                                     // fontFamily: "Poppins",
                                                       fontWeight: FontWeight.w500,
                                                       fontSize: 12,

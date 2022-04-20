@@ -118,6 +118,14 @@ class _ProfileState extends State<Profile> {
     print(imageUrl);
     super.initState();
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    nameTextEditingController.dispose();
+    emailTextEditingController.dispose();
+    phoneTextEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

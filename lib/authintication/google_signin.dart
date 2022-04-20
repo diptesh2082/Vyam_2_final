@@ -50,7 +50,7 @@ class FirebaseService {
         // checkExist(_auth.currentUser?.email);
         await checkEmailExist("${_auth.currentUser?.email}");
         // number.toString()==_auth.currentUser?.email.toString()
-        print(emailhai);
+        print("ha email hain"+emailhai);
         print(emailId);
         if (emailhai== true || visiting_flag == true){
           await setNumber(emailId);

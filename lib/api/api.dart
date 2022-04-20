@@ -441,18 +441,18 @@ checkEmailExist(String email)async{
         .collection('user_details')
         .where("email",isEqualTo:email)
         .get()
-        .then((QuerySnapshot snapshot) {
+        .then((QuerySnapshot snapshot) async {
       if (snapshot.docs.isNotEmpty) {
         // print('Document exists on the database');
-        emailId=snapshot.docs[0].id;
+        emailId=await snapshot.docs[0].id;
         // print(snapshot.docs[0].id);
-        emailhai=true;
+        emailhai=await true;
         // email=true as bool;
         // return true;
 
       }
       else{
-        emailhai=false;
+        emailhai= await false;
         // return false;
       }
     });

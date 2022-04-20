@@ -31,6 +31,12 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
     super.initState();
   }
   @override
+  void dispose() {
+    // TODO: implement dispose
+    phoneController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,

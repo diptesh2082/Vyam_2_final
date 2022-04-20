@@ -19,7 +19,12 @@ class _Register2State extends State<Register2> {
   var name= Get.arguments["name"];
   TextEditingController emailController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    emailController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

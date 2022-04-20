@@ -404,9 +404,9 @@ class _ProfilePartState extends State<ProfilePart> {
                             primary: Colors.black87,
                           ),
                           onPressed: () async {
-                            // SharedPreferences sharedPreferences =
-                            // await SharedPreferences.getInstance();
-                            // sharedPreferences.remove('number');
+                            SharedPreferences sharedPreferences =
+                            await SharedPreferences.getInstance();
+                            sharedPreferences.remove('number');
                             // getNumber();
                             // print(number);
                             await _googleSignIn.signOut();

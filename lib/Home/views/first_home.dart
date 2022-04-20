@@ -494,6 +494,15 @@ class _FirstHomeState extends State<FirstHome> {
 
     super.initState();
   }
+  ///////////////////////////////////////////////////////////////
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    // controller.dispose();
+    app_bar_controller.dispose();
+    searchController.dispose();
+    super.dispose();
+  }
 
 
   @override
@@ -572,7 +581,7 @@ class _FirstHomeState extends State<FirstHome> {
                       children: [
                         IconButton(
                           icon: Badge(
-                            badgeContent: Text("9"),
+                            badgeContent: Text("1"),
                             borderRadius: BorderRadius.circular(5),
                             child: const ImageIcon(
                               AssetImage("assets/icons/Notification.png"),
