@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/OrderDetails/order_details.dart';
+import 'package:vyam_2_final/booking/bookings.dart';
+import 'package:vyam_2_final/booking/bookings.dart';
 
+import 'Home/home_page.dart';
+import 'Home/views/first_home.dart';
 import 'api/api.dart';
 import 'golbal_variables.dart';
 
@@ -213,7 +217,7 @@ class _CancelDetailsState extends State<CancelDetails> {
 
                                         GestureDetector(
                                           onTap: () async {
-                                            Navigator.pop(context);
+                                            // Navigator.pop(context);
                                             await FirebaseFirestore.instance
                                                 .collection("bookings")
                                                 .doc(number)
@@ -232,46 +236,50 @@ class _CancelDetailsState extends State<CancelDetails> {
                                                 .collection("Cancellation Data")
                                                 .add(cancel_data);
                                             cancelremark.clear();
-                                            Navigator.of(context).push(
+                                            Navigator.push(context,
                                                 MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        OrderDetails()));
+                                                    builder: (context) {
+                                              return HomePage();
+                                            }));
                                           },
                                           child: Container(
-                                              height: 20,
-                                              width: 28,
-                                              decoration: BoxDecoration(
-                                                  color: HexColor("292F3D"),
-                                                  borderRadius:
-                                                      BorderRadius.circular(2)),
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 4,
-                                                    right: 3,
-                                                    top: 2,
-                                                    bottom: 2),
-                                                child: Center(
-                                                  child: Text(
-                                                    "yes",
-                                                    style: GoogleFonts.poppins(
-                                                        fontSize: 9,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        color:
-                                                            HexColor("FFFFFF")),
-                                                  ),
+                                            height: 20,
+                                            width: 28,
+                                            decoration: BoxDecoration(
+                                                color: HexColor("292F3D"),
+                                                borderRadius:
+                                                    BorderRadius.circular(2)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 4,
+                                                  right: 3,
+                                                  top: 2,
+                                                  bottom: 2),
+                                              child: Center(
+                                                child: Text(
+                                                  "yes",
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 9,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color:
+                                                          HexColor("FFFFFF")),
                                                 ),
-                                              )),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                         const SizedBox(width: 15),
                                         GestureDetector(
                                           onTap: () {
-                                            Navigator.pop(context);
-                                            // Navigator.push(
-                                            //     context,
-                                            //     MaterialPageRoute(
-                                            //         builder: (context) =>
-                                            //             OrderDetails()));
+                                            // Navigator.pop(context);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                                return HomePage();
+                                              }),
+                                            );
                                           },
                                           child: Container(
                                               height: 20,

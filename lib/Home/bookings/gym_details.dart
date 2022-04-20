@@ -152,6 +152,9 @@ class _GymDetailsState extends State<GymDetails> {
                                                 2.5,
                                         basePosition: Alignment.center,
                                       ),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
                                     );
                                   },
                                 ),

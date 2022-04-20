@@ -24,7 +24,6 @@ class _SuccessBookState extends State<SuccessBook>
   // get
   // String booking_id=Get.arguments["booking_id"];
 
-
   @override
   initState() {
     // getBookingData();
@@ -37,15 +36,15 @@ class _SuccessBookState extends State<SuccessBook>
         vsync: this, duration: const Duration(milliseconds: 400));
 
     scaleAnimation =
-    CurvedAnimation(parent: controller, curve: Curves.easeInOutBack)
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          setState(() {
-            Timer(const Duration(milliseconds: 150),
+        CurvedAnimation(parent: controller, curve: Curves.easeInOutBack)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              setState(() {
+                Timer(const Duration(milliseconds: 150),
                     () => _concontroller.forward());
+              });
+            }
           });
-        }
-      });
     controller.forward();
 
     super.initState();
@@ -58,13 +57,14 @@ class _SuccessBookState extends State<SuccessBook>
     // scaleAnimation.dispose();
     super.dispose();
   }
+
   bool shouldPop = true;
 
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async {
-       await Get.offAll(()=>HomePage());
-       return true;
+      onWillPop: () async {
+        await Get.offAll(() => HomePage());
+        return true;
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -76,7 +76,7 @@ class _SuccessBookState extends State<SuccessBook>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.width*.36,
+                    height: MediaQuery.of(context).size.width * .36,
                   ),
                   ScaleTransition(
                     scale: scaleAnimation,
@@ -100,7 +100,7 @@ class _SuccessBookState extends State<SuccessBook>
                   const SizedBox(
                     height: 12,
                   ),
-                   Text(
+                  Text(
                     'Share the OTP with your \n  gym owner to start',
                     style: GoogleFonts.poppins(
                         // fontFamily: 'Poppins',
@@ -112,14 +112,16 @@ class _SuccessBookState extends State<SuccessBook>
             ),
             const Spacer(),
             SlideTransition(
-              position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
-                  .animate(CurvedAnimation(
-                  parent: _concontroller, curve: Curves.easeInOut)),
+              position:
+                  Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
+                      .animate(CurvedAnimation(
+                          parent: _concontroller, curve: Curves.easeInOut)),
               child: Container(
-                height: MediaQuery.of(context).size.height*.57,
-                width: MediaQuery.of(context).size.width*.99,
+                height: MediaQuery.of(context).size.height * .57,
+                width: MediaQuery.of(context).size.width * .99,
                 decoration: BoxDecoration(
-                    color: Colors.white, borderRadius: BorderRadius.circular(25)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(25)),
                 child: const PanelWidget(),
               ),
             )
@@ -138,8 +140,7 @@ class PanelWidget extends StatefulWidget {
 }
 
 class _PanelWidgetState extends State<PanelWidget> {
-  var booking_details=Get.arguments["booking_details"];
-
+  var booking_details = Get.arguments["booking_details"];
 
   @override
   void initState() {
@@ -192,7 +193,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                           height: MediaQuery.of(context).size.height * 0.033,
                         ),
                         Row(
-                          children:  [
+                          children: [
                             Text(
                               'Booking ID :',
                               style: GoogleFonts.poppins(
@@ -200,9 +201,9 @@ class _PanelWidgetState extends State<PanelWidget> {
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12),
                             ),
-                             Text(
-                               booking_details["id"]??'00123',
-                               // "",
+                            Text(
+                              booking_details["id"] ?? '00123',
+                              // "",
                               style: GoogleFonts.poppins(
                                   // fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
@@ -213,8 +214,8 @@ class _PanelWidgetState extends State<PanelWidget> {
                         const SizedBox(
                           height: 5,
                         ),
-                         Text(
-                          '${booking_details["gym_details"]["name"]??'00123'}',
+                        Text(
+                          '${booking_details["gym_details"]["name"] ?? '00123'}',
                           style: GoogleFonts.poppins(
                               // fontFamily: 'Poppins',
                               fontWeight: FontWeight.w600,
@@ -223,32 +224,27 @@ class _PanelWidgetState extends State<PanelWidget> {
                         const SizedBox(
                           height: 5,
                         ),
-                        Row(children:  [
+                        Row(children: [
                           const Icon(
                             Icons.location_on,
                             size: 18,
                           ),
-                          Text(
-                              '${booking_details["gym_details"]["branch"]}',
+                          Text('${booking_details["gym_details"]["branch"]}',
                               style: GoogleFonts.poppins(
                                   // fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w500,
                                   color: Colors.grey,
-                                  fontSize: 14
-                              )
-                          ),
+                                  fontSize: 14)),
                         ]),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.002,
                         ),
                         Row(
-                          children:  [
+                          children: [
                             Text(
                               'Package  ',
                               style: GoogleFonts.poppins(
-
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12),
+                                  fontWeight: FontWeight.w500, fontSize: 12),
                             ),
                             Text(
                               '${booking_details["booking_plan"]}',
@@ -280,12 +276,14 @@ class _PanelWidgetState extends State<PanelWidget> {
                             child: ElevatedButton(
                               style: ButtonStyle(
                                   backgroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.black),
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.black),
                                   shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(RoundedRectangleBorder(
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ))),
-                              child:  Text(
+                              child: Text(
                                 'OTP : ${Get.arguments["otp_pass"]}',
                                 style: const TextStyle(
                                     color: Colors.white,
@@ -306,11 +304,12 @@ class _PanelWidgetState extends State<PanelWidget> {
                       child: Container(
                         height: 133,
                         width: 155,
-                        decoration:  BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
                             image: DecorationImage(
-                              fit: BoxFit.cover,
-                                image: CachedNetworkImageProvider(booking_details["gym_details"]["image"]))),
+                                fit: BoxFit.cover,
+                                image: CachedNetworkImageProvider(
+                                    booking_details["gym_details"]["image"]))),
                       ),
                     )
                   ],
@@ -325,18 +324,17 @@ class _PanelWidgetState extends State<PanelWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width*.4,
+                width: MediaQuery.of(context).size.width * .4,
                 height: 49,
                 child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black87),
-                      shape:
-                      MaterialStateProperty.all<RoundedRectangleBorder>(
+                          MaterialStateProperty.all<Color>(Colors.black87),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ))),
-                  child:  Text(
+                        borderRadius: BorderRadius.circular(10),
+                      ))),
+                  child: Text(
                     'Home',
                     style: GoogleFonts.poppins(
                         color: Colors.white,
@@ -345,7 +343,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                         fontSize: 14),
                   ),
                   onPressed: () {
-                    Get.off(()=>HomePage());
+                    Get.off(() => HomePage());
                   },
                 ),
               ),
@@ -353,17 +351,16 @@ class _PanelWidgetState extends State<PanelWidget> {
                 width: MediaQuery.of(context).size.width * 0.09,
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width*.4,
+                width: MediaQuery.of(context).size.width * .4,
                 height: 49,
                 child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black87),
-                      shape:
-                      MaterialStateProperty.all<RoundedRectangleBorder>(
+                          MaterialStateProperty.all<Color>(Colors.black87),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ))),
+                        borderRadius: BorderRadius.circular(10),
+                      ))),
                   child: const Text(
                     'Track',
                     style: TextStyle(
@@ -372,15 +369,13 @@ class _PanelWidgetState extends State<PanelWidget> {
                         fontWeight: FontWeight.w600,
                         fontSize: 14),
                   ),
-                  onPressed: ()async {
-                   await    Get.to(() => const OrderDetails(
-                     // index: index,
-                     // orderList: data.docs,
-                   ),
-                       arguments: {
-                         "doc":booking_details
-                       }
-                   );
+                  onPressed: () async {
+                    await Get.to(
+                        () => const OrderDetails(
+                            // index: index,
+                            // orderList: data.docs,
+                            ),
+                        arguments: {"doc": booking_details});
                   },
                 ),
               ),
