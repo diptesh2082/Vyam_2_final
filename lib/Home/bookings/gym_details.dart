@@ -527,7 +527,7 @@ class _GymDetailsState extends State<GymDetails> {
                     child: StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection('amenities')
-                          .where('gym_id', arrayContains: doc["gym_id"])
+                          .where('gym_id', arrayContains: doc["id"])
                           .snapshots(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         if (!snapshot.hasData) {
