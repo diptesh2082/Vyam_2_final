@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -67,6 +68,7 @@ class _GymDetailsState extends State<GymDetails> {
   int _current = 1;
   var listIndex = 0;
 
+
   // String? productGymId =
   //     FirebaseFirestore.instance.collection('product_details').doc().id;
 
@@ -86,12 +88,14 @@ class _GymDetailsState extends State<GymDetails> {
   //   })
   // }
 
+
   @override
   void initState() {
     // print(doc);
 
     super.initState();
   }
+   PageController page_controller =PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +127,9 @@ class _GymDetailsState extends State<GymDetails> {
                               itemCount: images.length,
                               itemBuilder: (context, index, realIndex) {
                                 final image = images[index];
+
                                 listIndex = index;
+                                page_controller=PageController(initialPage: index);
                                 return gymImages(image, index);
                               },
                               options: CarouselOptions(
@@ -144,35 +150,62 @@ class _GymDetailsState extends State<GymDetails> {
                                   }),
                             ),
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                PageRouteBuilder(
-                                  opaque: false,
-                                  barrierColor: Colors.white.withOpacity(0),
-                                  pageBuilder: (BuildContext context, _, __) {
-                                    return GestureDetector(
-                                      child: PhotoView(
-                                        imageProvider:
-                                            CachedNetworkImageProvider(
-                                                images[listIndex]),
-                                        initialScale:
-                                            PhotoViewComputedScale.contained,
-                                        minScale:
-                                            PhotoViewComputedScale.contained *
-                                                0.95,
-                                        maxScale:
-                                            PhotoViewComputedScale.contained *
-                                                2.5,
-                                        basePosition: Alignment.center,
-                                      ),
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      },
-                                    );
-                                  },
-                                ),
-                              );
-                              ;
+
+                              try{
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    // opaque: false,
+                                    barrierColor: Colors.white.withOpacity(0),
+                                    pageBuilder: (BuildContext context, _, __) {
+                                      return GestureDetector(
+                                        child: PhotoViewGallery.builder(
+                                          pageController: page_controller,
+                                          scrollPhysics: const BouncingScrollPhysics(),
+                                          builder: (BuildContext context, int index) {
+                                            // listIndex=index;
+                                            return PhotoViewGalleryPageOptions(
+                                              initialScale:
+                                              PhotoViewComputedScale.contained,
+                                              minScale:
+                                              PhotoViewComputedScale.contained *
+                                                  0.95,
+                                              maxScale:
+                                              PhotoViewComputedScale.contained *
+                                                  2.5,
+                                              basePosition: Alignment.center,
+                                              imageProvider: CachedNetworkImageProvider( images[index]),
+                                              // heroAttributes: PhotoViewHeroAttributes(tag: "o"),
+                                            );
+                                          },
+                                          itemCount: images.length,
+                                          loadingBuilder: (context, event) => Center(
+                                            child: Container(
+                                              width: 20.0,
+                                              height: 20.0,
+                                              child: CircularProgressIndicator(
+                                                value: event == null
+                                                    ? 0
+                                                    : event.cumulativeBytesLoaded / 1,
+                                              ),
+                                            ),
+                                          ),
+                                          // backgroundDecoration: widget.backgroundDecoration,
+                                          // pageController: widget.pageController,
+                                          // onPageChanged: onPageChanged,
+                                        ),
+                                        onTap: () {
+                                          Navigator.of(context,rootNavigator: true).pop();
+                                        },
+                                      );
+                                    },
+                                  ),
+                                );
+                              }catch(e){
+                                Navigator.of(context,rootNavigator: true).pop();
+                              }
+
+
                             },
                           ),
                           Positioned(
@@ -319,13 +352,13 @@ class _GymDetailsState extends State<GymDetails> {
                     '${doc?["docs"]["address"] ?? ""}',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    style: const TextStyle(
+                    style: GoogleFonts.poppins(
                         color: Colors.black,
-                        fontFamily: "Poppins",
+                        // fontFamily: "Poppins",
                         fontSize: 12,
-                        fontWeight: FontWeight.w400),
+                        fontWeight: FontWeight.w500),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
                       FocusScope.of(context).unfocus();
@@ -495,7 +528,7 @@ class _GymDetailsState extends State<GymDetails> {
                         fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 9),
-                  const ReadMoreText(
+                   ReadMoreText(
                     'Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac  Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac ',
                     trimLines: 3,
                     textAlign: TextAlign.justify,
@@ -503,9 +536,9 @@ class _GymDetailsState extends State<GymDetails> {
                     trimCollapsedText: 'Read More',
                     trimExpandedText: 'Read Less',
                     moreStyle:
-                        TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
+                        GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, ),
                     lessStyle:
-                        TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
+                    GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12),
                     style: TextStyle(
                         fontFamily: 'poppins',
                         color: Colors.black,
@@ -571,15 +604,11 @@ class _GymDetailsState extends State<GymDetails> {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.95,
                         height: 60,
-                        child: const Padding(
+                        child:  Padding(
                           padding: EdgeInsets.all(10.0),
                           child: AutoSizeText(
                             'Boxing | Cardio | Personal Training | Crossfit |  Zumba | Weight Training.',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Poppins",
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400),
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, ),
                             maxLines: 3,
                           ),
                         ),
@@ -651,7 +680,7 @@ class _GymDetailsState extends State<GymDetails> {
                                             }
                                             var trainerdoc =
                                                 snapshot.data!.docs;
-                                            return ListView.builder(
+                                            return trainerdoc.isNotEmpty? ListView.builder(
                                                 shrinkWrap: true,
                                                 itemCount: trainerdoc.length,
                                                 physics:
@@ -686,14 +715,7 @@ class _GymDetailsState extends State<GymDetails> {
                                                                         index]
                                                                     ['name'],
                                                                 style:
-                                                                    const TextStyle(
-                                                                  fontFamily:
-                                                                      'Poppins',
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                  fontSize: 12,
-                                                                ),
+                                                                GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, )
                                                               ),
                                                             ],
                                                           ),
@@ -703,7 +725,7 @@ class _GymDetailsState extends State<GymDetails> {
                                                       ),
                                                     ],
                                                   );
-                                                });
+                                                }):SizedBox();
                                           }),
                                     ),
                                   ),
@@ -930,40 +952,31 @@ class _GymDetailsState extends State<GymDetails> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
+                                   Text(
                                     "•  Bring your towel and use it.",
-                                    style: TextStyle(fontSize: 13),
+                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, ),
                                   ),
                                   SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.015,
                                   ),
-                                  const Text(
+                                   Text(
                                     "•  Bring seperate shoes.",
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12),
+                                    style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, )
                                   ),
                                   SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.015,
                                   ),
-                                  const Text("•  Re-rack equipments",
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12)),
+                                   Text("•  Re-rack equipments",
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, )),
                                   SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.015,
                                   ),
-                                  const Text(
+                                   Text(
                                       "•  No heavy lifting without spotter",
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12)),
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, )),
                                 ],
                               ),
                             ),
@@ -1021,13 +1034,10 @@ class _GymDetailsState extends State<GymDetails> {
                                           MediaQuery.of(context).size.height *
                                               0.005,
                                     ),
-                                    const AutoSizeText(
+                                     AutoSizeText(
                                       'Best in class safety',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 10,
-                                          fontFamily: "Poppins"),
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, ),
                                       maxLines: 2,
                                     ),
                                   ],
@@ -1061,13 +1071,10 @@ class _GymDetailsState extends State<GymDetails> {
                                             // fit: BoxFit.cover
                                           )),
                                     ),
-                                    const AutoSizeText(
+                                     AutoSizeText(
                                       'Proper sanitised equipments',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 10,
-                                          fontFamily: "Poppins"),
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, ),
                                       maxLines: 2,
                                     ),
                                   ],
@@ -1102,13 +1109,10 @@ class _GymDetailsState extends State<GymDetails> {
                                             // fit: BoxFit.cover
                                           )),
                                     ),
-                                    const AutoSizeText(
+                                     AutoSizeText(
                                       'Social Distancing at all times',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 10,
-                                          fontFamily: "Poppins"),
+                                      style:GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, ),
                                       maxLines: 2,
                                     ),
                                   ],
@@ -1218,29 +1222,26 @@ class _GymDetailsState extends State<GymDetails> {
     );
   }
 
-  Widget gymImages(String images, int index) => InteractiveViewer(
-        maxScale: 2.5,
-        child: AspectRatio(
-          aspectRatio: 16 / 9,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: CachedNetworkImage(
-              imageUrl: images,
-              fit: BoxFit.cover,
-            ),
-          ),
-          // width: MediaQuery.of(context).size.width,
-          // height: 500,
-          // height: 500,
-          // decoration: BoxDecoration(
-          //   image: DecorationImage(
-          //     image: CachedNetworkImageProvider(images),
-          //         fit: BoxFit.cover
-          //   )
-          //
-          // ),
-        ),
-      );
+  Widget gymImages(String images, int index) => AspectRatio(
+    aspectRatio: 16 / 9,
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: CachedNetworkImage(
+        imageUrl: images,
+        fit: BoxFit.cover,
+      ),
+    ),
+    // width: MediaQuery.of(context).size.width,
+    // height: 500,
+    // height: 500,
+    // decoration: BoxDecoration(
+    //   image: DecorationImage(
+    //     image: CachedNetworkImageProvider(images),
+    //         fit: BoxFit.cover
+    //   )
+    //
+    // ),
+  );
 
   Widget amenities(int index) => FittedBox(
         child: Column(
@@ -1256,6 +1257,7 @@ class _GymDetailsState extends State<GymDetails> {
                 height: 26.5,
               ),
             ),
+
             SizedBox(
               width: 90,
               height: 38,
@@ -1269,6 +1271,7 @@ class _GymDetailsState extends State<GymDetails> {
                 maxLines: 2,
                 overflow: TextOverflow.clip,
               ),
+
             ),
           ],
         ),
