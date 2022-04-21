@@ -932,7 +932,10 @@ class _GymDetailsState extends State<GymDetails> {
                                 children: [
                                   const Text(
                                     "•  Bring your towel and use it.",
-                                    style: TextStyle(fontSize: 13),
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w400),
                                   ),
                                   SizedBox(
                                     height: MediaQuery.of(context).size.height *
