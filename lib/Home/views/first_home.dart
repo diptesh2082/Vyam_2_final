@@ -1,5 +1,3 @@
-
-
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,12 +30,10 @@ import '../../Notifications/notification.dart';
 import '../home_page.dart';
 import 'gyms.dart';
 
-
 // const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
 // core.GoogleMapsPlaces _places = core.GoogleMapsPlaces(apiKey: api);
 
 class FirstHome extends StatefulWidget {
-
   const FirstHome({Key? key}) : super(key: key);
 
   // static bool get Loading => is;
@@ -66,39 +62,36 @@ class _FirstHomeState extends State<FirstHome> {
   var day_left;
   final auth = FirebaseAuth.instance;
 
-
   // var location = Get.arguments;
 
   myLocation() async {
-    try{
+    try {
       await FirebaseFirestore.instance
           .collection('user_details')
           .doc(number)
           .get()
           .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
-          if(mounted) {
+          if (mounted) {
             setState(() {
-            user_data = documentSnapshot.data();
-            GlobalUserData = documentSnapshot.data();
-            // GlobalUserLocation = GlobalUserData["pincode"];
-          });
-
+              user_data = documentSnapshot.data();
+              GlobalUserData = documentSnapshot.data();
+              // GlobalUserLocation = GlobalUserData["pincode"];
+            });
           }
           print(GlobalUserLocation);
           // user_data=documentSnapshot.data();
         }
       });
-    }catch(e){
-      if(mounted) {
+    } catch (e) {
+      if (mounted) {
         setState(() {
-        user_data = {};
-        GlobalUserData = {};
-        GlobalUserLocation = "";
-      });
+          user_data = {};
+          GlobalUserData = {};
+          GlobalUserLocation = "";
+        });
       }
     }
-
   }
 
   UserDetails userDetails = UserDetails();
@@ -115,7 +108,7 @@ class _FirstHomeState extends State<FirstHome> {
     Position position = await _determinePosition();
     await GetAddressFromLatLong(position);
     await getAddressPin(pin);
-    try{
+    try {
       await FirebaseFirestore.instance
           .collection("user_details")
           .doc(number)
@@ -130,11 +123,8 @@ class _FirstHomeState extends State<FirstHome> {
         "pincode": pin,
         "locality": locality,
       });
-    }catch(e){
-      FirebaseFirestore.instance
-          .collection("user_details")
-          .doc()
-          .set({
+    } catch (e) {
+      FirebaseFirestore.instance.collection("user_details").doc().set({
         "address": address,
         "lat": position.latitude,
         "long": position.longitude,
@@ -144,20 +134,21 @@ class _FirstHomeState extends State<FirstHome> {
         ),
         "pincode": pin,
         "locality": locality,
-        "from":"notfull"
+        "from": "notfull"
       });
     }
 
     getAddressPin(pin);
     myLocation();
   }
+
   late LocationPermission permission;
 
   getEverything() async {
     await getUserId();
     await myLocation();
     await userDetails.getData();
-    if(mounted) {
+    if (mounted) {
       setState(() {
         isLoading = false;
       });
@@ -165,112 +156,9 @@ class _FirstHomeState extends State<FirstHome> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
     if (!serviceEnabled) {
-      showDialog(context: context,
-          builder:(context)=> AlertDialog(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16))),
-            content: SizedBox(
-              height: 220,
-              width: 180,
-              child: Column(
-                children: [
-                  Image.asset("assets/icons/Group188.png",
-                    height: 50,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    "Enable device location",
-                    style: GoogleFonts.poppins(
-                        fontSize: 15,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    width: 180,
-                    child: Text(
-                      "Please enable location for accurate location and nearest gyms",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w400
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height:15,
-                  ),
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Image.asset("assets/icons/icons8-approval.gif",
-                        //   height: 70,
-                        //   width: 70,
-                        // ),
-
-                        // const SizedBox(width: 15),
-                        GestureDetector(
-                          onTap: ()async{
-
-                            Position position = await _determinePosition();
-                            await GetAddressFromLatLong(position);
-                            if(mounted) {
-                              setState(() {
-                              myaddress = myaddress;
-                              address = address;
-                              pin = pin;
-                            });
-                            }
-                            await FirebaseFirestore.instance
-                                .collection("user_details")
-                                .doc(number)
-                                .update({
-                              "location": GeoPoint(position.latitude, position.longitude),
-                              "address": address,
-                              // "lat": position.latitude,
-                              // "long": position.longitude,
-                              "pincode": pin,
-                              "locality": locality,
-                              "subLocality": locality,
-                              // "number": number
-                            });
-                            await Get.offAll(()=>HomePage());
-                          },
-                          child: Container(
-                              height: 51,
-                              width: 145,
-                              decoration: BoxDecoration(
-                                  color: HexColor("292F3D"),
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 3, right: 3, top: 2, bottom: 2),
-                                child: Center(
-                                  child: Text(
-                                    "Enable Location",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: HexColor("FFFFFF")),
-                                  ),
-                                ),
-                              )),
-                        ),
-                      ]),
-                ],
-              ),
-            ),
-          ),
-      );
-    }
-    if (GlobalUserData["address"]=="") {
-      showDialog(context: context,
-        builder:(context)=> AlertDialog(
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(16))),
           content: SizedBox(
@@ -278,7 +166,8 @@ class _FirstHomeState extends State<FirstHome> {
             width: 180,
             child: Column(
               children: [
-                Image.asset("assets/icons/Group188.png",
+                Image.asset(
+                  "assets/icons/Group188.png",
                   height: 50,
                 ),
                 SizedBox(
@@ -287,9 +176,7 @@ class _FirstHomeState extends State<FirstHome> {
                 Text(
                   "Enable device location",
                   style: GoogleFonts.poppins(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold
-                  ),
+                      fontSize: 15, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: 10,
@@ -300,13 +187,11 @@ class _FirstHomeState extends State<FirstHome> {
                     "Please enable location for accurate location and nearest gyms",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400
-                    ),
+                        fontSize: 11, fontWeight: FontWeight.w400),
                   ),
                 ),
                 const SizedBox(
-                  height:15,
+                  height: 15,
                 ),
                 Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -319,11 +204,10 @@ class _FirstHomeState extends State<FirstHome> {
 
                       // const SizedBox(width: 15),
                       GestureDetector(
-                        onTap: ()async{
-
+                        onTap: () async {
                           Position position = await _determinePosition();
                           await GetAddressFromLatLong(position);
-                          if(mounted) {
+                          if (mounted) {
                             setState(() {
                               myaddress = myaddress;
                               address = address;
@@ -334,7 +218,8 @@ class _FirstHomeState extends State<FirstHome> {
                               .collection("user_details")
                               .doc(number)
                               .update({
-                            "location": GeoPoint(position.latitude, position.longitude),
+                            "location":
+                                GeoPoint(position.latitude, position.longitude),
                             "address": address,
                             // "lat": position.latitude,
                             // "long": position.longitude,
@@ -343,7 +228,109 @@ class _FirstHomeState extends State<FirstHome> {
                             "subLocality": locality,
                             // "number": number
                           });
-                          await Get.offAll(()=>HomePage());
+                          await Get.offAll(() => HomePage());
+                        },
+                        child: Container(
+                            height: 51,
+                            width: 145,
+                            decoration: BoxDecoration(
+                                color: HexColor("292F3D"),
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 3, right: 3, top: 2, bottom: 2),
+                              child: Center(
+                                child: Text(
+                                  "Enable Location",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w700,
+                                      color: HexColor("FFFFFF")),
+                                ),
+                              ),
+                            )),
+                      ),
+                    ]),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    if (GlobalUserData["address"] == "") {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(16))),
+          content: SizedBox(
+            height: 220,
+            width: 180,
+            child: Column(
+              children: [
+                Image.asset(
+                  "assets/icons/Group188.png",
+                  height: 50,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  "Enable device location",
+                  style: GoogleFonts.poppins(
+                      fontSize: 15, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  width: 180,
+                  child: Text(
+                    "Please enable location for accurate location and nearest gyms",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                        fontSize: 11, fontWeight: FontWeight.w400),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Image.asset("assets/icons/icons8-approval.gif",
+                      //   height: 70,
+                      //   width: 70,
+                      // ),
+
+                      // const SizedBox(width: 15),
+                      GestureDetector(
+                        onTap: () async {
+                          Position position = await _determinePosition();
+                          await GetAddressFromLatLong(position);
+                          if (mounted) {
+                            setState(() {
+                              myaddress = myaddress;
+                              address = address;
+                              pin = pin;
+                            });
+                          }
+                          await FirebaseFirestore.instance
+                              .collection("user_details")
+                              .doc(number)
+                              .update({
+                            "location":
+                                GeoPoint(position.latitude, position.longitude),
+                            "address": address,
+                            // "lat": position.latitude,
+                            // "long": position.longitude,
+                            "pincode": pin,
+                            "locality": locality,
+                            "subLocality": locality,
+                            // "number": number
+                          });
+                          await Get.offAll(() => HomePage());
                         },
                         child: Container(
                             height: 51,
@@ -374,8 +361,6 @@ class _FirstHomeState extends State<FirstHome> {
     }
 
     // }
-
-
   }
 
   bool showCard = false;
@@ -468,9 +453,8 @@ class _FirstHomeState extends State<FirstHome> {
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
 
-    address =
-        address =
-        "${place.name??""}, "+"${place.street??""}, ${place.locality??""}, ${place.subAdministrativeArea??""}, ${place.postalCode??""}";
+    address = address = "${place.name ?? ""}, " +
+        "${place.street ?? ""}, ${place.locality ?? ""}, ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
     pin = "${place.postalCode}";
     locality = "${place.locality}";
     subLocality = "${place.subLocality}";
@@ -482,19 +466,21 @@ class _FirstHomeState extends State<FirstHome> {
   BannerApi bannerApi = BannerApi();
   @override
   void initState() {
+
     getEverything();
     getProgressStatus();
     if (mounted) {
       setState(() {
-      // myaddress = myaddress;
-      address = address;
-      pin = pin;
-    });
+        // myaddress = myaddress;
+        address = address;
+        pin = pin;
+      });
     }
     print(address);
 
     super.initState();
   }
+
   ///////////////////////////////////////////////////////////////
   @override
   void dispose() {
@@ -504,7 +490,6 @@ class _FirstHomeState extends State<FirstHome> {
     searchController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -524,7 +509,7 @@ class _FirstHomeState extends State<FirstHome> {
               leading: IconButton(
                 iconSize: 24,
                 icon: const Icon(
-                 Profileicon.location,
+                  Profileicon.location,
                   color: Color(0xff3A3A3A),
                 ),
                 onPressed: () async {
@@ -532,11 +517,11 @@ class _FirstHomeState extends State<FirstHome> {
                   await getAddressPin(pin);
                   if (mounted) {
                     setState(() {
-                    // myaddress = myaddress;
-                    address = address;
-                    pin = pin;
-                    GlobalUserLocation = user_data["address"];
-                  });
+                      // myaddress = myaddress;
+                      address = address;
+                      pin = pin;
+                      GlobalUserLocation = user_data["address"];
+                    });
                   }
                   Get.to(() => LocInfo());
                 },
@@ -549,18 +534,20 @@ class _FirstHomeState extends State<FirstHome> {
                     await getAddressPin(pin);
                     if (mounted) {
                       setState(() {
-                      // myaddress = myaddress;
-                      address = address;
-                      pin = pin;
-                      GlobalUserLocation = user_data["address"];
-                    });
+                        // myaddress = myaddress;
+                        address = address;
+                        pin = pin;
+                        GlobalUserLocation = user_data["address"];
+                      });
                     }
                     Get.to(() => LocInfo());
                   },
                   child: SizedBox(
                     width: size.width * .666,
                     child: Text(
-                      GlobalUserData["address"]==""?"Tap here to choose your Location":GlobalUserData["address"],
+                      GlobalUserData["address"] == ""
+                          ? "Tap here to choose your Location"
+                          : GlobalUserData["address"],
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -586,14 +573,13 @@ class _FirstHomeState extends State<FirstHome> {
                             borderRadius: BorderRadius.circular(5),
                             child: const ImageIcon(
                               AssetImage("assets/icons/Notification.png"),
-                              size:27,
+                              size: 27,
                               color: Colors.black,
                             ),
                           ),
                           onPressed: () {
-                                Get.to(()=>NotificationDetails());
+                            Get.to(() => NotificationDetails());
                             print(GlobalUserData);
-
                           },
                         ),
                         SizedBox(
@@ -625,163 +611,213 @@ class _FirstHomeState extends State<FirstHome> {
                       ),
                       Search(context),
                       if (searchGymName.isNotEmpty)
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Container(
-                            // height: (searchGymName.length<=2)?500:null,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.white,
-                            ),
-                            child: Column(
-                              children: [
-                                const SizedBox(
-                                  // height: 6,
-                                ),
 
-                                buildGymBox(),
-                                const SizedBox(
-                                  // height: 500,
-                                )
-                              ],
+                        Column(
+                          children: [
+                            Container(
+                              // height: (searchGymName.length<=2)?500:null,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                      // height: 6,
+                                      ),
+                                  buildGymBox(),
+                                  const SizedBox(
+                                      // height: 500,
+                                      )
+                                ],
+                              ),
+
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
                       const SizedBox(
                         height: 9,
                       ),
                       if (searchGymName.isEmpty)
-                      Column(
-                        children: [
-                          if (getPercentage != 100) ProgressCard(context),
-                          const SizedBox(
-                            height: 9,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                              Get.to(CouponDetails());
-                            },
-                            child: SizedBox(
-                              height: 135,
-                              child: StreamBuilder<QuerySnapshot>(
-                                stream: bannerApi.getBanner,
-                                builder: (context, AsyncSnapshot streamSnapshot) {
-                                  if (streamSnapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
+                        Column(
+                          children: [
+                            if (getPercentage != 100) ProgressCard(context),
+                            const SizedBox(
+                              height: 9,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                Get.to(CouponDetails());
+                              },
+                              child: SizedBox(
+                                height: 135,
+                                child: StreamBuilder<QuerySnapshot>(
+                                  stream: bannerApi.getBanner,
+                                  builder:
+                                      (context, AsyncSnapshot streamSnapshot) {
+                                    if (streamSnapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                    final data = streamSnapshot.requireData;
+                                    return ListView.builder(
+                                      // controller: _controller.,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: data.size,
+                                      itemBuilder: (context, int index) {
+                                        return SizedBox(
+                                          height: 120,
+                                          child: Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Material(
+                                                  elevation: 0,
+                                                  color:
+                                                      const Color(0xffF4F4F4),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: data.docs[index]
+                                                        ["image"],
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const Icon(Icons.error),
+                                                  )),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
                                     );
+                                  },
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            SizedBox(
+                              height: 150,
+                              child: StreamBuilder(
+                                stream: FirebaseFirestore.instance
+                                    .collection('category')
+                                    .snapshots(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
                                   }
-                                  final data = streamSnapshot.requireData;
-                                  return ListView.builder(
-                                    // controller: _controller.,
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                  var categoryDocs = snapshot.data.docs;
+                                  return ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount: controller.OptionsList.length,
                                     scrollDirection: Axis.horizontal,
-                                    itemCount: data.size,
                                     itemBuilder: (context, int index) {
-                                      return SizedBox(
-                                        height: 120,
-                                        child: Row(
-                                          children: [
-                                            const SizedBox(
-                                              width: 5,
+                                      return Stack(
+                                        alignment: AlignmentDirectional.center,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              Get.to(() => GymOption(),
+                                                  arguments: {
+                                                    "type": categoryDocs[index]
+                                                            ['name']
+                                                        .toLowerCase(),
+                                                  });
+                                              FocusScope.of(context).unfocus();
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: CachedNetworkImage(
+                                                imageUrl: categoryDocs[index]
+                                                    ['image'],
+                                                height: 150,
+                                                width: 124,
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
-                                            Material(
-                                                elevation: 0,
-                                                color: const Color(0xffF4F4F4),
-                                                child: CachedNetworkImage(
-                                                  imageUrl: data.docs[index]
-                                                  ["image"],
-                                                  errorWidget:
-                                                      (context, url, error) =>
-                                                      const Icon(Icons.error),
-                                                )),
-                                            const SizedBox(
-                                              width: 5,
+                                          ),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                gradient: const LinearGradient(
+                                                    colors: [
+                                                      Color(0xaf000000),
+                                                      Colors.transparent
+                                                    ],
+                                                    begin: Alignment(0.0, 1),
+                                                    end: Alignment(0.0, -.6))),
+                                            alignment: Alignment.bottomRight,
+                                            height: 150,
+                                            width: 124,
+                                            padding: const EdgeInsets.only(
+                                                right: 8, bottom: 10),
+                                          ),
+                                          Text(
+                                            categoryDocs[index]['name'] ?? "",
+                                            // textAlign: TextAlign.center,
+                                            style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white,
+                                              fontSize: 16,
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return const SizedBox(
+                                        width: 10,
                                       );
                                     },
                                   );
                                 },
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          SizedBox(
-                            height: 150,
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              itemCount: controller.OptionsList.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, int index) {
-                                return SizedBox(
-                                  height: 150,
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      GestureDetector(
-                                          onTap: () {
-                                            Get.to(() => GymOption(), arguments: {
-                                              "type": controller
-                                                  .OptionsList[index].type,
-                                            });
-                                            FocusScope.of(context).unfocus();
-                                          },
-                                          child: Image.asset(controller
-                                              .OptionsList[index].imageAssets)),
-                                      const SizedBox(
-                                        width: 5,
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (BuildContext context, int index) {
-                                return const Divider();
-                              },
+                            const SizedBox(
+                              height: 7,
                             ),
-                          ),
-                          const SizedBox(
-                            height: 7,
-                          ),
-                           Align(
-                             alignment: Alignment.centerLeft,
-                             child: Material(
-                               borderRadius: BorderRadius.circular(10),
-                               elevation: .7,
-                               child: SizedBox(
-                                height: 30,
-                                width: 130,
-                                child: Center(
-                                  child: Text(
-                                    "Nearby Gyms",
-                                    style: GoogleFonts.poppins(
 
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Material(
+                                borderRadius: BorderRadius.circular(10),
+                                elevation: .7,
+                                child: SizedBox(
+                                  height: 30,
+                                  width: 130,
+                                  child: Center(
+                                    child: Text(
+                                      "Nearby Gyms",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+
                                   ),
                                 ),
-                          ),
-                             ),
-                           ),
-                          const SizedBox(
-                            height: 7,
-                          ),
-                          Container(child: buildGymBox())
-                        ],
-                      ),
-
-
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 7,
+                            ),
+                            Container(child: buildGymBox())
+                          ],
+                        ),
                     ],
                   ),
                 ),
@@ -805,22 +841,18 @@ class _FirstHomeState extends State<FirstHome> {
           textAlignVertical: TextAlignVertical.bottom,
           onSubmitted: (value) async {
             FocusScope.of(context).unfocus();
-
           },
           controller: searchController,
-
           onChanged: (value) {
-          if (value.length==0){
-            FocusScope.of(context).unfocus();
-          }
-            if(mounted) {
+            if (value.length == 0) {
+              FocusScope.of(context).unfocus();
+            }
+            if (mounted) {
               setState(() {
-              searchGymName = value.toString();
-
-            });
+                searchGymName = value.toString();
+              });
             }
           },
-
           decoration: const InputDecoration(
             prefixIcon: Icon(Profileicon.search),
             hintText: 'Search',
@@ -842,8 +874,9 @@ class _FirstHomeState extends State<FirstHome> {
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("product_details")
-              .where("locality".toLowerCase(), isEqualTo: GlobalUserData["locality"].toLowerCase())
-          .orderBy("location")
+              .where("locality".toLowerCase(),
+                  isEqualTo: GlobalUserData["locality"].toLowerCase())
+              .orderBy("location")
               .snapshots(),
           builder: (context, AsyncSnapshot streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
@@ -876,214 +909,227 @@ class _FirstHomeState extends State<FirstHome> {
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: document.length,
-                    itemBuilder: (context,  index) {
-                      var distance=calculateDistance(GlobalUserData["location"].latitude, GlobalUserData["location"].longitude, document[index]["location"].latitude, document[index]["location"].longitude);
-                      distance=double.parse((distance).toStringAsFixed(1));
-                          // print(distance);
-                      if(distance<=50) {
+                    itemBuilder: (context, index) {
+                      var distance = calculateDistance(
+                          GlobalUserData["location"].latitude,
+                          GlobalUserData["location"].longitude,
+                          document[index]["location"].latitude,
+                          document[index]["location"].longitude);
+                      distance = double.parse((distance).toStringAsFixed(1));
+                      // print(distance);
+                      if (distance <= 50) {
                         return FittedBox(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Material(
-                            elevation: 5,
-                            child: Container(
-                              // height: 195,
-                              color: Colors.black,
-                               child: GestureDetector(
-                                onTap: () async {
-                                  FocusScope.of(context).unfocus();
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Material(
+                              elevation: 5,
+                              child: Container(
+                                // height: 195,
+                                color: Colors.black,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    FocusScope.of(context).unfocus();
 
-                                  Get.to(
-                                          () => GymDetails(),
-                                      arguments: {
-                                        "id": document[index].id,
-                                        "location": document[index]
-                                        ["location"],
-                                        "name": document[index]["name"],
-                                        "docs": document[index],
-                                      });
-                                },
-                                child: Stack(
-                                  children: [
-                                    FittedBox(
-                                      child: CachedNetworkImage(
-                                        height: 210,
-                                        fit: BoxFit.cover,
-                                        width: MediaQuery.of(context).size.width,
-                                        imageUrl: document[index]
-                                                ["display_picture"] ??
-                                            "",
-                                        progressIndicatorBuilder: (context, url,
-                                                downloadProgress) =>
-                                            Center(
-                                                child: CircularProgressIndicator(
-                                                    value: downloadProgress
-                                                        .progress)),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
-                                        // height: 195,
-                                        // width: double.infinity,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 0,
-                                      // bottom: size.height * .008,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(6),
-                                          gradient: const LinearGradient(colors: [
-                                            Color(0xaf000000),
-                                            Colors.transparent
-                                          ],
-                                            begin: Alignment(0.0,1),
-                                            end: Alignment(0.0,-.6)
-                                          )
-                                        ),
-                                        alignment: Alignment.bottomRight,
-                                        height: 210,
-                                        width: 500,
-                                        padding: const EdgeInsets.only(
-                                            right: 8, bottom: 10),
-
-                                      ),
-                                    ),
-                                    Positioned(
-                                      bottom: size.height * .009,
-                                      left: 5,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(6),
-                                          // color: Colors.white10,
-                                        ),
-                                        height: size.height * .078,
-                                        width: size.width * .45,
-                                        padding: const EdgeInsets.only(
-                                            left: 8, bottom: 10),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              document[index]["name"] ?? "",
-                                              textAlign: TextAlign.center,
-                                              maxLines: 1,
-                                              // overflow:
-                                              // TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontFamily: "Poppins",
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            const SizedBox(
-                                              height: 2,
-                                            ),
-                                            Text(
-                                              // "",
-                                              document[index]["address"] ?? "",
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  overflow: TextOverflow.ellipsis,
-                                                  color: Colors.white,
-                                                  fontFamily: "Poppins",
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ],
+                                    Get.to(() => GymDetails(), arguments: {
+                                      "id": document[index].id,
+                                      "location": document[index]["location"],
+                                      "name": document[index]["name"],
+                                      "docs": document[index],
+                                    });
+                                  },
+                                  child: Stack(
+                                    children: [
+                                      FittedBox(
+                                        child: CachedNetworkImage(
+                                          height: 210,
+                                          fit: BoxFit.cover,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          imageUrl: document[index]
+                                                  ["display_picture"] ??
+                                              "",
+                                          progressIndicatorBuilder: (context,
+                                                  url, downloadProgress) =>
+                                              Center(
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                          value:
+                                                              downloadProgress
+                                                                  .progress)),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                          // height: 195,
+                                          // width: double.infinity,
                                         ),
                                       ),
-                                    ),
-                                    Positioned(
-                                      right: 5,
-                                      bottom:2,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(6),
-                                          // color: Colors.black26,
-                                        ),
-                                        alignment: Alignment.bottomRight,
-                                        height: 60,
-                                        width: 100,
-                                        padding: const EdgeInsets.only(
-                                            right: 8, bottom: 10),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                // SvgPicture.asset(
-                                                //     'assets/Icons/rating star small.svg'),
-                                                const Icon(
-                                                  CupertinoIcons.star_fill,
-                                                  color: Colors.yellow,
-                                                  size: 18,
-                                                ),
-                                                const SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                  "${document[index]["rating"] ?? ""}",
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                      fontFamily: "Poppins",
-                                                      fontWeight: FontWeight.w600),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 3,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                // SvgPicture.asset(
-                                                //   'assets/Icons/Location.svg',
-                                                //   color: Colors.white,
-                                                // ),
-                                                const Icon(
-                                                  CupertinoIcons.location_solid,
-                                                  size: 20,
-                                                  color: Colors.white,
-                                                ),
-                                                const SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                  "$distance Km",
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontFamily: "Poppins",
-                                                      fontSize: 12,
-                                                      fontWeight: FontWeight.w600),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
+                                      Positioned(
+                                        top: 0,
+                                        // bottom: size.height * .008,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                              gradient: const LinearGradient(
+                                                  colors: [
+                                                    Color(0xaf000000),
+                                                    Colors.transparent
+                                                  ],
+                                                  begin: Alignment(0.0, 1),
+                                                  end: Alignment(0.0, -.6))),
+                                          alignment: Alignment.bottomRight,
+                                          height: 210,
+                                          width: 500,
+                                          padding: const EdgeInsets.only(
+                                              right: 8, bottom: 10),
                                         ),
                                       ),
-                                    ),
-
-                                  ],
+                                      Positioned(
+                                        bottom: size.height * .009,
+                                        left: 5,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                            // color: Colors.white10,
+                                          ),
+                                          height: size.height * .078,
+                                          width: size.width * .45,
+                                          padding: const EdgeInsets.only(
+                                              left: 8, bottom: 10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                document[index]["name"] ?? "",
+                                                textAlign: TextAlign.center,
+                                                maxLines: 1,
+                                                // overflow:
+                                                // TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontFamily: "Poppins",
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              const SizedBox(
+                                                height: 2,
+                                              ),
+                                              Text(
+                                                // "",
+                                                document[index]["address"] ??
+                                                    "",
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    color: Colors.white,
+                                                    fontFamily: "Poppins",
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        right: 5,
+                                        bottom: 2,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                            // color: Colors.black26,
+                                          ),
+                                          alignment: Alignment.bottomRight,
+                                          height: 60,
+                                          width: 100,
+                                          padding: const EdgeInsets.only(
+                                              right: 8, bottom: 10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  // SvgPicture.asset(
+                                                  //     'assets/Icons/rating star small.svg'),
+                                                  const Icon(
+                                                    CupertinoIcons.star_fill,
+                                                    color: Colors.yellow,
+                                                    size: 18,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(
+                                                    "${document[index]["rating"] ?? ""}",
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 15,
+                                                        fontFamily: "Poppins",
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 3,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  // SvgPicture.asset(
+                                                  //   'assets/Icons/Location.svg',
+                                                  //   color: Colors.white,
+                                                  // ),
+                                                  const Icon(
+                                                    CupertinoIcons
+                                                        .location_solid,
+                                                    size: 20,
+                                                    color: Colors.white,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(
+                                                    "$distance Km",
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontFamily: "Poppins",
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
+                        );
                       }
                       return Container();
                     },
                     separatorBuilder: (BuildContext context, int index) {
-                      return  Container(
+                      return Container(
                         height: 15,
                       );
                     },
@@ -1092,14 +1138,15 @@ class _FirstHomeState extends State<FirstHome> {
                     // controller: app_bar_controller,
                     child: Column(
                       children: [
-                        SizedBox(height: 100,),
-                         Center(
+                        SizedBox(
+                          height: 100,
+                        ),
+                        Center(
                           child: Container(
-                            width: size.width*.9,
+                            width: size.width * .9,
                             height: 60,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15)
-                            ),
+                                borderRadius: BorderRadius.circular(15)),
                             child: Material(
                               elevation: 5,
                               borderRadius: BorderRadius.circular(15),
@@ -1118,7 +1165,9 @@ class _FirstHomeState extends State<FirstHome> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 100,)
+                        SizedBox(
+                          height: 100,
+                        )
                       ],
                     ),
                   );
@@ -1162,13 +1211,22 @@ class _FirstHomeState extends State<FirstHome> {
                       shrinkWrap: true,
                       itemCount: 1,
                       itemBuilder: (context, index) {
+
+//                         getDays = (data.docs[index]["booking_date"]
+//                                 .toDate()
+//                                 .difference(DateTime.now())
+//                                 .inDays)
+//                             .toString();
+
                         getDays = (DateTime.now().difference(data.docs[index]["booking_date"].toDate()).inDays).toString() ;
+
                         totalDays = data.docs[index]["totalDays"] ?? 0;
                         print(totalDays);
                         print(getDays);
 
-                        final percent =
-                            double.parse((100 * int.parse(getDays.toString()) ~/ totalDays).toStringAsFixed(1));
+                        final percent = double.parse(
+                            (100 * int.parse(getDays.toString()) ~/ totalDays)
+                                .toStringAsFixed(1));
                         print(percent);
                         getProgressStatus();
                         return Stack(
@@ -1215,7 +1273,8 @@ class _FirstHomeState extends State<FirstHome> {
                                           //   height: 5,
                                           // ),
                                           Text(
-                                              data.docs[index]['gym_details']["name"] ??
+                                              data.docs[index]['gym_details']
+                                                      ["name"] ??
                                                   "",
                                               style: GoogleFonts.poppins(
                                                   fontSize: 13,
@@ -1235,7 +1294,8 @@ class _FirstHomeState extends State<FirstHome> {
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           SizedBox(
                                             width: 120,
@@ -1245,7 +1305,8 @@ class _FirstHomeState extends State<FirstHome> {
                                                 style: GoogleFonts.poppins(
                                                     color: Colors.red,
                                                     fontSize: 12,
-                                                    fontWeight: FontWeight.bold)),
+                                                    fontWeight:
+                                                        FontWeight.bold)),
                                           ),
                                           InkWell(
                                             onTap: () {
