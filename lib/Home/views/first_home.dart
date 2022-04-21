@@ -500,7 +500,7 @@ class _FirstHomeState extends State<FirstHome> {
   void dispose() {
     // TODO: implement dispose
     // controller.dispose();
-    app_bar_controller.dispose();
+    // app_bar_controller.dispose();
     searchController.dispose();
     super.dispose();
   }
@@ -627,6 +627,9 @@ class _FirstHomeState extends State<FirstHome> {
                       if (searchGymName.isNotEmpty)
                       Column(
                         children: [
+                          SizedBox(
+                            height: 15,
+                          ),
                           Container(
                             // height: (searchGymName.length<=2)?500:null,
                             decoration: BoxDecoration(
@@ -763,6 +766,7 @@ class _FirstHomeState extends State<FirstHome> {
                                   child: Text(
                                     "Nearby Gyms",
                                     style: GoogleFonts.poppins(
+
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600),
                                   ),
