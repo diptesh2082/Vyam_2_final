@@ -128,7 +128,7 @@ class _GymDetailsState extends State<GymDetails> {
                               itemBuilder: (context, index, realIndex) {
                                 final image = images[index];
 
-                                listIndex = index;
+                                // listIndex = index;
                                 page_controller=PageController(initialPage: index);
                                 return gymImages(image, index);
                               },
@@ -1252,7 +1252,7 @@ class _GymDetailsState extends State<GymDetails> {
               radius: 30,
               backgroundColor: Colors.amber,
               child: Image(
-                image: NetworkImage(
+                image: CachedNetworkImageProvider(
                   documents[index]['image'],
                 ),
                 width: 26.5,

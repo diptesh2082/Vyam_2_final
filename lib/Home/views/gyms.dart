@@ -41,8 +41,15 @@ class _GymOptionState extends State<GymOption> {
   var data=Get.arguments["type"];
   // String type=data["type"];
   @override
+  void initState() {
+    // TODO: implement initState
+    print("/////////"+data);
+    super.initState();
+  }
+  @override
   void dispose() {
     // TODO: implement dispose
+
 
     super.dispose();
   }

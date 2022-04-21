@@ -30,6 +30,7 @@ class _GymAllState extends State<GymAll> {
   @override
   void initState() {
     super.initState();
+    print("/////////"+widget.type);
   }
 
   @override
@@ -37,16 +38,18 @@ class _GymAllState extends State<GymAll> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: gymAll.getGymDetails ==null ? const Center(
-        child: Text(
-          "No nearby gyms in your area",
-          style: TextStyle(
-            fontWeight: FontWeight.w100,
-            fontFamily: "Poppins",
-            fontSize: 20,
-          ),
-        ),
-      ):Padding(
+      body:
+      // gymAll.getGymDetails ==null ? const Center(
+      //   child: Text(
+      //     "No nearby gyms in your area",
+      //     style: TextStyle(
+      //       fontWeight: FontWeight.w100,
+      //       fontFamily: "Poppins",
+      //       fontSize: 20,
+      //     ),
+      //   ),
+      // ):
+      Padding(
         padding:
             const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
         child: StreamBuilder(
@@ -64,8 +67,10 @@ class _GymAllState extends State<GymAll> {
                     .get('service')
                     .toString()
                     .toLowerCase()
-                    .contains(widget.type);
+                    .contains("zumba");
               }).toList();
+            print(widget.type);
+              print(document);
             if (document==null){
               const Center(
                   child: Text(

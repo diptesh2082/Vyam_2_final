@@ -721,7 +721,7 @@ class _FirstHomeState extends State<FirstHome> {
                                   var categoryDocs = snapshot.data.docs;
                                   return ListView.separated(
                                     shrinkWrap: true,
-                                    itemCount: controller.OptionsList.length,
+                                    itemCount: categoryDocs.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, int index) {
                                       return GestureDetector(
@@ -771,10 +771,11 @@ class _FirstHomeState extends State<FirstHome> {
                                             ),
                                           ],
                                         ),
-                                        onTap: () {
+                                        onTap: () async{
+                                          String type = await categoryDocs[index]['name'];
+                                          print(type);
                                           Get.to(() => GymOption(), arguments: {
-                                            "type": categoryDocs[index]['name']
-                                                .toLowerCase(),
+                                            "type": type.toLowerCase(),
                                           });
                                           FocusScope.of(context).unfocus();
                                         },

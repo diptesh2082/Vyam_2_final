@@ -506,29 +506,41 @@ class GymAllApi {
         FirebaseFirestore.instance.collection('user_details').snapshots();
   }
 
-
+  // getGymDetails(String type) async{
+  //   Stream<QuerySnapshot> getGymDetails =  await FirebaseFirestore.instance
+  //       .collection("product_details")
+  //       .where("pincode", isEqualTo: GlobalUserData["pincode"])
+  //       .orderBy("location")
+  //       .snapshots();
+  //   return getGymDetails;
+  // }
   Stream<QuerySnapshot> getGymDetails =   FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserData["pincode"])
+      .where("locality".toLowerCase(),
+      isEqualTo: GlobalUserData["locality"].toLowerCase())
       .orderBy("location")
-    .snapshots();
+      .snapshots();
+
   Stream<QuerySnapshot> getMaleGym =   FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserData["pincode"])
+      .where("locality".toLowerCase(),
+      isEqualTo: GlobalUserData["locality"].toLowerCase())
       .where("gender", isEqualTo: "male")
       .orderBy("location")
       .snapshots();
   Stream<QuerySnapshot> getFemaleGym =   FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserData["pincode"])
+      .where("locality".toLowerCase(),
+      isEqualTo: GlobalUserData["locality"].toLowerCase())
       .where("gender", isEqualTo: "female")
-      // .orderBy("location")
+      .orderBy("location")
       .snapshots();
   Stream<QuerySnapshot> getUnisexGym =  FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserData["pincode"])
+      .where("locality".toLowerCase(),
+      isEqualTo: GlobalUserData["locality"].toLowerCase())
       .where("gender", isEqualTo: "unisex")
-      // .orderBy("location")
+      .orderBy("location")
 
       .snapshots();
 }
