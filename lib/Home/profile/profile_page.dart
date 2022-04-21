@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,6 +15,7 @@ import 'package:vyam_2_final/Home/profile/Contact_Us.dart';
 import 'package:vyam_2_final/Home/profile/faq.dart';
 import 'package:vyam_2_final/Home/profile/privacyPolicy.dart';
 import 'package:vyam_2_final/Home/profile/profile.dart';
+import 'package:vyam_2_final/Home/views/explore.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/regitration_from.dart';
@@ -235,9 +237,7 @@ class _ProfilePartState extends State<ProfilePart> {
                                           email != "null" ? email : "no email",
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
-                                          style: const TextStyle(
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w400),
+                                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, ),
                                         ),
                                         Text(
                                           phone != ""
@@ -245,9 +245,7 @@ class _ProfilePartState extends State<ProfilePart> {
                                               : "no Phone number",
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
-                                          style: const TextStyle(
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w400),
+                                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, ),
                                         ),
                                       ],
                                     ),
@@ -278,9 +276,9 @@ class _ProfilePartState extends State<ProfilePart> {
                           Profileicon.contact_us__1_,
                           color: Colors.black54,
                         ),
-                        title: const Text(
+                        title:  Text(
                           "Contact Us",
-                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, ),
                         ),
                       ),
                       const Divider(
@@ -295,9 +293,9 @@ class _ProfilePartState extends State<ProfilePart> {
                           AssetImage("assets/icons/about_us.png"),
                           color: Colors.black54,
                         ),
-                        title: const Text(
+                        title:  Text(
                           "About Us",
-                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, ),
                         ),
                       ),
                       const Divider(
@@ -312,9 +310,9 @@ class _ProfilePartState extends State<ProfilePart> {
                           AssetImage("assets/icons/terms_and_conditions.png"),
                           color: Colors.black54,
                         ),
-                        title: const Text(
+                        title:  Text(
                           "Terms & Condition",
-                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, ),
                         ),
                       ),
                       const Divider(
@@ -329,9 +327,9 @@ class _ProfilePartState extends State<ProfilePart> {
                           AssetImage("assets/icons/privacy_policy.png"),
                           color: Colors.black54,
                         ),
-                        title: const Text(
+                        title:  Text(
                           "Privacy Policy",
-                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, ),
                         ),
                       ),
                       const Divider(
@@ -346,9 +344,9 @@ class _ProfilePartState extends State<ProfilePart> {
                           AssetImage("assets/icons/faq.png"),
                           color: Colors.black54,
                         ),
-                        title: const Text(
+                        title:  Text(
                           "FAQ",
-                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, ),
                         ),
                       ),
                       const Divider(
@@ -363,9 +361,9 @@ class _ProfilePartState extends State<ProfilePart> {
                           AssetImage("assets/icons/rate_us.png"),
                           color: Colors.black54,
                         ),
-                        title: const Text(
+                        title:  Text(
                           "Rate Us",
-                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, ),
                         ),
                       ),
                       const Divider(
@@ -373,16 +371,19 @@ class _ProfilePartState extends State<ProfilePart> {
                         height: 0,
                       ),
                       ListTile(
-                        onTap: () {
+                        onTap: ()async {
+                          GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
+                          PlacesSearchResponse response =await _places.searchNearbyWithRadius(Location(lng: 31.0424,lat: 42.421,), 100);
                           // Get.to(() => const MyOrdersScreen());
+                          print(response.toJson());
                         },
                         leading: const ImageIcon(
                           AssetImage("assets/icons/share_app.png"),
                           color: Colors.black54,
                         ),
-                        title: const Text(
+                        title:  Text(
                           "Share & Earn",
-                          style: TextStyle(fontSize: 15, fontFamily: "Poppins"),
+                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, ),
                         ),
                       ),
                       const Divider(
@@ -470,30 +471,3 @@ class _ProfilePartState extends State<ProfilePart> {
     }
   }
 }
-// accountName: Text("Name",style: TextStyle(
-// color: Colors.yellow
-// ),),
-// accountEmail: Text("email@gmail.com",style: TextStyle(
-// color: Colors.yellow
-// ),),
-// currentAccountPicture: Icon(
-// Icons.account_circle,
-// size: 100,
-// color: Colors.yellow,
-// ),
-
-// CircleAvatar(
-// radius: size.width / 7,
-// backgroundColor: Colors.yellowAccent,
-// child: IconButton(
-// iconSize: 50,
-// onPressed: () {
-// // pickImage(ImageSource.gallery);
-// },
-// icon: const Icon(
-// Icons.add_a_photo_outlined,
-// size: 70,
-// color: Colors.black87,
-// ),
-// ),
-// ),

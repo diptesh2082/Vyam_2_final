@@ -1,4 +1,4 @@
-import 'package:dotted_line/dotted_line.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -150,17 +150,17 @@ class _CouponDetailsState extends State<CouponDetails> {
                                         ],
                                       ),
                                     ),
-                                    const Positioned(
-                                      top: 12,
-                                      left: 165,
-                                      child: DottedLine(
-                                        direction: Axis.vertical,
-                                        lineLength: 100,
-                                        dashGapLength: 8,
-                                        lineThickness: 1.5,
-                                        dashColor: Colors.amber,
-                                      ),
-                                    ),
+                                    // const Positioned(
+                                    //   top: 12,
+                                    //   left: 165,
+                                    //   child: DottedLine(
+                                    //     direction: Axis.vertical,
+                                    //     lineLength: 100,
+                                    //     dashGapLength: 8,
+                                    //     lineThickness: 1.5,
+                                    //     dashColor: Colors.amber,
+                                    //   ),
+                                    // ),
                                     Positioned(
                                       top: 40,
                                       left: 200,

@@ -148,20 +148,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.3"
-  dio:
-    dependency: "direct main"
-    description:
-      name: dio
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.6"
-  dotted_line:
-    dependency: "direct main"
-    description:
-      name: dotted_line
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.0"
   equatable:
     dependency: "direct main"
     description:
@@ -730,13 +716,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.13.0"
-  pinch_zoom:
-    dependency: "direct main"
-    description:
-      name: pinch_zoom
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   platform:
     dependency: transitive
     description:

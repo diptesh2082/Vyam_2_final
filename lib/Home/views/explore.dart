@@ -12,9 +12,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/cupertino.dart';
+// import 'package:google_maps_webservice/geocoding.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:location/location.dart';
+
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vyam_2_final/Helpers/request_helpers.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
@@ -30,6 +31,7 @@ import 'package:location/location.dart' as ln;
 const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
 
+// final geocoding = new GoogleMapsGeocoding(apiKey: api);
 class Explore extends StatefulWidget {
   const Explore({Key? key}) : super(key: key);
 
@@ -67,7 +69,7 @@ class _ExploreState extends State<Explore> {
     var pos = await location.getLocation();
     // print(pos.l);
 
-    mapcontroller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+    mapcontroller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(pos.latitude!, pos.longitude!),
       zoom: 17.0,
     )));
@@ -164,6 +166,7 @@ class _ExploreState extends State<Explore> {
       });
     }
 
+    // print(response);
     // Position position = await _determinePosition();
     // await GetAddressFromLatLong(position);
     // if(mounted) {
@@ -354,12 +357,15 @@ class _ExploreState extends State<Explore> {
 
   }
 
+
+
   @override
   void initState() {
     // print(location.latitude);
 
     getEverything();
-
+    print("///////////////////////////////////");
+// print();
     setState(() {
 
 
@@ -377,8 +383,9 @@ class _ExploreState extends State<Explore> {
 
   @override
   dispose() {
-    controller.dispose();
+    // controller.dispose();
     // _controller.dispose();
+    mapcontroller.dispose();
     // _initialCameraPosition.dispose();
     super.dispose();
   }
@@ -868,8 +875,10 @@ splashLocation(latitude,longitude)async{
   }
 
   Future<void> _gotoLocation(double lat, double long) async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+
+      final GoogleMapController controller = await _controller.future;
+
+    await controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(lat, long),
       zoom: 17,
     )));
