@@ -1,5 +1,3 @@
-import 'dart:math';
-import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,23 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:readmore/readmore.dart';
-// import 'package:url_launcher/url_launcher.dart';
 import 'package:vyam_2_final/Home/bookings/review_screen.dart';
 import 'package:vyam_2_final/Home/bookings/timings.dart';
-import 'package:vyam_2_final/Home/bookings/timings_details.dart';
 import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/controllers/packages/packages.dart';
-
 import 'package:vyam_2_final/Home/bookings/know_trainer.dart';
-
-import '../views/explore.dart';
 
 class GymDetails extends StatefulWidget {
   // final gymName;
@@ -69,11 +59,33 @@ class _GymDetailsState extends State<GymDetails> {
   var doc = Get.arguments;
   final images = Get.arguments["docs"]["images"];
   final docs = Get.arguments["docs"];
+  // final amenityDoc = Get.arguments["docs"]["name"];
+  var documents;
 
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
   final List _isSelected = [true, false, false, false, false, false];
   int _current = 1;
   var listIndex = 0;
+
+  // String? productGymId =
+  //     FirebaseFirestore.instance.collection('product_details').doc().id;
+
+  // void getAmenity(){
+  //   StreamBuilder(
+  //     stream: FirebaseFirestore.instance.collection('amenities').snapshots(),
+  //       builder: (BuildContext context , AsyncSnapshot snapshot){
+  //         if (!snapshot.hasData) {
+  //           return Center(child: CircularProgressIndicator());
+  //         }
+  //         if (snapshot.connectionState ==
+  //             ConnectionState.waiting) {
+  //           return Center(child: CircularProgressIndicator());
+  //         }
+  //         var amenityDoc = snapshot.data;
+  //         print(amenityDoc);
+  //   })
+  // }
+
   @override
   void initState() {
     // print(doc);
@@ -141,7 +153,8 @@ class _GymDetailsState extends State<GymDetails> {
                                     return GestureDetector(
                                       child: PhotoView(
                                         imageProvider:
-                                            CachedNetworkImageProvider( images[listIndex]),
+                                            CachedNetworkImageProvider(
+                                                images[listIndex]),
                                         initialScale:
                                             PhotoViewComputedScale.contained,
                                         minScale:
@@ -511,15 +524,33 @@ class _GymDetailsState extends State<GymDetails> {
                   const SizedBox(height: 12),
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.1,
-                    child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: ((context, index) {
-                          return amenities(index);
-                        }),
-                        separatorBuilder: (context, _) => SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.08,
-                            ),
-                        itemCount: amenities_name.length),
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('amenities')
+                          .where('gym_id', arrayContains: doc["gym_id"])
+                          .snapshots(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        documents = snapshot.data.docs;
+                        return documents.isNotEmpty
+                            ? ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: ((context, index) {
+                                  return amenities(index);
+                                }),
+                                separatorBuilder: (context, _) => SizedBox(
+                                      width: 8,
+                                    ),
+                                itemCount: documents.length)
+                            : SizedBox();
+                      },
+                    ),
                   ),
                   const SizedBox(
                     height: 12,
@@ -1214,26 +1245,30 @@ class _GymDetailsState extends State<GymDetails> {
   Widget amenities(int index) => FittedBox(
         child: Column(
           children: [
-            Container(
-              height: 47.2,
-              width: 40,
-              child: Icon(
-                icons[index],
-                size: 16,
-              ),
-              //color: Colors.amber,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.amber.shade400,
+            CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.amber,
+              child: Image(
+                image: NetworkImage(
+                  documents[index]['image'],
+                ),
+                width: 26.5,
+                height: 26.5,
               ),
             ),
-            Text(
-              amenities_name[index],
-              //textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontFamily: 'poppins',
-                  fontWeight: FontWeight.w300,
-                  fontSize: 8),
+            SizedBox(
+              width: 90,
+              height: 38,
+              child: Text(
+                documents[index]['name'],
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 12,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.clip,
+              ),
             ),
           ],
         ),
