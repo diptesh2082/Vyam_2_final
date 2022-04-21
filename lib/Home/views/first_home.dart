@@ -724,20 +724,12 @@ class _FirstHomeState extends State<FirstHome> {
                                     itemCount: controller.OptionsList.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, int index) {
-                                      return Stack(
-                                        alignment: AlignmentDirectional.center,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Get.to(() => GymOption(),
-                                                  arguments: {
-                                                    "type": categoryDocs[index]
-                                                            ['name']
-                                                        .toLowerCase(),
-                                                  });
-                                              FocusScope.of(context).unfocus();
-                                            },
-                                            child: ClipRRect(
+                                      return GestureDetector(
+                                        child: Stack(
+                                          alignment:
+                                              AlignmentDirectional.center,
+                                          children: [
+                                            ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(15),
                                               child: CachedNetworkImage(
@@ -748,34 +740,44 @@ class _FirstHomeState extends State<FirstHome> {
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
-                                          ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                gradient: const LinearGradient(
-                                                    colors: [
-                                                      Color(0xaf000000),
-                                                      Colors.transparent
-                                                    ],
-                                                    begin: Alignment(0.0, 1),
-                                                    end: Alignment(0.0, -.6))),
-                                            alignment: Alignment.bottomRight,
-                                            height: 150,
-                                            width: 124,
-                                            padding: const EdgeInsets.only(
-                                                right: 8, bottom: 10),
-                                          ),
-                                          Text(
-                                            categoryDocs[index]['name'] ?? "",
-                                            // textAlign: TextAlign.center,
-                                            style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.white,
-                                              fontSize: 16,
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                  gradient:
+                                                      const LinearGradient(
+                                                          colors: [
+                                                        Color(0xaf000000),
+                                                        Colors.transparent
+                                                      ],
+                                                          begin:
+                                                              Alignment(0.0, 1),
+                                                          end: Alignment(
+                                                              0.0, -.6))),
+                                              alignment: Alignment.bottomRight,
+                                              height: 150,
+                                              width: 124,
+                                              padding: const EdgeInsets.only(
+                                                  right: 8, bottom: 10),
                                             ),
-                                          ),
-                                        ],
+                                            Text(
+                                              categoryDocs[index]['name'] ?? "",
+                                              // textAlign: TextAlign.center,
+                                              style: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        onTap: () {
+                                          Get.to(() => GymOption(), arguments: {
+                                            "type": categoryDocs[index]['name']
+                                                .toLowerCase(),
+                                          });
+                                          FocusScope.of(context).unfocus();
+                                        },
                                       );
                                     },
                                     separatorBuilder:

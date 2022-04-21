@@ -954,7 +954,9 @@ class _GymDetailsState extends State<GymDetails> {
                                 children: [
                                    Text(
                                     "•  Bring your towel and use it.",
+
                                     style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, ),
+
                                   ),
                                   SizedBox(
                                     height: MediaQuery.of(context).size.height *
