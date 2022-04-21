@@ -722,5 +722,9 @@ Future<Position> determinePosition() async {
 //   locality = "${place.locality}";
 //   subLocality = "${place.subLocality}";
 // }
+class TkInd extends GetxController{
+  var current = 0.obs;
+  var isSelected = [true, false, false, false, false, false,false,false].obs;
+}
 
 

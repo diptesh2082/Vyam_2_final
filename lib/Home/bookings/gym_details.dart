@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
@@ -12,10 +13,13 @@ import 'package:photo_view/photo_view.dart';
 import 'package:readmore/readmore.dart';
 import 'package:vyam_2_final/Home/bookings/review_screen.dart';
 import 'package:vyam_2_final/Home/bookings/timings.dart';
+import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/controllers/packages/packages.dart';
 import 'package:vyam_2_final/Home/bookings/know_trainer.dart';
 
+import 'ImageGalary.dart';
+var imageSliders;
 class GymDetails extends StatefulWidget {
   // final gymName;
   // final getID;
@@ -59,14 +63,17 @@ class _GymDetailsState extends State<GymDetails> {
 
   var doc = Get.arguments;
   final images = Get.arguments["docs"]["images"];
+
   final docs = Get.arguments["docs"];
   // final amenityDoc = Get.arguments["docs"]["name"];
   var documents;
 
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
-  final List _isSelected = [true, false, false, false, false, false];
+  final List _isSelected = [true, false, false, false, false, false,false,false];
   int _current = 1;
   var listIndex = 0;
+  TkInd tkind = Get.put(TkInd());
+  CarouselWithIndicatorDemo indicator=CarouselWithIndicatorDemo();
 
 
   // String? productGymId =
@@ -92,7 +99,7 @@ class _GymDetailsState extends State<GymDetails> {
   @override
   void initState() {
     // print(doc);
-
+    imageSliders=Get.arguments["docs"]["images"];
     super.initState();
   }
    PageController page_controller =PageController();
@@ -127,18 +134,17 @@ class _GymDetailsState extends State<GymDetails> {
                               itemCount: images.length,
                               itemBuilder: (context, index, realIndex) {
                                 final image = images[index];
-
-                                // listIndex = index;
                                 page_controller=PageController(initialPage: index);
-                                return gymImages(image, index);
+                                return gymImages(image);
                               },
                               options: CarouselOptions(
                                   height: 255,
                                   autoPlay: true,
                                   viewportFraction: 1,
                                   onPageChanged: (index, reason) {
-                                    setState(() {
+                                    // setState(() {
                                       _current = index + 1;
+                                      tkind.current.value=index+1;
                                       for (int i = 0; i < images.length; i++) {
                                         if (i == index) {
                                           _isSelected[i] = true;
@@ -146,7 +152,14 @@ class _GymDetailsState extends State<GymDetails> {
                                           _isSelected[i] = false;
                                         }
                                       }
-                                    });
+                                      for (int i = 0; i < images.length; i++) {
+                                        if (i == index) {
+                                          tkind.isSelected.value[i] = true;
+                                        } else {
+                                          tkind.isSelected.value[i] = false;
+                                        }
+                                      }
+                                    // });
                                   }),
                             ),
                             onTap: () {
@@ -216,25 +229,33 @@ class _GymDetailsState extends State<GymDetails> {
                                 height: 25,
                                 width: MediaQuery.of(context).size.width,
                                 // color: Colors.black26,
-                                child: Row(
-                                  children: [
-                                    for (int i = 0; i < images.length; i++)
-                                      Padding(
-                                        padding: const EdgeInsets.all(2.0),
-                                        child: Visibility(
-                                            child: Container(
-                                          height: 2,
-                                          width: 20,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            color: _isSelected[i]
-                                                ? Colors.white
-                                                : Colors.grey,
-                                          ),
-                                        )),
-                                      )
-                                  ],
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: images.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Row(
+
+                                      children: [
+                                        // for (int i = 0; i < images.length; i++)
+                                        Padding(
+                                          padding: const EdgeInsets.all(2.0),
+                                          child: Visibility(
+                                              child: Container(
+                                                height: 2,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                                  color: _isSelected[_current]
+                                                      ? Colors.white
+                                                      : Colors.grey,
+                                                ),
+                                              )),
+                                        ),
+                                      ],
+                                    );
+                                  },
+
                                 )),
                           ),
                           Positioned(
@@ -289,10 +310,11 @@ class _GymDetailsState extends State<GymDetails> {
                                     ],
                                   )),
                             ),
-                          )
+                          ),
+                          // CarouselWithIndicatorDemo()
                         ],
                       )),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
                   Row(
                     children: [
                       Text(
@@ -314,7 +336,7 @@ class _GymDetailsState extends State<GymDetails> {
                               fontWeight: FontWeight.w500)),
                     ],
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                  SizedBox(height:12),
                   Row(children: [
                     const Icon(
                       Icons.location_on,
@@ -517,17 +539,16 @@ class _GymDetailsState extends State<GymDetails> {
                     ],
                   ),
                   const SizedBox(
-                    height: 3,
+                    height: 5,
                   ),
-                  const Text(
+                   Text(
                     'Description',
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                         color: Colors.black,
-                        fontFamily: "Poppins",
                         fontSize: 16,
-                        fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.w700),
                   ),
-                  const SizedBox(height: 9),
+                  const SizedBox(height: 16),
                    ReadMoreText(
                     'Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac  Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac ',
                     trimLines: 3,
@@ -586,18 +607,19 @@ class _GymDetailsState extends State<GymDetails> {
                     ),
                   ),
                   const SizedBox(
-                    height: 12,
+                    height: 16,
                   ),
-                  const Text(
+                   Text(
                     'Workouts',
-                    style: TextStyle(
+                    style: GoogleFonts.poppins(
                         color: Colors.black,
-                        fontFamily: "Poppins",
+
                         fontSize: 16,
-                        fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.w700),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                   Card(
+                    elevation: .3,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0)),
                     child: FittedBox(
@@ -615,7 +637,7 @@ class _GymDetailsState extends State<GymDetails> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   SizedBox(
                       height: 145, //MediaQuery.of(context).size.height / 4.7,
                       child: GestureDetector(
@@ -626,6 +648,7 @@ class _GymDetailsState extends State<GymDetails> {
                           });
                         },
                         child: Card(
+                          elevation: .3,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12.0)),
                             child: Column(
@@ -634,12 +657,12 @@ class _GymDetailsState extends State<GymDetails> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
-                                      children: const [
+                                      children:  [
                                         Text('Trainers',
-                                            style: TextStyle(
-                                              fontFamily: 'poppins',
+                                            style: GoogleFonts.poppins(
+
                                               fontSize: 13,
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w700,
                                             )),
                                         Spacer(),
                                         Icon(
@@ -710,6 +733,9 @@ class _GymDetailsState extends State<GymDetails> {
                                                                                 CachedNetworkImageProvider(trainerdoc[index]['images']),
                                                                             fit: BoxFit.cover)),
                                                               ),
+                                                              SizedBox(
+                                                                height: 2,
+                                                              ),
                                                               Text(
                                                                 trainerdoc[
                                                                         index]
@@ -731,7 +757,7 @@ class _GymDetailsState extends State<GymDetails> {
                                   ),
                                 ])),
                       )),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 14),
                   FittedBox(
                     child: GestureDetector(
                       onTap: () {
@@ -755,6 +781,7 @@ class _GymDetailsState extends State<GymDetails> {
                         });
                       },
                       child: Card(
+                        elevation: .3,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0)),
                           child: Column(
@@ -763,12 +790,12 @@ class _GymDetailsState extends State<GymDetails> {
                               const SizedBox(
                                 height: 6,
                               ),
-                              const Padding(
+                               Padding(
                                 padding: EdgeInsets.only(left: 8.0),
                                 child: Text('Reviews',
-                                    style: TextStyle(
+                                    style: GoogleFonts.poppins(
                                       fontSize: 14,
-                                      fontFamily: "Poppins",
+
                                       fontWeight: FontWeight.w700,
                                     )),
                               ),
@@ -925,8 +952,9 @@ class _GymDetailsState extends State<GymDetails> {
                           )),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 14),
                   Card(
+                      elevation: .3,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0)),
                       child: Padding(
@@ -988,10 +1016,9 @@ class _GymDetailsState extends State<GymDetails> {
                   const SizedBox(
                     height: 18,
                   ),
-                  const Text('Safety protocols',
-                      style: TextStyle(
+                   Text('Safety protocols',
+                      style: GoogleFonts.poppins(
                         fontSize: 14,
-                        fontFamily: "Poppins",
                         fontWeight: FontWeight.w700,
                       )),
                   const SizedBox(
@@ -1224,7 +1251,7 @@ class _GymDetailsState extends State<GymDetails> {
     );
   }
 
-  Widget gymImages(String images, int index) => AspectRatio(
+  Widget gymImages(String images) => AspectRatio(
     aspectRatio: 16 / 9,
     child: ClipRRect(
       borderRadius: BorderRadius.circular(10),
