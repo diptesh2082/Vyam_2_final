@@ -658,10 +658,13 @@ splashLocation(latitude,longitude)async{
                             });
 
                           },
-                          decoration: const InputDecoration(
+                          decoration:  InputDecoration(
                               hintText: 'Search places',
+                              hintStyle: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500
+                              ),
                               border: InputBorder.none,
-                              hintStyle: TextStyle(fontWeight: FontWeight.bold),
                               prefixIcon: Icon(Profileicon.search)),
                           onTap: () {
                             setState(() {

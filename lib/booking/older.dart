@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:vyam_2_final/OrderDetails/active_details.dart';
 import 'package:vyam_2_final/OrderDetails/older_order_details.dart';
 import 'package:vyam_2_final/api/api.dart';
@@ -68,7 +69,7 @@ class OlderEvent extends StatelessWidget {
                           child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8)),
-                            elevation: 8,
+                            elevation: 1,
                             color: Colors.transparent,
                             child: Container(
                               decoration: BoxDecoration(
@@ -127,7 +128,7 @@ class OlderEvent extends StatelessWidget {
                                               ],
                                             ),
                                             const SizedBox(
-                                              height: 6,
+                                              height: 4,
                                             ),
                                             // if (
                                             // data.docs[index]["workout"]
@@ -184,7 +185,7 @@ class OlderEvent extends StatelessWidget {
                                             //     ),
                                             //   ),
                                             const SizedBox(
-                                              height: 6,
+                                              height: 4,
                                             ),
                                             Row(
                                               children: [
@@ -199,7 +200,7 @@ class OlderEvent extends StatelessWidget {
                                                 Text(
                                                   // "",
 
-                                                  "${end_time.toDate().day??""}| ${end_time.toDate().month??""}| ${end_time.toDate().year??""}",
+                                                  "${DateFormat("MMMM,dd,yyyy").format(end_time.toDate())}",
                                                   style: GoogleFonts.poppins(
                                                       color: HexColor("A3A3A3"),
                                                       fontSize: 12,
@@ -209,7 +210,7 @@ class OlderEvent extends StatelessWidget {
                                               ],
                                             ),
                                             const SizedBox(
-                                              height: 6,
+                                              height: 4,
                                             ),
                                             Row(
                                               children: [
@@ -221,7 +222,7 @@ class OlderEvent extends StatelessWidget {
                                                   height: 6,
                                                 ),
                                                 const SizedBox(
-                                                  width: 5,
+                                                  width: 4,
                                                 ),
                                                 Text(
                                                   "Older Bookings",

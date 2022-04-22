@@ -17,7 +17,9 @@ import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
+import 'package:vyam_2_final/Home/views/Catagory.dart';
 import 'package:vyam_2_final/Home/views/location.dart';
+import 'package:vyam_2_final/Home/views/search_function.dart';
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
 
 import 'package:vyam_2_final/api/api.dart';
@@ -597,230 +599,152 @@ class _FirstHomeState extends State<FirstHome> {
                 controller: app_bar_controller,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10.0, right: 10),
-                  child: Column(
+                  child: Stack(
+                    alignment: Alignment.center,
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: const Divider(
-                          height: .3,
-                          thickness: 1,
-                        ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: const Divider(
+                              height: .3,
+                              thickness: 1,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+
+                          SizedBox(height: 60,),
+                           // Search(context),
+                           // if (searchGymName.isNotEmpty)
+
+                             // Column(
+                             //   children: [
+                             //     Container(
+                             //       // height: (searchGymName.length<=2)?500:null,
+                             //       decoration: BoxDecoration(
+                             //         borderRadius: BorderRadius.circular(15),
+                             //         color: Colors.white,
+                             //       ),
+                             //       child: Column(
+                             //         children: [
+                             //           const SizedBox(
+                             //             // height: 6,
+                             //           ),
+                             //           buildGymBox(),
+                             //           const SizedBox(
+                             //             // height: 500,
+                             //           )
+                             //         ],
+                             //       ),
+                             //
+                             //     ),
+                             //   ],
+                             // ),
+                           const SizedBox(
+                             height: 9,
+                           ),
+                           // if (searchGymName.isEmpty)
+                             Column(
+                               children: [
+                                 if (getPercentage != 100) ProgressCard(context),
+                                 const SizedBox(
+                                   height: 9,
+                                 ),
+                                 InkWell(
+                                   onTap: () {
+                                     FocusScope.of(context).unfocus();
+                                     Get.to(CouponDetails());
+                                   },
+                                   child: SizedBox(
+                                     height: 135,
+                                     child: StreamBuilder<QuerySnapshot>(
+                                       stream: bannerApi.getBanner,
+                                       builder:
+                                           (context, AsyncSnapshot streamSnapshot) {
+                                         if (streamSnapshot.connectionState ==
+                                             ConnectionState.waiting) {
+                                           return const Center(
+                                             child: CircularProgressIndicator(),
+                                           );
+                                         }
+                                         final data = streamSnapshot.requireData;
+                                         return ListView.builder(
+                                           // controller: _controller.,
+                                           scrollDirection: Axis.horizontal,
+                                           itemCount: data.size,
+                                           itemBuilder: (context, int index) {
+                                             return SizedBox(
+                                               height: 120,
+                                               child: Row(
+                                                 children: [
+                                                   const SizedBox(
+                                                     width: 5,
+                                                   ),
+                                                   Material(
+                                                       elevation: 0,
+                                                       color:
+                                                       const Color(0xffF4F4F4),
+                                                       child: CachedNetworkImage(
+                                                         imageUrl: data.docs[index]
+                                                         ["image"],
+                                                         errorWidget: (context, url,
+                                                             error) =>
+                                                         const Icon(Icons.error),
+                                                       )),
+                                                   const SizedBox(
+                                                     width: 5,
+                                                   ),
+                                                 ],
+                                               ),
+                                             );
+                                           },
+                                         );
+                                       },
+                                     ),
+                                   ),
+                                 ),
+                                 const SizedBox(
+                                   height: 15,
+                                 ),
+                                 Catagory(),
+                                 const SizedBox(
+                                   height: 7,
+                                 ),
+
+                                 Align(
+                                   alignment: Alignment.centerLeft,
+                                   child: Material(
+                                     borderRadius: BorderRadius.circular(10),
+                                     elevation: .7,
+                                     child: SizedBox(
+                                       height: 30,
+                                       width: 130,
+                                       child: Center(
+                                         child: Text(
+                                           "Nearby Gyms",
+                                           style: GoogleFonts.poppins(
+                                               fontSize: 16,
+                                               fontWeight: FontWeight.w600),
+                                         ),
+
+                                       ),
+                                     ),
+                                   ),
+                                 ),
+                                 const SizedBox(
+                                   height: 7,
+                                 ),
+                                 Container(child: buildGymBox())
+                               ],
+                             )
+                        ],
                       ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Search(context),
-                      if (searchGymName.isNotEmpty)
-
-                        Column(
-                          children: [
-                            Container(
-                              // height: (searchGymName.length<=2)?500:null,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white,
-                              ),
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                      // height: 6,
-                                      ),
-                                  buildGymBox(),
-                                  const SizedBox(
-                                      // height: 500,
-                                      )
-                                ],
-                              ),
-
-                            ),
-                          ],
-                        ),
-                      const SizedBox(
-                        height: 9,
-                      ),
-                      if (searchGymName.isEmpty)
-                        Column(
-                          children: [
-                            if (getPercentage != 100) ProgressCard(context),
-                            const SizedBox(
-                              height: 9,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                                Get.to(CouponDetails());
-                              },
-                              child: SizedBox(
-                                height: 135,
-                                child: StreamBuilder<QuerySnapshot>(
-                                  stream: bannerApi.getBanner,
-                                  builder:
-                                      (context, AsyncSnapshot streamSnapshot) {
-                                    if (streamSnapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
-                                    final data = streamSnapshot.requireData;
-                                    return ListView.builder(
-                                      // controller: _controller.,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: data.size,
-                                      itemBuilder: (context, int index) {
-                                        return SizedBox(
-                                          height: 120,
-                                          child: Row(
-                                            children: [
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              Material(
-                                                  elevation: 0,
-                                                  color:
-                                                      const Color(0xffF4F4F4),
-                                                  child: CachedNetworkImage(
-                                                    imageUrl: data.docs[index]
-                                                        ["image"],
-                                                    errorWidget: (context, url,
-                                                            error) =>
-                                                        const Icon(Icons.error),
-                                                  )),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            SizedBox(
-                              height: 150,
-                              child: StreamBuilder(
-                                stream: FirebaseFirestore.instance
-                                    .collection('category')
-                                    .snapshots(),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  if (!snapshot.hasData) {
-                                    return Center(
-                                        child: CircularProgressIndicator());
-                                  }
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(
-                                        child: CircularProgressIndicator());
-                                  }
-                                  var categoryDocs = snapshot.data.docs;
-                                  return ListView.separated(
-                                    shrinkWrap: true,
-                                    itemCount: categoryDocs.length,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (context, int index) {
-                                      return GestureDetector(
-                                        child: Stack(
-                                          alignment:
-                                              AlignmentDirectional.center,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
-                                              child: CachedNetworkImage(
-                                                imageUrl: categoryDocs[index]
-                                                    ['image'],
-                                                height: 150,
-                                                width: 124,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  gradient:
-                                                      const LinearGradient(
-                                                          colors: [
-                                                        Color(0xaf000000),
-                                                        Colors.transparent
-                                                      ],
-                                                          begin:
-                                                              Alignment(0.0, 1),
-                                                          end: Alignment(
-                                                              0.0, -.6))),
-                                              alignment: Alignment.bottomRight,
-                                              height: 150,
-                                              width: 124,
-                                              padding: const EdgeInsets.only(
-                                                  right: 8, bottom: 10),
-                                            ),
-                                            Text(
-                                              categoryDocs[index]['name'] ?? "",
-                                              // textAlign: TextAlign.center,
-                                              style: GoogleFonts.poppins(
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        onTap: () async{
-                                          String type = await categoryDocs[index]['name'];
-                                          print(type);
-                                          Get.to(() => GymOption(), arguments: {
-                                            "type": type.toLowerCase(),
-                                          });
-                                          FocusScope.of(context).unfocus();
-                                        },
-                                      );
-                                    },
-                                    separatorBuilder:
-                                        (BuildContext context, int index) {
-                                      return const SizedBox(
-                                        width: 10,
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 7,
-                            ),
-
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Material(
-                                borderRadius: BorderRadius.circular(10),
-                                elevation: .7,
-                                child: SizedBox(
-                                  height: 30,
-                                  width: 130,
-                                  child: Center(
-                                    child: Text(
-                                      "Nearby Gyms",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 7,
-                            ),
-                            Container(child: buildGymBox())
-                          ],
-                        ),
+                      Positioned(
+                          top: 15,
+                          child: SearchIt()),
                     ],
                   ),
                 ),
@@ -856,9 +780,13 @@ class _FirstHomeState extends State<FirstHome> {
               });
             }
           },
-          decoration: const InputDecoration(
+          decoration:  InputDecoration(
             prefixIcon: Icon(Profileicon.search),
             hintText: 'Search',
+            hintStyle: GoogleFonts.poppins(
+              fontSize: 16,
+              fontWeight: FontWeight.w500
+            ),
             border: InputBorder.none,
             filled: true,
             fillColor: Colors.white,
@@ -894,15 +822,15 @@ class _FirstHomeState extends State<FirstHome> {
 
             var document = streamSnapshot.data.docs;
 
-            if (searchGymName.length > 0) {
-              document = document.where((element) {
-                return element
-                    .get('name')
-                    .toString()
-                    .toLowerCase()
-                    .contains(searchGymName.toString());
-              }).toList();
-            }
+            // if (searchGymName.length > 0) {
+            //   document = document.where((element) {
+            //     return element
+            //         .get('name')
+            //         .toString()
+            //         .toLowerCase()
+            //         .contains(searchGymName.toString());
+            //   }).toList();
+            // }
             //  document.where((element) {
             //   print(element);
             // });
@@ -1280,9 +1208,9 @@ class _FirstHomeState extends State<FirstHome> {
                                                       ["name"] ??
                                                   "",
                                               style: GoogleFonts.poppins(
-                                                  fontSize: 13,
+                                                  fontSize: 14,
                                                   color: Colors.black,
-                                                  fontWeight: FontWeight.w400)),
+                                                  fontWeight: FontWeight.w500)),
                                           // const SizedBox(
                                           //   height: 5,
                                           // ),
@@ -1335,7 +1263,7 @@ class _FirstHomeState extends State<FirstHome> {
                                   ]),
                                 )),
                             Positioned(
-                              right: MediaQuery.of(context).size.width * .1,
+                              right: MediaQuery.of(context).size.width * .091,
                               bottom: 53,
                               child: Text(
                                 "${percent}%",
@@ -1354,6 +1282,8 @@ class _FirstHomeState extends State<FirstHome> {
     );
   }
 }
+
+
 // isLoading ? Expanded(
 //
 // child: Container(
