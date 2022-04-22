@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:vyam_2_final/OrderDetails/order_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/controllers/gym_detail.dart';
@@ -59,7 +60,8 @@ class UpcomingEvent extends StatelessWidget {
               child: document.isNotEmpty? ListView.builder(
                   itemCount: data.size,
                   itemBuilder: (context, index) {
-                    var end_time= data.docs[index]['plan_end_duration'];
+                    // var end_time= data.docs[index]['plan_end_duration'];
+                    var start_time=data.docs[index]['booking_date'];
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GestureDetector(
@@ -77,7 +79,7 @@ class UpcomingEvent extends StatelessWidget {
                           child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8)),
-                            elevation: 8,
+                            elevation: 1,
                             color: Colors.transparent,
                             child: Container(
                               decoration: BoxDecoration(
@@ -90,7 +92,7 @@ class UpcomingEvent extends StatelessWidget {
                                       flex: 1,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                            top: 9.0, left: 9, bottom: 9,right: 9),
+                                            top: 6.0, left: 9, bottom: 6,right: 9),
                                         child: Column(
                                           mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -105,7 +107,7 @@ class UpcomingEvent extends StatelessWidget {
                                                   fontWeight: FontWeight.w500),
                                             ),
                                             const SizedBox(
-                                              height: 4,
+                                              height: 2,
                                             ),
                                             Text(
                                               data.docs[index]['gym_details']["name"]??"",
@@ -135,9 +137,9 @@ class UpcomingEvent extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              height: 6,
-                                            ),
+                                            // const SizedBox(
+                                            //   height: 3,
+                                            // ),
                                             // if (
                                             // data.docs[index]["workout"]
                                             //     .contains("months") ||
@@ -167,6 +169,9 @@ class UpcomingEvent extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
+                                            const SizedBox(
+                                              height: 3,
+                                            ),
                                             // if (
                                             // data.docs[index]['workout']
                                             //     .contains("Pay") ||
@@ -191,12 +196,12 @@ class UpcomingEvent extends StatelessWidget {
                                               ),
                                             ),
                                             const SizedBox(
-                                              height: 6,
+                                              height: 5,
                                             ),
                                             Row(
                                               children: [
                                                 Text(
-                                                  "Ends on : ",
+                                                  "Starts on : ",
                                                   style: GoogleFonts.poppins(
                                                       color: HexColor("A3A3A3"),
                                                       fontSize: 12,
@@ -206,7 +211,7 @@ class UpcomingEvent extends StatelessWidget {
                                                 Text(
                                                   // "",
 
-                                                  "${end_time.toDate().day??""}| ${end_time.toDate().month??""}| ${end_time.toDate().year??""}",
+                                                  "${DateFormat("MMMM,dd,yyyy").format(start_time.toDate())}",
                                                   style: GoogleFonts.poppins(
                                                       color: HexColor("A3A3A3"),
                                                       fontSize: 12,
@@ -216,7 +221,7 @@ class UpcomingEvent extends StatelessWidget {
                                               ],
                                             ),
                                             const SizedBox(
-                                              height: 6,
+                                              height: 2,
                                             ),
                                             Row(
                                               children: [

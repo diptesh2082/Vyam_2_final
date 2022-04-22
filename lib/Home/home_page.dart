@@ -115,6 +115,22 @@ class _HomePageState extends State<HomePage> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
+        inactiveIcon: Column(
+          children: [
+            ImageIcon(
+              AssetImage("assets/icons/inactiveh.png"),
+
+            ),
+            Text(
+              "Home",
+              style: TextStyle(
+                fontSize: 12,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w400,
+              ),
+            )
+          ],
+        ),
         icon: Column(
           children: const [
             Icon(
@@ -137,6 +153,21 @@ class _HomePageState extends State<HomePage> {
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
+        inactiveIcon: Column(
+          children: [
+            ImageIcon(
+              AssetImage("assets/icons/inactive.png"),
+            ),
+            Text(
+              "Bookings",
+              style: TextStyle(
+                fontSize: 12,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w400,
+              ),
+            )
+          ],
+        ),
         icon: Column(
           children: const [
             Icon(HomeIcon.active_1
@@ -158,6 +189,22 @@ class _HomePageState extends State<HomePage> {
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
+        inactiveIcon: Column(
+          children: [
+            ImageIcon(
+              AssetImage("assets/icons/Discoveryi.png"),
+
+            ),
+            Text(
+              "Explore",
+              style: TextStyle(
+                fontSize: 12,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w400,
+              ),
+            )
+          ],
+        ),
         icon: Column(
           children: const [
             Icon(
@@ -180,6 +227,21 @@ class _HomePageState extends State<HomePage> {
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
+        inactiveIcon: Column(
+          children: [
+            ImageIcon(
+              AssetImage("assets/icons/Profilei.png"),
+            ),
+            Text(
+              "Profile",
+              style: TextStyle(
+                fontSize: 12,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w400,
+              ),
+            )
+          ],
+        ),
         icon: Column(
           children: const [
             Icon(HomeIcon.active

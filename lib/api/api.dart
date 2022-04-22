@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:location/location.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
+import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'dart:math' show cos, sqrt, asin;
 
@@ -231,34 +232,39 @@ class UserApi {
   // String acc=number;
   static Future createNewUser() async {
     print(number);
-    final docUser =
-     FirebaseFirestore.instance.collection("user_details").doc(number);
-    // userModel.userId = docUser.id;
-    // number=docUser.id;
-    final myJson = {
-      'userId': docUser.id,
-      "number": _auth.currentUser?.phoneNumber.toString(),
-      "uid":  _auth.currentUser?.uid,
-      "subLocality":"",
-      "locality":"",
-      "name": _auth.currentUser?.displayName.toString(),
-      "email": _auth.currentUser?.email.toString(),
-      // "location":GeoPoint(0,0),
-      "image":_auth.currentUser?.photoURL.toString(),
-      "address":"",
-      "gender":"",
-      // "lat": 0,
-      // "long": 0,
-      "location": const GeoPoint(
-        0,
-        0,
-      ),
-      "pincode": "",
-      "locality": "",
 
-      // "name": name,
-    };
-    await docUser.set(myJson);
+    try{
+      final docUser =
+          FirebaseFirestore.instance.collection("user_details").doc(number);
+      // userModel.userId = docUser.id;
+      // number=docUser.id;
+      final myJson = {
+        'userId': docUser.id,
+        "number": _auth.currentUser?.phoneNumber.toString(),
+        "uid": _auth.currentUser?.uid,
+        "subLocality": "",
+        "locality": "",
+        "name": _auth.currentUser?.displayName.toString(),
+        "email": _auth.currentUser?.email.toString(),
+        // "location":GeoPoint(0,0),
+        "image": _auth.currentUser?.photoURL.toString(),
+        "address": "",
+        "gender": "",
+        // "lat": 0,
+        // "long": 0,
+        "location": const GeoPoint(
+          0,
+          0,
+        ),
+        "pincode": "",
+        "locality": "",
+
+        // "name": name,
+      };
+      await docUser.set(myJson);
+    }catch(e){
+      Get.offAll(()=>LoginPage());
+    }
   }
   static Future createUserName(String name) async {
     final docUser =
@@ -500,29 +506,41 @@ class GymAllApi {
         FirebaseFirestore.instance.collection('user_details').snapshots();
   }
 
-
+  // getGymDetails(String type) async{
+  //   Stream<QuerySnapshot> getGymDetails =  await FirebaseFirestore.instance
+  //       .collection("product_details")
+  //       .where("pincode", isEqualTo: GlobalUserData["pincode"])
+  //       .orderBy("location")
+  //       .snapshots();
+  //   return getGymDetails;
+  // }
   Stream<QuerySnapshot> getGymDetails =   FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserData["pincode"])
+      .where("locality".toLowerCase(),
+      isEqualTo: GlobalUserData["locality"].toLowerCase())
       .orderBy("location")
-    .snapshots();
+      .snapshots();
+
   Stream<QuerySnapshot> getMaleGym =   FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserData["pincode"])
+      .where("locality".toLowerCase(),
+      isEqualTo: GlobalUserData["locality"].toLowerCase())
       .where("gender", isEqualTo: "male")
       .orderBy("location")
       .snapshots();
   Stream<QuerySnapshot> getFemaleGym =   FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserData["pincode"])
+      .where("locality".toLowerCase(),
+      isEqualTo: GlobalUserData["locality"].toLowerCase())
       .where("gender", isEqualTo: "female")
-      // .orderBy("location")
+      .orderBy("location")
       .snapshots();
   Stream<QuerySnapshot> getUnisexGym =  FirebaseFirestore.instance
       .collection("product_details")
-      .where("pincode", isEqualTo: GlobalUserData["pincode"])
+      .where("locality".toLowerCase(),
+      isEqualTo: GlobalUserData["locality"].toLowerCase())
       .where("gender", isEqualTo: "unisex")
-      // .orderBy("location")
+      .orderBy("location")
 
       .snapshots();
 }
@@ -704,5 +722,9 @@ Future<Position> determinePosition() async {
 //   locality = "${place.locality}";
 //   subLocality = "${place.subLocality}";
 // }
+class TkInd extends GetxController{
+  var current = 0.obs;
+  var isSelected = [true, false, false, false, false, false,false,false].obs;
+}
 
 

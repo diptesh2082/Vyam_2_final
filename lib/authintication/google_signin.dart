@@ -1,6 +1,9 @@
 import 'dart:io';
 
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
@@ -41,28 +44,37 @@ class FirebaseService {
       final authCread =await _auth.signInWithCredential(credential);
       if (authCread.user !=null){
         // bool? visitingFlag=await getVisitingFlag();
+
         final auth =  FirebaseAuth.instance;
+        // print("ha email hain"+emailhai);
+        // print(emailId);
+        // print(visiting_flag);
         print(auth.currentUser!.email);
+
         // getToHomePage(auth.currentUser!.email);
         // setUserId(_auth.currentUser?.email);
         // await setNumber(_auth.currentUser!.email);
         // var visitingFlag=await get;
         // checkExist(_auth.currentUser?.email);
-        await checkEmailExist("${_auth.currentUser?.email}");
+        await checkEmailExist("${auth.currentUser!.email}");
         // number.toString()==_auth.currentUser?.email.toString()
-        print("ha email hain"+emailhai);
-        print(emailId);
-        if (emailhai== true || visiting_flag == true){
+        // print("ha email hain"+emailhai);
+        // print(emailId);
+        // print(visiting_flag);
+        // print("//////////////////////////////////");
+        if (emailhai== true || visiting_flag==true ){
           await setNumber(emailId);
           await setUserId(emailId);
           await getToHomePage(emailId);
-          Get.offAll(()=>HomePage());
+          // await myLocation();
+          // print(GlobalUserData);
+          await Get.offAll(()=>HomePage());
         }
         else if(emailhai== false){
-          userName= _auth.currentUser!.displayName;
-          userEmail=_auth.currentUser!.email;
+          userName= await _auth.currentUser!.displayName;
+          userEmail=await _auth.currentUser!.email;
           userPhoto=await _auth.currentUser!.photoURL;
-          Get.offAll(()=>PhoneRegistar());
+          await Get.offAll(()=>PhoneRegistar());
         }
         setUserId(_auth.currentUser?.email);
         setVisitingFlag();

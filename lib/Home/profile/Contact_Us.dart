@@ -34,6 +34,16 @@ class _ContactUsState extends State<ContactUs> {
           body: Column(
             children: [
               ListTile(
+                onTap: () async {
+                  var email = "dipteshmandal555@gmail.com";
+                  print(email);
+                  String emailUrl = "mailto: ${email.toString()}";
+                  if (await canLaunch(emailUrl)) {
+                    await launch(emailUrl);
+                  } else {
+                    throw "Error occured trying to call that number.";
+                  }
+                },
                 leading: Icon(
                   FontAwesomeIcons.envelope,
                   color: Color(0xff292D32),
@@ -70,13 +80,23 @@ class _ContactUsState extends State<ContactUs> {
                 height: 5,
               ),
               ListTile(
+                  onTap: () async {
+                    var number = "+916291003956";
+                    print(number);
+                    String telephoneUrl = "tel:${number.toString()}";
+                    if (await canLaunch(telephoneUrl)) {
+                      await launch(telephoneUrl);
+                    } else {
+                      throw "Error occured trying to call that number.";
+                    }
+                  },
                 leading: Icon(
                   FontAwesomeIcons.phone,
                   color: Color(0xff292D32),
                   size: 20,
                 ),
                 title: Text(
-                  '999893423',
+                  '+916291003956',
                   style: GoogleFonts.poppins(
                       fontSize: 14, fontWeight: FontWeight.w400),
                 ),

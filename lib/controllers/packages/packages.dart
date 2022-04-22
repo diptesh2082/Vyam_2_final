@@ -261,7 +261,7 @@ class _PackegesState extends State<Packeges> {
                                                                     "3A3A3A"),
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w600),
+                                                                        .w700),
                                                       ),
                                                     ],
                                                   ),
@@ -383,7 +383,7 @@ class _PackegesState extends State<Packeges> {
                                                               "Rs "
                                                               "${int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()}",
                                                               style: GoogleFonts.poppins(
-                                                                  fontSize: 14,
+                                                                  fontSize: 18,
                                                                   color: HexColor(
                                                                       "3A3A3A"),
                                                                   fontWeight:

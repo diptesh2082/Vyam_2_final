@@ -182,7 +182,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               children: [
                                                 Container(
                                                   decoration: BoxDecoration(
-                                                      color: HexColor("49C000"),
+                                                      color: HexColor("FFE41F"),
                                                       shape: BoxShape.circle),
                                                   width: 5,
                                                   height: 5,
@@ -191,7 +191,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                   width: 5,
                                                 ),
                                                 Text(
-                                                  "Confirmed",
+                                                  "Upcoming",
                                                   style: GoogleFonts.poppins(
                                                       color: HexColor("3A3A3A"),
                                                       fontSize: 10,
