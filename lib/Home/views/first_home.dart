@@ -713,7 +713,7 @@ class _FirstHomeState extends State<FirstHome> {
                                    alignment: Alignment.centerLeft,
                                    child: Material(
                                      borderRadius: BorderRadius.circular(10),
-                                     elevation: .7,
+                                     elevation: 0,
                                      child: SizedBox(
                                        height: 30,
                                        width: 130,
@@ -1074,7 +1074,7 @@ class _FirstHomeState extends State<FirstHome> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15)),
                             child: Material(
-                              elevation: 5,
+                              elevation: .2,
                               borderRadius: BorderRadius.circular(15),
                               // decoration: BoxDecoration(
                               //   color: Colors.white

@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vyam_2_final/Home/profile/profile_page.dart';
 import 'package:vyam_2_final/api/api.dart';
@@ -335,12 +336,14 @@ class _ProfileState extends State<Profile> {
                     await saveData();
                     await Get.offAll( ()=>ProfilePart());
                   },
-                  child: const Text(
+                  child:  Text(
                     'Update',
-                    style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),
+                    style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black87,
+                    primary: Color(0xff292F3D),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

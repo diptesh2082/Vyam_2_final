@@ -1050,6 +1050,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     const SizedBox(width: 15),
                     GestureDetector(
                       onTap: ()async{
+
                         await FirebaseFirestore.instance
                             .collection("bookings")
                             .doc(number)
@@ -1066,7 +1067,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         }
                         FocusScope.of(context).unfocus();
                         await getBookingData(getData["booking_id"]);
-
+                        await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_details});
 
                         // print(x);
                         await FirebaseFirestore.instance
@@ -1081,7 +1082,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         });
                         await showNotification("Thank You","Booking Successful");
 
-                        await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_details});
+
 
                       },
                       child: Container(

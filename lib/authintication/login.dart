@@ -29,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   //   if ();
   // }
   var resending_token;
+  bool wrong=false;
 
   googleIn() async {
     print('hhhhhhhhhhhhhh');
@@ -186,6 +187,19 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       SizedBox(
+                        height: 10,
+                      ),
+                      if(wrong)
+                        Text(
+                            "Invalid number",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.red,
+                            fontSize: 12
+
+                          ),
+                            ),
+                      SizedBox(
                         height: size.height / 40,
                       ),
                       SizedBox(
@@ -208,11 +222,12 @@ class _LoginPageState extends State<LoginPage> {
                                   });
                                 },
                                 verificationFailed: (verificationFailed) async {
-                                  Get.snackbar(
-                                      "Fail", "${verificationFailed.message}");
+                                  // Get.snackbar(
+                                  //     "Fail", "${verificationFailed.message}");
                                   // ignore: avoid_print
                                   print(verificationFailed.message);
                                   setState(() {
+                                    wrong=true;
                                     showLoding = false;
                                   });
                                 },

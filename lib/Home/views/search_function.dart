@@ -395,7 +395,7 @@ class _SearchItState extends State<SearchIt> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15)),
                       child: Material(
-                        elevation: 5,
+                        elevation: .2,
                         borderRadius: BorderRadius.circular(15),
                         // decoration: BoxDecoration(
                         //   color: Colors.white

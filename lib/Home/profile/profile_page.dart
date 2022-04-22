@@ -402,7 +402,7 @@ class _ProfilePartState extends State<ProfilePart> {
                       height: 40,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.black87,
+                            primary: Color(0xff292F3D),
                           ),
                           onPressed: () async {
                             SharedPreferences sharedPreferences =
