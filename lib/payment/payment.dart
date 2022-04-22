@@ -429,10 +429,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   child: Column(
                     children: [
                       Card(
+                        elevation: 0.2,
                         child: Column(
                           children: [
                             Container(
-                              padding: const EdgeInsets.only(left: 8),
+                              padding: const EdgeInsets.only(left: 3),
                               child: DetailBox(
                                   getData['gymName'].toString(),
                                   getData['gym_details']["branch"].toString(),
@@ -1412,8 +1413,8 @@ class DetailBox extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(15),
             child: Container(
-              height: 105,
-              width: size.width * .42,
+              height: 110,
+              width: size.width * .45,
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: CachedNetworkImageProvider(image),
@@ -1421,7 +1422,7 @@ class DetailBox extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            width: 20,
+            width: 10,
           ),
           Expanded(
               child: Column(
@@ -1436,7 +1437,7 @@ class DetailBox extends StatelessWidget {
                       fontSize: 15,
                     ),
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                    maxLines: 2,
                   ),
                   const SizedBox(
                     height: 8,
@@ -1457,7 +1458,7 @@ class DetailBox extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: const TextStyle(
-                          color: Colors.black,
+                          color: Colors.grey,
                         ),
                       )
                     ],

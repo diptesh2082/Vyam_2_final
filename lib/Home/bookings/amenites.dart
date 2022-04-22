@@ -15,7 +15,7 @@ class _AmenitesState extends State<Amenites> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.1,
+      height: 105,
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('amenities')
@@ -37,7 +37,7 @@ class _AmenitesState extends State<Amenites> {
                 return amenities(index);
               }),
               separatorBuilder: (context, _) => SizedBox(
-                width: 8,
+                // width: 3,
               ),
               itemCount: documents.length)
               : SizedBox();
@@ -45,37 +45,45 @@ class _AmenitesState extends State<Amenites> {
       ),
     );
   }
-  Widget amenities(int index) => FittedBox(
-    child: Column(
-      children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundColor: Colors.amber,
+  Widget amenities(int index) => Column(
+    children: [
+      CircleAvatar(
+        radius: 30,
+        backgroundColor: Colors.amber,
+        // backgroundImage: CachedNetworkImageProvider(
+        //       documents[index]['image'],
+        //   // maxHeight: 30,
+        //   // maxWidth: 30
+        //     ),
+        child: Container(
+          height: 40,
+          width: 40,
           child: Image(
             image: CachedNetworkImageProvider(
               documents[index]['image'],
             ),
-            width: 26.5,
-            height: 26.5,
+            // width: 30,
+            // height:30,
+            fit: BoxFit.cover,
           ),
         ),
+      ),
 
-        SizedBox(
-          width: 90,
-          height: 38,
-          child: Text(
-            documents[index]['name'],
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              fontWeight: FontWeight.w400,
-              fontSize: 12,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.clip,
+      SizedBox(
+        width: 80,
+        height: 38,
+        child: Text(
+          documents[index]['name'],
+          textAlign: TextAlign.center,
+          style: GoogleFonts.poppins(
+            fontWeight: FontWeight.w400,
+            fontSize: 12,
           ),
-
+          maxLines: 2,
+          overflow: TextOverflow.clip,
         ),
-      ],
-    ),
+
+      ),
+    ],
   );
 }

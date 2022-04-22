@@ -421,7 +421,7 @@ class _GymDetailsState extends State<GymDetails> {
                   //   ),
                   // ),
                   const SizedBox(
-                    height: 16,
+                    height: 10,
                   ),
                    Text(
                     'Workouts',
@@ -862,15 +862,21 @@ class _GymDetailsState extends State<GymDetails> {
                                       width: MediaQuery.of(context).size.width *
                                           0.50,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              width: 5, color: Colors.white),
-                                          image: const DecorationImage(
-                                            image: AssetImage(
-                                                'assets/images/safe1.png'),
-                                            // fit: BoxFit.cover
-                                          )),
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            width: 5, color: Colors.white),
+                                        // image: const DecorationImage(
+                                        //   image: AssetImage(
+                                        //       'assets/images/safe2.png',
+                                        //   ),
+                                        //   // fit: BoxFit.cover
+                                        // )
+                                      ),
+                                      child: Center(child: Image.asset('assets/images/safe1.png',
+                                        height: 33,
+                                        width: 33,
+                                      )),
                                     ),
                                     SizedBox(
                                       height:
@@ -908,11 +914,17 @@ class _GymDetailsState extends State<GymDetails> {
                                           shape: BoxShape.circle,
                                           border: Border.all(
                                               width: 5, color: Colors.white),
-                                          image: const DecorationImage(
-                                            image: AssetImage(
-                                                'assets/images/safe2.png'),
-                                            // fit: BoxFit.cover
-                                          )),
+                                          // image: const DecorationImage(
+                                          //   image: AssetImage(
+                                          //       'assets/images/safe2.png',
+                                          //   ),
+                                          //   // fit: BoxFit.cover
+                                          // )
+                                      ),
+                                      child: Center(child: Image.asset('assets/images/safe2.png',
+                                      height: 33,
+                                        width: 33,
+                                      )),
                                     ),
                                      AutoSizeText(
                                       'Proper sanitised equipments',
@@ -942,15 +954,21 @@ class _GymDetailsState extends State<GymDetails> {
                                       width: MediaQuery.of(context).size.width *
                                           0.50,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                              width: 5, color: Colors.white),
-                                          image: const DecorationImage(
-                                            image: AssetImage(
-                                                'assets/images/safe3.png'),
-                                            // fit: BoxFit.cover
-                                          )),
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            width: 5, color: Colors.white),
+                                        // image: const DecorationImage(
+                                        //   image: AssetImage(
+                                        //       'assets/images/safe2.png',
+                                        //   ),
+                                        //   // fit: BoxFit.cover
+                                        // )
+                                      ),
+                                      child: Center(child: Image.asset('assets/images/safe3.png',
+                                        height: 33,
+                                        width: 33,
+                                      )),
                                     ),
                                      AutoSizeText(
                                       'Social Distancing at all times',
@@ -1070,43 +1088,44 @@ class _GymDetailsState extends State<GymDetails> {
   //   child: ClipRRect(
   //     borderRadius: BorderRadius.circular(10),
   //     child: CachedNetworkImage(
-  //       imageUrl: images,
+  //       imageUrl: images,f
   //       fit: BoxFit.cover,
   //     ),
   //   ),
   // );
 
-  Widget amenities(int index) => FittedBox(
-        child: Column(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.amber,
-              child: Image(
-                image: CachedNetworkImageProvider(
-                  documents[index]['image'],
-                ),
-                width: 26.5,
-                height: 26.5,
-              ),
-            ),
-
-            SizedBox(
-              width: 90,
-              height: 38,
-              child: Text(
-                documents[index]['name'],
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.clip,
-              ),
-
-            ),
-          ],
-        ),
-      );
+  // Widget amenities(int index) => FittedBox(
+  //       child: Column(
+  //         children: [
+  //           CircleAvatar(
+  //             radius: 35,
+  //             backgroundColor: Colors.amber,
+  //             child: Image(
+  //               image: CachedNetworkImageProvider(
+  //                 documents[index]['image'],
+  //               ),
+  //               fit: BoxFit.fill,
+  //               // width: 26.5,
+  //               // height: 26.5,
+  //             ),
+  //           ),
+  //
+  //           SizedBox(
+  //             width: 90,
+  //             height: 38,
+  //             child: Text(
+  //               documents[index]['name'],
+  //               textAlign: TextAlign.center,
+  //               style: GoogleFonts.poppins(
+  //                 fontWeight: FontWeight.w400,
+  //                 fontSize: 12,
+  //               ),
+  //               maxLines: 2,
+  //               overflow: TextOverflow.clip,
+  //             ),
+  //
+  //           ),
+  //         ],
+  //       ),
+  //     );
 }

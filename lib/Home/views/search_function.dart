@@ -98,7 +98,7 @@ class _SearchItState extends State<SearchIt> {
                     if(_node.hasFocus)
                       Container(
                         color: Colors.white,
-                        height: 2000,
+                        height: 4000,
                       )
                   ],
                 ),
