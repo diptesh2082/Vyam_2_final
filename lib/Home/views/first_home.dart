@@ -497,7 +497,7 @@ class _FirstHomeState extends State<FirstHome> {
             child: CircularProgressIndicator(),
           )
         : Scaffold(
-            backgroundColor: const Color(0xffF4F4F4),
+            backgroundColor: scaffoldColor,
             appBar: ScrollAppBar(
               controller: app_bar_controller,
               elevation: .0,

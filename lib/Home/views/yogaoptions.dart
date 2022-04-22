@@ -12,6 +12,7 @@ import 'package:vyam_2_final/Home/views/genderyoga/yoga_female.dart';
 import 'package:vyam_2_final/Home/views/genderyoga/yoga_unisex.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 
+import '../../golbal_variables.dart';
 import 'gendergyms/gyms_gender.dart';
 import 'genderyoga/yoga_gender.dart';
 import 'genderyoga/yoga_male.dart';
@@ -52,7 +53,7 @@ class _YogaOptionState extends State<YogaOption> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        backgroundColor: HexColor("F5F5F5"),
+        backgroundColor: scaffoldColor,
         appBar: AppBar(
           bottom: TabBar(
               indicatorColor: HexColor("F5F5F5"),

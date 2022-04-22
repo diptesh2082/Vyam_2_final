@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../golbal_variables.dart';
+
 class TermsAndCondition extends StatefulWidget {
   const TermsAndCondition({Key? key}) : super(key: key);
 
@@ -14,6 +16,7 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: scaffoldColor,
         appBar: AppBar(
           title: Text("Terms And Condition"),
           centerTitle: true,

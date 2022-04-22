@@ -65,21 +65,21 @@ class _PackegesState extends State<Packeges> {
       .id
       .toString();
   CreateBooking(String id) async {
-    final bookings =  FirebaseFirestore.instance
+    final bookings = FirebaseFirestore.instance
         .collection("bookings")
         .doc(number)
         .collection("user_booking");
     print(bookings);
     // booking_id = bookings.doc().id;
     // String id=bookings.doc().id;
-   await bookings.doc(id).set({
+    await bookings.doc(id).set({
       "booking_id": id,
       "booking_status": "incomplete",
       "order_date": DateTime.now(),
       // "gym_name": "",
-     "vendorId": widget.getFinalID,
+      "vendorId": widget.getFinalID,
       "userId": number,
-     "user_name": GlobalUserData["name"],
+      "user_name": GlobalUserData["name"],
       "booking_accepted": false,
       "payment_done": false,
       "booking_plan": "",
@@ -94,7 +94,7 @@ class _PackegesState extends State<Packeges> {
         "name": widget.gymName,
         "branch": Get.arguments["doc"]["branch"]
       },
-     "daysLeft": "0",
+      "daysLeft": "0",
       "discount": "0",
       "grand_total": "",
       "tax_pay": "",
@@ -102,24 +102,18 @@ class _PackegesState extends State<Packeges> {
       "total_price": "",
       "id": "423",
 
-     // "gym_details":{
-     //   "name":widget.gymName
-     // },
-
+      // "gym_details":{
+      //   "name":widget.gymName
+      // },
     });
     print(id);
-    FirebaseFirestore
-        .instance
+    FirebaseFirestore.instance
         .collection("bookings")
         .doc(number)
-        .collection(
-        "user_booking")
+        .collection("user_booking")
         .doc(id)
         .update({
-
       // "gym_name": widget.gymName,
-
-
     });
   }
 
@@ -129,7 +123,6 @@ class _PackegesState extends State<Packeges> {
     setDate();
     CreateBooking(id);
     // print(number);
-
 
     // print(userDetails);
     super.initState();
@@ -162,7 +155,7 @@ class _PackegesState extends State<Packeges> {
                 },
               ),
               elevation: 0,
-              backgroundColor: Colors.transparent,
+              backgroundColor: scaffoldColor,
               centerTitle: true,
               title: Text(
                 "Packages",

@@ -6,7 +6,6 @@ import 'package:vyam_2_final/Home/bookings/review_screen.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
-
 class AddReview extends StatefulWidget {
   @override
   State<AddReview> createState() => _AddReviewState();
@@ -15,7 +14,7 @@ class AddReview extends StatefulWidget {
 class _AddReviewState extends State<AddReview> {
   TextEditingController title = TextEditingController();
   TextEditingController exp = TextEditingController();
-  var id=FirebaseFirestore.instance.collection("Reviews").doc().id;
+  var id = FirebaseFirestore.instance.collection("Reviews").doc().id;
   double ratingvalue = 0;
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,9 @@ class _AddReviewState extends State<AddReview> {
               'Write a Review',
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700),
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700),
             ),
             leading: GestureDetector(
               onTap: () {
@@ -45,8 +46,8 @@ class _AddReviewState extends State<AddReview> {
           child: SizedBox(
             width: double.infinity,
             child: FloatingActionButton.extended(
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               label: const Text(
                 'Submit',
                 style: TextStyle(
@@ -67,13 +68,11 @@ class _AddReviewState extends State<AddReview> {
                     "rating": ratingvalue.toString(),
                     "title": title.text,
                     "experience": exp.text,
-                    "user_id":GlobalUserData["userId"],
-                    "gym_id":Get.arguments["gym_id"],
-                    "review":id
+                    "user_id": GlobalUserData["userId"],
+                    "gym_id": Get.arguments["gym_id"],
+                    "review": id
                   };
-                  await reference
-                      .doc(id).
-                  set(review_data);
+                  await reference.doc(id).set(review_data);
 
                   title.clear();
                   exp.clear();

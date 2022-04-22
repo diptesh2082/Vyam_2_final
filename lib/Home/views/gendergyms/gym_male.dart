@@ -13,7 +13,8 @@ import 'package:vyam_2_final/golbal_variables.dart';
 class GymMale extends StatefulWidget {
   final type;
   const GymMale({
-    Key? key, required this.type,
+    Key? key,
+    required this.type,
   }) : super(key: key);
 
   @override
@@ -36,11 +37,12 @@ class _GymMaleState extends State<GymMale> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: scaffoldColor,
       body: Padding(
         padding:
             const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
         child: StreamBuilder(
-          stream:  FirebaseFirestore.instance
+          stream: FirebaseFirestore.instance
               .collection("product_details")
               .where("pincode", isEqualTo: GlobalUserData["pincode"])
               .where("gender", isEqualTo: "male")
@@ -52,8 +54,8 @@ class _GymMaleState extends State<GymMale> {
                 child: CircularProgressIndicator(),
               );
             }
-            if (streamSnapshot == null){
-              return  Container();
+            if (streamSnapshot == null) {
+              return Container();
             }
 
             var document = streamSnapshot.data.docs;
@@ -71,14 +73,18 @@ class _GymMaleState extends State<GymMale> {
             //       .toLowerCase()
             //       .contains("male");
             // }).toList();
-            if (document.isNotEmpty){
+            if (document.isNotEmpty) {
               return ListView.separated(
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: document.length,
                 itemBuilder: (context, int index) {
-                  var distance=calculateDistance(GlobalUserData["location"].latitude, GlobalUserData["location"].longitude, document[index]["location"].latitude, document[index]["location"].longitude);
-                  distance=double.parse((distance).toStringAsFixed(1));
+                  var distance = calculateDistance(
+                      GlobalUserData["location"].latitude,
+                      GlobalUserData["location"].longitude,
+                      document[index]["location"].latitude,
+                      document[index]["location"].longitude);
+                  distance = double.parse((distance).toStringAsFixed(1));
                   // print(distance);
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(20),
@@ -89,15 +95,12 @@ class _GymMaleState extends State<GymMale> {
                         onTap: () async {
                           FocusScope.of(context).unfocus();
 
-                          Get.to(
-                                  () => GymDetails(),
-                              arguments: {
-                                "id": document[index].id,
-                                "location": document[index]
-                                ["location"],
-                                "name": document[index]["name"],
-                                "docs": document[index],
-                              });
+                          Get.to(() => GymDetails(), arguments: {
+                            "id": document[index].id,
+                            "location": document[index]["location"],
+                            "name": document[index]["name"],
+                            "docs": document[index],
+                          });
                         },
                         child: Stack(
                           children: [
@@ -106,17 +109,14 @@ class _GymMaleState extends State<GymMale> {
                                 height: 210,
                                 fit: BoxFit.cover,
                                 width: MediaQuery.of(context).size.width,
-                                imageUrl: document[index]
-                                ["display_picture"] ??
-                                    "",
-                                progressIndicatorBuilder: (context, url,
-                                    downloadProgress) =>
-                                    Center(
+                                imageUrl:
+                                    document[index]["display_picture"] ?? "",
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) => Center(
                                         child: CircularProgressIndicator(
-                                            value: downloadProgress
-                                                .progress)),
+                                            value: downloadProgress.progress)),
                                 errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
+                                    const Icon(Icons.error),
                                 // height: 195,
                                 // width: double.infinity,
                               ),
@@ -127,20 +127,18 @@ class _GymMaleState extends State<GymMale> {
                               child: Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(6),
-                                    gradient: const LinearGradient(colors: [
-                                      Color(0xaf000000),
-                                      Colors.transparent
-                                    ],
-                                        begin: Alignment(0.0,1),
-                                        end: Alignment(0.0,-.6)
-                                    )
-                                ),
+                                    gradient: const LinearGradient(
+                                        colors: [
+                                          Color(0xaf000000),
+                                          Colors.transparent
+                                        ],
+                                        begin: Alignment(0.0, 1),
+                                        end: Alignment(0.0, -.6))),
                                 alignment: Alignment.bottomRight,
                                 height: 210,
                                 width: 500,
-                                padding: const EdgeInsets.only(
-                                    right: 8, bottom: 10),
-
+                                padding:
+                                    const EdgeInsets.only(right: 8, bottom: 10),
                               ),
                             ),
                             Positioned(
@@ -153,12 +151,11 @@ class _GymMaleState extends State<GymMale> {
                                 ),
                                 height: size.height * .078,
                                 width: size.width * .45,
-                                padding: const EdgeInsets.only(
-                                    left: 8, bottom: 10),
+                                padding:
+                                    const EdgeInsets.only(left: 8, bottom: 10),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       document[index]["name"] ?? "",
@@ -192,7 +189,7 @@ class _GymMaleState extends State<GymMale> {
                             ),
                             Positioned(
                               right: 5,
-                              bottom:2,
+                              bottom: 2,
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(6),
@@ -201,16 +198,14 @@ class _GymMaleState extends State<GymMale> {
                                 alignment: Alignment.bottomRight,
                                 height: 60,
                                 width: 100,
-                                padding: const EdgeInsets.only(
-                                    right: 8, bottom: 10),
+                                padding:
+                                    const EdgeInsets.only(right: 8, bottom: 10),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         // SvgPicture.asset(
                                         //     'assets/Icons/rating star small.svg'),
@@ -237,8 +232,7 @@ class _GymMaleState extends State<GymMale> {
                                       height: 3,
                                     ),
                                     Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.end,
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         // SvgPicture.asset(
                                         //   'assets/Icons/Location.svg',
@@ -267,7 +261,6 @@ class _GymMaleState extends State<GymMale> {
                                 ),
                               ),
                             ),
-
                           ],
                         ),
                       ),
@@ -275,12 +268,12 @@ class _GymMaleState extends State<GymMale> {
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
-                  return  Container(
+                  return Container(
                     height: 15,
                   );
                 },
               );
-            }else {
+            } else {
               return const Center(
                 child: Text(
                   "No nearby gyms in your area",
@@ -292,9 +285,6 @@ class _GymMaleState extends State<GymMale> {
                 ),
               );
             }
-
-
-
           },
         ),
       ),

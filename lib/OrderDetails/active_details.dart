@@ -10,7 +10,8 @@ import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
 class ActiveOrderDetails extends StatefulWidget {
-  const ActiveOrderDetails({Key? key, required this.index, required this.orderList})
+  const ActiveOrderDetails(
+      {Key? key, required this.index, required this.orderList})
       : super(key: key);
   final index;
   final orderList;
@@ -23,8 +24,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
   List getOderDetails = [];
   var doc = Get.arguments;
 // var gym__details;
-  var gym_id= Get.arguments["doc"]["vendorId"];
-  var booking_id=Get.arguments["doc"]["booking_id"];
+  var gym_id = Get.arguments["doc"]["vendorId"];
+  var booking_id = Get.arguments["doc"]["booking_id"];
 
   @override
   void initState() {
@@ -40,6 +41,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: scaffoldColor,
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
@@ -74,7 +76,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                   child: Container(
                     width: MediaQuery.of(context).size.width * .95,
                     decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                        BoxDecoration(borderRadius: BorderRadius.circular(8)),
                     child: Column(
                       children: [
                         Row(
@@ -101,7 +103,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     top: 22.0, bottom: 20),
                                 child: Column(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
@@ -147,7 +149,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       children: [
                                         Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Row(
                                               children: [
@@ -157,11 +159,11 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                                       color: HexColor("A3A3A3"),
                                                       fontSize: 12,
                                                       fontWeight:
-                                                      FontWeight.w500),
+                                                          FontWeight.w500),
                                                 ),
                                                 Text(
                                                   doc["doc"]
-                                                  ['plan_end_duration']
+                                                          ['plan_end_duration']
                                                       .toDate()
                                                       .year
                                                       .toString(),
@@ -169,7 +171,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                                       color: HexColor("A3A3A3"),
                                                       fontSize: 12,
                                                       fontWeight:
-                                                      FontWeight.w500),
+                                                          FontWeight.w500),
                                                 ),
                                               ],
                                             ),
@@ -191,7 +193,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                                       color: HexColor("3A3A3A"),
                                                       fontSize: 10,
                                                       fontWeight:
-                                                      FontWeight.w500),
+                                                          FontWeight.w500),
                                                 ),
                                               ],
                                             ),
@@ -202,17 +204,21 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                         ),
                                         const Spacer(),
                                         GestureDetector(
-                                          onTap: ()async{
-                                            print( vendorDetails['location'].latitude);
-                                            await MapsLaucherApi().launchMaps(vendorDetails['location'].latitude,
-                                                vendorDetails['location'].longitude);
+                                          onTap: () async {
+                                            print(vendorDetails['location']
+                                                .latitude);
+                                            await MapsLaucherApi().launchMaps(
+                                                vendorDetails['location']
+                                                    .latitude,
+                                                vendorDetails['location']
+                                                    .longitude);
                                           },
                                           child: Padding(
                                             padding: const EdgeInsets.only(
                                                 right: 20.0),
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                                  CrossAxisAlignment.center,
                                               children: [
                                                 Image.asset(
                                                   "assets/icons/bx_bxs-direction-right.png",
@@ -224,7 +230,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                                       color: HexColor("49C000"),
                                                       fontSize: 10,
                                                       fontWeight:
-                                                      FontWeight.w500),
+                                                          FontWeight.w500),
                                                 ),
                                               ],
                                             ),
@@ -237,13 +243,13 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                       children: [
                                         Container(
                                             decoration: BoxDecoration(
                                                 color: HexColor("292F3D"),
                                                 borderRadius:
-                                                BorderRadius.circular(10)),
+                                                    BorderRadius.circular(10)),
                                             child: Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 10,
@@ -272,30 +278,32 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                           //       number);
                                           // },
                                           child: GestureDetector(
-
                                             onTap: () async {
-                                              var number = (vendorDetails['number']);
+                                              var number =
+                                                  (vendorDetails['number']);
                                               print(number);
-                                              String telephoneUrl = "tel:${number.toString()}";
-                                              if (await canLaunch(telephoneUrl)) {
+                                              String telephoneUrl =
+                                                  "tel:${number.toString()}";
+                                              if (await canLaunch(
+                                                  telephoneUrl)) {
                                                 await launch(telephoneUrl);
                                               } else {
                                                 throw "Error occured trying to call that number.";
                                               }
                                             },
-
                                             child: Container(
                                                 decoration: BoxDecoration(
                                                     color: HexColor("292F3D"),
                                                     borderRadius:
-                                                    BorderRadius.circular(
-                                                        10)),
+                                                        BorderRadius.circular(
+                                                            10)),
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 14,
-                                                      right: 14,
-                                                      top: 6,
-                                                      bottom: 6),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 14,
+                                                          right: 14,
+                                                          top: 6,
+                                                          bottom: 6),
                                                   child: Row(
                                                     children: [
                                                       Image.asset(
@@ -306,13 +314,13 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                                       Text(
                                                         "Call",
                                                         style:
-                                                        GoogleFonts.poppins(
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w700,
-                                                            color: HexColor(
-                                                                "FFFFFF")),
+                                                            GoogleFonts.poppins(
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                color: HexColor(
+                                                                    "FFFFFF")),
                                                       ),
                                                     ],
                                                   ),

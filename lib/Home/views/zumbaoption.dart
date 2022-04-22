@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 
 import 'package:vyam_2_final/controllers/home_controller.dart';
 
+import '../../golbal_variables.dart';
 import 'gendergyms/gyms_gender.dart';
 
 class ZumbaOption extends StatefulWidget {
@@ -53,7 +54,7 @@ class _ZumbaOptionState extends State<ZumbaOption> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        backgroundColor: HexColor("F5F5F5"),
+        backgroundColor: scaffoldColor,
         appBar: AppBar(
           bottom: TabBar(
               indicatorColor: HexColor("F5F5F5"),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyam_2_final/controllers/faq_controller.dart';
 
+import '../../golbal_variables.dart';
+
 class Faq extends StatefulWidget {
   const Faq({Key? key}) : super(key: key);
 
@@ -16,6 +18,7 @@ class _FaqState extends State<Faq> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: scaffoldColor,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {

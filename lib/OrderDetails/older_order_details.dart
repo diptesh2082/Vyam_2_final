@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+
+import '../golbal_variables.dart';
 // import 'package:vyambooking/List/list.dart';
 
 class OlderOderDetails extends StatefulWidget {
@@ -28,6 +30,7 @@ class _OlderOderDetailsState extends State<OlderOderDetails> {
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: scaffoldColor,
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {

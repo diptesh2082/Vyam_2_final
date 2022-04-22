@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/colors/color.dart';
 
-
 import '../Home/home_page.dart';
-
+import '../golbal_variables.dart';
 
 class RegistrationPage extends StatefulWidget {
   static String id = "/registration_page";
@@ -27,234 +25,213 @@ class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController numberController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   Future pickImage() async {
-  try{
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image == null) return;
-    final imageTemporary = File(image.path);
-    setState(() {
-      this.image = imageTemporary;
-    });
-  } on PlatformException catch (e) {
-    // ignore: avoid_print
-    print("Faild to pick image: $e");
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      setState(() {
+        this.image = imageTemporary;
+      });
+    } on PlatformException catch (e) {
+      // ignore: avoid_print
+      print("Faild to pick image: $e");
+    }
   }
-
-  }
-
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: backgroundColor,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.grey[100],
-          leading: IconButton(
-            icon: const Icon(
-                Icons.arrow_back_ios_new,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Get.back();
-          },
+      backgroundColor: scaffoldColor,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.grey[100],
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.black,
           ),
-          title: const Text(""
-              "Register",
-            style: TextStyle(
-              color: Colors.black,
-            ),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        title: const Text(
+          ""
+          "Register",
+          style: TextStyle(
+            color: Colors.black,
           ),
         ),
+      ),
       body: Form(
         child: ListView(
-            children:  [
-              Padding(
-                padding: EdgeInsets.only(top: size.height/15),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: GestureDetector(
-                          onTap: (){
-                            pickImage();
-                          },
-                          child: CircleAvatar(
-                              radius: 65,
-                            backgroundColor: Colors.yellowAccent,
-                            child: image != null ? ClipOval(
-                            child: Image.file(image !,
-                            height: 150,
-                            width: 140,
-                            ),
-                          ):const Icon(Icons.image),
-                          ),
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: size.height / 15),
+              child: Stack(
+                children: [
+                  Positioned(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: GestureDetector(
+                        onTap: () {
+                          pickImage();
+                        },
+                        child: CircleAvatar(
+                          radius: 65,
+                          backgroundColor: Colors.yellowAccent,
+                          child: image != null
+                              ? ClipOval(
+                                  child: Image.file(
+                                    image!,
+                                    height: 150,
+                                    width: 140,
+                                  ),
+                                )
+                              : const Icon(Icons.image),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20,right: 20,top: 8),
-                child: TextFormField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 8),
+              child: TextFormField(
+                controller: nameController,
+                decoration: const InputDecoration(
                     enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.black87,
-                          width: 2
-                        )
-                    ),
+                        borderSide:
+                            BorderSide(color: Colors.black87, width: 2)),
                     labelText: "First name",
                     fillColor: Colors.orangeAccent,
                     hoverColor: Colors.orangeAccent,
                     errorBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red)
-                    )
-                  ),
-                  textInputAction: TextInputAction.next,
-                  cursorColor: Colors.orangeAccent,
-                  // autofocus: true,
-                ),
+                        borderSide: BorderSide(color: Colors.red))),
+                textInputAction: TextInputAction.next,
+                cursorColor: Colors.orangeAccent,
+                // autofocus: true,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20,right: 20,top: 8),
-                child: TextFormField(
-                  controller: numberController,
-                  decoration: const InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.black87,
-                              width: 2
-                          )
-                      ),
-                      labelText: "Number",
-                      fillColor: Colors.orangeAccent,
-                      hoverColor: Colors.orangeAccent,
-                      errorBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red)
-                      )
-                  ),
-                  textInputAction: TextInputAction.next,
-                  cursorColor: Colors.orangeAccent,
-                  // autofocus: true,
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 8),
+              child: TextFormField(
+                controller: numberController,
+                decoration: const InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.black87, width: 2)),
+                    labelText: "Number",
+                    fillColor: Colors.orangeAccent,
+                    hoverColor: Colors.orangeAccent,
+                    errorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red))),
+                textInputAction: TextInputAction.next,
+                cursorColor: Colors.orangeAccent,
+                // autofocus: true,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20,right: 20,top: 8),
-                child: TextFormField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.black87,
-                              width: 2
-                          )
-                      ),
-                      labelText: "Email",
-                      fillColor: Colors.orangeAccent,
-                      hoverColor: Colors.orangeAccent,
-                      errorBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.red)
-                      )
-                  ),
-                  textInputAction: TextInputAction.next,
-                  cursorColor: Colors.yellowAccent,
-                  // autofocus: true,
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 8),
+              child: TextFormField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.black87, width: 2)),
+                    labelText: "Email",
+                    fillColor: Colors.orangeAccent,
+                    hoverColor: Colors.orangeAccent,
+                    errorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red))),
+                textInputAction: TextInputAction.next,
+                cursorColor: Colors.yellowAccent,
+                // autofocus: true,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20,right: 20,top: 20),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: backgroundColor,
-                      borderRadius: BorderRadius.circular(10)
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(top: 10.0),
-                          child: Text(
-                              "Gender",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: backgroundColor,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          "Gender",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
                         ),
-                        const SizedBox(
-                          height: 15,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CupertinoSlidingSegmentedControl<int>(
+                          groupValue: groupValue,
+                          thumbColor: Colors.yellowAccent,
+                          padding: const EdgeInsets.all(8),
+                          children: {
+                            0: buildSegment("Male"),
+                            1: buildSegment("Female"),
+                            2: buildSegment("Other")
+                          },
+                          onValueChanged: (groupValue) {
+                            setState(() {
+                              this.groupValue = groupValue!;
+                            });
+                          }),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Divider(
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        height: size.height * .04,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: SizedBox(
+                          width: 120,
+                          height: 40,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.black87,
+                              ),
+                              onPressed: () async {
+                                // print(address);
+                                // final user = UserModel(userId: "7407926060",email: ,number: ,name: );
+                                await UserApi.createUserName(
+                                    nameController.text);
+                                Get.toNamed(HomePage.id);
+                              },
+                              child: const Text(
+                                "Continue",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: "Poppins",
+                                    fontWeight: FontWeight.w600),
+                              )),
                         ),
-                        CupertinoSlidingSegmentedControl<int>(
-                            groupValue: groupValue,
-                            thumbColor: Colors.yellowAccent,
-                            padding: const EdgeInsets.all(8),
-                            children:  {
-                              0: buildSegment("Male"),
-                              1: buildSegment("Female"),
-                              2: buildSegment("Other")
-                            },
-                            onValueChanged: (groupValue){
-                              setState(() {
-                                this.groupValue = groupValue!;
-                              });
-                            }),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const Divider(
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          height: size.height*.04,
-                        ),
-
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: SizedBox(
-                            width: 120,
-                            height: 40,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.black87,
-                                ),
-                                onPressed: () async {
-                                  // print(address);
-                                  // final user = UserModel(userId: "7407926060",email: ,number: ,name: );
-                                    await UserApi.createUserName(nameController.text);
-                                      Get.toNamed(HomePage.id
-                                      );
-                                },
-                                child: const Text("Continue",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w600
-                                  ),
-                                )),
-                          ),
-                        ),
-
-                      ],
-                    )
-                ),
-              ),
-
-            ],
+                      ),
+                    ],
+                  )),
+            ),
+          ],
         ),
       ),
     );
   }
-  Widget buildSegment(String text)=>Text(
-      text,
-      style: const TextStyle(
-          color: Colors.black
-      )
-  );
+
+  Widget buildSegment(String text) =>
+      Text(text, style: const TextStyle(color: Colors.black));
 }
 // String address = "";
 // String location = "Search";

@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
 
+import '../golbal_variables.dart';
+
 class NotificationDetails extends StatefulWidget {
   const NotificationDetails({
     Key? key,
@@ -31,6 +33,7 @@ class _NotificationDetailsState extends State<NotificationDetails> {
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: scaffoldColor,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(

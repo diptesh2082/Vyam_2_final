@@ -28,8 +28,8 @@ class SelectDate extends StatefulWidget {
       required this.packageType,
       required this.getGymName,
       required this.getGymAddress,
-       required this.gymId, this.bookingId
-      })
+      required this.gymId,
+      this.bookingId})
       : super(key: key);
 
   final String months;
@@ -74,20 +74,20 @@ class _SelectDateState extends State<SelectDate> {
   var _focusedDay;
   var _pressedDay;
   var _selectedDay;
-  bool swap=false;
-  String year = DateTime.now().year.toString( );
+  bool swap = false;
+  String year = DateTime.now().year.toString();
   String day = DateTime.now().day.toString();
   String endday = DateTime.now().day.toString();
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
-  final bookings= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
-  addBookingData(){
-
-  }
+  final bookings = FirebaseFirestore.instance
+      .collection("bookings")
+      .doc(number)
+      .collection("user_booking");
+  addBookingData() {}
 
   @override
   void initState() {
-
-    total_discount=0;
+    total_discount = 0;
     if (widget.months.contains("PAY PER SESSION")) {
       getDays = 1;
     }
@@ -113,6 +113,7 @@ class _SelectDateState extends State<SelectDate> {
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: scaffoldColor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: InkWell(
@@ -135,7 +136,6 @@ class _SelectDateState extends State<SelectDate> {
               fontWeight: FontWeight.w600),
         ),
       ),
-      backgroundColor: Colors.grey[200],
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Padding(
@@ -192,7 +192,8 @@ class _SelectDateState extends State<SelectDate> {
                         current_mon = _selectedDay.month;
                         selected_week = _selectedDay.weekday;
 
-                        end_mon = _selectedDay.add(Duration(days: getDays)).month;
+                        end_mon =
+                            _selectedDay.add(Duration(days: getDays)).month;
                         end_week =
                             _selectedDay.add(Duration(days: getDays)).weekday;
                       }),
@@ -207,7 +208,8 @@ class _SelectDateState extends State<SelectDate> {
                             color: Colors.grey,
                           )),
                       headerStyle: HeaderStyle(
-                          leftChevronIcon: Image.asset("assets/icons/Arrow.png"),
+                          leftChevronIcon:
+                              Image.asset("assets/icons/Arrow.png"),
                           rightChevronIcon:
                               Image.asset("assets/icons/Arrow01.png"),
                           formatButtonVisible: false,
@@ -334,64 +336,73 @@ class _SelectDateState extends State<SelectDate> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-       floatingActionButton: SizedBox(
-        width: _width * 0.9,
-        child:  FloatingActionButton.extended(
-          elevation: 0,
-          splashColor: Colors.amber,
-          backgroundColor: HexColor("292F3D"),
-          autofocus: false,
-          focusElevation: 4,
-          // focusNode: FocusScope.of(context).unfocus();
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          onPressed: () async {
-            // FocusScope.of(context).unfocus();
-            FocusManager.instance.primaryFocus?.unfocus();
-            // DateTime(int.parse(year),end_mon,int.parse(endday))
-            // FocusScope.of(context).n;
-            startDate = DateTime(int.parse(year),current_mon,int.parse(day));
-                // months[current_mon - 1] + ", " + day + ", " + year;
-            endDate = DateTime(int.parse(year),end_mon,int.parse(endday));
-                // months[end_mon - 1] + ", " + endday + ", " + year;
-            totalDays =DateTime(int.parse(year),end_mon,int.parse(endday)).difference(DateTime(int.parse(year),current_mon,int.parse(day))).inDays+1;
-            print(startDate);
-            print(endDate);
-            // print((months[current_mon - 1] + " ," + day + ", " + year));
-            // print(months[end_mon - 1] + ", " + endday + ", " + year);
-            Get.to(() => const PaymentScreen(),
-              duration: const Duration(milliseconds: 500),
-              arguments: {
-                "gymName": widget.getGymName,
-                "totalMonths": widget.months,
-                "packageType": widget.packageType,
-                "totalPrice": widget.price,
-                "startDate": (months[current_mon - 1] + " ," + day + ", " + year),
-                "endDate": (months[end_mon - 1] + ", " + endday + ", " + year),
-                "address": widget.getGymAddress,
-                "vendorId":widget.gymId,
-                "booking_id":widget.bookingId,
-                "gym_details":Get.arguments["docs"]
-              },
-            );
-            await FirebaseFirestore.instance.collection("bookings")
-                .doc(number)
-                .collection("user_booking")
-                .doc(widget.bookingId)
-                .update({
-               "booking_date":startDate,
-              "plan_end_duration":endDate,
-              "totalDays":totalDays
-            });
-
-          },
-          label: Text(
-            "Proceed",
-            style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: Colors.white),
+      floatingActionButton: SizedBox(
+          width: _width * 0.9,
+          child: FloatingActionButton.extended(
+            elevation: 0,
+            splashColor: Colors.amber,
+            backgroundColor: HexColor("292F3D"),
+            autofocus: false,
+            focusElevation: 4,
+            // focusNode: FocusScope.of(context).unfocus();
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            onPressed: () async {
+              // FocusScope.of(context).unfocus();
+              FocusManager.instance.primaryFocus?.unfocus();
+              // DateTime(int.parse(year),end_mon,int.parse(endday))
+              // FocusScope.of(context).n;
+              startDate =
+                  DateTime(int.parse(year), current_mon, int.parse(day));
+              // months[current_mon - 1] + ", " + day + ", " + year;
+              endDate = DateTime(int.parse(year), end_mon, int.parse(endday));
+              // months[end_mon - 1] + ", " + endday + ", " + year;
+              totalDays = DateTime(int.parse(year), end_mon, int.parse(endday))
+                      .difference(DateTime(
+                          int.parse(year), current_mon, int.parse(day)))
+                      .inDays +
+                  1;
+              print(startDate);
+              print(endDate);
+              // print((months[current_mon - 1] + " ," + day + ", " + year));
+              // print(months[end_mon - 1] + ", " + endday + ", " + year);
+              Get.to(
+                () => const PaymentScreen(),
+                duration: const Duration(milliseconds: 500),
+                arguments: {
+                  "gymName": widget.getGymName,
+                  "totalMonths": widget.months,
+                  "packageType": widget.packageType,
+                  "totalPrice": widget.price,
+                  "startDate":
+                      (months[current_mon - 1] + " ," + day + ", " + year),
+                  "endDate":
+                      (months[end_mon - 1] + ", " + endday + ", " + year),
+                  "address": widget.getGymAddress,
+                  "vendorId": widget.gymId,
+                  "booking_id": widget.bookingId,
+                  "gym_details": Get.arguments["docs"]
+                },
+              );
+              await FirebaseFirestore.instance
+                  .collection("bookings")
+                  .doc(number)
+                  .collection("user_booking")
+                  .doc(widget.bookingId)
+                  .update({
+                "booking_date": startDate,
+                "plan_end_duration": endDate,
+                "totalDays": totalDays
+              });
+            },
+            label: Text(
+              "Proceed",
+              style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+          )
+          // : Container(),
           ),
-        )
-               // : Container(),
-      ),
     );
   }
 }

@@ -16,7 +16,6 @@ import 'package:vyam_2_final/Home/profile/privacyPolicy.dart';
 import 'package:vyam_2_final/Home/profile/profile.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
-import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
 import 'Terms_&_Conditions.dart';
@@ -103,10 +102,10 @@ class _ProfilePartState extends State<ProfilePart> {
       );
     } else {
       return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: scaffoldColor,
           appBar: AppBar(
             elevation: 0.3,
-            backgroundColor: Colors.white,
+            backgroundColor: Color(0xffE5E5E5),
             centerTitle: true,
             title: Text(
               "Profile",
@@ -126,9 +125,6 @@ class _ProfilePartState extends State<ProfilePart> {
                     child: Container(
                       // height: 151,
                       width: MediaQuery.of(context).size.width,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                      ),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: Column(
@@ -291,7 +287,7 @@ class _ProfilePartState extends State<ProfilePart> {
                         onTap: () {
                           Get.to(() => const AboutUs());
                         },
-                        leading:  ImageIcon(
+                        leading: ImageIcon(
                           AssetImage("assets/icons/about_us.png"),
                           color: Colors.black54,
                         ),
@@ -405,7 +401,7 @@ class _ProfilePartState extends State<ProfilePart> {
                           ),
                           onPressed: () async {
                             SharedPreferences sharedPreferences =
-                            await SharedPreferences.getInstance();
+                                await SharedPreferences.getInstance();
                             sharedPreferences.remove('number');
                             // getNumber();
                             // print(number);

@@ -44,6 +44,7 @@ class _OrderDetailsState extends State<OrderDetails> {
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: scaffoldColor,
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {

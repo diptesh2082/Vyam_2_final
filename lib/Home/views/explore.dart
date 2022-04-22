@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -40,9 +39,9 @@ class Explore extends StatefulWidget {
 var lat;
 // =GlobalUserData["location"].latitude;
 var long;
+
 // = GlobalUserData["location"].longitude;
 class _ExploreState extends State<Explore> {
-
   static final _initialCameraPosition = CameraPosition(
     target: LatLng(lat, long),
     zoom: 12,
@@ -77,7 +76,7 @@ class _ExploreState extends State<Explore> {
     var pos = await location.getLocation();
 
     GeoFirePoint point =
-    geo.point(latitude: pos.latitude!, longitude: pos.longitude!);
+        geo.point(latitude: pos.latitude!, longitude: pos.longitude!);
     final CollectionReference users = firestore.collection("product_details");
 
     double radius = 10;
@@ -92,12 +91,12 @@ class _ExploreState extends State<Explore> {
 
   void initMarker(specify, specifyId) async {
     var markerIdVal = await specifyId;
-    final MarkerId markerId =   MarkerId(markerIdVal);
-    final Marker marker =  Marker(
+    final MarkerId markerId = MarkerId(markerIdVal);
+    final Marker marker = Marker(
       icon: BitmapDescriptor.defaultMarker,
       markerId: markerId,
       position:
-      LatLng(specify['location'].latitude, specify['location'].longitude),
+          LatLng(specify['location'].latitude, specify['location'].longitude),
       infoWindow: InfoWindow(title: 'Gym', snippet: specify['name']),
     );
     setState(() {
@@ -127,7 +126,8 @@ class _ExploreState extends State<Explore> {
     });
     FocusScope.of(context).unfocus();
   }
-  var _currentItem =0;
+
+  var _currentItem = 0;
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -158,7 +158,7 @@ class _ExploreState extends State<Explore> {
 
   var doc = Get.arguments;
   getEverything() async {
-    if(mounted) {
+    if (mounted) {
       setState(() {
         isLoading = false;
       });
@@ -194,22 +194,22 @@ class _ExploreState extends State<Explore> {
     print("service status $serviceEnabled");
     if (!serviceEnabled) {
       setState(() {
-        isLoading=true;
-        location_service =  false;
+        isLoading = true;
+        location_service = false;
       });
-      showDialog(context: context,
+      showDialog(
+        context: context,
         // barrierDismissible: location_service,
-        builder:(context)=> WillPopScope(
-          onWillPop: () async{
-            try{
+        builder: (context) => WillPopScope(
+          onWillPop: () async {
+            try {
               Position position = await _determinePosition();
               await GetAddressFromLatLong(position);
-              if(mounted) {
+              if (mounted) {
                 setState(() {
                   myaddress = myaddress;
                   address = address;
                   pin = pin;
-
                 });
               }
               await FirebaseFirestore.instance
@@ -226,16 +226,14 @@ class _ExploreState extends State<Explore> {
                 // "number": number
               });
               setState(() {
-                location_service =  true;
+                location_service = true;
                 // isLoading=false;
               });
-
-            }catch(e){
+            } catch (e) {
               getEverything();
             }
 
-
-             // if(location)
+            // if(location)
             // setState(() {
             //   location_service =  true;
             // });
@@ -249,7 +247,8 @@ class _ExploreState extends State<Explore> {
               width: 180,
               child: Column(
                 children: [
-                  Image.asset("assets/icons/Group188.png",
+                  Image.asset(
+                    "assets/icons/Group188.png",
                     height: 50,
                   ),
                   SizedBox(
@@ -258,9 +257,7 @@ class _ExploreState extends State<Explore> {
                   Text(
                     "Enable device location",
                     style: GoogleFonts.poppins(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold
-                    ),
+                        fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: 10,
@@ -271,13 +268,11 @@ class _ExploreState extends State<Explore> {
                       "Please enable location for accurate location and nearest gyms",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w400
-                      ),
+                          fontSize: 11, fontWeight: FontWeight.w400),
                     ),
                   ),
                   const SizedBox(
-                    height:15,
+                    height: 15,
                   ),
                   Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -290,11 +285,10 @@ class _ExploreState extends State<Explore> {
 
                         // const SizedBox(width: 15),
                         GestureDetector(
-                          onTap: ()async{
-
+                          onTap: () async {
                             Position position = await _determinePosition();
                             await GetAddressFromLatLong(position);
-                            if(mounted) {
+                            if (mounted) {
                               setState(() {
                                 myaddress = myaddress;
                                 address = address;
@@ -305,7 +299,8 @@ class _ExploreState extends State<Explore> {
                                 .collection("user_details")
                                 .doc(number)
                                 .update({
-                              "location": GeoPoint(position.latitude, position.longitude),
+                              "location": GeoPoint(
+                                  position.latitude, position.longitude),
                               "address": address,
                               // "lat": position.latitude,
                               // "long": position.longitude,
@@ -315,7 +310,7 @@ class _ExploreState extends State<Explore> {
                               // "number": number
                             });
                             setState(() {
-                              location_service =  true;
+                              location_service = true;
                             });
 
                             // await Get.offAll(()=>HomePage());
@@ -350,8 +345,6 @@ class _ExploreState extends State<Explore> {
     }
 
     // }
-
-
   }
 
   @override
@@ -361,10 +354,8 @@ class _ExploreState extends State<Explore> {
     getEverything();
 
     setState(() {
-
-
       // });
-      lat=GlobalUserData["location"].latitude;
+      lat = GlobalUserData["location"].latitude;
       long = GlobalUserData["location"].longitude;
     });
 
@@ -383,13 +374,9 @@ class _ExploreState extends State<Explore> {
     super.dispose();
   }
 
-splashLocation(latitude,longitude)async{
-    await   _gotoLocation(latitude,longitude);
-}
-
-
-
-
+  splashLocation(latitude, longitude) async {
+    await _gotoLocation(latitude, longitude);
+  }
 
   // void _currentLocation() async {
   //   final GoogleMapController controller = await _controller.future;
@@ -413,7 +400,7 @@ splashLocation(latitude,longitude)async{
   late List<PlacesApiHelperModel>? _list = [];
 
   bool showPlacessuggesstions = false;
-  TextEditingController test_controller= TextEditingController();
+  TextEditingController test_controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -460,6 +447,7 @@ splashLocation(latitude,longitude)async{
       //   backgroundColor: Colors.white,
       //   elevation: 0,
       // ),
+      backgroundColor: scaffoldColor,
       body: SafeArea(
         child: Stack(
           children: [
@@ -468,7 +456,8 @@ splashLocation(latitude,longitude)async{
               // markers: ,
               mapType: MapType.terrain,
               initialCameraPosition: CameraPosition(
-                target: LatLng(GlobalUserData["location"].latitude!,GlobalUserData["location"].longitude!),
+                target: LatLng(GlobalUserData["location"].latitude!,
+                    GlobalUserData["location"].longitude!),
                 zoom: 10,
               ),
               myLocationEnabled: true,
@@ -478,128 +467,143 @@ splashLocation(latitude,longitude)async{
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
               },
-                markers: Set<Marker>.of(markers.values),
+              markers: Set<Marker>.of(markers.values),
             ),
-            location_service?
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                padding: const EdgeInsets.only(left: 6),
-                margin: const EdgeInsets.symmetric(vertical: 18.0),
-                // color: Colors.white.withOpacity(0),
-                height: 136.0,
-                // width: 250,
-                child: StreamBuilder(
-                    stream:  FirebaseFirestore.instance
-                        .collection("product_details")
-                        .where("locality".toLowerCase(), isEqualTo: GlobalUserData["locality"].toLowerCase())
-                        .orderBy("location")
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot streamSnapshot) {
-                      if (streamSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
+            location_service
+                ? Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 6),
+                      margin: const EdgeInsets.symmetric(vertical: 18.0),
+                      // color: Colors.white.withOpacity(0),
+                      height: 136.0,
+                      // width: 250,
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection("product_details")
+                              .where("locality".toLowerCase(),
+                                  isEqualTo:
+                                      GlobalUserData["locality"].toLowerCase())
+                              .orderBy("location")
+                              .snapshots(),
+                          builder: (context, AsyncSnapshot streamSnapshot) {
+                            if (streamSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
 
-                      document = streamSnapshot.data.docs;
-                      // document = document.where((element) {
-                      //   return element
-                      //       .get('pincode')
-                      //       .toString()
-                      //   // .toLowerCase()
-                      //       .contains(address2.toString());
-                      // }).toList();
-                      // if (searchGymName.isNotEmpty) {
-                      //   document = document.where((element) {
-                      //     return element
-                      //         .get('name')
-                      //         .toString()
-                      //         .toLowerCase()
-                      //         .contains(searchGymName.toLowerCase());
-                      //   }).toList();
-                      // }
-                      return document.isNotEmpty
-                          ? ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: document.length,
-                        itemBuilder: (context, index)  {
-                          // print(index);
-                          return VisibilityDetector(
-                            key: Key(index.toString()),
-                            onVisibilityChanged: (VisibilityInfo info)async {
-                              // print(index.toInt());
+                            document = streamSnapshot.data.docs;
+                            // document = document.where((element) {
+                            //   return element
+                            //       .get('pincode')
+                            //       .toString()
+                            //   // .toLowerCase()
+                            //       .contains(address2.toString());
+                            // }).toList();
+                            // if (searchGymName.isNotEmpty) {
+                            //   document = document.where((element) {
+                            //     return element
+                            //         .get('name')
+                            //         .toString()
+                            //         .toLowerCase()
+                            //         .contains(searchGymName.toLowerCase());
+                            //   }).toList();
+                            // }
+                            return document.isNotEmpty
+                                ? ListView.separated(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: document.length,
+                                    itemBuilder: (context, index) {
+                                      // print(index);
+                                      return VisibilityDetector(
+                                        key: Key(index.toString()),
+                                        onVisibilityChanged:
+                                            (VisibilityInfo info) async {
+                                          // print(index.toInt());
 
-                              // _currentItem= await index.toInt();
-                              print(info.visibleFraction);
-                              if (info.visibleFraction >0.81)
-                                // setState(() {
-                                _currentItem = index.toInt();
-                              print(_currentItem);
-                              splashLocation(document[_currentItem]["location"].latitude, document[_currentItem]["location"].longitude);
-
-                            },
-                            child: SizedBox(
-                              // width: 300,
-                              child: FittedBox(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Get.to(()=>GymDetails(),
-                                        arguments: {
-                                          "id": document[index].id,
-                                          "location": document[index]
-                                          ["location"],
-                                          "name": document[index]
-                                          ["name"],
-                                          "docs": document[index],
-                                        }
-                                    );
-                                    // _gotoLocation(location.latitude, location.longitude);
-                                  },
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30.0),
+                                          // _currentItem= await index.toInt();
+                                          print(info.visibleFraction);
+                                          if (info.visibleFraction > 0.81)
+                                            // setState(() {
+                                            _currentItem = index.toInt();
+                                          print(_currentItem);
+                                          splashLocation(
+                                              document[_currentItem]["location"]
+                                                  .latitude,
+                                              document[_currentItem]["location"]
+                                                  .longitude);
+                                        },
+                                        child: SizedBox(
+                                          // width: 300,
+                                          child: FittedBox(
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Get.to(() => GymDetails(),
+                                                    arguments: {
+                                                      "id": document[index].id,
+                                                      "location":
+                                                          document[index]
+                                                              ["location"],
+                                                      "name": document[index]
+                                                          ["name"],
+                                                      "docs": document[index],
+                                                    });
+                                                // _gotoLocation(location.latitude, location.longitude);
+                                              },
+                                              child: Card(
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30.0),
+                                                ),
+                                                elevation: 8,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: [
+                                                    _boxes(
+                                                      document[index]
+                                                          ["display_picture"],
+                                                      document[index]["name"],
+                                                      document[index]
+                                                          ["location"],
+                                                      document[index]
+                                                          ["address"],
+                                                      document[index]["rating"]
+                                                          .toString(),
+                                                      document[index]["branch"],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return Container(
+                                        width: 10,
+                                      );
+                                    },
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, top: 30),
+                                    child: Text(
+                                      "No Fitness Option Available Here",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16),
                                     ),
-                                    elevation: 8,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        _boxes(
-                                            document[index]["display_picture"],
-                                            document[index]["name"],
-                                            document[index]["location"],
-                                            document[index]["address"],
-                                            document[index]["rating"].toString(),
-                                            document[index]["branch"],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                        separatorBuilder:
-                            (BuildContext context, int index) {
-                          return Container(
-                            width: 10,
-                          );
-                        },
-                      ) : Padding(
-                        padding: const EdgeInsets.only(left: 8.0,top: 30),
-                        child: Text(
-                          "No Fitness Option Available Here",
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16
-                          ),
-                        ),
-                      );
-                    }),
-              ),
-            ):SizedBox(),
+                                  );
+                          }),
+                    ),
+                  )
+                : SizedBox(),
             Positioned(
               // top: 9,
               // left: 1,
@@ -614,7 +618,7 @@ splashLocation(latitude,longitude)async{
                       elevation: 8,
                       borderRadius: BorderRadius.circular(15),
                       child: Container(
-                        width: MediaQuery.of(context).size.width*.93,
+                        width: MediaQuery.of(context).size.width * .93,
                         height: 51,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(14),
@@ -622,34 +626,28 @@ splashLocation(latitude,longitude)async{
                         ),
                         child: TextField(
                           textAlignVertical: TextAlignVertical.center,
-                          controller:test_controller,
+                          controller: test_controller,
                           autofocus: false,
                           onChanged: (value) async {
-                            if (value.length==0){
+                            if (value.length == 0) {
                               // setState(() {
-                                FocusScope.of(context).unfocus();
+                              FocusScope.of(context).unfocus();
                             }
-                              // });
-                            _list = await RequestHelper().getPlaces(query: value);
-                            setState(() {
-
-                            });
+                            // });
+                            _list =
+                                await RequestHelper().getPlaces(query: value);
+                            setState(() {});
                             if (value.isEmpty) {
                               _list!.clear();
                               setState(() {});
                             }
-
-
-
-
                           },
-                          onSubmitted: (value){
+                          onSubmitted: (value) {
                             FocusScope.of(context).unfocus();
                             setState(() {
-                              showPlacessuggesstions=false ;
+                              showPlacessuggesstions = false;
                               _list!.clear();
                             });
-
                           },
                           decoration: const InputDecoration(
                               hintText: 'Search places',
@@ -660,7 +658,9 @@ splashLocation(latitude,longitude)async{
                             setState(() {
                               _list!.clear();
                               FocusScope.of(context).unfocus();
-                              showPlacessuggesstions? showPlacessuggesstions =false:showPlacessuggesstions=true ;
+                              showPlacessuggesstions
+                                  ? showPlacessuggesstions = false
+                                  : showPlacessuggesstions = true;
                               test_controller.clear();
                             });
                           },
@@ -671,42 +671,43 @@ splashLocation(latitude,longitude)async{
                 ),
               ),
             ),
-            _list!=null && _list!.isNotEmpty
+            _list != null && _list!.isNotEmpty
                 ? Positioned(
-              top: 76,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-              color: Colors.white.withOpacity(0.9),
-              padding:
-              const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-              child: _list==null?Container()
-                    : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _list!.length,
-                  itemBuilder: ((context, index) {
-                    return ListTile(
-                      title: Text(_list![index].mainText!),
-                      subtitle: Text(_list![index].secondaryText!),
-                      onTap: () async {
-                        final res = await RequestHelper()
-                            .getCoordinatesFromAddresss(
-                            _list![index].mainText!);
-                        // print(res.latitude);
-                        // print(res.longitude);
-                        _gotoLocation(res.latitude, res.longitude);
-                        FocusScope.of(context).unfocus();
-                        _list!.clear();
-                        setState(() {
-                          // _list==null;
+                    top: 76,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white.withOpacity(0.9),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
+                      child: _list == null
+                          ? Container()
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: _list!.length,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                  title: Text(_list![index].mainText!),
+                                  subtitle: Text(_list![index].secondaryText!),
+                                  onTap: () async {
+                                    final res = await RequestHelper()
+                                        .getCoordinatesFromAddresss(
+                                            _list![index].mainText!);
+                                    // print(res.latitude);
+                                    // print(res.longitude);
+                                    _gotoLocation(res.latitude, res.longitude);
+                                    FocusScope.of(context).unfocus();
+                                    _list!.clear();
+                                    setState(() {
+                                      // _list==null;
 
-                          showPlacessuggesstions = false;
-                        });
-                      },
-                    );
-                  }),
-              ),
-            ),
-                )
+                                      showPlacessuggesstions = false;
+                                    });
+                                  },
+                                );
+                              }),
+                            ),
+                    ),
+                  )
                 : const SizedBox(),
             Positioned(
                 right: 6,
@@ -714,23 +715,21 @@ splashLocation(latitude,longitude)async{
                 child: FittedBox(
                   child: SizedBox(
                     // width: 40,
-                    child:IconButton(
-                      icon: const Icon(
-                        Icons.my_location_outlined
-                      ),
-                        // child: Colors.grey[100]!.withOpacity(.5),
+                    child: IconButton(
+                      icon: const Icon(Icons.my_location_outlined),
+                      // child: Colors.grey[100]!.withOpacity(.5),
                       autofocus: false,
-                        // key: ElevatedButton.styleFrom(
-                        //   primary: Colors.white.withOpacity(.0)
-                        // ),
-                        onPressed: ()async{
-                          final pos=await location.getLocation();
-                          _gotoLocation(pos.latitude!, pos.longitude!);
-                        },
-                        // child: Center(
-                        //   child: const Icon(Icons.my_location_outlined
-                        //   ),
-                        // )
+                      // key: ElevatedButton.styleFrom(
+                      //   primary: Colors.white.withOpacity(.0)
+                      // ),
+                      onPressed: () async {
+                        final pos = await location.getLocation();
+                        _gotoLocation(pos.latitude!, pos.longitude!);
+                      },
+                      // child: Center(
+                      //   child: const Icon(Icons.my_location_outlined
+                      //   ),
+                      // )
                     ),
                   ),
                 ))
@@ -740,14 +739,8 @@ splashLocation(latitude,longitude)async{
     );
   }
 
-  Widget _boxes(
-      String _image,
-      String name,
-      GeoPoint location,
-      String address,
-      String review,
-      String gym_address
-      ) {
+  Widget _boxes(String _image, String name, GeoPoint location, String address,
+      String review, String gym_address) {
     // splashLocation(location.latitude, location.longitude);
     return FittedBox(
       child: GestureDetector(
@@ -785,10 +778,7 @@ splashLocation(latitude,longitude)async{
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0, right: 30),
                         child: myDetailsContainer1(
-                            name,
-                            '${gym_address}',
-                            address,
-                            review),
+                            name, '${gym_address}', address, review),
                       ),
                     ),
                   ],
@@ -853,7 +843,9 @@ splashLocation(latitude,longitude)async{
               CupertinoIcons.star_fill,
               color: Colors.amber,
             ),
-            const SizedBox(width: 3,),
+            const SizedBox(
+              width: 3,
+            ),
             Text(
               review,
               style: const TextStyle(

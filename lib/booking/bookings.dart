@@ -9,6 +9,7 @@ import 'package:vyam_2_final/booking/upcoming.dart';
 // import 'package:vyambooking/booking/older.dart';
 // import 'package:vyambooking/booking/upcoming.dart';
 
+import '../golbal_variables.dart';
 import 'active.dart';
 
 class BookingDetails extends StatefulWidget {
@@ -38,7 +39,7 @@ class _BookingDetailsState extends State<BookingDetails> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: HexColor("F5F5F5"),
+        backgroundColor: scaffoldColor,
         appBar: AppBar(
           bottom: TabBar(
               indicatorColor: HexColor("F5F5F5"),
