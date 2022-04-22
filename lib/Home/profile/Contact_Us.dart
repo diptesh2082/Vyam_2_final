@@ -3,6 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../golbal_variables.dart';
+
 class ContactUs extends StatefulWidget {
   const ContactUs({Key? key}) : super(key: key);
 
@@ -15,6 +17,7 @@ class _ContactUsState extends State<ContactUs> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+          backgroundColor: scaffoldColor,
           appBar: AppBar(
             title: Text("Contact Us"),
             centerTitle: true,

@@ -5,7 +5,6 @@ import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/google_signin.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
-
 import 'register_email.dart';
 import 'rphoto.dart';
 
@@ -21,40 +20,39 @@ class Register3 extends StatefulWidget {
 }
 
 class _Register3State extends State<Register3> {
-  String gender="";
-  var name= Get.arguments["name"];
-  var email=Get.arguments["email"];
-  var user_number=Get.arguments["number"];
-
-
+  String gender = "";
+  var name = Get.arguments["name"];
+  var email = Get.arguments["email"];
+  var user_number = Get.arguments["number"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.grey[100],
+      backgroundColor: scaffoldColor,
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          title: Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
             Text('3', //_current1.toString(),
                 style: TextStyle(
-            color: Colors.black,
-            fontFamily: "Poppins",
-            fontSize: 14,
-            fontWeight: FontWeight.w400)),
+                    color: Colors.black,
+                    fontFamily: "Poppins",
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400)),
             Text("/",
                 style: TextStyle(
-            color: Colors.black,
-            fontFamily: "Poppins",
-            fontSize: 14,
-            fontWeight: FontWeight.w400)),
+                    color: Colors.black,
+                    fontFamily: "Poppins",
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400)),
             Text('4', //rimages.length.toString(),
                 style: TextStyle(
-            color: Colors.black,
-            fontFamily: "Poppins",
-            fontSize: 14,
-            fontWeight: FontWeight.w400))
+                    color: Colors.black,
+                    fontFamily: "Poppins",
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400))
           ]),
           leading: GestureDetector(
             onTap: () {
@@ -72,28 +70,31 @@ class _Register3State extends State<Register3> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
-            onPressed: ()async {
+            onPressed: () async {
               await UserApi.createNewUser();
-              await FirebaseFirestore.instance.collection("user_details").doc(number).update({
-                "number":number,
-                "image":userPhoto,
-                "name":name,
-                "email":email,
-                "gender":gender
+              await FirebaseFirestore.instance
+                  .collection("user_details")
+                  .doc(number)
+                  .update({
+                "number": number,
+                "image": userPhoto,
+                "name": name,
+                "email": email,
+                "gender": gender
               });
               await Navigator.push(
                   context,
                   CustomPageRoute(
                     child: Register4(),
                   )
-                /* PageTransition(
+                  /* PageTransition(
                       curve: Curves.easeIn,
                       ctx: context,
                       duration: Duration(milliseconds: 50),
                       opaque: true,
                       child: Register4(),
                       type: PageTransitionType.rightToLeftWithFade)*/
-              );
+                  );
               // print(name);
               // await setVisitingFlag();
               await setVisitingFlag();
@@ -101,9 +102,6 @@ class _Register3State extends State<Register3> {
               // await UserApi.createUserName(name);
               // await UserApi.CreateUserEmail(email);
               // await UserApi.CreateUserGender(gender);
-
-
-
             },
             backgroundColor: Colors.amber.shade300,
             child: const Icon(
@@ -116,7 +114,8 @@ class _Register3State extends State<Register3> {
           Center(
             child: Padding(
                 padding: EdgeInsets.all(30),
-                child: Image.asset('assets/Illustrations/undraw_energizer_re.png')),
+                child: Image.asset(
+                    'assets/Illustrations/undraw_energizer_re.png')),
           ),
           rgender(context),
         ],
@@ -177,8 +176,9 @@ class _Register3State extends State<Register3> {
                                     elevation: MaterialStateProperty.all(4),
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
-                                           gender=="male"?  Colors.black87 : Colors.white
-                                        ),
+                                            gender == "male"
+                                                ? Colors.black87
+                                                : Colors.white),
                                     shape: MaterialStateProperty.all<
                                             RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
@@ -189,7 +189,9 @@ class _Register3State extends State<Register3> {
                                     Text(
                                       'Male',
                                       style: TextStyle(
-                                          color: gender =="male"? Colors.white : Colors.black87 ,
+                                          color: gender == "male"
+                                              ? Colors.white
+                                              : Colors.black87,
                                           fontFamily: 'poppins',
                                           fontWeight: FontWeight.w600,
                                           fontSize: 12),
@@ -202,7 +204,9 @@ class _Register3State extends State<Register3> {
                                     // ),
                                     Icon(
                                       Icons.male,
-                                      color: gender=="male"? Colors.white : Colors.black87 ,
+                                      color: gender == "male"
+                                          ? Colors.white
+                                          : Colors.black87,
                                       size: 20,
                                     ),
                                   ],
@@ -211,7 +215,6 @@ class _Register3State extends State<Register3> {
                                   setState(() {
                                     gender = "male";
                                   });
-
                                 },
                               ),
                             ),
@@ -226,19 +229,22 @@ class _Register3State extends State<Register3> {
                                     elevation: MaterialStateProperty.all(4),
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
-                                            gender=="female"?  Colors.black87 : Colors.white
-                                        ),
+                                            gender == "female"
+                                                ? Colors.black87
+                                                : Colors.white),
                                     shape: MaterialStateProperty.all<
                                             RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ))),
                                 child: Row(
-                                  children:  [
+                                  children: [
                                     Text(
                                       'Female',
                                       style: TextStyle(
-                                          color: gender=="female"? Colors.white : Colors.black87 ,
+                                          color: gender == "female"
+                                              ? Colors.white
+                                              : Colors.black87,
                                           fontFamily: 'poppins',
                                           fontWeight: FontWeight.w600,
                                           fontSize: 12),
@@ -246,7 +252,9 @@ class _Register3State extends State<Register3> {
                                     Spacer(),
                                     Icon(
                                       Icons.female,
-                                      color: gender=="female"? Colors.white : Colors.black87 ,
+                                      color: gender == "female"
+                                          ? Colors.white
+                                          : Colors.black87,
                                       size: 20,
                                     ),
                                   ],
@@ -255,7 +263,6 @@ class _Register3State extends State<Register3> {
                                   setState(() {
                                     gender = "female";
                                   });
-
                                 },
                               ),
                             ),

@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void showNotification(String title,String info) {
+  void showNotification(String title, String info) {
     setState(() {
       _counter++;
     });
@@ -114,7 +114,6 @@ class _HomePageState extends State<HomePage> {
             icon: '@mipmap/launcher_icon'),
       ),
     );
-
   }
 
   final PersistentTabController _controller =
@@ -283,8 +282,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   int currentIndex = 0;
-  final backgroundColor = Colors.grey[200];
-  final appBarColor = Colors.grey[300];
+  final backgroundColor = scaffoldColor;
+  final appBarColor = scaffoldColor;
   final HomeController controller = Get.put(HomeController());
   final screens = [
     const FirstHome(),
@@ -305,7 +304,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: scaffoldColor,
       body: PersistentTabView(
         context,
         controller: _controller,

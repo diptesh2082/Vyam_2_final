@@ -226,7 +226,7 @@ class _ProfileState extends State<Profile> {
                       //   // child:
                       // ) :CachedNetworkImage( imageUrl: imageUrl,),
                       // Positioned(
-                        // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
+                      // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
                       //   bottom: 14.5,
                       //   // right: 20,
                       //   left: 32.5,
@@ -244,7 +244,7 @@ class _ProfileState extends State<Profile> {
                       //   ),
                       // )
                     ]
-                  ),
+                    ),
                   ),
 
                 ),
@@ -324,7 +324,7 @@ class _ProfileState extends State<Profile> {
                 ElevatedButton(
                   onPressed: () async {
                     await FirebaseFirestore.instance.collection("user_details")
-                    .doc(number).update({
+                        .doc(number).update({
                       'email': emailTextEditingController.text,
                       'name': nameTextEditingController.text,
                     });

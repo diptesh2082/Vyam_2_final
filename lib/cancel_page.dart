@@ -54,7 +54,7 @@ class _CancelDetailsState extends State<CancelDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: scaffoldColor,
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,

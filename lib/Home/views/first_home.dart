@@ -497,7 +497,7 @@ class _FirstHomeState extends State<FirstHome> {
             child: CircularProgressIndicator(),
           )
         : Scaffold(
-            backgroundColor: const Color(0xffF4F4F4),
+            backgroundColor: scaffoldColor,
             appBar: ScrollAppBar(
               controller: app_bar_controller,
               elevation: .0,
@@ -565,6 +565,7 @@ class _FirstHomeState extends State<FirstHome> {
                     Row(
                       children: [
                         IconButton(
+                          // NOTIFICATION NUMBER CALLING
                           icon: Badge(
                             badgeContent: Text("1"),
                             borderRadius: BorderRadius.circular(5),

@@ -6,6 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
 
+import '../golbal_variables.dart';
+
 class NotificationDetails extends StatefulWidget {
   const NotificationDetails({
     Key? key,
@@ -31,6 +33,7 @@ class _NotificationDetailsState extends State<NotificationDetails> {
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: scaffoldColor,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
@@ -71,90 +74,95 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                 ),
               );
             }
-
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: _height * 0.7,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: data.size,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
-                                elevation: 8,
-                                color: Colors.transparent,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8)),
-                                  width: _width * 0.9,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 22.0, left: 18, bottom: 22),
-                                    child: Row(
-                                      children: [
-                                        if (data.docs[index]['type']
-                                            .contains("remainder"))
-                                          const Icon(
-                                            Icons.warning_amber,
-                                            color: Colors.red,
-                                          ),
-                                        if (data.docs[index]['type']
-                                            .contains("coupon"))
-                                          Image.asset(
-                                              "assets/icons/discount.png"),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            data.docs[index]['msg'],
-                                            maxLines: 3,
+            return Column(
+              children: [
+                SizedBox(
+                  height: _height * 0.7,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: data.size,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                            elevation: 8,
+                            color: Colors.transparent,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8)),
+                              width: _width * 0.9,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 22.0, left: 18, bottom: 22),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: RichText(
+                                        text: TextSpan(
+                                            text: data.docs[index]['title'],
                                             style: GoogleFonts.poppins(
-                                                color: HexColor("3A3A3A"),
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                      ],
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14,
+                                              color: HexColor("3A3A3A"),
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                  text:
+                                                      '\n${data.docs[index]['description']}',
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: HexColor("AFAFAF"),
+                                                  ))
+                                            ]),
+                                        maxLines: 3,
+                                      ),
                                     ),
-                                  ),
+                                    if (data.docs[index]['type']
+                                        .contains("reminder"))
+                                      const Icon(
+                                        Icons.warning_amber,
+                                        color: Colors.red,
+                                      ),
+                                    if (data.docs[index]['type']
+                                        .contains("coupon"))
+                                      Image.asset("assets/icons/discount.png"),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                  ],
                                 ),
                               ),
-                            );
-                          }),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        notificationApi.clearNotificationList();
-                      },
-                      child: Container(
-                        width: _width * 0.9,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: HexColor("292F3D"),
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Center(
-                          child: Text(
-                            "Clear all",
-                            style: GoogleFonts.poppins(
-                                color: HexColor("FFFFFF"),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
+                            ),
                           ),
-                        ),
+                        );
+                      }),
+                ),
+                InkWell(
+                  onTap: () {
+                    notificationApi.clearNotificationList();
+                  },
+                  child: Container(
+                    width: _width * 0.9,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: HexColor("292F3D"),
+                        borderRadius: BorderRadius.circular(8)),
+                    child: Center(
+                      child: Text(
+                        "Clear all",
+                        style: GoogleFonts.poppins(
+                            color: HexColor("FFFFFF"),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             );
           }),
     );

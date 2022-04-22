@@ -7,6 +7,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
+import '../golbal_variables.dart';
+
 class YogaType extends StatefulWidget {
   const YogaType({
     Key? key,
@@ -43,7 +45,7 @@ class _YogaTypeState extends State<YogaType> {
           },
         ),
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: scaffoldColor,
         centerTitle: true,
         title: Text(
           "Yoga",
@@ -82,10 +84,10 @@ class _YogaTypeState extends State<YogaType> {
                                     print("${document[index]["name"]}");
                                     Get.to(
                                         () => GymDetails(
-                                              // getID: document[index].id,
-                                              // gymLocation: document[index]
-                                              //     ["location"],
-                                              // gymName: document[index]["name"],
+                                            // getID: document[index].id,
+                                            // gymLocation: document[index]
+                                            //     ["location"],
+                                            // gymName: document[index]["name"],
                                             ),
                                         arguments: {
                                           "id": document[index].id,

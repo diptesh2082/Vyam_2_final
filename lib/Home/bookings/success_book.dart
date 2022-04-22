@@ -67,7 +67,7 @@ class _SuccessBookState extends State<SuccessBook>
         return true;
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: scaffoldColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

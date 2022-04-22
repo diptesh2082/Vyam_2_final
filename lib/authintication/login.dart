@@ -12,8 +12,6 @@ import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/colors/color.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
-
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -54,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
 
     super.initState();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -65,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: scaffoldColor,
       body: showLoding
           ? const Center(
               child: CircularProgressIndicator(),
@@ -212,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                             });
                             var _forceResendingToken;
                             await _auth.verifyPhoneNumber(
-                              timeout: const Duration(seconds: 30),
+                                timeout: const Duration(seconds: 30),
                                 forceResendingToken: _forceResendingToken,
                                 phoneNumber: "+91${phoneController.text}",
                                 verificationCompleted:
@@ -231,22 +230,27 @@ class _LoginPageState extends State<LoginPage> {
                                     showLoding = false;
                                   });
                                 },
-
-                              codeSent:
-                                (verificationID, resendingToken) async {
+                                codeSent:
+                                    (verificationID, resendingToken) async {
                                   setState(() {
                                     showLoding = false;
                                   });
-                                  resending_token=  resendingToken;
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>OtpPage(verificationID: verificationID,number: "+91${phoneController.text.trim()}" , resendingToken: resending_token,)));
-
+                                  resending_token = resendingToken;
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => OtpPage(
+                                                verificationID: verificationID,
+                                                number:
+                                                    "+91${phoneController.text.trim()}",
+                                                resendingToken: resending_token,
+                                              )));
                                 },
                                 // forceResendingToken: (re){
                                 //
                                 // },
                                 codeAutoRetrievalTimeout:
-                                    (verificationID) async {
-                                    });
+                                    (verificationID) async {});
                           },
                           child: Text(
                             "Continue",
@@ -312,7 +316,6 @@ class _LoginPageState extends State<LoginPage> {
                           const SizedBox(
                             width: 15,
                           ),
-
                         ],
                       ),
                       const SizedBox(

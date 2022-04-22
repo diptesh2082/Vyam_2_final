@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyam_2_final/api/api.dart';
 
+import '../golbal_variables.dart';
 import 'register_email.dart';
 
 import 'custom_register_route.dart';
@@ -9,11 +10,9 @@ import 'custom_register_route.dart';
 class Register1 extends StatefulWidget {
   static String id = "/register1_screen";
 
-
   @override
   State<Register1> createState() => _Register1State();
 }
-
 
 class _Register1State extends State<Register1> {
   TextEditingController nameController = TextEditingController();
@@ -25,44 +24,47 @@ class _Register1State extends State<Register1> {
 
     super.initState();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
     nameController.dispose();
     super.dispose();
   }
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: scaffoldColor,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Transform(
-
-            transform: Matrix4.translationValues(-20,  0, 0),
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-              Text('1', //_current1.toString(),
-                  style: TextStyle(
-              color: Colors.black,
-              fontFamily: "Poppins",
-              fontSize: 14,
-              fontWeight: FontWeight.w400)),
-              Text("/",
-                  style: TextStyle(
-              color: Colors.black,
-              fontFamily: "Poppins",
-              fontSize: 14,
-              fontWeight: FontWeight.w400)),
-              Text('4', //rimages.length.toString(),
-                  style: TextStyle(
-              color: Colors.black,
-              fontFamily: "Poppins",
-              fontSize: 14,
-              fontWeight: FontWeight.w400))
-            ]),
+            transform: Matrix4.translationValues(-20, 0, 0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text('1', //_current1.toString(),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400)),
+                  Text("/",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400)),
+                  Text('4', //rimages.length.toString(),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400))
+                ]),
           ),
           leading: GestureDetector(
             onTap: null,
@@ -76,34 +78,28 @@ class _Register1State extends State<Register1> {
         child: FloatingActionButton(
             onPressed: () async {
               final isValid = _formKey.currentState?.validate();
-              if (isValid!){
+              if (isValid!) {
                 _formKey.currentState?.save();
                 // await UserApi.createNewUser();
-                Get.to(
-                    ()=>Register2(),
-                  arguments: {
-                      "name":nameController.text.trim()
-                  }
-                    );
+                Get.to(() => Register2(),
+                    arguments: {"name": nameController.text.trim()});
               }
             },
             backgroundColor: Colors.amber.shade300,
             child: const Icon(
               Icons.arrow_forward_ios_outlined,
               color: Colors.black,
-            )
-        ),
+            )),
       ),
       body: Stack(
         children: [
           Center(
             child: Padding(
-              padding: const EdgeInsets.all(21),
-                child: Image.asset('assets/Illustrations/Fitness stats-pana_1.png')),
+                padding: const EdgeInsets.all(21),
+                child: Image.asset(
+                    'assets/Illustrations/Fitness stats-pana_1.png')),
           ),
-          Form(
-              key: _formKey,
-              child: Rname(context)),
+          Form(key: _formKey, child: Rname(context)),
         ],
       ),
     );
@@ -117,7 +113,8 @@ class _Register1State extends State<Register1> {
               SafeArea(
                 //margin: EdgeInsets.only(left: 10.0),
                 child: Padding(
-                  padding:  EdgeInsets.only(left:MediaQuery.of(context).size.height * 0.02),
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.height * 0.02),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -149,10 +146,9 @@ class _Register1State extends State<Register1> {
                               color: Colors.grey),
                         ),
                       ),
-                      const SizedBox(
-                        height: 20
-                        // MediaQuery.of(context).size.height * 0.02,
-                      ),
+                      const SizedBox(height: 20
+                          // MediaQuery.of(context).size.height * 0.02,
+                          ),
                       Container(
                         width: MediaQuery.of(context).size.width * .92,
                         height: 51,
@@ -160,43 +156,43 @@ class _Register1State extends State<Register1> {
                           borderRadius: BorderRadius.circular(14),
                           color: Colors.white,
                         ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Material(
-                                color: Colors.white,
-                                elevation: 15,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 12.0),
-                                  child: TextFormField(
-                                  // textInputAction: TextInputAction.done,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Material(
+                            color: Colors.white,
+                            elevation: 15,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 12.0),
+                              child: TextFormField(
+                                // textInputAction: TextInputAction.done,
 
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w400,
-                                  ),
-
-                                  controller: nameController,
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                        fontSize: 12,
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      hintText: "Full Name"),
-                                  validator: (value){
-                                    if(value!.isEmpty || value.length < 4){
-                                      return "Enter your full name";
-                                    }else{
-                                      return null;
-                                    }
-                                  },
-                                  ),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w400,
                                 ),
+
+                                controller: nameController,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    hintText: "Full Name"),
+                                validator: (value) {
+                                  if (value!.isEmpty || value.length < 4) {
+                                    return "Enter your full name";
+                                  } else {
+                                    return null;
+                                  }
+                                },
                               ),
                             ),
                           ),
+                        ),
+                      ),
                       // SizedBox(
                       //   width: MediaQuery.of(context).size.width,
                       //   child: Container(

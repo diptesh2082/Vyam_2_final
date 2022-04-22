@@ -7,6 +7,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
+import '../golbal_variables.dart';
+
 class GymType extends StatefulWidget {
   const GymType({
     Key? key,
@@ -43,7 +45,7 @@ class _GymTypeState extends State<GymType> {
           },
         ),
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: scaffoldColor,
         centerTitle: true,
         title: Text(
           "GYMs",
@@ -83,10 +85,10 @@ class _GymTypeState extends State<GymType> {
                                     print("${document[index]["name"]}");
                                     Get.to(
                                         () => GymDetails(
-                                              // getID: document[index].id,
-                                              // gymLocation: document[index]
-                                              //     ["location"],
-                                              // gymName: document[index]["name"],
+                                            // getID: document[index].id,
+                                            // gymLocation: document[index]
+                                            //     ["location"],
+                                            // gymName: document[index]["name"],
                                             ),
                                         arguments: {
                                           "id": document[index].id,
@@ -94,7 +96,6 @@ class _GymTypeState extends State<GymType> {
                                               ["location"],
                                           "name": document[index]["name"],
                                           "docs": document[index]
-
                                         });
                                   },
                                   child: ClipRRect(

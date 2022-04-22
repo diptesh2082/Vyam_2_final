@@ -89,8 +89,7 @@ class _LocInfoState extends State<LocInfo> {
     }
 
     return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.best
-    );
+        desiredAccuracy: LocationAccuracy.best);
   }
 
   String pin = "";
@@ -99,21 +98,18 @@ class _LocInfoState extends State<LocInfo> {
   String myaddress = "your location";
   var address = "";
   Future<void> GetAddressFromLatLong(Position position) async {
-
-    try{
+    try {
       List<Placemark> placemark =
-      await placemarkFromCoordinates(position.latitude, position.longitude);
+          await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemark[0];
       print(placemark);
       print(placemark[1]);
-      address =
-          "${place.name??""},"+"${place.subLocality??""}, ${place.locality??""}, ${place.subAdministrativeArea??""}, ${place.postalCode??""}";
+      address = "${place.name ?? ""}," +
+          "${place.subLocality ?? ""}, ${place.locality ?? ""}, ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
       pin = "${place.postalCode}";
       locality = "${place.locality}";
       subLocality = "${place.subLocality}";
-    }catch(e){
-
-    }
+    } catch (e) {}
   }
 
   Future<void> GetAddressFromGeoPoint(GeoPoint position) async {
@@ -125,8 +121,8 @@ class _LocInfoState extends State<LocInfo> {
     print(placemark[1]);
     // var add = await Geocoder.local.findAddressesFromCoordinates(
     //     coordinates);
-    address =
-        "${place.name??""}, "+"${place.street??""}, ${place.locality??""}, ${place.subAdministrativeArea??""}, ${place.postalCode??""}";
+    address = "${place.name ?? ""}, " +
+        "${place.street ?? ""}, ${place.locality ?? ""}, ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
     pin = "${place.postalCode}";
     locality = "${place.locality}";
     subLocality = "${place.subLocality}";
@@ -154,6 +150,7 @@ class _LocInfoState extends State<LocInfo> {
     // TODO: implement initState
     super.initState();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -221,6 +218,7 @@ class _LocInfoState extends State<LocInfo> {
             //   backgroundColor: Colors.white,
             //   elevation: 0,
             // ),
+            backgroundColor: scaffoldColor,
             body: SafeArea(
               child: Stack(
                 alignment: Alignment.center,
