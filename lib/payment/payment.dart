@@ -581,15 +581,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 9,
-                      ),
+                      // const SizedBox(
+                      //   height: 2,
+                      // ),
                       GestureDetector(
                         onTap: () =>
                             Get.to(() => CouponDetails(), arguments: getData),
                         child: Card(
+                          elevation: .2,
                           child: SizedBox(
-                            height: 57,
+                            height: 90,
                             child: Padding(
                               padding: const EdgeInsets.only(
                                   left: 20.0, right: 20, top: 3, bottom: 3),
@@ -617,37 +618,65 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           ),
                                         ],
                                       ),
+                                       SizedBox(
+                                         height: 4,
+                                       ),
                                        Obx(()=>
-                                        RichText(
-                                            text: TextSpan(
-                                                  style: GoogleFonts.poppins(
-                                                    // fontFamily: "Poppins",
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: 12,
-                                                      color: Colors.grey),
-                                              children:  <TextSpan>[
-                                                 TextSpan(
-                                                  text: myCouponController.GlobalCouponApplied.value?"Promo ":"No Promo "
-                                                ),
-                                                TextSpan(
-                                                    text: myCouponController.GlobalCouponApplied.value?"${ myCouponController.GlobalCoupon.value} ":"code ",
-                                                  style: myCouponController.GlobalCouponApplied.value? GoogleFonts.poppins(
-                                                    // fontFamily: "Poppins",
-                                                      fontWeight: FontWeight.w700,
-                                                      fontSize: 12,
-                                                      color: Colors.amber
-                                                  ):GoogleFonts.poppins(
-                                                    // fontFamily: "Poppins",
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: 12,
-                                                      color: Colors.grey),
-                                                ),
-                                                 TextSpan(
-                                                    text: GlobalCouponApplied?"Applied":"Selected"
-                                                ),
-                                              ]
+                                        Container(
+                                          width: MediaQuery.of(context).size.width*.76,
+                                          child: Row(
+                                            children: [
+                                              RichText(
+                                                  text: TextSpan(
+                                                        style: GoogleFonts.poppins(
+                                                          // fontFamily: "Poppins",
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                    children:  <TextSpan>[
+                                                       TextSpan(
+                                                        text: myCouponController.GlobalCouponApplied.value?"Promo ":"No Promo "
+                                                      ),
+                                                      TextSpan(
+                                                          text: myCouponController.GlobalCouponApplied.value?"${ myCouponController.GlobalCoupon.value} ":"code ",
+                                                        style: myCouponController.GlobalCouponApplied.value? GoogleFonts.poppins(
+                                                          // fontFamily: "Poppins",
+                                                            fontWeight: FontWeight.w700,
+                                                            fontSize: 12,
+                                                            color: Colors.amber
+                                                        ):GoogleFonts.poppins(
+                                                          // fontFamily: "Poppins",
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                      ),
+                                                       TextSpan(
+                                                          text: GlobalCouponApplied?"Applied":"Selected"
+                                                      ),
 
-                                            )),
+                                                    ]
+
+                                                  )),
+                                              Spacer(),
+                                              if(myCouponController.GlobalCouponApplied.value==true)
+                                              InkWell(
+                                                onTap: ()async{
+                                                  myCouponController.GlobalCouponApplied.value=await false;
+                                                  myCouponController.GlobalCoupon.value=await "";
+                                                  // myCouponController.CouponDetailsMap.value= coupon_list[coupon];
+                                                },
+                                                child: Text(
+                                                    "REMOVE",
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 9,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.amber
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                        )
                                     ],
                                   ),
@@ -662,11 +691,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 9,
-                      ),
+                      // const SizedBox(
+                      //   height: 2,
+                      // ),
                       Obx(()=>
                          Card(
+                           elevation: .2,
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 left: 12.0, right: 12, top: 10, bottom: 10),
@@ -676,14 +706,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   alignment: Alignment.centerLeft,
                                   padding:
                                       const EdgeInsets.only(left: 10, top: 3),
-                                  child: Text(
-                                    "Payment",
-                                    textAlign: TextAlign.start,
-                                    style: GoogleFonts.poppins(
-                                        color: Colors.green,
-                                        // fontFamily: "Poppins",
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700),
+                                  child: InkWell(
+                                    onTap: (){
+                                      // print(Get.arguments("totalMonths"));
+                                    },
+                                    child: Text(
+                                      "Payment",
+                                      textAlign: TextAlign.start,
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.green,
+                                          // fontFamily: "Poppins",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700),
+                                    ),
                                   ),
                                 ),
                                 Row(

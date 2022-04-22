@@ -66,7 +66,8 @@ class FirebaseService {
           await setNumber(emailId);
           await setUserId(emailId);
           await getToHomePage(emailId);
-
+          // await myLocation();
+          // print(GlobalUserData);
           await Get.offAll(()=>HomePage());
         }
         else if(emailhai== false){

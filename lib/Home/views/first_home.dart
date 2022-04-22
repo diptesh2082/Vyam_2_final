@@ -4,27 +4,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_maps_webservice/places.dart' as core;
 import 'package:hexcolor/hexcolor.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
-import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/Catagory.dart';
 import 'package:vyam_2_final/Home/views/location.dart';
 import 'package:vyam_2_final/Home/views/search_function.dart';
-import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
 
 import 'package:vyam_2_final/api/api.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
-import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'package:vyam_2_final/controllers/location_controller.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
@@ -448,7 +443,7 @@ class _FirstHomeState extends State<FirstHome> {
   String pin = "";
   String locality = "";
   String subLocality = "";
-  GymAllApi gymAll = GymAllApi();
+  // GymAllApi gymAll = GymAllApi();
   // ignore: non_constant_identifier_names
   Future<void> GetAddressFromLatLong(Position position) async {
     List<Placemark> placemark =
@@ -827,7 +822,7 @@ class _FirstHomeState extends State<FirstHome> {
             //     return element
             //         .get('name')
             //         .toString()
-            //         .toLowerCase()
+            //
             //         .contains(searchGymName.toString());
             //   }).toList();
             // }

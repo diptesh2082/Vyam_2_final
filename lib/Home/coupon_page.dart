@@ -41,7 +41,7 @@ class _CouponDetailsState extends State<CouponDetails> {
   @override
   void dispose() {
     // TODO: implement dispose
-    myCouponController.dispose();
+    // myCouponController.dispose();
     couponController.dispose();
     super.dispose();
   }
@@ -416,59 +416,45 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                 // Get.off(()=>const PaymentScreen(),arguments: getData);
                                                 showDialog(
                                                   context: context,
-                                                  builder: (context) => WillPopScope(
-
-                                                    onWillPop: () async{
-                                                      if(mounted) {
-                                                        setState(() {
-                                                          GlobalCoupon =  documents[index]['code'];
-                                                          CouponDetailsMap =  documents[index]['discount'];
-                                                          GlobalCouponApplied = true;
-
-                                                        });
-                                                      }
-                                                      return true;
-                                                    },
-                                                    child: AlertDialog(
-                                                      shape: const RoundedRectangleBorder(
-                                                          borderRadius:
-                                                          BorderRadius.all(Radius.circular(16))),
-                                                      content: SizedBox(
-                                                        height: 160,
-                                                        width: 160,
-                                                        child: FittedBox(
-                                                          child: Column(
-                                                              crossAxisAlignment:
-                                                              CrossAxisAlignment.center,
-                                                              mainAxisAlignment:
-                                                              MainAxisAlignment.center,
-                                                              children: [
-                                                                Image.asset(
-                                                                  "assets/icons/icons8-approval.gif",
-                                                                  height: 70,
-                                                                  width: 70,
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 9,
-                                                                ),
-                                                                Text(
-                                                                  "$coupon Applied",
-                                                                  style: const TextStyle(
-                                                                      fontFamily: "Poppins",
-                                                                      fontSize: 14,
-                                                                      fontWeight: FontWeight.w600),
-                                                                ),
-                                                                const SizedBox(height: 6),
-                                                                Text(
-                                                                  "You save ${coupon_list[coupon]}",
-                                                                  style: const TextStyle(
-                                                                      fontFamily: "Poppins",
-                                                                      fontSize: 16,
-                                                                      color: Colors.green,
-                                                                      fontWeight: FontWeight.w600),
-                                                                ),
-                                                              ]),
-                                                        ),
+                                                  builder: (context) => AlertDialog(
+                                                    shape: const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.all(Radius.circular(16))),
+                                                    content: SizedBox(
+                                                      height: 160,
+                                                      width: 160,
+                                                      child: FittedBox(
+                                                        child: Column(
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment.center,
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment.center,
+                                                            children: [
+                                                              Image.asset(
+                                                                "assets/icons/icons8-approval.gif",
+                                                                height: 70,
+                                                                width: 70,
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 9,
+                                                              ),
+                                                              Text(
+                                                                "$coupon Applied",
+                                                                style: const TextStyle(
+                                                                    fontFamily: "Poppins",
+                                                                    fontSize: 14,
+                                                                    fontWeight: FontWeight.w600),
+                                                              ),
+                                                              const SizedBox(height: 6),
+                                                              Text(
+                                                                "You save ${coupon_list[coupon]}",
+                                                                style: const TextStyle(
+                                                                    fontFamily: "Poppins",
+                                                                    fontSize: 16,
+                                                                    color: Colors.green,
+                                                                    fontWeight: FontWeight.w600),
+                                                              ),
+                                                            ]),
                                                       ),
                                                     ),
                                                   ),

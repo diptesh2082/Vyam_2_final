@@ -85,7 +85,7 @@ class Catagory extends StatelessWidget {
                 onTap: () async{
                   String type = await categoryDocs[index]['name'];
                   print(type);
-                  Get.to(() => GymOption(), arguments: {
+                  await Get.to(() => GymOption(), arguments: {
                     "type": type.toLowerCase(),
                   });
                   FocusScope.of(context).unfocus();

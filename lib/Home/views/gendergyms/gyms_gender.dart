@@ -67,7 +67,7 @@ class _GymAllState extends State<GymAll> {
                     .get('service')
                     .toString()
                     .toLowerCase()
-                    .contains("zumba");
+                    .contains(widget.type);
               }).toList();
             print(widget.type);
               print(document);

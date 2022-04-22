@@ -418,6 +418,7 @@ splashLocation(latitude,longitude)async{
   // }
 
   late List<PlacesApiHelperModel>? _list = [];
+  final FixedExtentScrollController fixedExtentScrollController = FixedExtentScrollController();
 
   bool showPlacessuggesstions = false;
   TextEditingController test_controller= TextEditingController();
@@ -528,7 +529,8 @@ splashLocation(latitude,longitude)async{
                       //   }).toList();
                       // }
                       return document.isNotEmpty
-                          ? ListView.separated(
+                          ?
+                      ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: document.length,
                         itemBuilder: (context, index)  {
@@ -573,12 +575,12 @@ splashLocation(latitude,longitude)async{
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         _boxes(
-                                            document[index]["display_picture"],
-                                            document[index]["name"],
-                                            document[index]["location"],
-                                            document[index]["address"],
-                                            document[index]["rating"].toString(),
-                                            document[index]["branch"],
+                                          document[index]["display_picture"],
+                                          document[index]["name"],
+                                          document[index]["location"],
+                                          document[index]["address"],
+                                          document[index]["rating"].toString(),
+                                          document[index]["branch"],
                                         )
                                       ],
                                     ),
@@ -599,8 +601,8 @@ splashLocation(latitude,longitude)async{
                         child: Text(
                           "No Fitness Option Available Here",
                           style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16
                           ),
                         ),
                       );
@@ -881,7 +883,7 @@ splashLocation(latitude,longitude)async{
 
       final GoogleMapController controller = await _controller.future;
 
-    await controller.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
+    await controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(lat, long),
       zoom: 17,
     )));
