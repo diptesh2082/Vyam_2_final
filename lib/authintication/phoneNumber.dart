@@ -9,6 +9,7 @@ import 'package:vyam_2_final/authintication/otp2.dart';
 // import 'register_gender.dart';
 // import 'register_name.dart';
 
+import '../golbal_variables.dart';
 import 'custom_register_route.dart';
 
 class PhoneRegistar extends StatefulWidget {
@@ -30,23 +31,26 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
     setVisitingFlagFalse();
     super.initState();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
     phoneController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.grey[100],
+      backgroundColor: scaffoldColor,
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Container(
-              child:
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
                 Text('2',
                     style: TextStyle(
                         color: Colors.black,
@@ -74,10 +78,10 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
-          // clipBehavior: Clip.none,
-            onPressed: ()async {
+            // clipBehavior: Clip.none,
+            onPressed: () async {
               final isValid = _formKey.currentState?.validate();
-              if (isValid!){
+              if (isValid!) {
                 _formKey.currentState?.save();
                 setState(() {
                   showLoding = true;
@@ -85,39 +89,40 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
 
                 await _auth.verifyPhoneNumber(
                     phoneNumber: "+91${phoneController.text}",
-                    verificationCompleted:
-                        (phoneAuthCredential) async {
+                    verificationCompleted: (phoneAuthCredential) async {
                       setState(() {
                         showLoding = false;
                       });
                     },
                     verificationFailed: (verificationFailed) async {
-                      Get.snackbar(
-                          "Fail", "varification faild");
+                      Get.snackbar("Fail", "varification faild");
                       // ignore: avoid_print
                       print(verificationFailed.message);
                       setState(() {
                         showLoding = false;
                       });
                     },
-                    codeSent:
-                        (verificationID, resendingToken) async {
+                    codeSent: (verificationID, resendingToken) async {
                       setState(() {
                         showLoding = false;
                       });
                       // checkExist("+91${phoneController.text}");
                       // print(phoneController.text);
-                      var resending_token= await resendingToken;
-                      Get.to(() =>  OtpPage2(verificationID: verificationID ,number: "+91${phoneController.text.trim()}",resendingToken: resending_token,),
-                      //     arguments: [
-                      //   verificationID,
-                      //   "+91${phoneController.text.trim()}",
-                      //   resendingToken
-                      // ]
+                      var resending_token = await resendingToken;
+                      Get.to(
+                        () => OtpPage2(
+                          verificationID: verificationID,
+                          number: "+91${phoneController.text.trim()}",
+                          resendingToken: resending_token,
+                        ),
+                        //     arguments: [
+                        //   verificationID,
+                        //   "+91${phoneController.text.trim()}",
+                        //   resendingToken
+                        // ]
                       );
                     },
-                    codeAutoRetrievalTimeout:
-                        (verificationID) async {});
+                    codeAutoRetrievalTimeout: (verificationID) async {});
                 // Navigator.push(
                 //     context,
                 //     CustomPageRoute(
@@ -125,7 +130,6 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
                 //     ));
                 // await UserApi.CreateUserEmail(phoneController.text.trim());
               }
-
             },
             backgroundColor: Colors.amber.shade300,
             child: const Icon(
@@ -135,121 +139,123 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
       ),
       body: showLoding
           ? const Center(
-        child: CircularProgressIndicator(),
-      )
-          :SafeArea(
-            child: Stack(
-              // fit: StackFit.passthrough,
-              alignment: Alignment.center,
-              children: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(30),
-                    child: Image.asset('assets/Illustrations/undraw_fitness_stats_6.png'),
+              child: CircularProgressIndicator(),
+            )
+          : SafeArea(
+              child: Stack(
+                // fit: StackFit.passthrough,
+                alignment: Alignment.center,
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(30),
+                      child: Image.asset(
+                          'assets/Illustrations/undraw_fitness_stats_6.png'),
+                    ),
                   ),
-                ),
-                Form(
-                    key: _formKey,
-                    child: phoneNumber(context)),
-              ],
+                  Form(key: _formKey, child: phoneNumber(context)),
+                ],
+              ),
             ),
-          ),
     );
   }
 
   Widget phoneNumber(BuildContext context) => ListView(
-    children: [
-      Padding(
-        padding:  EdgeInsets.only(left:MediaQuery.of(context).size.height * 0.02),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SafeArea(
-              // margin: EdgeInsets.only(left: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.015,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(
-                      left: 8.0,
-                    ),
-                    child: Text(
-                      'Whats your Phone Number ?',
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 25,
-                          color: Colors.black),
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      'Help us tailor the experience',
-                      style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          color: Colors.grey),
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.02,
-                  ),
-                  Container(
-
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.white,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+                left: MediaQuery.of(context).size.height * 0.02),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SafeArea(
+                  // margin: EdgeInsets.only(left: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.015,
                       ),
-                      width: MediaQuery.of(context).size.width*.9,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 12.0, right: 8.0),
-                        child: TextFormField(
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          // maxLength: 10,
-                          keyboardType: TextInputType.phone,
-                          validator: (value){
-                            if(value!.isEmpty || value.length >10 || value.length<10){
-                              return "Enter your full name";
-                            }else{
-                              return null;
-                            }
-                          },
-                          controller: phoneController,
-                          decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                              ),
-                              hintText: "phone number"),
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          left: 8.0,
                         ),
-                      )),
-                  // SizedBox(
-                  //   width: MediaQuery.of(context).size.width,
-                  //   child: Container(
-                  //       width: double.infinity,
-                  //       child: Image.asset('assets/Illustrations/gym_pana_2.png')),
-                  // ),
-                ],
-              ),
-            )
-          ],
-        ),
-      )
-    ],
-  );
+                        child: Text(
+                          'Whats your Phone Number ?',
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 25,
+                              color: Colors.black),
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          'Help us tailor the experience',
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                              color: Colors.grey),
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                          ),
+                          width: MediaQuery.of(context).size.width * .9,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 12.0, right: 8.0),
+                            child: TextFormField(
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                              ),
+                              // maxLength: 10,
+                              keyboardType: TextInputType.phone,
+                              validator: (value) {
+                                if (value!.isEmpty ||
+                                    value.length > 10 ||
+                                    value.length < 10) {
+                                  return "Enter your full name";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              controller: phoneController,
+                              decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  hintText: "phone number"),
+                            ),
+                          )),
+                      // SizedBox(
+                      //   width: MediaQuery.of(context).size.width,
+                      //   child: Container(
+                      //       width: double.infinity,
+                      //       child: Image.asset('assets/Illustrations/gym_pana_2.png')),
+                      // ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      );
 }

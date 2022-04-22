@@ -19,11 +19,16 @@ import '../api/api.dart';
 class OtpPage extends StatefulWidget {
   static String id = "/otp_screen";
 
-  final  verificationID;
+  final verificationID;
   final number;
   final resendingToken;
 
-  OtpPage({Key? key,required this.verificationID,required this.number,required this.resendingToken}) : super(key: key);
+  OtpPage(
+      {Key? key,
+      required this.verificationID,
+      required this.number,
+      required this.resendingToken})
+      : super(key: key);
 
   @override
   State<OtpPage> createState() => _OtpPageState();
@@ -39,7 +44,8 @@ class _OtpPageState extends State<OtpPage> {
     getNumber();
     // Get.offAll(() =>  HomePage());
   }
-  bool showError=false;
+
+  bool showError = false;
 
   // var value = Get.arguments;
   // var id = Get.arguments["id"];
@@ -59,25 +65,27 @@ class _OtpPageState extends State<OtpPage> {
         showLoading = false;
       });
       if (authCred.user != null) {
-       await getToHomePage(_auth.currentUser?.phoneNumber);
-       await setNumber(_auth.currentUser!.phoneNumber);
+        await getToHomePage(_auth.currentUser?.phoneNumber);
+        await setNumber(_auth.currentUser!.phoneNumber);
         await checkExist("${_auth.currentUser?.phoneNumber}");
         await setUserId(_auth.currentUser?.phoneNumber);
         // await setVisitingFlag();
-       print(visiting_flag);
+        print(visiting_flag);
         if (visiting_flag == true) {
-          Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>HomePage()));
+          Navigator.pushReplacement(
+              (context), MaterialPageRoute(builder: (context) => HomePage()));
           // Get.offAll(()=>HomePage());
         } else if (visiting_flag == false) {
-          userPhoto="null";
-          Navigator.pushReplacement((context), MaterialPageRoute(builder:(context)=>Register1()));
+          userPhoto = "null";
+          Navigator.pushReplacement(
+              (context), MaterialPageRoute(builder: (context) => Register1()));
         }
         // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage()));
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
         showLoading = false;
-        showError=true;
+        showError = true;
       });
       // ignore: avoid_print
       print(e.message);
@@ -107,17 +115,13 @@ class _OtpPageState extends State<OtpPage> {
     } catch (e) {
       // If any error
       setVisitingFlagFalse();
-
     }
   }
-
-
 
   Timer? timer;
 
   @override
   void initState() {
-
     startTimer();
 
     super.initState();
@@ -158,11 +162,11 @@ class _OtpPageState extends State<OtpPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
-      onWillPop: ()async{
+      onWillPop: () async {
         return true;
       },
       child: Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor: scaffoldColor,
         body: showLoading
             ? const Center(
                 child: CircularProgressIndicator(),
@@ -250,79 +254,93 @@ class _OtpPageState extends State<OtpPage> {
                                 ],
                               ),
                             ),
-                            showError? Text("please input correct otp",   style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.red
-                            ),):const SizedBox(),
+                            showError
+                                ? Text(
+                                    "please input correct otp",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.red),
+                                  )
+                                : const SizedBox(),
                             SizedBox(
                               height: size.height / 15,
                             ),
                             Text(_start.toString()),
                             Row(
                               children: [
-                               Text("Didn’t you receive the OTP? ",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  // color: Colors.red
-                                ),
+                                Text(
+                                  "Didn’t you receive the OTP? ",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    // color: Colors.red
+                                  ),
                                 ),
                                 TextButton(
                                     onPressed: activateButton!
-                                        ? ()async {
-                                      // setState(() {
-                                      //   _timer;
-                                      // });
-                                      // Get.off(() =>
-                                      //     const OtpPage(),
-                                      //   // arguments: [
-                                      //     //         verificationID,
-                                      //     //         "+91${docId}",
-                                      //     //         resendingToken
-                                      //     //       ]
-                                      // );
-                                      print(widget.number);
-                                      // print("+91${docId}");
+                                        ? () async {
+                                            // setState(() {
+                                            //   _timer;
+                                            // });
+                                            // Get.off(() =>
+                                            //     const OtpPage(),
+                                            //   // arguments: [
+                                            //     //         verificationID,
+                                            //     //         "+91${docId}",
+                                            //     //         resendingToken
+                                            //     //       ]
+                                            // );
+                                            print(widget.number);
+                                            // print("+91${docId}");
 
-                                      var _forceResendingToken;
-                                      await _auth.verifyPhoneNumber(
-                                          timeout: const Duration(seconds: 27),
-                                          forceResendingToken: _forceResendingToken,
-                                          phoneNumber: widget.number,
-                                          verificationCompleted:
-                                              (phoneAuthCredential) async {
-                                            setState(() {
-                                              showLoading = false;
-                                            });
-                                          },
-                                          verificationFailed: (verificationFailed) async {
-                                            Get.snackbar(
-                                                "Fail", "${verificationFailed.message}");
-                                            // ignore: avoid_print
-                                            print(verificationFailed.message);
-                                            setState(() {
-                                              showLoading = false;
-                                            });
-                                          },
+                                            var _forceResendingToken;
+                                            await _auth.verifyPhoneNumber(
+                                                timeout:
+                                                    const Duration(seconds: 27),
+                                                forceResendingToken:
+                                                    _forceResendingToken,
+                                                phoneNumber: widget.number,
+                                                verificationCompleted:
+                                                    (phoneAuthCredential) async {
+                                                  setState(() {
+                                                    showLoading = false;
+                                                  });
+                                                },
+                                                verificationFailed:
+                                                    (verificationFailed) async {
+                                                  Get.snackbar("Fail",
+                                                      "${verificationFailed.message}");
+                                                  // ignore: avoid_print
+                                                  print(verificationFailed
+                                                      .message);
+                                                  setState(() {
+                                                    showLoading = false;
+                                                  });
+                                                },
+                                                codeSent: (verificationID,
+                                                    resendingToken) async {
+                                                  setState(() {
+                                                    showLoading = true;
+                                                  });
+                                                  await Navigator.pushReplacement(
+                                                      (context),
+                                                      FadeRoute(
+                                                          page: OtpPage(
+                                                              verificationID:
+                                                                  verificationID,
+                                                              number:
+                                                                  widget.number,
+                                                              resendingToken:
+                                                                  resendingToken)));
 
-                                          codeSent:
-                                              (verificationID, resendingToken) async {
-                                                setState(() {
-                                                  showLoading = true;
-                                                });
-                                           await Navigator.pushReplacement(
-                                                (context), FadeRoute(
-                                                page: OtpPage(verificationID: verificationID,number: widget.number , resendingToken: resendingToken)));
-
-                                            checkExist(widget.number);
-                                            var resending_token=resendingToken;
-
-                                          },
-                                         // Get.reload()
-                                          codeAutoRetrievalTimeout:
-                                              (verificationID) async {
-                                          });
+                                                  checkExist(widget.number);
+                                                  var resending_token =
+                                                      resendingToken;
+                                                },
+                                                // Get.reload()
+                                                codeAutoRetrievalTimeout:
+                                                    (verificationID) async {});
                                             // print(
                                             //     "Implement Function For starting Resend OTP Request");
                                           }

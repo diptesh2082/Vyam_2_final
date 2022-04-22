@@ -6,7 +6,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:vyam_2_final/payment/payment.dart';
-
 import 'golbal_variables.dart';
 
 class DatePickerScreen extends StatefulWidget {
@@ -16,8 +15,17 @@ class DatePickerScreen extends StatefulWidget {
   final price;
   final gymId;
   final bookingId;
-  final  months;
-  const DatePickerScreen({Key? key, this.getGymName, this.getGymAddress, this.packageType, this.price, this.gymId, this.bookingId, this.months}) : super(key: key);
+  final months;
+  const DatePickerScreen(
+      {Key? key,
+      this.getGymName,
+      this.getGymAddress,
+      this.packageType,
+      this.price,
+      this.gymId,
+      this.bookingId,
+      this.months})
+      : super(key: key);
 
   @override
   State<DatePickerScreen> createState() => _DatePickerScreenState();
@@ -43,8 +51,8 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
     fontWeight: FontWeight.w700,
   );
 
-  DateTime startDate=DateTime.now();
-  DateTime endDate=DateTime.now();
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
 
   var totalDays;
 
@@ -52,10 +60,11 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: scaffoldColor,
         body: SingleChildScrollView(
           child: Column(
             children: [
-               Padding(
+              Padding(
                 padding: EdgeInsets.only(top: 51),
                 child: Text(
                   'Select a Date',
@@ -127,7 +136,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                         Text(
+                        Text(
                           '${widget.months}',
                           style: GoogleFonts.poppins(
                               // fontFamily: 'PoppinsSemiBold',
@@ -140,11 +149,12 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                             Column(
                               children: [
                                 Text('STARTS', style: regularStyle),
-                                Text(DateFormat("dd,MMMM").format(startDate), style: boldStyle),
-                                Text(DateFormat("E").format(startDate), style:  GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12
-                                )),
+                                Text(DateFormat("dd,MMMM").format(startDate),
+                                    style: boldStyle),
+                                Text(DateFormat("E").format(startDate),
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12)),
                               ],
                             ),
                             Icon(
@@ -155,11 +165,12 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                             Column(
                               children: [
                                 Text('ENDS', style: regularStyle),
-                                Text(DateFormat("dd,MMMM").format(endDate), style: boldStyle),
-                                Text(DateFormat("E").format(endDate), style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 12
-                                )),
+                                Text(DateFormat("dd,MMMM").format(endDate),
+                                    style: boldStyle),
+                                Text(DateFormat("E").format(endDate),
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12)),
                               ],
                             )
                           ],
@@ -171,78 +182,73 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
-            child:  FloatingActionButton.extended(
+            child: FloatingActionButton.extended(
               elevation: 0,
               splashColor: Colors.amber,
               backgroundColor: HexColor("292F3D"),
               autofocus: false,
               focusElevation: 4,
               // focusNode: FocusScope.of(context).unfocus();
-              shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
               onPressed: () async {
-              print(endDate.difference(startDate).inDays);
+                print(endDate.difference(startDate).inDays);
 
-
-
-
-                Get.to(() => const PaymentScreen(),
+                Get.to(
+                  () => const PaymentScreen(),
                   duration: const Duration(milliseconds: 500),
                   arguments: {
                     "gymName": widget.getGymName,
                     "totalMonths": widget.months,
                     "packageType": widget.packageType,
-                    "totalPrice": widget.price*(1+endDate.difference(startDate).inDays),
+                    "totalPrice": widget.price *
+                        (1 + endDate.difference(startDate).inDays),
                     "startDate": DateFormat("MMMM,dd,yyyy").format(startDate),
-                    "endDate":  DateFormat("MMMM,dd,yyyy").format(endDate),
+                    "endDate": DateFormat("MMMM,dd,yyyy").format(endDate),
                     "address": widget.getGymAddress,
-                    "vendorId":widget.gymId,
-                    "booking_id":widget.bookingId,
-                    "gym_details":Get.arguments["docs"]
+                    "vendorId": widget.gymId,
+                    "booking_id": widget.bookingId,
+                    "gym_details": Get.arguments["docs"]
                   },
                 );
-                await FirebaseFirestore.instance.collection("bookings")
+                await FirebaseFirestore.instance
+                    .collection("bookings")
                     .doc(number)
                     .collection("user_booking")
                     .doc(widget.bookingId)
                     .update({
-                  "booking_date":startDate,
-                  "plan_end_duration":endDate,
-                  "totalDays":endDate.difference(startDate).inDays
+                  "booking_date": startDate,
+                  "plan_end_duration": endDate,
+                  "totalDays": endDate.difference(startDate).inDays
                 });
-
               },
               label: Text(
                 "Proceed",
-                style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: Colors.white),
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.bold, color: Colors.white),
               ),
-            )
-          // : Container(),
-        ),
+            )),
       ),
     );
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    try{
+    try {
       DateTime s_Date = args.value.startDate;
       DateTime e_Date = args.value.endDate;
       setState(() {
-        startDate=s_Date;
-        endDate=e_Date;
+        startDate = s_Date;
+        endDate = e_Date;
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
-
-
 
     // print(DateFormat("dd,MMMM,yyyy").format(startDate));
     // print(DateFormat("dd,MMMM,yyyy").format(endDate));

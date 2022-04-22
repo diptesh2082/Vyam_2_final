@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
+
+import '../golbal_variables.dart';
 // import 'package:vyambooking/List/list.dart';
 
 class CouponDetails extends StatefulWidget {
@@ -41,7 +43,7 @@ class _CouponDetailsState extends State<CouponDetails> {
           },
         ),
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: scaffoldColor,
         centerTitle: true,
         title: Text(
           "Coupons",

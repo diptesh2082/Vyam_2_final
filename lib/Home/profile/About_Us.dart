@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../golbal_variables.dart';
+
 class AboutUs extends StatefulWidget {
   const AboutUs({Key? key}) : super(key: key);
 
@@ -15,6 +17,7 @@ class _AboutUsState extends State<AboutUs> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: scaffoldColor,
         appBar: AppBar(
           title: Text("About Us"),
           centerTitle: true,

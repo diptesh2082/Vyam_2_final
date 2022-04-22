@@ -14,6 +14,7 @@ import 'package:vyam_2_final/booking/older.dart';
 import 'package:vyam_2_final/booking/upcoming.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 
+import '../../golbal_variables.dart';
 import 'gendergyms/gyms_gender.dart';
 
 class GymOption extends StatefulWidget {
@@ -38,7 +39,7 @@ class _GymOptionState extends State<GymOption> {
   var groupValue = 0;
   final appBarColor = Colors.grey[100];
   final controller = Get.find<HomeController>();
-  var data=Get.arguments["type"];
+  var data = Get.arguments["type"];
   // String type=data["type"];
   @override
   void initState() {
@@ -53,6 +54,7 @@ class _GymOptionState extends State<GymOption> {
 
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
@@ -60,7 +62,7 @@ class _GymOptionState extends State<GymOption> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        backgroundColor: HexColor("F5F5F5"),
+        backgroundColor: scaffoldColor,
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(
@@ -209,9 +211,18 @@ class _GymOptionState extends State<GymOption> {
                 fontWeight: FontWeight.w600),
           ),
         ),
-        body:  TabBarView(
+        body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
-            children: [GymAll(type:data), GymMale(type: data), GymFemale(type: data,), GymUnisex(type: data,)]),
+            children: [
+              GymAll(type: data),
+              GymMale(type: data),
+              GymFemale(
+                type: data,
+              ),
+              GymUnisex(
+                type: data,
+              )
+            ]),
       ),
     );
   }

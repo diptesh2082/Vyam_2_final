@@ -5,16 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
-import 'package:vyam_2_final/Themes/themes.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
-import 'package:vyam_2_final/authintication/otp_screen.dart';
 import 'package:vyam_2_final/authintication/register_email.dart';
 import 'package:vyam_2_final/authintication/register_gender.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/authintication/rphoto.dart';
-import 'package:vyam_2_final/authintication/splash_screen.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'Home/home_page.dart';
 
@@ -37,11 +34,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  try{
+  try {
     await getNumber();
-  }catch
-  (e){
-    number="";
+  } catch (e) {
+    number = "";
   }
 
   getAddress();
@@ -92,7 +88,7 @@ class MyApp extends StatelessWidget {
           }
 
           if (snapshot.hasData && exist) {
-            return  HomePage();
+            return HomePage();
           }
 
           return Onboarding1();

@@ -8,7 +8,6 @@ import 'package:vyam_2_final/OrderDetails/order_details.dart';
 import 'gym_details.dart';
 import 'review_screen.dart';
 
-
 class Feedback1 extends StatefulWidget {
   @override
   _Feedback1State createState() => _Feedback1State();
@@ -159,8 +158,9 @@ class _Feedback1State extends State<Feedback1> {
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.black),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ))),
                     child: const Text(
@@ -172,8 +172,6 @@ class _Feedback1State extends State<Feedback1> {
                           fontSize: 14),
                     ),
                     onPressed: () {
-                     
-
                       Map<String, dynamic> suggest_data = {
                         "feedback_suggestion": feedback.text,
                         "feedback_review": selectedoption.toString()
@@ -182,9 +180,9 @@ class _Feedback1State extends State<Feedback1> {
                           .collection("Feedback")
                           .add(suggest_data);
                       feedback.clear();
-                       Navigator.of(context).pop();
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-
+                      Navigator.of(context).pop();
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
                     },
                   ),
                 ),

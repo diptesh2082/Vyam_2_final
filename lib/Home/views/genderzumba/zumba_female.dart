@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
+import '../../../golbal_variables.dart';
+
 class ZumbaFemale extends StatefulWidget {
   const ZumbaFemale({
     Key? key,
@@ -29,6 +31,7 @@ class _ZumbaFemaleState extends State<ZumbaFemale> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: scaffoldColor,
       body: Padding(
         padding:
             const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
@@ -60,10 +63,10 @@ class _ZumbaFemaleState extends State<ZumbaFemale> {
                                     print("${document[index]["name"]}");
                                     Get.to(
                                         () => GymDetails(
-                                              // getID: document[index].id,
-                                              // gymLocation: document[index]
-                                              //     ["location"],
-                                              // gymName: document[index]["name"],
+                                            // getID: document[index].id,
+                                            // gymLocation: document[index]
+                                            //     ["location"],
+                                            // gymName: document[index]["name"],
                                             ),
                                         arguments: {
                                           "id": document[index].id,

@@ -34,6 +34,7 @@ class _ZumbaMaleState extends State<ZumbaMale> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: scaffoldColor,
       body: Padding(
         padding:
             const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
@@ -41,7 +42,7 @@ class _ZumbaMaleState extends State<ZumbaMale> {
           stream: FirebaseFirestore.instance
               .collection("product_details")
               .where("pincode", isEqualTo: address2.toString())
-              .where("service",arrayContains: "zumba")
+              .where("service", arrayContains: "zumba")
               .snapshots(),
           builder: (context, AsyncSnapshot streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
@@ -69,10 +70,10 @@ class _ZumbaMaleState extends State<ZumbaMale> {
                                     print("${document[index]["name"]}");
                                     Get.to(
                                         () => GymDetails(
-                                              // getID: document[index].id,
-                                              // gymLocation: document[index]
-                                              //     ["location"],
-                                              // gymName: document[index]["name"],
+                                            // getID: document[index].id,
+                                            // gymLocation: document[index]
+                                            //     ["location"],
+                                            // gymName: document[index]["name"],
                                             ),
                                         arguments: {
                                           "id": document[index].id,

@@ -8,6 +8,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 
+import '../../../golbal_variables.dart';
+
 class YogaAll extends StatefulWidget {
   const YogaAll({
     Key? key,
@@ -33,6 +35,7 @@ class _YogaAllState extends State<YogaAll> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: scaffoldColor,
       body: Padding(
         padding:
             const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
@@ -64,10 +67,10 @@ class _YogaAllState extends State<YogaAll> {
                                     print("${document[index]["name"]}");
                                     Get.to(
                                         () => GymDetails(
-                                              // getID: document[index].id,
-                                              // gymLocation: document[index]
-                                              //     ["location"],
-                                              // gymName: document[index]["name"],
+                                            // getID: document[index].id,
+                                            // gymLocation: document[index]
+                                            //     ["location"],
+                                            // gymName: document[index]["name"],
                                             ),
                                         arguments: {
                                           "id": document[index].id,

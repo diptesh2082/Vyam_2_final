@@ -26,11 +26,9 @@ class _Register4State extends State<Register4> {
   TextEditingController email = TextEditingController();
   File? image;
   Future pickImage() async {
-    try{
-      final image = await ImagePicker().pickImage(
-          source: ImageSource.gallery,
-          imageQuality: 60
-      );
+    try {
+      final image = await ImagePicker()
+          .pickImage(source: ImageSource.gallery, imageQuality: 60);
       if (image == null) return;
       final imageTemporary = File(image.path);
       setState(() {
@@ -40,14 +38,14 @@ class _Register4State extends State<Register4> {
       // ignore: avoid_print
       print("Faild to pick image: $e");
     }
-
   }
+
   final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.grey[100],
+      backgroundColor: scaffoldColor,
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -55,27 +53,28 @@ class _Register4State extends State<Register4> {
           title: Container(
               //   height: MediaQuery.of(context).size.height * 0.025,
               // width: double.infinity,
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-            Text('4', //_current1.toString(),
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400)),
-            Text("/",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400)),
-            Text('4',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: "Poppins",
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400))
-          ])),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                Text('4', //_current1.toString(),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400)),
+                Text("/",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400)),
+                Text('4',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400))
+              ])),
           leading: GestureDetector(
             onTap: () {
               Navigator.push(
@@ -92,12 +91,14 @@ class _Register4State extends State<Register4> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
-            onPressed: ()async{
-
-              await Get.offAll(()=>HomePage());
-             final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
-             await ref.putFile(image!);
-             final url = await ref.getDownloadURL();
+            onPressed: () async {
+              await Get.offAll(() => HomePage());
+              final ref = FirebaseStorage.instance
+                  .ref()
+                  .child("user_images")
+                  .child(number + ".jpg");
+              await ref.putFile(image!);
+              final url = await ref.getDownloadURL();
               // print(number);
               UserApi.creatUserImage(url);
             },
@@ -105,15 +106,15 @@ class _Register4State extends State<Register4> {
             child: const Icon(
               Icons.arrow_forward_ios_outlined,
               color: Colors.black,
-            )
-        ),
+            )),
       ),
       body: Stack(
         children: [
           Center(
             child: Padding(
               padding: const EdgeInsets.all(30),
-              child: Image.asset('assets/Illustrations/undraw_meditation_re_0.png'),
+              child: Image.asset(
+                  'assets/Illustrations/undraw_meditation_re_0.png'),
             ),
           ),
           rphoto(context),
@@ -164,25 +165,29 @@ class _Register4State extends State<Register4> {
                   Padding(
                     padding: const EdgeInsets.only(left: 12.0),
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         pickImage();
                       },
                       child: Stack(children: [
-                         CircleAvatar(
+                        CircleAvatar(
                           radius: 51,
-                            backgroundColor: Colors.white,
-                            // MediaQuery.of(context).size.width * 0.3,
-                            child: image != null ? ClipOval(
-                              child: Image.file(image !,
-                                height: 150,
-                                width: 150,
-                              ),
-                            ): const Icon(Icons.camera_alt_outlined,
-                            size: 40,
-                            ),
-                            // decoration: const BoxDecoration(
-                            //     shape: BoxShape/.circle, color: Colors.white)
-                            ),
+                          backgroundColor: Colors.white,
+                          // MediaQuery.of(context).size.width * 0.3,
+                          child: image != null
+                              ? ClipOval(
+                                  child: Image.file(
+                                    image!,
+                                    height: 150,
+                                    width: 150,
+                                  ),
+                                )
+                              : const Icon(
+                                  Icons.camera_alt_outlined,
+                                  size: 40,
+                                ),
+                          // decoration: const BoxDecoration(
+                          //     shape: BoxShape/.circle, color: Colors.white)
+                        ),
                         Positioned(
                           // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
                           bottom: 14.5,
