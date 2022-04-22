@@ -679,17 +679,13 @@ class _FirstHomeState extends State<FirstHome> {
                                                    const SizedBox(
                                                      width: 5,
                                                    ),
-                                                   Material(
-                                                       elevation: 0,
-                                                       color:
-                                                       const Color(0xffF4F4F4),
-                                                       child: CachedNetworkImage(
-                                                         imageUrl: data.docs[index]
-                                                         ["image"],
-                                                         errorWidget: (context, url,
-                                                             error) =>
-                                                         const Icon(Icons.error),
-                                                       )),
+                                                   CachedNetworkImage(
+                                                     imageUrl: data.docs[index]
+                                                     ["image"],
+                                                     errorWidget: (context, url,
+                                                         error) =>
+                                                     const Icon(Icons.error),
+                                                   ),
                                                    const SizedBox(
                                                      width: 5,
                                                    ),

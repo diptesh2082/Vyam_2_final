@@ -60,7 +60,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: scaffoldColor,
+        backgroundColor: Colors.grey[100],
         body: SingleChildScrollView(
           child: Column(
             children: [

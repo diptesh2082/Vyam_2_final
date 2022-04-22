@@ -3,11 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:vyam_2_final/Home/bookings/feedback.dart';
 import 'dart:async';
 
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/OrderDetails/order_details.dart';
+import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
 class SuccessBook extends StatefulWidget {
@@ -67,7 +69,7 @@ class _SuccessBookState extends State<SuccessBook>
         return true;
       },
       child: Scaffold(
-        backgroundColor: scaffoldColor,
+        backgroundColor: Color(0xffF2EFF1),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -140,11 +142,43 @@ class PanelWidget extends StatefulWidget {
 }
 
 class _PanelWidgetState extends State<PanelWidget> {
-  var booking_details = Get.arguments["booking_details"];
+  var id = Get.arguments["booking_details"];
+  var booking_details;
+  getBookingData(String booking_id)async{
+    try{
+      await FirebaseFirestore.instance
+          .collection('bookings')
+          .doc(number)
+          .collection("user_booking")
+          .doc(booking_id)
+          .get()
+          .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          print('Document exists on the database');
+            setState(() {
+              booking_details= documentSnapshot.data();
+            });
+
+          // });
+
+          // return documentSnapshot.data();
+
+        }
+
+      });
+    }catch(e){
+
+      print(e);
+
+    }
+
+  }
 
   @override
   void initState() {
     // TODO: implement initState
+    getBookingData(id);
+    print(booking_details);
 
     // getBookingData(booking_id);
     super.initState();
@@ -258,8 +292,8 @@ class _PanelWidgetState extends State<PanelWidget> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.0055,
                         ),
-                        const Text(
-                          'Ends on: 6th May',
+                         Text(
+                          'Starts on:  ${DateFormat("MMMM, dd").format(booking_details["booking_date"].toDate())}',
                           style: TextStyle(
                               color: Colors.green,
                               fontFamily: 'Poppins',
@@ -277,7 +311,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                               style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all<Color>(
-                                          Colors.black),
+                                          Color(0xff292F3D)),
                                   shape: MaterialStateProperty.all<
                                           RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
@@ -329,7 +363,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                 child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black87),
+                          MaterialStateProperty.all<Color>(Color(0xff292F3D)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -356,7 +390,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                 child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black87),
+                          MaterialStateProperty.all<Color>(Color(0xff292F3D)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),

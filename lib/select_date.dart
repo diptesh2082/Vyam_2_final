@@ -113,7 +113,7 @@ class _SelectDateState extends State<SelectDate> {
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: scaffoldColor,
+      backgroundColor: Colors.grey[100],
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: InkWell(

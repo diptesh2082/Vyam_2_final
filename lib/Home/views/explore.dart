@@ -385,7 +385,7 @@ class _ExploreState extends State<Explore> {
   dispose() {
     // controller.dispose();
     // _controller.dispose();
-    mapcontroller.dispose();
+    // mapcontroller.dispose();
     // _initialCameraPosition.dispose();
     super.dispose();
   }

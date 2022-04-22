@@ -155,7 +155,7 @@ class _PackegesState extends State<Packeges> {
                 },
               ),
               elevation: 0,
-              backgroundColor: scaffoldColor,
+              backgroundColor: Color(0xffF5F5F5),
               centerTitle: true,
               title: Text(
                 "Packages",
@@ -165,7 +165,7 @@ class _PackegesState extends State<Packeges> {
                     fontWeight: FontWeight.w600),
               ),
             ),
-            backgroundColor: Colors.grey[200],
+            backgroundColor: Colors.grey[100],
             body: SizedBox(
               width: _width,
               height: _height,

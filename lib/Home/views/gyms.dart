@@ -62,7 +62,7 @@ class _GymOptionState extends State<GymOption> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        backgroundColor: scaffoldColor,
+        backgroundColor:Color(0xffF5F5F5) ,
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(

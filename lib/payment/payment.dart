@@ -84,33 +84,34 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final Razorpay _razorpay = Razorpay();
   // var booking_id=getData["booking_id"];
   var booking_details;
-  getBookingData(String booking_id)async{
-    try{
-      await FirebaseFirestore.instance
-          .collection('bookings')
-          .doc(number)
-          .collection("user_booking")
-          .doc(booking_id)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          print('Document exists on the database');
-
-          booking_details= documentSnapshot.data();
-          // });
-
-          // return documentSnapshot.data();
-
-        }
-
-      });
-    }catch(e){
-
-      print(e);
-
-    }
-
-  }
+  bool isLoading=false;
+  // getBookingData(String booking_id)async{
+  //   try{
+  //     await FirebaseFirestore.instance
+  //         .collection('bookings')
+  //         .doc(number)
+  //         .collection("user_booking")
+  //         .doc(booking_id)
+  //         .get()
+  //         .then((DocumentSnapshot documentSnapshot) {
+  //       if (documentSnapshot.exists) {
+  //         print('Document exists on the database');
+  //
+  //         booking_details= documentSnapshot.data();
+  //         // });
+  //
+  //         // return documentSnapshot.data();
+  //
+  //       }
+  //
+  //     });
+  //   }catch(e){
+  //
+  //     print(e);
+  //
+  //   }
+  //
+  // }
 
   @override
   void initState() {
@@ -237,7 +238,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           x=x+1000;
         }
         FocusScope.of(context).unfocus();
-        await getBookingData(getData["booking_id"]);
+        // await getBookingData(getData["booking_id"]);
 
 
         // print(x);
@@ -269,7 +270,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print(response.code);
     print(response.message);
     print("payment faild");
-    // Get.to(PaymentScreen());
+    Get.back();
 
 
       // var signature;
@@ -392,7 +393,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
     //     initState();
     // }
 
-    return Scaffold(
+    return isLoading? Container(
+      color: Colors.white,
+      child: Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.white,
+        ),
+      ),
+    )
+    :Scaffold(
         appBar: ScrollAppBar(
           controller: app_bar_controller,
           centerTitle: true,
@@ -1050,24 +1059,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     const SizedBox(width: 15),
                     GestureDetector(
                       onTap: ()async{
-
-                        await FirebaseFirestore.instance
-                            .collection("bookings")
-                            .doc(number)
-                            .collection("user_booking")
-                            .doc(booking_id)
-                            .update({
-                          "discount": myCouponController.GlobalCouponApplied.value?(int.parse(myCouponController.CouponDetailsMap.value)):totalDiscount,
-                          "grand_total":  myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value)).toString():grandTotal.toString(),
-                          "tax_pay": taxPay,
+                        setState(() {
+                          isLoading=true;
                         });
+                        Navigator.pop(context);
                         var x =  Random().nextInt(9999);
                         if (x<1000){
                           x=x+1000;
                         }
                         FocusScope.of(context).unfocus();
-                        await getBookingData(getData["booking_id"]);
-                        await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_details});
+                        // await getBookingData(getData["booking_id"]);
+                         Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
+                        setState(() {
+                          isLoading=false;
+                        });
 
                         // print(x);
                         await FirebaseFirestore.instance
@@ -1077,7 +1082,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             .doc(getData["booking_id"])
                             .update({
                           "otp_pass": x.toString(),
-                          "booking_status": "upcoming",
+
                           "payment_done": false,
                         });
                         await showNotification("Thank You","Booking Successful");
@@ -1412,8 +1417,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   fontSize: 16,
                                   color: Colors.white),
                             ),
-                            onPressed: () {
+                            onPressed: () async{
                               print('hhhhhhhhhhhhhh');
+                              await FirebaseFirestore.instance
+                                  .collection("bookings")
+                                  .doc(number)
+                                  .collection("user_booking")
+                                  .doc(booking_id)
+                                  .update({
+                                "discount": myCouponController.GlobalCouponApplied.value?(int.parse(myCouponController.CouponDetailsMap.value)):totalDiscount,
+                                "grand_total":  myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value)).toString():grandTotal.toString(),
+                                "tax_pay": taxPay,
+                                "booking_status": "upcoming",
+                              });
+                              // await getBookingData(booking_id);
                               onlinePay==true?Pay():OffPay();
                             }),
                       ),

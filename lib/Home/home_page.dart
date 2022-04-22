@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         // title: ("Home"),
-        activeColorPrimary: CupertinoColors.black,
+        activeColorPrimary: Color(0xff292F3D),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
@@ -191,7 +191,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         // title: ("Bookings"),
-        activeColorPrimary: CupertinoColors.black,
+        activeColorPrimary: Color(0xff292F3D),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
@@ -229,7 +229,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         // title: ("Explore"),
-        activeColorPrimary: CupertinoColors.black,
+        activeColorPrimary: Color(0xff292F3D),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
@@ -265,7 +265,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         // title: ("Profile"),
-        activeColorPrimary: CupertinoColors.black,
+        activeColorPrimary: Color(0xff292F3D),
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];
