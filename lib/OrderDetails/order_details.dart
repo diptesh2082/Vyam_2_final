@@ -75,7 +75,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               padding: const EdgeInsets.all(8.0),
               child: FittedBox(
                 child: Card(
-                  elevation: 3,
+                  elevation: 1,
                   child: Container(
                     width: MediaQuery.of(context).size.width * .95,
                     decoration:
@@ -449,7 +449,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               child: Card(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
-                elevation: 8,
+                elevation: 1,
                 child: Container(
                   width: _width * 0.95,
                   decoration: BoxDecoration(
@@ -553,11 +553,16 @@ class _OrderDetailsState extends State<OrderDetails> {
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 children: [
-                  GestureDetector(
+                  InkWell(
+                    autofocus:false,
                     onTap: () async {
                       Get.off(() => CancelDetails(
                             bookingId: booking_id,
-                          ));
+                          ),
+                      arguments: {
+                        "doc":Get.arguments["doc"]
+                      }
+                      );
                       vendorData(booking_id);
                     },
                     child: Container(

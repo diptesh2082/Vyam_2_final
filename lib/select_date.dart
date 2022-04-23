@@ -381,7 +381,8 @@ class _SelectDateState extends State<SelectDate> {
                   "address": widget.getGymAddress,
                   "vendorId": widget.gymId,
                   "booking_id": widget.bookingId,
-                  "gym_details": Get.arguments["docs"]
+                  "gym_details": Get.arguments["docs"],
+                  "totalDays": totalDays
                 },
               );
               await FirebaseFirestore.instance

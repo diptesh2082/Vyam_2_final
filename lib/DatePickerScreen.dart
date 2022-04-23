@@ -214,7 +214,8 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                     "address": widget.getGymAddress,
                     "vendorId": widget.gymId,
                     "booking_id": widget.bookingId,
-                    "gym_details": Get.arguments["docs"]
+                    "gym_details": Get.arguments["docs"],
+                    "totalDays": endDate.difference(startDate).inDays+1
                   },
                 );
                 await FirebaseFirestore.instance

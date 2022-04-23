@@ -107,7 +107,7 @@ class _ProfilePartState extends State<ProfilePart> {
           backgroundColor: scaffoldColor,
           appBar: AppBar(
             elevation: 0.3,
-            backgroundColor: Color(0xffE5E5E5),
+            backgroundColor: scaffoldColor,
             centerTitle: true,
             title: Text(
               "Profile",

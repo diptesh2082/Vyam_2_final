@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:vyam_2_final/OrderDetails/active_details.dart';
 import 'package:vyam_2_final/OrderDetails/order_details.dart';
 import 'package:vyam_2_final/booking/bookings.dart';
 import 'package:vyam_2_final/booking/bookings.dart';
@@ -31,7 +33,7 @@ class _CancelDetailsState extends State<CancelDetails> {
   int default_index = 0;
 
   TextEditingController cancelremark = TextEditingController();
-
+var doc =Get.arguments["doc"];
   List<MyChoice> choices = [
     MyChoice(
         choice:
@@ -178,142 +180,121 @@ class _CancelDetailsState extends State<CancelDetails> {
                           fontSize: 16),
                     ),
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
+                      showDialog(context: context,
+                        builder:(context)=> AlertDialog(
                           shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16))),
+                              borderRadius: BorderRadius.all(Radius.circular(16))),
                           content: SizedBox(
-                            height: 160,
-                            width: 160,
-                            child: FittedBox(
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "Are you sure ?",
-                                    style: GoogleFonts.poppins(fontSize: 12),
+                            height: 170,
+                            width: 280,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Are you sure you wanna cancel ?",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold
                                   ),
-                                  const SizedBox(
-                                    height: 1,
-                                  ),
-                                  Text(
-                                    "You want to cancel ?",
-                                    style: GoogleFonts.poppins(fontSize: 12),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        // Image.asset("assets/icons/icons8-approval.gif",
-                                        //   height: 70,
-                                        //   width: 70,
-                                        // ),
-
-                                        GestureDetector(
-                                          onTap: () async {
-                                            // Navigator.pop(context);
-                                            await FirebaseFirestore.instance
-                                                .collection("bookings")
-                                                .doc(number)
-                                                .collection("user_booking")
-                                                .doc(widget.bookingId)
-                                                .update({
-                                              "booking_status": "cancelled"
-                                            });
-
-                                            Map<String, dynamic> cancel_data = {
-                                              "cancel_remark":
-                                                  cancelremark.text,
-                                              "cancel_choice": default_choice,
-                                            };
-                                            FirebaseFirestore.instance
-                                                .collection("Cancellation Data")
-                                                .add(cancel_data);
-                                            cancelremark.clear();
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) {
-                                              return HomePage();
-                                            }));
-                                          },
-                                          child: Container(
-                                            height: 20,
-                                            width: 28,
+                                ),
+                                const SizedBox(
+                                  height:15,
+                                ),
+                                Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: (){
+                                          Navigator.pop(context);
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //       builder: (context) {
+                                          //         return HomePage();
+                                          //       }),
+                                          // );
+                                        },
+                                        child: Container(
+                                            height: 38,
+                                            width: 90,
                                             decoration: BoxDecoration(
-                                                color: HexColor("292F3D"),
-                                                borderRadius:
-                                                    BorderRadius.circular(2)),
+                                                color: HexColor("FFECB2"),
+                                                borderRadius: BorderRadius.circular(8)),
                                             child: Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 4,
-                                                  right: 3,
-                                                  top: 2,
-                                                  bottom: 2),
+                                                  left: 3, right: 3, top: 2, bottom: 2),
                                               child: Center(
                                                 child: Text(
-                                                  "yes",
+                                                  "Cancel",
                                                   style: GoogleFonts.poppins(
-                                                      fontSize: 9,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      color:
-                                                          HexColor("FFFFFF")),
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w700,
+                                                      color: HexColor("030202")),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 15),
-                                        GestureDetector(
-                                          onTap: () {
-                                            // Navigator.pop(context);
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) {
-                                                return HomePage();
-                                              }),
-                                            );
-                                          },
-                                          child: Container(
-                                              height: 20,
-                                              width: 28,
-                                              decoration: BoxDecoration(
-                                                  color: HexColor("292F3D"),
-                                                  borderRadius:
-                                                      BorderRadius.circular(2)),
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 4,
-                                                    right: 3,
-                                                    top: 2,
-                                                    bottom: 2),
-                                                child: Center(
-                                                  child: Text(
-                                                    "No",
-                                                    style: GoogleFonts.poppins(
-                                                        fontSize: 9,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        color:
-                                                            HexColor("FFFFFF")),
-                                                  ),
+                                            )),
+                                      ),
+                                      // Image.asset("assets/icons/icons8-approval.gif",
+                                      //   height: 70,
+                                      //   width: 70,
+                                      // ),
+
+                                      const SizedBox(width: 15),
+                                      GestureDetector(
+                                        onTap: ()async{
+                                          // Navigator.pop(context);
+                                          await FirebaseFirestore.instance
+                                              .collection("bookings")
+                                              .doc(number)
+                                              .collection("user_booking")
+                                              .doc(widget.bookingId)
+                                              .update({
+                                            "booking_status": "cancelled"
+                                          });
+
+                                          Map<String, dynamic> cancel_data = {
+                                            "cancel_remark":
+                                            cancelremark.text,
+                                            "cancel_choice": default_choice,
+                                          };
+                                          FirebaseFirestore.instance
+                                              .collection("Cancellation Data")
+                                              .add(cancel_data);
+                                          cancelremark.clear();
+                                         Get.off(()=>ActiveOrderDetails( ),
+                                         arguments: {
+                                           "doc":doc
+                                         }
+                                         );
+
+                                        },
+                                        child: Container(
+                                            height: 38,
+                                            width: 90,
+                                            decoration: BoxDecoration(
+                                                color: HexColor("27AE60"),
+                                                borderRadius: BorderRadius.circular(8)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 3, right: 3, top: 2, bottom: 2),
+                                              child: Center(
+                                                child: Text(
+                                                  "Proceed",
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w700,
+                                                      color: HexColor("030105")),
                                                 ),
-                                              )),
-                                        ),
-                                      ]),
-                                ],
-                              ),
+                                              ),
+                                            )),
+                                      ),
+                                    ]),
+                              ],
                             ),
                           ),
                         ),
-                      );
+                      );;
                     },
                   ),
                 ),

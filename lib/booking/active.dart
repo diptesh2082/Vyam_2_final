@@ -43,7 +43,7 @@ class ActiveEvent extends StatelessWidget {
             }
             var document = snapshot.data.docs;
             return  Padding(
-              padding: const EdgeInsets.only(top: 30.0),
+              padding: const EdgeInsets.only(top: 20.0),
               child: document.isNotEmpty? ListView.builder(
                   itemCount: data.size,
                   itemBuilder: (context, index) {
@@ -53,8 +53,8 @@ class ActiveEvent extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () {
                           Get.to(() => ActiveOrderDetails(
-                                    index: index,
-                                    orderList: data.docs,
+
+                                    // orderList: data.docs,
                                   ),
                               arguments: {
                                 "doc":data.docs[index]
@@ -78,7 +78,7 @@ class ActiveEvent extends StatelessWidget {
                                       flex: 1,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                            top: 6.0, left: 9, bottom: 6,right: 9),
+                                            top: 8.0, left: 6, bottom: 8,right: 0),
                                         child: Column(
                                           mainAxisAlignment:
                                           MainAxisAlignment.start,

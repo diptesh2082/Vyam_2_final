@@ -13,6 +13,7 @@ import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/booking/bookings.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
+import 'package:vyam_2_final/exploreuo.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
 import '../api/api.dart';
@@ -276,7 +277,7 @@ class _HomePageState extends State<HomePage> {
     return [
       const FirstHome(),
       const BookingDetails(),
-      const Explore(),
+      const Exploreia(),
       ProfilePart(),
     ];
   }

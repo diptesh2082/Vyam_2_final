@@ -7,4 +7,4 @@ var address2 = "";
 bool location_denied = false;
 var serviceEnabled;
 
-var scaffoldColor =  Color(0xffF5F5F5);
+final Color scaffoldColor =  Color(0xffF5F5F5);
