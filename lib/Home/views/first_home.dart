@@ -645,7 +645,7 @@ class _FirstHomeState extends State<FirstHome> {
                            // if (searchGymName.isEmpty)
                              Column(
                                children: [
-                                 if (getPercentage != 100) ProgressCard(context),
+                                 if (getPercentage != 101) ProgressCard(context),
                                  const SizedBox(
                                    height: 9,
                                  ),
@@ -1255,7 +1255,7 @@ class _FirstHomeState extends State<FirstHome> {
                                   ]),
                                 )),
                             Positioned(
-                              right: MediaQuery.of(context).size.width * .091,
+                              right: MediaQuery.of(context).size.width * .084,
                               bottom: 53,
                               child: Text(
                                 "${percent}%",

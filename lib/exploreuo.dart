@@ -404,22 +404,24 @@ class _ExploreiaState extends State<Exploreia> {
   TextEditingController test_controller = TextEditingController();
   int focusedIndex = 0;
   GlobalKey<ScrollSnapListState> sslKey = GlobalKey();
-
+  GlobalKey<ScrollSnapListState> listKey = GlobalKey();
   void _onItemFocus(int index) {
     focusedIndex = index;
   }
 
-  Widget buildListItem(BuildContext context, int sindex) {
-    return ListView.separated(
-      shrinkWrap: true,
-      scrollDirection: Axis.horizontal,
-      itemCount: document.length,
-      itemBuilder: (context, index) {
+  Widget buildListItem(BuildContext context, int index) {
+    // return ListView.separated(
+    //   shrinkWrap: true,
+    //   scrollDirection: Axis.horizontal,
+    //   itemCount: document.length,
+    //   itemBuilder: (context, index) {
+
         return VisibilityDetector(
           key: Key(index.toString()),
           onVisibilityChanged: (VisibilityInfo info) async {
             print(info.visibleFraction);
-            if (info.visibleFraction > .81) _currentItem = index.toInt();
+            if (info.visibleFraction ==1) _currentItem = index.toInt();
+            // listKey=index.toInt();
             print(_currentItem);
             splashLocation(document[_currentItem]["location"].latitude,
                 document[_currentItem]["location"].longitude);
@@ -438,6 +440,7 @@ class _ExploreiaState extends State<Exploreia> {
               },
               child: Card(
                 // key: sslKey,
+                color: Colors.transparent,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
@@ -445,6 +448,7 @@ class _ExploreiaState extends State<Exploreia> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    // SizedBox(width: 15,),
                     _boxes(
                       document[index]["display_picture"],
                       document[index]["name"],
@@ -452,20 +456,21 @@ class _ExploreiaState extends State<Exploreia> {
                       document[index]["address"],
                       document[index]["rating"].toString(),
                       document[index]["branch"],
-                    )
+                    ),
+                    SizedBox(width: 15,)
                   ],
                 ),
               ),
             ),
           ),
         );
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return Container(
-          width: 8,
-        );
-      },
-    );
+      // },
+    //   separatorBuilder: (BuildContext context, int index) {
+    //     return Container(
+    //       width: 8,
+    //     );
+    //   },
+    // );
   }
 
   @override
@@ -537,13 +542,13 @@ class _ExploreiaState extends State<Exploreia> {
             ),
             location_service
                 ? Align(
-                    alignment: Alignment.bottomLeft,
+                    alignment: Alignment.bottomCenter,
                     child: Container(
                       // padding: const EdgeInsets.only(left: 10),
                       // margin: const EdgeInsets.symmetric(vertical: 18.0),
                       // color: Colors.white.withOpacity(0),
                       height: 136.0,
-                      // width: 250,
+                      width: 500,
                       child: StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection("product_details")
@@ -577,15 +582,22 @@ class _ExploreiaState extends State<Exploreia> {
                             //         .contains(searchGymName.toLowerCase());
                             //   }).toList();
                             // }
+                            var d=document.length;
                             return document.isNotEmpty
-                                ? ScrollSnapList(
-                                    // margin: EdgeInsets.symmetric(vertical: 0),
-                                    onItemFocus: _onItemFocus,
-                                    itemCount: document.length,
-                                    key: sslKey,
-                                    itemBuilder: buildListItem,
-                                    itemSize: MediaQuery.of(context).size.width,
-                                  )
+                                ? Container(
+                              width:MediaQuery.of(context).size.width ,
+                                  child: ScrollSnapList(
+                                      margin: EdgeInsets.symmetric(horizontal: 00),
+                                      onItemFocus: _onItemFocus,
+                                      itemCount: d,
+                                      key: sslKey,
+                                      // dynamicItemSize: true,
+                                    listViewKey: listKey,
+                                      itemBuilder: buildListItem,
+                              // reverse: true,
+                                      itemSize: 310,
+                                    ),
+                                )
                                 : Padding(
                                     padding: const EdgeInsets.only(
                                         left: 8.0, top: 30),
@@ -740,47 +752,47 @@ class _ExploreiaState extends State<Exploreia> {
     // splashLocation(location.latitude, location.longitude);
     return FittedBox(
       child: GestureDetector(
+        onTap: (){
+          print(MediaQuery.of(context).size.width*.86);
+        },
         // onHorizontalDragStart: (){
         //   _gotoLocation(location.latitude, location.longitude);
         // },
 
-        child: SizedBox(
-          width: 600,
-          child: Material(
-              color: Colors.white,
-              elevation: 14.0,
-              borderRadius: BorderRadius.circular(30.0),
-              shadowColor: Colors.black87,
-              child: FittedBox(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 250,
-                      height: 230,
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30.0),
-                          child: CachedNetworkImage(
-                            fit: BoxFit.cover,
-                            imageUrl: _image,
-                          ),
+        child: Material(
+            color: Colors.white,
+            elevation: 14.0,
+            borderRadius: BorderRadius.circular(30.0),
+            shadowColor: Colors.black87,
+            child: FittedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SizedBox(
+                    width: 260,
+                    height: 230,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30.0),
+                        child: CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: _image,
                         ),
                       ),
                     ),
-                    SizedBox(
-                      width: 239,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0, right: 30),
-                        child: myDetailsContainer1(
-                            name, '${gym_address}', address, review),
-                      ),
+                  ),
+                  SizedBox(
+                    width: 260,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0, right: 0),
+                      child: myDetailsContainer1(
+                          name, '${gym_address}', address, review),
                     ),
-                  ],
-                ),
-              )),
-        ),
+                  ),
+                ],
+              ),
+            )),
       ),
     );
   }
