@@ -306,13 +306,7 @@ class _FirstHomeState extends State<FirstHome> {
                         onTap: () async {
                           Position position = await _determinePosition();
                           await GetAddressFromLatLong(position);
-                          if (mounted) {
-                            setState(() {
-                              myaddress = myaddress;
-                              address = address;
-                              pin = pin;
-                            });
-                          }
+
                           await FirebaseFirestore.instance
                               .collection("user_details")
                               .doc(number)
@@ -327,6 +321,13 @@ class _FirstHomeState extends State<FirstHome> {
                             "subLocality": locality,
                             // "number": number
                           });
+                          if (mounted) {
+                            setState(() {
+                              myaddress = myaddress;
+                              address = address;
+                              pin = pin;
+                            });
+                          }
                           await Get.offAll(() => HomePage());
                         },
                         child: Container(

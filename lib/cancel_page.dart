@@ -262,6 +262,9 @@ var doc =Get.arguments["doc"];
                                               .collection("Cancellation Data")
                                               .add(cancel_data);
                                           cancelremark.clear();
+                                          Get.snackbar("Your Booking Status", "Your Booking Cancelled",
+                                              icon: Image.asset("assets/icons/vyam.png")
+                                          );
                                          Get.off(()=>ActiveOrderDetails( ),
                                          arguments: {
                                            "doc":doc

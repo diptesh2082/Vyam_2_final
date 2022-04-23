@@ -102,10 +102,16 @@ class _LocInfoState extends State<LocInfo> {
       List<Placemark> placemark =
           await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemark[0];
-      print(placemark);
-      print(placemark[1]);
-      address = "${place.name ?? ""}," +
-          "${place.subLocality ?? ""}, ${place.locality ?? ""}, ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
+      Placemark place2=placemark[1];
+      Placemark place3=placemark[2];
+      // print(placemark);
+      // print("///////////////////////////");
+      // print(place);
+      // print("///////////////////////////");
+      // print(place2);
+      // print("///////////////////////////");
+      print(place3);
+      address =   "${place2.subLocality ?? ""}, ${place.locality ?? ""},${place3.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
       pin = "${place.postalCode}";
       locality = "${place.locality}";
       subLocality = "${place.subLocality}";
@@ -116,13 +122,16 @@ class _LocInfoState extends State<LocInfo> {
     List<Placemark> placemark =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
-
-    print(placemark);
-    print(placemark[1]);
-    // var add = await Geocoder.local.findAddressesFromCoordinates(
-    //     coordinates);
-    address = "${place.name ?? ""}, " +
-        "${place.street ?? ""}, ${place.locality ?? ""}, ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
+    Placemark place2=placemark[1];
+    Placemark place3=placemark[2];
+    // print(placemark);
+    // print("///////////////////////////");
+    // print(place);
+    // print("///////////////////////////");
+    // print(place2);
+    // print("///////////////////////////");
+    print(place3);
+    address =   "${place2.subLocality ?? ""}, ${place.locality ?? ""},${place3.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
     pin = "${place.postalCode}";
     locality = "${place.locality}";
     subLocality = "${place.subLocality}";

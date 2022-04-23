@@ -310,7 +310,9 @@ class _LoginPageState extends State<LoginPage> {
                                   await googleIn();
                                 },
                                 icon: Image.asset(
-                                  "assets/icons/google.png",
+                                  "assets/icons/google-3.png",
+                                  height: 45,
+                                  width: 45,
                                 )),
                           ),
                           const SizedBox(

@@ -84,11 +84,8 @@ class _ProfilePartState extends State<ProfilePart> {
   // final FirebaseAuth _auth =FirebaseAuth.instance;
   @override
   void initState() {
-    // print(number);
-    // print(_auth.currentUser?.email);
     getUserData();
     Loading = false;
-    // print(imageUrl);
     super.initState();
   }
 
