@@ -645,7 +645,7 @@ class _FirstHomeState extends State<FirstHome> {
                            // if (searchGymName.isEmpty)
                              Column(
                                children: [
-                                 if (getPercentage != 101) ProgressCard(context),
+                                 if (getPercentage != 100) ProgressCard(context),
                                  const SizedBox(
                                    height: 9,
                                  ),
