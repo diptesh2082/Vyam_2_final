@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
@@ -16,6 +18,7 @@ import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/Catagory.dart';
 import 'package:vyam_2_final/Home/views/location.dart';
+import 'package:vyam_2_final/Home/views/noInternet.dart';
 import 'package:vyam_2_final/Home/views/search_function.dart';
 
 import 'package:vyam_2_final/api/api.dart';
@@ -61,25 +64,33 @@ class _FirstHomeState extends State<FirstHome> {
 
   // var location = Get.arguments;
 
+
   myLocation() async {
     try {
       await FirebaseFirestore.instance
           .collection('user_details')
           .doc(number)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          if (mounted) {
-            setState(() {
-              user_data = documentSnapshot.data();
-              GlobalUserData = documentSnapshot.data();
-              // GlobalUserLocation = GlobalUserData["pincode"];
-            });
-          }
-          print(GlobalUserLocation);
-          // user_data=documentSnapshot.data();
-        }
+          .snapshots().listen((snapshot) {
+            if(snapshot.exists){
+              setState(() {
+                user_data = snapshot.data();
+                GlobalUserData = snapshot.data();
+              });
+            }
       });
+      //     .then((DocumentSnapshot documentSnapshot) {
+      //   if (documentSnapshot.exists) {
+      //     if (mounted) {
+      //       setState(() {
+      //         user_data = documentSnapshot.data();
+      //         GlobalUserData = documentSnapshot.data();
+      //         // GlobalUserLocation = GlobalUserData["pincode"];
+      //       });
+      //     }
+      //     print(GlobalUserLocation);
+      //     // user_data=documentSnapshot.data();
+      //   }
+      // });
     } catch (e) {
       if (mounted) {
         setState(() {
@@ -462,8 +473,26 @@ class _FirstHomeState extends State<FirstHome> {
   final app_bar_controller = ScrollController();
   String searchGymName = '';
   BannerApi bannerApi = BannerApi();
+  bool result=false;
+  getInternet()async{
+    var listener = InternetConnectionChecker().onStatusChange.listen((status) {
+      switch (status) {
+        case InternetConnectionStatus.connected:
+          print('Data connection is available.');
+          Get.offAll(HomePage());
+
+          break;
+        case InternetConnectionStatus.disconnected:
+
+          Get.offAll(NoInternet());
+          break;
+      }
+    });
+  }
+
   @override
   void initState() {
+    // getInternet();
 
     getEverything();
     getProgressStatus();
@@ -577,6 +606,7 @@ class _FirstHomeState extends State<FirstHome> {
                             ),
                           ),
                           onPressed: () {
+
                             Get.to(() => NotificationDetails());
                             print(GlobalUserData);
                           },
@@ -1153,119 +1183,123 @@ class _FirstHomeState extends State<FirstHome> {
                                 .toStringAsFixed(1));
                         print(percent);
                         getProgressStatus();
-                        return Stack(
-                          children: [
-                            Container(
-                                height: 130,
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Row(children: [
-                                    if (finaldaysLeft != 0)
-                                      Column(
-                                        mainAxisAlignment:
+                        if(percent<=1.0000000000000000000000000000000000000000001){
+                          return
+                            Stack(
+                              children: [
+                                Container(
+                                    height: 130,
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: Colors.white),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: Row(children: [
+                                        if (finaldaysLeft != 0)
+                                          Column(
+                                            mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
+                                            crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
                                             children: [
-                                              Text(
-                                                  day_left != null
-                                                      ? day_left.toString()
-                                                      : "",
-                                                  style: GoogleFonts.poppins(
-                                                      color: textColor,
-                                                      fontSize: 16,
-                                                      fontWeight:
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                      day_left != null
+                                                          ? day_left.toString()
+                                                          : "",
+                                                      style: GoogleFonts.poppins(
+                                                          color: textColor,
+                                                          fontSize: 16,
+                                                          fontWeight:
                                                           FontWeight.bold)),
-                                              const SizedBox(
-                                                width: 2,
+                                                  const SizedBox(
+                                                    width: 2,
+                                                  ),
+                                                  Text("days to go",
+                                                      style: GoogleFonts.poppins(
+                                                          color: Colors.black,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                          FontWeight.bold)),
+                                                ],
                                               ),
-                                              Text("days to go",
+                                              // const SizedBox(
+                                              //   height: 5,
+                                              // ),
+                                              Text(
+                                                  data.docs[index]['gym_details']
+                                                  ["name"] ??
+                                                      "",
                                                   style: GoogleFonts.poppins(
+                                                      fontSize: 14,
                                                       color: Colors.black,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
+                                                      fontWeight: FontWeight.w500)),
+                                              // const SizedBox(
+                                              //   height: 5,
+                                              // ),
+                                              Text("Stay Strong !",
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 13,
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.bold)),
                                             ],
                                           ),
-                                          // const SizedBox(
-                                          //   height: 5,
-                                          // ),
-                                          Text(
-                                              data.docs[index]['gym_details']
-                                                      ["name"] ??
-                                                  "",
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w500)),
-                                          // const SizedBox(
-                                          //   height: 5,
-                                          // ),
-                                          Text("Stay Strong !",
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 13,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold)),
-                                        ],
-                                      ),
-                                    if (finaldaysLeft == 0)
-                                      Column(
-                                        crossAxisAlignment:
+                                        if (finaldaysLeft == 0)
+                                          Column(
+                                            crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        mainAxisAlignment:
+                                            mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        children: [
-                                          SizedBox(
-                                            width: 120,
-                                            child: Text(
-                                                "Your Subscription has been expired",
-                                                maxLines: 2,
-                                                style: GoogleFonts.poppins(
-                                                    color: Colors.red,
-                                                    fontSize: 12,
-                                                    fontWeight:
+                                            children: [
+                                              SizedBox(
+                                                width: 120,
+                                                child: Text(
+                                                    "Your Subscription has been expired",
+                                                    maxLines: 2,
+                                                    style: GoogleFonts.poppins(
+                                                        color: Colors.red,
+                                                        fontSize: 12,
+                                                        fontWeight:
                                                         FontWeight.bold)),
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              print("buy");
-                                            },
-                                            child: Text("Buy new packages",
-                                                style: GoogleFonts.poppins(
-                                                    color: Colors.red,
-                                                    fontSize: 12,
-                                                    fontWeight:
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  print("buy");
+                                                },
+                                                child: Text("Buy new packages",
+                                                    style: GoogleFonts.poppins(
+                                                        color: Colors.red,
+                                                        fontSize: 12,
+                                                        fontWeight:
                                                         FontWeight.bold)),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    const Spacer(),
-                                    CircularPercentIndicator(
-                                      animation: true,
-                                      radius: 42.67,
-                                      lineWidth: 12.0,
-                                      percent: progress,
-                                      progressColor: progressColor,
-                                    ),
-                                  ]),
-                                )),
-                            Positioned(
-                              right: MediaQuery.of(context).size.width * .084,
-                              bottom: 53,
-                              child: Text(
-                                "${percent}%",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          ],
-                        );
+                                        const Spacer(),
+                                        CircularPercentIndicator(
+                                          animation: true,
+                                          radius: 42.67,
+                                          lineWidth: 12.0,
+                                          percent: progress,
+                                          progressColor: progressColor,
+                                        ),
+                                      ]),
+                                    )),
+                                Positioned(
+                                  right: MediaQuery.of(context).size.width * .084,
+                                  bottom: 53,
+                                  child: Text(
+                                    "${percent}%",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 16, fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            );
+                        }
+                        return SizedBox();
                       },
                     )
                   : Container();

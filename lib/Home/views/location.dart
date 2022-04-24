@@ -16,6 +16,7 @@ import 'package:vyam_2_final/Helpers/request_helpers.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
+import 'package:vyam_2_final/controllers/location_controller.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
 import '../../api/api.dart';
@@ -38,21 +39,25 @@ class _LocInfoState extends State<LocInfo> {
   late GoogleMapController mapcontroller;
   Geoflutterfire geo = Geoflutterfire();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  // LocationController locationController = Get.put(dependency)
   myLocation() async {
     await FirebaseFirestore.instance
         .collection('user_details')
         .doc(number)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
+        .snapshots().listen((snapshot) {
+      if (snapshot.exists) {
         print('Document exists on the database');
         setState(() {
-          data = documentSnapshot.data();
+          data = snapshot.data();
           // isLoading = false;
           locController.text = data != null ? data["address"] : "your Location";
         });
       }
     });
+        // .then((DocumentSnapshot documentSnapshot) {
+
+    // }
+    // );
   }
 
   // bool isLoading = true;
@@ -173,7 +178,7 @@ class _LocInfoState extends State<LocInfo> {
         ? Container(
             color: Colors.white,
             child: const Center(
-              child: LinearProgressIndicator(
+              child: CircularProgressIndicator(
                 // color: Colors.amber,
                 backgroundColor: Colors.white,
               ),
@@ -292,6 +297,7 @@ class _LocInfoState extends State<LocInfo> {
                               "locality": locality,
                               "subLocality": subLocality,
                             });
+                            // Get.back();
                             Get.off(() => HomePage());
                           },
                           style: const TextStyle(
@@ -363,6 +369,7 @@ class _LocInfoState extends State<LocInfo> {
                                 "subLocality": locality,
                                 // "number": number
                               });
+                              // Get.back();
                               await Get.offAll(() => HomePage());
                             },
                             child: Card(
@@ -576,6 +583,7 @@ class _LocInfoState extends State<LocInfo> {
                                             "locality": locality,
                                             "subLocality": subLocality,
                                           });
+                                          // Get.back();
                                           Get.off(() => HomePage());
                                         },
                                         child: Padding(

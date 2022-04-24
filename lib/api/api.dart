@@ -6,13 +6,16 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:location/location.dart';
+import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'dart:math' show cos, sqrt, asin;
 
+import '../Home/views/noInternet.dart';
 import '../Notifications/notification.dart';
 import '../main.dart';
 
@@ -398,6 +401,23 @@ Future<void> checkExist(String docID) async {
     exist=false;
   }
 }
+bool result=false;
+getInternet()async{
+  var internet=InternetConnectionChecker();
+  var listener = InternetConnectionChecker().onStatusChange.listen((status) {
+    switch (status) {
+      case InternetConnectionStatus.connected:
+        print('Data connection is available.');
+        Get.offAll(HomePage());
+        break;
+      case InternetConnectionStatus.disconnected:
+
+        Get.offAll(NoInternet());
+        break;
+    }
+  });
+}
+
 myLocation() async {
   // number=getUserId();
   // print(number);
@@ -405,27 +425,29 @@ myLocation() async {
     await FirebaseFirestore.instance
         .collection('user_details')
         .doc(number)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        // print('Document exists on the database');
+        .snapshots().listen((snapshot) {
+      if (snapshot.exists) {
 
-        var userData = documentSnapshot.data();
-        GlobalUserData = documentSnapshot.data();
+
+        var userData = snapshot.data();
+        GlobalUserData = snapshot.data();
         // GlobalUserLocation = GlobalUserData["pincode"]??"Tap here to tap your location";
 
         print(GlobalUserLocation);
         // user_data=documentSnapshot.data();
       }
-      else{
-        GlobalUserData = {
-          "pincode":"700091",
-          "address": "Tap here to choose your location",
-          "gender":""
-        };
-        GlobalUserLocation = "700091";
-      }
     });
+    //     .then((DocumentSnapshot documentSnapshot) {
+    //
+    //   else{
+    //     GlobalUserData = {
+    //       "pincode":"700091",
+    //       "address": "Tap here to choose your location",
+    //       "gender":""
+    //     };
+    //     GlobalUserLocation = "700091";
+    //   }
+    // });
   }catch(e){
 
     GlobalUserData = {

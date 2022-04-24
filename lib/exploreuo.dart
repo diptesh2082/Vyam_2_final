@@ -351,7 +351,6 @@ class _ExploreiaState extends State<Exploreia> {
   @override
   void initState() {
     // print(location.latitude);
-
     getEverything();
 
     setState(() {

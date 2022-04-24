@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 // import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
 import 'package:vyam_2_final/Home/profile/profile_page.dart';
 import 'package:vyam_2_final/Home/views/explore.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
+import 'package:vyam_2_final/Home/views/noInternet.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/booking/bookings.dart';
@@ -29,7 +31,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  getInternet()async{
+    var listener = InternetConnectionChecker().onStatusChange.listen((status) {
+      switch (status) {
+        case InternetConnectionStatus.connected:
+          print('Data connection is available.');
+          Get.offAll(HomePage());
+          break;
+        case InternetConnectionStatus.disconnected:
+
+          Get.offAll(NoInternet());
+          break;
+      }
+    });
+  }
 // <<<<<<< sarvagya
+  bool result=false;
+  // getInternet()async{
+  //    result = await InternetConnectionChecker().hasConnection;
+  //   if(result == true) {
+  //     print('YAY! Free cute dog pics!');
+  //   } else {
+  //     print('No internet :( Reason:');
+  //
+  //     print(InternetConnectionChecker().connectionStatus);
+  //   }
+  // }
+
   getInfo() async {
     LocationPermission permission;
     permission = await Geolocator.checkPermission();
@@ -52,7 +80,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
 // <<<<<<< sarvagya
-    super.initState();
+  getInternet();
     getInfo();
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -74,7 +102,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ));
       }
-    });
+    }
+    );
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new onMessageOpenedApp event was published!');
@@ -96,6 +125,7 @@ class _HomePageState extends State<HomePage> {
             });
       }
     });
+    super.initState();
   }
 
   void showNotification(String title, String info) {
