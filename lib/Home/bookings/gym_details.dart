@@ -1,15 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:photo_view/photo_view_gallery.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:readmore/readmore.dart';
 import 'package:vyam_2_final/Home/bookings/amenites.dart';
 import 'package:vyam_2_final/Home/bookings/review_screen.dart';
@@ -369,14 +365,12 @@ class _GymDetailsState extends State<GymDetails> {
                     trimMode: TrimMode.Line,
                     trimCollapsedText: 'Read More',
                     trimExpandedText: 'Read Less',
-                    moreStyle:
-                        GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, ),
-                    lessStyle:
-                    GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12),
-                    style: TextStyle(
-                        fontFamily: 'poppins',
+                    moreStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, ),
+                    lessStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12),
+                    style: GoogleFonts.poppins(
+                        // fontFamily: 'poppins',
                         color: Colors.black,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         fontSize: 12),
                   ),
                   const SizedBox(height: 12),

@@ -23,6 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   bool showLoding = false;
   TextEditingController phoneController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // goToHome(){
   //   if ();
   // }
@@ -71,274 +72,291 @@ class _LoginPageState extends State<LoginPage> {
             )
           : SafeArea(
               child: SingleChildScrollView(
-              child: Container(
-                  color: backgroundColor,
-                  child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/sign_up.png",
-                        height: size.height / 2.5,
-                        width: size.width / 1.08,
-                        fit: BoxFit.fitWidth,
-                      ),
-                      SizedBox(
-                        height: size.height / 70,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            right: 25.0, left: 25.0, top: 10),
-                        child: Text(
-                          "Find and book best gyms Online",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: size.width / 18,
-                            fontFamily: "Poppins",
-                            color: Colors.black,
-                            decoration: TextDecoration.none,
-                            fontWeight: FontWeight.w800,
-                            // fontStyle: FontStyle.italic
+              child: Form(
+                key: _formKey,
+                child: Container(
+                    color: backgroundColor,
+                    child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/images/sign_up.png",
+                          height: size.height / 2.5,
+                          width: size.width / 1.08,
+                          fit: BoxFit.fitWidth,
+                        ),
+                        SizedBox(
+                          height: size.height / 70,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              right: 25.0, left: 25.0, top: 0),
+                          child: Text(
+                            "Find and book best gyms Online",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: size.width / 18,
+                              fontFamily: "Poppins",
+                              color: Colors.black,
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.w800,
+                              // fontStyle: FontStyle.italic
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: size.height / 50,
-                      ),
-                      Row(children: <Widget>[
-                        Expanded(
-                          child: Container(
-                              margin: const EdgeInsets.only(
-                                  left: 10.0, right: 15.0),
-                              child: const Divider(
-                                color: Colors.black,
-                                height: 36,
-                                thickness: 1,
-                              )),
+                        SizedBox(
+                          height: size.height / 50,
                         ),
-                        const Text(
-                          "Log in or sign up",
-                          style: TextStyle(fontSize: 15),
+                        Row(children: <Widget>[
+                          Expanded(
+                            child: Container(
+                                margin: const EdgeInsets.only(
+                                    left: 10.0, right: 15.0),
+                                child: const Divider(
+                                  color: Colors.black,
+                                  height: 36,
+                                  thickness: 1,
+                                )),
+                          ),
+                          const Text(
+                            "Log in or sign up",
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          Expanded(
+                            child: Container(
+                                margin: const EdgeInsets.only(
+                                    left: 15.0, right: 10.0),
+                                child: const Divider(
+                                  color: Colors.black,
+                                  height: 36,
+                                  thickness: 1,
+                                )),
+                          ),
+                        ]),
+                        const SizedBox(
+                          height: 16,
                         ),
-                        Expanded(
-                          child: Container(
-                              margin: const EdgeInsets.only(
-                                  left: 15.0, right: 10.0),
-                              child: const Divider(
-                                color: Colors.black,
-                                height: 36,
-                                thickness: 1,
-                              )),
-                        ),
-                      ]),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: size.height / 15,
-                        width: size.width / 1.15,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: size.width / 25,
-                            ),
-                            Container(
-                              height: size.height / 35,
-                              width: size.height / 30,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/icons/india_flag.png"),
-                                  fit: BoxFit.cover,
+                        Container(
+                          // height: size.height / 15,
+                          width: size.width / 1.15,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: size.width / 25,
+                              ),
+                              Container(
+                                height: size.height / 35,
+                                width: size.height / 30,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage("assets/icons/india_flag.png"),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const Text(
+                                "+91",
+                                style: TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.bold),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 0, left: 20, bottom: 0),
+                                child: SizedBox(
+                                  // height: size.height / 15,
+                                  width: size.width / 2,
+                                  child: TextFormField(
+
+                                    maxLength: 10,
+                                    controller: phoneController,
+                                    keyboardType: TextInputType.number,
+                                    decoration: const InputDecoration(
+                                        counterText: "",
+                                        // border: InputBorder.none,
+                                        hintText: "Enter phone number",
+                                    ),
+                                    validator: (value) {
+                                      if (value!.length !=10) {
+                                        return "Enter Correct Number";
+                                      } else {
+                                        return null;
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        if(wrong)
+                          Text(
+                              "Invalid number",
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.red,
+                              fontSize: 12
+
+                            ),
+                              ),
+                        SizedBox(
+                          height: size.height / 40,
+                        ),
+                        SizedBox(
+                          width: size.width / 1.2,
+                          height: size.height / 17,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              final isValid = _formKey.currentState?.validate();
+                              if (isValid!){
+                                _formKey.currentState?.save();
+                                setState(() {
+                                  showLoding = true;
+                                });
+                                var _forceResendingToken;
+                                await _auth.verifyPhoneNumber(
+                                    timeout: const Duration(seconds: 30),
+                                    forceResendingToken: _forceResendingToken,
+                                    phoneNumber: "+91${phoneController.text}",
+                                    verificationCompleted:
+                                        (phoneAuthCredential) async {
+                                      setState(() {
+                                        showLoding = false;
+                                      });
+                                    },
+                                    verificationFailed: (verificationFailed) async {
+                                      // Get.snackbar(
+                                      //     "Fail", "${verificationFailed.message}");
+                                      // ignore: avoid_print
+                                      print(verificationFailed.message);
+                                      setState(() {
+                                        wrong=true;
+                                        showLoding = false;
+                                      });
+                                    },
+                                    codeSent:
+                                        (verificationID, resendingToken) async {
+                                      setState(() {
+                                        showLoding = false;
+                                      });
+                                      resending_token = resendingToken;
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => OtpPage(
+                                                verificationID: verificationID,
+                                                number:
+                                                "+91${phoneController.text.trim()}",
+                                                resendingToken: resending_token,
+                                              )));
+                                    },
+                                    // forceResendingToken: (re){
+                                    //
+                                    // },
+                                    codeAutoRetrievalTimeout:
+                                        (verificationID) async {});
+                              }
+
+                            },
+                            child: Text(
+                              "Continue",
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(primary: buttonColor),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(children: <Widget>[
+                          Expanded(
+                            child: Container(
+                                margin: const EdgeInsets.only(
+                                    left: 10.0, right: 15.0),
+                                child: const Divider(
+                                  color: Colors.black,
+                                  height: 30,
+                                  thickness: .8,
+                                )),
+                          ),
+                          const Text(
+                            "Or",
+                            style: TextStyle(fontSize: 15),
+                          ),
+                          Expanded(
+                            child: Container(
+                                margin: const EdgeInsets.only(
+                                    left: 15.0, right: 10.0),
+                                child: const Divider(
+                                  color: Colors.black,
+                                  height: 30,
+                                  thickness: .8,
+                                )),
+                          ),
+                        ]),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 65,
+                              width: 65,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: Colors.white,
+                              ),
+                              child: IconButton(
+                                  onPressed: () async {
+                                    setState(() {
+                                      showLoding = true;
+                                    });
+                                    await googleIn();
+                                  },
+                                  icon: Image.asset(
+                                    "assets/icons/google-3.png",
+                                    height: 45,
+                                    width: 45,
+                                  )),
                             ),
                             const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              "+91",
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 5, left: 20, bottom: 8),
-                              child: SizedBox(
-                                height: size.height / 15,
-                                width: size.width / 2,
-                                child: TextField(
-                                  maxLength: 10,
-                                  controller: phoneController,
-                                  keyboardType: TextInputType.number,
-                                  decoration: const InputDecoration(
-                                      counterText: "",
-                                      border: InputBorder.none,
-                                      hintText: "Enter phone number"),
-                                ),
-                              ),
+                              width: 15,
                             ),
                           ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      if(wrong)
-                        Text(
-                            "Invalid number",
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.red,
-                            fontSize: 12
-
-                          ),
-                            ),
-                      SizedBox(
-                        height: size.height / 40,
-                      ),
-                      SizedBox(
-                        width: size.width / 1.2,
-                        height: size.height / 17,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            setState(() {
-                              showLoding = true;
-                            });
-                            var _forceResendingToken;
-                            await _auth.verifyPhoneNumber(
-                                timeout: const Duration(seconds: 30),
-                                forceResendingToken: _forceResendingToken,
-                                phoneNumber: "+91${phoneController.text}",
-                                verificationCompleted:
-                                    (phoneAuthCredential) async {
-                                  setState(() {
-                                    showLoding = false;
-                                  });
-                                },
-                                verificationFailed: (verificationFailed) async {
-                                  // Get.snackbar(
-                                  //     "Fail", "${verificationFailed.message}");
-                                  // ignore: avoid_print
-                                  print(verificationFailed.message);
-                                  setState(() {
-                                    wrong=true;
-                                    showLoding = false;
-                                  });
-                                },
-                                codeSent:
-                                    (verificationID, resendingToken) async {
-                                  setState(() {
-                                    showLoding = false;
-                                  });
-                                  resending_token = resendingToken;
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => OtpPage(
-                                                verificationID: verificationID,
-                                                number:
-                                                    "+91${phoneController.text.trim()}",
-                                                resendingToken: resending_token,
-                                              )));
-                                },
-                                // forceResendingToken: (re){
-                                //
-                                // },
-                                codeAutoRetrievalTimeout:
-                                    (verificationID) async {});
-                          },
-                          child: Text(
-                            "Continue",
-                            style: GoogleFonts.poppins(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        SizedBox(
+                          width: size.width / 2,
+                          child: const Center(
+                            child: Text(
+                              // ignore: prefer_adjacent_string_concatenation
+                              "Continue means you agree to" +
+                                  "Terms of use Privacy Policy",
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                          style: ElevatedButton.styleFrom(primary: buttonColor),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(children: <Widget>[
-                        Expanded(
-                          child: Container(
-                              margin: const EdgeInsets.only(
-                                  left: 10.0, right: 15.0),
-                              child: const Divider(
-                                color: Colors.black,
-                                height: 30,
-                                thickness: .8,
-                              )),
-                        ),
-                        const Text(
-                          "Or",
-                          style: TextStyle(fontSize: 15),
-                        ),
-                        Expanded(
-                          child: Container(
-                              margin: const EdgeInsets.only(
-                                  left: 15.0, right: 10.0),
-                              child: const Divider(
-                                color: Colors.black,
-                                height: 30,
-                                thickness: .8,
-                              )),
-                        ),
-                      ]),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 65,
-                            width: 65,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: Colors.white,
-                            ),
-                            child: IconButton(
-                                onPressed: () async {
-                                  setState(() {
-                                    showLoding = true;
-                                  });
-                                  await googleIn();
-                                },
-                                icon: Image.asset(
-                                  "assets/icons/google-3.png",
-                                  height: 45,
-                                  width: 45,
-                                )),
-                          ),
-                          const SizedBox(
-                            width: 15,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                      SizedBox(
-                        width: size.width / 2,
-                        child: const Center(
-                          child: Text(
-                            // ignore: prefer_adjacent_string_concatenation
-                            "Continue means you agree to" +
-                                "Terms of use Privacy Policy",
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      )
-                    ],
-                  )),
+                        const SizedBox(
+                          height: 10,
+                        )
+                      ],
+                    )),
+              ),
             )),
     );
   }

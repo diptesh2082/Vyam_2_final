@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -13,15 +12,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:location/location.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vyam_2_final/Helpers/request_helpers.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
-import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
-import 'package:vyam_2_final/Home/views/first_home.dart';
-// import 'package:vyam_2_final/Home/views/scratch_map.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import '../../controllers/gym_controller.dart';
@@ -621,56 +616,59 @@ class _ExploreiaState extends State<Exploreia> {
                     const SizedBox(
                       height: 24,
                     ),
-                    Material(
-                      elevation: 8,
-                      borderRadius: BorderRadius.circular(15),
-                      child: Container(
-                        // width: MediaQuery.of(context).size.width * .90,
-                        height: 51,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: Colors.white,
-                        ),
-                        child: TextField(
-                          textAlignVertical: TextAlignVertical.center,
-                          controller: test_controller,
-                          autofocus: false,
-                          onChanged: (value) async {
-                            if (value.length == 0) {
-                              // setState(() {
-                              FocusScope.of(context).unfocus();
-                            }
-                            // });
-                            _list =
-                                await RequestHelper().getPlaces(query: value);
-                            setState(() {});
-                            if (value.isEmpty) {
-                              _list!.clear();
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Material(
+                        elevation: 8,
+                        borderRadius: BorderRadius.circular(15),
+                        child: Container(
+                          // width: MediaQuery.of(context).size.width * .90,
+                          height: 51,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(14),
+                            color: Colors.white,
+                          ),
+                          child: TextField(
+                            textAlignVertical: TextAlignVertical.center,
+                            controller: test_controller,
+                            autofocus: false,
+                            onChanged: (value) async {
+                              if (value.length == 0) {
+                                // setState(() {
+                                FocusScope.of(context).unfocus();
+                              }
+                              // });
+                              _list =
+                                  await RequestHelper().getPlaces(query: value);
                               setState(() {});
-                            }
-                          },
-                          onSubmitted: (value) {
-                            FocusScope.of(context).unfocus();
-                            setState(() {
-                              showPlacessuggesstions = false;
-                              _list!.clear();
-                            });
-                          },
-                          decoration: const InputDecoration(
-                              hintText: 'Search places',
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                              prefixIcon: Icon(Profileicon.search)),
-                          onTap: () {
-                            setState(() {
-                              _list!.clear();
+                              if (value.isEmpty) {
+                                _list!.clear();
+                                setState(() {});
+                              }
+                            },
+                            onSubmitted: (value) {
                               FocusScope.of(context).unfocus();
-                              showPlacessuggesstions
-                                  ? showPlacessuggesstions = false
-                                  : showPlacessuggesstions = true;
-                              test_controller.clear();
-                            });
-                          },
+                              setState(() {
+                                showPlacessuggesstions = false;
+                                _list!.clear();
+                              });
+                            },
+                            decoration: const InputDecoration(
+                                hintText: 'Search places',
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(fontWeight: FontWeight.bold),
+                                prefixIcon: Icon(Profileicon.search)),
+                            onTap: () {
+                              setState(() {
+                                _list!.clear();
+                                FocusScope.of(context).unfocus();
+                                showPlacessuggesstions
+                                    ? showPlacessuggesstions = false
+                                    : showPlacessuggesstions = true;
+                                test_controller.clear();
+                              });
+                            },
+                          ),
                         ),
                       ),
                     ),

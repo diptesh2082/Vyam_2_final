@@ -80,12 +80,12 @@ class _SearchItState extends State<SearchIt> {
                       // height: (searchGymName.length<=2)?500:null,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
-                        color: Colors.white,
+                        color: Colors.grey[100],
                       ),
                       child: Column(
                         children: [
                           const SizedBox(
-                            // height: 6,
+                            height: 25,
                           ),
                           buildGymBox(),
                           const SizedBox(

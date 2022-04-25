@@ -555,7 +555,7 @@ class _FirstHomeState extends State<FirstHome> {
               ),
               title: Transform(
                 transform: Matrix4.translationValues(-21, 0, 0),
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () async {
                     FocusScope.of(context).unfocus();
                     await getAddressPin(pin);
@@ -571,17 +571,21 @@ class _FirstHomeState extends State<FirstHome> {
                   },
                   child: SizedBox(
                     width: size.width * .666,
-                    child: Text(
-                      GlobalUserData["address"] == ""
-                          ? "Tap here to choose your Location"
-                          : GlobalUserData["address"],
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: GoogleFonts.poppins(
-                          color: const Color(0xff3A3A3A),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500),
+                    height: 45,
+                    child: Center(
+                      child: Text(
+                        GlobalUserData["address"] == ""
+                            ? "Tap here to choose your Location"
+                            : GlobalUserData["address"],
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+
+                        style: GoogleFonts.poppins(
+                            color: const Color(0xff3A3A3A),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500),
+                      ),
                     ),
                   ),
                 ),
