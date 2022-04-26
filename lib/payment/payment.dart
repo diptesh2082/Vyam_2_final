@@ -639,8 +639,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                 "assets/icons/discount.png",
                                                 color: Colors.amber,
                                               ),
-                                              // Spacer(),
-
+                                              Spacer(),
+                                              if(myCouponController.GlobalCouponApplied.value==true)
+                                                Text(
+                                                  "- ₹ ${myCouponController.CouponDetailsMap.value}",
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w700,
+                                                      color: Colors.green
+                                                  ),
+                                                ),
                                             ],
                                           ),
                                         ),
@@ -684,32 +692,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                     )),
                                                 Spacer(),
                                                 if(myCouponController.GlobalCouponApplied.value==true)
-                                                  Column(
-                                                    children: [
-                                                      Text(
-                                                        "- ₹ ${myCouponController.CouponDetailsMap.value}",
-                                                        style: GoogleFonts.poppins(
-                                                            fontSize: 12,
-                                                            fontWeight: FontWeight.w700,
-                                                            color: Colors.green
-                                                        ),
+
+                                                  InkWell(
+                                                    onTap: ()async{
+                                                      myCouponController.GlobalCouponApplied.value=await false;
+                                                      myCouponController.GlobalCoupon.value=await "";
+                                                      // myCouponController.CouponDetailsMap.value= coupon_list[coupon];
+                                                    },
+                                                    child: Text(
+                                                      "REMOVE",
+                                                      style: GoogleFonts.poppins(
+                                                          fontSize: 10,
+                                                          fontWeight: FontWeight.bold,
+                                                          color: Colors.amber
                                                       ),
-                                                      InkWell(
-                                                        onTap: ()async{
-                                                          myCouponController.GlobalCouponApplied.value=await false;
-                                                          myCouponController.GlobalCoupon.value=await "";
-                                                          // myCouponController.CouponDetailsMap.value= coupon_list[coupon];
-                                                        },
-                                                        child: Text(
-                                                          "REMOVE",
-                                                          style: GoogleFonts.poppins(
-                                                              fontSize: 9,
-                                                              fontWeight: FontWeight.w700,
-                                                              color: Colors.amber
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
+                                                    ),
                                                   ),
                                                 // if(myCouponController.GlobalCouponApplied.value==true)
 

@@ -782,7 +782,7 @@ class _ExploreiaState extends State<Exploreia> {
                   SizedBox(
                     width: 260,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, right: 0),
+                      padding: const EdgeInsets.only(top: 0.0, right: 0),
                       child: myDetailsContainer1(
                           name, '${gym_address}', address, review),
                     ),
@@ -800,15 +800,12 @@ class _ExploreiaState extends State<Exploreia> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Text(
-            name,
-            style: const TextStyle(
-                color: Colors.black,
-                fontSize: 22.0,
-                fontWeight: FontWeight.bold),
-          ),
+        Text(
+          name,
+          style: GoogleFonts.poppins(
+              color: Colors.black,
+              fontSize: 20.0,
+              fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 5.0),
         Row(
@@ -820,23 +817,25 @@ class _ExploreiaState extends State<Exploreia> {
             ),
             Text(
               location,
-              style: const TextStyle(
+              style: GoogleFonts.poppins(
                 color: Colors.black54,
                 fontSize: 18.0,
+                fontWeight: FontWeight.w500
               ),
             ),
           ],
         ),
         const SizedBox(height: 5.0),
         SizedBox(
-          width: 200,
+          width: 210,
           child: Text(
             address,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
-            style: const TextStyle(
+            style: GoogleFonts.poppins(
               color: Colors.black87,
-              fontSize: 20.0,
+              fontSize: 18.0,
+              fontWeight: FontWeight.w500
             ),
           ),
         ),
@@ -853,7 +852,7 @@ class _ExploreiaState extends State<Exploreia> {
             ),
             Text(
               review,
-              style: const TextStyle(
+              style: GoogleFonts.poppins(
                   color: Colors.black54,
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold),

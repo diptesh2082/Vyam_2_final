@@ -84,7 +84,7 @@ class _OtpPageState extends State<OtpPage> {
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
-        showLoading = false;
+        // showLoading = false;
         showError = true;
       });
       // ignore: avoid_print
@@ -167,11 +167,13 @@ class _OtpPageState extends State<OtpPage> {
       },
       child: Scaffold(
         backgroundColor: scaffoldColor,
-        body: showLoading
+        body:
+        showLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : SafeArea(
+            :
+        SafeArea(
                 child: SingleChildScrollView(
                 child: Container(
                     color: backgroundColor,
@@ -279,10 +281,10 @@ class _OtpPageState extends State<OtpPage> {
                                 ),
                                 TextButton(
                                     onPressed: activateButton!
-                                        ? () async {
-                                            // setState(() {
-                                            //   _timer;
-                                            // });
+                                        ? ()  {
+                                      // setState(() {
+                                      //   showLoading = true;
+                                      // });
                                             // Get.off(() =>
                                             //     const OtpPage(),
                                             //   // arguments: [
@@ -295,7 +297,7 @@ class _OtpPageState extends State<OtpPage> {
                                             // print("+91${docId}");
 
                                             var _forceResendingToken;
-                                            await _auth.verifyPhoneNumber(
+                                             _auth.verifyPhoneNumber(
                                                 timeout:
                                                     const Duration(seconds: 27),
                                                 forceResendingToken:
@@ -303,9 +305,9 @@ class _OtpPageState extends State<OtpPage> {
                                                 phoneNumber: widget.number,
                                                 verificationCompleted:
                                                     (phoneAuthCredential) async {
-                                                  setState(() {
-                                                    showLoading = false;
-                                                  });
+                                                  // setState(() {
+                                                  //   showLoading = false;
+                                                  // });
                                                 },
                                                 verificationFailed:
                                                     (verificationFailed) async {
@@ -314,15 +316,15 @@ class _OtpPageState extends State<OtpPage> {
                                                   // ignore: avoid_print
                                                   print(verificationFailed
                                                       .message);
-                                                  setState(() {
-                                                    showLoading = false;
-                                                  });
+                                                  // setState(() {
+                                                  //   showLoading = false;
+                                                  // });
                                                 },
                                                 codeSent: (verificationID,
                                                     resendingToken) async {
-                                                  setState(() {
-                                                    showLoading = true;
-                                                  });
+                                                  // setState(() {
+                                                  //   showLoading = true;
+                                                  // });
                                                   await Navigator.pushReplacement(
                                                       (context),
                                                       FadeRoute(

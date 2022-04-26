@@ -554,7 +554,7 @@ class _FirstHomeState extends State<FirstHome> {
                 },
               ),
               title: Transform(
-                transform: Matrix4.translationValues(-21, 0, 0),
+                transform: Matrix4.translationValues(-26, 0, 0),
                 child: InkWell(
                   onTap: () async {
                     FocusScope.of(context).unfocus();
@@ -572,7 +572,8 @@ class _FirstHomeState extends State<FirstHome> {
                   child: SizedBox(
                     width: size.width * .666,
                     height: 45,
-                    child: Center(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
                       child: Text(
                         GlobalUserData["address"] == ""
                             ? "Tap here to choose your Location"
@@ -1092,43 +1093,38 @@ class _FirstHomeState extends State<FirstHome> {
                       );
                     },
                   )
-                : SingleChildScrollView(
-                    // controller: app_bar_controller,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 100,
-                        ),
-                        Center(
-                          child: Container(
-                            width: size.width * .9,
-                            height: 60,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Material(
-                              elevation: .2,
-                              borderRadius: BorderRadius.circular(15),
-                              // decoration: BoxDecoration(
-                              //   color: Colors.white
-                              // ),
-                              child: Center(
-                                child: Text(
-                                  "No nearby gyms in your area",
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 100,
-                        )
-                      ],
+                : Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 25,
                     ),
-                  );
+                    SizedBox(
+                      width: 127,
+                      height: 48,
+                      child: Text("Coming soon in"
+                          " your area",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Center(
+                      child: Image.asset(
+                        "assets/Illustrations/undraw_empty_street_sfxm 1.png"
+                      )
+                    ),
+                    SizedBox(
+                      height: 500,
+                    )
+                  ],
+                );
           },
         ),
       ),

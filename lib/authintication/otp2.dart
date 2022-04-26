@@ -261,9 +261,9 @@ class _OtpPage2State extends State<OtpPage2> {
                                               phoneNumber: widget.number,
                                               verificationCompleted:
                                                   (phoneAuthCredential) async {
-                                                setState(() {
-                                                  showLoading = false;
-                                                });
+                                                // setState(() {
+                                                //   showLoading = false;
+                                                // });
                                               },
                                               verificationFailed:
                                                   (verificationFailed) async {
@@ -272,9 +272,9 @@ class _OtpPage2State extends State<OtpPage2> {
                                                 // ignore: avoid_print
                                                 print(
                                                     verificationFailed.message);
-                                                setState(() {
-                                                  showLoading = false;
-                                                });
+                                                // setState(() {
+                                                //   showLoading = false;
+                                                // });
                                               },
                                               codeSent: (verificationID,
                                                   resendingToken) async {

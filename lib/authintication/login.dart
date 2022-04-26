@@ -5,12 +5,15 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
+import 'package:vyam_2_final/Home/profile/Terms_&_Conditions.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/google_signin.dart';
 import 'package:vyam_2_final/authintication/otp_screen.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 import 'package:vyam_2_final/colors/color.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
+
+import '../Home/profile/privacyPolicy.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -173,24 +176,29 @@ class _LoginPageState extends State<LoginPage> {
                                     top: 0, left: 20, bottom: 0),
                                 child: SizedBox(
                                   // height: size.height / 15,
-                                  width: size.width / 2,
-                                  child: TextFormField(
+                                  width: size.width *.55,
+                                  child: Column(
+                                    children: [
 
-                                    maxLength: 10,
-                                    controller: phoneController,
-                                    keyboardType: TextInputType.number,
-                                    decoration: const InputDecoration(
-                                        counterText: "",
-                                        // border: InputBorder.none,
-                                        hintText: "Enter phone number",
-                                    ),
-                                    validator: (value) {
-                                      if (value!.length !=10) {
-                                        return "Enter Correct Number";
-                                      } else {
-                                        return null;
-                                      }
-                                    },
+                                      TextFormField(
+
+                                         // maxLength: 10,
+                                        controller: phoneController,
+                                        keyboardType: TextInputType.number,
+                                        decoration: const InputDecoration(
+                                            counterText: "",
+                                            border: InputBorder.none,
+                                            hintText: "Enter phone number",
+                                        ),
+                                        validator: (value) {
+                                          if (value!.length !=10) {
+                                            return "Enter Correct Number";
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -321,16 +329,17 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               child: IconButton(
                                   onPressed: () async {
-                                    setState(() {
-                                      showLoding = true;
-                                    });
+                                    // setState(() {
+                                    //   showLoding = true;
+                                    // });
                                     await googleIn();
                                   },
                                   icon: Image.asset(
                                     "assets/icons/google-3.png",
                                     height: 45,
                                     width: 45,
-                                  )),
+                                  )
+                              ),
                             ),
                             const SizedBox(
                               width: 15,
@@ -341,14 +350,111 @@ class _LoginPageState extends State<LoginPage> {
                           height: 25,
                         ),
                         SizedBox(
-                          width: size.width / 2,
-                          child: const Center(
-                            child: Text(
-                              // ignore: prefer_adjacent_string_concatenation
-                              "Continue means you agree to" +
-                                  "Terms of use Privacy Policy",
-                              textAlign: TextAlign.center,
-                            ),
+                          width: 200,
+                          // height: 40,
+                          child:  Column(
+
+                            children: [
+                              Text(
+                                   "Continue means you agree to",
+                                style: GoogleFonts.poppins(
+                                  // fontFamily: "Poppins",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12,
+                                    color: Colors.grey),
+                              ),
+                              Row(
+                                children: [
+                                  InkWell(
+                                    child: Text(
+                                        " Privacy Policy",
+                                        style:  GoogleFonts.poppins(
+                                          // fontFamily: "Poppins",
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 12,
+                                            // color: Colors.amber
+                                        )
+                                    ),
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PrivacyPolicy()));
+                                    },
+                                  ),
+                                  Text(
+                                      " and",
+                                      style:  GoogleFonts.poppins(
+                                        // fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                        color: Colors.grey
+                                      )
+                                  ),
+                                  InkWell(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndCondition()));
+
+                                    },
+                                    child: Text(
+                                        " Terms of use",
+                                        style:  GoogleFonts.poppins(
+                                          // fontFamily: "Poppins",
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 12,
+                                            // color: Colors.amber
+                                        )
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              // RichText(
+                              //   textAlign: TextAlign.center,
+                              //     maxLines: 2,
+                              //     text: TextSpan(
+                              //         style: GoogleFonts.poppins(
+                              //           // fontFamily: "Poppins",
+                              //             fontWeight: FontWeight.w500,
+                              //             fontSize: 12,
+                              //             color: Colors.grey),
+                              //         children:  <TextSpan>[
+                              //           TextSpan(
+                              //               text: "Continue means you agree to"
+                              //           ),
+                              //           TextSpan(
+                              //             text:" Terms of use",
+                              //             style:  GoogleFonts.poppins(
+                              //               // fontFamily: "Poppins",
+                              //                 fontWeight: FontWeight.w700,
+                              //                 fontSize: 12,
+                              //                 color: Colors.amber
+                              //             )
+                              //               //     :GoogleFonts.poppins(
+                              //               // // fontFamily: "Poppins",
+                              //               //   fontWeight: FontWeight.w500,
+                              //               //   fontSize: 12,
+                              //               //   color: Colors.grey),
+                              //           ),
+                              //           TextSpan(
+                              //               text: " and",
+                              //               style:  GoogleFonts.poppins(
+                              //                 // fontFamily: "Poppins",
+                              //                   fontWeight: FontWeight.w500,
+                              //                   fontSize: 12,
+                              //               )
+                              //           ),
+                              //           TextSpan(
+                              //               text: " Privacy Policy",
+                              //               style:  GoogleFonts.poppins(
+                              //                 // fontFamily: "Poppins",
+                              //                   fontWeight: FontWeight.w700,
+                              //                   fontSize: 12,
+                              //                   color: Colors.amber
+                              //               )
+                              //           ),
+                              //
+                              //         ]
+                              //
+                              //     )),
+                            ],
                           ),
                         ),
                         const SizedBox(

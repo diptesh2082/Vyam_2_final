@@ -31,16 +31,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  getInternet()async{
+  bool net=true;
+  getInternet1()async{
     var listener = InternetConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case InternetConnectionStatus.connected:
           print('Data connection is available.');
-          Get.offAll(HomePage());
+          setState(() {
+            net=true;
+          });
+
           break;
         case InternetConnectionStatus.disconnected:
+          setState(() {
+            net=false;
+          });
 
-          Get.offAll(NoInternet());
           break;
       }
     });
@@ -80,7 +86,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
 // <<<<<<< sarvagya
-  getInternet();
+  getInternet1();
     getInfo();
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -334,7 +340,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return net?Scaffold(
       backgroundColor: scaffoldColor,
       body: PersistentTabView(
         context,
@@ -368,6 +374,6 @@ class _HomePageState extends State<HomePage> {
       //   tooltip: 'Icrement',
       //   child: Icon(Icons.add),
       // ),
-    );
+    ):NoInternet();
   }
 }

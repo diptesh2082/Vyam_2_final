@@ -217,7 +217,9 @@ class _ProfilePartState extends State<ProfilePart> {
                                                         gender.toLowerCase()
                                                   });
                                             },
-                                            icon: const Icon(Icons.edit))
+                                            icon: const ImageIcon(
+                                              AssetImage("assets/icons/profile-edit.png")
+                                            ))
                                       ],
                                     ),
                                     Column(
