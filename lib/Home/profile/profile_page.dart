@@ -367,17 +367,17 @@ class _ProfilePartState extends State<ProfilePart> {
                       ),
                       ListTile(
                         onTap: ()async {
-                          GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
-                          PlacesSearchResponse response =await _places.searchNearbyWithRadius(Location(lng: 31.0424,lat: 42.421,), 100);
-                          // Get.to(() => const MyOrdersScreen());
-                          print(response.toJson());
+                          // GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
+                          // PlacesSearchResponse response =await _places.searchNearbyWithRadius(Location(lng: 31.0424,lat: 42.421,), 100);
+                          // // Get.to(() => const MyOrdersScreen());
+                          // print(response.toJson());
                         },
                         leading: const ImageIcon(
                           AssetImage("assets/icons/share_app.png"),
                           color: Colors.black54,
                         ),
                         title:  Text(
-                          "Share & Earn",
+                          "Share",
                           style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, ),
                         ),
                       ),

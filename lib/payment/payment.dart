@@ -1121,7 +1121,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             .doc(getData["booking_id"])
                             .update({
                           "otp_pass": x.toString(),
-
+                          "booking_status":"upcoming",
                           "payment_done": false,
                         });
                         await showNotification("Thank You","Booking Successful");
@@ -1467,7 +1467,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 "discount": myCouponController.GlobalCouponApplied.value?(int.parse(myCouponController.CouponDetailsMap.value)):totalDiscount,
                                 "grand_total":  myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value)).toString():grandTotal.toString(),
                                 "tax_pay": taxPay,
-                                "booking_status": "upcoming",
+                                "booking_status": "incomplete",
                               });
                               // await getBookingData(booking_id);
                               onlinePay==true?Pay():OffPay();

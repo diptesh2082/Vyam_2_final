@@ -225,7 +225,7 @@ class OlderEvent extends StatelessWidget {
                                                   width: 4,
                                                 ),
                                                 Text(
-                                                  "Older ",
+                                                  "${document[index]["booking_status"]}",
                                                   // "data.docs[index]['type'].toUpperCase()",
                                                   style: GoogleFonts.poppins(
                                                       color: HexColor("3A3A3A"),

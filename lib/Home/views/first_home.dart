@@ -163,7 +163,7 @@ class _FirstHomeState extends State<FirstHome> {
     }
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
-    if (!serviceEnabled) {
+    if (!serviceEnabled || GlobalUserData["address"] == "") {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -265,109 +265,109 @@ class _FirstHomeState extends State<FirstHome> {
         ),
       );
     }
-    if (GlobalUserData["address"] == "") {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16))),
-          content: SizedBox(
-            height: 220,
-            width: 180,
-            child: Column(
-              children: [
-                Image.asset(
-                  "assets/icons/Group188.png",
-                  height: 50,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  "Enable device location",
-                  style: GoogleFonts.poppins(
-                      fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  width: 180,
-                  child: Text(
-                    "Please enable location for accurate location and nearest gyms",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                        fontSize: 11, fontWeight: FontWeight.w400),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Image.asset("assets/icons/icons8-approval.gif",
-                      //   height: 70,
-                      //   width: 70,
-                      // ),
-
-                      // const SizedBox(width: 15),
-                      GestureDetector(
-                        onTap: () async {
-                          Position position = await _determinePosition();
-                          await GetAddressFromLatLong(position);
-
-                          await FirebaseFirestore.instance
-                              .collection("user_details")
-                              .doc(number)
-                              .update({
-                            "location":
-                                GeoPoint(position.latitude, position.longitude),
-                            "address": address,
-                            // "lat": position.latitude,
-                            // "long": position.longitude,
-                            "pincode": pin,
-                            "locality": locality,
-                            "subLocality": locality,
-                            // "number": number
-                          });
-                          if (mounted) {
-                            setState(() {
-                              myaddress = myaddress;
-                              address = address;
-                              pin = pin;
-                            });
-                          }
-                          await Get.offAll(() => HomePage());
-                        },
-                        child: Container(
-                            height: 51,
-                            width: 145,
-                            decoration: BoxDecoration(
-                                color: HexColor("292F3D"),
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 3, right: 3, top: 2, bottom: 2),
-                              child: Center(
-                                child: Text(
-                                  "Enable Location",
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700,
-                                      color: HexColor("FFFFFF")),
-                                ),
-                              ),
-                            )),
-                      ),
-                    ]),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
+    // if (GlobalUserData["address"] == "") {
+    //   showDialog(
+    //     context: context,
+    //     builder: (context) => AlertDialog(
+    //       shape: const RoundedRectangleBorder(
+    //           borderRadius: BorderRadius.all(Radius.circular(16))),
+    //       content: SizedBox(
+    //         height: 220,
+    //         width: 180,
+    //         child: Column(
+    //           children: [
+    //             Image.asset(
+    //               "assets/icons/Group188.png",
+    //               height: 50,
+    //             ),
+    //             SizedBox(
+    //               height: 15,
+    //             ),
+    //             Text(
+    //               "Enable device location",
+    //               style: GoogleFonts.poppins(
+    //                   fontSize: 15, fontWeight: FontWeight.bold),
+    //             ),
+    //             SizedBox(
+    //               height: 10,
+    //             ),
+    //             SizedBox(
+    //               width: 180,
+    //               child: Text(
+    //                 "Please enable location for accurate location and nearest gyms",
+    //                 textAlign: TextAlign.center,
+    //                 style: GoogleFonts.poppins(
+    //                     fontSize: 11, fontWeight: FontWeight.w400),
+    //               ),
+    //             ),
+    //             const SizedBox(
+    //               height: 15,
+    //             ),
+    //             Row(
+    //                 crossAxisAlignment: CrossAxisAlignment.center,
+    //                 mainAxisAlignment: MainAxisAlignment.center,
+    //                 children: [
+    //                   // Image.asset("assets/icons/icons8-approval.gif",
+    //                   //   height: 70,
+    //                   //   width: 70,
+    //                   // ),
+    //
+    //                   // const SizedBox(width: 15),
+    //                   GestureDetector(
+    //                     onTap: () async {
+    //                       Position position = await _determinePosition();
+    //                       await GetAddressFromLatLong(position);
+    //
+    //                       await FirebaseFirestore.instance
+    //                           .collection("user_details")
+    //                           .doc(number)
+    //                           .update({
+    //                         "location":
+    //                             GeoPoint(position.latitude, position.longitude),
+    //                         "address": address,
+    //                         // "lat": position.latitude,
+    //                         // "long": position.longitude,
+    //                         "pincode": pin,
+    //                         "locality": locality,
+    //                         "subLocality": locality,
+    //                         // "number": number
+    //                       });
+    //                       if (mounted) {
+    //                         setState(() {
+    //                           myaddress = myaddress;
+    //                           address = address;
+    //                           pin = pin;
+    //                         });
+    //                       }
+    //                       await Get.offAll(() => HomePage());
+    //                     },
+    //                     child: Container(
+    //                         height: 51,
+    //                         width: 145,
+    //                         decoration: BoxDecoration(
+    //                             color: HexColor("292F3D"),
+    //                             borderRadius: BorderRadius.circular(15)),
+    //                         child: Padding(
+    //                           padding: const EdgeInsets.only(
+    //                               left: 3, right: 3, top: 2, bottom: 2),
+    //                           child: Center(
+    //                             child: Text(
+    //                               "Enable Location",
+    //                               style: GoogleFonts.poppins(
+    //                                   fontSize: 15,
+    //                                   fontWeight: FontWeight.w700,
+    //                                   color: HexColor("FFFFFF")),
+    //                             ),
+    //                           ),
+    //                         )),
+    //                   ),
+    //                 ]),
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   );
+    // }
 
     // }
   }
@@ -1280,7 +1280,7 @@ class _FirstHomeState extends State<FirstHome> {
                                         const Spacer(),
                                         CircularPercentIndicator(
                                           animation: true,
-                                          radius: 42.67,
+                                          radius: 44,
                                           lineWidth: 12.0,
                                           percent: progress,
                                           progressColor: progressColor,
@@ -1288,7 +1288,7 @@ class _FirstHomeState extends State<FirstHome> {
                                       ]),
                                     )),
                                 Positioned(
-                                  right: MediaQuery.of(context).size.width * .084,
+                                  right: MediaQuery.of(context).size.width * .0895,
                                   bottom: 53,
                                   child: Text(
                                     "${percent}%",

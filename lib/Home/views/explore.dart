@@ -28,7 +28,7 @@ import 'package:vyam_2_final/golbal_variables.dart';
 import '../../controllers/gym_controller.dart';
 import 'package:location/location.dart' as ln;
 
-const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
+const String api = "AIzaSyC1HHe1ulw07w6Cz-UirhV5d2Pm_GUJW38";
 GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
 
 // final geocoding = new GoogleMapsGeocoding(apiKey: api);
