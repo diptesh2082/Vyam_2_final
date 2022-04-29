@@ -228,7 +228,7 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
                                 if (value!.isEmpty ||
                                     value.length > 10 ||
                                     value.length < 10) {
-                                  return "Enter your full name";
+                                  return "Enter your full Number";
                                 } else {
                                   return null;
                                 }

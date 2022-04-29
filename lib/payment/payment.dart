@@ -138,8 +138,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       amount = grandTotal.toString() + "00";
       FirebaseFirestore.instance
           .collection("bookings")
-          .doc(number)
-          .collection("user_booking")
           .doc(Get.arguments["booking_id"])
           .update({
         "total_price": price,
@@ -245,8 +243,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
         // print(x);
         await FirebaseFirestore.instance
             .collection("bookings")
-            .doc(number)
-            .collection("user_booking")
             .doc(getData["booking_id"])
             .update({
           "otp_pass": x.toString(),
@@ -371,8 +367,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       // print(x);
       FirebaseFirestore.instance
           .collection("bookings")
-          .doc(number)
-          .collection("user_booking")
           .doc(getData["booking_id"])
           .update({
         "otp_pass": x.toString(),
@@ -1024,8 +1018,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Pay()async{
     await FirebaseFirestore.instance
         .collection("bookings")
-        .doc(number)
-        .collection("user_booking")
         .doc(booking_id)
         .update({
       "discount": myCouponController.GlobalCouponApplied.value?(int.parse(myCouponController.CouponDetailsMap.value)):totalDiscount,
@@ -1116,8 +1108,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         // print(x);
                         await FirebaseFirestore.instance
                             .collection("bookings")
-                            .doc(number)
-                            .collection("user_booking")
                             .doc(getData["booking_id"])
                             .update({
                           "otp_pass": x.toString(),
@@ -1460,8 +1450,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               print('hhhhhhhhhhhhhh');
                               await FirebaseFirestore.instance
                                   .collection("bookings")
-                                  .doc(number)
-                                  .collection("user_booking")
                                   .doc(booking_id)
                                   .update({
                                 "discount": myCouponController.GlobalCouponApplied.value?(int.parse(myCouponController.CouponDetailsMap.value)):totalDiscount,

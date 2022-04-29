@@ -202,8 +202,6 @@ class BookingDetails {
                                           print(number);
                                           FirebaseFirestore.instance
                                               .collection("bookings")
-                                              .doc(number)
-                                              .collection("user_booking")
                                               // .where("booking_id", isEqualTo: )
                                               .doc(booking_id)
                                               .update({

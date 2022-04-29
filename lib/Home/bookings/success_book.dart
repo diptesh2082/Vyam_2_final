@@ -148,8 +148,6 @@ class _PanelWidgetState extends State<PanelWidget> {
     try{
       await FirebaseFirestore.instance
           .collection('bookings')
-          .doc(number)
-          .collection("user_booking")
           .doc(booking_id)
           .get()
           .then((DocumentSnapshot documentSnapshot) {

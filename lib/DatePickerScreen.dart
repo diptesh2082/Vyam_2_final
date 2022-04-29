@@ -220,8 +220,6 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                 );
                 await FirebaseFirestore.instance
                     .collection("bookings")
-                    .doc(number)
-                    .collection("user_booking")
                     .doc(widget.bookingId)
                     .update({
                   "booking_date": startDate,

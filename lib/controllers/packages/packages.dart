@@ -54,21 +54,17 @@ class _PackegesState extends State<Packeges> {
 
   // var String booking_id;
   final bookings = FirebaseFirestore.instance
-      .collection("bookings")
-      .doc(number)
-      .collection("user_booking");
+      .collection("bookings");
   final id = FirebaseFirestore.instance
       .collection("bookings")
-      .doc(number)
-      .collection("user_booking")
       .doc()
       .id
       .toString();
   CreateBooking(String id) async {
     final bookings = FirebaseFirestore.instance
-        .collection("bookings")
-        .doc(number)
-        .collection("user_booking");
+        .collection("bookings");
+        // .doc(number)
+        // .collection("user_booking");
     print(bookings);
     // booking_id = bookings.doc().id;
     // String id=bookings.doc().id;
@@ -109,8 +105,6 @@ class _PackegesState extends State<Packeges> {
     print(id);
     FirebaseFirestore.instance
         .collection("bookings")
-        .doc(number)
-        .collection("user_booking")
         .doc(id)
         .update({
       // "gym_name": widget.gymName,

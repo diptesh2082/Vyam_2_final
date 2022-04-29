@@ -189,8 +189,7 @@ class BannerApi {
 class UpcomingApi {
   Stream<QuerySnapshot> getUpcomingEvents = FirebaseFirestore.instance
       .collection('bookings')
-      .doc(number)
-      .collection("user_booking")
+      .where("userId",isEqualTo: number)
       .where("booking_status", isEqualTo: "upcoming")
   .orderBy("order_date",descending: true)
       .snapshots();
@@ -199,18 +198,18 @@ class UpcomingApi {
 class ActiveBookingApi {
   Stream<QuerySnapshot> getActiveBooking = FirebaseFirestore.instance
       .collection('bookings')
-      .doc(number)
-      .collection("user_booking")
+      .where("userId",isEqualTo: number)
       .where("booking_status", isEqualTo: "active")
+      .orderBy("order_date",descending: true)
       .snapshots();
 }
 
 class OlderBookingApi {
   Stream<QuerySnapshot> getOlderBooking = FirebaseFirestore.instance
       .collection('bookings')
-      .doc(number)
-      .collection("user_booking")
+      .where("userId",isEqualTo: number)
       .where("booking_status", whereIn: ["completed","cancelled"])
+      .orderBy("order_date",descending: true)
       .snapshots();
 }
 
