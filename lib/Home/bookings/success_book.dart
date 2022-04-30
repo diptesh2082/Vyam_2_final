@@ -149,8 +149,8 @@ class _PanelWidgetState extends State<PanelWidget> {
       await FirebaseFirestore.instance
           .collection('bookings')
           .doc(booking_id)
-          .get()
-          .then((DocumentSnapshot documentSnapshot) {
+          .snapshots()
+          .listen((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           print('Document exists on the database');
             setState(() {

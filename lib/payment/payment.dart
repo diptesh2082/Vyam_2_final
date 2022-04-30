@@ -93,8 +93,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   //         .doc(number)
   //         .collection("user_booking")
   //         .doc(booking_id)
-  //         .get()
-  //         .then((DocumentSnapshot documentSnapshot) {
+  //         .snapshots()
+  //         .listen((DocumentSnapshot documentSnapshot) {
   //       if (documentSnapshot.exists) {
   //         print('Document exists on the database');
   //
@@ -118,6 +118,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   void initState() {
     // print("${GlobalCouponApplied}");
     // GlobalCouponApplied?_couponpopup(context):const SizedBox();
+    // getBookingData(booking_id);
 
     // print(GlobalUserData);
     myCouponController.GlobalCouponApplied.value=false;
@@ -241,6 +242,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
 
         // print(x);
+      // if(booking_details["id"]!=null)
         await FirebaseFirestore.instance
             .collection("bookings")
             .doc(getData["booking_id"])
@@ -249,9 +251,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
           "booking_status": "upcoming",
           "payment_done": true,
         });
+      // booking_details["id"]!=null?
       await showNotification("Thank You","Booking Successful");
+    // :await showNotification("Booking Status You","Booking Unsuccessful");
 
-      await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_details});
+      // booking_details["id"]!=null?
+      await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
+          // :Get.back();
       // }
 
 
