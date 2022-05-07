@@ -77,7 +77,7 @@ class _Register2State extends State<Register2> {
               final isValid = _formKey.currentState?.validate();
               if (isValid!) {
                 _formKey.currentState?.save();
-                Get.to(() => Register3(), arguments: {
+                Get.off(() => Register3(), arguments: {
                   "name": name,
                   "email": emailController.text.trim()
                 });

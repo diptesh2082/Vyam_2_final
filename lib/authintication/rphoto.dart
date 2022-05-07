@@ -77,7 +77,7 @@ class _Register4State extends State<Register4> {
               ])),
           leading: GestureDetector(
             onTap: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   CustomPageRoute(
                     child: Register3(),

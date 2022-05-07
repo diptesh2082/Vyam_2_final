@@ -82,7 +82,7 @@ class _Register3State extends State<Register3> {
                 "email": email,
                 "gender": gender
               });
-              await Navigator.push(
+              await Navigator.pushReplacement(
                   context,
                   CustomPageRoute(
                     child: Register4(),

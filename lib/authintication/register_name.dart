@@ -81,7 +81,7 @@ class _Register1State extends State<Register1> {
               if (isValid!) {
                 _formKey.currentState?.save();
                 // await UserApi.createNewUser();
-                Get.to(() => Register2(),
+                Get.off(() => Register2(),
                     arguments: {"name": nameController.text.trim()});
               }
             },
