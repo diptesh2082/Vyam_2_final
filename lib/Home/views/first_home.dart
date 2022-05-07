@@ -459,11 +459,13 @@ class _FirstHomeState extends State<FirstHome> {
   // ignore: non_constant_identifier_names
   Future<void> GetAddressFromLatLong(Position position) async {
     List<Placemark> placemark =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
+    await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
+    Placemark place2=placemark[1];
+    Placemark place3=placemark[2];
 
-    address = address = "${place.name ?? ""}, " +
-        "${place.street ?? ""}, ${place.locality ?? ""}, ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
+    print(place3);
+    address =   "${place2.subLocality ?? ""}, ${place.locality ?? ""},${place3.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
     pin = "${place.postalCode}";
     locality = "${place.locality}";
     subLocality = "${place.subLocality}";
