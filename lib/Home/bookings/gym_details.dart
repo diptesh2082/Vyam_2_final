@@ -834,6 +834,7 @@ class _GymDetailsState extends State<GymDetails> {
                   ),
                   FittedBox(
                     child: Column(
+
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

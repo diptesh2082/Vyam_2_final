@@ -385,7 +385,7 @@ class _FirstHomeState extends State<FirstHome> {
       getPercentage = 100 * int.parse(getDays.toString()) / totalDays;
       progress = (double.parse(getPercentage.toString()) / 100);
       // locationController.YourLocation(location);
-      // print("reytedry${getPercentage}");
+      print("reytedry///////////${getPercentage}");
       if (getPercentage >= 90) {
         progressColor = Colors.red;
         textColor = Colors.red;
@@ -679,6 +679,7 @@ class _FirstHomeState extends State<FirstHome> {
                              height: 9,
                            ),
                            // if (searchGymName.isEmpty)
+
                              Column(
                                children: [
                                  if (getPercentage != 100) ProgressCard(context),
@@ -1139,8 +1140,9 @@ class _FirstHomeState extends State<FirstHome> {
       child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('bookings')
-              .doc(number)
-              .collection("user_booking")
+              // .doc(number)
+              // .collection("user_booking")
+              .where("userId", isEqualTo: number)
               .where("booking_status", isEqualTo: "active")
               .snapshots(),
           builder: (context, AsyncSnapshot snapshot) {
@@ -1159,6 +1161,7 @@ class _FirstHomeState extends State<FirstHome> {
                 return const SizedBox();
               }
               var document = snapshot.data.docs;
+              print("dee/////////////////");
               print(document);
               return document.isNotEmpty
                   ? ListView.builder(
@@ -1166,15 +1169,17 @@ class _FirstHomeState extends State<FirstHome> {
                       itemCount: 1,
                       itemBuilder: (context, index) {
 
-//                         getDays = (data.docs[index]["booking_date"]
-//                                 .toDate()
-//                                 .difference(DateTime.now())
-//                                 .inDays)
-//                             .toString();
+                        // getDays = (data.docs[index]["booking_date"]
+                        //         .toDate()
+                        //         .difference(DateTime.now())
+                        //         .inDays).abs()
+                        //     .toString();
+                        // // getDays=getDays
 
                         getDays = (DateTime.now().difference(data.docs[index]["booking_date"].toDate()).inDays).toString() ;
 
-                        totalDays = data.docs[index]["totalDays"] ?? 0;
+                        totalDays =(data.docs[index]["plan_end_duration"].toDate().difference(data.docs[index]["booking_date"].toDate()).inDays) ;
+                        totalDays=totalDays.abs();
                         print(totalDays);
                         print(getDays);
 
@@ -1182,8 +1187,9 @@ class _FirstHomeState extends State<FirstHome> {
                             (100 * int.parse(getDays.toString()) ~/ totalDays)
                                 .toStringAsFixed(1));
                         print(percent);
+                        print(percent);
                         getProgressStatus();
-                        if(percent<=1.0000000000000000000000000000000000000000001){
+                        if(percent>=0.0000000000000000000000000000000000000000001 && int.parse(getDays) >= -1){
                           return
                             Stack(
                               children: [

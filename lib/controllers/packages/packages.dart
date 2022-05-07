@@ -94,7 +94,7 @@ class _PackegesState extends State<Packeges> {
       "discount": "0",
       "grand_total": "",
       "tax_pay": "",
-      "totalDays": "",
+      "totalDays": "0",
       "total_price": "",
       "id": "423",
 

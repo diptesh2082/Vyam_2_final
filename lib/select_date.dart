@@ -387,8 +387,8 @@ class _SelectDateState extends State<SelectDate> {
               );
               await FirebaseFirestore.instance
                   .collection("bookings")
-                  .doc(number)
-                  .collection("user_booking")
+                  // .doc(number)
+                  // .collection("user_booking")
                   .doc(widget.bookingId)
                   .update({
                 "booking_date": startDate,
