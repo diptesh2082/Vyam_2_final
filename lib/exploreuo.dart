@@ -188,7 +188,7 @@ class _ExploreiaState extends State<Exploreia> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
-    if (!serviceEnabled) {
+    if (!serviceEnabled || GlobalUserData["address"] == "") {
       setState(() {
         isLoading = true;
         location_service = false;
@@ -204,41 +204,42 @@ class _ExploreiaState extends State<Exploreia> {
           height: 600,
           child: WillPopScope(
             onWillPop: () async {
-              try {
-                Position position = await _determinePosition();
-                await GetAddressFromLatLong(position);
-                if (mounted) {
-                  setState(() {
-                    myaddress = myaddress;
-                    address = address;
-                    pin = pin;
-                  });
-                }
-                await FirebaseFirestore.instance
-                    .collection("user_details")
-                    .doc(number)
-                    .update({
-                  "location": GeoPoint(position.latitude, position.longitude),
-                  "address": address,
-                  // "lat": position.latitude,
-                  // "long": position.longitude,
-                  "pincode": pin,
-                  "locality": locality,
-                  "subLocality": locality,
-                  // "number": number
-                });
-                setState(() {
-                  location_service = true;
-                  // isLoading=false;
-                });
-              } catch (e) {
-                getEverything();
-              }
-
-              // if(location)
-              // setState(() {
+              // try {
+              //   Position position = await _determinePosition();
+              //   await GetAddressFromLatLong(position);
+              //   if (mounted) {
+              //     setState(() {
+              //       myaddress = myaddress;
+              //       address = address;
+              //       pin = pin;
+              //     });
+              //   }
+              //   await FirebaseFirestore.instance
+              //       .collection("user_details")
+              //       .doc(number)
+              //       .update({
+              //     "location": GeoPoint(position.latitude, position.longitude),
+              //     "address": address,
+              //     // "lat": position.latitude,
+              //     // "long": position.longitude,
+              //     "pincode": pin,
+              //     "locality": locality,
+              //     "subLocality": locality,
+              //     // "number": number
+              //   });
+              //   setState(() {
+              //     location_service = true;
+              //     // isLoading=false;
+              //   });
+              // } catch (e) {
+              //   getEverything();
+              // }
+              //
+              // if(location) {
+              //   setState(() {
               //   location_service =  true;
               // });
+              // }
               return true;
             },
             child: AlertDialog(
@@ -541,7 +542,7 @@ class _ExploreiaState extends State<Exploreia> {
               },
               markers: Set<Marker>.of(markers.values),
             ),
-            location_service
+            GlobalUserData["address"] != ""
                 ? Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(

@@ -195,7 +195,7 @@ class _ExploreState extends State<Explore> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
-    if (!serviceEnabled) {
+    if (!serviceEnabled || GlobalUserData["address"] == "") {
       setState(() {
         isLoading=true;
         location_service =  false;
@@ -204,38 +204,38 @@ class _ExploreState extends State<Explore> {
         // barrierDismissible: location_service,
         builder:(context)=> WillPopScope(
           onWillPop: () async{
-            try{
-              Position position = await _determinePosition();
-              await GetAddressFromLatLong(position);
-              if(mounted) {
-                setState(() {
-                  myaddress = myaddress;
-                  address = address;
-                  pin = pin;
-
-                });
-              }
-              await FirebaseFirestore.instance
-                  .collection("user_details")
-                  .doc(number)
-                  .update({
-                "location": GeoPoint(position.latitude, position.longitude),
-                "address": address,
-                // "lat": position.latitude,
-                // "long": position.longitude,
-                "pincode": pin,
-                "locality": locality,
-                "subLocality": locality,
-                // "number": number
-              });
-              setState(() {
-                location_service =  true;
-                // isLoading=false;
-              });
-
-            }catch(e){
-              getEverything();
-            }
+            // try{
+              // Position position = await _determinePosition();
+              // await GetAddressFromLatLong(position);
+            //   if(mounted) {
+            //     setState(() {
+            //       myaddress = myaddress;
+            //       address = address;
+            //       pin = pin;
+            //
+            //     });
+            //   }
+            //   await FirebaseFirestore.instance
+            //       .collection("user_details")
+            //       .doc(number)
+            //       .update({
+            //     "location": GeoPoint(position.latitude, position.longitude),
+            //     "address": address,
+            //     // "lat": position.latitude,
+            //     // "long": position.longitude,
+            //     "pincode": pin,
+            //     "locality": locality,
+            //     "subLocality": locality,
+            //     // "number": number
+            //   });
+            //   setState(() {
+            //     location_service =  true;
+            //     // isLoading=false;
+            //   });
+            //
+            // }catch(e){
+            //   getEverything();
+            // }
 
 
              // if(location)
@@ -292,7 +292,7 @@ class _ExploreState extends State<Explore> {
                         // ),
 
                         // const SizedBox(width: 15),
-                        GestureDetector(
+                        InkWell(
                           onTap: ()async{
 
                             Position position = await _determinePosition();
