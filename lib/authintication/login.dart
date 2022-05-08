@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/Home/profile/Terms_&_Conditions.dart';
@@ -36,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
   googleIn() async {
     print('hhhhhhhhhhhhhh');
     // FirebaseService().signInwithGoogle();
-    FirebaseService service = FirebaseService();
+    FirebaseService service = FirebaseService(context);
     try {
       await service.signInwithGoogle();
       setState(() {
@@ -95,16 +96,22 @@ class _LoginPageState extends State<LoginPage> {
                         Padding(
                           padding: const EdgeInsets.only(
                               right: 25.0, left: 25.0, top: 0),
-                          child: Text(
-                            "Find and book best gyms Online",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: size.width / 18,
-                              fontFamily: "Poppins",
-                              color: Colors.black,
-                              decoration: TextDecoration.none,
-                              fontWeight: FontWeight.w800,
-                              // fontStyle: FontStyle.italic
+                          child: InkWell(
+                            onTap: (){
+                              final GoogleSignIn _googleSignIn = GoogleSignIn();
+                              _googleSignIn.signOut();
+                            },
+                            child: Text(
+                              "Find and book best gyms Online",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: size.width / 18,
+                                fontFamily: "Poppins",
+                                color: Colors.black,
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.w800,
+                                // fontStyle: FontStyle.italic
+                              ),
                             ),
                           ),
                         ),

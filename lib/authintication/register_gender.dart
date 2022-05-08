@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vyam_2_final/api/api.dart';
@@ -71,7 +72,8 @@ class _Register3State extends State<Register3> {
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
             onPressed: () async {
-              await UserApi.createNewUser();
+
+
               await FirebaseFirestore.instance
                   .collection("user_details")
                   .doc(number)
@@ -80,23 +82,23 @@ class _Register3State extends State<Register3> {
                 "image": userPhoto,
                 "name": name,
                 "email": email,
-                "gender": gender
+                "gender": gender,
+                "uid": FirebaseAuth.instance.currentUser!.uid,
               });
-              await Navigator.pushReplacement(
+
+              await  Navigator.pushReplacement(
                   context,
                   CustomPageRoute(
                     child: Register4(),
                   )
-                  /* PageTransition(
+                /* PageTransition(
                       curve: Curves.easeIn,
                       ctx: context,
                       duration: Duration(milliseconds: 50),
                       opaque: true,
                       child: Register4(),
                       type: PageTransitionType.rightToLeftWithFade)*/
-                  );
-              // print(name);
-              // await setVisitingFlag();
+              );
               await setVisitingFlag();
 
               // await UserApi.createUserName(name);

@@ -68,6 +68,8 @@ class _ProfilePartState extends State<ProfilePart> {
           });
         }
       } catch (e) {
+        print("/////////////////////////////////////");
+        print(e);
         setState(() {
           name = "";
           // print(number);
@@ -367,6 +369,7 @@ class _ProfilePartState extends State<ProfilePart> {
                       ),
                       ListTile(
                         onTap: ()async {
+                          print(number);
                           // GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
                           // PlacesSearchResponse response =await _places.searchNearbyWithRadius(Location(lng: 31.0424,lat: 42.421,), 100);
                           // // Get.to(() => const MyOrdersScreen());

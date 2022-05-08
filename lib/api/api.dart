@@ -12,11 +12,13 @@ import 'package:location/location.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/Home/views/first_home.dart';
 import 'package:vyam_2_final/authintication/login.dart';
+import 'package:vyam_2_final/authintication/phoneNumber.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'dart:math' show cos, sqrt, asin;
 
 import '../Home/views/noInternet.dart';
 import '../Notifications/notification.dart';
+import '../authintication/google_signin.dart';
 import '../main.dart';
 
 // ignore: prefer_typing_uninitialized_variables
@@ -242,14 +244,14 @@ class UserApi {
       // number=docUser.id;
       final myJson = {
         'userId': docUser.id,
-        "number": _auth.currentUser?.phoneNumber.toString(),
-        "uid": _auth.currentUser?.uid,
+        "number": "",
+        "uid": "",
         "subLocality": "",
         "locality": "",
-        "name": _auth.currentUser?.displayName.toString(),
-        "email": _auth.currentUser?.email.toString(),
+        "name": "",
+        "email": "",
         // "location":GeoPoint(0,0),
-        "image": _auth.currentUser?.photoURL.toString(),
+        "image": "",
         "address": "",
         "gender": "",
         // "lat": 0,
@@ -462,24 +464,42 @@ myLocation() async {
 
 var emailId;
 var emailhai;
+getToHomePage(var number) async {
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  getNumber();
+  sharedPreferences.setString("number", number.toString());
+  getNumber();
+  // Get.offAll(() =>  HomePage());
+
+}
 checkEmailExist(String email)async{
   try{
     await FirebaseFirestore.instance
         .collection('user_details')
-        .where("email",isEqualTo:email)
+        .where("email",isEqualTo: email)
         .get()
         .then((QuerySnapshot snapshot) async {
       if (snapshot.docs.isNotEmpty) {
-        // print('Document exists on the database');
-        emailId=await snapshot.docs[0].id;
-        // print(snapshot.docs[0].id);
-        emailhai=await true;
+        print('Document exists on the database');
+        String emailId=await snapshot.docs[0]["number"];
+        print(snapshot.docs[0].id);
+        emailhai= await true;
+        setNumber(emailId);
+          await setUserId(emailId);
+          await getToHomePage(emailId);
+        await Get.offAll(()=>HomePage());
+        // return true;
         // email=true as bool;
         // return true;
 
       }
-      else{
-        emailhai= await false;
+      else {
+        emailhai=  await false;
+        userName= await _auth.currentUser!.displayName;
+        userEmail=await _auth.currentUser!.email;
+        userPhoto=await _auth.currentUser!.photoURL;
+        // Navigator.push(context, MaterialPageRoute(build
+        await Get.to(()=>PhoneRegistar());
         // return false;
       }
     });

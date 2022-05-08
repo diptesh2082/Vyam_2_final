@@ -78,6 +78,7 @@ class _OtpPage2State extends State<OtpPage2> {
         await getToHomePage(_auth.currentUser?.phoneNumber);
         setUserId(_auth.currentUser?.phoneNumber);
         setNumber(_auth.currentUser?.phoneNumber);
+        await UserApi.createNewUser();
         Get.off(() => Register3(), arguments: {
           "name": userName,
           "email": userEmail,

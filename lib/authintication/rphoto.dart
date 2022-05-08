@@ -100,7 +100,7 @@ class _Register4State extends State<Register4> {
               await ref.putFile(image!);
               final url = await ref.getDownloadURL();
               // print(number);
-              UserApi.creatUserImage(url);
+              await UserApi.creatUserImage(url);
             },
             backgroundColor: Colors.amber.shade300,
             child: const Icon(

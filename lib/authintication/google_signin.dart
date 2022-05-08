@@ -19,6 +19,9 @@ var userName;
 var userEmail;
 var userPhoto;
 class FirebaseService {
+  final context;
+
+  FirebaseService(this.context);
   getToHomePage(var number) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     getNumber();
@@ -46,38 +49,30 @@ class FirebaseService {
         // bool? visitingFlag=await getVisitingFlag();
 
         final auth =  FirebaseAuth.instance;
-        // print("ha email hain"+emailhai);
-        // print(emailId);
-        // print(visiting_flag);
         print(auth.currentUser!.email);
+        userPhoto=await _auth.currentUser!.photoURL;
+        await checkEmailExist("${authCread.user!.email}");
+        print(emailhai);
+        // print(vi);
+        print("///////////");
 
-        // getToHomePage(auth.currentUser!.email);
-        // setUserId(_auth.currentUser?.email);
-        // await setNumber(_auth.currentUser!.email);
-        // var visitingFlag=await get;
-        // checkExist(_auth.currentUser?.email);
-        await checkEmailExist("${auth.currentUser!.email}");
-        // number.toString()==_auth.currentUser?.email.toString()
-        // print("ha email hain"+emailhai);
-        // print(emailId);
-        // print(visiting_flag);
-        // print("//////////////////////////////////");
-        if (emailhai== true || visiting_flag==true ){
-          await setNumber(emailId);
-          await setUserId(emailId);
-          await getToHomePage(emailId);
-          // await myLocation();
-          // print(GlobalUserData);
-          await Get.offAll(()=>HomePage());
-        }
-        else if(emailhai== false){
-          userName= await _auth.currentUser!.displayName;
-          userEmail=await _auth.currentUser!.email;
-          userPhoto=await _auth.currentUser!.photoURL;
-          await Get.offAll(()=>PhoneRegistar());
-        }
+        // if (emailhai== true || visiting_flag==true){
+        //    setNumber(emailId);
+        //   // await setUserId(emailId);
+        //   await getToHomePage(emailId);
+        //   await Get.offAll(()=>HomePage());
+        // }
+        // else if (emailhai==false || visiting_flag==true) {
+        //   userName= await _auth.currentUser!.displayName;
+        //   userEmail=await _auth.currentUser!.email;
+        //   userPhoto=await _auth.currentUser!.photoURL;
+        //   // Navigator.push(context, MaterialPageRoute(builder: ))
+        //   // await Navigator.push(
+        //   //     (context), MaterialPageRoute(builder: (context) => HomePage()));
+        //   await Get.to(()=>PhoneRegistar());
+        // }
         setUserId(_auth.currentUser?.email);
-        setVisitingFlag();
+        await setVisitingFlag();
       }
     } on FirebaseAuthException catch (e) {
       print(e.message);
