@@ -246,8 +246,6 @@ var doc =Get.arguments["doc"];
                                           // Navigator.pop(context);
                                           await FirebaseFirestore.instance
                                               .collection("bookings")
-                                              .doc(number)
-                                              .collection("user_booking")
                                               .doc(widget.bookingId)
                                               .update({
                                             "booking_status": "cancelled"

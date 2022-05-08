@@ -1080,6 +1080,42 @@ class _FirstHomeState extends State<FirstHome> {
                                           ),
                                         ),
                                       ),
+                                      if(document[index]["gym_status"]==false)
+                                      Positioned(
+                                        top: 0,
+                                        left: 0,
+                                        // bottom: size.height * .008,
+                                        child: Container(
+                                          // child:
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(6),
+                                              gradient: const LinearGradient(
+                                                  colors: [
+                                                    Color(0x81000000),
+                                                    Color(0x76000000)
+                                                  ],
+                                                  begin: Alignment(0.0, 1),
+                                                  end: Alignment(0.0, -.6))),
+                                          alignment: Alignment.bottomRight,
+                                          height: 210,
+                                          width: 500,
+                                          padding: const EdgeInsets.only(
+                                              right: 8, bottom: 10),
+                                        ),
+                                      ),
+                                      if(document[index]["gym_status"]==false)
+                                        Positioned(
+                                          top: 10,
+                                          left: MediaQuery.of(context).size.width*.040,
+                                          child: Text("*Temporarily closed",
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.red
+                                            ),
+                                          ),
+                                        ),
                                     ],
                                   ),
                                 ),

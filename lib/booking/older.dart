@@ -40,7 +40,7 @@ class OlderEvent extends StatelessWidget {
             if (data.size == 0) {
               return Center(
                 child: Image.asset(
-                  "assets/icons/activeEmpty.png",
+                  "assets/icons/olderEmpty.png",
                   height: _width * 0.8,
                 ),
               );

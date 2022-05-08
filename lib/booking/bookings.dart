@@ -136,7 +136,7 @@ class _BookingDetailsState extends State<BookingDetails> {
           backgroundColor: Colors.transparent,
           centerTitle: true,
           title: Text(
-            "Booking",
+            "Bookings",
             style: GoogleFonts.poppins(
                 color: HexColor("3A3A3A"),
                 fontSize: 18,

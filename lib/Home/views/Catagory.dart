@@ -17,6 +17,7 @@ class Catagory extends StatelessWidget {
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('category')
+        .orderBy("position")
             .snapshots(),
         builder: (BuildContext context,
             AsyncSnapshot snapshot) {

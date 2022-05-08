@@ -83,6 +83,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   child: Card(
                     child: SfDateRangePicker(
                       minDate: DateTime.now(),
+                      maxDate: DateTime.utc(DateTime.now().year,DateTime.now().month,DateTime.now().day+31),
                       //Daddy Widget aka Calender Widget
                       monthCellStyle: const DateRangePickerMonthCellStyle(
                         // TextStyle of each date
