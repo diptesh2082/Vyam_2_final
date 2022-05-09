@@ -366,7 +366,8 @@ class _ExploreiaState extends State<Exploreia> {
                                           color: HexColor("FFFFFF")),
                                     ),
                                   ),
-                                )),
+                                )
+                            ),
                           ),
                         ]),
                   ],

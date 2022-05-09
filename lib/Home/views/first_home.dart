@@ -154,7 +154,7 @@ class _FirstHomeState extends State<FirstHome> {
   checkAvablity()async{
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
-    if (!serviceEnabled || GlobalUserData["address"] == "") {
+    if (!serviceEnabled || GlobalUserData["address"] == "" || GlobalUserData["address"] == null) {
       showDialog(
         context: context,
         builder: (context) => WillPopScope(
@@ -211,7 +211,7 @@ class _FirstHomeState extends State<FirstHome> {
                         // const SizedBox(width: 15),
                         GestureDetector(
                           onTap: () async {
-                            Position position = await _determinePosition();
+                            Position position = await Geolocator.getCurrentPosition();
                             await GetAddressFromLatLong(position);
                             if (mounted) {
                               setState(() {
@@ -235,6 +235,36 @@ class _FirstHomeState extends State<FirstHome> {
                               // "number": number
                             });
                             await Get.offAll(() => HomePage());
+                            setState(() {
+                              // myaddress = myaddress;
+                              address = address;
+                              pin = pin;
+                              GlobalUserLocation = user_data["address"];
+                            });
+                            // Position position = await _determinePosition();
+                            // await GetAddressFromLatLong(position);
+                            // if (mounted) {
+                            //   setState(() {
+                            //     myaddress = myaddress;
+                            //     address = address;
+                            //     pin = pin;
+                            //   });
+                            // }
+                            // await FirebaseFirestore.instance
+                            //     .collection("user_details")
+                            //     .doc(number)
+                            //     .update({
+                            //   "location":
+                            //   GeoPoint(position.latitude, position.longitude),
+                            //   "address": address,
+                            //   // "lat": position.latitude,
+                            //   // "long": position.longitude,
+                            //   "pincode": pin,
+                            //   "locality": locality,
+                            //   "subLocality": locality,
+                            //   // "number": number
+                            // });
+                            // await Get.offAll(() => HomePage());
                           },
                           child: Container(
                               height: 51,
@@ -365,19 +395,19 @@ class _FirstHomeState extends State<FirstHome> {
   String subLocality = "";
   // GymAllApi gymAll = GymAllApi();
   // ignore: non_constant_identifier_names
-  Future<void> GetAddressFromLatLong(Position position) async {
-    List<Placemark> placemark =
-    await placemarkFromCoordinates(position.latitude, position.longitude);
-    Placemark place = placemark[0];
-    Placemark place2=placemark[1];
-    Placemark place3=placemark[2];
-
-    print(place3);
-    address =   "${place2.subLocality ?? ""}, ${place.locality ?? ""},${place3.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
-    pin = "${place.postalCode}";
-    locality = "${place.locality}";
-    subLocality = "${place.subLocality}";
-  }
+  // Future<void> GetAddressFromLatLong(Position position) async {
+  //   List<Placemark> placemark =
+  //   await placemarkFromCoordinates(position.latitude, position.longitude);
+  //   Placemark place = placemark[0];
+  //   Placemark place2=placemark[1];
+  //   Placemark place3=placemark[2];
+  //
+  //   print(place3);
+  //   address =   "${place2.subLocality ?? ""}, ${place.locality ?? ""},${place3.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
+  //   pin = "${place.postalCode}";
+  //   locality = "${place.locality}";
+  //   subLocality = "${place.subLocality}";
+  // }
 
   // List<DocumentSnapshot> document = [];
   final app_bar_controller = ScrollController();
@@ -485,18 +515,36 @@ class _FirstHomeState extends State<FirstHome> {
                     height: 45,
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        GlobalUserData["address"] == ""
-                            ? "Tap here to choose your Location"
-                            : GlobalUserData["address"],
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if(GlobalUserData["address"] == null)
+                            Text(
+                              "Tap here to choose your Location",
+                              textAlign: TextAlign.left,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
 
-                        style: GoogleFonts.poppins(
-                            color: const Color(0xff3A3A3A),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500),
+                              style: GoogleFonts.poppins(
+                                  color: const Color(0xff3A3A3A),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          if(GlobalUserData["address"] != null)
+                          Text(
+                            GlobalUserData["address"].toString() == ""
+                                ? "Tap here to choose your Location"
+                                : GlobalUserData["address"].toString(),
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+
+                            style: GoogleFonts.poppins(
+                                color: const Color(0xff3A3A3A),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ],
                       ),
                     ),
                   ),

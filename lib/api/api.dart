@@ -249,6 +249,7 @@ class UserApi {
         "subLocality": "",
         "locality": "",
         "name": "",
+        "legit":true,
         "email": "",
         // "location":GeoPoint(0,0),
         "image": "",

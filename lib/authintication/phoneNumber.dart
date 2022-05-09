@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/otp2.dart';
 
@@ -24,6 +25,7 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController phoneController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   void initState() {
@@ -41,122 +43,128 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: scaffoldColor,
-      appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Container(
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                Text('2',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Poppins",
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400)),
-                Text("/",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Poppins",
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400)),
-                Text('4',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: "Poppins",
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400))
-              ])),
-          leading: const Icon(
-            Icons.arrow_back_ios_new_outlined,
-            color: Colors.black,
-          )),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0),
-        child: FloatingActionButton(
-            // clipBehavior: Clip.none,
-            onPressed: () async {
-              final isValid = _formKey.currentState?.validate();
-              if (isValid!) {
-                _formKey.currentState?.save();
-                setState(() {
-                  showLoding = true;
-                });
-
-                await _auth.verifyPhoneNumber(
-                    phoneNumber: "+91${phoneController.text}",
-                    verificationCompleted: (phoneAuthCredential) async {
-                      setState(() {
-                        showLoding = false;
-                      });
-                    },
-                    verificationFailed: (verificationFailed) async {
-                      Get.snackbar("Fail", "varification faild");
-                      // ignore: avoid_print
-                      print(verificationFailed.message);
-                      setState(() {
-                        showLoding = false;
-                      });
-                    },
-                    codeSent: (verificationID, resendingToken) async {
-                      setState(() {
-                        showLoding = false;
-                      });
-                      // checkExist("+91${phoneController.text}");
-                      // print(phoneController.text);
-                      var resending_token = await resendingToken;
-                      Get.to(
-                        () => OtpPage2(
-                          verificationID: verificationID,
-                          number: "+91${phoneController.text.trim()}",
-                          resendingToken: resending_token,
-                        ),
-                        //     arguments: [
-                        //   verificationID,
-                        //   "+91${phoneController.text.trim()}",
-                        //   resendingToken
-                        // ]
-                      );
-                    },
-                    codeAutoRetrievalTimeout: (verificationID) async {});
-                // Navigator.push(
-                //     context,
-                //     CustomPageRoute(
-                //       child: Register3(),
-                //     ));
-                // await UserApi.CreateUserEmail(phoneController.text.trim());
-              }
-            },
-            backgroundColor: Colors.amber.shade300,
-            child: const Icon(
-              Icons.arrow_forward_ios_outlined,
+    return WillPopScope(
+      onWillPop: ()async {
+        _googleSignIn.signOut();
+        return true;
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: scaffoldColor,
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: Container(
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                  Text('2',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400)),
+                  Text("/",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400)),
+                  Text('4',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400))
+                ])),
+            leading: const Icon(
+              Icons.arrow_back_ios_new_outlined,
               color: Colors.black,
             )),
-      ),
-      body: showLoding
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : SafeArea(
-              child: Stack(
-                // fit: StackFit.passthrough,
-                alignment: Alignment.center,
-                children: [
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(30),
-                      child: Image.asset(
-                          'assets/Illustrations/undraw_fitness_stats_6.png'),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
+          child: FloatingActionButton(
+              // clipBehavior: Clip.none,
+              onPressed: () async {
+                final isValid = _formKey.currentState?.validate();
+                if (isValid!) {
+                  _formKey.currentState?.save();
+                  setState(() {
+                    showLoding = true;
+                  });
+
+                  await _auth.verifyPhoneNumber(
+                      phoneNumber: "+91${phoneController.text}",
+                      verificationCompleted: (phoneAuthCredential) async {
+                        setState(() {
+                          showLoding = false;
+                        });
+                      },
+                      verificationFailed: (verificationFailed) async {
+                        Get.snackbar("Fail", "varification faild");
+                        // ignore: avoid_print
+                        print(verificationFailed.message);
+                        setState(() {
+                          showLoding = false;
+                        });
+                      },
+                      codeSent: (verificationID, resendingToken) async {
+                        setState(() {
+                          showLoding = false;
+                        });
+                        // checkExist("+91${phoneController.text}");
+                        // print(phoneController.text);
+                        var resending_token = await resendingToken;
+                        Get.to(
+                          () => OtpPage2(
+                            verificationID: verificationID,
+                            number: "+91${phoneController.text.trim()}",
+                            resendingToken: resending_token,
+                          ),
+                          //     arguments: [
+                          //   verificationID,
+                          //   "+91${phoneController.text.trim()}",
+                          //   resendingToken
+                          // ]
+                        );
+                      },
+                      codeAutoRetrievalTimeout: (verificationID) async {});
+                  // Navigator.push(
+                  //     context,
+                  //     CustomPageRoute(
+                  //       child: Register3(),
+                  //     ));
+                  // await UserApi.CreateUserEmail(phoneController.text.trim());
+                }
+              },
+              backgroundColor: Colors.amber.shade300,
+              child: const Icon(
+                Icons.arrow_forward_ios_outlined,
+                color: Colors.black,
+              )),
+        ),
+        body: showLoding
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SafeArea(
+                child: Stack(
+                  // fit: StackFit.passthrough,
+                  alignment: Alignment.center,
+                  children: [
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(30),
+                        child: Image.asset(
+                            'assets/Illustrations/undraw_fitness_stats_6.png'),
+                      ),
                     ),
-                  ),
-                  Form(key: _formKey, child: phoneNumber(context)),
-                ],
+                    Form(key: _formKey, child: phoneNumber(context)),
+                  ],
+                ),
               ),
-            ),
+      ),
     );
   }
 
@@ -217,6 +225,7 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
                             padding:
                                 const EdgeInsets.only(left: 12.0, right: 8.0),
                             child: TextFormField(
+                              maxLength: 10,
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontFamily: 'Poppins',

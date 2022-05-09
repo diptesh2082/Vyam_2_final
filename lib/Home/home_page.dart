@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
   checkAvablity()async{
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
-    if (!serviceEnabled || GlobalUserData["address"] == "") {
+    if (!serviceEnabled || GlobalUserData["address"] == ""|| GlobalUserData["address"] == null) {
       showDialog(
         context: context,
         builder: (context) => WillPopScope(
@@ -126,7 +126,8 @@ class _HomePageState extends State<HomePage> {
                         // const SizedBox(width: 15),
                         GestureDetector(
                           onTap: () async {
-                            Position position = await determinePosition();
+
+                            Position position = await Geolocator.getCurrentPosition();
                             await GetAddressFromLatLong(position);
                             if (mounted) {
                               setState(() {

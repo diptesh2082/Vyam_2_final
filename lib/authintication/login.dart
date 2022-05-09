@@ -189,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
 
                                       TextFormField(
 
-                                         // maxLength: 10,
+                                         maxLength: 10,
                                         controller: phoneController,
                                         keyboardType: TextInputType.number,
                                         decoration: const InputDecoration(

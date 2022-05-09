@@ -219,7 +219,7 @@ class _SelectDateState extends State<SelectDate> {
                               fontWeight: FontWeight.w700,
                               color: HexColor("3A3A3A"))),
                       firstDay: DateTime.now(),
-                      lastDay: DateTime(2050),
+                      lastDay: DateTime.utc(DateTime.now().year,DateTime.now().month,DateTime.now().day+31),
                       focusedDay: _selectedDay,
                     ),
                   ),
