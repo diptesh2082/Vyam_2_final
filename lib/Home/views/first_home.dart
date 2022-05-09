@@ -147,10 +147,124 @@ class _FirstHomeState extends State<FirstHome> {
     }
 
     getAddressPin(pin);
-    myLocation();
+    // myLocation();
   }
 
   late LocationPermission permission;
+  checkAvablity()async{
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    print("service status $serviceEnabled");
+    if (!serviceEnabled || GlobalUserData["address"] == "") {
+      showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+
+          onWillPop: ()async {
+            print("here this one");
+            Get.back();
+            return true;
+          },
+          child: AlertDialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(16))),
+            content: SizedBox(
+              height: 220,
+              width: 180,
+              child: Column(
+                children: [
+                  Image.asset(
+                    "assets/icons/Group188.png",
+                    height: 50,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    "Enable device location",
+                    style: GoogleFonts.poppins(
+                        fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: 180,
+                    child: Text(
+                      "Please enable location for accurate location and nearest gyms",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                          fontSize: 11, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Image.asset("assets/icons/icons8-approval.gif",
+                        //   height: 70,
+                        //   width: 70,
+                        // ),
+
+                        // const SizedBox(width: 15),
+                        GestureDetector(
+                          onTap: () async {
+                            Position position = await _determinePosition();
+                            await GetAddressFromLatLong(position);
+                            if (mounted) {
+                              setState(() {
+                                myaddress = myaddress;
+                                address = address;
+                                pin = pin;
+                              });
+                            }
+                            await FirebaseFirestore.instance
+                                .collection("user_details")
+                                .doc(number)
+                                .update({
+                              "location":
+                              GeoPoint(position.latitude, position.longitude),
+                              "address": address,
+                              // "lat": position.latitude,
+                              // "long": position.longitude,
+                              "pincode": pin,
+                              "locality": locality,
+                              "subLocality": locality,
+                              // "number": number
+                            });
+                            await Get.offAll(() => HomePage());
+                          },
+                          child: Container(
+                              height: 51,
+                              width: 145,
+                              decoration: BoxDecoration(
+                                  color: HexColor("292F3D"),
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 3, right: 3, top: 2, bottom: 2),
+                                child: Center(
+                                  child: Text(
+                                    "Enable Location",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: HexColor("FFFFFF")),
+                                  ),
+                                ),
+                              )),
+                        ),
+                      ]),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
 
   getEverything() async {
     await getUserId();
@@ -161,215 +275,9 @@ class _FirstHomeState extends State<FirstHome> {
         isLoading = false;
       });
     }
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    print("service status $serviceEnabled");
-    if (!serviceEnabled || GlobalUserData["address"] == "") {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16))),
-          content: SizedBox(
-            height: 220,
-            width: 180,
-            child: Column(
-              children: [
-                Image.asset(
-                  "assets/icons/Group188.png",
-                  height: 50,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  "Enable device location",
-                  style: GoogleFonts.poppins(
-                      fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  width: 180,
-                  child: Text(
-                    "Please enable location for accurate location and nearest gyms",
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
-                        fontSize: 11, fontWeight: FontWeight.w400),
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Image.asset("assets/icons/icons8-approval.gif",
-                      //   height: 70,
-                      //   width: 70,
-                      // ),
 
-                      // const SizedBox(width: 15),
-                      GestureDetector(
-                        onTap: () async {
-                          Position position = await _determinePosition();
-                          await GetAddressFromLatLong(position);
-                          if (mounted) {
-                            setState(() {
-                              myaddress = myaddress;
-                              address = address;
-                              pin = pin;
-                            });
-                          }
-                          await FirebaseFirestore.instance
-                              .collection("user_details")
-                              .doc(number)
-                              .update({
-                            "location":
-                                GeoPoint(position.latitude, position.longitude),
-                            "address": address,
-                            // "lat": position.latitude,
-                            // "long": position.longitude,
-                            "pincode": pin,
-                            "locality": locality,
-                            "subLocality": locality,
-                            // "number": number
-                          });
-                          await Get.offAll(() => HomePage());
-                        },
-                        child: Container(
-                            height: 51,
-                            width: 145,
-                            decoration: BoxDecoration(
-                                color: HexColor("292F3D"),
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 3, right: 3, top: 2, bottom: 2),
-                              child: Center(
-                                child: Text(
-                                  "Enable Location",
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700,
-                                      color: HexColor("FFFFFF")),
-                                ),
-                              ),
-                            )),
-                      ),
-                    ]),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-    // if (GlobalUserData["address"] == "") {
-    //   showDialog(
-    //     context: context,
-    //     builder: (context) => AlertDialog(
-    //       shape: const RoundedRectangleBorder(
-    //           borderRadius: BorderRadius.all(Radius.circular(16))),
-    //       content: SizedBox(
-    //         height: 220,
-    //         width: 180,
-    //         child: Column(
-    //           children: [
-    //             Image.asset(
-    //               "assets/icons/Group188.png",
-    //               height: 50,
-    //             ),
-    //             SizedBox(
-    //               height: 15,
-    //             ),
-    //             Text(
-    //               "Enable device location",
-    //               style: GoogleFonts.poppins(
-    //                   fontSize: 15, fontWeight: FontWeight.bold),
-    //             ),
-    //             SizedBox(
-    //               height: 10,
-    //             ),
-    //             SizedBox(
-    //               width: 180,
-    //               child: Text(
-    //                 "Please enable location for accurate location and nearest gyms",
-    //                 textAlign: TextAlign.center,
-    //                 style: GoogleFonts.poppins(
-    //                     fontSize: 11, fontWeight: FontWeight.w400),
-    //               ),
-    //             ),
-    //             const SizedBox(
-    //               height: 15,
-    //             ),
-    //             Row(
-    //                 crossAxisAlignment: CrossAxisAlignment.center,
-    //                 mainAxisAlignment: MainAxisAlignment.center,
-    //                 children: [
-    //                   // Image.asset("assets/icons/icons8-approval.gif",
-    //                   //   height: 70,
-    //                   //   width: 70,
-    //                   // ),
-    //
-    //                   // const SizedBox(width: 15),
-    //                   GestureDetector(
-    //                     onTap: () async {
-    //                       Position position = await _determinePosition();
-    //                       await GetAddressFromLatLong(position);
-    //
-    //                       await FirebaseFirestore.instance
-    //                           .collection("user_details")
-    //                           .doc(number)
-    //                           .update({
-    //                         "location":
-    //                             GeoPoint(position.latitude, position.longitude),
-    //                         "address": address,
-    //                         // "lat": position.latitude,
-    //                         // "long": position.longitude,
-    //                         "pincode": pin,
-    //                         "locality": locality,
-    //                         "subLocality": locality,
-    //                         // "number": number
-    //                       });
-    //                       if (mounted) {
-    //                         setState(() {
-    //                           myaddress = myaddress;
-    //                           address = address;
-    //                           pin = pin;
-    //                         });
-    //                       }
-    //                       await Get.offAll(() => HomePage());
-    //                     },
-    //                     child: Container(
-    //                         height: 51,
-    //                         width: 145,
-    //                         decoration: BoxDecoration(
-    //                             color: HexColor("292F3D"),
-    //                             borderRadius: BorderRadius.circular(15)),
-    //                         child: Padding(
-    //                           padding: const EdgeInsets.only(
-    //                               left: 3, right: 3, top: 2, bottom: 2),
-    //                           child: Center(
-    //                             child: Text(
-    //                               "Enable Location",
-    //                               style: GoogleFonts.poppins(
-    //                                   fontSize: 15,
-    //                                   fontWeight: FontWeight.w700,
-    //                                   color: HexColor("FFFFFF")),
-    //                             ),
-    //                           ),
-    //                         )),
-    //                   ),
-    //                 ]),
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //   );
-    // }
 
-    // }
+
   }
 
   bool showCard = false;
@@ -481,7 +389,7 @@ class _FirstHomeState extends State<FirstHome> {
       switch (status) {
         case InternetConnectionStatus.connected:
           print('Data connection is available.');
-          Get.offAll(HomePage());
+          // Get.offAll(HomePage());
 
           break;
         case InternetConnectionStatus.disconnected:
@@ -497,6 +405,7 @@ class _FirstHomeState extends State<FirstHome> {
     // getInternet();
 
     getEverything();
+    // checkAvablity();
     getProgressStatus();
     if (mounted) {
       setState(() {
@@ -891,7 +800,11 @@ class _FirstHomeState extends State<FirstHome> {
                                 child: GestureDetector(
                                   onTap: () async {
                                     FocusScope.of(context).unfocus();
-
+                                    // var viku=await Geolocator.distanceBetween(GlobalUserData["location"].latitude,
+                                    //     GlobalUserData["location"].longitude,
+                                    //     document[index]["location"].latitude,
+                                    //     document[index]["location"].longitude);
+                                    // print(viku);
                                     Get.to(() => GymDetails(), arguments: {
                                       "id": document[index].id,
                                       "location": document[index]["location"],
@@ -902,26 +815,29 @@ class _FirstHomeState extends State<FirstHome> {
                                   child: Stack(
                                     children: [
                                       FittedBox(
-                                        child: CachedNetworkImage(
-                                          height: 210,
-                                          fit: BoxFit.cover,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          imageUrl: document[index]
-                                                  ["display_picture"] ??
-                                              "",
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                          value:
-                                                              downloadProgress
-                                                                  .progress)),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error),
-                                          // height: 195,
-                                          // width: double.infinity,
+                                        child: ColorFiltered(
+                                          colorFilter: ColorFilter.mode(document[index]["gym_status"]?Colors.transparent:Colors.black, BlendMode.color),
+                                          child: CachedNetworkImage(
+                                            height: 210,
+                                            fit: BoxFit.cover,
+                                            width:
+                                                MediaQuery.of(context).size.width,
+                                            imageUrl: document[index]
+                                                    ["display_picture"] ??
+                                                "",
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
+                                                Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                            value:
+                                                                downloadProgress
+                                                                    .progress)),
+                                            errorWidget: (context, url, error) =>
+                                                const Icon(Icons.error),
+                                            // height: 195,
+                                            // width: double.infinity,
+                                          ),
                                         ),
                                       ),
                                       Positioned(
@@ -1092,8 +1008,8 @@ class _FirstHomeState extends State<FirstHome> {
                                               BorderRadius.circular(6),
                                               gradient: const LinearGradient(
                                                   colors: [
-                                                    Color(0x81000000),
-                                                    Color(0x76000000)
+                                                    Color(0x31000000),
+                                                    Color(0x56000000)
                                                   ],
                                                   begin: Alignment(0.0, 1),
                                                   end: Alignment(0.0, -.6))),

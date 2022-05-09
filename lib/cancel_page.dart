@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:vyam_2_final/Home/bookings/cancelpro.dart';
 import 'package:vyam_2_final/OrderDetails/active_details.dart';
 import 'package:vyam_2_final/OrderDetails/order_details.dart';
 import 'package:vyam_2_final/booking/bookings.dart';
@@ -244,30 +245,35 @@ var doc =Get.arguments["doc"];
                                       GestureDetector(
                                         onTap: ()async{
                                           // Navigator.pop(context);
-                                          await FirebaseFirestore.instance
-                                              .collection("bookings")
-                                              .doc(widget.bookingId)
-                                              .update({
-                                            "booking_status": "cancelled"
-                                          });
+                                         try{
+                                           await FirebaseFirestore.instance
+                                               .collection("bookings")
+                                               .doc(widget.bookingId)
+                                               .update({
+                                             "booking_status": "cancelled"
+                                           });
 
-                                          Map<String, dynamic> cancel_data = {
-                                            "cancel_remark":
-                                            cancelremark.text,
-                                            "cancel_choice": default_choice,
-                                          };
-                                          FirebaseFirestore.instance
-                                              .collection("Cancellation Data")
-                                              .add(cancel_data);
-                                          cancelremark.clear();
-                                          Get.snackbar("Your Booking Status", "Your Booking Cancelled",
-                                              icon: Image.asset("assets/icons/vyam.png")
-                                          );
-                                         Get.off(()=>ActiveOrderDetails( ),
-                                         arguments: {
-                                           "doc":doc
+                                           Map<String, dynamic> cancel_data = {
+                                             "cancel_remark":
+                                             cancelremark.text,
+                                             "cancel_choice": default_choice,
+                                           };
+                                           FirebaseFirestore.instance
+                                               .collection("Cancellation Data")
+                                               .add(cancel_data);
+                                           cancelremark.clear();
+                                           Get.snackbar("Your Booking Status", "Your Booking Cancelled",
+                                               icon: Image.asset("assets/icons/vyam.png")
+                                           );
+                                           Get.offAll(()=>BooKingCancelation(doc: doc,));
+                                           // Get.off(()=>ActiveOrderDetails( ),
+                                           //     arguments: {
+                                           //       "doc":doc
+                                           //     }
+                                           // );
+                                         }catch(e){
+                                           printError();
                                          }
-                                         );
 
                                         },
                                         child: Container(

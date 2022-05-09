@@ -1,5 +1,6 @@
 import 'dart:async';
 
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -204,6 +205,44 @@ class _ExploreiaState extends State<Exploreia> {
           height: 600,
           child: WillPopScope(
             onWillPop: () async {
+              print("hola hola behen ka lola");
+                // await FirebaseFirestore.instance
+                //     .collection("user_details")
+                //     .doc(number)
+                //     .update({
+                //   "location": GeoPoint(position.latitude, position.longitude),
+                //   "address": address,
+                //   // "lat": position.latitude,
+                //   // "long": position.longitude,
+                //   "pincode": pin,
+                //   "locality": locality,
+                //   "subLocality": locality,
+                //   // "number": number
+                // });
+
+              var Enabled = await Geolocator.isLocationServiceEnabled();
+              if (Enabled){
+                Position position = await Geolocator.getCurrentPosition();
+                await GetAddressFromLatLong(position);
+                await FirebaseFirestore.instance
+                    .collection("user_details")
+                    .doc(number)
+                    .update({
+                  "location": GeoPoint(position.latitude, position.longitude),
+                  "address": address,
+                  // "lat": position.latitude,
+                  // "long": position.longitude,
+                  "pincode": pin,
+                  "locality": locality,
+                  "subLocality": locality,
+                  // "number": number
+                });
+
+              }
+              setState(() {
+                isLoading=false;
+              });
+
               // try {
               //   Position position = await _determinePosition();
               //   await GetAddressFromLatLong(position);
@@ -214,19 +253,7 @@ class _ExploreiaState extends State<Exploreia> {
               //       pin = pin;
               //     });
               //   }
-              //   await FirebaseFirestore.instance
-              //       .collection("user_details")
-              //       .doc(number)
-              //       .update({
-              //     "location": GeoPoint(position.latitude, position.longitude),
-              //     "address": address,
-              //     // "lat": position.latitude,
-              //     // "long": position.longitude,
-              //     "pincode": pin,
-              //     "locality": locality,
-              //     "subLocality": locality,
-              //     // "number": number
-              //   });
+
               //   setState(() {
               //     location_service = true;
               //     // isLoading=false;
@@ -289,21 +316,14 @@ class _ExploreiaState extends State<Exploreia> {
                           // const SizedBox(width: 15),
                           GestureDetector(
                             onTap: () async {
-                              Position position = await _determinePosition();
+
+                              Position position = await Geolocator.getCurrentPosition();
                               await GetAddressFromLatLong(position);
-                              if (mounted) {
-                                setState(() {
-                                  myaddress = myaddress;
-                                  address = address;
-                                  pin = pin;
-                                });
-                              }
                               await FirebaseFirestore.instance
                                   .collection("user_details")
                                   .doc(number)
                                   .update({
-                                "location": GeoPoint(
-                                    position.latitude, position.longitude),
+                                "location": GeoPoint(position.latitude, position.longitude),
                                 "address": address,
                                 // "lat": position.latitude,
                                 // "long": position.longitude,
@@ -312,6 +332,16 @@ class _ExploreiaState extends State<Exploreia> {
                                 "subLocality": locality,
                                 // "number": number
                               });
+                             // await runRun();
+                              if (mounted) {
+                                setState(() {
+                                  myaddress = myaddress;
+                                  address = address;
+                                  pin = pin;
+                                  isLoading=false;
+                                });
+                              }
+                              Get.back();
                               setState(() {
                                 location_service = true;
                               });
@@ -418,7 +448,9 @@ class _ExploreiaState extends State<Exploreia> {
     //   itemCount: document.length,
     //   itemBuilder: (context, index) {
 
-        return VisibilityDetector(
+        return isLoading?
+            Center(child: CircularProgressIndicator(),)
+        :VisibilityDetector(
           key: Key(index.toString()),
           onVisibilityChanged: (VisibilityInfo info) async {
             print(info.visibleFraction);
@@ -868,5 +900,26 @@ class _ExploreiaState extends State<Exploreia> {
       target: LatLng(lat, long),
       zoom: 17,
     )));
+  }
+  runRun()async{
+    setState(() {
+      isLoading=true;
+    });
+    Position position = await _determinePosition();
+    // await GetAddressFromLatLong(position);
+    // await FirebaseFirestore.instance
+    //     .collection("user_details")
+    //     .doc(number)
+    //     .update({
+    //   "location": GeoPoint(
+    //       position.latitude, position.longitude),
+    //   "address": address,
+    //   // "lat": position.latitude,
+    //   // "long": position.longitude,
+    //   "pincode": pin,
+    //   "locality": locality,
+    //   "subLocality": locality,
+    //   // "number": number
+    // });
   }
 }

@@ -402,22 +402,22 @@ Future<void> checkExist(String docID) async {
     exist=false;
   }
 }
-bool result=false;
-getInternet()async{
-  var internet=InternetConnectionChecker();
-  var listener = InternetConnectionChecker().onStatusChange.listen((status) {
-    switch (status) {
-      case InternetConnectionStatus.connected:
-        print('Data connection is available.');
-        Get.offAll(HomePage());
-        break;
-      case InternetConnectionStatus.disconnected:
-
-        Get.offAll(NoInternet());
-        break;
-    }
-  });
-}
+// bool result=false;
+// getInternet()async{
+//   var internet=InternetConnectionChecker();
+//   var listener = InternetConnectionChecker().onStatusChange.listen((status) {
+//     switch (status) {
+//       case InternetConnectionStatus.connected:
+//         print('Data connection is available.');
+//         Get.offAll(HomePage());
+//         break;
+//       case InternetConnectionStatus.disconnected:
+//
+//         Get.offAll(NoInternet());
+//         break;
+//     }
+//   });
+// }
 
 myLocation() async {
   // number=getUserId();

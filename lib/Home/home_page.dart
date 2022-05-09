@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 // import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
@@ -63,6 +66,120 @@ class _HomePageState extends State<HomePage> {
   //     print(InternetConnectionChecker().connectionStatus);
   //   }
   // }
+  checkAvablity()async{
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    print("service status $serviceEnabled");
+    if (!serviceEnabled || GlobalUserData["address"] == "") {
+      showDialog(
+        context: context,
+        builder: (context) => WillPopScope(
+
+          onWillPop: ()async {
+            print("here this one");
+            // Get.off(HomePage());
+            return true;
+          },
+          child: AlertDialog(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(16))),
+            content: SizedBox(
+              height: 220,
+              width: 180,
+              child: Column(
+                children: [
+                  Image.asset(
+                    "assets/icons/Group188.png",
+                    height: 50,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    "Enable device location",
+                    style: GoogleFonts.poppins(
+                        fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    width: 180,
+                    child: Text(
+                      "Please enable location for accurate location and nearest gyms",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                          fontSize: 11, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Image.asset("assets/icons/icons8-approval.gif",
+                        //   height: 70,
+                        //   width: 70,
+                        // ),
+
+                        // const SizedBox(width: 15),
+                        GestureDetector(
+                          onTap: () async {
+                            Position position = await determinePosition();
+                            await GetAddressFromLatLong(position);
+                            if (mounted) {
+                              setState(() {
+                                myaddress = myaddress;
+                                address = address;
+                                pin = pin;
+                              });
+                            }
+                            await FirebaseFirestore.instance
+                                .collection("user_details")
+                                .doc(number)
+                                .update({
+                              "location":
+                              GeoPoint(position.latitude, position.longitude),
+                              "address": address,
+                              // "lat": position.latitude,
+                              // "long": position.longitude,
+                              "pincode": pin,
+                              "locality": locality,
+                              "subLocality": locality,
+                              // "number": number
+                            });
+                            await Get.offAll(() => HomePage());
+                          },
+                          child: Container(
+                              height: 51,
+                              width: 145,
+                              decoration: BoxDecoration(
+                                  color: HexColor("292F3D"),
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 3, right: 3, top: 2, bottom: 2),
+                                child: Center(
+                                  child: Text(
+                                    "Enable Location",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: HexColor("FFFFFF")),
+                                  ),
+                                ),
+                              )),
+                        ),
+                      ]),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
 
   getInfo() async {
     LocationPermission permission;
@@ -87,6 +204,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
 // <<<<<<< sarvagya
   getInternet1();
+  checkAvablity();
     getInfo();
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -321,15 +439,15 @@ class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
   final backgroundColor = scaffoldColor;
   final appBarColor = scaffoldColor;
-  final HomeController controller = Get.put(HomeController());
-  final screens = [
-    const FirstHome(),
-    const BookingDetails(),
-    const BookingDetails(),
-    const BookingDetails(),
-    // BookingDetails(),
-    // NotificationDetails(),
-  ];
+  // final HomeController controller = Get.put(HomeController());
+  // final screens = [
+  //   const FirstHome(),
+  //   const BookingDetails(),
+  //   const BookingDetails(),
+  //   const BookingDetails(),
+  //   // BookingDetails(),
+  //   // NotificationDetails(),
+  // ];
   @override
   void dispose() {
     // TODO: implement dispose

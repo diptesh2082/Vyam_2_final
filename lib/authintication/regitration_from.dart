@@ -210,7 +210,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 // final user = UserModel(userId: "7407926060",email: ,number: ,name: );
                                 await UserApi.createUserName(
                                     nameController.text);
-                                Get.toNamed(HomePage.id);
+                                // Get.toNamed(HomePage.id);
                               },
                               child: const Text(
                                 "Continue",
