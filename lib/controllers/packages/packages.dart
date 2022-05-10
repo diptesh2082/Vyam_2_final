@@ -116,7 +116,7 @@ class _PackegesState extends State<Packeges> {
         .get()
         .then((value){
       if(value.docs.isNotEmpty){
-        return value.docs.length;
+        booking= value.docs.length;
       }
     });
 
@@ -124,8 +124,8 @@ class _PackegesState extends State<Packeges> {
     // coupon_list=
   }
   getBooking()async{
-   booking = await getBookingId();
-   CreateBooking(id, booking);
+   await getBookingId();
+   await CreateBooking(id, booking);
   }
 
   @override
@@ -133,6 +133,7 @@ class _PackegesState extends State<Packeges> {
     getUserData();
     setDate();
     // getBookingId();
+    getBooking();
 
     // print(number);
 
