@@ -90,23 +90,29 @@ class _GymFemaleState extends State<GymFemale> {
                             child: Stack(
                               children: [
                                 FittedBox(
-                                  child: CachedNetworkImage(
-                                    height: 210,
-                                    fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width,
-                                    imageUrl: document[index]
-                                            ["display_picture"] ??
-                                        "",
-                                    progressIndicatorBuilder: (context, url,
-                                            downloadProgress) =>
-                                        Center(
-                                            child: CircularProgressIndicator(
-                                                value:
-                                                    downloadProgress.progress)),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                    // height: 195,
-                                    // width: double.infinity,
+                                  child: ColorFiltered(
+                                    colorFilter: ColorFilter.mode(document[index]["gym_status"]?Colors.transparent:Colors.black, BlendMode.color),
+                                    child: CachedNetworkImage(
+                                      height: 210,
+                                      fit: BoxFit.cover,
+                                      width:
+                                      MediaQuery.of(context).size.width,
+                                      imageUrl: document[index]
+                                      ["display_picture"] ??
+                                          "",
+                                      progressIndicatorBuilder: (context,
+                                          url, downloadProgress) =>
+                                          Center(
+                                              child:
+                                              CircularProgressIndicator(
+                                                  value:
+                                                  downloadProgress
+                                                      .progress)),
+                                      errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                      // height: 195,
+                                      // width: double.infinity,
+                                    ),
                                   ),
                                 ),
                                 Positioned(
@@ -114,7 +120,8 @@ class _GymFemaleState extends State<GymFemale> {
                                   // bottom: size.height * .008,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
+                                        borderRadius:
+                                        BorderRadius.circular(6),
                                         gradient: const LinearGradient(
                                             colors: [
                                               Color(0xaf000000),
@@ -134,7 +141,8 @@ class _GymFemaleState extends State<GymFemale> {
                                   left: 5,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6),
+                                      borderRadius:
+                                      BorderRadius.circular(6),
                                       // color: Colors.white10,
                                     ),
                                     height: size.height * .078,
@@ -142,9 +150,10 @@ class _GymFemaleState extends State<GymFemale> {
                                     padding: const EdgeInsets.only(
                                         left: 8, bottom: 10),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.end,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           document[index]["name"] ?? "",
@@ -156,21 +165,25 @@ class _GymFemaleState extends State<GymFemale> {
                                               color: Colors.white,
                                               fontFamily: "Poppins",
                                               fontSize: 15,
-                                              fontWeight: FontWeight.w600),
+                                              fontWeight:
+                                              FontWeight.w600),
                                         ),
                                         const SizedBox(
                                           height: 2,
                                         ),
                                         Text(
                                           // "",
-                                          document[index]["address"] ?? "",
+                                          document[index]["address"] ??
+                                              "",
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(
-                                              overflow: TextOverflow.ellipsis,
+                                              overflow:
+                                              TextOverflow.ellipsis,
                                               color: Colors.white,
                                               fontFamily: "Poppins",
                                               fontSize: 12,
-                                              fontWeight: FontWeight.w600),
+                                              fontWeight:
+                                              FontWeight.w600),
                                         ),
                                       ],
                                     ),
@@ -181,7 +194,8 @@ class _GymFemaleState extends State<GymFemale> {
                                   bottom: 2,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6),
+                                      borderRadius:
+                                      BorderRadius.circular(6),
                                       // color: Colors.black26,
                                     ),
                                     alignment: Alignment.bottomRight,
@@ -190,13 +204,14 @@ class _GymFemaleState extends State<GymFemale> {
                                     padding: const EdgeInsets.only(
                                         right: 8, bottom: 10),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.end,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.end,
+                                      CrossAxisAlignment.end,
                                       children: [
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          MainAxisAlignment.end,
                                           children: [
                                             // SvgPicture.asset(
                                             //     'assets/Icons/rating star small.svg'),
@@ -215,7 +230,8 @@ class _GymFemaleState extends State<GymFemale> {
                                                   color: Colors.white,
                                                   fontSize: 15,
                                                   fontFamily: "Poppins",
-                                                  fontWeight: FontWeight.w600),
+                                                  fontWeight:
+                                                  FontWeight.w600),
                                             ),
                                           ],
                                         ),
@@ -224,14 +240,15 @@ class _GymFemaleState extends State<GymFemale> {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          MainAxisAlignment.end,
                                           children: [
                                             // SvgPicture.asset(
                                             //   'assets/Icons/Location.svg',
                                             //   color: Colors.white,
                                             // ),
                                             const Icon(
-                                              CupertinoIcons.location_solid,
+                                              CupertinoIcons
+                                                  .location_solid,
                                               size: 20,
                                               color: Colors.white,
                                             ),
@@ -245,7 +262,8 @@ class _GymFemaleState extends State<GymFemale> {
                                                   color: Colors.white,
                                                   fontFamily: "Poppins",
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.w600),
+                                                  fontWeight:
+                                                  FontWeight.w600),
                                             ),
                                           ],
                                         ),
@@ -253,6 +271,42 @@ class _GymFemaleState extends State<GymFemale> {
                                     ),
                                   ),
                                 ),
+                                if(document[index]["gym_status"]==false)
+                                  Positioned(
+                                    top: 0,
+                                    left: 0,
+                                    // bottom: size.height * .008,
+                                    child: Container(
+                                      // child:
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(6),
+                                          gradient: const LinearGradient(
+                                              colors: [
+                                                Color(0x31000000),
+                                                Color(0x56000000)
+                                              ],
+                                              begin: Alignment(0.0, 1),
+                                              end: Alignment(0.0, -.6))),
+                                      alignment: Alignment.bottomRight,
+                                      height: 210,
+                                      width: 500,
+                                      padding: const EdgeInsets.only(
+                                          right: 8, bottom: 10),
+                                    ),
+                                  ),
+                                if(document[index]["gym_status"]==false)
+                                  Positioned(
+                                    top: 10,
+                                    left: MediaQuery.of(context).size.width*.040,
+                                    child: Text("*Temporarily closed",
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.red
+                                      ),
+                                    ),
+                                  ),
                               ],
                             ),
                           ),

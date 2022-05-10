@@ -51,7 +51,6 @@ class _ExploreState extends State<Explore> {
   );
 
   final Completer<GoogleMapController> _controller = Completer();
-  final GymController controller = Get.put(GymController());
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   List<DocumentSnapshot> document = [];
   bool isLoading = false;

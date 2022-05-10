@@ -34,6 +34,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   bool net=true;
   getInternet1()async{
     var listener = InternetConnectionChecker().onStatusChange.listen((status) {
@@ -454,6 +455,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement dispose
     // controller.dispose();
     _controller.dispose();
+
     super.dispose();
   }
 

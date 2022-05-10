@@ -45,7 +45,6 @@ class _ExploreiaState extends State<Exploreia> {
   );
 
   final Completer<GoogleMapController> _controller = Completer();
-  final GymController controller = Get.put(GymController());
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   List<DocumentSnapshot> document = [];
   bool isLoading = false;
@@ -402,7 +401,7 @@ class _ExploreiaState extends State<Exploreia> {
 
   @override
   dispose() {
-    controller.dispose();
+    // controller.dispose();
     // _controller.dispose();
     // _initialCameraPosition.dispose();
     super.dispose();
@@ -491,6 +490,7 @@ class _ExploreiaState extends State<Exploreia> {
                       document[index]["address"],
                       document[index]["rating"].toString(),
                       document[index]["branch"],
+                      document[index]["gym_status"],
                     ),
                     SizedBox(width: 15,)
                   ],
@@ -786,7 +786,7 @@ class _ExploreiaState extends State<Exploreia> {
   }
 
   Widget _boxes(String _image, String name, GeoPoint location, String address,
-      String review, String gym_address) {
+      String review, String gym_address,bool status) {
     // splashLocation(location.latitude, location.longitude);
     return FittedBox(
       child: Material(
@@ -805,9 +805,12 @@ class _ExploreiaState extends State<Exploreia> {
                     padding: const EdgeInsets.all(12.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30.0),
-                      child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: _image,
+                      child: ColorFiltered(
+                        colorFilter: ColorFilter.mode(status?Colors.transparent:Colors.black, BlendMode.color),
+                        child: CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: _image,
+                        ),
                       ),
                     ),
                   ),
@@ -817,7 +820,7 @@ class _ExploreiaState extends State<Exploreia> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 0.0, right: 0),
                     child: myDetailsContainer1(
-                        name, '${gym_address}', address, review),
+                        name, '${gym_address}', address, review,status),
                   ),
                 ),
               ],
@@ -827,11 +830,19 @@ class _ExploreiaState extends State<Exploreia> {
   }
 
   Widget myDetailsContainer1(
-      String name, String location, String address, String review) {
+      String name, String location, String address, String review,status) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        if(!status)
+          Text("*Temporarily closed",
+            style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: Colors.red
+            ),
+          ),
         Text(
           name,
           style: GoogleFonts.poppins(

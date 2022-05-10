@@ -335,7 +335,7 @@ class _ProfilePartState extends State<ProfilePart> {
                       ),
                       ListTile(
                         onTap: () {
-                          Get.to(() => const Faq());
+                          // Get.to(() => const Faq());
                         },
                         leading: const ImageIcon(
                           AssetImage("assets/icons/faq.png"),

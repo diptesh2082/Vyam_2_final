@@ -38,7 +38,6 @@ class _GymOptionState extends State<GymOption> {
   final Color _textActive = HexColor("FFFFFF");
   var groupValue = 0;
   final appBarColor = Colors.grey[100];
-  final controller = Get.find<HomeController>();
   var data = Get.arguments["type"];
   // String type=data["type"];
   @override

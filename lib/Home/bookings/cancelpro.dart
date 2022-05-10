@@ -50,15 +50,19 @@ class BooKingCancelation extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     fontSize: 20.0,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 SizedBox(height: 16.0),
-                Text(
-                  "Your",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    fontSize: 16.0,
+                SizedBox(
+                  width: 250,
+                  child: Text(
+                    "Your Refund for pre-paid orders will  reflect within a maximum of 3-4 business days.",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500
+                    ),
                   ),
                 ),
               ]),

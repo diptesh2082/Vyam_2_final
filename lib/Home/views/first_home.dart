@@ -359,8 +359,6 @@ class _FirstHomeState extends State<FirstHome> {
   GymDetailApi gymDetailApi = GymDetailApi();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final HomeController controller = Get.put(HomeController());
-  final LocationController locationController = Get.put(LocationController());
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -795,6 +793,7 @@ class _FirstHomeState extends State<FirstHome> {
               .collection("product_details")
               .where("locality".toLowerCase(),
                   isEqualTo: GlobalUserData["locality"].toLowerCase())
+          .where("legit",isEqualTo: true)
               .orderBy("location")
               .snapshots(),
           builder: (context, AsyncSnapshot streamSnapshot) {

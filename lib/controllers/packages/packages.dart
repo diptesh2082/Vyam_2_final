@@ -51,7 +51,8 @@ class _PackegesState extends State<Packeges> {
       // print(userData);
     });
   }
-
+  // bookingController booking = Get.put(bookingController());
+  var booking;
   // var String booking_id;
   final bookings = FirebaseFirestore.instance
       .collection("bookings");
@@ -60,7 +61,7 @@ class _PackegesState extends State<Packeges> {
       .doc()
       .id
       .toString();
-  CreateBooking(String id) async {
+  CreateBooking(String id,int booking_id) async {
     final bookings = FirebaseFirestore.instance
         .collection("bookings");
         // .doc(number)
@@ -96,7 +97,7 @@ class _PackegesState extends State<Packeges> {
       "tax_pay": "",
       "totalDays": "0",
       "total_price": "",
-      "id": "423",
+      "id": booking_id.toString(),
 
       // "gym_details":{
       //   "name":widget.gymName
@@ -110,18 +111,40 @@ class _PackegesState extends State<Packeges> {
       // "gym_name": widget.gymName,
     });
   }
+  getBookingId()async{
+    await FirebaseFirestore.instance.collection("bookings")
+        .get()
+        .then((value){
+      if(value.docs.isNotEmpty){
+        return value.docs.length;
+      }
+    });
+
+
+    // coupon_list=
+  }
+  getBooking()async{
+   booking = await getBookingId();
+   CreateBooking(id, booking);
+  }
 
   @override
   void initState() {
     getUserData();
     setDate();
-    CreateBooking(id);
+    // getBookingId();
+
     // print(number);
 
     // print(userDetails);
     super.initState();
   }
-
+@override
+  void dispose() {
+    // TODO: implement dispose
+  // booking.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;

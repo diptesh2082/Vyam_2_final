@@ -49,6 +49,12 @@ class couponClass extends GetxController{
   }
 }
 
+// class bookingController extends GetxController{
+//  var booking_id=0.obs;
+//   // Map coupon_list={}.obs;
+//
+// }
+
 getInfo()async{
   await checkExist(number);
   print(exist);
@@ -560,6 +566,7 @@ class GymAllApi {
       .collection("product_details")
       .where("locality".toLowerCase(),
       isEqualTo: GlobalUserData["locality"].toLowerCase())
+      .where("legit",isEqualTo: true)
       .orderBy("location")
       .snapshots();
 
@@ -567,6 +574,7 @@ class GymAllApi {
       .collection("product_details")
       .where("locality".toLowerCase(),
       isEqualTo: GlobalUserData["locality"].toLowerCase())
+      .where("legit",isEqualTo: true)
       .where("gender", isEqualTo: "male")
       .orderBy("location")
       .snapshots();
@@ -575,6 +583,7 @@ class GymAllApi {
       .where("locality".toLowerCase(),
       isEqualTo: GlobalUserData["locality"].toLowerCase())
       .where("gender", isEqualTo: "female")
+      .where("legit",isEqualTo: true)
       .orderBy("location")
       .snapshots();
   Stream<QuerySnapshot> getUnisexGym =  FirebaseFirestore.instance
@@ -582,6 +591,7 @@ class GymAllApi {
       .where("locality".toLowerCase(),
       isEqualTo: GlobalUserData["locality"].toLowerCase())
       .where("gender", isEqualTo: "unisex")
+      .where("legit",isEqualTo: true)
       .orderBy("location")
 
       .snapshots();
