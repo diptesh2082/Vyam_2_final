@@ -911,7 +911,7 @@ class _ExploreiaState extends State<Exploreia> {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(lat, long),
-      zoom: 17,
+      zoom: 16,
     )));
   }
   Future<void> gotoLocation(double lat, double long) async {
