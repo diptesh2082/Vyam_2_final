@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:vyam_2_final/Home/views/first_home.dart';
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
@@ -35,7 +36,14 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   try {
-    await getNumber();
+    if(number==null){
+      number=="";
+
+    }
+    else{
+      await getNumber();
+    }
+
   } catch (e) {
     number = "";
   }
@@ -43,7 +51,8 @@ Future<void> main() async {
   getAddress();
   getVisitingFlag();
   await myLocation();
-  print(GlobalUserData);
+  await getInfo();
+  // print(GlobalUserData);
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
@@ -58,7 +67,7 @@ Future<void> main() async {
     sound: true,
   );
 
-  await getInfo();
+
 
   runApp(const MyApp());
 }

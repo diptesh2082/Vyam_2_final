@@ -58,6 +58,7 @@ class couponClass extends GetxController{
 getInfo()async{
   await checkExist(number);
   print(exist);
+  // return exist;
   // == false?Get.off(const LoginPage()):Get.off(()=>HomePage());
 }
 getUserId() async {
@@ -108,9 +109,7 @@ getAddress() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalAddress = sharedPreferences.getString("pin");
   address2 = finalAddress.toString();
-  // print(address2);
-  // print(address2);
-  // print(address2);
+
   print(address2);
 }
 // setVisitingFlag() async {
@@ -394,6 +393,7 @@ Future<void> checkExist(String docID) async {
 
         setVisitingFlag();
         print(getVisitingFlag());
+        // return true;
         // });
         // user_data=documentSnapshot.data();
       }else{
@@ -445,17 +445,6 @@ myLocation() async {
         // user_data=documentSnapshot.data();
       }
     });
-    //     .then((DocumentSnapshot documentSnapshot) {
-    //
-    //   else{
-    //     GlobalUserData = {
-    //       "pincode":"700091",
-    //       "address": "Tap here to choose your location",
-    //       "gender":""
-    //     };
-    //     GlobalUserLocation = "700091";
-    //   }
-    // });
   }catch(e){
 
     GlobalUserData = {
@@ -511,7 +500,7 @@ checkEmailExist(String email)async{
       }
     });
   }catch(e){
-
+    await Get.to(()=>LoginPage());
     print(e);
 
   }

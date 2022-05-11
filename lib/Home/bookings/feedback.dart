@@ -181,8 +181,8 @@ class _Feedback1State extends State<Feedback1> {
                           .add(suggest_data);
                       feedback.clear();
                       Navigator.of(context).pop();
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: (context) => HomePage()));
                     },
                   ),
                 ),

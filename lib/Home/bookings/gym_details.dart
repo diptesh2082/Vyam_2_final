@@ -69,7 +69,7 @@ class _GymDetailsState extends State<GymDetails> {
   final List _isSelected = [true, false, false, false, false, false,false,false];
   int _current = 1;
   var listIndex = 0;
-  TkInd tkind = Get.put(TkInd());
+  // TkInd tkind = Get.put(TkInd());
   // CarouselWithIndicatorDemo indicator=CarouselWithIndicatorDemo();
   var amienities=Get.arguments["id"];
 
@@ -97,6 +97,7 @@ class _GymDetailsState extends State<GymDetails> {
   @override
   void initState() {
     // print(doc);
+    print("////////////////////////////////////////////////////////////////////////////////////////");
     imageSliders=Get.arguments["docs"]["images"];
     super.initState();
   }

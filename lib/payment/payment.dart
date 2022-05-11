@@ -30,6 +30,7 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   var getData = Get.arguments;
+  var gymData=Get.arguments["gym_details"];
   var months=Get.arguments["totalMonths"];
   late PersistentBottomSheetController _controller; // <------ Instance variable
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -119,7 +120,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
     // print("${GlobalCouponApplied}");
     // GlobalCouponApplied?_couponpopup(context):const SizedBox();
     // getBookingData(booking_id);
-
+    print("//////////");
+    // print(gymData["online_pay"]);
     // print(GlobalUserData);
     myCouponController.GlobalCouponApplied.value=false;
     myCouponController.GlobalCoupon.value="";
@@ -974,11 +976,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                              fontFamily: "Poppins", fontWeight: FontWeight.bold),
                        ),
                         ),
-                      const Padding(
+                       Padding(
                         padding: EdgeInsets.only(left: 8.0),
                         child: Text(
                           "Inc all taxes",
-                          style: TextStyle(fontFamily: "Poppins"),
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12
+                          ),
                         ),
                       )
                     ],
@@ -1248,7 +1253,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     fontSize: 14),
                               ),
                               const Spacer(),
-                              if(onlinePay == false)
+                              if(onlinePay == false || gymData["online_pay"]==false)
                                    const Icon(
                                       Icons.check,
                                       color: Colors.black,
@@ -1265,6 +1270,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     const SizedBox(
                       height: 10,
                     ),
+                    // if(gymData["online_pay"])
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: SizedBox(
@@ -1274,24 +1280,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             setState(() {
                               onlinePay=true;
                             });
-                            // await FirebaseFirestore.instance
-                            //     .collection("bookings")
-                            //     .doc(number)
-                            //     .collection("user_booking")
-                            //     .doc(booking_id)
-                            //     .update({
-                            //   "discount": GlobalCouponApplied?(int.parse(CouponDetailsMap)):totalDiscount,
-                            //   "grand_total":  GlobalCouponApplied?(grandTotal-int.parse(CouponDetailsMap)).toString():grandTotal.toString(),
-                            //   "tax_pay": taxPay,
-                            // });
-                            // _payment();
-                            // setState(() {
-                            //   GlobalCouponApplied=false;
-                            //   onlinePay = true;
-                            // });
-                            // _PaymentScreenState();
-                            //
-                            // print(onlinePay);
+
                           },
                           child: Card(
                             shape: RoundedRectangleBorder(
@@ -1307,6 +1296,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               const SizedBox(
                                 width: 20,
                               ),
+                              if(gymData["online_pay"])
                               const Text(
                                 "Online",
                                 style: TextStyle(
@@ -1314,8 +1304,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
                               ),
+                              if(gymData["online_pay"]==false)
+                                const Text(
+                                  "Online isn't available in this gym",
+                                  style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12),
+                                ),
                               const Spacer(),
-                              if(onlinePay == true)
+                              if(onlinePay == true && gymData["online_pay"])
                                    const Icon(
                                       Icons.check,
                                       color: Colors.black,
@@ -1464,7 +1463,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 "booking_status": "incomplete",
                               });
                               // await getBookingData(booking_id);
-                              onlinePay==true?Pay():OffPay();
+                              onlinePay==true && gymData["online_pay"]?Pay():OffPay();
                             }),
                       ),
                     ),

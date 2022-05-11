@@ -34,22 +34,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
+  bool isLoading=false;
   bool net=true;
   getInternet1()async{
-    var listener = InternetConnectionChecker().onStatusChange.listen((status) {
+    InternetConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case InternetConnectionStatus.connected:
           print('Data connection is available.');
-          setState(() {
-            net=true;
-          });
+          if (mounted){
+            setState(() {
+              net=true;
+            });
+          }
 
           break;
         case InternetConnectionStatus.disconnected:
-          setState(() {
-            net=false;
-          });
+          if(mounted){
+            setState(() {
+              net=false;
+            });
+          }
+
 
           break;
       }
@@ -67,17 +72,20 @@ class _HomePageState extends State<HomePage> {
   //     print(InternetConnectionChecker().connectionStatus);
   //   }
   // }
+
   checkAvablity()async{
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
     if (!serviceEnabled || GlobalUserData["address"] == ""|| GlobalUserData["address"] == null) {
       showDialog(
         context: context,
+        barrierDismissible: true,
         builder: (context) => WillPopScope(
 
           onWillPop: ()async {
             print("here this one");
             // Get.off(HomePage());
+            Navigator.pop(context);
             return true;
           },
           child: AlertDialog(
@@ -127,16 +135,22 @@ class _HomePageState extends State<HomePage> {
                         // const SizedBox(width: 15),
                         GestureDetector(
                           onTap: () async {
+                            // Get.back();
 
-                            Position position = await Geolocator.getCurrentPosition();
-                            await GetAddressFromLatLong(position);
-                            if (mounted) {
+                            // Navigator.pop(context);
+                          try{
+                            Navigator.pop(context);
+                            if(mounted){
                               setState(() {
-                                myaddress = myaddress;
-                                address = address;
-                                pin = pin;
+                                isLoading=true;
                               });
                             }
+                            Position position = await Geolocator.getCurrentPosition();
+
+
+
+                            await GetAddressFromLatLong(position);
+
                             await FirebaseFirestore.instance
                                 .collection("user_details")
                                 .doc(number)
@@ -151,7 +165,20 @@ class _HomePageState extends State<HomePage> {
                               "subLocality": locality,
                               // "number": number
                             });
-                            await Get.offAll(() => HomePage());
+                            if (mounted) {
+                              setState(() {
+                                myaddress = myaddress;
+                                address = address;
+                                pin = pin;
+                                isLoading=false;
+                              });
+                            }
+                          }catch(e){
+                            setState(() {
+                              isLoading=false;
+                            });
+                          }
+
                           },
                           child: Container(
                               height: 51,
@@ -204,10 +231,11 @@ class _HomePageState extends State<HomePage> {
   int _counter = 0;
   @override
   void initState() {
-// <<<<<<< sarvagya
+
   getInternet1();
   checkAvablity();
-    getInfo();
+  getInfo();
+  print("running two times //////////////////HomePage");
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
@@ -255,9 +283,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   void showNotification(String title, String info) {
-    setState(() {
-      _counter++;
-    });
+    if(mounted){
+      setState(() {
+        _counter++;
+      });
+    }
+
     flutterLocalNotificationsPlugin.show(
       0,
       "${title} $_counter",
@@ -461,9 +492,19 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return net?Scaffold(
+    return isLoading?
+    Container(
+      color: Colors.white,
+      child: Center
+        (
+          child: CircularProgressIndicator(
+            // backgroundColor: Colors.white,
+            // c,
+      )),
+    )
+        :Scaffold(
       backgroundColor: scaffoldColor,
-      body: PersistentTabView(
+      body: net?PersistentTabView(
         context,
         controller: _controller,
         navBarHeight: 65,
@@ -487,7 +528,7 @@ class _HomePageState extends State<HomePage> {
           duration: Duration(milliseconds: 200),
         ),
         navBarStyle: NavBarStyle.style3,
-      ),
+      ):NoInternet(),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {
       //     showNotification();
@@ -495,6 +536,6 @@ class _HomePageState extends State<HomePage> {
       //   tooltip: 'Icrement',
       //   child: Icon(Icons.add),
       // ),
-    ):NoInternet();
+    );
   }
 }

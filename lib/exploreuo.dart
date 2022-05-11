@@ -1,6 +1,7 @@
 import 'dart:async';
 
 
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -622,6 +623,10 @@ class _ExploreiaState extends State<Exploreia> {
                                 ? Container(
                               width:MediaQuery.of(context).size.width ,
                                   child: ScrollSnapList(
+                                    scrollPhysics: RangeMaintainingScrollPhysics(
+
+                                    ),
+                                      // dynamicItemSize: true,
                                       margin: EdgeInsets.symmetric(horizontal: 00),
                                       onItemFocus: _onItemFocus,
                                       itemCount: d,

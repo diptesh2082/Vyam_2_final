@@ -477,60 +477,6 @@ class _LocInfoState extends State<LocInfo> {
                       const SizedBox(
                         height: 15,
                       ),
-                      // InkWell(
-                      //   onTap: () async {
-                      //     FocusScope.of(context).unfocus();
-                      //     String value = 'kolkata,salt-lake, sector2,700091';
-                      //     print(value);
-                      //     isLoading = true;
-                      //     if (value.isEmpty) return;
-                      //     final res = await RequestHelper()
-                      //         .getCoordinatesFromAddresss(value);
-                      //     setState(() {
-                      //       GlobalUserLocation = value;
-                      //       locController.text = value;
-                      //     });
-                      //     await GetAddressFromGeoPoint(
-                      //         GeoPoint(res.latitude, res.longitude));
-                      //
-                      //     await FirebaseFirestore.instance
-                      //         .collection('user_details')
-                      //         .doc(number)
-                      //         .update({
-                      //       "location": GeoPoint(res.latitude, res.longitude),
-                      //       // "lat": res.latitude,
-                      //       // "long": res.longitude,
-                      //       "address": value.trim(),
-                      //       "pincode": pin,
-                      //       "locality": locality,
-                      //       "subLocality": subLocality,
-                      //     });
-                      //     Get.off(() => HomePage());
-                      //   },
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.only(left: 8.0, right: 0),
-                      //     child: Row(
-                      //       children: [
-                      //         const Text(
-                      //           'kolkata,salt-lake, sector 2',
-                      //           style: TextStyle(
-                      //               fontFamily: 'Poppins',
-                      //               fontWeight: FontWeight.w400,
-                      //               fontSize: 14,
-                      //               color: Colors.black),
-                      //         ),
-                      //         const Spacer(),
-                      //         Transform(
-                      //           transform: Matrix4.rotationY(pi),
-                      //           child: const Icon(
-                      //             Icons.call_made_sharp,
-                      //             size: 20,
-                      //           ),
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       StreamBuilder(
                         stream: FirebaseFirestore.instance
                             .collection('Cities')
@@ -617,120 +563,7 @@ class _LocInfoState extends State<LocInfo> {
                           );
                         },
                       )
-                      // const SizedBox(
-                      //   height: 15,
-                      // ),
-                      // InkWell(
-                      //   onTap: () async {
-                      //     FocusScope.of(context).unfocus();
-                      //     String value = 'Asansol, West Bengal';
-                      //     print(value);
-                      //     isLoading = true;
-                      //     if (value.isEmpty) return;
-                      //     final res = await RequestHelper()
-                      //         .getCoordinatesFromAddresss(value);
-                      //     setState(() {
-                      //       GlobalUserLocation = value;
-                      //       locController.text = value;
-                      //     });
-                      //     await GetAddressFromGeoPoint(
-                      //         GeoPoint(res.latitude, res.longitude));
-                      //
-                      //     await FirebaseFirestore.instance
-                      //         .collection('user_details')
-                      //         .doc(number)
-                      //         .update({
-                      //       "location": GeoPoint(res.latitude, res.longitude),
-                      //       // "lat": res.latitude,
-                      //       // "long": res.longitude,
-                      //       "address": value.trim(),
-                      //       "pincode": pin,
-                      //       "locality": locality,
-                      //       "subLocality": subLocality,
-                      //     });
-                      //     Get.off(() => HomePage());
-                      //   },
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.only(left: 8.0, right: 0),
-                      //     child: Row(
-                      //       children: [
-                      //         const Text(
-                      //           'Asansol, West Bengal',
-                      //           style: TextStyle(
-                      //               fontFamily: 'Poppins',
-                      //               fontWeight: FontWeight.w400,
-                      //               fontSize: 14,
-                      //               color: Colors.black),
-                      //         ),
-                      //         const Spacer(),
-                      //         Transform(
-                      //           transform: Matrix4.rotationY(pi),
-                      //           child: const Icon(
-                      //             Icons.call_made_sharp,
-                      //             size: 20,
-                      //           ),
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
-                      // const SizedBox(
-                      //   height: 15,
-                      // ),
-                      // InkWell(
-                      //   onTap: () async {
-                      //     FocusScope.of(context).unfocus();
-                      //     String value = 'Durgapur, West Bengal';
-                      //     print(value);
-                      //     isLoading = true;
-                      //     if (value.isEmpty) return;
-                      //     final res = await RequestHelper()
-                      //         .getCoordinatesFromAddresss(value);
-                      //     setState(() {
-                      //       GlobalUserLocation = value;
-                      //       locController.text = value;
-                      //     });
-                      //     await GetAddressFromGeoPoint(
-                      //         GeoPoint(res.latitude, res.longitude));
-                      //
-                      //     await FirebaseFirestore.instance
-                      //         .collection('user_details')
-                      //         .doc(number)
-                      //         .update({
-                      //       "location": GeoPoint(res.latitude, res.longitude),
-                      //       // "lat": res.latitude,
-                      //       // "long": res.longitude,
-                      //       "address": value.trim(),
-                      //       "pincode": pin,
-                      //       "locality": locality,
-                      //       "subLocality": subLocality,
-                      //     });
-                      //     Get.off(() => HomePage());
-                      //   },
-                      //   child: Padding(
-                      //     padding: const EdgeInsets.only(left: 8.0, right: 0),
-                      //     child: Row(
-                      //       children: [
-                      //         const Text(
-                      //           'Durgapur, West Bengal',
-                      //           style: TextStyle(
-                      //               fontFamily: 'Poppins',
-                      //               fontWeight: FontWeight.w400,
-                      //               fontSize: 14,
-                      //               color: Colors.black),
-                      //         ),
-                      //         const Spacer(),
-                      //         Transform(
-                      //           transform: Matrix4.rotationY(pi),
-                      //           child: const Icon(
-                      //             Icons.call_made_sharp,
-                      //             size: 20,
-                      //           ),
-                      //         )
-                      //       ],
-                      //     ),
-                      //   ),
-                      // )
+
                     ],
                   ),
                   _list != null && _list!.isNotEmpty
@@ -797,11 +630,11 @@ class _LocInfoState extends State<LocInfo> {
           );
   }
 
-  Future<void> _gotoLocation(double lat, double long) async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(lat, long),
-      zoom: 17,
-    )));
-  }
+  // Future<void> _gotoLocation(double lat, double long) async {
+  //   final GoogleMapController controller = await _controller.future;
+  //   controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+  //     target: LatLng(lat, long),
+  //     zoom: 17,
+  //   )));
+  // }
 }
