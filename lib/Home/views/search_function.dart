@@ -144,6 +144,14 @@ class _SearchItState extends State<SearchIt> {
                     .get('name')
                     .toString()
                     .toLowerCase()
+                    .contains(searchGymName.toString()) ||element
+                    .get('branch')
+                    .toString()
+                    .toLowerCase()
+                    .contains(searchGymName.toString()) || element
+                    .get('address')
+                    .toString()
+                    .toLowerCase()
                     .contains(searchGymName.toString());
               }).toList();
             }
