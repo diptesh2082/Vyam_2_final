@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,9 @@ import 'package:vyam_2_final/golbal_variables.dart';
 
 import 'gym_details.dart';
 class Review extends StatefulWidget {
+  final gymid;
+
+  const Review({Key? key,required this.gymid}) : super(key: key);
   @override
   _ReviewState createState() => _ReviewState();
 }
@@ -25,13 +29,62 @@ class _ReviewState extends State<Review> {
   GymReviews reviews = GymReviews();
   var doc =Get.arguments ;
   var review;
+  var star=0.0;
   final _id=  Get.arguments["gym_id"];
+  getRating()async{
+    await FirebaseFirestore.instance.collection("Reviews")
+        .where("gym_id",isEqualTo: widget.gymid)
+        .snapshots()
+        .listen((snap) {
+          if (snap.docs.isNotEmpty){
+            print("documentexist");
+
+            var d=snap.docs;
+            var b=0.0;
+            var star1=0.0;
+            var star2=0.0;
+            var star3=0.0;
+            var star4=0.0;
+            var star5=0.0;
+            // var c=0.0;
+            d.forEach((element) {
+              b = b + double.parse(element["rating"]);
+              if (double.parse(element["rating"])>4){
+                star1=star1+1.0;
+              }
+              else if (double.parse(element["rating"])>3 && double.parse(element["rating"])<=4){
+                star2=star2+1.0;
+              }
+              else if (double.parse(element["rating"])>2 && double.parse(element["rating"])<=3){
+                star3=star3+1.0;
+              }
+              else if (double.parse(element["rating"])>1 && double.parse(element["rating"])<=2){
+                star4=star4+1.0;
+              }else{
+                star5=star5+1.0;
+              }
+
+
+            });
+            Get.find<Need>().star1.value= double.parse((star1/d.length).toStringAsFixed(1));
+            Get.find<Need>().star2.value= double.parse((star2/d.length).toStringAsFixed(1));
+            Get.find<Need>().star3.value= double.parse((star3/d.length).toStringAsFixed(1));
+            Get.find<Need>().star4.value= double.parse((star4/d.length).toStringAsFixed(1));
+            Get.find<Need>().star5.value= double.parse((star5/d.length).toStringAsFixed(1));
+            Get.find<Need>().review.value =double.parse((b/d.length).toStringAsFixed(1));
+            print(Get.find<Need>().star2.value);
+          }
+          
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-    print(doc["name"]);
-    print(_id);
-    // print("25");
+    // print(doc["name"]);
+    // print(_id);
+    getRating();
+    // print(star);
     super.initState();
   }
 
@@ -99,229 +152,231 @@ class _ReviewState extends State<Review> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Customer reviews',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        Row(
-                          children: [
-                            RatingBarIndicator(
-                              itemBuilder: ((context, index) {
-                                return const Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                );
-                              }),
-                              rating: 4.7,
-                              itemCount: 5,
-                              itemSize: 20.0,
-                              direction: Axis.horizontal,
-                            ),
-                            const Text('4.7 out of 5 ',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14))
-                          ],
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.012,
-                        ),
-                        const Text(
-                          '(113 reviews)',
-                          style: TextStyle(
+                    child: Obx(
+                      ()=> Column(
+                        // mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Customer reviews',
+                            style: TextStyle(
                               fontFamily: 'Poppins',
+                              fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              fontSize: 12,
-                              color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                const Text(
-                                  '5 star',
+                            ),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.01,
+                          ),
+                          Row(
+                            children: [
+                              RatingBarIndicator(
+                                itemBuilder: ((context, index) {
+                                  return const Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  );
+                                }),
+                                rating: Get.find<Need>().review.value,
+                                itemCount: 5,
+                                itemSize: 20.0,
+                                direction: Axis.horizontal,
+                              ),
+                               Text('${Get.find<Need>().review.value} out of 5 ',
                                   style: TextStyle(
                                       fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.02,
-                                ),
-                                LinearPercentIndicator(
-                                  lineHeight: 9,
-                                  backgroundColor: Colors.white,
-                                  width: MediaQuery.of(context).size.width * 0.72,
-                                  percent: 0.6,
-                                  trailing: const Text(
-                                    '60%',
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14))
+                            ],
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.012,
+                          ),
+                          const Text(
+                            '(113 reviews)',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12,
+                                color: Colors.grey),
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02,
+                          ),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  const Text(
+                                    '5 star',
                                     style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12,
                                         color: Colors.black),
                                   ),
-                                  progressColor: Colors.amber,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.01,
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  '4 star',
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.02,
-                                ),
-                                LinearPercentIndicator(
-                                  lineHeight: 9,
-                                  backgroundColor: Colors.white,
-                                  width: MediaQuery.of(context).size.width * 0.72,
-                                  percent: 0.3,
-                                  trailing: const Text(
-                                    '30%',
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.02,
+                                  ),
+                                  LinearPercentIndicator(
+                                    lineHeight: 9,
+                                    backgroundColor: Colors.white,
+                                    width: MediaQuery.of(context).size.width * 0.72,
+                                    percent: Get.find<Need>().star1.value,
+                                    trailing:  Text(
+                                      '${Get.find<Need>().star1.value*100}%',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                          color: Colors.black),
+                                    ),
+                                    progressColor: Colors.amber,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height * 0.01,
+                              ),
+                              Row(
+                                children: [
+                                  const Text(
+                                    '4 star',
                                     style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12,
                                         color: Colors.black),
                                   ),
-                                  progressColor: Colors.amber,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.01,
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  '3 star',
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.02,
-                                ),
-                                LinearPercentIndicator(
-                                  lineHeight: 9,
-                                  backgroundColor: Colors.white,
-                                  width: MediaQuery.of(context).size.width * 0.72,
-                                  percent: 0.15,
-                                  trailing: const Text(
-                                    '15%',
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.02,
+                                  ),
+                                  LinearPercentIndicator(
+                                    lineHeight: 9,
+                                    backgroundColor: Colors.white,
+                                    width: MediaQuery.of(context).size.width * 0.72,
+                                    percent: Get.find<Need>().star2.value,
+                                    trailing:  Text(
+                                      '${Get.find<Need>().star2.value*100}%',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                          color: Colors.black),
+                                    ),
+                                    progressColor: Colors.amber,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height * 0.01,
+                              ),
+                              Row(
+                                children: [
+                                  const Text(
+                                    '3 star',
                                     style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12,
                                         color: Colors.black),
                                   ),
-                                  progressColor: Colors.amber,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.01,
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  '2 star',
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.02,
-                                ),
-                                LinearPercentIndicator(
-                                  lineHeight: 9,
-                                  backgroundColor: Colors.white,
-                                  width: MediaQuery.of(context).size.width * 0.72,
-                                  percent: 0.05,
-                                  trailing: const Text(
-                                    '5%',
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.02,
+                                  ),
+                                  LinearPercentIndicator(
+                                    lineHeight: 9,
+                                    backgroundColor: Colors.white,
+                                    width: MediaQuery.of(context).size.width * 0.72,
+                                    percent: Get.find<Need>().star3.value,
+                                    trailing:  Text(
+                                      '${Get.find<Need>().star3.value*100}%',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                          color: Colors.black),
+                                    ),
+                                    progressColor: Colors.amber,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height * 0.01,
+                              ),
+                              Row(
+                                children: [
+                                  const Text(
+                                    '2 star',
                                     style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12,
                                         color: Colors.black),
                                   ),
-                                  progressColor: Colors.amber,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.01,
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  '1 star',
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.02,
-                                ),
-                                LinearPercentIndicator(
-                                  lineHeight: 9,
-                                  backgroundColor: Colors.white,
-                                  width: MediaQuery.of(context).size.width * 0.72,
-                                  percent: 0.10,
-                                  trailing: const Text(
-                                    '10%',
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.02,
+                                  ),
+                                  LinearPercentIndicator(
+                                    lineHeight: 9,
+                                    backgroundColor: Colors.white,
+                                    width: MediaQuery.of(context).size.width * 0.72,
+                                    percent:Get.find<Need>().star4.value,
+                                    trailing:  Text(
+                                      '${Get.find<Need>().star4.value*100}%',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                          color: Colors.black),
+                                    ),
+                                    progressColor: Colors.amber,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height * 0.01,
+                              ),
+                              Row(
+                                children: [
+                                  const Text(
+                                    '1 star',
                                     style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w400,
                                         fontSize: 12,
                                         color: Colors.black),
                                   ),
-                                  progressColor: Colors.amber,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const Divider(
-                          height: 30,
-                          indent: 8,
-                          endIndent: 20,
-                          thickness: 1.2,
-                        ),
-                      ],
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.02,
+                                  ),
+                                  LinearPercentIndicator(
+                                    lineHeight: 9,
+                                    backgroundColor: Colors.white,
+                                    width: MediaQuery.of(context).size.width * 0.72,
+                                    percent: Get.find<Need>().star5.value,
+                                    trailing:  Text(
+                                      '${Get.find<Need>().star5.value*100}%',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                          color: Colors.black),
+                                    ),
+                                    progressColor: Colors.amber,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const Divider(
+                            height: 30,
+                            indent: 8,
+                            endIndent: 20,
+                            thickness: 1.2,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Align(
@@ -365,17 +420,16 @@ class _ReviewState extends State<Review> {
                                               leading: Container(
                                                 height: 50,
                                                 width: 50,
-                                                decoration: const BoxDecoration(
+                                                decoration:  BoxDecoration(
                                                     shape: BoxShape.circle,
 //border: Border.all(width: 1),
                                                     image: DecorationImage(
-                                                        image: AssetImage(
-                                                            "assets/images/trainer1.png"),
+                                                        image: CachedNetworkImageProvider(document[index]["user"]["user_pic"]),
                                                         fit: BoxFit.cover)),
                                               ),
                                               title: Text(
                                                 // "",
-                                                document[index]["title"],
+                                                document[index]["user"]["user_name"]??"",
 // snapshot.data.docs[index]['name'],
                                                 style: const TextStyle(
                                                     fontFamily: 'Poppins',
@@ -397,6 +451,15 @@ class _ReviewState extends State<Review> {
                                                     itemCount: 5,
                                                     itemSize: 18.0,
                                                     direction: Axis.horizontal,
+                                                  ),
+                                                  Text(
+                                                    // "",
+                                                    document!=null?document[index]["title"] ?? "":"",
+// snapshot.data.docs[index]['experience'],
+                                                    style: const TextStyle(
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight: FontWeight.w700,
+                                                        fontSize: 12),
                                                   ),
                                                    Text(
                                                     // "",

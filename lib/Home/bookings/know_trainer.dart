@@ -660,10 +660,10 @@ class _TrainerState extends State<Trainer> {
                                                 size: 20,
                                               ),
                                               onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => Review()));
+                                                // Navigator.push(
+                                                //     context,
+                                                //     MaterialPageRoute(
+                                                //         builder: (context) => Review()));
                                               },
                                             ),
                                           ],
@@ -1175,10 +1175,10 @@ class _TrainerState extends State<Trainer> {
                             size: 20,
                           ),
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Review()));
+                          //   Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => Review()));
                           },
                         ),
                       ],

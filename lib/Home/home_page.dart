@@ -36,6 +36,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isLoading=false;
   bool net=true;
+  // Need controller = Get.put(Need());
+
   getInternet1()async{
     InternetConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
@@ -231,6 +233,7 @@ class _HomePageState extends State<HomePage> {
   int _counter = 0;
   @override
   void initState() {
+    // Get.lazyPut(()=>Need());
 
   getInternet1();
   checkAvablity();
@@ -492,6 +495,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(()=>Need(),fenix: true);
     return isLoading?
     Container(
       color: Colors.white,

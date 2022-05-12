@@ -68,7 +68,11 @@ class _AddReviewState extends State<AddReview> {
                     "rating": ratingvalue.toString(),
                     "title": title.text,
                     "experience": exp.text,
-                    "user_id": GlobalUserData["userId"],
+                    "user":{
+                      'user_id':GlobalUserData["userId"],
+                      "user_pic":GlobalUserData["image"],
+                      "user_name":GlobalUserData["name"],
+                    } ,
                     "gym_id": Get.arguments["gym_id"],
                     "review": id
                   };

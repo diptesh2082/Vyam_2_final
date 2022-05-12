@@ -585,7 +585,7 @@ class _GymDetailsState extends State<GymDetails> {
                         //   }
                         // );
                         // print("double tap");
-                        Get.to(() => Review(), arguments: {
+                        Get.to(() => Review(gymid: doc["docs"]["gym_id"],), arguments: {
                           "gym_id": doc["docs"]["gym_id"],
                           "docs": doc["doc"],
                           "name": doc["name"]

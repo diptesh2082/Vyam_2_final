@@ -55,6 +55,19 @@ class couponClass extends GetxController{
 //
 // }
 
+class Need extends GetxController{
+  var review=0.0.obs;
+  var star1=0.0.obs;
+  var star2=0.0.obs;
+  var star3=0.0.obs;
+  var star4=0.0.obs;
+  var star5=0.0.obs;
+  RxString search="".obs;
+
+}
+
+
+
 getInfo()async{
   await checkExist(number);
   print(exist);
