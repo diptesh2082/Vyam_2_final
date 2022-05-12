@@ -517,7 +517,9 @@ class _HomePageState extends State<HomePage> {
         stateManagement: true,
         hideNavigationBarWhenKeyboardShows: true,
         popAllScreensOnTapOfSelectedTab: true,
+
         popActionScreens: PopActionScreensType.all,
+        // onWillPop: FocusScope.of(context).unfocus(),
         itemAnimationProperties: const ItemAnimationProperties(
           duration: Duration(milliseconds: 200),
           curve: Curves.ease,

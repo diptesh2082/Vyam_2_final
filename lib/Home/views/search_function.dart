@@ -18,7 +18,7 @@ class SearchIt extends StatefulWidget {
 }
 
 class _SearchItState extends State<SearchIt> {
-  TextEditingController searchController = TextEditingController();
+  // TextEditingController searchController = TextEditingController();
   String searchGymName = '';
   FocusNode _node =FocusNode();
   @override
@@ -43,10 +43,10 @@ class _SearchItState extends State<SearchIt> {
                   onSubmitted: (value) async {
                     FocusScope.of(context).unfocus();
                   },
-                  controller: searchController,
+                  // controller: searchController,
                   onChanged: (value) {
                     if (value.length == 0) {
-                      _node.canRequestFocus=false;
+                      _node.unfocus();
                       // FocusScope.of(context).unfocus();
                     }
                     if (mounted) {

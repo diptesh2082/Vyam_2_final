@@ -234,42 +234,30 @@ class _FirstHomeState extends State<FirstHome> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return SafeArea(
-          child: isLoading
-              ? const Center(
-            child: CircularProgressIndicator(),
-          )
-              :  Scaffold(
-              backgroundColor: scaffoldColor,
-              appBar: ScrollAppBar(
-                controller: app_bar_controller,
-                elevation: .0,
-                centerTitle: false,
-                backgroundColor: const Color(0xffF4F4F4),
-                leading: IconButton(
-                  iconSize: 24,
-                  icon: const Icon(
-                    Profileicon.location,
-                    color: Color(0xff3A3A3A),
-                  ),
-                  onPressed: () async {
-                    FocusScope.of(context).unfocus();
-                    await getAddressPin(pin);
-                    if (mounted) {
-                      setState(() {
-                        // myaddress = myaddress;
-                        address = address;
-                        pin = pin;
-                        GlobalUserLocation = user_data["address"];
-                      });
-                    }
-                    Get.to(() => LocInfo());
-                  },
-                ),
-                title: Transform(
-                  transform: Matrix4.translationValues(-26, 0, 0),
-                  child: InkWell(
-                    onTap: () async {
+    return WillPopScope(
+      onWillPop: () async{
+        FocusScope.of(context).unfocus();
+        return true;
+      },
+      child: SafeArea(
+            child: isLoading
+                ? const Center(
+              child: CircularProgressIndicator(),
+            )
+                :  Scaffold(
+                backgroundColor: scaffoldColor,
+                appBar: ScrollAppBar(
+                  controller: app_bar_controller,
+                  elevation: .0,
+                  centerTitle: false,
+                  backgroundColor: const Color(0xffF4F4F4),
+                  leading: IconButton(
+                    iconSize: 24,
+                    icon: const Icon(
+                      Profileicon.location,
+                      color: Color(0xff3A3A3A),
+                    ),
+                    onPressed: () async {
                       FocusScope.of(context).unfocus();
                       await getAddressPin(pin);
                       if (mounted) {
@@ -282,17 +270,48 @@ class _FirstHomeState extends State<FirstHome> {
                       }
                       Get.to(() => LocInfo());
                     },
-                    child: SizedBox(
-                      width: size.width * .666,
-                      height: 45,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if(GlobalUserData["address"] == null)
+                  ),
+                  title: Transform(
+                    transform: Matrix4.translationValues(-26, 0, 0),
+                    child: InkWell(
+                      onTap: () async {
+                        FocusScope.of(context).unfocus();
+                        await getAddressPin(pin);
+                        if (mounted) {
+                          setState(() {
+                            // myaddress = myaddress;
+                            address = address;
+                            pin = pin;
+                            GlobalUserLocation = user_data["address"];
+                          });
+                        }
+                        Get.to(() => LocInfo());
+                      },
+                      child: SizedBox(
+                        width: size.width * .666,
+                        height: 45,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if(GlobalUserData["address"] == null)
+                                Text(
+                                  "Tap here to choose your Location",
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff3A3A3A),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              if(GlobalUserData["address"] != null)
                               Text(
-                                "Tap here to choose your Location",
+                                GlobalUserData["address"].toString() == ""
+                                    ? "Tap here to choose your Location"
+                                    : GlobalUserData["address"].toString(),
                                 textAlign: TextAlign.left,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -302,149 +321,136 @@ class _FirstHomeState extends State<FirstHome> {
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500),
                               ),
-                            if(GlobalUserData["address"] != null)
-                            Text(
-                              GlobalUserData["address"].toString() == ""
-                                  ? "Tap here to choose your Location"
-                                  : GlobalUserData["address"].toString(),
-                              textAlign: TextAlign.left,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-
-                              style: GoogleFonts.poppins(
-                                  color: const Color(0xff3A3A3A),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                actions: [
-                  Column(
-                    children: [
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            // NOTIFICATION NUMBER CALLING
-                            icon: Badge(
-                              badgeContent: Text("1"),
-                              borderRadius: BorderRadius.circular(5),
-                              child: const ImageIcon(
-                                AssetImage("assets/icons/Notification.png"),
-                                size: 27,
-                                color: Colors.black,
-                              ),
-                            ),
-                            onPressed: () {
-
-                              Get.to(() => NotificationDetails());
-                              print(GlobalUserData);
-                            },
-                          ),
-                          SizedBox(
-                            width: 5,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              body: Snap(
-                controller: app_bar_controller.appBar,
-                child: SingleChildScrollView(
-                  controller: app_bar_controller,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 10),
-                    child: Stack(
-                      alignment: Alignment.center,
+                  actions: [
+                    Column(
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Row(
                           children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width,
-                              child: const Divider(
-                                height: .3,
-                                thickness: 1,
+                            IconButton(
+                              // NOTIFICATION NUMBER CALLING
+                              icon: Badge(
+                                badgeContent: Text("1"),
+                                borderRadius: BorderRadius.circular(5),
+                                child: const ImageIcon(
+                                  AssetImage("assets/icons/Notification.png"),
+                                  size: 27,
+                                  color: Colors.black,
+                                ),
                               ),
+                              onPressed: () {
+
+                                Get.to(() => NotificationDetails());
+                                print(GlobalUserData);
+                              },
                             ),
-                            const SizedBox(
-                              height: 12,
-                            ),
+                            SizedBox(
+                              width: 5,
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                body: Snap(
+                  controller: app_bar_controller.appBar,
+                  child: SingleChildScrollView(
+                    controller: app_bar_controller,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10.0, right: 10),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: const Divider(
+                                  height: .3,
+                                  thickness: 1,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
 
-                            SizedBox(height: 60,),
+                              SizedBox(height: 60,),
 
-                             const SizedBox(
-                               height: 9,
-                             ),
-                             // if (searchGymName.isEmpty)
+                               const SizedBox(
+                                 height: 9,
+                               ),
+                               // if (searchGymName.isEmpty)
 
-                               Column(
-                                 children: [
-                                   if (getPercentage != 100) ProgressCard(),
-                                   const SizedBox(
-                                     height: 9,
-                                   ),
-                                   InkWell(
-                                     onTap: () {
-                                       FocusScope.of(context).unfocus();
-                                       Get.to(CouponDetails());
-                                     },
-                                     child: Banner(bannerApi: bannerApi),
-                                   ),
-                                   const SizedBox(
-                                     height: 15,
-                                   ),
-                                   Catagory(),
-                                   const SizedBox(
-                                     height: 7,
-                                   ),
+                                 Column(
+                                   children: [
+                                     if (getPercentage != 100) ProgressCard(),
+                                     const SizedBox(
+                                       height: 9,
+                                     ),
+                                     InkWell(
+                                       onTap: () {
+                                         FocusScope.of(context).unfocus();
+                                         Get.to(CouponDetails());
+                                       },
+                                       child: Banner(bannerApi: bannerApi),
+                                     ),
+                                     const SizedBox(
+                                       height: 15,
+                                     ),
+                                     Catagory(),
+                                     const SizedBox(
+                                       height: 7,
+                                     ),
 
-                                   Align(
-                                     alignment: Alignment.centerLeft,
-                                     child: Material(
-                                       borderRadius: BorderRadius.circular(10),
-                                       elevation: 0,
-                                       child: SizedBox(
-                                         height: 30,
-                                         width: 130,
-                                         child: Center(
-                                           child: Text(
-                                             "Nearby Gyms",
-                                             style: GoogleFonts.poppins(
-                                                 fontSize: 16,
-                                                 fontWeight: FontWeight.w600),
+                                     Align(
+                                       alignment: Alignment.centerLeft,
+                                       child: Material(
+                                         borderRadius: BorderRadius.circular(10),
+                                         elevation: 0,
+                                         child: SizedBox(
+                                           height: 30,
+                                           width: 130,
+                                           child: Center(
+                                             child: Text(
+                                               "Nearby Gyms",
+                                               style: GoogleFonts.poppins(
+                                                   fontSize: 16,
+                                                   fontWeight: FontWeight.w600),
+                                             ),
+
                                            ),
-
                                          ),
                                        ),
                                      ),
-                                   ),
-                                   const SizedBox(
-                                     height: 7,
-                                   ),
-                                   Container(child: buildGymBox())
-                                 ],
-                               )
-                          ],
-                        ),
-                        Positioned(
-                            top: 15,
-                            child: SearchIt()),
-                      ],
+                                     const SizedBox(
+                                       height: 7,
+                                     ),
+                                     Container(child: buildGymBox())
+                                   ],
+                                 )
+                            ],
+                          ),
+                          Positioned(
+                              top: 15,
+                              child: SearchIt()),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-        );
+          ),
+    );
   }
 
   Container Search(BuildContext context) {

@@ -360,6 +360,8 @@ class _GymDetailsState extends State<GymDetails> {
                   ),
                   const SizedBox(height: 16),
                    ReadMoreText(
+                     doc["docs"]["description"]
+                         ??
                     'Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac  Lorem ipsum dolor sit amet, consectetur adipscing elit. Sited turpis curabitur sed sed ut lacus vulputate sit. Sit lacus metus quis erat nec mattis erat ac ',
                     trimLines: 3,
                     textAlign: TextAlign.justify,
