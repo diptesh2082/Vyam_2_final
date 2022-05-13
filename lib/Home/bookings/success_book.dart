@@ -191,7 +191,7 @@ class _PanelWidgetState extends State<PanelWidget> {
           .collection('bookings')
           .doc(id)
           .snapshots(),
-      builder: (context, snapshot) {
+      builder: (context,AsyncSnapshot snapshot) {
         var booking_details=snapshot.data;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -254,7 +254,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                               height: 5,
                             ),
                             Text(
-                              '${snapshot.data!.get("gym_details")["name"] ?? '00123'}',
+                              '${snapshot.data.get("gym_details")["name"] ?? '00123'}',
                               style: GoogleFonts.poppins(
                                   // fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w600,
@@ -268,7 +268,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                                 Icons.location_on,
                                 size: 18,
                               ),
-                              Text('${snapshot.data!.get("gym_details")["branch"]}',
+                              Text('${snapshot.data.get("gym_details")["branch"]}',
                                   style: GoogleFonts.poppins(
                                       // fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w500,
@@ -348,7 +348,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
                                     image: CachedNetworkImageProvider(
-                                        snapshot.data!.get("gym_details")["image"]))),
+                                        snapshot.data.get("gym_details")["image"]))),
                           ),
                         )
                       ],
