@@ -698,7 +698,7 @@ class _FirstHomeState extends State<FirstHome> {
                                                     width: 5,
                                                   ),
                                                   Text(
-                                                    "${document[index]["rating"] ?? ""}",
+                                                    "${document[index]["rating"].toString() }",
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                         color: Colors.white,

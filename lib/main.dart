@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
             );
           }
 
-          if (snapshot.hasData && exist && _auth.currentUser!=null && number.isNotEmpty) {
+          if (snapshot.hasData &&  exist && _auth.currentUser!=null && number.isNotEmpty) {
             return HomePage();
           }
 

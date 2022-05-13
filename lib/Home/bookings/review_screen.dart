@@ -31,11 +31,49 @@ class _ReviewState extends State<Review> {
   var review;
   var star=0.0;
   final _id=  Get.arguments["gym_id"];
+  getRatingCount(x)async{
+    DocumentReference db= await FirebaseFirestore.instance.collection("product_details").doc(_id);
+    try{
+      db.get().then((DocumentSnapshot documentSnapshot) {
+        if(documentSnapshot.exists){
+          try{
+            db.update({
+              "rating":x
+            });
+          }catch(e){
+            db.update({
+              "rating":1
+            });
+          }
+
+        }
+      }
+
+      );
+    }catch(e){
+      // db.get().then((DocumentSnapshot documentSnapshot) {
+      //   if(documentSnapshot.exists){
+      //     db.update({
+      //       "view_count":1
+      //     });
+      //   }
+      // }
+
+      // );
+    }
+
+
+    //     .update(
+    // {
+    // "view_count": +1;
+    // }
+    // );
+  }
   getRating()async{
     await FirebaseFirestore.instance.collection("Reviews")
         .where("gym_id",isEqualTo: widget.gymid)
         .snapshots()
-        .listen((snap) {
+        .listen((snap) async {
           if (snap.docs.isNotEmpty){
             print("documentexist");
 
@@ -72,10 +110,12 @@ class _ReviewState extends State<Review> {
             Get.find<Need>().star4.value= double.parse((star4/d.length).toStringAsFixed(1));
             Get.find<Need>().star5.value= double.parse((star5/d.length).toStringAsFixed(1));
             Get.find<Need>().review.value =double.parse((b/d.length).toStringAsFixed(1));
-            print(Get.find<Need>().star2.value);
+            print(Get.find<Need>().review.value);
+            getRatingCount(await Get.find<Need>().review.value);
           }
           
     });
+
   }
 
   @override
