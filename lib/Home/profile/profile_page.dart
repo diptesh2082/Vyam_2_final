@@ -410,6 +410,7 @@ class _ProfilePartState extends State<ProfilePart> {
                             // print(number);
                             await _googleSignIn.signOut();
                             await _auth.signOut();
+                            // Get.back();
                             Get.offAll(() => const LoginPage());
                             setVisitingFlagFalse();
                           },

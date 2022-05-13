@@ -38,6 +38,7 @@ Future<void> main() async {
   try {
     if(number==null){
       number=="";
+      // setNumber(FirebaseAuth.instance.currentUser.)
 
     }
     else{
@@ -75,8 +76,10 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth _auth=FirebaseAuth.instance;
     return GetMaterialApp(
       title: 'Flutter Demo',
 
@@ -96,7 +99,7 @@ class MyApp extends StatelessWidget {
             );
           }
 
-          if (snapshot.hasData && exist) {
+          if (snapshot.hasData && exist && _auth.currentUser!=null) {
             return HomePage();
           }
 
