@@ -113,10 +113,12 @@ class _PackegesState extends State<Packeges> {
   }
   getBookingId()async{
     await FirebaseFirestore.instance.collection("bookings")
+    .where("booking_status".toLowerCase(),whereIn: ["completed","active","upcoming"])
         .get()
-        .then((value){
+        .then((value) async {
       if(value.docs.isNotEmpty){
-        booking= value.docs.length;
+        booking=await value.docs.length;
+         CreateBooking(id, booking);
       }
     });
 
@@ -125,7 +127,7 @@ class _PackegesState extends State<Packeges> {
   }
   getBooking()async{
    await getBookingId();
-   await CreateBooking(id, booking);
+
   }
 
   @override

@@ -115,21 +115,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
   //
   // }
 
-  @override
-  void initState() {
-    // print("${GlobalCouponApplied}");
-    // GlobalCouponApplied?_couponpopup(context):const SizedBox();
-    // getBookingData(booking_id);
-    print("//////////");
-    // print(gymData["online_pay"]);
-    // print(GlobalUserData);
-    myCouponController.GlobalCouponApplied.value=false;
-    myCouponController.GlobalCoupon.value="";
-    myCouponController.CouponDetailsMap.value="";
-    print(myCouponController.GlobalCouponApplied.value);
-
+  detDil()async{
+    var price;
     setState(() {
-      var price = getData["totalPrice"];
+      price = getData["totalPrice"];
       setState(() {
         discount = total_discount;
       });
@@ -139,17 +128,35 @@ class _PaymentScreenState extends State<PaymentScreen> {
       taxPay = ((price * gstTax) / 100).round();
       grandTotal = ((price - totalDiscount) + taxPay);
       amount = grandTotal.toString() + "00";
-      FirebaseFirestore.instance
-          .collection("bookings")
-          .doc(Get.arguments["booking_id"])
-          .update({
-        "total_price": price,
-        // "total_discount":totalDiscount,
-        "discount": totalDiscount,
-        "grand_total": grandTotal,
-        "tax_pay": taxPay,
-      });
+
     });
+    await FirebaseFirestore.instance
+        .collection("bookings")
+        .doc(booking_id)
+        .update({
+      "total_price": price,
+      // "total_discount":totalDiscount,
+      "discount": totalDiscount,
+      "grand_total": grandTotal,
+      "tax_pay": taxPay,
+    });
+  }
+
+  @override
+  void initState() {
+    // print("${GlobalCouponApplied}");
+    // GlobalCouponApplied?_couponpopup(context):const SizedBox();
+    // getBookingData(booking_id);
+    print("//////////");
+    detDil();
+    // print(gymData["online_pay"]);
+    // print(GlobalUserData);
+    myCouponController.GlobalCouponApplied.value=false;
+    myCouponController.GlobalCoupon.value="";
+    myCouponController.CouponDetailsMap.value="";
+    print(myCouponController.GlobalCouponApplied.value);
+
+
 
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -1119,7 +1126,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         // print(x);
                         await FirebaseFirestore.instance
                             .collection("bookings")
-                            .doc(getData["booking_id"])
+                            .doc(booking_id)
                             .update({
                           "otp_pass": x.toString(),
                           "booking_status":"upcoming",
@@ -1452,7 +1459,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   color: Colors.white),
                             ),
                             onPressed: () async{
-                              print('hhhhhhhhhhhhhh');
+                              print('hhhhhhhhhhhhhh$booking_id');
                               await FirebaseFirestore.instance
                                   .collection("bookings")
                                   .doc(booking_id)

@@ -144,39 +144,39 @@ class PanelWidget extends StatefulWidget {
 class _PanelWidgetState extends State<PanelWidget> {
   var id = Get.arguments["booking_details"];
   var booking_details;
-  getBookingData(String booking_id)async{
-    try{
-      await FirebaseFirestore.instance
-          .collection('bookings')
-          .doc(booking_id)
-          .snapshots()
-          .listen((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          print('Document exists on the database');
-            setState(() {
-              booking_details= documentSnapshot.data();
-            });
-
-          // });
-
-          // return documentSnapshot.data();
-
-        }
-
-      });
-    }catch(e){
-
-      print(e);
-
-    }
-
-  }
+  // getBookingData(String booking_id)async{
+  //   try{
+  //     await FirebaseFirestore.instance
+  //         .collection('bookings')
+  //         .doc(booking_id)
+  //         .snapshots()
+  //         .listen((DocumentSnapshot documentSnapshot) {
+  //       if (documentSnapshot.exists) {
+  //         print('Document exists on the database');
+  //           setState(() {
+  //             booking_details= documentSnapshot.data();
+  //           });
+  //
+  //         // });
+  //
+  //         // return documentSnapshot.data();
+  //
+  //       }
+  //
+  //     });
+  //   }catch(e){
+  //
+  //     print(e);
+  //
+  //   }
+  //
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
-    getBookingData(id);
-    print(booking_details);
+    // getBookingData(id);
+    // print(booking_details);
 
     // getBookingData(booking_id);
     super.initState();
@@ -186,235 +186,244 @@ class _PanelWidgetState extends State<PanelWidget> {
   Widget build(BuildContext context) {
     // print(booking_id);
     // print(booking_details);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        Center(
-          child: Container(
-            width: 70,
-            height: 5,
-            decoration: BoxDecoration(
-                color: Colors.grey, borderRadius: BorderRadius.circular(12)),
-          ),
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: FittedBox(
-            fit: BoxFit.cover,
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Row(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+    return StreamBuilder<DocumentSnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('bookings')
+          .doc(id)
+          .snapshots(),
+      builder: (context, snapshot) {
+        var booking_details=snapshot.data;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.02,
+            ),
+            Center(
+              child: Container(
+                width: 70,
+                height: 5,
+                decoration: BoxDecoration(
+                    color: Colors.grey, borderRadius: BorderRadius.circular(12)),
+              ),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Row(
                       children: [
-                        const Text(
-                          'Booking Details',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.033,
-                        ),
-                        Row(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Booking ID :',
-                              style: GoogleFonts.poppins(
-                                  // fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12),
-                            ),
-                            Text(
-                              booking_details["id"] ?? '00123',
-                              // "",
-                              style: GoogleFonts.poppins(
-                                  // fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${booking_details["gym_details"]["name"] ?? '00123'}',
-                          style: GoogleFonts.poppins(
-                              // fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(children: [
-                          const Icon(
-                            Icons.location_on,
-                            size: 18,
-                          ),
-                          Text('${booking_details["gym_details"]["branch"]}',
-                              style: GoogleFonts.poppins(
-                                  // fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.grey,
-                                  fontSize: 14)),
-                        ]),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.002,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'Package  ',
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500, fontSize: 12),
-                            ),
-                            Text(
-                              '${booking_details["booking_plan"]}',
-                              style: const TextStyle(
+                            const Text(
+                              'Booking Details',
+                              style: TextStyle(
+                                  color: Colors.black,
                                   fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.033,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Booking ID :',
+                                  style: GoogleFonts.poppins(
+                                      // fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12),
+                                ),
+                                Text(
+                                " " + snapshot.data!.get("id").toString() ,
+                                  // "",
+                                  style: GoogleFonts.poppins(
+                                      // fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              '${snapshot.data!.get("gym_details")["name"] ?? '00123'}',
+                              style: GoogleFonts.poppins(
+                                  // fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(children: [
+                              const Icon(
+                                Icons.location_on,
+                                size: 18,
+                              ),
+                              Text('${snapshot.data!.get("gym_details")["branch"]}',
+                                  style: GoogleFonts.poppins(
+                                      // fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.grey,
+                                      fontSize: 14)),
+                            ]),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.002,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  'Package  ',
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500, fontSize: 12),
+                                ),
+                                Text(
+                                  '${snapshot.data!.get("booking_plan")}',
+                                  style: const TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.0055,
+                            ),
+                             Text(
+                              'Starts on:  ${DateFormat("MMMM, dd").format(snapshot.data!.get("booking_date").toDate())}',
+                              style: TextStyle(
+                                  color: Colors.green,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
                                   fontSize: 12),
+                            ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.0055,
+                            ),
+                            FittedBox(
+                              child: SizedBox(
+                                height: 27,
+                                width: 115,
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Color(0xff292F3D)),
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ))),
+                                  child: Text(
+                                    'OTP : ${Get.arguments["otp_pass"]}',
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12),
+                                  ),
+                                  onPressed: () {},
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.0055,
-                        ),
-                         Text(
-                          'Starts on:  ${DateFormat("MMMM, dd").format(booking_details["booking_date"].toDate())}',
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.0055,
-                        ),
-                        FittedBox(
-                          child: SizedBox(
-                            height: 27,
-                            width: 115,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Color(0xff292F3D)),
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ))),
-                              child: Text(
-                                'OTP : ${Get.arguments["otp_pass"]}',
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12),
-                              ),
-                              onPressed: () {},
-                            ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 20.0,
                           ),
-                        ),
+                          child: Container(
+                            height: 133,
+                            width: 155,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: CachedNetworkImageProvider(
+                                        snapshot.data!.get("gym_details")["image"]))),
+                          ),
+                        )
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 20.0,
-                      ),
-                      child: Container(
-                        height: 133,
-                        width: 155,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: CachedNetworkImageProvider(
-                                    booking_details["gym_details"]["image"]))),
-                      ),
-                    )
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * .4,
-                height: 49,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Color(0xff292F3D)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ))),
-                  child: Text(
-                    'Home',
-                    style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        // fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * .4,
+                    height: 49,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Color(0xff292F3D)),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ))),
+                      child: Text(
+                        'Home',
+                        style: GoogleFonts.poppins(
+                            color: Colors.white,
+                            // fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14),
+                      ),
+                      onPressed: () {
+                        Get.off(() => HomePage());
+                      },
+                    ),
                   ),
-                  onPressed: () {
-                    Get.off(() => HomePage());
-                  },
-                ),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.09,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * .4,
-                height: 49,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Color(0xff292F3D)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ))),
-                  child: const Text(
-                    'Track',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.09,
                   ),
-                  onPressed: () async {
-                    await Get.to(
-                        () => const OrderDetails(
-                            // index: index,
-                            // orderList: data.docs,
-                            ),
-                        arguments: {"doc": booking_details});
-                  },
-                ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * .4,
+                    height: 49,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Color(0xff292F3D)),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ))),
+                      child: const Text(
+                        'Track',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14),
+                      ),
+                      onPressed: () async {
+                        await Get.to(
+                            () => const OrderDetails(
+                                // index: index,
+                                // orderList: data.docs,
+                                ),
+                            arguments: {"doc": booking_details});
+                      },
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      }
     );
   }
 }
