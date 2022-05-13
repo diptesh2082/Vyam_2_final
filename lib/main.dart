@@ -36,16 +36,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   try {
-    if(number==null){
-      number=="";
-      // setNumber(FirebaseAuth.instance.currentUser.)
-
-    }
-    else{
       await getNumber();
     }
-
-  } catch (e) {
+    catch (e) {
     number = "";
   }
 
@@ -99,7 +92,7 @@ class MyApp extends StatelessWidget {
             );
           }
 
-          if (snapshot.hasData && exist && _auth.currentUser!=null) {
+          if (snapshot.hasData && exist && _auth.currentUser!=null && number.isNotEmpty) {
             return HomePage();
           }
 
