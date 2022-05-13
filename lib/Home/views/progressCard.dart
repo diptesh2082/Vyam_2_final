@@ -87,6 +87,7 @@ class _ProgressCardState extends State<ProgressCard> {
           // .collection("user_booking")
               .where("userId", isEqualTo: number)
               .where("booking_status", isEqualTo: "active")
+              .orderBy("id",descending: true)
               .snapshots(),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -133,7 +134,7 @@ class _ProgressCardState extends State<ProgressCard> {
                   print(percent);
                   print(percent);
                   getProgressStatus();
-                  if(percent>=0.0000000000000000000000000000000000000000001 && int.parse(getDays) >= -1){
+                  if(percent>=0.000000000000000000000000000000000000000000 && int.parse(getDays) >= -1){
                     return
                       Stack(
                         children: [

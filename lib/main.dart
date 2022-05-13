@@ -4,7 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:vyam_2_final/Home/views/first_home.dart';
+
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
@@ -42,10 +42,11 @@ Future<void> main() async {
     number = "";
   }
 
-  getAddress();
-  getVisitingFlag();
+
   await myLocation();
   await getInfo();
+  // getAddress();
+  getVisitingFlag();
   // print(GlobalUserData);
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -63,11 +64,11 @@ Future<void> main() async {
 
 
 
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  // const MyApp({Key? key}) : super(key: key);
 
 
   @override
@@ -102,7 +103,7 @@ class MyApp extends StatelessWidget {
 
       // initialRoute: ,
       getPages: [
-        GetPage(name: HomePage.id, page: () => HomePage()),
+        // GetPage(name: HomePage.id, page: () => HomePage()),
         GetPage(name: "/login", page: () => const LoginPage()),
         // GetPage(name: OtpPage.id, page: () => const OtpPage()),
         GetPage(

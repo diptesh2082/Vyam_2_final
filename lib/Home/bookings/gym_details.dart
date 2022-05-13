@@ -58,6 +58,7 @@ class _GymDetailsState extends State<GymDetails> {
     "Alarm",
   ];
 
+
   var doc = Get.arguments;
   final images = Get.arguments["docs"]["images"];
 
@@ -92,11 +93,50 @@ class _GymDetailsState extends State<GymDetails> {
   //         print(amenityDoc);
   //   })
   // }
+  getViewCount()async{
+   DocumentReference db= await FirebaseFirestore.instance.collection("product_details").doc(amienities);
+   try{
+     db.get().then((DocumentSnapshot documentSnapshot) {
+       if(documentSnapshot.exists){
+         try{
+           db.update({
+             "view_count":documentSnapshot.get("view_count")+1
+           });
+         }catch(e){
+           db.update({
+             "view_count":1
+           });
+         }
+
+       }
+     }
+
+     );
+   }catch(e){
+     // db.get().then((DocumentSnapshot documentSnapshot) {
+     //   if(documentSnapshot.exists){
+     //     db.update({
+     //       "view_count":1
+     //     });
+     //   }
+     // }
+
+     // );
+   }
+
+
+    //     .update(
+    // {
+    // "view_count": +1;
+    // }
+    // );
+  }
 
 
   @override
   void initState() {
-    // print(doc);
+    getViewCount();
+    // print(amienities);
     print("////////////////////////////////////////////////////////////////////////////////////////");
     imageSliders=Get.arguments["docs"]["images"];
     super.initState();

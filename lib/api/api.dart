@@ -22,7 +22,7 @@ import '../authintication/google_signin.dart';
 import '../main.dart';
 
 // ignore: prefer_typing_uninitialized_variables
-var visiting_flag;
+var visiting_flag = false;
 bool onlinePay = true;
 var total_discount=0;
 bool location_service =  true;
@@ -114,6 +114,7 @@ setNumber( id) async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   // SharedPreferences preferences = await SharedPreferences.getInstance();
   sharedPreferences.setString("number", id);
+
   // return number;
   // await UserApi.createNewUser();
 
@@ -400,7 +401,7 @@ Future<void> checkExist(String docID) async {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists)  {
-        print('Document exists on the database');
+        // print('Document exists on the database');
         // setState(() {
         exist= true;
 
@@ -450,7 +451,7 @@ myLocation() async {
       if (snapshot.exists) {
 
 
-        var userData = snapshot.data();
+        // var userData = snapshot.data();
         GlobalUserData = snapshot.data();
         // GlobalUserLocation = GlobalUserData["pincode"]??"Tap here to tap your location";
 
@@ -489,7 +490,7 @@ checkEmailExist(String email)async{
         .get()
         .then((QuerySnapshot snapshot) async {
       if (snapshot.docs.isNotEmpty) {
-        print('Document exists on the database');
+        // print('Document exists on the database');
         String emailId=await snapshot.docs[0]["number"];
         print(snapshot.docs[0].id);
         emailhai= await true;
