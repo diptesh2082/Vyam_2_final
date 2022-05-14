@@ -192,6 +192,11 @@ class _PanelWidgetState extends State<PanelWidget> {
           .doc(id)
           .snapshots(),
       builder: (context,AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         var booking_details=snapshot.data;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.center,

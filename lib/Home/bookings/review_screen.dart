@@ -26,7 +26,7 @@ class _ReviewState extends State<Review> {
   TextEditingController title = TextEditingController();
   TextEditingController exp = TextEditingController();
   var _ratingController = TextEditingController();
-  GymReviews reviews = GymReviews();
+  // GymReviews reviews = GymReviews();
   var doc =Get.arguments ;
   var review;
   var star=0.0;
