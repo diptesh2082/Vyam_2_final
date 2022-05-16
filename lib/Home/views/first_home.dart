@@ -505,7 +505,7 @@ class _FirstHomeState extends State<FirstHome> {
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("product_details")
-          .where("locality",whereIn:[ GlobalUserData["locality"]])
+          .where("locality",isEqualTo: GlobalUserData["locality"])
               .orderBy("location")
               .where("legit",isEqualTo: true)
               .snapshots(),

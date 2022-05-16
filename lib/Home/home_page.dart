@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                                 isLoading=true;
                               });
                             }
-                            Position position = await Geolocator.getCurrentPosition();
+                            Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
 
 
