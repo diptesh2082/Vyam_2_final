@@ -44,8 +44,8 @@ class _GymMaleState extends State<GymMale> {
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("product_details")
-              .where("locality".toLowerCase(),
-              isEqualTo: GlobalUserData["locality"].toLowerCase())
+              .where("locality",
+              isEqualTo: GlobalUserData["locality"])
               .where("gender", isEqualTo: "male")
               .orderBy("location")
               .snapshots(),

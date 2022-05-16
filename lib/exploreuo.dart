@@ -588,9 +588,10 @@ class _ExploreiaState extends State<Exploreia> {
                       child: StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection("product_details")
-                              .where("locality".toLowerCase(),
+                              .where("locality",
                                   isEqualTo:
-                                      GlobalUserData["locality"].toLowerCase())
+                                      GlobalUserData["locality"])
+                              .where("legit",isEqualTo: true)
                               .orderBy("location")
                               .snapshots(),
                           builder: (context, AsyncSnapshot streamSnapshot) {

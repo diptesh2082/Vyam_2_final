@@ -499,7 +499,8 @@ splashLocation(latitude,longitude)async{
                 child: StreamBuilder(
                     stream:  FirebaseFirestore.instance
                         .collection("product_details")
-                        .where("locality".toLowerCase(), isEqualTo: GlobalUserData["locality"].toLowerCase())
+                        .where("locality", isEqualTo: GlobalUserData["locality"])
+                    .where("legit",isEqualTo: true)
                         .orderBy("location")
                         .snapshots(),
                     builder: (context, AsyncSnapshot streamSnapshot) {

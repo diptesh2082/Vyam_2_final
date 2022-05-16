@@ -505,10 +505,9 @@ class _FirstHomeState extends State<FirstHome> {
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("product_details")
-              .where("locality".toLowerCase(),
-                  isEqualTo: GlobalUserData["locality"].toLowerCase())
-          .where("legit",isEqualTo: true)
+          .where("locality",whereIn:[ GlobalUserData["locality"]])
               .orderBy("location")
+              .where("legit",isEqualTo: true)
               .snapshots(),
           builder: (context, AsyncSnapshot streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
@@ -537,7 +536,7 @@ class _FirstHomeState extends State<FirstHome> {
                           document[index]["location"].longitude);
                       distance = double.parse((distance).toStringAsFixed(1));
                       // print(distance);
-                      if (distance <= 50) {
+                      if (distance <= 50 && (document[index]["locality"].toString().toLowerCase().trim() ==  GlobalUserData["locality"].toString().toLowerCase().trim())) {
                         return FittedBox(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
