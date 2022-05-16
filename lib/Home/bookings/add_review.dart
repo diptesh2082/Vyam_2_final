@@ -74,7 +74,8 @@ class _AddReviewState extends State<AddReview> {
                       "user_name":GlobalUserData["name"],
                     } ,
                     "gym_id": Get.arguments["gym_id"],
-                    "review": id
+                    "review": id,
+                    "time":DateTime.now()
                   };
                   await reference.doc(id).set(review_data);
 
