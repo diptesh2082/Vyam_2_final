@@ -41,6 +41,38 @@ class _PackegesState extends State<Packeges> {
   final userDetails = FirebaseFirestore.instance.collection("user_details");
   final auth = FirebaseAuth.instance;
   var userData;
+  final id =   FirebaseFirestore.instance
+      .collection("bookings")
+      .doc()
+      .id
+      .toString();
+  getBookingId(id)async{
+    print("//////////"+id);
+    var db=FirebaseFirestore.instance.collection("bookings").doc(id);
+    await FirebaseFirestore.instance.collection("bookings")
+        .where("booking_status".toLowerCase(),whereIn: ["completed","active","upcoming"])
+        .get()
+        .then((value) async {
+      if(value.docs.isNotEmpty){
+        booking_iiid=await value.docs.length;
+        // try{
+        //   db.update({
+        //     "id":booking.toString()
+        //   });
+        // }catch(e){
+        //   db.update({
+        //     "id":100
+        //   });
+        // }
+      }
+
+    });
+
+
+    // coupon_list=
+  }
+
+
   getUserData() async {
     userDetails.doc(number).get().then((DocumentSnapshot doc) {
       userData = doc.data();
@@ -52,23 +84,21 @@ class _PackegesState extends State<Packeges> {
     });
   }
   // bookingController booking = Get.put(bookingController());
-  var booking;
+  var booking_iiid=0;
+  final String image=Get.arguments["doc"]["display_picture"];
+  final String branch=Get.arguments["doc"]["branch"];
   // var String booking_id;
   final bookings = FirebaseFirestore.instance
       .collection("bookings");
-  final id = FirebaseFirestore.instance
-      .collection("bookings")
-      .doc()
-      .id
-      .toString();
-  CreateBooking(String id,int booking_id) async {
-    final bookings = FirebaseFirestore.instance
+
+  CreateBooking(String id) async {
+
+    final bookings = await FirebaseFirestore.instance
         .collection("bookings");
         // .doc(number)
         // .collection("user_booking");
-    print(bookings);
-    // booking_id = bookings.doc().id;
-    // String id=bookings.doc().id;
+    // print(bookings);
+
     await bookings.doc(id).set({
       "booking_id": id,
       "booking_status": "incomplete",
@@ -87,9 +117,9 @@ class _PackegesState extends State<Packeges> {
       "plan_end_duration": DateTime.now(),
       "otp_pass": "",
       "gym_details": {
-        "image": Get.arguments["doc"]["display_picture"],
+        "image": image,
         "name": widget.gymName,
-        "branch": Get.arguments["doc"]["branch"]
+        "branch": branch
       },
       "daysLeft": "0",
       "discount": "0",
@@ -97,45 +127,45 @@ class _PackegesState extends State<Packeges> {
       "tax_pay": "",
       "totalDays": "0",
       "total_price": "",
-      "id": booking_id.toString(),
+      "id": "",
+      "payment_method": "offline"
 
       // "gym_details":{
       //   "name":widget.gymName
       // },
     });
+
+    setState(() {
+      isLoading = false;
+    });
     print(id);
-    FirebaseFirestore.instance
-        .collection("bookings")
-        .doc(id)
-        .update({
-      // "gym_name": widget.gymName,
-    });
+    // FirebaseFirestore.instance
+    //     .collection("bookings")
+    //     .doc(id)
+    //     .update({
+    //   // "gym_name": widget.gymName,
+    // });
   }
-  getBookingId()async{
-    await FirebaseFirestore.instance.collection("bookings")
-    .where("booking_status".toLowerCase(),whereIn: ["completed","active","upcoming"])
-        .get()
-        .then((value) async {
-      if(value.docs.isNotEmpty){
-        booking=await value.docs.length;
-         CreateBooking(id, booking);
-      }
-    });
 
 
-    // coupon_list=
-  }
-  getBooking()async{
-   await getBookingId();
-
-  }
+  // getBooking()async{
+  //  await getBookingId();
+  //
+  // }
 
   @override
   void initState() {
-    getUserData();
+    print(id);
+    // CreateBooking(id);
+  getBookingId(id);
+    print(id);
     setDate();
+    setState(() {
+      isLoading=false;
+    });
     // getBookingId();
-    getBooking();
+    // getBookingId();
+    print(id);
 
     // print(number);
 
@@ -465,7 +495,10 @@ class _PackegesState extends State<Packeges> {
                                                       id,
                                                       widget.getFinalID,
                                                       Get.arguments["doc"],
+                                                      booking_iiid
                                                     );
+                                                     CreateBooking(id);
+
                                                   },
                                                   color: HexColor("292F3D"),
                                                   shape: RoundedRectangleBorder(
@@ -513,6 +546,7 @@ class _PackegesState extends State<Packeges> {
                             getDocID: widget.getFinalID,
                             gymName: widget.gymName,
                             gymLocation: widget.gymLocation,
+                            iiid: booking_iiid,
                           ),
                           const SizedBox(
                             height: 10,

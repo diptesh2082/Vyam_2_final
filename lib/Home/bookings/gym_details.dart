@@ -612,19 +612,7 @@ class _GymDetailsState extends State<GymDetails> {
                   FittedBox(
                     child: GestureDetector(
                       onTap: () {
-                        // FocusScope.of(context).unfocus();
-                        // print(doc["docs"]["gym_id"]);
-                        // var mink=doc["docs"];
-                        // print(mink);
-                        // print();
-                        // Get.to(()=>Review(),
-                        //   arguments: {
-                        //     "gym_id":doc["id"],
-                        //     "docs": doc["doc"],
-                        //     "name":doc["name"]
-                        //   }
-                        // );
-                        // print("double tap");
+
                         Get.to(() => Review(gymid: doc["docs"]["gym_id"],), arguments: {
                           "gym_id": doc["docs"]["gym_id"],
                           "docs": doc["doc"],
@@ -670,8 +658,8 @@ class _GymDetailsState extends State<GymDetails> {
                                         color: Colors.yellow,
                                         size: 18,
                                       ),
-                                      const Text(
-                                        '4.7',
+                                       Text(
+                                        '${doc["docs"]["rating"]}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w700,
                                             fontSize: 15),

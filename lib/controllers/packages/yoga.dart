@@ -13,12 +13,13 @@ class YogaList extends StatefulWidget {
   final getDocID;
   final gymLocation;
   final gymName;
+  final iiid;
   YogaList({
     Key? key,
     required double width,
     required this.getDocID,
     required this.gymName,
-    required this.gymLocation,
+    required this.gymLocation,required this.iiid,
   })  : _width = width,
         super(key: key);
 
@@ -235,7 +236,7 @@ class _YogaListState extends State<YogaList> {
                                               widget.gymLocation
                                               , id,
                                               widget.getDocID,
-                                            ""
+                                            "",widget.iiid
                                           );
 
                                         },

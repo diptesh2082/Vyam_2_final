@@ -13,13 +13,13 @@ class ZumbaList extends StatefulWidget {
   final getDocId;
   final gymName;
   final gymLocation;
-
+  final iiid;
   ZumbaList({
     Key? key,
     required double width,
     required this.getDocId,
     required this.gymName,
-    required this.gymLocation,
+    required this.gymLocation, this.iiid,
   })  : _width = width,
         super(key: key);
 
@@ -236,7 +236,7 @@ class _ZumbaListState extends State<ZumbaList> {
                                             id,
                                               widget.getDocId,
                                             ""
-
+                                              ,widget.iiid
                                           );
                                         },
                                         color: HexColor("292F3D"),

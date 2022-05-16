@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:vyam_2_final/Home/bookings/add_review.dart';
@@ -78,6 +79,7 @@ class _ReviewState extends State<Review> {
             print("documentexist");
 
             var d=snap.docs;
+            Get.find<Need>().review_number.value=snap.docs.length;
             var b=0.0;
             var star1=0.0;
             var star2=0.0;
@@ -208,37 +210,46 @@ class _ReviewState extends State<Review> {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01,
                           ),
-                          Row(
-                            children: [
-                              RatingBarIndicator(
-                                itemBuilder: ((context, index) {
-                                  return const Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  );
-                                }),
-                                rating: Get.find<Need>().review.value,
-                                itemCount: 5,
-                                itemSize: 20.0,
-                                direction: Axis.horizontal,
-                              ),
-                               Text('${Get.find<Need>().review.value} out of 5 ',
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14))
-                            ],
+                          StreamBuilder<DocumentSnapshot>(
+                              stream: FirebaseFirestore.instance.collection("product_details").doc(_id).snapshots(),
+                              builder: (context,AsyncSnapshot snapshot) {
+                                if(snapshot.connectionState==ConnectionState.waiting){
+                                  return Center(child: CircularProgressIndicator());
+                                }
+                                return Row(
+                                  children: [
+                                    RatingBarIndicator(
+                                      itemBuilder: ((context, index) {
+                                        return const Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        );
+                                      }),
+                                      rating: snapshot.data.get("rating"),
+                                      itemCount: 5,
+                                      itemSize: 20.0,
+                                      direction: Axis.horizontal,
+                                    ),
+                                    Text('${snapshot.data.get("rating")} out of 5 ',
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14))
+                                  ],
+                                );
+                              }
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.012,
                           ),
-                          const Text(
-                            '(113 reviews)',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12,
-                                color: Colors.grey),
+                          Obx(
+                                ()=> Text(
+                              '(${Get.find<Need>().review_number.value} reviews)',
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12,
+                                  color: Colors.grey),
+                            ),
                           ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02,

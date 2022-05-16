@@ -12,9 +12,11 @@ import 'package:vyam_2_final/golbal_variables.dart';
 import '../../select_date.dart';
 
 class BookingDetails {
+
   void bookingDetails(context, index, bookingList, String gymType, getGymName,
-      gymLocation, booking_id, gymID, docs) {
+      gymLocation, booking_id, gymID, docs,iiid) {
     List newBookingList = bookingList;
+    var booking=0;
     // final userDetails=FirebaseFirestore.instance.collection("user_details").doc(number).get();
 
     var _width = MediaQuery.of(context).size.width;
@@ -199,7 +201,7 @@ class BookingDetails {
                                             borderRadius:
                                                 BorderRadius.circular(12)),
                                         onPressed: () {
-                                          print(number);
+                                          print(booking_id);
                                           FirebaseFirestore.instance
                                               .collection("bookings")
                                               // .where("booking_id", isEqualTo: )
@@ -222,7 +224,8 @@ class BookingDetails {
                                                 .toDouble(),
                                             "package_type": bookingList[index]
                                                 ['type'],
-                                            "gym_address": gymLocation
+                                            "gym_address": gymLocation,
+                                            "id":iiid.toString()
                                           });
                                           // print(bookingList[index]['title'].toLowerCase());
                                           if(bookingList[index]['title'].toLowerCase()!="pay per session")

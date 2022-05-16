@@ -259,6 +259,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           "otp_pass": x.toString(),
           "booking_status": "upcoming",
           "payment_done": true,
+          "payment_method":"online"
         });
       // booking_details["id"]!=null?
       await showNotification("Thank You","Booking Successful");
