@@ -21,8 +21,8 @@ class _ContactUsState extends State<ContactUs> {
           appBar: AppBar(
             title: Text("Contact Us"),
             centerTitle: true,
-            foregroundColor: Color(0xff3A3A3A),
-            backgroundColor: Color(0xffE5E5E5),
+            // foregroundColor: Color(0xff3A3A3A),
+            backgroundColor: Color(0xffEAEAEA),
             elevation: 0,
             automaticallyImplyLeading: true,
             leading: IconButton(

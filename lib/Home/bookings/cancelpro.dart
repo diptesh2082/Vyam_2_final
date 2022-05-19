@@ -37,12 +37,9 @@ class BooKingCancelation extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               // crossAxisAlignment: CrossAxisAlignment.center,
               children:  [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.asset("assets/icons/x.gif",
-                  height: 110,
-                    width: 110,
-                  ),
+                Image.asset("assets/icons/x.gif",
+                height: 110,
+                  width: 110,
                 ),
                 SizedBox(height: 16.0),
                 Text(

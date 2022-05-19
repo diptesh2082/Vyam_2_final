@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -60,7 +61,45 @@ class _FirstHomeState extends State<FirstHome> {
   var day_left;
   final auth = FirebaseAuth.instance;
 
-  // var location = Get.arguments;
+  var location = Get.arguments;
+  // Stream<List<DocumentSnapshot>> stream={};
+  Geoflutterfire geo = Geoflutterfire();
+
+  // Create a geoFirePoint
+  GeoFirePoint center = Geoflutterfire().point(latitude: 12.960632, longitude: 77.641603);
+
+// get the collection reference or query
+  var collectionReference = FirebaseFirestore.instance.collection('product_details');
+
+  double radius = 50;
+  String field = 'position';
+
+  Stream<List<DocumentSnapshot>> stream = Geoflutterfire().collection(collectionRef: FirebaseFirestore.instance.collection('product_details'))
+      .within(center: Geoflutterfire().point(latitude: 12.960632, longitude: 77.641603), radius: 50, field: 'position');
+  getStream()async{
+//     GeoFirePoint center = await geo.point(latitude: GlobalUserData["location"].latitude,longitude: GlobalUserData["location"].longitude,);
+//
+// // get the collection reference or query
+//     CollectionReference collectionReference =await FirebaseFirestore.instance.collection('product_details');
+//
+//     double radius = 150;
+//     String field = 'location';
+//     Stream<List<DocumentSnapshot>> stream =await geo.collection(collectionRef: collectionReference)
+//         .within(center: center, radius: radius, field: field);
+
+    stream.listen((snapshot) {
+      if(snapshot.isEmpty){
+        print(snapshot.length);
+        print("****************************************");
+      }
+      if(snapshot.isNotEmpty){
+        print(snapshot.length);
+        print("****************************************");
+      }
+    });
+    // return stream;
+  }
+
 
 
   myLocation() async {
@@ -206,6 +245,7 @@ class _FirstHomeState extends State<FirstHome> {
 
   @override
   void initState() {
+    getStream();
 
     print("running two times //////////////////");
     getEverything();
@@ -502,7 +542,7 @@ class _FirstHomeState extends State<FirstHome> {
       width: size.width * .94,
       // height: 195,
       child: SingleChildScrollView(
-        child: StreamBuilder(
+        child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection("product_details")
           .where("locality",isEqualTo: GlobalUserData["locality"])
@@ -521,7 +561,36 @@ class _FirstHomeState extends State<FirstHome> {
             }
 
             var document = streamSnapshot.data.docs;
+            // document
+            // var t;
+            // document.sort((element, GlobalUserData) => GlobalUserData['location'].compareTo(element['location']));
+            document.forEach((element) {
+              // document.sort((element, GlobalUserData) => GlobalUserData['location'].compareTo(element['location']));
+              double distance = calculateDistance(
+                  GlobalUserData["location"].latitude,
+                  GlobalUserData["location"].longitude,
+                  element["location"].latitude,
+                  element["location"].longitude);
+              distance = double.parse((distance).toStringAsFixed(1));
+              // t.();
+              // element.add({
+              //
+              // });
 
+              print(distance);
+
+            });
+            // if (Get.find<Need>().search.value.length > 0) {
+            //   document = document.where((element) {
+            //     double distance= calculateDistance(
+            //             GlobalUserData["location"].latitude,
+            //             GlobalUserData["location"].longitude,
+            //             element["location"].latitude,
+            //             element["location"].longitude);
+            //         distance = double.parse((distance).toStringAsFixed(1));
+            //     return element;
+            //   }).toList();
+            // // }
 
             return document.isNotEmpty
                 ? ListView.separated(

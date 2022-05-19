@@ -338,39 +338,46 @@ class _LocInfoState extends State<LocInfo> {
                           height: 60,
                           child: GestureDetector(
                             onTap: () async {
-                              setState(() {
-                                isLoading = true;
-                              });
+                              try{
+                                setState(() {
+                                  isLoading = true;
+                                });
 
-                              await myLocation();
-                              // print(data);
-                              Position position = await _determinePosition();
-                              await GetAddressFromLatLong(position);
-                              // await UserApi.updateUserAddress(
-                              //     address, [position.latitude, position.longitude], pin
-                              // );
-                              await getAddressPin(pin);
-                              setState(() {
-                                myaddress = myaddress;
-                                address = address;
-                                pin = pin;
-                              });
-                              await FirebaseFirestore.instance
-                                  .collection("user_details")
-                                  .doc(number)
-                                  .update({
-                                "location": GeoPoint(
-                                    position.latitude, position.longitude),
-                                "address": address,
-                                // "lat": position.latitude,
-                                // "long": position.longitude,
-                                "pincode": pin,
-                                "locality": locality,
-                                "subLocality": locality,
-                                // "number": number
-                              });
-                              // Get.back();
-                              await Get.offAll(() => HomePage());
+                                await myLocation();
+                                // print(data);
+                                Position position = await Geolocator.getCurrentPosition();
+                                await GetAddressFromLatLong(position);
+                                // await UserApi.updateUserAddress(
+                                //     address, [position.latitude, position.longitude], pin
+                                // );
+                                await getAddressPin(pin);
+                                setState(() {
+                                  myaddress = myaddress;
+                                  address = address;
+                                  pin = pin;
+                                });
+                                await FirebaseFirestore.instance
+                                    .collection("user_details")
+                                    .doc(number)
+                                    .update({
+                                  "location": GeoPoint(
+                                      position.latitude, position.longitude),
+                                  "address": address,
+                                  // "lat": position.latitude,
+                                  // "long": position.longitude,
+                                  "pincode": pin,
+                                  "locality": locality,
+                                  "subLocality": locality,
+                                  // "number": number
+                                });
+                                // Get.back();
+                                await Get.offAll(() => HomePage());
+                              }catch(e){
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
+
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(
@@ -407,54 +414,12 @@ class _LocInfoState extends State<LocInfo> {
                                               color: Colors.green),
                                         ),
                                       ),
-                                      // child: const TextField(
-                                      //   autofocus: false,
-                                      //     style: TextStyle(
-                                      //       fontSize: 12,
-                                      //       fontFamily: 'Poppins',
-                                      //       fontWeight: FontWeight.w500,
-                                      //     ),
-                                      //     decoration: InputDecoration(
-                                      //
-                                      //             // border: InputBorde,
-                                      //             hintStyle: TextStyle(
-                                      //                 fontSize: 12,
-                                      //                 fontFamily: 'Poppins',
-                                      //                 fontWeight: FontWeight.w500,
-                                      //                 color: Colors.green),
-                                      //             hintMaxLines: 2,
-                                      //             hintText: 'Use current location'),
-                                      //       )
                                     ),
                                     const SizedBox(
                                       width: 15,
                                     ),
                                   ],
                                 ),
-                                // TextField(
-                                //   // autofocus: true,
-                                //   style: TextStyle(
-                                //     fontSize: 12,
-                                //     fontFamily: 'Poppins',
-                                //     fontWeight: FontWeight.w500,
-                                //   ),
-                                //   // controller: search,
-                                //   maxLines: 3,
-                                //   decoration: InputDecoration(
-                                //       prefixIcon: Icon(
-                                //         Icons.my_location_outlined,
-                                //         color: Colors.green,
-                                //         size: 20,
-                                //       ),
-                                //       border: InputBorder.none,
-                                //       hintStyle: TextStyle(
-                                //           fontSize: 12,
-                                //           fontFamily: 'Poppins',
-                                //           fontWeight: FontWeight.w500,
-                                //           color: Colors.green),
-                                //       hintMaxLines: 2,
-                                //       hintText: 'Use current location'),
-                                // )
                               ),
                             ),
                           ),

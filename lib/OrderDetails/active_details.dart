@@ -7,6 +7,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
+import 'package:vyam_2_final/Home/profile/Contact_Us.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
@@ -544,20 +545,25 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
               //         fontWeight: FontWeight.w500),
               //   ),
               // ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    const Spacer(),
-                    Container(
-                      decoration: const BoxDecoration(
-                          color: Colors.amber, shape: BoxShape.circle),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Image.asset("assets/icons/message-question.png"),
-                      ),
-                    )
-                  ],
+              InkWell(
+                onTap: (){
+                  Get.to(()=>ContactUs());
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    children: [
+                      const Spacer(),
+                      Container(
+                        decoration: const BoxDecoration(
+                            color: Colors.amber, shape: BoxShape.circle),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Image.asset("assets/icons/message-question.png"),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ],

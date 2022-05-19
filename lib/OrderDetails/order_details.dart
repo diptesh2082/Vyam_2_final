@@ -10,6 +10,7 @@ import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
+import '../Home/profile/Contact_Us.dart';
 import '../cancel_page.dart';
 
 class OrderDetails extends StatefulWidget {
@@ -582,12 +583,17 @@ class _OrderDetailsState extends State<OrderDetails> {
                         )),
                   ),
                   const Spacer(),
-                  Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.amber, shape: BoxShape.circle),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Image.asset("assets/icons/message-question.png"),
+                  InkWell(
+                    onTap: (){
+                      Get.to(()=>ContactUs());
+                    },
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.amber, shape: BoxShape.circle),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Image.asset("assets/icons/message-question.png"),
+                      ),
                     ),
                   )
                 ],
