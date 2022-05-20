@@ -62,7 +62,15 @@ class _GymAllState extends State<GymAll> {
             }
 
             var document = streamSnapshot.data.docs;
-              document = document.where((element) {
+            document.sort((a, b) {
+              double d1 = calculateDistance(a["location"].latitude,a["location"].longitude, GlobalUserData["location"].latitude, GlobalUserData["location"].longitude,);
+              double d2 =  calculateDistance(b["location"].latitude,b["location"].longitude, GlobalUserData["location"].latitude, GlobalUserData["location"].longitude,);
+              if (d1 > d2) return 1;
+              else if (d1 < d2) return -1;
+              else return 0;
+            });
+
+            document = document.where((element) {
                 return element
                     .get('service')
                     .toString()
