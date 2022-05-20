@@ -602,23 +602,16 @@ class _ExploreiaState extends State<Exploreia> {
                               );
                             }
 
+
                             document = streamSnapshot.data.docs;
-                            // document = document.where((element) {
-                            //   return element
-                            //       .get('pincode')
-                            //       .toString()
-                            //   // .toLowerCase()
-                            //       .contains(address2.toString());
-                            // }).toList();
-                            // if (searchGymName.isNotEmpty) {
-                            //   document = document.where((element) {
-                            //     return element
-                            //         .get('name')
-                            //         .toString()
-                            //         .toLowerCase()
-                            //         .contains(searchGymName.toLowerCase());
-                            //   }).toList();
-                            // }
+                            document.sort((a, b) {
+                              double d1 = calculateDistance(a["location"].latitude,a["location"].longitude, GlobalUserData["location"].latitude, GlobalUserData["location"].longitude,);
+                              double d2 =  calculateDistance(b["location"].latitude,b["location"].longitude, GlobalUserData["location"].latitude, GlobalUserData["location"].longitude,);
+                              if (d1 > d2) return 1;
+                              else if (d1 < d2) return -1;
+                              else return 0;
+                            });
+
                             var d=document.length;
                             return document.isNotEmpty
                                 ? Container(
