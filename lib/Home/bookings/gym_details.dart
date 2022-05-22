@@ -237,33 +237,30 @@ class _GymDetailsState extends State<GymDetails> {
                       Get.to(() => Timing_Screen(),
                           arguments: {"timings": doc["docs"]["timings"]});
                     },
-                    child: SizedBox(
-                      height: 60,
-                      child: FittedBox(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: SizedBox(
+                        height: 65,
                         child: Row(mainAxisAlignment: MainAxisAlignment.start,
                             // crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10.0),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      height: 51,
-                                      width: 49,
-                                      //color: Colors.amber,
-                                      child: const Center(
-                                          child:
-                                              Icon(CupertinoIcons.clock_fill)),
-                                      decoration: const BoxDecoration(
-                                        color: Colors.amber,
-                                        // image: DecorationImage(
-                                        //     image: AssetImage(
-                                        //         "assets/images/time_circle.png")
-                                        // )
-                                      ),
-                                    ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  height: 50,
+                                  width: 55,
+                                  //color: Colors.amber,
+
+                                  child: const Center(
+                                      child:
+                                          Icon(CupertinoIcons.clock_fill)),
+                                  decoration:  BoxDecoration(
+                                    color: Colors.amber,
+                                    borderRadius: BorderRadius.circular(10)
+                                    // image: DecorationImage(
+                                    //     image: AssetImage(
+                                    //         "assets/images/time_circle.png")
+                                    // )
                                   ),
                                 ),
                               ),

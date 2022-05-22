@@ -174,8 +174,8 @@ class _BuildBoxState extends State<BuildBox> {
                                     ),
                                   ),
                                   Positioned(
-                                    bottom: size.height * .009,
-                                    left: 5,
+                                    bottom: 2,
+                                    left: 8,
                                     child: Container(
                                       decoration: BoxDecoration(
                                         borderRadius:
@@ -183,12 +183,12 @@ class _BuildBoxState extends State<BuildBox> {
                                         // color: Colors.white10,
                                       ),
                                       height: size.height * .078,
-                                      width: size.width * .45,
+                                      width: size.width * .55,
                                       padding: const EdgeInsets.only(
-                                          left: 8, bottom: 10),
+                                          left: 0, bottom: 10),
                                       child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.end,
+                                        // mainAxisAlignment:
+                                        // MainAxisAlignment.start,
                                         crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                         children: [
@@ -212,15 +212,17 @@ class _BuildBoxState extends State<BuildBox> {
                                             // "",
                                             document[index]["address"] ??
                                                 "",
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                overflow:
-                                                TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.start,
+                                            style: GoogleFonts.poppins(
+                                                // overflow:
+                                                // TextOverflow.ellipsis,
                                                 color: Colors.white,
-                                                fontFamily: "Poppins",
+                                                // fontFamily: "Poppins",
                                                 fontSize: 12,
                                                 fontWeight:
-                                                FontWeight.w600),
+                                                FontWeight.w500),
                                           ),
                                         ],
                                       ),
