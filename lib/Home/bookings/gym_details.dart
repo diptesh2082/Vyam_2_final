@@ -265,8 +265,8 @@ class _GymDetailsState extends State<GymDetails> {
                   GestureDetector(
                     onTap: () {
                       FocusScope.of(context).unfocus();
-                      Get.to(() => Timing_Screen(),
-                          arguments: {"timings": doc["docs"]["timings"]});
+                      Get.to(() => Timing_Screen(id: amienities,),
+                         );
                     },
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
@@ -402,8 +402,7 @@ class _GymDetailsState extends State<GymDetails> {
                                 fontSize: 12)),
                         onTap: () {
                           FocusScope.of(context).unfocus();
-                          Get.to(() => Timing_Screen(),
-                              arguments: {"timings": doc["docs"]["timings"]});
+                          Get.to(() => Timing_Screen(id: amienities,),);
                         },
                       ),
                       const Icon(
