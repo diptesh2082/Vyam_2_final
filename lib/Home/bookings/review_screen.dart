@@ -112,7 +112,19 @@ class _ReviewState extends State<Review> {
             Get.find<Need>().star4.value= double.parse((star4/d.length).toStringAsFixed(1));
             Get.find<Need>().star5.value= double.parse((star5/d.length).toStringAsFixed(1));
             Get.find<Need>().review.value =double.parse((b/d.length).toStringAsFixed(1));
-            print(Get.find<Need>().review.value);
+            // print(Get.find<Need>().star5.value);
+            // print("Get.find<Need>().star5.value)");
+            getRatingCount(await Get.find<Need>().review.value);
+          }
+          if(snap.docs.isEmpty){
+            Get.find<Need>().star1.value= 0.0;
+            Get.find<Need>().star2.value= 0.0;
+            Get.find<Need>().star3.value= 0.0;
+            Get.find<Need>().star4.value= 0.0;
+            Get.find<Need>().star5.value= 0.0;
+            Get.find<Need>().review.value =0.0;
+            // print(Get.find<Need>().star5.value);
+            // print("Get.find<Need>().star5.value)");
             getRatingCount(await Get.find<Need>().review.value);
           }
           
@@ -125,9 +137,15 @@ class _ReviewState extends State<Review> {
     // TODO: implement initState
     // print(doc["name"]);
     // print(_id);
+    // print("Get.find<Need>().star5.value)");
     getRating();
     // print(star);
     super.initState();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
