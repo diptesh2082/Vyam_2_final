@@ -35,7 +35,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   late PersistentBottomSheetController _controller; // <------ Instance variable
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   int discount = total_discount;
-  int gstTax = 18;
+  int gstTax = 0;
   // ignore: prefer_typing_uninitialized_variables
   var grandTotal;
   // ignore: prefer_typing_uninitialized_variables
@@ -144,13 +144,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   void initState() {
-    // print("${GlobalCouponApplied}");
-    // GlobalCouponApplied?_couponpopup(context):const SizedBox();
-    // getBookingData(booking_id);
     print("//////////");
     detDil();
-    // print(gymData["online_pay"]);
-    // print(GlobalUserData);
     myCouponController.GlobalCouponApplied.value=false;
     myCouponController.GlobalCoupon.value="";
     myCouponController.CouponDetailsMap.value="";
@@ -179,7 +174,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       'description': 'Payment',
       // "order_id":"test_jukjktgtu",
 
-      // 'prefill': {'contact': number.toString(), 'email': ''},
 
       'prefill': {'contact': "7407926060".toString(), 'email': GlobalUserData["email"].toString()},
 
@@ -830,32 +824,32 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 SizedBox(
                                   height: 2,
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 0, top: 3),
-                                      child: Text(
-                                        "GST",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: 0, top: 3),
-                                      child: Text(
-                                        "₹" + taxPay.toString(),
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                // Row(
+                                //   mainAxisAlignment:
+                                //       MainAxisAlignment.spaceBetween,
+                                //   children: [
+                                //     Padding(
+                                //       padding:
+                                //           const EdgeInsets.only(left: 0, top: 3),
+                                //       child: Text(
+                                //         "GST",
+                                //         style: GoogleFonts.poppins(
+                                //             fontSize: 16,
+                                //             fontWeight: FontWeight.w500),
+                                //       ),
+                                //     ),
+                                //     Padding(
+                                //       padding: const EdgeInsets.only(
+                                //           right: 0, top: 3),
+                                //       child: Text(
+                                //         "₹" + taxPay.toString(),
+                                //         style: const TextStyle(
+                                //             fontSize: 16,
+                                //             fontWeight: FontWeight.bold),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
                                 SizedBox(
                                   height: 3,
                                 ),
