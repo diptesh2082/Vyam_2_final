@@ -20,6 +20,7 @@ class BooKingCancelation extends StatelessWidget {
         return true;
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           leading: IconButton(
@@ -40,6 +41,8 @@ class BooKingCancelation extends StatelessWidget {
                 Image.asset("assets/icons/x.gif",
                 height: 110,
                   width: 110,
+
+                  // colorBlendMode: true,
                 ),
                 SizedBox(height: 16.0),
                 Text(
