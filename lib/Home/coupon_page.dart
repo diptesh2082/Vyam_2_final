@@ -235,8 +235,8 @@ class _CouponDetailsState extends State<CouponDetails> {
                       }).toList();
                     }else{
                       documents = documents.where((element){
-                        return element.
-                        get('package_type')
+                        return element
+                            .get('package_type')
                             .toString()
                             .toLowerCase()
                             .contains("package");
@@ -353,6 +353,44 @@ class _CouponDetailsState extends State<CouponDetails> {
                                             ),
                                           ),
                                         ),
+                                        if(widget.cartValue <= int.parse(documents[index]["minimum_cart_value"]))
+                                          Positioned(
+                                            left:12,
+                                            child: ClipRRect(
+                                              borderRadius:BorderRadius.only(topLeft: Radius.circular(9),bottomLeft: Radius.circular(9)),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  // color: Colors.yellowAccent,
+                                                    gradient: LinearGradient(
+                                                        begin: Alignment.topCenter,
+                                                        end: Alignment.bottomCenter,
+                                                        colors: [
+                                                          Color(0xff656669),
+                                                          Color(0xff323133)
+                                                        ])
+                                                  // borderRadius: BorderRadius.only(topLeft:,bottomLeft: 5)
+                                                ),
+
+                                                height: 140,
+                                                width: 31,
+                                                child: RotatedBox(
+
+                                                  quarterTurns: -1,
+                                                  child: Center(
+                                                    child: Text(
+                                                      "${documents[index]["tag"]}".toUpperCase(),
+                                                      style: GoogleFonts.poppins(
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight.bold,
+                                                          fontSize: 14
+                                                      ),
+                                                      // textDirection: TextDirection(),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         Positioned(
                                           left: 50,
                                           top:20,
@@ -361,13 +399,30 @@ class _CouponDetailsState extends State<CouponDetails> {
                                               crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                               children: [
-                                                Text(
-                                                  documents[index]['code']
-                                                      .toUpperCase(),
-                                                  style: GoogleFonts.poppins(
-                                                      color: HexColor("3A3A3A"),
-                                                      fontSize: 18,
-                                                      fontWeight: FontWeight.w700),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      documents[index]['code']
+                                                          .toUpperCase(),
+                                                      style: GoogleFonts.poppins(
+                                                          color: HexColor("3A3A3A"),
+                                                          fontSize: 18,
+                                                          fontWeight: FontWeight.w700),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 6,
+                                                    ),
+                                                    if(widget.cartValue <= int.parse(documents[index]["minimum_cart_value"]))
+                                                    Text(
+                                                      "Not Applicable",
+                                                      style: GoogleFonts.poppins(
+                                                          color:Colors.red,
+                                                          fontSize: 10,
+                                                          fontWeight: FontWeight.w500,
+
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                                 const SizedBox(
                                                   height: 8,
@@ -426,7 +481,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                               print("////////////"+documents[index]['offer_type'].toString());
 
                                               if (coupon_list.containsKey(documents[index]['code']
-                                                  .trim().toLowerCase())) {
+                                                  .trim().toLowerCase()) && widget.cartValue>=int.parse(documents[index]['minimum_cart_value'])) {
                                                 if(documents[index]['offer_type']==true && widget.cartValue >= int.parse(documents[index]["minimum_cart_value"])){
                                                   coupon_applied = true;
                                                   myCouponController.GlobalCouponApplied.value=true;
@@ -655,13 +710,17 @@ class _CouponDetailsState extends State<CouponDetails> {
                                             ),
                                           ),
                                         ),
-                                        // Positioned(
-                                        //     top: 41,
-                                        //     right: 0,
-                                        //     child: CircleAvatar(
-                                        //       radius: 20,
-                                        //       backgroundColor: Colors.grey.shade100,
-                                        //     ))
+                                        if( widget.cartValue<=int.parse(documents[index]['minimum_cart_value']))
+                                        Positioned(
+
+                                            child: Container(
+                                              height: 144,
+                                              width: _width,
+                                              color: Colors.grey.withOpacity(.01),
+                                            ),
+                                        top: 10,
+                                        left: 0,
+                                        )
                                       ],
                                     ),
                                   );
