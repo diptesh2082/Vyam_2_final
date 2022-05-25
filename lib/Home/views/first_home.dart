@@ -442,7 +442,7 @@ class _FirstHomeState extends State<FirstHome> {
                                      InkWell(
                                        onTap: () {
                                          FocusScope.of(context).unfocus();
-                                         Get.to(CouponDetails());
+                                         Get.to(CouponDetails(cartValue: null, type: '',));
                                        },
                                        child: Banner(bannerApi: bannerApi),
                                      ),

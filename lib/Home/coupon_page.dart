@@ -11,8 +11,10 @@ import 'package:vyam_2_final/payment/payment.dart';
 
 
 class CouponDetails extends StatefulWidget {
+  final cartValue;
+  final String type;
   CouponDetails({
-    Key? key,
+    Key? key,required this.cartValue,required this.type,
   }) : super(key: key);
 
   @override
@@ -26,6 +28,7 @@ class _CouponDetailsState extends State<CouponDetails> {
   bool coupon_applied=false;
 
   FocusNode myNode=FocusNode();
+  var couponDoc;
 
   CouponApi couponApi = CouponApi();
   TextEditingController couponController=TextEditingController();
@@ -35,6 +38,7 @@ class _CouponDetailsState extends State<CouponDetails> {
   @override
   void initState() {
     coupon_list.clear();
+    print( widget.type.toLowerCase());
     super.initState();
   }
 
@@ -221,7 +225,26 @@ class _CouponDetailsState extends State<CouponDetails> {
                     }
 
                       var documents = snapshot.data.docs;
-                      print(documents);
+                    if (widget.type.toString().toLowerCase()=="pay per session"){
+                      documents = documents.where((element){
+                        return element.
+                        get('package_type')
+                            .toString()
+                            .toLowerCase()
+                            .contains(widget.type.toString().toLowerCase());
+                      }).toList();
+                    }else{
+                      documents = documents.where((element){
+                        return element.
+                        get('package_type')
+                            .toString()
+                            .toLowerCase()
+                            .contains("package");
+                      }).toList();
+                    }
+
+                      couponDoc=snapshot.data.docs;
+                      print(couponDoc);
                       var list=[];
                       // list.addAll({documents[0]["code"].toString().toLowerCase(): documents[index]["discount"]);
                       print(list);
@@ -396,69 +419,212 @@ class _CouponDetailsState extends State<CouponDetails> {
                                               coupon =  documents[index]['code']
                                                   .trim().toLowerCase();
                                               print("////////////"+coupon);
+                                              print("////////////"+documents[index]['offer_type'].toString());
+                                              print("////////////"+documents[index]['minimum_cart_value']);
+                                              print("////////////"+documents[index]['max_dis']);
+                                              print("////////////"+documents[index]['discount']);
+                                              print("////////////"+documents[index]['offer_type'].toString());
 
                                               if (coupon_list.containsKey(documents[index]['code']
                                                   .trim().toLowerCase())) {
-                                                coupon_applied = true;
-                                                myCouponController.GlobalCouponApplied.value=true;
-                                                myCouponController.GlobalCoupon.value=coupon;
-                                                myCouponController.CouponDetailsMap.value= coupon_list[coupon];
-                                                setState(() {
-                                                  GlobalCoupon =  documents[index]['code'];
-                                                  CouponDetailsMap =  documents[index]['discount'];
-                                                  GlobalCouponApplied = true;
-                                                });
-                                                print(GlobalCoupon);
-                                                print(GlobalCouponApplied);
-                                                print(CouponDetailsMap);
+                                                if(documents[index]['offer_type']==true && widget.cartValue >= int.parse(documents[index]["minimum_cart_value"])){
+                                                  coupon_applied = true;
+                                                  myCouponController.GlobalCouponApplied.value=true;
+                                                  myCouponController.GlobalCoupon.value=coupon;
+                                                  int dex=(widget.cartValue * (int.parse(documents[index]['discount'].toString())/100)).toInt();
+                                                  print(dex);
+                                                  if(dex >= int.parse(documents[index]['max_dis'].toString())){
+                                                    myCouponController.CouponDetailsMap.value= documents[index]['max_dis'];
+                                                  }if(dex < int.parse(documents[index]['max_dis'].toString())){
+                                                    myCouponController.CouponDetailsMap.value= dex.toString();
+                                                  }
+
+                                                  setState(() {
+                                                    GlobalCoupon =  documents[index]['code'];
+                                                    CouponDetailsMap =  documents[index]['discount'];
+                                                    GlobalCouponApplied = true;
+                                                  });
+                                                  print(GlobalCoupon);
+                                                  print(GlobalCouponApplied);
+                                                  print(CouponDetailsMap);
                                                   Get.back();
-                                                // Navigator.of(context).pop([GlobalCoupon,CouponDetailsMap,GlobalCouponApplied]);
-                                                // Get.off(()=>const PaymentScreen(),arguments: getData);
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) => AlertDialog(
-                                                    shape: const RoundedRectangleBorder(
-                                                        borderRadius:
-                                                        BorderRadius.all(Radius.circular(16))),
-                                                    content: SizedBox(
-                                                      height: 160,
-                                                      width: 160,
-                                                      child: FittedBox(
-                                                        child: Column(
-                                                            crossAxisAlignment:
-                                                            CrossAxisAlignment.center,
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment.center,
-                                                            children: [
-                                                              Image.asset(
-                                                                "assets/icons/icons8-approval.gif",
-                                                                height: 70,
-                                                                width: 70,
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 9,
-                                                              ),
-                                                              Text(
-                                                                "$coupon Applied",
-                                                                style: const TextStyle(
-                                                                    fontFamily: "Poppins",
-                                                                    fontSize: 14,
-                                                                    fontWeight: FontWeight.w600),
-                                                              ),
-                                                              const SizedBox(height: 6),
-                                                              Text(
-                                                                "You save ${coupon_list[coupon]}",
-                                                                style: const TextStyle(
-                                                                    fontFamily: "Poppins",
-                                                                    fontSize: 16,
-                                                                    color: Colors.green,
-                                                                    fontWeight: FontWeight.w600),
-                                                              ),
-                                                            ]),
+                                                  // Navigator.of(context).pop([GlobalCoupon,CouponDetailsMap,GlobalCouponApplied]);
+                                                  // Get.off(()=>const PaymentScreen(),arguments: getData);
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) => AlertDialog(
+                                                      shape: const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                          BorderRadius.all(Radius.circular(16))),
+                                                      content: SizedBox(
+                                                        height: 160,
+                                                        width: 160,
+                                                        child: FittedBox(
+                                                          child: Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment.center,
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment.center,
+                                                              children: [
+                                                                Image.asset(
+                                                                  "assets/icons/icons8-approval.gif",
+                                                                  height: 70,
+                                                                  width: 70,
+                                                                ),
+                                                                const SizedBox(
+                                                                  height: 9,
+                                                                ),
+                                                                Text(
+                                                                  "$coupon Applied",
+                                                                  style: const TextStyle(
+                                                                      fontFamily: "Poppins",
+                                                                      fontSize: 14,
+                                                                      fontWeight: FontWeight.w600),
+                                                                ),
+                                                                const SizedBox(height: 6),
+                                                                Text(
+                                                                  "You save ${coupon_list[coupon]}",
+                                                                  style: const TextStyle(
+                                                                      fontFamily: "Poppins",
+                                                                      fontSize: 16,
+                                                                      color: Colors.green,
+                                                                      fontWeight: FontWeight.w600),
+                                                                ),
+                                                              ]),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                );
+                                                  );
+                                                }
+                                                if(documents[index]['offer_type']==false && widget.cartValue >= int.parse(documents[index]["minimum_cart_value"])){
+                                                  coupon_applied = true;
+                                                  myCouponController.GlobalCouponApplied.value=true;
+                                                  myCouponController.GlobalCoupon.value=coupon;
+                                                  int dex=int.parse(documents[index]['discount'].toString());
+                                                  print(dex);
+                                                  // if(dex >= int.parse(documents[index]['max_dis'].toString())){
+                                                  //   myCouponController.CouponDetailsMap.value= documents[index]['max_dis'];
+                                                  // }if(dex < int.parse(documents[index]['max_dis'].toString())){
+                                                    myCouponController.CouponDetailsMap.value= dex.toString();
+                                                  // }
+
+                                                  setState(() {
+                                                    GlobalCoupon =  documents[index]['code'];
+                                                    CouponDetailsMap =  documents[index]['discount'];
+                                                    GlobalCouponApplied = true;
+                                                  });
+                                                  print(GlobalCoupon);
+                                                  print(GlobalCouponApplied);
+                                                  print(CouponDetailsMap);
+                                                  Get.back();
+                                                  // Navigator.of(context).pop([GlobalCoupon,CouponDetailsMap,GlobalCouponApplied]);
+                                                  // Get.off(()=>const PaymentScreen(),arguments: getData);
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) => AlertDialog(
+                                                      shape: const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                          BorderRadius.all(Radius.circular(16))),
+                                                      content: SizedBox(
+                                                        height: 160,
+                                                        width: 160,
+                                                        child: FittedBox(
+                                                          child: Column(
+                                                              crossAxisAlignment:
+                                                              CrossAxisAlignment.center,
+                                                              mainAxisAlignment:
+                                                              MainAxisAlignment.center,
+                                                              children: [
+                                                                Image.asset(
+                                                                  "assets/icons/icons8-approval.gif",
+                                                                  height: 70,
+                                                                  width: 70,
+                                                                ),
+                                                                const SizedBox(
+                                                                  height: 9,
+                                                                ),
+                                                                Text(
+                                                                  "$coupon Applied",
+                                                                  style: const TextStyle(
+                                                                      fontFamily: "Poppins",
+                                                                      fontSize: 14,
+                                                                      fontWeight: FontWeight.w600),
+                                                                ),
+                                                                const SizedBox(height: 6),
+                                                                Text(
+                                                                  "You save ${coupon_list[coupon]}",
+                                                                  style: const TextStyle(
+                                                                      fontFamily: "Poppins",
+                                                                      fontSize: 16,
+                                                                      color: Colors.green,
+                                                                      fontWeight: FontWeight.w600),
+                                                                ),
+                                                              ]),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                // coupon_applied = true;
+                                                // myCouponController.GlobalCouponApplied.value=true;
+                                                // myCouponController.GlobalCoupon.value=coupon;
+                                                // myCouponController.CouponDetailsMap.value= coupon_list[coupon];
+                                                // setState(() {
+                                                //   GlobalCoupon =  documents[index]['code'];
+                                                //   CouponDetailsMap =  documents[index]['discount'];
+                                                //   GlobalCouponApplied = true;
+                                                // });
+                                                // print(GlobalCoupon);
+                                                // print(GlobalCouponApplied);
+                                                // print(CouponDetailsMap);
+                                                //   Get.back();
+                                                // // Navigator.of(context).pop([GlobalCoupon,CouponDetailsMap,GlobalCouponApplied]);
+                                                // // Get.off(()=>const PaymentScreen(),arguments: getData);
+                                                // showDialog(
+                                                //   context: context,
+                                                //   builder: (context) => AlertDialog(
+                                                //     shape: const RoundedRectangleBorder(
+                                                //         borderRadius:
+                                                //         BorderRadius.all(Radius.circular(16))),
+                                                //     content: SizedBox(
+                                                //       height: 160,
+                                                //       width: 160,
+                                                //       child: FittedBox(
+                                                //         child: Column(
+                                                //             crossAxisAlignment:
+                                                //             CrossAxisAlignment.center,
+                                                //             mainAxisAlignment:
+                                                //             MainAxisAlignment.center,
+                                                //             children: [
+                                                //               Image.asset(
+                                                //                 "assets/icons/icons8-approval.gif",
+                                                //                 height: 70,
+                                                //                 width: 70,
+                                                //               ),
+                                                //               const SizedBox(
+                                                //                 height: 9,
+                                                //               ),
+                                                //               Text(
+                                                //                 "$coupon Applied",
+                                                //                 style: const TextStyle(
+                                                //                     fontFamily: "Poppins",
+                                                //                     fontSize: 14,
+                                                //                     fontWeight: FontWeight.w600),
+                                                //               ),
+                                                //               const SizedBox(height: 6),
+                                                //               Text(
+                                                //                 "You save ${coupon_list[coupon]}",
+                                                //                 style: const TextStyle(
+                                                //                     fontFamily: "Poppins",
+                                                //                     fontSize: 16,
+                                                //                     color: Colors.green,
+                                                //                     fontWeight: FontWeight.w600),
+                                                //               ),
+                                                //             ]),
+                                                //       ),
+                                                //     ),
+                                                //   ),
+                                                // );
                                               }
 
                                               if (coupon_applied == true) {

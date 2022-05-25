@@ -45,6 +45,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   String amount = '';
   var booking_id = Get.arguments["booking_id"];
   final app_bar_controller = ScrollController();
+  final cartValue = Get.arguments["totalPrice"];
+  final type=Get.arguments["booking_plan"];
    showNotification(String title,String info) async {
     // setState(() {
     //   _counter++;
@@ -145,6 +147,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   void initState() {
     print("//////////");
+    print(cartValue);
+    print(type);
     detDil();
     myCouponController.GlobalCouponApplied.value=false;
     myCouponController.GlobalCoupon.value="";
@@ -606,7 +610,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       // ),
                       GestureDetector(
                         onTap: () =>
-                            Get.to(() => CouponDetails(), arguments: getData),
+                            Get.to(() => CouponDetails(cartValue: getData["totalPrice"], type: getData["totalMonths"],), arguments: getData),
                         child: Obx(()=>
                           Card(
                             elevation: .2,
@@ -973,7 +977,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       Padding(
                        padding: const EdgeInsets.only(left: 8.0),
                        child: Text(
-                         "₹ ${myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value)):grandTotal.toString()} /-",
+                         "₹ ${myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value.toString())):grandTotal.toString()} /-",
                          style: const TextStyle(
                              fontFamily: "Poppins", fontWeight: FontWeight.bold),
                        ),
