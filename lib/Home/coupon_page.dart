@@ -188,7 +188,7 @@ class _CouponDetailsState extends State<CouponDetails> {
 
                             } else {
                               Get.snackbar(
-                                  "wrong coupon", "kindly put diffrent one",
+                                  "wrong coupon", "kindely put diffrent one",
                                   backgroundColor: Colors.grey[200],
                                   snackPosition: SnackPosition.BOTTOM);
                               // const GetSnackBar(title: "wrong coupon",message: "kindely put diffrent one",);

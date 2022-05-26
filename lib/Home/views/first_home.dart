@@ -155,22 +155,22 @@ class _FirstHomeState extends State<FirstHome> {
           .collection("user_details")
           .doc(number)
           .update({
-        "address ": address,
+        "address": address,
         "lat": position.latitude,
         "long": position.longitude,
-        "location ": GeoPoint(
+        "location": GeoPoint(
           position.latitude,
           position.latitude,
         ),
-        "pincode ": pin,
-        "locality ": locality,
+        "pincode": pin,
+        "locality": locality,
       });
     } catch (e) {
       FirebaseFirestore.instance.collection("user_details").doc().set({
-        "address ": address,
-        "lat ": position.latitude,
-        "long ": position.longitude,
-        "location ": GeoPoint(
+        "address": address,
+        "lat": position.latitude,
+        "long": position.longitude,
+        "location": GeoPoint(
           position.latitude,
           position.latitude,
         ),

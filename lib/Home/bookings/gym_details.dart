@@ -34,6 +34,7 @@ class GymDetails extends StatefulWidget {
 }
 
 class _GymDetailsState extends State<GymDetails> {
+
   List trainers = [
     "assets/images/trainer1.png",
     "assets/images/trainer2.png",
@@ -73,6 +74,31 @@ class _GymDetailsState extends State<GymDetails> {
   // TkInd tkind = Get.put(TkInd());
   // CarouselWithIndicatorDemo indicator=CarouselWithIndicatorDemo();
   var amienities=Get.arguments["id"];
+  var times;
+  bool isLoading=true;
+  getTimings()async{
+    try{
+      await FirebaseFirestore.instance.collection("product_details")
+          .doc(amienities)
+          .collection("timings")
+          .snapshots().listen((snap) {
+            setState(() {
+              if(snap.docs.isNotEmpty){
+                times=snap.docs;
+                print("+++++++++++++++");
+                print(times[0]["morning_days"]);
+                isLoading=false;
+              }
+            });
+
+      });
+    }catch(e){
+      setState(() {
+        isLoading=false;
+      });
+    }
+
+  }
 
 
   // String? productGymId =
@@ -136,6 +162,7 @@ class _GymDetailsState extends State<GymDetails> {
   @override
   void initState() {
     getViewCount();
+    getTimings();
     // print(amienities);
     print("////////////////////////////////////////////////////////////////////////////////////////");
     imageSliders=Get.arguments["docs"]["images"];
@@ -145,7 +172,11 @@ class _GymDetailsState extends State<GymDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+      isLoading?
+          Center(child: CircularProgressIndicator())
+          :
+      Scaffold(
       // backgroundColor: const Color(0xffffffff),
       body: SafeArea(
         child: Padding(
@@ -234,15 +265,15 @@ class _GymDetailsState extends State<GymDetails> {
                   GestureDetector(
                     onTap: () {
                       FocusScope.of(context).unfocus();
-                      Get.to(() => Timing_Screen(),
-                          arguments: {"timings": doc["docs"]["timings"]});
+                      Get.to(() => Timing_Screen(id: amienities,),
+                         );
                     },
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: SizedBox(
                         height: 65,
-                        child: Row(mainAxisAlignment: MainAxisAlignment.start,
-                            // crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Align(
                                 alignment: Alignment.centerLeft,
@@ -269,14 +300,16 @@ class _GymDetailsState extends State<GymDetails> {
                               ),
                               IntrinsicHeight(
                                   child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   Column(
+                                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    // crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       Text(
-                                          doc["docs"]["timings"]["gym"]
-                                                  ["morning_days"] ??
+                                          // times[0]["morning_days"]
+                                          times[0]["morning_days"]??
                                               "Morning",
                                           style: const TextStyle(
                                               fontFamily: 'poppins',
@@ -285,8 +318,7 @@ class _GymDetailsState extends State<GymDetails> {
                                               fontWeight: FontWeight.w600)),
                                       const SizedBox(height: 10),
                                       Text(
-                                          doc["docs"]["timings"]["gym"]
-                                                  ["Morning"] ??
+                                          times[0]["Morning"] ??
                                               " no information",
                                           style: const TextStyle(
                                               fontFamily: 'poppins',
@@ -304,8 +336,7 @@ class _GymDetailsState extends State<GymDetails> {
                                     //crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                          doc["docs"]["timings"]["gym"]
-                                                  ["evening_days"] ??
+                                          times[0]["evening_days"] ??
                                               "Evening",
                                           style: const TextStyle(
                                               fontFamily: 'poppins',
@@ -314,8 +345,7 @@ class _GymDetailsState extends State<GymDetails> {
                                               fontSize: 10)),
                                       const SizedBox(height: 10),
                                       Text(
-                                          doc["docs"]["timings"]["gym"]
-                                                  ["Evening"] ??
+                                          times[0] ["Evening"] ??
                                               "no information",
                                           style: const TextStyle(
                                               fontFamily: 'poppins',
@@ -333,8 +363,7 @@ class _GymDetailsState extends State<GymDetails> {
                                     //crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                          doc["docs"]["timings"]["gym"]
-                                                  ["closed"] ??
+                                          times[0]["closed"] ??
                                               "closed",
                                           style: const TextStyle(
                                               fontFamily: 'poppins',
@@ -344,8 +373,7 @@ class _GymDetailsState extends State<GymDetails> {
                                       const SizedBox(height: 10),
                                       Text(
                                           // "",
-                                          doc["docs"]["timings"]["gym"]
-                                                      ["closed"] !=
+                                          times[0] ["closed"] !=
                                                   null
                                               ? 'Closed'
                                               : "no information",
@@ -374,8 +402,7 @@ class _GymDetailsState extends State<GymDetails> {
                                 fontSize: 12)),
                         onTap: () {
                           FocusScope.of(context).unfocus();
-                          Get.to(() => Timing_Screen(),
-                              arguments: {"timings": doc["docs"]["timings"]});
+                          Get.to(() => Timing_Screen(id: amienities,),);
                         },
                       ),
                       const Icon(

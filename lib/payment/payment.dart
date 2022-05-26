@@ -1328,7 +1328,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 width: 20,
                               ),
                               const Text(
-                                "Pay At Gym",
+                                "Pay At GYM",
                                 style: TextStyle(
                                     fontFamily: "Poppins",
                                     fontWeight: FontWeight.w500,

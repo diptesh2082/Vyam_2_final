@@ -183,7 +183,7 @@ class _BuildBoxState extends State<BuildBox> {
                                         // color: Colors.white10,
                                       ),
                                       height: size.height * .078,
-                                      width: size.width * .55,
+                                      width: size.width * .6,
                                       padding: const EdgeInsets.only(
                                           left: 0, bottom: 10),
                                       child: Column(
