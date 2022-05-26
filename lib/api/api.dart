@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geocoding/geocoding.dart';
@@ -758,5 +759,20 @@ class TkInd extends GetxController{
   var current = 0.obs;
   var isSelected = [true, false, false, false, false, false,false,false].obs;
 }
+Future getDevicetoken() async {
+  try {
+    // setState(() async {
+    final device_token;
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+      device_token = await _firebaseMessaging.getToken();
+    // });
+
+    print("this is the token $device_token");
+    return device_token;
+  } catch (e) {
+    print(e);
+  }
+}
+
 
 

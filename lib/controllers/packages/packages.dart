@@ -229,6 +229,7 @@ class _PackegesState extends State<Packeges> {
                             .collection("package")
                             .doc("normal_package")
                             .collection("gym")
+                        .orderBy("index")
                             .snapshots(),
                         builder: ((context, snapshot) {
                           if (snapshot.connectionState ==
@@ -449,7 +450,7 @@ class _PackegesState extends State<Packeges> {
                                                                 ['price']) <
                                                         100)
                                                       Text(
-                                                        "\$${int.parse(data.docs[snapshot]['price'])}",
+                                                        "\₹${int.parse(data.docs[snapshot]['price'])}",
                                                         style:
                                                             GoogleFonts.poppins(
                                                                 fontSize: 16,
