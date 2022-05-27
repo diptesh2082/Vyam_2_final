@@ -1,7 +1,5 @@
 import 'dart:async';
 
-
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -206,22 +204,22 @@ class _ExploreiaState extends State<Exploreia> {
           child: WillPopScope(
             onWillPop: () async {
               print("hola hola behen ka lola");
-                // await FirebaseFirestore.instance
-                //     .collection("user_details")
-                //     .doc(number)
-                //     .update({
-                //   "location": GeoPoint(position.latitude, position.longitude),
-                //   "address": address,
-                //   // "lat": position.latitude,
-                //   // "long": position.longitude,
-                //   "pincode": pin,
-                //   "locality": locality,
-                //   "subLocality": locality,
-                //   // "number": number
-                // });
+              // await FirebaseFirestore.instance
+              //     .collection("user_details")
+              //     .doc(number)
+              //     .update({
+              //   "location": GeoPoint(position.latitude, position.longitude),
+              //   "address": address,
+              //   // "lat": position.latitude,
+              //   // "long": position.longitude,
+              //   "pincode": pin,
+              //   "locality": locality,
+              //   "subLocality": locality,
+              //   // "number": number
+              // });
 
               var Enabled = await Geolocator.isLocationServiceEnabled();
-              if (Enabled){
+              if (Enabled) {
                 Position position = await Geolocator.getCurrentPosition();
                 await GetAddressFromLatLong(position);
                 await FirebaseFirestore.instance
@@ -237,10 +235,9 @@ class _ExploreiaState extends State<Exploreia> {
                   "subLocality": locality,
                   // "number": number
                 });
-
               }
               setState(() {
-                isLoading=false;
+                isLoading = false;
               });
 
               // try {
@@ -316,14 +313,15 @@ class _ExploreiaState extends State<Exploreia> {
                           // const SizedBox(width: 15),
                           GestureDetector(
                             onTap: () async {
-
-                              Position position = await Geolocator.getCurrentPosition();
+                              Position position =
+                                  await Geolocator.getCurrentPosition();
                               await GetAddressFromLatLong(position);
                               await FirebaseFirestore.instance
                                   .collection("user_details")
                                   .doc(number)
                                   .update({
-                                "location": GeoPoint(position.latitude, position.longitude),
+                                "location": GeoPoint(
+                                    position.latitude, position.longitude),
                                 "address": address,
                                 // "lat": position.latitude,
                                 // "long": position.longitude,
@@ -332,13 +330,13 @@ class _ExploreiaState extends State<Exploreia> {
                                 "subLocality": locality,
                                 // "number": number
                               });
-                             // await runRun();
+                              // await runRun();
                               if (mounted) {
                                 setState(() {
                                   myaddress = myaddress;
                                   address = address;
                                   pin = pin;
-                                  isLoading=false;
+                                  isLoading = false;
                                 });
                               }
                               Get.back();
@@ -366,8 +364,7 @@ class _ExploreiaState extends State<Exploreia> {
                                           color: HexColor("FFFFFF")),
                                     ),
                                   ),
-                                )
-                            ),
+                                )),
                           ),
                         ]),
                   ],
@@ -449,58 +446,62 @@ class _ExploreiaState extends State<Exploreia> {
     //   itemCount: document.length,
     //   itemBuilder: (context, index) {
 
-        return isLoading?
-            Center(child: CircularProgressIndicator(),)
-        :VisibilityDetector(
-          key: Key(index.toString()),
-          onVisibilityChanged: (VisibilityInfo info) async {
-            print(info.visibleFraction);
-            if (info.visibleFraction ==1) _currentItem = index.toInt();
-            // listKey=index.toInt();
-            print(_currentItem);
-            splashLocation(document[_currentItem]["location"].latitude,
-                document[_currentItem]["location"].longitude);
-          },
-          child: FittedBox(
-            child: GestureDetector(
-              onTap: () {
-                Get.to(() => GymDetails(), arguments: {
-                  "id": document[index].id,
-                  "location": document[index]["location"],
-                  "name": document[index]["name"],
-                  "docs": document[index],
-                });
-                sslKey.currentState!.focusToItem(index);
-                // _gotoLocation(location.latitude, location.longitude);
-              },
-              child: Card(
-                // key: sslKey,
-                color: Colors.transparent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                elevation: 8,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // SizedBox(width: 15,),
-                    _boxes(
-                      document[index]["display_picture"],
-                      document[index]["name"],
-                      document[index]["location"],
-                      document[index]["address"],
-                      document[index]["rating"].toString(),
-                      document[index]["branch"],
-                      document[index]["gym_status"],
-                    ),
-                    SizedBox(width: 15,)
-                  ],
+    return isLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : VisibilityDetector(
+            key: Key(index.toString()),
+            onVisibilityChanged: (VisibilityInfo info) async {
+              print(info.visibleFraction);
+              if (info.visibleFraction == 1) _currentItem = index.toInt();
+              // listKey=index.toInt();
+              print(_currentItem);
+              splashLocation(document[_currentItem]["location"].latitude,
+                  document[_currentItem]["location"].longitude);
+            },
+            child: FittedBox(
+              child: GestureDetector(
+                onTap: () {
+                  Get.to(() => GymDetails(), arguments: {
+                    "id": document[index].id,
+                    "location": document[index]["location"],
+                    "name": document[index]["name"],
+                    "docs": document[index],
+                  });
+                  sslKey.currentState!.focusToItem(index);
+                  // _gotoLocation(location.latitude, location.longitude);
+                },
+                child: Card(
+                  // key: sslKey,
+                  color: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  elevation: 8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // SizedBox(width: 15,),
+                      _boxes(
+                        document[index]["display_picture"],
+                        document[index]["name"],
+                        document[index]["location"],
+                        document[index]["address"],
+                        document[index]["rating"].toString(),
+                        document[index]["branch"],
+                        document[index]["gym_status"],
+                      ),
+                      SizedBox(
+                        width: 15,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      // },
+          );
+    // },
     //   separatorBuilder: (BuildContext context, int index) {
     //     return Container(
     //       width: 8,
@@ -562,6 +563,7 @@ class _ExploreiaState extends State<Exploreia> {
             GoogleMap(
               // markers: ,
               mapType: MapType.terrain,
+              zoomControlsEnabled: false,
               initialCameraPosition: CameraPosition(
                 target: LatLng(GlobalUserData["location"].latitude!,
                     GlobalUserData["location"].longitude!),
@@ -589,9 +591,8 @@ class _ExploreiaState extends State<Exploreia> {
                           stream: FirebaseFirestore.instance
                               .collection("product_details")
                               .where("locality",
-                                  isEqualTo:
-                                      GlobalUserData["locality"])
-                              .where("legit",isEqualTo: true)
+                                  isEqualTo: GlobalUserData["locality"])
+                              .where("legit", isEqualTo: true)
                               .orderBy("location")
                               .snapshots(),
                           builder: (context, AsyncSnapshot streamSnapshot) {
@@ -602,36 +603,48 @@ class _ExploreiaState extends State<Exploreia> {
                               );
                             }
 
-
                             document = streamSnapshot.data.docs;
                             document.sort((a, b) {
-                              double d1 = calculateDistance(a["location"].latitude,a["location"].longitude, GlobalUserData["location"].latitude, GlobalUserData["location"].longitude,);
-                              double d2 =  calculateDistance(b["location"].latitude,b["location"].longitude, GlobalUserData["location"].latitude, GlobalUserData["location"].longitude,);
-                              if (d1 > d2) return 1;
-                              else if (d1 < d2) return -1;
-                              else return 0;
+                              double d1 = calculateDistance(
+                                a["location"].latitude,
+                                a["location"].longitude,
+                                GlobalUserData["location"].latitude,
+                                GlobalUserData["location"].longitude,
+                              );
+                              double d2 = calculateDistance(
+                                b["location"].latitude,
+                                b["location"].longitude,
+                                GlobalUserData["location"].latitude,
+                                GlobalUserData["location"].longitude,
+                              );
+                              if (d1 > d2)
+                                return 1;
+                              else if (d1 < d2)
+                                return -1;
+                              else
+                                return 0;
                             });
 
-                            var d=document.length;
+                            var d = document.length;
                             return document.isNotEmpty
                                 ? Container(
-                              width:MediaQuery.of(context).size.width ,
-                                  child: ScrollSnapList(
-                                    scrollPhysics: RangeMaintainingScrollPhysics(
-
-                                    ),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ScrollSnapList(
+                                      scrollPhysics:
+                                          RangeMaintainingScrollPhysics(),
                                       // dynamicItemSize: true,
-                                      margin: EdgeInsets.symmetric(horizontal: 00),
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 00),
                                       onItemFocus: _onItemFocus,
                                       itemCount: d,
                                       key: sslKey,
                                       // dynamicItemSize: true,
-                                    listViewKey: listKey,
+                                      listViewKey: listKey,
                                       itemBuilder: buildListItem,
-                              // reverse: true,
+                                      // reverse: true,
                                       itemSize: 310,
                                     ),
-                                )
+                                  )
                                 : Padding(
                                     padding: const EdgeInsets.only(
                                         left: 8.0, top: 30),
@@ -646,77 +659,77 @@ class _ExploreiaState extends State<Exploreia> {
                     ),
                   )
                 : SizedBox(),
-            Positioned(
-              // top: 9,
-              // left: 1,
-              child: Align(
-                alignment: Alignment.center,
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Material(
-                        elevation: 8,
-                        borderRadius: BorderRadius.circular(15),
-                        child: Container(
-                          // width: MediaQuery.of(context).size.width * .90,
-                          height: 51,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                            color: Colors.white,
-                          ),
-                          child: TextField(
-                            textAlignVertical: TextAlignVertical.center,
-                            controller: test_controller,
-                            autofocus: false,
-                            onChanged: (value) async {
-                              if (value.length == 0) {
-                                // setState(() {
-                                FocusScope.of(context).unfocus();
-                              }
-                              // });
-                              _list =
-                                  await RequestHelper().getPlaces(query: value);
-                              setState(() {});
-                              if (value.isEmpty) {
-                                _list!.clear();
-                                // setState(() {}
-                                // );
-                              }
-                            },
-                            onSubmitted: (value) {
-                              FocusScope.of(context).unfocus();
-                              setState(() {
-                                showPlacessuggesstions = false;
-                                _list!.clear();
-                              });
-                            },
-                            decoration: const InputDecoration(
-                                hintText: 'Search places',
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                                prefixIcon: Icon(Profileicon.search)),
-                            onTap: () {
-                              setState(() {
-                                _list!.clear();
-                                FocusScope.of(context).unfocus();
-                                showPlacessuggesstions
-                                    ? showPlacessuggesstions = false
-                                    : showPlacessuggesstions = true;
-                                test_controller.clear();
-                              });
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // Positioned(
+            //   // top: 9,
+            //   // left: 1,
+            //   child: Align(
+            //     alignment: Alignment.center,
+            //     child: Column(
+            //       children: [
+            //         const SizedBox(
+            //           height: 24,
+            //         ),
+            //         Padding(
+            //           padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            //           child: Material(
+            //             elevation: 8,
+            //             borderRadius: BorderRadius.circular(15),
+            //             child: Container(
+            //               // width: MediaQuery.of(context).size.width * .90,
+            //               height: 51,
+            //               decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(14),
+            //                 color: Colors.white,
+            //               ),
+            //               child: TextField(
+            //                 textAlignVertical: TextAlignVertical.center,
+            //                 controller: test_controller,
+            //                 autofocus: false,
+            //                 onChanged: (value) async {
+            //                   if (value.length == 0) {
+            //                     // setState(() {
+            //                     FocusScope.of(context).unfocus();
+            //                   }
+            //                   // });
+            //                   _list =
+            //                   await RequestHelper().getPlaces(query: value);
+            //                   setState(() {});
+            //                   if (value.isEmpty) {
+            //                     _list!.clear();
+            //                     // setState(() {}
+            //                     // );
+            //                   }
+            //                 },
+            //                 onSubmitted: (value) {
+            //                   FocusScope.of(context).unfocus();
+            //                   setState(() {
+            //                     showPlacessuggesstions = false;
+            //                     _list!.clear();
+            //                   });
+            //                 },
+            //                 decoration: const InputDecoration(
+            //                     hintText: 'Search places',
+            //                     border: InputBorder.none,
+            //                     hintStyle: TextStyle(fontWeight: FontWeight.bold),
+            //                     prefixIcon: Icon(Profileicon.search)),
+            //                 onTap: () {
+            //                   setState(() {
+            //                     _list!.clear();
+            //                     FocusScope.of(context).unfocus();
+            //                     showPlacessuggesstions
+            //                         ? showPlacessuggesstions = false
+            //                         : showPlacessuggesstions = true;
+            //                     test_controller.clear();
+            //                   });
+            //                 },
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             _list != null && _list!.isNotEmpty
                 ? Positioned(
                     top: 76,
@@ -786,7 +799,7 @@ class _ExploreiaState extends State<Exploreia> {
   }
 
   Widget _boxes(String _image, String name, GeoPoint location, String address,
-      String review, String gym_address,bool status) {
+      String review, String gym_address, bool status) {
     // splashLocation(location.latitude, location.longitude);
     return FittedBox(
       child: Material(
@@ -806,7 +819,9 @@ class _ExploreiaState extends State<Exploreia> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30.0),
                       child: ColorFiltered(
-                        colorFilter: ColorFilter.mode(status?Colors.transparent:Colors.black, BlendMode.color),
+                        colorFilter: ColorFilter.mode(
+                            status ? Colors.transparent : Colors.black,
+                            BlendMode.color),
                         child: CachedNetworkImage(
                           fit: BoxFit.cover,
                           imageUrl: _image,
@@ -820,7 +835,7 @@ class _ExploreiaState extends State<Exploreia> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 0.0, right: 0),
                     child: myDetailsContainer1(
-                        name, '${gym_address}', address, review,status),
+                        name, '${gym_address}', address, review, status),
                   ),
                 ),
               ],
@@ -830,25 +845,21 @@ class _ExploreiaState extends State<Exploreia> {
   }
 
   Widget myDetailsContainer1(
-      String name, String location, String address, String review,status) {
+      String name, String location, String address, String review, status) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        if(!status)
-          Text("*Temporarily closed",
+        if (!status)
+          Text(
+            "*Temporarily closed",
             style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                color: Colors.red
-            ),
+                fontSize: 14, fontWeight: FontWeight.w400, color: Colors.red),
           ),
         Text(
           name,
           style: GoogleFonts.poppins(
-              color: Colors.black,
-              fontSize: 20.0,
-              fontWeight: FontWeight.w700),
+              color: Colors.black, fontSize: 20.0, fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 5.0),
         Row(
@@ -861,10 +872,9 @@ class _ExploreiaState extends State<Exploreia> {
             Text(
               location,
               style: GoogleFonts.poppins(
-                color: Colors.black54,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w500
-              ),
+                  color: Colors.black54,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -876,10 +886,9 @@ class _ExploreiaState extends State<Exploreia> {
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             style: GoogleFonts.poppins(
-              color: Colors.black87,
-              fontSize: 18.0,
-              fontWeight: FontWeight.w500
-            ),
+                color: Colors.black87,
+                fontSize: 18.0,
+                fontWeight: FontWeight.w500),
           ),
         ),
         const SizedBox(height: 5.0),
@@ -913,6 +922,7 @@ class _ExploreiaState extends State<Exploreia> {
       zoom: 16,
     )));
   }
+
   Future<void> gotoLocation(double lat, double long) async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -920,9 +930,10 @@ class _ExploreiaState extends State<Exploreia> {
       zoom: 12,
     )));
   }
-  runRun()async{
+
+  runRun() async {
     setState(() {
-      isLoading=true;
+      isLoading = true;
     });
     Position position = await _determinePosition();
     // await GetAddressFromLatLong(position);

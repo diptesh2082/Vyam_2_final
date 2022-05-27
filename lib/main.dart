@@ -36,12 +36,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   try {
-      await getNumber();
-    }
-    catch (e) {
+    await getNumber();
+  } catch (e) {
     number = "";
   }
-
 
   await myLocation();
   await getInfo();
@@ -62,18 +60,15 @@ Future<void> main() async {
     sound: true,
   );
 
-
-
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   // const MyApp({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-    FirebaseAuth _auth=FirebaseAuth.instance;
+    FirebaseAuth _auth = FirebaseAuth.instance;
     return GetMaterialApp(
       title: 'Flutter Demo',
 
@@ -93,7 +88,10 @@ class MyApp extends StatelessWidget {
             );
           }
 
-          if (snapshot.hasData &&  exist && _auth.currentUser!=null && number.isNotEmpty) {
+          if (snapshot.hasData &&
+              exist &&
+              _auth.currentUser != null &&
+              number.isNotEmpty) {
             return HomePage();
           }
 

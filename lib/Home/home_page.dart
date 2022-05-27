@@ -34,36 +34,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isLoading=false;
-  bool net=true;
+  bool isLoading = false;
+  bool net = true;
   // Need controller = Get.put(Need());
 
-  getInternet1()async{
+  getInternet1() async {
     InternetConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case InternetConnectionStatus.connected:
           print('Data connection is available.');
-          if (mounted){
+          if (mounted) {
             setState(() {
-              net=true;
+              net = true;
             });
           }
 
           break;
         case InternetConnectionStatus.disconnected:
-          if(mounted){
+          if (mounted) {
             setState(() {
-              net=false;
+              net = false;
             });
           }
-
 
           break;
       }
     });
   }
+
 // <<<<<<< sarvagya
-  bool result=false;
+  bool result = false;
   // getInternet()async{
   //    result = await InternetConnectionChecker().hasConnection;
   //   if(result == true) {
@@ -75,16 +75,17 @@ class _HomePageState extends State<HomePage> {
   //   }
   // }
 
-  checkAvablity()async{
+  checkAvablity() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
-    if (!serviceEnabled || GlobalUserData["address"] == ""|| GlobalUserData["address"] == null) {
+    if (!serviceEnabled ||
+        GlobalUserData["address"] == "" ||
+        GlobalUserData["address"] == null) {
       showDialog(
         context: context,
         barrierDismissible: true,
         builder: (context) => WillPopScope(
-
-          onWillPop: ()async {
+          onWillPop: () async {
             print("here this one");
             // Get.off(HomePage());
             Navigator.pop(context);
@@ -140,47 +141,46 @@ class _HomePageState extends State<HomePage> {
                             // Get.back();
 
                             // Navigator.pop(context);
-                          try{
-                            Navigator.pop(context);
-                            if(mounted){
+                            try {
+                              Navigator.pop(context);
+                              if (mounted) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                              }
+                              Position position =
+                                  await Geolocator.getCurrentPosition(
+                                      desiredAccuracy: LocationAccuracy.best);
+
+                              await GetAddressFromLatLong(position);
+
+                              await FirebaseFirestore.instance
+                                  .collection("user_details")
+                                  .doc(number)
+                                  .update({
+                                "location": GeoPoint(
+                                    position.latitude, position.longitude),
+                                "address": address,
+                                // "lat": position.latitude,
+                                // "long": position.longitude,
+                                "pincode": pin,
+                                "locality": locality,
+                                "subLocality": locality,
+                                // "number": number
+                              });
+                              if (mounted) {
+                                setState(() {
+                                  myaddress = myaddress;
+                                  address = address;
+                                  pin = pin;
+                                  isLoading = false;
+                                });
+                              }
+                            } catch (e) {
                               setState(() {
-                                isLoading=true;
+                                isLoading = false;
                               });
                             }
-                            Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-
-
-
-                            await GetAddressFromLatLong(position);
-
-                            await FirebaseFirestore.instance
-                                .collection("user_details")
-                                .doc(number)
-                                .update({
-                              "location":
-                              GeoPoint(position.latitude, position.longitude),
-                              "address": address,
-                              // "lat": position.latitude,
-                              // "long": position.longitude,
-                              "pincode": pin,
-                              "locality": locality,
-                              "subLocality": locality,
-                              // "number": number
-                            });
-                            if (mounted) {
-                              setState(() {
-                                myaddress = myaddress;
-                                address = address;
-                                pin = pin;
-                                isLoading=false;
-                              });
-                            }
-                          }catch(e){
-                            setState(() {
-                              isLoading=false;
-                            });
-                          }
-
                           },
                           child: Container(
                               height: 51,
@@ -235,10 +235,10 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // Get.lazyPut(()=>Need());
 
-  getInternet1();
-  checkAvablity();
-  getInfo();
-  print("running two times //////////////////HomePage");
+    getInternet1();
+    checkAvablity();
+    getInfo();
+    print("running two times //////////////////HomePage");
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
@@ -259,8 +259,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ));
       }
-    }
-    );
+    });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('A new onMessageOpenedApp event was published!');
@@ -286,7 +285,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void showNotification(String title, String info) {
-    if(mounted){
+    if (mounted) {
       setState(() {
         _counter++;
       });
@@ -316,7 +315,6 @@ class _HomePageState extends State<HomePage> {
           children: [
             ImageIcon(
               AssetImage("assets/icons/inactiveh.png"),
-
             ),
             Text(
               "Home",
@@ -390,7 +388,6 @@ class _HomePageState extends State<HomePage> {
           children: [
             ImageIcon(
               AssetImage("assets/icons/Discoveryi.png"),
-
             ),
             Text(
               "Explore",
@@ -495,53 +492,54 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(()=>Need(),fenix: true);
-    return isLoading?
-    Container(
-      color: Colors.white,
-      child: Center
-        (
-          child: CircularProgressIndicator(
-            // backgroundColor: Colors.white,
-            // c,
-      )),
-    )
-        :Scaffold(
-      backgroundColor: scaffoldColor,
-      body: net?PersistentTabView(
-        context,
-        controller: _controller,
-        navBarHeight: 65,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        confineInSafeArea: true,
-        backgroundColor: Colors.white,
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
-        stateManagement: true,
-        hideNavigationBarWhenKeyboardShows: true,
-        popAllScreensOnTapOfSelectedTab: true,
+    Get.lazyPut(() => Need(), fenix: true);
+    return isLoading
+        ? Container(
+            color: Colors.white,
+            child: Center(
+                child: CircularProgressIndicator(
+                    // backgroundColor: Colors.white,
+                    // c,
+                    )),
+          )
+        : Scaffold(
+            backgroundColor: scaffoldColor,
+            body: net
+                ? PersistentTabView(
+                    context,
+                    controller: _controller,
+                    navBarHeight: 65,
+                    screens: _buildScreens(),
+                    items: _navBarsItems(),
+                    confineInSafeArea: true,
+                    backgroundColor: Colors.white,
+                    handleAndroidBackButtonPress: true,
+                    resizeToAvoidBottomInset: true,
+                    stateManagement: true,
+                    hideNavigationBarWhenKeyboardShows: true,
+                    popAllScreensOnTapOfSelectedTab: true,
 
-        popActionScreens: PopActionScreensType.all,
-        // onWillPop: FocusScope.of(context).unfocus(),
-        itemAnimationProperties: const ItemAnimationProperties(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease,
-        ),
-        screenTransitionAnimation: const ScreenTransitionAnimation(
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        navBarStyle: NavBarStyle.style3,
-      ):NoInternet(),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     showNotification();
-      //   },
-      //   tooltip: 'Icrement',
-      //   child: Icon(Icons.add),
-      // ),
-    );
+                    popActionScreens: PopActionScreensType.all,
+                    // onWillPop: FocusScope.of(context).unfocus(),
+                    itemAnimationProperties: const ItemAnimationProperties(
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.ease,
+                    ),
+                    screenTransitionAnimation: const ScreenTransitionAnimation(
+                      animateTabTransition: true,
+                      curve: Curves.ease,
+                      duration: Duration(milliseconds: 200),
+                    ),
+                    navBarStyle: NavBarStyle.style3,
+                  )
+                : NoInternet(),
+            // floatingActionButton: FloatingActionButton(
+            //   onPressed: () {
+            //     showNotification();
+            //   },
+            //   tooltip: 'Icrement',
+            //   child: Icon(Icons.add),
+            // ),
+          );
   }
 }
