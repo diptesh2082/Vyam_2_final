@@ -262,55 +262,6 @@ class _TrainerState extends State<Trainer> {
                                               ],
                                             ),
                                             const Spacer(),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 25.0),
-                                              child: Row(
-                                                children: [
-                                                  ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
-                                                    child: Container(
-                                                      height: 25,
-                                                      width: 30,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              //color: Colors.amber,
-                                                              image: DecorationImage(
-                                                                  image: AssetImage(
-                                                                      "assets/icons/insta_icon.png"))),
-                                                    ),
-                                                  ),
-                                                  GestureDetector(
-                                                      child: Text(
-                                                        '@${trainernames[index].toLowerCase()}',
-                                                        //document[index]['social_media'],
-                                                        style: const TextStyle(
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .underline,
-                                                            fontFamily:
-                                                                'Poppins',
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 13),
-                                                      ),
-                                                      onTap: () async {
-                                                        var urllaunchable =
-                                                            await canLaunch(
-                                                                url);
-                                                        if (urllaunchable) {
-                                                          await launch(url);
-                                                        } else {
-                                                          print("Try Again");
-                                                        }
-                                                      })
-                                                ],
-                                              ),
-                                            ),
                                           ],
                                         ),
                                         const SizedBox(
@@ -319,17 +270,15 @@ class _TrainerState extends State<Trainer> {
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              document[index]['review'],
-                                              //textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 14),
-                                            ),
+                                            // Text(
+                                            //   document[index]['review'],
+                                            //   //textAlign: TextAlign.center,
+                                            //   style: const TextStyle(
+                                            //       fontFamily: 'Poppins',
+                                            //       fontWeight: FontWeight.w700,
+                                            //       fontSize: 14),
+                                            // ),
                                             // Text(
                                             //   document[index]['clients'],
                                             //   //textAlign: TextAlign.center,
@@ -338,13 +287,97 @@ class _TrainerState extends State<Trainer> {
                                             //       fontWeight: FontWeight.w700,
                                             //       fontSize: 14),
                                             // ),
-                                            Text(
-                                              document[index]['experience'],
-                                              //textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 14),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  document[index]['experience'],
+                                                  //textAlign: TextAlign.center,
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Experience',
+                                                  //textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 12,
+                                                      color: Colors.grey),
+                                                ),
+                                              ],
+                                            ),
+
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
+                                                      child: Container(
+                                                        height: 25,
+                                                        width: 30,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                //color: Colors.amber,
+                                                                image: DecorationImage(
+                                                                    image: AssetImage(
+                                                                        "assets/icons/insta_icon.png"))),
+                                                      ),
+                                                    ),
+                                                    GestureDetector(
+                                                        child: Text(
+                                                          '@${trainernames[index].toLowerCase()}',
+                                                          //document[index]['social_media'],
+                                                          style: const TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .underline,
+                                                              fontFamily:
+                                                                  'Poppins',
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              fontSize: 13),
+                                                        ),
+                                                        onTap: () async {
+                                                          var urllaunchable =
+                                                              await canLaunch(
+                                                                  url);
+                                                          if (urllaunchable) {
+                                                            await launch(url);
+                                                          } else {
+                                                            print("Try Again");
+                                                          }
+                                                        })
+                                                  ],
+                                                ),
+                                                Text(
+                                                  'Social Handle',
+                                                  //textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 12,
+                                                      color: Colors.grey),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
@@ -353,41 +386,6 @@ class _TrainerState extends State<Trainer> {
                                                   .size
                                                   .height *
                                               0.001,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: const [
-                                            Text(
-                                              '  Reviews',
-                                              //textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
-                                                  color: Colors.grey),
-                                            ),
-                                            Text(
-                                              'Clients',
-                                              //textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
-                                                  color: Colors.grey),
-                                            ),
-                                            Text(
-                                              'Experience',
-                                              //textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
-                                                  color: Colors.grey),
-                                            ),
-                                          ],
                                         ),
                                         const Divider(
                                           height: 9,
