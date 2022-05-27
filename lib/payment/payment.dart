@@ -33,7 +33,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   late PersistentBottomSheetController _controller; // <------ Instance variable
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   int discount = total_discount;
-  int gstTax = 18;
+  int gstTax = 0;
   // ignore: prefer_typing_uninitialized_variables
   var grandTotal;
   // ignore: prefer_typing_uninitialized_variables
@@ -43,6 +43,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   String amount = '';
   var booking_id = Get.arguments["booking_id"];
   final app_bar_controller = ScrollController();
+  final cartValue = Get.arguments["totalPrice"];
+  final type = Get.arguments["booking_plan"];
   showNotification(String title, String info) async {
     // setState(() {
     //   _counter++;
@@ -140,13 +142,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   void initState() {
-    // print("${GlobalCouponApplied}");
-    // GlobalCouponApplied?_couponpopup(context):const SizedBox();
-    // getBookingData(booking_id);
     print("//////////");
+    print(cartValue);
+    print(type);
     detDil();
-    // print(gymData["online_pay"]);
-    // print(GlobalUserData);
     myCouponController.GlobalCouponApplied.value = false;
     myCouponController.GlobalCoupon.value = "";
     myCouponController.CouponDetailsMap.value = "";
@@ -177,8 +176,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       'name': 'Vyam Gym Booking',
       'description': 'Payment',
       // "order_id":"test_jukjktgtu",
-
-      // 'prefill': {'contact': number.toString(), 'email': ''},
 
       'prefill': {
         'contact': "7407926060".toString(),
@@ -626,7 +623,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           //   height: 2,
                           // ),
                           GestureDetector(
-                            onTap: () => Get.to(() => CouponDetails(),
+                            onTap: () => Get.to(
+                                () => CouponDetails(
+                                      cartValue: getData["totalPrice"],
+                                      type: getData["totalMonths"],
+                                    ),
                                 arguments: getData),
                             child: Obx(
                               () => Card(
@@ -890,32 +891,32 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     SizedBox(
                                       height: 2,
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 0, top: 3),
-                                          child: Text(
-                                            "GST",
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 0, top: 3),
-                                          child: Text(
-                                            "₹" + taxPay.toString(),
-                                            style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.spaceBetween,
+                                    //   children: [
+                                    //     Padding(
+                                    //       padding:
+                                    //           const EdgeInsets.only(left: 0, top: 3),
+                                    //       child: Text(
+                                    //         "GST",
+                                    //         style: GoogleFonts.poppins(
+                                    //             fontSize: 16,
+                                    //             fontWeight: FontWeight.w500),
+                                    //       ),
+                                    //     ),
+                                    //     Padding(
+                                    //       padding: const EdgeInsets.only(
+                                    //           right: 0, top: 3),
+                                    //       child: Text(
+                                    //         "₹" + taxPay.toString(),
+                                    //         style: const TextStyle(
+                                    //             fontSize: 16,
+                                    //             fontWeight: FontWeight.bold),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                     SizedBox(
                                       height: 3,
                                     ),
@@ -1046,7 +1047,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Text(
-                              "₹ ${myCouponController.GlobalCouponApplied.value ? (grandTotal - int.parse(myCouponController.CouponDetailsMap.value)) : grandTotal.toString()} /-",
+                              "₹ ${myCouponController.GlobalCouponApplied.value ? (grandTotal - int.parse(myCouponController.CouponDetailsMap.value.toString())) : grandTotal.toString()} /-",
                               style: const TextStyle(
                                   fontFamily: "Poppins",
                                   fontWeight: FontWeight.bold),
@@ -1328,7 +1329,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 width: 20,
                               ),
                               const Text(
-                                "Pay At GYM",
+                                "Cash",
                                 style: TextStyle(
                                     fontFamily: "Poppins",
                                     fontWeight: FontWeight.w500,

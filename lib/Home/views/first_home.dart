@@ -88,16 +88,6 @@ class _FirstHomeState extends State<FirstHome> {
           radius: 50,
           field: 'position');
   getStream() async {
-//     GeoFirePoint center = await geo.point(latitude: GlobalUserData["location"].latitude,longitude: GlobalUserData["location"].longitude,);
-//
-// // get the collection reference or query
-//     CollectionReference collectionReference =await FirebaseFirestore.instance.collection('product_details');
-//
-//     double radius = 150;
-//     String field = 'location';
-//     Stream<List<DocumentSnapshot>> stream =await geo.collection(collectionRef: collectionReference)
-//         .within(center: center, radius: radius, field: field);
-
     stream.listen((snapshot) {
       if (snapshot.isEmpty) {
         print(snapshot.length);
@@ -163,7 +153,7 @@ class _FirstHomeState extends State<FirstHome> {
           position.latitude,
         ),
         "pincode": pin,
-        "locality": locality,
+        "locality": locality.toLowerCase(),
       });
     } catch (e) {
       FirebaseFirestore.instance.collection("user_details").doc().set({
@@ -175,7 +165,7 @@ class _FirstHomeState extends State<FirstHome> {
           position.latitude,
         ),
         "pincode": pin,
-        "locality": locality,
+        "locality": locality.toLowerCase(),
         "from": "notfull"
       });
     }
@@ -247,10 +237,25 @@ class _FirstHomeState extends State<FirstHome> {
   String searchGymName = '';
   BannerApi bannerApi = BannerApi();
   bool result = false;
+  var devicetoken;
+  updateDeviceToken() async {
+    devicetoken = await getDevicetoken();
+    print(devicetoken);
+    try {
+      await FirebaseFirestore.instance
+          .collection("user_details")
+          .doc(number)
+          .update({"device_token": devicetoken});
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   void initState() {
     getStream();
+    updateDeviceToken();
+    print(devicetoken);
 
     print("running two times //////////////////");
     getEverything();
@@ -444,7 +449,10 @@ class _FirstHomeState extends State<FirstHome> {
                                   InkWell(
                                     onTap: () {
                                       FocusScope.of(context).unfocus();
-                                      Get.to(CouponDetails());
+                                      Get.to(CouponDetails(
+                                        cartValue: null,
+                                        type: '',
+                                      ));
                                     },
                                     child: Banner(bannerApi: bannerApi),
                                   ),
