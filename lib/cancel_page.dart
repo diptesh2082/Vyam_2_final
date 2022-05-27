@@ -34,7 +34,7 @@ class _CancelDetailsState extends State<CancelDetails> {
   int default_index = 0;
 
   TextEditingController cancelremark = TextEditingController();
-var doc =Get.arguments["doc"];
+  var doc = Get.arguments["doc"];
   List<MyChoice> choices = [
     MyChoice(
         choice:
@@ -181,10 +181,12 @@ var doc =Get.arguments["doc"];
                           fontSize: 16),
                     ),
                     onPressed: () {
-                      showDialog(context: context,
-                        builder:(context)=> AlertDialog(
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
                           shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(16))),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16))),
                           content: SizedBox(
                             height: 170,
                             width: 280,
@@ -195,18 +197,18 @@ var doc =Get.arguments["doc"];
                                   "Are you sure you wanna cancel ?",
                                   style: GoogleFonts.poppins(
                                       fontSize: 15,
-                                      fontWeight: FontWeight.bold
-                                  ),
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(
-                                  height:15,
+                                  height: 15,
                                 ),
                                 Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       GestureDetector(
-                                        onTap: (){
+                                        onTap: () {
                                           Navigator.pop(context);
                                           // Navigator.push(
                                           //   context,
@@ -221,17 +223,23 @@ var doc =Get.arguments["doc"];
                                             width: 90,
                                             decoration: BoxDecoration(
                                                 color: HexColor("FFECB2"),
-                                                borderRadius: BorderRadius.circular(8)),
+                                                borderRadius:
+                                                    BorderRadius.circular(8)),
                                             child: Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 3, right: 3, top: 2, bottom: 2),
+                                                  left: 3,
+                                                  right: 3,
+                                                  top: 2,
+                                                  bottom: 2),
                                               child: Center(
                                                 child: Text(
                                                   "Cancel",
                                                   style: GoogleFonts.poppins(
                                                       fontSize: 15,
-                                                      fontWeight: FontWeight.w700,
-                                                      color: HexColor("030202")),
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color:
+                                                          HexColor("030202")),
                                                 ),
                                               ),
                                             )),
@@ -243,55 +251,62 @@ var doc =Get.arguments["doc"];
 
                                       const SizedBox(width: 15),
                                       GestureDetector(
-                                        onTap: ()async{
+                                        onTap: () async {
                                           // Navigator.pop(context);
-                                         try{
-                                           await FirebaseFirestore.instance
-                                               .collection("bookings")
-                                               .doc(widget.bookingId)
-                                               .update({
-                                             "booking_status": "cancelled"
-                                           });
+                                          try {
+                                            await FirebaseFirestore.instance
+                                                .collection("bookings")
+                                                .doc(widget.bookingId)
+                                                .update({
+                                              "booking_status": "cancelled"
+                                            });
 
-                                           Map<String, dynamic> cancel_data = {
-                                             "cancel_remark":
-                                             cancelremark.text,
-                                             "cancel_choice": default_choice,
-                                           };
-                                           FirebaseFirestore.instance
-                                               .collection("Cancellation Data")
-                                               .add(cancel_data);
-                                           cancelremark.clear();
-                                           Get.snackbar("Your Booking Status", "Your Booking Cancelled",
-                                               icon: Image.asset("assets/icons/vyam.png")
-                                           );
-                                           Get.offAll(()=>BooKingCancelation(doc: doc,));
-                                           // Get.off(()=>ActiveOrderDetails( ),
-                                           //     arguments: {
-                                           //       "doc":doc
-                                           //     }
-                                           // );
-                                         }catch(e){
-                                           printError();
-                                         }
-
+                                            Map<String, dynamic> cancel_data = {
+                                              "cancel_remark":
+                                                  cancelremark.text,
+                                              "cancel_choice": default_choice,
+                                            };
+                                            FirebaseFirestore.instance
+                                                .collection("Cancellation Data")
+                                                .add(cancel_data);
+                                            cancelremark.clear();
+                                            // Get.snackbar("Your Booking Status", "Your Booking Cancelled",
+                                            //     icon: Image.asset("assets/icons/vyam.png")
+                                            // );
+                                            Get.offAll(() => BooKingCancelation(
+                                                  doc: doc,
+                                                ));
+                                            // Get.off(()=>ActiveOrderDetails( ),
+                                            //     arguments: {
+                                            //       "doc":doc
+                                            //     }
+                                            // );
+                                          } catch (e) {
+                                            printError();
+                                          }
                                         },
                                         child: Container(
                                             height: 38,
                                             width: 90,
                                             decoration: BoxDecoration(
                                                 color: HexColor("27AE60"),
-                                                borderRadius: BorderRadius.circular(8)),
+                                                borderRadius:
+                                                    BorderRadius.circular(8)),
                                             child: Padding(
                                               padding: const EdgeInsets.only(
-                                                  left: 3, right: 3, top: 2, bottom: 2),
+                                                  left: 3,
+                                                  right: 3,
+                                                  top: 2,
+                                                  bottom: 2),
                                               child: Center(
                                                 child: Text(
                                                   "Proceed",
                                                   style: GoogleFonts.poppins(
                                                       fontSize: 15,
-                                                      fontWeight: FontWeight.w700,
-                                                      color: HexColor("030105")),
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color:
+                                                          HexColor("030105")),
                                                 ),
                                               ),
                                             )),
@@ -301,7 +316,8 @@ var doc =Get.arguments["doc"];
                             ),
                           ),
                         ),
-                      );;
+                      );
+                      ;
                     },
                   ),
                 ),

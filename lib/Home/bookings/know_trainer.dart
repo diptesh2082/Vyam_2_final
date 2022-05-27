@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
 
@@ -49,6 +50,7 @@ class _TrainerState extends State<Trainer> {
   List tinfoclient = ["13", "100", "75"];
   List tinfoexp = ["10+", "7+", "13+"];
   final profile_pic = Get.arguments["image"];
+  final url = 'https://www.instagram.com/goldsgym/';
   @override
   void initState() {
     // TODO: implement initState
@@ -147,7 +149,7 @@ class _TrainerState extends State<Trainer> {
                           children: [
                             SizedBox(
                               // color: Colors.grey,
-                              width: MediaQuery.of(context).size.width *8,
+                              width: MediaQuery.of(context).size.width * 8,
                               child: Column(
                                 children: [
                                   Stack(
@@ -157,7 +159,6 @@ class _TrainerState extends State<Trainer> {
                                         Container(
                                           width: double.maxFinite,
                                           height: 120,
-
                                           decoration: BoxDecoration(
                                               // color: Colors.white,
                                               borderRadius:
@@ -176,18 +177,18 @@ class _TrainerState extends State<Trainer> {
                                         Positioned(
                                           top: (120 - profileheight / 1.2),
                                           left: 15,
-                                          child:CircleAvatar(
+                                          child: CircleAvatar(
                                             radius: 50,
                                             backgroundColor: Colors.white,
                                             // backgroundImage: AssetImage(document[]),
 
-                                            backgroundImage: CachedNetworkImageProvider(
+                                            backgroundImage:
+                                                CachedNetworkImageProvider(
                                               document[index]['images'],
                                             ),
                                           ),
                                         )
-                                      ]
-                                  ),
+                                      ]),
                                   const SizedBox(
                                     height: 50,
                                   ),
@@ -199,12 +200,15 @@ class _TrainerState extends State<Trainer> {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 6.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 6.0),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
                                               Text(
                                                 // trainername[index]
@@ -237,69 +241,86 @@ class _TrainerState extends State<Trainer> {
                                                     ' Transformers Gym',
                                                     style: TextStyle(
                                                         fontFamily: 'Poppins',
-                                                        fontWeight: FontWeight.w400,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                         fontSize: 12),
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 4.0),
+                                                  padding:
+                                                      EdgeInsets.only(top: 4.0),
                                                   child: Text(
                                                     'Branch - Barakar',
                                                     textAlign: TextAlign.start,
                                                     style: TextStyle(
                                                         fontFamily: 'Poppins',
-                                                        fontWeight: FontWeight.w400,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                         fontSize: 12),
                                                   ),
                                                 ),
                                               ],
                                             ),
                                             const Spacer(),
-
                                             Padding(
-                                              padding: const EdgeInsets.only(right: 25.0),
+                                              padding: const EdgeInsets.only(
+                                                  right: 25.0),
                                               child: Row(
                                                 children: [
                                                   ClipRRect(
                                                     borderRadius:
-                                                    BorderRadius.circular(10.0),
+                                                        BorderRadius.circular(
+                                                            10.0),
                                                     child: Container(
                                                       height: 25,
                                                       width: 30,
-                                                      decoration: const BoxDecoration(
-                                                          shape: BoxShape.circle,
-                                                          //color: Colors.amber,
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  "assets/icons/insta_icon.png"))),
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              //color: Colors.amber,
+                                                              image: DecorationImage(
+                                                                  image: AssetImage(
+                                                                      "assets/icons/insta_icon.png"))),
                                                     ),
                                                   ),
                                                   GestureDetector(
-                                                    child: Text(
-                                                      '@${trainernames[index].toLowerCase()}',
-                                                      //document[index]['social_media'],
-                                                      style: const TextStyle(
-                                                          decoration:
-                                                          TextDecoration.underline,
-                                                          fontFamily: 'Poppins',
-                                                          fontWeight: FontWeight.w400,
-                                                          fontSize: 13),
-                                                    ),
-                                                    onTap: null,
-                                                  )
+                                                      child: Text(
+                                                        '@${trainernames[index].toLowerCase()}',
+                                                        //document[index]['social_media'],
+                                                        style: const TextStyle(
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .underline,
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize: 13),
+                                                      ),
+                                                      onTap: () async {
+                                                        var urllaunchable =
+                                                            await canLaunch(
+                                                                url);
+                                                        if (urllaunchable) {
+                                                          await launch(url);
+                                                        } else {
+                                                          print("Try Again");
+                                                        }
+                                                      })
                                                 ],
                                               ),
                                             ),
                                           ],
                                         ),
                                         const SizedBox(
-                                          height:5,
+                                          height: 5,
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               document[index]['review'],
@@ -309,14 +330,14 @@ class _TrainerState extends State<Trainer> {
                                                   fontWeight: FontWeight.w700,
                                                   fontSize: 14),
                                             ),
-                                            Text(
-                                              document[index]['clients'],
-                                              //textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 14),
-                                            ),
+                                            // Text(
+                                            //   document[index]['clients'],
+                                            //   //textAlign: TextAlign.center,
+                                            //   style: const TextStyle(
+                                            //       fontFamily: 'Poppins',
+                                            //       fontWeight: FontWeight.w700,
+                                            //       fontSize: 14),
+                                            // ),
                                             Text(
                                               document[index]['experience'],
                                               //textAlign: TextAlign.center,
@@ -328,13 +349,16 @@ class _TrainerState extends State<Trainer> {
                                           ],
                                         ),
                                         SizedBox(
-                                          height:
-                                          MediaQuery.of(context).size.height * 0.001,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.001,
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: const [
                                             Text(
                                               '  Reviews',
@@ -372,9 +396,11 @@ class _TrainerState extends State<Trainer> {
                                           thickness: 0.5,
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: const [
                                               Text(
                                                 'About',
@@ -389,10 +415,16 @@ class _TrainerState extends State<Trainer> {
                                         FittedBox(
                                           fit: BoxFit.contain,
                                           child: Padding(
-                                            padding: const EdgeInsets.only(left: 8.0,right: 8.0,top: 5,bottom: 5),
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0,
+                                                right: 8.0,
+                                                top: 5,
+                                                bottom: 5),
                                             child: FittedBox(
                                               child: SizedBox(
-                                                width: MediaQuery.of(context).size.width *
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
                                                     0.90,
                                                 child: AutoSizeText(
                                                   //'${trainernames[index]} is a professional trainer and nutritionist who has 10 years of experience in this field.'
@@ -410,9 +442,11 @@ class _TrainerState extends State<Trainer> {
                                         ),
                                         const SizedBox(height: 6),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: const [
                                               Text(
                                                 'Certifications',
@@ -429,23 +463,28 @@ class _TrainerState extends State<Trainer> {
                                           height: 3,
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 18.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 18.0),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
                                               FittedBox(
                                                 child: Column(
                                                   crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    for (var i in document[index]['certifications'])
+                                                    for (var i
+                                                        in document[index]
+                                                            ['certifications'])
                                                       Text(
                                                         // "•  Golds gym certified trainer."
                                                         ". ${i}",
                                                         style: const TextStyle(
                                                           fontSize: 12,
                                                           fontFamily: 'Poppins',
-                                                          fontWeight: FontWeight.w400,
+                                                          fontWeight:
+                                                              FontWeight.w400,
                                                         ),
                                                       ),
 
@@ -478,9 +517,11 @@ class _TrainerState extends State<Trainer> {
                                           height: 12,
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: const [
                                               Text(
                                                 'Specialization',
@@ -498,25 +539,32 @@ class _TrainerState extends State<Trainer> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
                                               children: [
                                                 const SizedBox(
                                                   // height: MediaQuery.of(context).size.height * 0.052
                                                   height: 12,
                                                 ),
                                                 SizedBox(
-                                                  width:
-                                                  MediaQuery.of(context).size.width *
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
                                                       0.90,
                                                   child: Row(
                                                     children: [
-                                                      for (var i in document[index]['specialization'])
+                                                      for (var i in document[
+                                                              index]
+                                                          ['specialization'])
                                                         AutoSizeText(
                                                           // 'Bodybuilding | Workout | Calesthenics | Zumba | HIIT | Cardio | Diet & Nutrition.'
                                                           "${document[index]['specialization'][0]}  | ",
-                                                          style: const TextStyle(
-                                                            fontFamily: 'Poppins',
-                                                            fontWeight: FontWeight.w400,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            fontWeight:
+                                                                FontWeight.w400,
                                                             fontSize: 12,
                                                           ),
                                                           maxLines: 3,
@@ -533,9 +581,11 @@ class _TrainerState extends State<Trainer> {
                                           height: 12,
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 8.0),
                                           child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: const [
                                               Text(
                                                 'Reviews',
@@ -548,7 +598,8 @@ class _TrainerState extends State<Trainer> {
                                           ),
                                         ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: [
                                             const Icon(
                                               Icons.star,
@@ -571,79 +622,100 @@ class _TrainerState extends State<Trainer> {
                                                   color: Colors.grey),
                                             ),
                                             SizedBox(
-                                              width: MediaQuery.of(context).size.width *
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
                                                   0.15,
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(top: 12.0),
+                                              padding: const EdgeInsets.only(
+                                                  top: 12.0),
                                               child: Container(
-                                                width: MediaQuery.of(context).size.width *
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
                                                     0.28,
-                                                height:
-                                                MediaQuery.of(context).size.height *
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
                                                     0.055,
                                                 child: Stack(
                                                   children: [
                                                     Container(
                                                       height: 30,
                                                       width: 30,
-                                                      decoration: const BoxDecoration(
-                                                          shape: BoxShape.circle,
-                                                          //border: Border.all(width: 1),
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  "assets/images/trainer1.png"),
-                                                              fit: BoxFit.cover)),
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              //border: Border.all(width: 1),
+                                                              image: DecorationImage(
+                                                                  image: AssetImage(
+                                                                      "assets/images/trainer1.png"),
+                                                                  fit: BoxFit
+                                                                      .cover)),
                                                     ),
                                                     Positioned(
-                                                      left: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                          0.055,
+                                                      left:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.055,
                                                       child: Container(
                                                         height: 30,
                                                         width: 30,
-                                                        decoration: const BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            //border: Border.all(width: 1),
-                                                            image: DecorationImage(
-                                                                image: AssetImage(
-                                                                    "assets/images/trainer2.png"),
-                                                                fit: BoxFit.cover)),
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                //border: Border.all(width: 1),
+                                                                image: DecorationImage(
+                                                                    image: AssetImage(
+                                                                        "assets/images/trainer2.png"),
+                                                                    fit: BoxFit
+                                                                        .cover)),
                                                       ),
                                                     ),
                                                     Positioned(
-                                                      left: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                          0.11,
+                                                      left:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.11,
                                                       child: Container(
                                                         height: 30,
                                                         width: 30,
-                                                        decoration: const BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            //border: Border.all(width: 1),
-                                                            image: DecorationImage(
-                                                                image: AssetImage(
-                                                                    "assets/images/trainer3.png"),
-                                                                fit: BoxFit.cover)),
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                //border: Border.all(width: 1),
+                                                                image: DecorationImage(
+                                                                    image: AssetImage(
+                                                                        "assets/images/trainer3.png"),
+                                                                    fit: BoxFit
+                                                                        .cover)),
                                                       ),
                                                     ),
                                                     Positioned(
-                                                      left: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                          0.166,
+                                                      left:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.166,
                                                       child: Container(
                                                         height: 30,
                                                         width: 30,
-                                                        decoration: const BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            //border: Border.all(width: 1),
-                                                            image: DecorationImage(
-                                                                image: AssetImage(
-                                                                    "assets/images/trainer1.png"),
-                                                                fit: BoxFit.cover)),
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                //border: Border.all(width: 1),
+                                                                image: DecorationImage(
+                                                                    image: AssetImage(
+                                                                        "assets/images/trainer1.png"),
+                                                                    fit: BoxFit
+                                                                        .cover)),
                                                       ),
                                                     ),
                                                   ],
@@ -651,32 +723,35 @@ class _TrainerState extends State<Trainer> {
                                               ),
                                             ),
                                             SizedBox(
-                                              width: MediaQuery.of(context).size.width *
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
                                                   0.001,
                                             ),
                                             GestureDetector(
                                               child: const Icon(
-                                                Icons.arrow_forward_ios_outlined,
+                                                Icons
+                                                    .arrow_forward_ios_outlined,
                                                 size: 20,
                                               ),
                                               onTap: () {
                                                 // Navigator.push(
                                                 //     context,
                                                 //     MaterialPageRoute(
-                                                //         builder: (context) => Review()));
+                                                //         builder: (context) =>
+                                                //             Review(
+                                                //               gymid: null,
+                                                //             )));
                                               },
                                             ),
                                           ],
                                         ),
-
                                       ],
                                     ),
                                   ),
-
                                 ],
                               ),
                             ),
-
                           ],
                         ),
                       );
@@ -1175,10 +1250,10 @@ class _TrainerState extends State<Trainer> {
                             size: 20,
                           ),
                           onTap: () {
-                          //   Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => Review()));
+                            //   Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //           builder: (context) => Review()));
                           },
                         ),
                       ],
