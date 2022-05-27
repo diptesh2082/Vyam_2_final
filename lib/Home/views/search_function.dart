@@ -125,7 +125,7 @@ class _SearchItState extends State<SearchIt> {
           stream: FirebaseFirestore.instance
               .collection("product_details")
               .where("locality".toLowerCase(),
-              isEqualTo: GlobalUserData["locality"].toLowerCase())
+              isEqualTo: GlobalUserData["locality"])
               .orderBy("location")
               .snapshots(),
           builder: (context, AsyncSnapshot streamSnapshot) {
@@ -256,13 +256,13 @@ class _SearchItState extends State<SearchIt> {
                                         left: 8, bottom: 10),
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.end,
+                                      MainAxisAlignment.start,
                                       crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           document[index]["name"] ?? "",
-                                          textAlign: TextAlign.center,
+                                          textAlign: TextAlign.start,
                                           maxLines: 1,
                                           // overflow:
                                           // TextOverflow.ellipsis,
@@ -280,7 +280,7 @@ class _SearchItState extends State<SearchIt> {
                                           // "",
                                           document[index]["address"] ??
                                               "",
-                                          textAlign: TextAlign.center,
+                                          textAlign: TextAlign.start,
                                           style: const TextStyle(
                                               overflow:
                                               TextOverflow.ellipsis,
