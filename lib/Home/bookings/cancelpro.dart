@@ -16,6 +16,7 @@ class BooKingCancelation extends StatelessWidget {
         return true;
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           leading: IconButton(
@@ -31,8 +32,18 @@ class BooKingCancelation extends StatelessWidget {
         body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center,
               // crossAxisAlignment: CrossAxisAlignment.center,
+// <<<<<<< thed
               children: [
                 Lottie.asset('assets/icons/asf.json', height: 100, width: 400),
+// =======
+//               children:  [
+//                 Image.asset("assets/icons/x.gif",
+//                 height: 110,
+//                   width: 110,
+
+//                   // colorBlendMode: true,
+//                 ),
+// >>>>>>> master
                 SizedBox(height: 16.0),
                 Text(
                   "Booking Canceled!",

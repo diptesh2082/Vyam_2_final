@@ -33,7 +33,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   late PersistentBottomSheetController _controller; // <------ Instance variable
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   int discount = total_discount;
-  int gstTax = 18;
+  int gstTax = 0;
   // ignore: prefer_typing_uninitialized_variables
   var grandTotal;
   // ignore: prefer_typing_uninitialized_variables
@@ -43,7 +43,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
   String amount = '';
   var booking_id = Get.arguments["booking_id"];
   final app_bar_controller = ScrollController();
-  showNotification(String title, String info) async {
+// <<<<<<< thed
+//   showNotification(String title, String info) async {
+// =======
+  final cartValue = Get.arguments["totalPrice"];
+  final type=Get.arguments["booking_plan"];
+   showNotification(String title,String info) async {
+// >>>>>>> master
     // setState(() {
     //   _counter++;
     // });
@@ -140,16 +146,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   void initState() {
-    // print("${GlobalCouponApplied}");
-    // GlobalCouponApplied?_couponpopup(context):const SizedBox();
-    // getBookingData(booking_id);
     print("//////////");
+    print(cartValue);
+    print(type);
     detDil();
-    // print(gymData["online_pay"]);
-    // print(GlobalUserData);
-    myCouponController.GlobalCouponApplied.value = false;
-    myCouponController.GlobalCoupon.value = "";
-    myCouponController.CouponDetailsMap.value = "";
+// <<<<<<< thed
+//     // print(gymData["online_pay"]);
+//     // print(GlobalUserData);
+//     myCouponController.GlobalCouponApplied.value = false;
+//     myCouponController.GlobalCoupon.value = "";
+//     myCouponController.CouponDetailsMap.value = "";
+// =======
+    myCouponController.GlobalCouponApplied.value=false;
+    myCouponController.GlobalCoupon.value="";
+    myCouponController.CouponDetailsMap.value="";
+// >>>>>>> master
     print(myCouponController.GlobalCouponApplied.value);
 
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
@@ -178,7 +189,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       'description': 'Payment',
       // "order_id":"test_jukjktgtu",
 
-      // 'prefill': {'contact': number.toString(), 'email': ''},
 
       'prefill': {
         'contact': "7407926060".toString(),
@@ -916,23 +926,86 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 3,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 0, right: 0, top: 3),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                            "Grand Total",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontFamily: "Poppins",
-                                                color: Colors.green,
-                                                fontWeight: FontWeight.w700),
+// <<<<<<< thed
+//                                     SizedBox(
+//                                       height: 3,
+//                                     ),
+//                                     Padding(
+//                                       padding: const EdgeInsets.only(
+//                                           left: 0, right: 0, top: 3),
+//                                       child: Row(
+//                                         mainAxisAlignment:
+//                                             MainAxisAlignment.spaceBetween,
+//                                         children: [
+//                                           const Text(
+//                                             "Grand Total",
+//                                             style: TextStyle(
+//                                                 fontSize: 16,
+//                                                 fontFamily: "Poppins",
+//                                                 color: Colors.green,
+//                                                 fontWeight: FontWeight.w700),
+// =======
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // const SizedBox(
+                      //   height: 2,
+                      // ),
+                      GestureDetector(
+                        onTap: () =>
+                            Get.to(() => CouponDetails(cartValue: getData["totalPrice"], type: getData["totalMonths"],), arguments: getData),
+                        child: Obx(()=>
+                          Card(
+                            elevation: .2,
+                            child: SizedBox(
+                              height: 80,
+                              width: MediaQuery.of(context).size.width*.93,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 9.0, right: 9, top: 0, bottom: 0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context).size.width*.77,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "Apply promo code",
+                                                style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 4,
+                                              ),
+                                              Image.asset(
+                                                "assets/icons/discount.png",
+                                                color: Colors.amber,
+                                              ),
+                                              Spacer(),
+                                              if(myCouponController.GlobalCouponApplied.value==true)
+                                                Text(
+                                                  "- ₹ ${myCouponController.CouponDetailsMap.value}",
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.w700,
+                                                      color: Colors.green
+                                                  ),
+                                                ),
+                                            ],
+// >>>>>>> master
                                           ),
                                           Text(
                                             "₹ ${myCouponController.GlobalCouponApplied.value ? (grandTotal - int.parse(myCouponController.CouponDetailsMap.value)) : grandTotal.toString()}",
@@ -994,24 +1067,111 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     )
                                   ],
                                 ),
-                                Column(
-                                  // ignore: prefer_const_literals_to_create_immutables
-                                  children: [
-                                    Image.asset(
-                                        "assets/icons/customer support.png",
-                                        height: 25,
-                                        width: 25),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Text(
-                                      "24/7 support",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 12,
-                                          color: Colors.grey[400],
-                                          fontWeight: FontWeight.w500),
-                                    )
-                                  ],
+// <<<<<<< thed
+//                                 Column(
+//                                   // ignore: prefer_const_literals_to_create_immutables
+//                                   children: [
+//                                     Image.asset(
+//                                         "assets/icons/customer support.png",
+//                                         height: 25,
+//                                         width: 25),
+//                                     const SizedBox(
+//                                       height: 3,
+//                                     ),
+//                                     Text(
+//                                       "24/7 support",
+//                                       style: GoogleFonts.poppins(
+//                                           fontSize: 12,
+//                                           color: Colors.grey[400],
+//                                           fontWeight: FontWeight.w500),
+//                                     )
+//                                   ],
+// =======
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                // Row(
+                                //   mainAxisAlignment:
+                                //       MainAxisAlignment.spaceBetween,
+                                //   children: [
+                                //     Padding(
+                                //       padding:
+                                //           const EdgeInsets.only(left: 0, top: 3),
+                                //       child: Text(
+                                //         "GST",
+                                //         style: GoogleFonts.poppins(
+                                //             fontSize: 16,
+                                //             fontWeight: FontWeight.w500),
+                                //       ),
+                                //     ),
+                                //     Padding(
+                                //       padding: const EdgeInsets.only(
+                                //           right: 0, top: 3),
+                                //       child: Text(
+                                //         "₹" + taxPay.toString(),
+                                //         style: const TextStyle(
+                                //             fontSize: 16,
+                                //             fontWeight: FontWeight.bold),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 0, right: 0, top: 3),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        "Grand Total",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontFamily: "Poppins",
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                      Text(
+                                        "₹ ${myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value)):grandTotal.toString()}",
+                                        style: const TextStyle(
+                                            fontFamily: "Poppins",
+                                            color: Colors.green,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              children: [
+                                Image.asset("assets/icons/best discounts.png",
+                                    height: 25, width: 25),
+                                const SizedBox(
+                                  height: 3,
+                                ),
+                                Text(
+                                  "Best Discount",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      color: Colors.grey[400],
+                                      fontWeight: FontWeight.w500),
+// >>>>>>> master
                                 )
                               ],
                             ),
@@ -1026,14 +1186,55 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
               ),
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(12),
+// <<<<<<< thed
+//             floatingActionButtonLocation:
+//                 FloatingActionButtonLocation.centerFloat,
+//             floatingActionButton: Padding(
+//               padding: const EdgeInsets.symmetric(horizontal: 10),
+//               child: Container(
+//                 decoration: BoxDecoration(
+//                   color: Colors.grey[300],
+//                   borderRadius: BorderRadius.circular(12),
+// =======
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[300],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            height: 70,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: [
+                Obx(()=>
+                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                       padding: const EdgeInsets.only(left: 8.0),
+                       child: Text(
+                         "₹ ${myCouponController.GlobalCouponApplied.value?(grandTotal-int.parse(myCouponController.CouponDetailsMap.value.toString())):grandTotal.toString()} /-",
+                         style: const TextStyle(
+                             fontFamily: "Poppins", fontWeight: FontWeight.bold),
+                       ),
+                        ),
+                       Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          "Inc all taxes",
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 12
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+// >>>>>>> master
                 ),
                 height: 70,
                 width: MediaQuery.of(context).size.width,
