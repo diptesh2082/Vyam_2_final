@@ -413,6 +413,7 @@ class _PackegesState extends State<Packeges> {
                                                           ),
                                                         Row(
                                                           children: [
+                                                            if(int.parse(data.docs[snapshot]["discount"])>0 )
                                                             Text(
                                                               "Rs "
                                                               "${int.parse(data.docs[snapshot]['original_price'])}",
@@ -445,21 +446,21 @@ class _PackegesState extends State<Packeges> {
                                                         ),
                                                       ],
                                                     ),
-                                                    if (int.parse(
-                                                            data.docs[snapshot]
-                                                                ['price']) <
-                                                        100)
-                                                      Text(
-                                                        "\₹${int.parse(data.docs[snapshot]['price'])}",
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                                fontSize: 16,
-                                                                color: HexColor(
-                                                                    "3A3A3A"),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                      ),
+                                                    // if (int.parse(
+                                                    //         data.docs[snapshot]
+                                                    //             ['price']) <
+                                                    //     100)
+                                                    //   Text(
+                                                    //     "\₹${int.parse(data.docs[snapshot]['price'])}",
+                                                    //     style:
+                                                    //         GoogleFonts.poppins(
+                                                    //             fontSize: 16,
+                                                    //             color: HexColor(
+                                                    //                 "3A3A3A"),
+                                                    //             fontWeight:
+                                                    //                 FontWeight
+                                                    //                     .w600),
+                                                    //   ),
                                                     Text(
                                                       "Inc. of all taxes",
                                                       style:
