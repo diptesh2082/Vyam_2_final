@@ -294,8 +294,8 @@ class _LocInfoState extends State<LocInfo> {
                               // "long": res.longitude,
                               "address": value.trim(),
                               "pincode": pin,
-                              "locality": locality,
-                              "subLocality": subLocality,
+                              "locality": locality.toLowerCase(),
+                              "subLocality": subLocality.toLowerCase(),
                             });
                             // Get.back();
                             Get.off(() => HomePage());
@@ -366,8 +366,8 @@ class _LocInfoState extends State<LocInfo> {
                                   // "lat": position.latitude,
                                   // "long": position.longitude,
                                   "pincode": pin,
-                                  "locality": locality,
-                                  "subLocality": locality,
+                                  "locality": locality.toLowerCase(),
+                                  "subLocality": locality.toLowerCase(),
                                   // "number": number
                                 });
                                 // Get.back();
@@ -491,8 +491,8 @@ class _LocInfoState extends State<LocInfo> {
                                             // "long": res.longitude,
                                             "address": value.trim(),
                                             "pincode": pin,
-                                            "locality": locality,
-                                            "subLocality": subLocality,
+                                            "locality": locality.toLowerCase(),
+                                            "subLocality": subLocality.toLowerCase(),
                                           });
                                           // Get.back();
                                           Get.off(() => HomePage());
@@ -578,8 +578,8 @@ class _LocInfoState extends State<LocInfo> {
                                             // "long": res.longitude,
                                             "address": _list![index].mainText!,
                                             "pincode": pin,
-                                            "locality": locality,
-                                            "subLocality": subLocality,
+                                            "locality": locality.toLowerCase(),
+                                            "subLocality": subLocality.toLowerCase(),
                                           });
                                           Get.off(() => HomePage());
                                         },

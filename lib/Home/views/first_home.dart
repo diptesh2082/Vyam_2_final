@@ -147,7 +147,7 @@ class _FirstHomeState extends State<FirstHome> {
           position.latitude,
         ),
         "pincode": pin,
-        "locality": locality,
+        "locality": locality.toLowerCase(),
       });
     } catch (e) {
       FirebaseFirestore.instance.collection("user_details").doc().set({
@@ -159,7 +159,7 @@ class _FirstHomeState extends State<FirstHome> {
           position.latitude,
         ),
         "pincode": pin,
-        "locality": locality,
+        "locality": locality.toLowerCase(),
         "from": "notfull"
       });
     }
