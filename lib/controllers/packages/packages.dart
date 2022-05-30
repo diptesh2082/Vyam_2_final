@@ -66,6 +66,8 @@ class _PackegesState extends State<Packeges> {
         // }
       }
 
+    }).then((value) async {
+      await CreateBooking(id,booking_iiid);
     });
 
 
@@ -91,7 +93,7 @@ class _PackegesState extends State<Packeges> {
   final bookings = FirebaseFirestore.instance
       .collection("bookings");
 
-  CreateBooking(String id) async {
+  CreateBooking(String id,int booking_id) async {
 
     final bookings = await FirebaseFirestore.instance
         .collection("bookings");
@@ -127,7 +129,7 @@ class _PackegesState extends State<Packeges> {
       "tax_pay": "",
       "totalDays": "0",
       "total_price": "",
-      "id": "",
+      "id": booking_id,
       "payment_method": "offline"
 
       // "gym_details":{
@@ -499,7 +501,8 @@ class _PackegesState extends State<Packeges> {
                                                       Get.arguments["doc"],
                                                       booking_iiid
                                                     );
-                                                     CreateBooking(id);
+                                                     // CreateBooking(id);
+                                                   await getBookingId(id);
 
                                                   },
                                                   color: HexColor("292F3D"),
