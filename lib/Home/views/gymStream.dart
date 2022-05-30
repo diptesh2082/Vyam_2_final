@@ -8,20 +8,20 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../api/api.dart';
 import '../../golbal_variables.dart';
 import '../bookings/gym_details.dart';
-class BuildBox extends StatefulWidget {
-  @override
-  State<BuildBox> createState() => _BuildBoxState();
-}
-
-class _BuildBoxState extends State<BuildBox> {
-    //   Future<double> distanceFromMyLocation(Location location) async {
-    //   double distance = await Geolocator.distanceBetween(
-    //       GlobalUserData["location"].latitude,
-    //       GlobalUserData["location"].longitude,
-    //       location.latitude,
-    //       location.longitude) /
-    //       1000;
-    //   return distance;
+class BuildBox extends StatelessWidget {
+//   @override
+//   State<BuildBox> createState() => _BuildBoxState();
+// }
+//
+// class _BuildBoxState extends State<BuildBox> {
+  //   Future<double> distanceFromMyLocation(Location location) async {
+  //   double distance = await Geolocator.distanceBetween(
+  //       GlobalUserData["location"].latitude,
+  //       GlobalUserData["location"].longitude,
+  //       location.latitude,
+  //       location.longitude) /
+  //       1000;
+  //   return distance;
 //     // }
 // sortByDistance(List locationlist) async {
 //
@@ -53,18 +53,20 @@ class _BuildBoxState extends State<BuildBox> {
 
   // final Map<String, dynamic> locationAndDistance;
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Container(
-      child:  SizedBox(
+      child: SizedBox(
         width: size.width * .94,
         // height: 195,
         child: SingleChildScrollView(
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection("product_details")
-                .where("locality",isEqualTo: GlobalUserData["locality"])
+                .where("locality", isEqualTo: GlobalUserData["locality"])
                 .orderBy("location")
-                .where("legit",isEqualTo: true)
+                .where("legit", isEqualTo: true)
                 .snapshots(),
             builder: (context, AsyncSnapshot streamSnapshot) {
               if (streamSnapshot.connectionState == ConnectionState.waiting) {
@@ -79,11 +81,20 @@ class _BuildBoxState extends State<BuildBox> {
 
               var document = streamSnapshot.data.docs;
               document.sort((a, b) {
-                double d1 = calculateDistance(a["location"].latitude,a["location"].longitude, GlobalUserData["location"].latitude, GlobalUserData["location"].longitude,);
-                double d2 =  calculateDistance(b["location"].latitude,b["location"].longitude, GlobalUserData["location"].latitude, GlobalUserData["location"].longitude,);
-                if (d1 > d2) return 1;
-                else if (d1 < d2) return -1;
-                else return 0;
+                double d1 = calculateDistance(
+                  a["location"].latitude, a["location"].longitude,
+                  GlobalUserData["location"].latitude,
+                  GlobalUserData["location"].longitude,);
+                double d2 = calculateDistance(
+                  b["location"].latitude, b["location"].longitude,
+                  GlobalUserData["location"].latitude,
+                  GlobalUserData["location"].longitude,);
+                if (d1 > d2)
+                  return 1;
+                else if (d1 < d2)
+                  return -1;
+                else
+                  return 0;
               });
 
 
@@ -100,7 +111,11 @@ class _BuildBoxState extends State<BuildBox> {
                       document[index]["location"].longitude);
                   distance = double.parse((distance).toStringAsFixed(1));
                   // print(distance);
-                  if (distance <= 50 && (document[index]["locality"].toString().toLowerCase().trim() ==  GlobalUserData["locality"].toString().toLowerCase().trim())) {
+                  if (distance <= 50 && (document[index]["locality"].toString()
+                      .toLowerCase()
+                      .trim() == GlobalUserData["locality"].toString()
+                      .toLowerCase()
+                      .trim())) {
                     return FittedBox(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
@@ -128,23 +143,29 @@ class _BuildBoxState extends State<BuildBox> {
                                 children: [
                                   FittedBox(
                                     child: ColorFiltered(
-                                      colorFilter: ColorFilter.mode(document[index]["gym_status"]?Colors.transparent:Colors.black, BlendMode.color),
+                                      colorFilter: ColorFilter.mode(
+                                          document[index]["gym_status"] ? Colors
+                                              .transparent : Colors.black,
+                                          BlendMode.color),
                                       child: CachedNetworkImage(
                                         height: 210,
                                         fit: BoxFit.cover,
                                         width:
-                                        MediaQuery.of(context).size.width,
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width,
                                         imageUrl: document[index]
                                         ["display_picture"] ??
                                             "",
-                                        progressIndicatorBuilder: (context,
-                                            url, downloadProgress) =>
-                                            Center(
-                                                child:
-                                                CircularProgressIndicator(
-                                                    value:
-                                                    downloadProgress
-                                                        .progress)),
+                                        // progressIndicatorBuilder: (context,
+                                        //     url, downloadProgress) =>
+                                        //     Center(
+                                        //         child:
+                                        //         CircularProgressIndicator(
+                                        //             value:
+                                        //             downloadProgress
+                                        //                 .progress)),
                                         errorWidget: (context, url, error) =>
                                         const Icon(Icons.error),
                                         // height: 195,
@@ -216,8 +237,8 @@ class _BuildBoxState extends State<BuildBox> {
                                             overflow: TextOverflow.ellipsis,
                                             textAlign: TextAlign.start,
                                             style: GoogleFonts.poppins(
-                                                // overflow:
-                                                // TextOverflow.ellipsis,
+                                              // overflow:
+                                              // TextOverflow.ellipsis,
                                                 color: Colors.white,
                                                 // fontFamily: "Poppins",
                                                 fontSize: 12,
@@ -263,7 +284,8 @@ class _BuildBoxState extends State<BuildBox> {
                                                 width: 5,
                                               ),
                                               Text(
-                                                "${document[index]["rating"].toString() }",
+                                                "${document[index]["rating"]
+                                                    .toString() }",
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
                                                     color: Colors.white,
@@ -310,7 +332,7 @@ class _BuildBoxState extends State<BuildBox> {
                                       ),
                                     ),
                                   ),
-                                  if(document[index]["gym_status"]==false)
+                                  if(document[index]["gym_status"] == false)
                                     Positioned(
                                       top: 0,
                                       left: 0,
@@ -334,10 +356,13 @@ class _BuildBoxState extends State<BuildBox> {
                                             right: 8, bottom: 10),
                                       ),
                                     ),
-                                  if(document[index]["gym_status"]==false)
+                                  if(document[index]["gym_status"] == false)
                                     Positioned(
                                       top: 10,
-                                      left: MediaQuery.of(context).size.width*.040,
+                                      left: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width * .040,
                                       child: Text("*Temporarily closed",
                                         style: GoogleFonts.poppins(
                                             fontSize: 14,
@@ -401,4 +426,5 @@ class _BuildBoxState extends State<BuildBox> {
     );
   }
 }
+
 

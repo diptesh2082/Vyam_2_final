@@ -119,12 +119,12 @@ class _ImageGalleryState extends State<ImageGallery> {
               },
             ),
             Positioned(
-              left: MediaQuery.of(context).size.width / 3,
+              left: (MediaQuery.of(context).size.width * .4)-(widget.images.length * 9),
               // right: 40,
               bottom: 0,
               child: SizedBox(
                   height: 25,
-                  width: MediaQuery.of(context).size.width,
+                  // width: MediaQuery.of(context).size.width,
                   // color: Colors.black26,
                   child: Row(
 

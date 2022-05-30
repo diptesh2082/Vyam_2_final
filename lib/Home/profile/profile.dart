@@ -49,7 +49,7 @@ class _ProfileState extends State<Profile> {
     try{
       final image = await ImagePicker().pickImage(
           source: ImageSource.gallery,
-          imageQuality: 60
+          imageQuality: 45
       );
       if (image == null) return;
       final imageTemporary = File(image.path);
