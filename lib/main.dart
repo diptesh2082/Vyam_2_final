@@ -44,7 +44,7 @@ Future<void> main() async {
   await myLocation();
   await getInfo();
   // getAddress();
-  getVisitingFlag();
+  await getVisitingFlag();
   // print(GlobalUserData);
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

@@ -102,7 +102,7 @@ class _OtpPageState extends State<OtpPage> {
           .collection('user_details')
           .doc(docID)
           .get()
-          .then((DocumentSnapshot documentSnapshot) {
+          .then((DocumentSnapshot documentSnapshot) async {
         if (documentSnapshot.exists) {
           setVisitingFlag();
           print(getVisitingFlag());

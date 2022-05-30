@@ -73,18 +73,21 @@ class _Register3State extends State<Register3> {
         child: FloatingActionButton(
             onPressed: () async {
 
+              await UserApi.createNewUser().then((value) async {
 
-              await FirebaseFirestore.instance
-                  .collection("user_details")
-                  .doc(number)
-                  .update({
-                "number": number,
-                "image": userPhoto,
-                "name": name,
-                "email": email,
-                "gender": gender,
-                "uid": FirebaseAuth.instance.currentUser!.uid,
+                await FirebaseFirestore.instance
+                    .collection("user_details")
+                    .doc(number)
+                    .update({
+                  "number": number,
+                  "image": userPhoto,
+                  "name": name,
+                  "email": email,
+                  "gender": gender,
+                  "uid": FirebaseAuth.instance.currentUser!.uid,
+                });
               });
+
 
               await  Navigator.pushReplacement(
                   context,
