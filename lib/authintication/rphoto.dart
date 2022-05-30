@@ -39,6 +39,29 @@ class _Register4State extends State<Register4> {
       print("Faild to pick image: $e");
     }
   }
+  final db = FirebaseFirestore.instance;
+  saveData(image)async {
+    // if (_globalKey.currentState!.validate()) {
+      try{
+        // _globalKey.currentState!.save();
+        final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
+        await ref.putFile(image!);
+        final url = await ref.getDownloadURL();
+        await db.collection("user_details").doc(number).update({
+          "image": url
+        });
+        // setState(() {
+        //   imageUrl=url;
+        //   // isLoading=false;
+        // });
+      }catch (e){
+        // imageUrl="";
+      }
+
+      // print(imageUrl);
+
+    // }
+  }
 
   final _auth = FirebaseAuth.instance;
   @override
@@ -92,15 +115,16 @@ class _Register4State extends State<Register4> {
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
             onPressed: () async {
-              await Get.offAll(() => HomePage());
-              final ref = FirebaseStorage.instance
-                  .ref()
-                  .child("user_images")
-                  .child(number + ".jpg");
-              await ref.putFile(image!);
-              final url = await ref.getDownloadURL();
-              // print(number);
-              await UserApi.creatUserImage(url);
+               Get.offAll(() => HomePage());
+              await saveData(image);
+              // final ref = FirebaseStorage.instance
+              //     .ref()
+              //     .child("user_images")
+              //     .child(number + ".jpg");
+              // await ref.putFile(image!);
+              // final url = await ref.getDownloadURL();
+              // // print(number);
+              // await UserApi.creatUserImage(url);
             },
             backgroundColor: Colors.amber.shade300,
             child: const Icon(
