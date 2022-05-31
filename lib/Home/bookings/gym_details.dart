@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -14,8 +15,10 @@ import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/controllers/packages/packages.dart';
 import 'package:vyam_2_final/Home/bookings/know_trainer.dart';
+import 'package:vyam_2_final/Providers/firebase_dynamic_link.dart';
 
 import 'ImageGalary.dart';
+
 var imageSliders;
 class GymDetails extends StatefulWidget {
   // final gymName;
@@ -248,7 +251,31 @@ class _GymDetailsState extends State<GymDetails> {
                                     fontWeight: FontWeight.w600))
                           ],
                         )),
-                    const Text('   ')
+
+                    GestureDetector(
+                      onTap: () async {
+                        final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
+                        final Uri? deepLink = initialLink?.link;
+
+                        Uri url = await FireBaseDynamicLinkService.dynamicLink();
+
+                        print(url);
+                       // print(deepLink);
+
+                      },
+                      child: Column(
+                        children: [
+                          const Icon(Icons.share,color: Colors.black,),
+                          Text('Share',
+                              style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.w600))
+                        ],
+                      ),
+                    )
+
+                    //const Text('   ')
                   ]),
                   const SizedBox(height: 12),
                   Text(
