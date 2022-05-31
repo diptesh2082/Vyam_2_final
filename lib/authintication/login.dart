@@ -357,10 +357,11 @@ class _LoginPageState extends State<LoginPage> {
                           height: 25,
                         ),
                         SizedBox(
-                          width: 200,
+                          width: 250,
                           // height: 40,
                           child:  Column(
-
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
                                    "Continue means you agree to",
@@ -371,6 +372,7 @@ class _LoginPageState extends State<LoginPage> {
                                     color: Colors.grey),
                               ),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   InkWell(
                                     child: Text(
