@@ -450,7 +450,7 @@ class _FirstHomeState extends State<FirstHome> {
                                     onTap: () {
                                       FocusScope.of(context).unfocus();
                                       Get.to(CouponDetails(
-                                        cartValue: null,
+                                        cartValue: 100,
                                         type: '',
                                       ));
                                     },
@@ -578,10 +578,14 @@ class Banner extends StatelessWidget {
                     const SizedBox(
                       width: 5,
                     ),
-                    CachedNetworkImage(
-                      imageUrl: data.docs[index]["image"],
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: CachedNetworkImage(
+                        height: 143,
+                        imageUrl: data.docs[index]["image"],
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
                     ),
                     const SizedBox(
                       width: 5,

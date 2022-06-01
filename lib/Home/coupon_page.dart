@@ -231,7 +231,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                     if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
                     }
-
                     var documents = snapshot.data.docs;
                     if (widget.type.toString().toLowerCase() ==
                         "pay per session") {

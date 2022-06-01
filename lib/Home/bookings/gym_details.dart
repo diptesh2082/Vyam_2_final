@@ -101,24 +101,6 @@ class _GymDetailsState extends State<GymDetails> {
   }
 
 
-  // String? productGymId =
-  //     FirebaseFirestore.instance.collection('product_details').doc().id;
-
-  // void getAmenity(){
-  //   StreamBuilder(
-  //     stream: FirebaseFirestore.instance.collection('amenities').snapshots(),
-  //       builder: (BuildContext context , AsyncSnapshot snapshot){
-  //         if (!snapshot.hasData) {
-  //           return Center(child: CircularProgressIndicator());
-  //         }
-  //         if (snapshot.connectionState ==
-  //             ConnectionState.waiting) {
-  //           return Center(child: CircularProgressIndicator());
-  //         }
-  //         var amenityDoc = snapshot.data;
-  //         print(amenityDoc);
-  //   })
-  // }
   getViewCount()async{
    DocumentReference db= await FirebaseFirestore.instance.collection("product_details").doc(amienities);
    try{

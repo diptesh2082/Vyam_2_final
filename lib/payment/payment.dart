@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,6 +45,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final app_bar_controller = ScrollController();
   final cartValue = Get.arguments["totalPrice"];
   final type = Get.arguments["booking_plan"];
+  var userr;
+  var coupon_doc;
+  addu() async {
+    //Fetch Current User Id ????
+    userr = GlobalUserData["userId"];
+    //Fetch Current Coupon Used Document ID ????
+    await FirebaseFirestore.instance
+        .collection('coupon')
+        .doc(coupon_doc)
+        .update({"user_id": FieldValue.arrayUnion(userr)});
+  }
+
   showNotification(String title, String info) async {
     // setState(() {
     //   _counter++;
@@ -1209,6 +1221,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           "booking_status": "upcoming",
                           "payment_done": false,
                         });
+                        addu();
                         await showNotification(
                             "Thank You", "Booking Successful");
                       },
@@ -1362,6 +1375,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
+                              print(
+                                  "${myCouponController.CouponDetailsMap.value.toString()}");
                               onlinePay = true;
                             });
                           },

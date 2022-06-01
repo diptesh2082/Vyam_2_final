@@ -249,9 +249,9 @@ class GymDetailApi {
 
   Stream<QuerySnapshot> getGymDetails =
       FirebaseFirestore.instance.collection("product_details").snapshots();
-  // Stream<QuerySnapshot> getAllGymDetails = FirebaseFirestore.instance
-  //     .collection("product_details")
-  //     .snapshots();
+// Stream<QuerySnapshot> getAllGymDetails = FirebaseFirestore.instance
+//     .collection("product_details")
+//     .snapshots();
 }
 
 class UserApi {
