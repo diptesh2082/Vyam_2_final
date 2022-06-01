@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -137,7 +138,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         .collection("bookings")
         .doc(booking_id)
         .update({
-      "total_price": price,
+      "total_price": amount,
       // "total_discount":totalDiscount,
       "discount": totalDiscount,
       "grand_total": grandTotal,
@@ -1132,7 +1133,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           "booking_status":"upcoming",
                           "payment_done": false,
                         });
-                        await showNotification("Thank You","Booking Successful");
+                        // await FirebaseMessaging.instance.sendMessage(
+                        //   to: "cP2cgBakT-ejsKRphU9Idg:APA91bEfTMeJmTV4EmB3qtGJ7HBlyzeaS2GHIugF1f0ZAigJwvw1GsolLllU-n0g1b5_3W3zqmLfI4EOJI-Yw_H1c-0u4ZQp1VhAHp8dAxiE_LI96SV-l8a-AGdxc46D22XwUtzZCepY",
+                        // data:  {
+                        // "score": '850',
+                        // "time": '2:45'
+                        // },
+                        // ).then((value) {
+                        //   print("its done ");
+                        // });
+                        // await showNotification("Thank You","Booking Successful");
 
 
 
@@ -1253,7 +1263,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 width: 20,
                               ),
                               const Text(
-                                "Cash",
+                                "Pay at gym",
                                 style: TextStyle(
                                     fontFamily: "Poppins",
                                     fontWeight: FontWeight.w500,

@@ -41,6 +41,7 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 class couponClass extends GetxController{
   RxBool GlobalCouponApplied=false.obs;
   RxString GlobalCoupon="".obs;
+  RxString coupon_id="".obs;
   RxString CouponDetailsMap = "".obs;
   // Map coupon_list={}.obs;
   couponAdd(bool gca,String gc){

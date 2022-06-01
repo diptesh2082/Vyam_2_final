@@ -278,7 +278,8 @@ class _CouponDetailsState extends State<CouponDetails> {
 
                                 coupon_list.addAll(
                                     {
-                                      documents[index]["code"].toString().toLowerCase(): documents[index]["discount"]
+                                      documents[index]["code"].toString().toLowerCase(): documents[index]["discount"],
+                                      "coupon_id":  documents[index]["coupon_id"].toString()
                                     });
                                 print(coupon_list);
                                 return SafeArea(
@@ -486,6 +487,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                 coupon_applied = true;
                                                 myCouponController.GlobalCouponApplied.value=true;
                                                 myCouponController.GlobalCoupon.value=coupon;
+                                                myCouponController.coupon_id.value=documents[index]['coupon_id'].toString() ;
                                                 int dex=(widget.cartValue * (int.parse(documents[index]['discount'].toString())/100)).toInt();
                                                 print(dex);
                                                 if(dex >= int.parse(documents[index]['max_dis'].toString())){
