@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:vyam_2_final/DatePickerScreen.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
@@ -20,7 +21,7 @@ class SelectDate extends StatefulWidget {
   final price;
   final gymId;
   final bookingId;
-
+  final days;
   const SelectDate(
       {Key? key,
       required this.months,
@@ -29,7 +30,7 @@ class SelectDate extends StatefulWidget {
       required this.getGymName,
       required this.getGymAddress,
       required this.gymId,
-      this.bookingId})
+      this.bookingId,required this.days})
       : super(key: key);
 
   final String months;
@@ -62,7 +63,7 @@ class _SelectDateState extends State<SelectDate> {
     'Saturday',
     'Sunday',
   ];
-  var startDate;
+  var startDate=DateTime.now();
   var endDate;
   var totalDays;
   var now = DateTime.now();
@@ -87,20 +88,24 @@ class _SelectDateState extends State<SelectDate> {
 
   @override
   void initState() {
+    print(widget.days);
+    print("+++++++++++++++++++++++++++++");
+    getDays=int.parse(widget.days);
     total_discount = 0;
-    if (widget.months.contains("PAY PER SESSION")) {
-      getDays = 1;
-    }
-    if (widget.months.contains("1")) {
-      getDays = 28;
-    }
-    if (widget.months.contains("3")) {
-      getDays = 84;
-    }
-    if (widget.months.contains("6")) {
-      getDays = 168;
-    }
+    // if (widget.months.contains("pay per session")) {
+    //   getDays = 1;
+    // }
+    // if (widget.months.contains("1")) {
+    //   getDays = 28;
+    // }
+    // if (widget.months.contains("3")) {
+    //   getDays = 84;
+    // }
+    // if (widget.months.contains("6")) {
+    //   getDays = 168;
+    // }
     _selectedDay = DateTime.now();
+    endDate=DateTime.now().add(Duration(days: int.parse(widget.days)));
     selected_week = now.weekday;
     current_mon = now.month;
     end_mon = DateTime.now().add(Duration(days: getDays)).month;
@@ -191,6 +196,8 @@ class _SelectDateState extends State<SelectDate> {
                             .toString();
                         current_mon = _selectedDay.month;
                         selected_week = _selectedDay.weekday;
+                        startDate=_selectedDay;
+                        endDate=_selectedDay.add(Duration(days:int.parse(widget.days)));
 
                         end_mon =
                             _selectedDay.add(Duration(days: getDays)).month;
@@ -263,7 +270,7 @@ class _SelectDateState extends State<SelectDate> {
                                   const SizedBox(
                                     height: 4,
                                   ),
-                                  Text(months[current_mon - 1] + " " + day,
+                                  Text(DateFormat("dd, MMM").format(startDate),
                                       style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
@@ -302,7 +309,7 @@ class _SelectDateState extends State<SelectDate> {
                                   const SizedBox(
                                     height: 4,
                                   ),
-                                  Text(months[end_mon - 1] + " " + endday,
+                                  Text(DateFormat("dd, MMM ").format(endDate),
                                       style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
@@ -375,9 +382,9 @@ class _SelectDateState extends State<SelectDate> {
                   "packageType": widget.packageType,
                   "totalPrice": widget.price,
                   "startDate":
-                      (months[current_mon - 1] + " ," + day + ", " + year),
+                      DateFormat("dd, MMM, yyyy").format(startDate),
                   "endDate":
-                      (months[end_mon - 1] + ", " + endday + ", " + year),
+                  DateFormat("dd, MMM, yyyy").format(endDate),
                   "address": widget.getGymAddress,
                   "vendorId": widget.gymId,
                   "booking_id": widget.bookingId,

@@ -150,6 +150,7 @@ class BuildBox extends StatelessWidget {
                                                   .transparent : Colors.black,
                                               BlendMode.color),
                                           child: CachedNetworkImage(
+                                            filterQuality: FilterQuality.low,
                                             height: 210,
                                             fit: BoxFit.cover,
                                             width:

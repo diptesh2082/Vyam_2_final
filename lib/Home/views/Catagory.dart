@@ -45,6 +45,7 @@ class Catagory extends StatelessWidget {
                       borderRadius:
                       BorderRadius.circular(15),
                       child: CachedNetworkImage(
+                        filterQuality: FilterQuality.medium,
                         imageUrl: categoryDocs[index]
                         ['image'],
                         height: 150,

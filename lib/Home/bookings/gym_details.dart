@@ -586,6 +586,7 @@ class _GymDetailsState extends State<GymDetails> {
                                                                             .circle,
                                                                         //border: Border.all(width: 1),
                                                                         image: DecorationImage(
+                                                                          filterQuality: FilterQuality.medium,
                                                                             image:
                                                                                 CachedNetworkImageProvider(trainerdoc[index]['images']),
                                                                             fit: BoxFit.cover)),

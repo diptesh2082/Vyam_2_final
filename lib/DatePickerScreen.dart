@@ -82,6 +82,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   width: 400,
                   child: Card(
                     child: SfDateRangePicker(
+                      // in
                       minDate: DateTime.now(),
                       maxDate: DateTime.utc(DateTime.now().year,DateTime.now().month,DateTime.now().day+31),
                       //Daddy Widget aka Calender Widget

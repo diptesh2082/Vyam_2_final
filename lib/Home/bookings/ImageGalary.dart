@@ -75,6 +75,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                             builder: (BuildContext context, int index) {
                               // listIndex=index;
                               return PhotoViewGalleryPageOptions(
+                                filterQuality: FilterQuality.medium,
                                 initialScale:
                                 PhotoViewComputedScale.contained,
                                 minScale:

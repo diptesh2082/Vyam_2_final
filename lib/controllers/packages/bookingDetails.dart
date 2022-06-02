@@ -135,7 +135,7 @@ class BookingDetails {
                                             height: 5,
                                           ),
                                           Text(
-                                            newBookingList[index]['validity']
+                                            "${newBookingList[index]['validity']}  ${newBookingList[index]['validity']=="1"?"Day": "Days"}"
                                                 .toUpperCase(),
                                             style: GoogleFonts.poppins(
                                                 fontSize: 14,
@@ -231,6 +231,7 @@ class BookingDetails {
                                           if(bookingList[index]['title'].toLowerCase()!="pay per session")
                                             {      Get.to(
                                                   () => SelectDate(
+                                                    
                                                 months: newBookingList[index]
                                                 ['title']
                                                     .toUpperCase(),
@@ -248,7 +249,7 @@ class BookingDetails {
                                                 getGymName: getGymName,
                                                 getGymAddress: gymLocation,
                                                 gymId: gymID,
-                                                bookingId: booking_id,
+                                                bookingId: booking_id, days: newBookingList[index]['validity'],
                                               ),
                                               arguments: {"docs": docs},
                                               duration: const Duration(
