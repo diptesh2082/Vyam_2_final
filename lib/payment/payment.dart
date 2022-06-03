@@ -138,7 +138,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         .collection("bookings")
         .doc(booking_id)
         .update({
-      "total_price": amount,
+      "total_price": price,
       // "total_discount":totalDiscount,
       "discount": totalDiscount,
       "grand_total": grandTotal,
