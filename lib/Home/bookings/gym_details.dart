@@ -495,7 +495,7 @@ class _GymDetailsState extends State<GymDetails> {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  StreamBuilder<Object>(
+                  StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection("product_details")
                           .doc("${doc["id"]}")
