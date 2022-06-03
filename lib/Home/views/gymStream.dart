@@ -391,8 +391,51 @@ class BuildBox extends StatelessWidget {
                 },
               ),
                       if(document.length <4)
-                        SizedBox(
+                        Container(
                           height: 400,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 120,
+                              ),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Column(
+                                    // mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 3.0),
+                                        child: SizedBox(
+                                            height: 38,
+                                            width: 91,
+                                            child: Image.asset(
+                                                "assets/Illustrations/Keep_the.png")),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 3.0),
+                                        child: SizedBox(
+                                            height: 50,
+                                            width: 134,
+                                            child: Image.asset(
+                                                "assets/Illustrations/Grind_on.png")),
+                                      ),
+                                      SizedBox(
+                                          height: 21,
+                                          width: 221,
+                                          child: Image.asset(
+                                              "assets/Illustrations/Group_187.png")),
+                                      const SizedBox(
+                                        height: 21,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       if(document.length >=4)
                         SizedBox(
