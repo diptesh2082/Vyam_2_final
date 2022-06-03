@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/global_snackbar.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 import 'package:vyam_2_final/payment/payment.dart';
 // import 'package:vyambooking/List/list.dart';
 
@@ -34,6 +35,7 @@ class _CouponDetailsState extends State<CouponDetails> {
   TextEditingController couponController=TextEditingController();
   couponClass myCouponController= Get.put(couponClass());
 
+  getCoupons(){}
 
   @override
   void initState() {
@@ -46,6 +48,8 @@ class _CouponDetailsState extends State<CouponDetails> {
   void dispose() {
     // TODO: implement dispose
     // myCouponController.dispose();
+    print("++++++++++d899999999999999999++++++++++++++++++++");
+    print([GlobalUserData["userId"]]);
     couponController.dispose();
     super.dispose();
   }
@@ -215,7 +219,9 @@ class _CouponDetailsState extends State<CouponDetails> {
                 ),
               ),
               StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection('coupon').snapshots(),
+                  stream: FirebaseFirestore.instance.collection('coupon')
+                      // .where("user_id",arrayContains:GlobalUserData["userId"])
+                      .snapshots(),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -242,6 +248,16 @@ class _CouponDetailsState extends State<CouponDetails> {
                             .contains("package");
                       }).toList();
                     }
+                    if (widget.type.toString().toLowerCase()=="pay per session"){
+
+                    }
+                    // documents = documents.where((element){
+                    //   return element
+                    //       .get('gym_id')
+                    //       .toString()
+                    //       .toLowerCase()
+                    //       .("package");
+                    // }).toList();
 
                     couponDoc=snapshot.data.docs;
                     print(couponDoc);
