@@ -46,7 +46,7 @@ class _GymMaleState extends State<GymMale> {
               .collection("product_details")
               .where("locality",
               isEqualTo: GlobalUserData["locality"])
-              .where("gender", isEqualTo: "male")
+              .where("gender", whereIn:[ "male","unisex"])
               .orderBy("location")
               .snapshots(),
           builder: (context, AsyncSnapshot streamSnapshot) {

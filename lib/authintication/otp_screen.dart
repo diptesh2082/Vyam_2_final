@@ -67,19 +67,22 @@ class _OtpPageState extends State<OtpPage> {
       if (authCred.user != null) {
         await getToHomePage(_auth.currentUser?.phoneNumber);
         await setNumber(_auth.currentUser!.phoneNumber);
-        await checkExist("${_auth.currentUser?.phoneNumber}");
-        await setUserId(_auth.currentUser?.phoneNumber);
+        await checkExist("${_auth.currentUser?.phoneNumber}").then((value) async {
+          await setUserId(_auth.currentUser?.phoneNumber);
+          print(visiting_flag);
+          if (visiting_flag == true) {
+            Navigator.pushReplacement(
+                (context), MaterialPageRoute(builder: (context) => HomePage()));
+            // Get.offAll(()=>HomePage());
+          } else if (visiting_flag == false) {
+            userPhoto = "null";
+            Navigator.pushReplacement(
+                (context), MaterialPageRoute(builder: (context) => Register1()));
+          }
+        });
+
         // await setVisitingFlag();
-        print(visiting_flag);
-        if (visiting_flag == true) {
-          Navigator.pushReplacement(
-              (context), MaterialPageRoute(builder: (context) => HomePage()));
-          // Get.offAll(()=>HomePage());
-        } else if (visiting_flag == false) {
-          userPhoto = "null";
-          Navigator.pushReplacement(
-              (context), MaterialPageRoute(builder: (context) => Register1()));
-        }
+
         // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage()));
       }
     } on FirebaseAuthException catch (e) {

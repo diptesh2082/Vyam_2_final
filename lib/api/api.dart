@@ -588,7 +588,7 @@ class GymAllApi {
       .collection("product_details")
       .where("locality",
       isEqualTo: GlobalUserData["locality"])
-      .where("gender", isEqualTo: "female")
+      .where("gender", whereIn: ["female","unisex"])
       .where("legit",isEqualTo: true)
       .orderBy("location")
       .snapshots();
