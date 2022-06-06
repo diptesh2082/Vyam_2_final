@@ -203,7 +203,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                 print(endDate.difference(startDate).inDays);
 
                 Get.to(
-                  () => const PaymentScreen(),
+                  () =>  PaymentScreen(endDate: DateFormat("dd, MMM, yyyy").format(endDate),),
                   duration: const Duration(milliseconds: 500),
                   arguments: {
                     "gymName": widget.getGymName,

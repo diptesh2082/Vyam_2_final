@@ -24,7 +24,8 @@ import '../main.dart';
 
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({Key? key}) : super(key: key);
+  final endDate;
+  const PaymentScreen({Key? key,required this.endDate}) : super(key: key);
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -592,7 +593,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           padding: const EdgeInsets.only(
                                               right: 0, top: 0),
                                           child: Text(
-                                            getData["endDate"].toString(),
+                                            widget.endDate.toString(),
                                             style: GoogleFonts.poppins(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w500),

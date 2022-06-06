@@ -309,7 +309,7 @@ class _SelectDateState extends State<SelectDate> {
                                   const SizedBox(
                                     height: 4,
                                   ),
-                                  Text(DateFormat("dd, MMM ").format(endDate),
+                                  Text(DateFormat("dd, MMM,yyy ").format(endDate),
                                       style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
@@ -362,7 +362,7 @@ class _SelectDateState extends State<SelectDate> {
               startDate =
                   DateTime(int.parse(year), current_mon, int.parse(day));
               // months[current_mon - 1] + ", " + day + ", " + year;
-              endDate = DateTime(int.parse(year), end_mon, int.parse(endday));
+              // endDate = DateTime(int.parse(year), end_mon, int.parse(endday));
               // months[end_mon - 1] + ", " + endday + ", " + year;
               totalDays = DateTime(int.parse(year), end_mon, int.parse(endday))
                       .difference(DateTime(
@@ -374,7 +374,7 @@ class _SelectDateState extends State<SelectDate> {
               // print((months[current_mon - 1] + " ," + day + ", " + year));
               // print(months[end_mon - 1] + ", " + endday + ", " + year);
               Get.to(
-                () => const PaymentScreen(),
+                () =>  PaymentScreen(endDate: DateFormat("dd, MMM, yyyy").format(endDate),),
                 duration: const Duration(milliseconds: 500),
                 arguments: {
                   "gymName": widget.getGymName,
