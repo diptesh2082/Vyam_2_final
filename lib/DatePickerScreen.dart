@@ -232,7 +232,8 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
               label: Text(
                 "Proceed",
                 style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.bold, color: Colors.white),
+                    fontWeight: FontWeight.bold, color: Colors.white
+                ),
               ),
             )),
       ),

@@ -69,7 +69,9 @@ class _ZumbaListState extends State<ZumbaList> {
                   .doc(widget.getDocId)
                   .collection("package")
                   .doc("normal_package")
-                  .collection("zumba")
+                  .collection("gym")
+                  .where("type",isEqualTo: "zumba")
+                  .orderBy("index")
                   .snapshots(),
               builder: ((context, AsyncSnapshot snapshot) {
                 if (snapshot.hasError) {

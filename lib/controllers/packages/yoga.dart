@@ -14,12 +14,13 @@ class YogaList extends StatefulWidget {
   final gymLocation;
   final gymName;
   final iiid;
+  final type;
   YogaList({
     Key? key,
     required double width,
     required this.getDocID,
     required this.gymName,
-    required this.gymLocation,required this.iiid,
+    required this.gymLocation,required this.iiid,required this.type,
   })  : _width = width,
         super(key: key);
 
@@ -59,7 +60,7 @@ class _YogaListState extends State<YogaList> {
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           backgroundColor: Colors.transparent,
-          title: Text("Yoga",
+          title: Text("${widget.type.toString().toUpperCase()}",
               style: GoogleFonts.poppins(
                   fontSize: 15,
                   color: HexColor("3A3A3A"),
@@ -71,7 +72,9 @@ class _YogaListState extends State<YogaList> {
                   .doc(widget.getDocID)
                   .collection("package")
                   .doc("normal_package")
-                  .collection("yoga")
+                  .collection("gym")
+                  .where("type",isEqualTo: "${widget.type.toString()}")
+                  .orderBy("index")
                   .snapshots(),
               builder: ((context, AsyncSnapshot snapshot) {
                 if (snapshot.hasError) {
