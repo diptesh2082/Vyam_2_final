@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 // import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
 import 'package:vyam_2_final/Home/profile/profile_page.dart';
 import 'package:vyam_2_final/Home/views/explore.dart';
@@ -20,6 +21,8 @@ import 'package:vyam_2_final/booking/bookings.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'package:vyam_2_final/exploreuo.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 import '../api/api.dart';
 import '../main.dart';
@@ -37,6 +40,14 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = false;
   bool net = true;
   // Need controller = Get.put(Need());
+
+
+
+
+
+
+
+
 
   getInternet1() async {
     InternetConnectionChecker().onStatusChange.listen((status) {
