@@ -234,28 +234,28 @@ class _GymDetailsState extends State<GymDetails> {
                           ],
                         )),
 
-                    GestureDetector(
-                      onTap: () async {
-                        final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
-                        final Uri? deepLink = initialLink?.link;
-
-                        Uri url = await FireBaseDynamicLinkService.dynamicLink();
-
-                        print(url);
-                       // print(deepLink);
-
-                      },
-                      child: Column(
-                        children: [
-                          const Icon(Icons.share,color: Colors.black,),
-                          Text('Share',
-                              style: GoogleFonts.poppins(
-                                  color: Colors.black,
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.w600))
-                        ],
-                      ),
-                    )
+                    // GestureDetector(
+                    //   onTap: () async {
+                    //     final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
+                    //     final Uri? deepLink = initialLink?.link;
+                    //
+                    //     Uri url = await FireBaseDynamicLinkService.dynamicLink();
+                    //
+                    //     print(url);
+                    //    // print(deepLink);
+                    //
+                    //   },
+                    //   child: Column(
+                    //     children: [
+                    //       const Icon(Icons.share,color: Colors.black,),
+                    //       Text('Share',
+                    //           style: GoogleFonts.poppins(
+                    //               color: Colors.black,
+                    //               fontSize: 8,
+                    //               fontWeight: FontWeight.w600))
+                    //     ],
+                    //   ),
+                    // )
 
                     //const Text('   ')
                   ]),
