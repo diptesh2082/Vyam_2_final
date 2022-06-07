@@ -179,7 +179,7 @@ class _GymAllState extends State<GymAll> {
                                 // color: Colors.white10,
                               ),
                               height: size.height * .078,
-                              width: size.width * .45,
+                              width: size.width * .6,
                               padding: const EdgeInsets.only(
                                   left: 8, bottom: 10),
                               child: Column(
@@ -190,7 +190,7 @@ class _GymAllState extends State<GymAll> {
                                 children: [
                                   Text(
                                     document[index]["name"] ?? "",
-                                    textAlign: TextAlign.center,
+                                    // textAlign: TextAlign.center,
                                     maxLines: 1,
                                     // overflow:
                                     // TextOverflow.ellipsis,
@@ -208,7 +208,7 @@ class _GymAllState extends State<GymAll> {
                                     // "",
                                     document[index]["address"] ??
                                         "",
-                                    textAlign: TextAlign.center,
+                                    // textAlign: TextAlign.center,
                                     style: const TextStyle(
                                         overflow:
                                         TextOverflow.ellipsis,
@@ -216,7 +216,7 @@ class _GymAllState extends State<GymAll> {
                                         fontFamily: "Poppins",
                                         fontSize: 12,
                                         fontWeight:
-                                        FontWeight.w600),
+                                        FontWeight.w500),
                                   ),
                                 ],
                               ),

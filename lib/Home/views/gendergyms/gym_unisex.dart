@@ -153,7 +153,7 @@ class _GymUnisexState extends State<GymUnisex> {
                                       // color: Colors.white10,
                                     ),
                                     height: size.height * .078,
-                                    width: size.width * .45,
+                                    width: size.width * .6,
                                     padding: const EdgeInsets.only(
                                         left: 8, bottom: 10),
                                     child: Column(
@@ -164,7 +164,7 @@ class _GymUnisexState extends State<GymUnisex> {
                                       children: [
                                         Text(
                                           document[index]["name"] ?? "",
-                                          textAlign: TextAlign.center,
+                                          // textAlign: TextAlign.center,
                                           maxLines: 1,
                                           // overflow:
                                           // TextOverflow.ellipsis,
@@ -182,7 +182,7 @@ class _GymUnisexState extends State<GymUnisex> {
                                           // "",
                                           document[index]["address"] ??
                                               "",
-                                          textAlign: TextAlign.center,
+                                          // textAlign: TextAlign.center,
                                           style: const TextStyle(
                                               overflow:
                                               TextOverflow.ellipsis,
@@ -190,7 +190,7 @@ class _GymUnisexState extends State<GymUnisex> {
                                               fontFamily: "Poppins",
                                               fontSize: 12,
                                               fontWeight:
-                                              FontWeight.w600),
+                                              FontWeight.w500),
                                         ),
                                       ],
                                     ),
