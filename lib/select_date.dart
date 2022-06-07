@@ -309,7 +309,7 @@ class _SelectDateState extends State<SelectDate> {
                                   const SizedBox(
                                     height: 4,
                                   ),
-                                  Text(DateFormat("dd, MMM,yyy ").format(endDate),
+                                  Text(DateFormat("dd, MMM ").format(endDate),
                                       style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
