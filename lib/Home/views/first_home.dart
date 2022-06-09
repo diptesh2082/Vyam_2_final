@@ -413,6 +413,7 @@ class _FirstHomeState extends State<FirstHome> {
           body: Snap(
             controller: app_bar_controller.appBar,
             child: SingleChildScrollView(
+              physics: ClampingScrollPhysics(),
               controller: app_bar_controller,
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0, right: 10),

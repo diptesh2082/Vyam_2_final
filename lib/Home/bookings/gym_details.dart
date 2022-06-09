@@ -88,8 +88,6 @@ class _GymDetailsState extends State<GymDetails> {
             setState(() {
               if(snap.docs.isNotEmpty){
                 times=snap.docs;
-                print("+++++++++++++++");
-                print(times[0]["morning_days"]);
                 isLoading=false;
               }
             });
@@ -124,23 +122,11 @@ class _GymDetailsState extends State<GymDetails> {
 
      );
    }catch(e){
-     // db.get().then((DocumentSnapshot documentSnapshot) {
-     //   if(documentSnapshot.exists){
-     //     db.update({
-     //       "view_count":1
-     //     });
-     //   }
-     // }
 
-     // );
    }
 
 
-    //     .update(
-    // {
-    // "view_count": +1;
-    // }
-    // );
+
   }
 
 
@@ -148,8 +134,6 @@ class _GymDetailsState extends State<GymDetails> {
   void initState() {
     getViewCount();
     getTimings();
-    // print(amienities);
-    // print("////////////////////////////////////////////////////////////////////////////////////////");
     imageSliders=Get.arguments["docs"]["images"];
     super.initState();
   }

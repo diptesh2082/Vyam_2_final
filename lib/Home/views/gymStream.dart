@@ -221,7 +221,7 @@ class BuildBox extends StatelessWidget {
                                             children: [
                                               Text(
                                                 document[index]["name"] ?? "",
-                                                textAlign: TextAlign.center,
+                                                // textAlign: TextAlign.center,
                                                 maxLines: 1,
                                                 // overflow:
                                                 // TextOverflow.ellipsis,
