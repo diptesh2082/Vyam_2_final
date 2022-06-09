@@ -11,6 +11,7 @@ import 'package:readmore/readmore.dart';
 import 'package:vyam_2_final/Home/bookings/amenites.dart';
 import 'package:vyam_2_final/Home/bookings/review_screen.dart';
 import 'package:vyam_2_final/Home/bookings/timings.dart';
+import 'package:vyam_2_final/Home/bookings/workout.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/controllers/packages/packages.dart';
@@ -486,26 +487,27 @@ class _GymDetailsState extends State<GymDetails> {
                         fontWeight: FontWeight.w700),
                   ),
                   const SizedBox(height: 10),
-                  Card(
-                    elevation: .3,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0)),
-                    child: FittedBox(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.95,
-                        height: 60,
-                        child:  Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: AutoSizeText(
-                            'Boxing | Cardio | Personal Training | Crossfit |  Zumba | Weight Training.',
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, ),
-                            maxLines: 3,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
+                  Workouts(workouts: doc["workouts"],),
+                  // Card(
+                  //   elevation: .3,
+                  //   shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.circular(12.0)),
+                  //   child: FittedBox(
+                  //     child: SizedBox(
+                  //       width: MediaQuery.of(context).size.width * 0.95,
+                  //       height: 60,
+                  //       child:  Padding(
+                  //         padding: EdgeInsets.all(10.0),
+                  //         child: AutoSizeText(
+                  //           'Boxing | Cardio | Personal Training | Crossfit |  Zumba | Weight Training.',
+                  //           style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 12, ),
+                  //           maxLines: 3,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  const SizedBox(height: 2),
                   StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection("product_details")
