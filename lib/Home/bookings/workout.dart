@@ -16,7 +16,7 @@ class _WorkoutsState extends State<Workouts> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 105,
+      height: 80,
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('workouts')
@@ -52,6 +52,7 @@ class _WorkoutsState extends State<Workouts> {
           padding: EdgeInsets.only(right: 10,left: 10),
           child: ListView.builder(itemCount:documents.length,
               scrollDirection: Axis.horizontal,
+
               itemBuilder:(context,index) {
               return Row(
                 children: [
@@ -61,7 +62,7 @@ class _WorkoutsState extends State<Workouts> {
                             fontWeight: FontWeight.w500,
                             fontSize: 12,
                           ),
-                          maxLines: 3,
+                          maxLines: 2,
                   ),
                   const Text(
                     ' | ',

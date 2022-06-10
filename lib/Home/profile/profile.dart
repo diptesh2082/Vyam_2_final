@@ -66,34 +66,7 @@ class _ProfileState extends State<Profile> {
 
   }
 
-  // for selecting images from device
-  // Future getImage(bool gallery) async {
-  //   ImagePicker picker = ImagePicker();
-  //   PickedFile pickedFile;
-  //   // Let user select photo from gallery
-  //   if (gallery) {
-  //     pickedFile = (await picker.getImage(
-  //       source: ImageSource.gallery,
-  //       imageQuality: 50
-  //     ))!;
-  //   }
-  //   // Otherwise open camera to get new photo
-  //   else {
-  //     pickedFile = (await picker.getImage(
-  //       source: ImageSource.camera,
-  //     ))!;
-  //   }
-  //
-  //   setState(() {
-  //     // ignore: unnecessary_null_comparison
-  //     if (pickedFile != null) {
-  //       _image = pickedFile as File;
-  //       //_image = File(pickedFile.path); // Use if you only need a single picture
-  //     } else {
-  //       print('No image selected.');
-  //     }
-  //   });
-  // }
+
 
   saveData()async {
     if (_globalKey.currentState!.validate()) {

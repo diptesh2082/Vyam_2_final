@@ -185,7 +185,10 @@ class _ProfilePartState extends State<ProfilePart> {
                                                     // MediaQuery.of(context).size.width * 0.3,
                                                     backgroundImage:
                                                         CachedNetworkImageProvider(
-                                                            imageUrl),
+                                                            imageUrl,
+                                                        scale: 1,
+
+                                                        ),
                                                   ),
                                           ]),
                                         ),
