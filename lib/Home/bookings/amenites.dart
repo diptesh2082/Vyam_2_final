@@ -11,6 +11,13 @@ class Amenites extends StatefulWidget {
 }
 
 class _AmenitesState extends State<Amenites> {
+@override
+  void initState() {
+    // TODO: implement initState
+    print(widget.amenites);
+    // if(widget.amenites.isEmpty()){}
+    super.initState();
+  }
   var documents;
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,7 @@ class _AmenitesState extends State<Amenites> {
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('amenities')
-            .where('gym_id', whereIn: widget.amenites)
+            .where('amenity_id', whereIn: widget.amenites)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {

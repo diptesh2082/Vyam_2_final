@@ -70,6 +70,7 @@ class _GymDetailsState extends State<GymDetails> {
   final docs = Get.arguments["docs"];
   // final amenityDoc = Get.arguments["docs"]["name"];
   var documents;
+  List<dynamic>   amenites2=[""];
 
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
   final List _isSelected = [true, false, false, false, false, false,false,false];
@@ -129,12 +130,20 @@ class _GymDetailsState extends State<GymDetails> {
 
 
   }
-
+List<dynamic>workout=[""];
 
   @override
   void initState() {
     getViewCount();
     getTimings();
+    amenites2=Get.arguments["docs"]["amenities"];
+    if(amenites2.isEmpty){
+      amenites2=[""];
+    }
+    workout=Get.arguments["docs"]["workouts"];
+    if(workout.isEmpty){
+      workout=[""];
+    }
     imageSliders=Get.arguments["docs"]["images"];
     super.initState();
   }
@@ -444,7 +453,7 @@ class _GymDetailsState extends State<GymDetails> {
                         fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 12),
-                  Amenites(amenites: doc["amenities"],),
+                  Amenites(amenites: amenites2,),
                   // SizedBox(
                   //   height: MediaQuery.of(context).size.height * 0.1,
                   //   child: StreamBuilder(
@@ -487,7 +496,7 @@ class _GymDetailsState extends State<GymDetails> {
                         fontWeight: FontWeight.w700),
                   ),
                   const SizedBox(height: 10),
-                  Workouts(workouts: doc["workouts"],),
+                  Workouts(workouts: workout,),
                   // Card(
                   //   elevation: .3,
                   //   shape: RoundedRectangleBorder(
