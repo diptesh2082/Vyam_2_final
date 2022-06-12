@@ -513,7 +513,7 @@ List<dynamic>workout=[""];
                       ),
                       const SizedBox(height: 10),
                       Workouts(workouts: workout,),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: 4),
                       StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
                               .collection("product_details")

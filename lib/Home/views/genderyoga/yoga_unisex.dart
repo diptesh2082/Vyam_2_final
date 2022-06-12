@@ -65,19 +65,10 @@ class _YogaUnisexState extends State<YogaUnisex> {
                                   onTap: () async {
                                     print("${document[index]["name"]}");
                                     Get.to(
-                                        () => GymDetails(
-                                            // getID: document[index].id,
-                                            // gymLocation: document[index]
-                                            //     ["location"],
-                                            // gymName: document[index]["name"],
+                                        () => GymDetails(gymID: document[index].id,
+
                                             ),
-                                        arguments: {
-                                          "id": document[index].id,
-                                          "location": document[index]
-                                              ["location"],
-                                          "name": document[index]["name"],
-                                          "docs": document[index]
-                                        });
+                                       );
                                   },
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(15),

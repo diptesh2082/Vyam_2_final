@@ -116,11 +116,13 @@ class BuildBox extends StatelessWidget {
                           document[index]["location"].longitude);
                       distance = double.parse((distance).toStringAsFixed(1));
                       // print(distance);
-                      if (distance <= 50 && (document[index]["locality"].toString()
-                          .toLowerCase()
-                          .trim() == GlobalUserData["locality"].toString()
-                          .toLowerCase()
-                          .trim())) {
+                      if (distance <= 50
+                          // && (document[index]["locality"].toString()
+                          // .toLowerCase()
+                          // .trim() == GlobalUserData["locality"].toString()
+                          // .toLowerCase()
+                          // .trim())
+                      ) {
                         return FittedBox(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
@@ -393,7 +395,7 @@ class BuildBox extends StatelessWidget {
                       );
                 },
               ),
-                      if(document.length <4)
+                      // if(document.length <4)
                         Container(
                           height: 400,
                           child: Column(
@@ -412,22 +414,22 @@ class BuildBox extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.only(left: 3.0),
                                         child: SizedBox(
-                                            height: 38,
-                                            width: 91,
+                                            height: 40,
+                                            width: 95,
                                             child: Image.asset(
                                                 "assets/Illustrations/Keep_the.png")),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(left: 3.0),
                                         child: SizedBox(
-                                            height: 50,
-                                            width: 134,
+                                            height: 55,
+                                            width: 140,
                                             child: Image.asset(
                                                 "assets/Illustrations/Grind_on.png")),
                                       ),
                                       SizedBox(
-                                          height: 21,
-                                          width: 221,
+                                          height: 25,
+                                          width: 225,
                                           child: Image.asset(
                                               "assets/Illustrations/Group_187.png")),
                                       const SizedBox(
@@ -440,10 +442,10 @@ class BuildBox extends StatelessWidget {
                             ],
                           ),
                         ),
-                      if(document.length >=4)
-                        SizedBox(
-                          height: 20,
-                        ),
+                      // if(document.length >=4)
+                      //   SizedBox(
+                      //     height: 20,
+                      //   ),
                     ],
                   )
                   : Column(
