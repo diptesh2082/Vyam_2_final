@@ -111,7 +111,7 @@ class _GymAllState extends State<GymAll> {
                         FocusScope.of(context).unfocus();
 
                         Get.to(
-                                () => GymDetails(),
+                                () => GymDetails( gymID: document[index].id,),
                             arguments: {
                               "id": document[index].id,
                               "location": document[index]

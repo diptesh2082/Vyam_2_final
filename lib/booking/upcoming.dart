@@ -99,12 +99,42 @@ class UpcomingEvent extends StatelessWidget {
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              "Booking ID : ${data.docs[index]['id']??""}",
-                                              style: GoogleFonts.poppins(
-                                                  color: HexColor("3A3A3A"),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500),
+                                            Material(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(5),
+                                              elevation: 5,
+                                              // color: Colors.yellow,
+                                              // decoration: BoxDecoration(
+                                              //   color: Colors.yellowAccent,
+                                              //   borderRadius: BorderRadius.circular(5)
+                                              // ),
+                                              child:Padding(
+                                                padding: const EdgeInsets.only(left: 3,right: 2,),
+                                                child: RichText(
+                                                    text: TextSpan(
+                                                        style: GoogleFonts.poppins(
+                                                          // fontFamily: "Poppins",
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                        children:  <TextSpan>[
+                                                          TextSpan(
+                                                              text: 'Booking ID - '
+                                                          ),
+                                                          TextSpan(
+                                                              text: "${data.docs[index]['id']??""}",
+                                                              style:GoogleFonts.poppins(
+                                                                // fontFamily: "Poppins",
+                                                                  fontWeight: FontWeight.w600,
+                                                                  fontSize: 12,
+                                                                  color: Colors.amber
+                                                              )
+                                                          ),
+                                                        ]
+
+                                                    )),
+                                              ),
+
                                             ),
                                             const SizedBox(
                                               height: 2,
@@ -121,7 +151,7 @@ class UpcomingEvent extends StatelessWidget {
                                               children: [
                                                 const Icon(
                                                   Icons.location_on,
-                                                  size: 20,
+                                                  size: 15,
                                                 ),
                                                 const SizedBox(
                                                   width: 4.5,
@@ -131,7 +161,7 @@ class UpcomingEvent extends StatelessWidget {
                                                   // data.docs[index]['gym_name'],
                                                   style: GoogleFonts.poppins(
                                                       color: HexColor("3A3A3A"),
-                                                      fontSize: 14,
+                                                      fontSize: 12,
                                                       fontWeight:
                                                       FontWeight.w500),
                                                 ),
@@ -184,7 +214,7 @@ class UpcomingEvent extends StatelessWidget {
                                                 color: Color(0xff292F3D),
                                               ),
                                               child: Padding(
-                                                padding: const EdgeInsets.all(4.0),
+                                                padding: const EdgeInsets.only(left: 3.0,right: 3,top: 1,bottom: 1),
                                                 child: Text(
                                                   "OTP:- ${data.docs[index]["otp_pass"]??""}",
                                                   // "data.docs[index]['workout'].toUpperCase()",

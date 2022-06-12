@@ -137,7 +137,7 @@ class BuildBox extends StatelessWidget {
                                     //     document[index]["location"].latitude,
                                     //     document[index]["location"].longitude);
                                     // print(viku);
-                                    Get.to(() => GymDetails(), arguments: {
+                                    Get.to(() => GymDetails(gymID: document[index].id,), arguments: {
                                       "id": document[index].id,
                                       "location": document[index]["location"],
                                       "name": document[index]["name"],

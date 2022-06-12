@@ -463,7 +463,7 @@ class _ExploreiaState extends State<Exploreia> {
             child: FittedBox(
               child: GestureDetector(
                 onTap: () {
-                  Get.to(() => GymDetails(), arguments: {
+                  Get.to(() => GymDetails(gymID: document[index].id,), arguments: {
                     "id": document[index].id,
                     "location": document[index]["location"],
                     "name": document[index]["name"],

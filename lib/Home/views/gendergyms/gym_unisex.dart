@@ -87,7 +87,7 @@ class _GymUnisexState extends State<GymUnisex> {
                             onTap: () async {
                               FocusScope.of(context).unfocus();
 
-                              Get.to(() => GymDetails(), arguments: {
+                              Get.to(() => GymDetails(gymID: document[index].id,), arguments: {
                                 "id": document[index].id,
                                 "location": document[index]["location"],
                                 "name": document[index]["name"],

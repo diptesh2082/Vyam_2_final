@@ -554,7 +554,7 @@ splashLocation(latitude,longitude)async{
                               child: FittedBox(
                                 child: GestureDetector(
                                   onTap: () {
-                                    Get.to(()=>GymDetails(),
+                                    Get.to(()=>GymDetails(gymID: document[index].id,),
                                         arguments: {
                                           "id": document[index].id,
                                           "location": document[index]

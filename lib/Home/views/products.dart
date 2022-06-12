@@ -42,7 +42,7 @@ class Products extends StatelessWidget {
                         GestureDetector(
                           onTap: () async {
                             Get.to(
-                              () => GymDetails(
+                              () => GymDetails(gymID: data.docs[index].id,
                                 // getID: data.docs,
                                 // gymName: data.docs[index]["name"],
                                 // gymLocation: data.docs[index]["address"],
