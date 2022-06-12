@@ -132,7 +132,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       totalDiscount = ((price * discount) / 100).round();
       taxPay = ((price * gstTax) / 100).round();
       grandTotal = ((price - totalDiscount) + taxPay);
-      amount = grandTotal.toString() + "00";
+      amount = grandTotal.toString() ;
 
     });
     await FirebaseFirestore.instance

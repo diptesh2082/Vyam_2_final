@@ -54,15 +54,6 @@ class _PackegesState extends State<Packeges> {
         .then((value) async {
           if (value.docs.isNotEmpty) {
             booking_iiid = await value.docs.length;
-            // try{
-            //   db.update({
-            //     "id":booking.toString()
-            //   });
-            // }catch(e){
-            //   db.update({
-            //     "id":100
-            //   });
-            // }
           }
         })
         .then((value) async {

@@ -444,7 +444,7 @@ class _GymDetailsState extends State<GymDetails> {
                         fontWeight: FontWeight.w600),
                   ),
                   const SizedBox(height: 12),
-                  Amenites(amenites: doc["id"],),
+                  Amenites(amenites: doc["amenities"],),
                   // SizedBox(
                   //   height: MediaQuery.of(context).size.height * 0.1,
                   //   child: StreamBuilder(

@@ -64,7 +64,7 @@ class BuildBox extends StatelessWidget {
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection("product_details")
-                .where("locality", isEqualTo: GlobalUserData["locality"])
+                // .where("locality", isEqualTo: GlobalUserData["locality"])
                 .orderBy("location")
                 .where("legit", isEqualTo: true)
                 .snapshots(),
