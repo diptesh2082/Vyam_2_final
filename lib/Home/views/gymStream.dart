@@ -9,49 +9,7 @@ import '../../api/api.dart';
 import '../../golbal_variables.dart';
 import '../bookings/gym_details.dart';
 class BuildBox extends StatelessWidget {
-//   @override
-//   State<BuildBox> createState() => _BuildBoxState();
-// }
-//
-// class _BuildBoxState extends State<BuildBox> {
-  //   Future<double> distanceFromMyLocation(Location location) async {
-  //   double distance = await Geolocator.distanceBetween(
-  //       GlobalUserData["location"].latitude,
-  //       GlobalUserData["location"].longitude,
-  //       location.latitude,
-  //       location.longitude) /
-  //       1000;
-  //   return distance;
-//     // }
-// sortByDistance(List locationlist) async {
-//
-//       // make this an empty list by intializing with []
-//       List<Map<String, dynamic>> locationListWithDistance = [];
-//
-//       // associate location with distance
-//       for(var location in locationlist) {
-//         double distance = calculateDistance(location.latitude,location.longitude, GlobalUserData["location"].latitude,
-//           GlobalUserData["location"].longitude,);
-//         locationListWithDistance.add({
-//           'location': location,
-//           'distance': distance,
-//         });
-//       }
-//
-//       // sort by distance
-//       locationListWithDistance.sort((a, b) {
-//         int d1 = a['distance'];
-//         int d2 = b['distance'];
-//         if (d1 > d2) return 1;
-//         else if (d1 < d2) return -1;
-//         else return 0;
-//       });
-//       print(locationListWithDistance);
-//       print("-----------------------+++++++++++++++++++++++++++");
-//       return locationListWithDistance;
-//     }
 
-  // final Map<String, dynamic> locationAndDistance;
   Widget build(BuildContext context) {
     Size size = MediaQuery
         .of(context)
@@ -166,14 +124,8 @@ class BuildBox extends StatelessWidget {
                                             imageUrl: document[index]
                                             ["display_picture"] ??
                                                 "",
-                                            // progressIndicatorBuilder: (context,
-                                            //     url, downloadProgress) =>
-                                            //     Center(
-                                            //         child:
-                                            //         CircularProgressIndicator(
-                                            //             value:
-                                            //             downloadProgress
-                                            //                 .progress)),
+                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
                                             errorWidget: (context, url, error) =>
                                             const Icon(Icons.error),
                                             // height: 195,
@@ -250,6 +202,7 @@ class BuildBox extends StatelessWidget {
                                                     color: Colors.white,
                                                     // fontFamily: "Poppins",
                                                     fontSize: 12,
+                                                    // fontStyle: FontStyle.italic,
                                                     fontWeight:
                                                     FontWeight.w500),
                                               ),

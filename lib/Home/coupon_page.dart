@@ -242,7 +242,11 @@ class _CouponDetailsState extends State<CouponDetails> {
                         get('package_type')
                             .toString()
                             .toLowerCase()
-                            .contains(widget.type.toString().toLowerCase());
+                            .contains(widget.type.toString().toLowerCase())
+                          // && element.
+                          //   get('package_type').contains
+
+                        ;
                       }).toList();
                     }else{
                       documents = documents.where((element){
@@ -275,11 +279,11 @@ class _CouponDetailsState extends State<CouponDetails> {
                       return Center(
                         child: Column(
                           children: [
-                            const SizedBox(
-                              height: 60,
-                            ),
+                            // const SizedBox(
+                            //   height: 60,
+                            // ),
                             Image.asset(
-                              "assets/Illustrations/notification empty.png",
+                              "assets/Illustrations/coupon.png",
                             ),
                           ],
                         ),
@@ -303,6 +307,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                       "coupon_id":  documents[index]["coupon_id"].toString()
                                     });
                                 print(coupon_list);
+                                // if(  documents[index]["gym_id"].toList().)
                                 return SafeArea(
                                   child: Stack(
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
