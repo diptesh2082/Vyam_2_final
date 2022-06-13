@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
@@ -25,6 +27,10 @@ import 'review_screen.dart';
 // }
 
 class Trainer extends StatefulWidget {
+  final gym_name;
+  final gym_brunch;
+
+  const Trainer({Key? key,required this.gym_name,required this.gym_brunch}) : super(key: key);
   @override
   _TrainerState createState() => _TrainerState();
 }
@@ -34,7 +40,7 @@ class _TrainerState extends State<Trainer> {
   var stream = FirebaseFirestore.instance
       .collection("product_details")
       .doc("${Get.arguments["gym_id"]}")
-      .collection("trainers")
+      .collection("trainer")
       .snapshots();
 
   int _current1 = 1;
@@ -184,7 +190,7 @@ class _TrainerState extends State<Trainer> {
 
                                             backgroundImage:
                                                 CachedNetworkImageProvider(
-                                              document[index]['images'],
+                                              document[index]['image'],
                                             ),
                                           ),
                                         )
@@ -233,16 +239,19 @@ class _TrainerState extends State<Trainer> {
                                         Row(
                                           children: [
                                             Column(
-                                              children: const [
+
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children:  [
                                                 Padding(
                                                   padding: EdgeInsets.only(
                                                       left: 3.0, top: 6.0),
                                                   child: Text(
-                                                    ' Transformers Gym',
-                                                    style: TextStyle(
-                                                        fontFamily: 'Poppins',
+                                                    '${widget.gym_name}',
+                                                    textAlign: TextAlign.start,
+                                                    style: GoogleFonts.poppins(
+
                                                         fontWeight:
-                                                            FontWeight.w400,
+                                                            FontWeight.w500,
                                                         fontSize: 12),
                                                   ),
                                                 ),
@@ -250,18 +259,52 @@ class _TrainerState extends State<Trainer> {
                                                   padding:
                                                       EdgeInsets.only(top: 4.0),
                                                   child: Text(
-                                                    'Branch - Barakar',
+                                                    'Branch - ${widget.gym_brunch}',
                                                     textAlign: TextAlign.start,
-                                                    style: TextStyle(
-                                                        fontFamily: 'Poppins',
+                                                    style: GoogleFonts.poppins(
+
                                                         fontWeight:
-                                                            FontWeight.w400,
+                                                            FontWeight.w500,
                                                         fontSize: 12),
                                                   ),
                                                 ),
                                               ],
                                             ),
                                             const Spacer(),
+
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  document[index]['experience'],
+                                                  //textAlign: TextAlign.center,
+                                                  style:  GoogleFonts.poppins(
+
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 14),
+                                                ),
+                                                Text(
+                                                  'Experience',
+                                                  //textAlign: TextAlign.center,
+                                                  style: GoogleFonts.poppins(
+
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 12,
+                                                      color: Colors.grey),
+                                                ),
+                                              ],
+                                            ),
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   right: 25.0),
@@ -269,39 +312,40 @@ class _TrainerState extends State<Trainer> {
                                                 children: [
                                                   ClipRRect(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.0),
+                                                    BorderRadius.circular(
+                                                        10.0),
                                                     child: Container(
-                                                      height: 25,
+                                                      height: 30,
                                                       width: 30,
                                                       decoration:
-                                                          const BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                              //color: Colors.amber,
-                                                              image: DecorationImage(
-                                                                  image: AssetImage(
-                                                                      "assets/icons/insta_icon.png"))),
+                                                      const BoxDecoration(
+                                                          shape: BoxShape
+                                                              .circle,
+                                                          //color: Colors.amber,
+                                                          image: DecorationImage(
+                                                              image: AssetImage(
+                                                                  "assets/icons/insta_icon.png"))),
                                                     ),
                                                   ),
+                                                  SizedBox(width: 2,),
+
                                                   GestureDetector(
                                                       child: Text(
                                                         '@${trainernames[index].toLowerCase()}',
                                                         //document[index]['social_media'],
-                                                        style: const TextStyle(
+                                                        style:GoogleFonts.poppins(
                                                             decoration:
-                                                                TextDecoration
-                                                                    .underline,
-                                                            fontFamily:
-                                                                'Poppins',
+                                                            TextDecoration
+                                                                .underline,
+
                                                             fontWeight:
-                                                                FontWeight.w400,
+                                                            FontWeight.w500,
                                                             fontSize: 13),
                                                       ),
                                                       onTap: () async {
                                                         var urllaunchable =
-                                                            await canLaunch(
-                                                                url);
+                                                        await canLaunch(
+                                                            url);
                                                         if (urllaunchable) {
                                                           await launch(url);
                                                         } else {
@@ -313,82 +357,40 @@ class _TrainerState extends State<Trainer> {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              document[index]['review'],
-                                              //textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 14),
-                                            ),
-                                            // Text(
-                                            //   document[index]['clients'],
-                                            //   //textAlign: TextAlign.center,
-                                            //   style: const TextStyle(
-                                            //       fontFamily: 'Poppins',
-                                            //       fontWeight: FontWeight.w700,
-                                            //       fontSize: 14),
-                                            // ),
-                                            Text(
-                                              document[index]['experience'],
-                                              //textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 14),
-                                            ),
-                                          ],
-                                        ),
                                         SizedBox(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
                                               0.001,
                                         ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: const [
-                                            Text(
-                                              '  Reviews',
-                                              //textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
-                                                  color: Colors.grey),
-                                            ),
-                                            Text(
-                                              'Clients',
-                                              //textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
-                                                  color: Colors.grey),
-                                            ),
-                                            Text(
-                                              'Experience',
-                                              //textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontFamily: 'Poppins',
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 12,
-                                                  color: Colors.grey),
-                                            ),
-                                          ],
-                                        ),
+                                        // Row(
+                                        //   mainAxisAlignment:
+                                        //       MainAxisAlignment.spaceAround,
+                                        //   crossAxisAlignment:
+                                        //       CrossAxisAlignment.start,
+                                        //   children: const [
+                                        //     // Text(
+                                        //     //   '  Reviews',
+                                        //     //   //textAlign: TextAlign.center,
+                                        //     //   style: TextStyle(
+                                        //     //       fontFamily: 'Poppins',
+                                        //     //       fontWeight: FontWeight.w400,
+                                        //     //       fontSize: 12,
+                                        //     //       color: Colors.grey),
+                                        //     // ),
+                                        //     // Text(
+                                        //     //   'Clients',
+                                        //     //   //textAlign: TextAlign.center,
+                                        //     //   style: TextStyle(
+                                        //     //       fontFamily: 'Poppins',
+                                        //     //       fontWeight: FontWeight.w400,
+                                        //     //       fontSize: 12,
+                                        //     //       color: Colors.grey),
+                                        //     // ),
+                                        //
+                                        //     SizedBox()
+                                        //   ],
+                                        // ),
                                         const Divider(
                                           height: 9,
                                           indent: 20,
@@ -476,7 +478,7 @@ class _TrainerState extends State<Trainer> {
                                                   children: [
                                                     for (var i
                                                         in document[index]
-                                                            ['certifications'])
+                                                            ['certification'])
                                                       Text(
                                                         // "•  Golds gym certified trainer."
                                                         ". ${i}",
@@ -819,7 +821,7 @@ class _TrainerState extends State<Trainer> {
                                 // backgroundImage: AssetImage(document[]),
 
                                 backgroundImage: CachedNetworkImageProvider(
-                                    document[index]['images'][0]),
+                                    document[index]['image']),
                               ),
                             )
                           ]),
@@ -919,14 +921,14 @@ class _TrainerState extends State<Trainer> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          document[index]['review'],
-                          //textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14),
-                        ),
+                        // Text(
+                        //   document[index]['review'],
+                        //   //textAlign: TextAlign.center,
+                        //   style: const TextStyle(
+                        //       fontFamily: 'Poppins',
+                        //       fontWeight: FontWeight.w700,
+                        //       fontSize: 14),
+                        // ),
                         Text(
                           document[index]['clients'],
                           //textAlign: TextAlign.center,
@@ -1051,31 +1053,14 @@ class _TrainerState extends State<Trainer> {
                             children: [
                               Text(
                                 // "•  Golds gym certified trainer."
-                                "•  ${document[index]['certifications'][0]}",
+                                "•  ${document[index]['certification']}",
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              /* const SizedBox(
-                                height: 8,
-                              ),
-                              const Text("•  Golds gym certified nutritionist.",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w400,
-                                  )),
-                              const SizedBox(
-                                height: 8,
-                              ),
-                              const Text("•  All time calisthenics champion.",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w400,
-                                  )),*/
+
                             ],
                           ),
                         ],
@@ -1116,7 +1101,7 @@ class _TrainerState extends State<Trainer> {
                               width: MediaQuery.of(context).size.width * 0.90,
                               child: AutoSizeText(
                                 // 'Bodybuilding | Workout | Calesthenics | Zumba | HIIT | Cardio | Diet & Nutrition.'
-                                "${document[index]['specialization'][0]}  | ",
+                                "${document[index]['specialization']}  | ",
                                 style: const TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w400,
@@ -1156,13 +1141,13 @@ class _TrainerState extends State<Trainer> {
                           color: Colors.yellow,
                           size: 18,
                         ),
-                        Text(
-                          document[index]['review'],
-                          style: const TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 12),
-                        ),
+                        // Text(
+                        //   document[index]['review'],
+                        //   style: const TextStyle(
+                        //       fontFamily: 'Poppins',
+                        //       fontWeight: FontWeight.w700,
+                        //       fontSize: 12),
+                        // ),
                         const Text(
                           '(33 reviews)',
                           style: TextStyle(

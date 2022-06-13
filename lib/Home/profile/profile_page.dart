@@ -73,7 +73,7 @@ class _ProfilePartState extends State<ProfilePart> {
             name = snapshot.get('name');
             // print(number);
             email = snapshot.get('email');
-            phone = snapshot.get('number');
+            phone = snapshot.get('userId').toString().substring(3,11);
             gender = snapshot.get("gender");
             imageUrl = snapshot.get("image");
 

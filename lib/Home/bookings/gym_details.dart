@@ -518,7 +518,7 @@ List<dynamic>workout=[""];
                           stream: FirebaseFirestore.instance
                               .collection("product_details")
                               .doc("${widget.gymID}")
-                              .collection("trainers")
+                              .collection("trainer")
                               .snapshots(),
                         builder: (context,AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
@@ -542,13 +542,15 @@ List<dynamic>workout=[""];
                           }
                           var trainerdoc =
                               snapshot.data!.docs;
+                          print(trainerdoc);
+                          print("+++++++++++++++++++++++++++++++++++++++++++++++");
                           return trainerdoc.length==0?
                               SizedBox()
                               :SizedBox(
                               height: 145, //MediaQuery.of(context).size.height / 4.7,
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.to(() => Trainer(), arguments: {
+                                  Get.to(() => Trainer(gym_name: docs["name"], gym_brunch: docs["branch"],), arguments: {
                                     "gym_id":widget.gymID,
                                     "image": docs["display_picture"]
                                   });
@@ -612,7 +614,7 @@ List<dynamic>workout=[""];
                                                                                 image: DecorationImage(
                                                                                   filterQuality: FilterQuality.medium,
                                                                                     image:
-                                                                                        CachedNetworkImageProvider(trainerdoc[index]['images']),
+                                                                                        CachedNetworkImageProvider(trainerdoc[index]['image']),
                                                                                     fit: BoxFit.cover)),
                                                                       ),
                                                                       SizedBox(
