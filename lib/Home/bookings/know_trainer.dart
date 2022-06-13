@@ -140,6 +140,11 @@ class _TrainerState extends State<Trainer> {
                       ),
                     );
                   }
+                  if (snapshot.data.docs.isEmpty) {
+                    return const Center(
+                      child: Text("no doc")
+                    );
+                  }
                   var document = snapshot.data!.docs;
                   return PageView.builder(
                     itemCount: document.length,
