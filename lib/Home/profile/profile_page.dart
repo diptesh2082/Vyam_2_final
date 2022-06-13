@@ -63,37 +63,6 @@ class _ProfilePartState extends State<ProfilePart> {
   // final id = number;
   bool Loading = true;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  chooseImage() async {
-    XFile? pickedFile = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 50);
-    // pickedFile=await
-    //
-    return pickedFile;
-  }
-  final _firebaseStorage = FirebaseStorage.instance.ref().child("product_image");
-  uploadImageToStorage(XFile? pickedFile, String? id) async {
-      Reference _reference = _firebaseStorage
-          .child('product_images/${Path.basename(pickedFile!.path)}');
-      await _reference
-          .putData(
-        await pickedFile.readAsBytes(),
-        SettableMetadata(contentType: 'image/jpeg'),
-      )
-          .whenComplete(() async {
-        await _reference.getDownloadURL().then((value) async {
-          var uploadedPhotoUrl = value;
-          print(value);
-          await FirebaseFirestore.instance
-              .collection("product_details")
-              .doc(id)
-              .set({
-            "images": FieldValue.arrayUnion([value]),
-          });
-        });
-      });
-
-  }
-
 
   Future getUserData() async {
     print("user is here" + number);

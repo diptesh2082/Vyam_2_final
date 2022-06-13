@@ -9,7 +9,7 @@ const functions = require("firebase-functions");
 //   response.send("Hello from Firebase!");
 // });
  exports.myFunction = functions.firestore
-   .document('product_details/{message}')
-   .onCreate((change, context) => {
-       console.log(change.after.data());
+   .document('push_notifications/{message}')
+   .onCreate((snapshot, context) => {
+       console.log(snapshot.data());
     });

@@ -65,6 +65,34 @@ class _ProfileState extends State<Profile> {
     }
 
   }
+  chooseImage() async {
+    XFile? pickedFile = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 50);
+    // pickedFile=await
+    //
+    return pickedFile;
+  }
+  // final _firebaseStorage =
+  uploadImageToStorage(XFile? pickedFile, String? id) async {
+    Reference _reference = FirebaseStorage.instance.ref().child("product_image")
+        .child("user_images").child(number+".jpg");
+    await _reference
+        .putData(
+      await pickedFile!.readAsBytes(),
+      SettableMetadata(contentType: 'image/jpeg'),
+    )
+        .whenComplete(() async {
+      await _reference.getDownloadURL().then((value) async {
+        var uploadedPhotoUrl = value;
+        print(value);
+        await db.collection("user_details").doc(number).update({
+          "image": value
+        });
+      });
+    });
+
+  }
+
 
 
 
