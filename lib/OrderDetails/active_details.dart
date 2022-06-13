@@ -150,7 +150,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                         ],
                                       ),
                                       const SizedBox(
-                                        height: 4,
+                                        height: 5,
                                       ),
                                       Row(
                                         children: [
@@ -158,26 +158,26 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                             crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                             children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "End on :",
-                                                    style: GoogleFonts.poppins(
-                                                        color: HexColor("A3A3A3"),
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                        FontWeight.w500),
-                                                  ),
-                                                  Text(
-                                                    "${DateFormat("MMMM,dd,yyyy").format(doc["doc"]["plan_end_duration"].toDate())}",
-                                                    style: GoogleFonts.poppins(
-                                                        color: HexColor("A3A3A3"),
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                        FontWeight.w500),
-                                                  ),
-                                                ],
-                                              ),
+                                              // Row(
+                                              //   children: [
+                                              //     Text(
+                                              //       "End on :",
+                                              //       style: GoogleFonts.poppins(
+                                              //           color: HexColor("A3A3A3"),
+                                              //           fontSize: 12,
+                                              //           fontWeight:
+                                              //           FontWeight.w500),
+                                              //     ),
+                                              //     Text(
+                                              //       "${DateFormat("MMMM,dd,yyyy").format(doc["doc"]["plan_end_duration"].toDate())}",
+                                              //       style: GoogleFonts.poppins(
+                                              //           color: HexColor("A3A3A3"),
+                                              //           fontSize: 12,
+                                              //           fontWeight:
+                                              //           FontWeight.w500),
+                                              //     ),
+                                              //   ],
+                                              // ),
                                               Row(
                                                 children: [
                                                   Container(

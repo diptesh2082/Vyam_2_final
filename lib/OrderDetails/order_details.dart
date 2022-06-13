@@ -60,7 +60,7 @@ class _OrderDetailsState extends State<OrderDetails> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
         title: Text(
-          "Order Details",
+          "Booking Details",
           style: GoogleFonts.poppins(
               color: HexColor("3A3A3A"),
               fontSize: 18,
@@ -366,7 +366,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             Text(
                               "Workout",
                               style: GoogleFonts.poppins(
-                                  fontSize: 16, fontWeight: FontWeight.w700),
+                                  fontSize: 16, fontWeight: FontWeight.w700,color: HexColor("27AE60")),
                             ),
                             const Spacer(),
                             // if (getOderDetails[widget.index]['workout']
@@ -381,20 +381,14 @@ class _OrderDetailsState extends State<OrderDetails> {
                             //     .contains("Months"))
                             Text(
                               // getOderDetails[widget.index]['workout']
-                              "Gym".toUpperCase(),
+                              "Gym".toLowerCase(),
                               style: GoogleFonts.poppins(
-                                  fontSize: 16, fontWeight: FontWeight.w700),
+                                  fontSize: 16, fontWeight: FontWeight.w700,color:HexColor("27AE60")),
                             ),
                           ],
                         ),
                         Row(
                           children: [
-                            Text(
-                              "Package",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 16, fontWeight: FontWeight.w400),
-                            ),
-                            const Spacer(),
                             Text(
                               // getOderDetails[widget.index]['workout']
                               "${doc["doc"]["booking_plan"] ?? ""}"
@@ -402,6 +396,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
+                            const Spacer(),
+                            Text(
+                              "Package",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16, fontWeight: FontWeight.w400),
+                            ),
+
                           ],
                         ),
                         Row(

@@ -213,7 +213,7 @@ class _ZumbaFemaleState extends State<ZumbaFemale> {
                       }
                       return const Center(
                         child: Text(
-                          "No nearby gyms in your area",
+                          "No fitness options found",
                           style: TextStyle(
                             fontWeight: FontWeight.w100,
                             fontFamily: "Poppins",
@@ -228,7 +228,7 @@ class _ZumbaFemaleState extends State<ZumbaFemale> {
                   )
                 : const Center(
                     child: Text(
-                      "No nearby gyms in your area",
+                      "No fitness options found",
                       style: TextStyle(
                         fontWeight: FontWeight.w100,
                         fontFamily: "Poppins",
