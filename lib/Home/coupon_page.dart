@@ -468,7 +468,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                               SizedBox(
                                                 width:MediaQuery.of(context).size.width*.7,
                                                 child: Text(
-                                                  documents[index]['brief']
+                                                  documents[index]['description']
                                                       .toUpperCase(),
                                                   style: GoogleFonts.poppins(
                                                       color: HexColor("858585"),

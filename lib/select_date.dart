@@ -169,23 +169,6 @@ class _SelectDateState extends State<SelectDate> {
                         return isSameDay(_selectedDay, day);
                       },
 
-                      // onDayLongPressed: (selectedDay, pressedDay) => setState(() {
-                      //   _selectedDay = selectedDay;
-                      //   print(_selectedDay);
-                      //   _focusedDay = DateTime.now();
-                      //   print(_focusedDay);
-                      //   day = _selectedDay.day.toString();
-                      //   endday = _selectedDay
-                      //       .add(Duration(days: getDays))
-                      //       .day
-                      //       .toString();
-                      //   current_mon = _selectedDay.month;
-                      //   selected_week = _selectedDay.weekday;
-                      //
-                      //   end_mon = _selectedDay.add(Duration(days: getDays)).month;
-                      //   end_week =
-                      //       _selectedDay.add(Duration(days: getDays)).weekday;
-                      // }),
                       onDaySelected: (selectedDay, focusedDay) => setState(() {
                         _selectedDay = selectedDay;
                         _focusedDay = _selectedDay;
@@ -391,17 +374,19 @@ class _SelectDateState extends State<SelectDate> {
                   "gym_details": Get.arguments["docs"],
                   "totalDays": totalDays
                 },
-              );
-              await FirebaseFirestore.instance
-                  .collection("bookings")
-                  // .doc(number)
-                  // .collection("user_booking")
-                  .doc(widget.bookingId)
-                  .update({
-                "booking_date": startDate,
-                "plan_end_duration": endDate,
-                "totalDays": totalDays
+              )!.then((value) async {
+                await FirebaseFirestore.instance
+                    .collection("bookings")
+                // .doc(number)
+                // .collection("user_booking")
+                    .doc(widget.bookingId)
+                    .update({
+                  "booking_date": startDate,
+                  "plan_end_duration": endDate,
+                  "totalDays": totalDays
+                });
               });
+
             },
             label: Text(
               "Proceed",

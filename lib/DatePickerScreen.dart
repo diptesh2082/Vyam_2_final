@@ -219,15 +219,17 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                     "gym_details": Get.arguments["docs"],
                     "totalDays": endDate.difference(startDate).inDays+1
                   },
-                );
-                await FirebaseFirestore.instance
-                    .collection("bookings")
-                    .doc(widget.bookingId)
-                    .update({
-                  "booking_date": startDate,
-                  "plan_end_duration": endDate,
-                  "totalDays": endDate.difference(startDate).inDays
+                )!.then((value) async {
+                  await FirebaseFirestore.instance
+                      .collection("bookings")
+                      .doc(widget.bookingId)
+                      .update({
+                    "booking_date": startDate,
+                    "plan_end_duration": endDate,
+                    "totalDays": endDate.difference(startDate).inDays
+                  });
                 });
+
               },
               label: Text(
                 "Proceed",
