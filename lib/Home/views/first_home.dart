@@ -420,76 +420,79 @@ class _FirstHomeState extends State<FirstHome> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: const Divider(
-                            height: .3,
-                            thickness: 1,
+                    Obx(
+                    ()=> Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: const Divider(
+                              height: .3,
+                              thickness: 1,
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
+                          const SizedBox(
+                            height: 12,
+                          ),
 
-                        SizedBox(height: 60,),
+                          SizedBox(height: 60,),
 
-                        const SizedBox(
-                          height: 9,
-                        ),
-                        // if (searchGymName.isEmpty)
+                          const SizedBox(
+                            height: 9,
+                          ),
+                          // if (searchGymName.isEmpty)
 
-                        Column(
-                          children: [
-                            if (getPercentage != 100) ProgressCard(),
-                            const SizedBox(
-                              height: 9,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                                Get.to(CouponDetails(cartValue: null, type: '',));
-                              },
-                              child: Banner(bannerApi: bannerApi),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Catagory(),
-                            const SizedBox(
-                              height: 7,
-                            ),
+                          Column(
+                            children: [
+                              if (getPercentage != 100) ProgressCard(),
+                              const SizedBox(
+                                height: 9,
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                  Get.to(CouponDetails(cartValue: null, type: '',));
+                                },
+                                child: Banner(bannerApi: bannerApi),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Catagory(),
+                              const SizedBox(
+                                height: 7,
+                              ),
 
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Material(
-                                borderRadius: BorderRadius.circular(10),
-                                elevation: 0,
-                                child: SizedBox(
-                                  height: 30,
-                                  width: 130,
-                                  child: Center(
-                                    child: Text(
-                                      "Nearby Gyms",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Material(
+                                  borderRadius: BorderRadius.circular(10),
+                                  elevation: 0,
+                                  child: SizedBox(
+                                    height: 30,
+                                    width: 130,
+                                    child: Center(
+                                      child: Text(
+                                        "Nearby Gyms",
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+
                                     ),
-
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 7,
-                            ),
-                            BuildBox()
-                            // LocationList()
-                          ],
-                        )
-                      ],
+                              const SizedBox(
+                                height: 7,
+                              ),
+                              if (Get.find<Need>().search.value.isEmpty)
+                              BuildBox()
+                              // LocationList()
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                     Positioned(
                         top: 15,

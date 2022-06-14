@@ -84,7 +84,7 @@ class _GymTypeState extends State<GymType> {
                                   onTap: () async {
                                     print("${document[index]["name"]}");
                                     Get.to(
-                                        () => GymDetails(
+                                        () => GymDetails(gymID: document[index].id,
                                             // getID: document[index].id,
                                             // gymLocation: document[index]
                                             //     ["location"],

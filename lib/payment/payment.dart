@@ -132,7 +132,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       totalDiscount = ((price * discount) / 100).round();
       taxPay = ((price * gstTax) / 100).round();
       grandTotal = ((price - totalDiscount) + taxPay);
-      amount = grandTotal.toString() + "00";
+      amount = grandTotal.toString() ;
 
     });
     await FirebaseFirestore.instance
@@ -354,25 +354,42 @@ class _PaymentScreenState extends State<PaymentScreen> {
               borderRadius: BorderRadius.all(Radius.circular(16))),
           content: SizedBox(
             height: 180,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(
-                    Icons.cancel,
-                    color: Colors.red,
-                    size: 50,
-                  ),
-                  SizedBox(height: 15),
-                  Text(
-                    'Payment Failed',
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700),
-                  ),
-                ]),
+            child: Stack(
+              children: [
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.cancel,
+                        color: Colors.red,
+                        size: 50,
+                      ),
+                      SizedBox(height: 15),
+                      Text(
+                        'Payment Failed',
+                        style: TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ]),
+                Positioned(
+                    top: 0,
+                    right: 0,
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.cancel_outlined,color: Colors.black87,
+                        size: 18,
+                      ),
+                    )
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -1061,114 +1078,132 @@ class _PaymentScreenState extends State<PaymentScreen> {
         content: SizedBox(
           height: 170,
           width: 280,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
             children: [
-              Text(
-                "Proceed payment in cash ?",
-                style: GoogleFonts.poppins(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-              const SizedBox(
-                height:15,
-              ),
-              Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                          height: 38,
-                          width: 90,
-                          decoration: BoxDecoration(
-                              color: HexColor("FFECB2"),
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 3, right: 3, top: 2, bottom: 2),
-                            child: Center(
-                              child: Text(
-                                "Cancel",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
-                                    color: HexColor("030202")),
-                              ),
-                            ),
-                          )),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+
+                  Text(
+                    "Proceed payment in cash ?",
+                    style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold
                     ),
-                    // Image.asset("assets/icons/icons8-approval.gif",
-                    //   height: 70,
-                    //   width: 70,
-                    // ),
+                  ),
+                  const SizedBox(
+                    height:15,
+                  ),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                              height: 38,
+                              width: 90,
+                              decoration: BoxDecoration(
+                                  color: HexColor("FFECB2"),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 3, right: 3, top: 2, bottom: 2),
+                                child: Center(
+                                  child: Text(
+                                    "Cancel",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: HexColor("030202")),
+                                  ),
+                                ),
+                              )),
+                        ),
+                        // Image.asset("assets/icons/icons8-approval.gif",
+                        //   height: 70,
+                        //   width: 70,
+                        // ),
 
-                    const SizedBox(width: 15),
-                    GestureDetector(
-                      onTap: ()async{
-                        setState(() {
-                          isLoading=true;
-                        });
-                        Navigator.pop(context);
-                        var x =  Random().nextInt(9999);
-                        if (x<1000){
-                          x=x+1000;
-                        }
-                        FocusScope.of(context).unfocus();
-                        // await getBookingData(getData["booking_id"]);
-                        Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
-                        setState(() {
-                          isLoading=false;
-                        });
+                        const SizedBox(width: 15),
+                        GestureDetector(
+                          onTap: ()async{
+                            setState(() {
+                              isLoading=true;
+                            });
+                            Navigator.pop(context);
+                            var x =  Random().nextInt(9999);
+                            if (x<1000){
+                              x=x+1000;
+                            }
+                            FocusScope.of(context).unfocus();
+                            // await getBookingData(getData["booking_id"]);
+                            Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
+                            setState(() {
+                              isLoading=false;
+                            });
 
-                        // print(x);
-                        await FirebaseFirestore.instance
-                            .collection("bookings")
-                            .doc(booking_id)
-                            .update({
-                          "otp_pass": x.toString(),
-                          "booking_status":"upcoming",
-                          "payment_done": false,
-                        });
-                        // await FirebaseMessaging.instance.sendMessage(
-                        //   to: "cP2cgBakT-ejsKRphU9Idg:APA91bEfTMeJmTV4EmB3qtGJ7HBlyzeaS2GHIugF1f0ZAigJwvw1GsolLllU-n0g1b5_3W3zqmLfI4EOJI-Yw_H1c-0u4ZQp1VhAHp8dAxiE_LI96SV-l8a-AGdxc46D22XwUtzZCepY",
-                        // data:  {
-                        // "score": '850',
-                        // "time": '2:45'
-                        // },
-                        // ).then((value) {
-                        //   print("its done ");
-                        // });
-                        // await showNotification("Thank You","Booking Successful");
+                            // print(x);
+                            await FirebaseFirestore.instance
+                                .collection("bookings")
+                                .doc(booking_id)
+                                .update({
+                              "otp_pass": x.toString(),
+                              "booking_status":"upcoming",
+                              "payment_done": false,
+                            });
+                            // await FirebaseMessaging.instance.sendMessage(
+                            //   to: "cP2cgBakT-ejsKRphU9Idg:APA91bEfTMeJmTV4EmB3qtGJ7HBlyzeaS2GHIugF1f0ZAigJwvw1GsolLllU-n0g1b5_3W3zqmLfI4EOJI-Yw_H1c-0u4ZQp1VhAHp8dAxiE_LI96SV-l8a-AGdxc46D22XwUtzZCepY",
+                            // data:  {
+                            // "score": '850',
+                            // "time": '2:45'
+                            // },
+                            // ).then((value) {
+                            //   print("its done ");
+                            // });
+                            // await showNotification("Thank You","Booking Successful");
 
 
 
-                      },
-                      child: Container(
-                          height: 38,
-                          width: 90,
-                          decoration: BoxDecoration(
-                              color: HexColor("27AE60"),
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 3, right: 3, top: 2, bottom: 2),
-                            child: Center(
-                              child: Text(
-                                "Proceed",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700,
-                                    color: HexColor("030105")),
-                              ),
-                            ),
-                          )),
+                          },
+                          child: Container(
+                              height: 38,
+                              width: 90,
+                              decoration: BoxDecoration(
+                                  color: HexColor("27AE60"),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 3, right: 3, top: 2, bottom: 2),
+                                child: Center(
+                                  child: Text(
+                                    "Proceed",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: HexColor("030105")),
+                                  ),
+                                ),
+                              )),
+                        ),
+                      ]),
+                ],
+              ),
+              Positioned(
+                  top: 0,
+                  right: 0,
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.cancel_outlined,color: Colors.black87,
+                      size: 18,
                     ),
-                  ]),
+                  )
+              ),
             ],
           ),
         ),

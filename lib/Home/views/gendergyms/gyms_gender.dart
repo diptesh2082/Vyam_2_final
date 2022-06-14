@@ -53,7 +53,13 @@ class _GymAllState extends State<GymAll> {
         padding:
             const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
         child: StreamBuilder(
-          stream: gymAll.getGymDetails,
+          stream: FirebaseFirestore.instance
+              .collection("product_details")
+          // .where("locality",
+          // isEqualTo: GlobalUserData["locality"])
+              .where("legit",isEqualTo: true)
+              .orderBy("location")
+              .snapshots(),
           builder: (context, AsyncSnapshot streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -101,6 +107,13 @@ class _GymAllState extends State<GymAll> {
                 var distance=calculateDistance(GlobalUserData["location"].latitude, GlobalUserData["location"].longitude, document[index]["location"].latitude, document[index]["location"].longitude);
                 distance=double.parse((distance).toStringAsFixed(1));
                 // print(distance);
+                if (distance <= 50
+                    // && (document[index]["locality"].toString()
+                    // .toLowerCase()
+                    // .trim() == GlobalUserData["locality"].toString()
+                    // .toLowerCase()
+                    // .trim())
+                ) {
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Container(
@@ -111,7 +124,7 @@ class _GymAllState extends State<GymAll> {
                         FocusScope.of(context).unfocus();
 
                         Get.to(
-                                () => GymDetails(),
+                                () => GymDetails( gymID: document[index].id,),
                             arguments: {
                               "id": document[index].id,
                               "location": document[index]
@@ -345,6 +358,8 @@ class _GymAllState extends State<GymAll> {
                     ),
                   ),
                 );
+                }
+                return Container();
               },
               separatorBuilder: (BuildContext context, int index) {
                 return  Container(

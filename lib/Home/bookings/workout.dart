@@ -16,7 +16,7 @@ class _WorkoutsState extends State<Workouts> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 105,
+      height: 80,
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('workouts')
@@ -31,15 +31,20 @@ class _WorkoutsState extends State<Workouts> {
             return Center(child: CircularProgressIndicator());
           }
           documents = snapshot.data.docs;
+          var d=[];
+          documents.forEach((element) {
+            d.add(element["type"]);
+          });
+          print(d);
           return documents.isNotEmpty
               ?
-          workouts(documents)
+          workouts(d)
              : SizedBox();
         },
       ),
     );
   }
-  Widget workouts(List<QueryDocumentSnapshot> document) => Column(
+  Widget workouts(List document) => Column(
     children: [
     Card(
       elevation: .3,
@@ -47,34 +52,20 @@ class _WorkoutsState extends State<Workouts> {
           borderRadius: BorderRadius.circular(12.0)),
       child: SizedBox(
         width:  MediaQuery.of(context).size.height * 0.95,
-        height: 60,
+        height: 72,
         child:  Padding(
           padding: EdgeInsets.only(right: 10,left: 10),
-          child: ListView.builder(itemCount:documents.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder:(context,index) {
-              return Row(
-                children: [
-                  Text(
-                    document[index]['type'],
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
-                          ),
-                          maxLines: 3,
-                  ),
-                  const Text(
-                    ' | ',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 14,
-                        color: Colors.grey),
-                  ),
-
-              ],
-              );
-            }
-          ),
+          child:
+          Center(
+            child: Text(
+              "${document.join(" | ")}",
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                    ),
+                    maxLines: 3,
+            ),
+          )
         ),
       ),
     ),

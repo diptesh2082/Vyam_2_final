@@ -49,20 +49,11 @@ class _PackegesState extends State<Packeges> {
     await FirebaseFirestore.instance
         .collection("bookings")
         .where("booking_status".toLowerCase(),
-            whereIn: ["completed", "active", "upcoming"])
+            whereIn: ["completed", "active", "upcoming","cancelled"])
         .get()
         .then((value) async {
           if (value.docs.isNotEmpty) {
             booking_iiid = await value.docs.length;
-            // try{
-            //   db.update({
-            //     "id":booking.toString()
-            //   });
-            // }catch(e){
-            //   db.update({
-            //     "id":100
-            //   });
-            // }
           }
         })
         .then((value) async {
@@ -277,10 +268,23 @@ class _PackegesState extends State<Packeges> {
                                           children: [
                                             Row(
                                               children: [
+                                                Text(
+                                                  data.docs[snapshot]
+                                                  ['title'] ??
+                                                      "".toUpperCase(),
+                                                  style:
+                                                  GoogleFonts.poppins(
+                                                      fontSize: 15,
+                                                      color: HexColor(
+                                                          "3A3A3A"),
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w700),
+                                                ),
                                                 if (int.parse(
                                                         data.docs[snapshot]
-                                                            ['price']) >
-                                                    100)
+                                                            ['discount']) >
+                                                    5)
                                                   Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -297,36 +301,24 @@ class _PackegesState extends State<Packeges> {
                                                                     FontWeight
                                                                         .w500),
                                                       ),
-                                                      Text(
-                                                        data.docs[snapshot]
-                                                                ['title'] ??
-                                                            "".toUpperCase(),
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                                fontSize: 15,
-                                                                color: HexColor(
-                                                                    "3A3A3A"),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700),
-                                                      ),
+
                                                     ],
                                                   ),
                                                 if (int.parse(
                                                         data.docs[snapshot]
                                                             ['price']) <=
                                                     100)
-                                                  Text(
-                                                    data.docs[snapshot]
-                                                            ['title'] ??
-                                                        "".toUpperCase(),
-                                                    style: GoogleFonts.poppins(
-                                                        fontSize: 16,
-                                                        color:
-                                                            HexColor("3A3A3A"),
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
+                                                  // Text(
+                                                  //   data.docs[snapshot]
+                                                  //           ['title'] ??
+                                                  //       "".toUpperCase(),
+                                                  //   style: GoogleFonts.poppins(
+                                                  //       fontSize: 16,
+                                                  //       color:
+                                                  //           HexColor("3A3A3A"),
+                                                  //       fontWeight:
+                                                  //           FontWeight.w600),
+                                                  // ),
                                                 const Spacer(),
                                               ],
                                             ),
@@ -338,27 +330,27 @@ class _PackegesState extends State<Packeges> {
                                                   MainAxisAlignment.start,
                                               // crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                if (int.parse(
-                                                        data.docs[snapshot]
-                                                            ['price']) >
-                                                    100)
-                                                  if (int.parse(
-                                                          data.docs[snapshot]
-                                                              ['price']) <
-                                                      100)
-                                                    Text(
-                                                      data.docs[snapshot]
-                                                              ['title']
-                                                          .toUpperCase(),
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                              fontSize: 16,
-                                                              color: HexColor(
-                                                                  "3A3A3A"),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
+                                                // if (int.parse(
+                                                //         data.docs[snapshot]
+                                                //             ['price']) >
+                                                //     100)
+                                                //   if (int.parse(
+                                                //           data.docs[snapshot]
+                                                //               ['price']) <
+                                                //       100)
+                                                    // Text(
+                                                    //   data.docs[snapshot]
+                                                    //           ['title']
+                                                    //       .toUpperCase(),
+                                                    //   style:
+                                                    //       GoogleFonts.poppins(
+                                                    //           fontSize: 16,
+                                                    //           color: HexColor(
+                                                    //               "3A3A3A"),
+                                                    //           fontWeight:
+                                                    //               FontWeight
+                                                    //                   .w600),
+                                                    // ),
                                                 // const Spacer(),
                                                 Column(
                                                   crossAxisAlignment:

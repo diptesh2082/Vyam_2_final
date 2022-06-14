@@ -65,7 +65,7 @@ class _OtpPageState extends State<OtpPage> {
         showLoading = false;
       });
       if (authCred.user != null) {
-        await getToHomePage(_auth.currentUser?.phoneNumber);
+        // await  getToHomePage(_auth.currentUser?.phoneNumber);
         await setNumber(_auth.currentUser!.phoneNumber);
         await checkExist("${_auth.currentUser?.phoneNumber}").then((value) async {
           await setUserId(_auth.currentUser?.phoneNumber);
@@ -86,6 +86,7 @@ class _OtpPageState extends State<OtpPage> {
         // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage()));
       }
     } on FirebaseAuthException catch (e) {
+
       setState(() {
         // showLoading = false;
         showError = true;

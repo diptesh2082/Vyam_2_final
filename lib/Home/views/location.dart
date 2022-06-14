@@ -466,6 +466,7 @@ class _LocInfoState extends State<LocInfo> {
                                       child: InkWell(
                                         onTap: () async {
                                           FocusScope.of(context).unfocus();
+                                          // ggggggggggggggggggggggggggggggggggggggggggggggggggg
                                           String value =
                                               document[index]['Address'];
                                           print(value);
@@ -501,13 +502,18 @@ class _LocInfoState extends State<LocInfo> {
                                           padding: const EdgeInsets.all(9),
                                           child: Row(
                                             children: [
-                                              Text(
-                                                "${document[index]['Address']}",
-                                                style: TextStyle(
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 14,
-                                                    color: Colors.black),
+                                              SizedBox(
+                                                child: Text(
+                                                  "${document[index]['Address']}",
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight: FontWeight.w400,
+                                                      fontSize: 14,
+                                                      color: Colors.black),
+                                                ),
+                                                width: MediaQuery.of(context).size.width*.75,
                                               ),
                                               const Spacer(),
                                               Transform(
