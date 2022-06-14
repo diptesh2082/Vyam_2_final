@@ -124,9 +124,9 @@ class _ProgressCardState extends State<ProgressCard> {
                 if (totalDays==0){
                   totalDays=1;
                 }
-                if (getDays==0){
-                  getDays="1";
-                }
+                // if (getDays==0){
+                //   getDays="1";
+                // }
                 print("--------------------------------------------${data.docs[index]["booking_id"]}");
                 final percent = double.parse(
                     (100 * int.parse(getDays.toString()) ~/ totalDays)

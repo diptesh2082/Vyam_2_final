@@ -227,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                         },
                         child: Icon(
                           Icons.cancel_outlined,color: Colors.black87,
-                          size: 18,
+                          size: 20,
                         ),
                       )
                   ),

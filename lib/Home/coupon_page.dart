@@ -661,7 +661,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                               },
                                                               child: Icon(
                                                                 Icons.cancel_outlined,color: Colors.black87,
-                                                              size: 18,
+                                                              size: 20,
                                                               ),
                                                             )
                                                           ),

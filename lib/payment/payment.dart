@@ -384,7 +384,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       },
                       child: Icon(
                         Icons.cancel_outlined,color: Colors.black87,
-                        size: 18,
+                        size: 20,
                       ),
                     )
                 ),
@@ -1202,7 +1202,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     },
                     child: Icon(
                       Icons.cancel_outlined,color: Colors.black87,
-                      size: 18,
+                      size: 20,
                     ),
                   )
               ),

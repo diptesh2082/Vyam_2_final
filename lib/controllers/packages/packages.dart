@@ -264,6 +264,7 @@ class _PackegesState extends State<Packeges> {
                                             bottom: 10),
 
                                         child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             if (int.parse(
                                                 data.docs[snapshot]
@@ -547,10 +548,7 @@ class _PackegesState extends State<Packeges> {
                     StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection("category")
-                            // .doc(widget.getFinalID)
-                            // .collection("package")
-                            // .doc("normal_package")
-                            // .collection("gym")
+
                             .where("name", isNotEqualTo:  "gym")
                             // .orderBy("index")
                             .snapshots(),
