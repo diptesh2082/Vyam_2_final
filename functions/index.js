@@ -5,20 +5,18 @@ admin.initializeApp();
 
 
  exports.myFunction = functions.firestore
-   .document('bookings_notification/{booking_status}')
-   .onUpdate((snapshot, context) => {
-//       console.log(snapshot.data());
-//       if (snapshot.data().booking_status === "upcoming"){
-        const values = snapshot.after.data();
-        const previous = snapshot.before.data();
-        if (previous.booking_status !== "incomplete")
-        return admin.messaging().sendToTopic("bookings",{notification:{
-              title:snapshot.data().user_name,
-              body:"Booking is successful",
-              clickAction:'FLUTTER_NOTIFICATION_CLICK'
-              }});
-//       }else{
-//       return;
-//       }
+   .document('push_notifications/{id}')
+   .onCreate((snapshot, context) => {
+   console.log(snapshot.data());
+   const k= snapshot.data()
+        return admin.messaging().sendToTopic('push_notifications',{
+        notification:{
+              title:String(k.title),
+              body:String(k.definition),
+              clickAction:'FLUTTER_NOTIFICATION_CLICK',
+              },
+              }
+              );
+
 
     });
