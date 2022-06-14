@@ -572,6 +572,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             ),
                           ],
                         ),
+                        Divider(thickness: .5,),
                         Row(
                           children: [
                             Text(

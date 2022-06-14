@@ -208,6 +208,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                               //     ),
                                               //   ],
                                               // ),
+
                                               Row(
                                                 children: [
                                                   Container(
@@ -551,6 +552,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                               ),
                             ],
                           ),
+                          Divider(thickness: .5,),
                           Row(
                             children: [
                               Text(

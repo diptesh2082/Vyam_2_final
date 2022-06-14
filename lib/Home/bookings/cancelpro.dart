@@ -25,7 +25,7 @@ class BooKingCancelation extends StatelessWidget {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Get.off(() => ActiveOrderDetails(), arguments: {"doc": doc});
             },
           ),
           backgroundColor: Colors.transparent,
