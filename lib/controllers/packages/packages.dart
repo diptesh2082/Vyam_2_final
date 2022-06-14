@@ -262,10 +262,44 @@ class _PackegesState extends State<Packeges> {
                                             right: 20,
                                             top: 10,
                                             bottom: 10),
+
                                         child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
                                           children: [
+                                            if (int.parse(
+                                                data.docs[snapshot]
+                                                ['discount']) >
+                                                5)
+                                              Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment
+                                                    .start,
+                                                children: [
+                                                  Row(
+                                                    children: [
+
+                                                      Text(
+                                                        "Trending",
+                                                        style:
+                                                        GoogleFonts.poppins(
+                                                            fontSize: 12,
+                                                            color: Colors.red,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w800),
+                                                      ),
+                                                      Flexible(
+                                                        child: Image.asset(
+                                                          "assets/icons/trending.jpeg",
+                                                          height: 20,
+
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                ],
+                                              ),
+
                                             Row(
                                               children: [
                                                 Text(
@@ -281,29 +315,7 @@ class _PackegesState extends State<Packeges> {
                                                       FontWeight
                                                           .w700),
                                                 ),
-                                                if (int.parse(
-                                                        data.docs[snapshot]
-                                                            ['discount']) >
-                                                    5)
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        "Trending",
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                                fontSize: 10,
-                                                                color: HexColor(
-                                                                    "CDCDCD"),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w800),
-                                                      ),
 
-                                                    ],
-                                                  ),
                                                 if (int.parse(
                                                         data.docs[snapshot]
                                                             ['price']) <=

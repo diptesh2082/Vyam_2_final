@@ -444,6 +444,36 @@ class _OlderOderDetailsState extends State<OlderOderDetails> {
                         ),
                       ],
                     ),
+                    Row(
+                      children: [
+                        Text(
+                          "Payment Type",
+                          style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: HexColor("27AE60")),
+                        ),
+                        const Spacer(),
+                        if (getOderDetails[widget.index]['payment_method']=='offline')
+                          Text(
+                            'Cash',
+                            style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: HexColor("27AE60")),
+                          ),
+                        if(getOderDetails[widget.index]['payment_method']=='online')
+                          Text(
+                            'Online',
+                            style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: HexColor("27AE60")),
+                          ),
+
+
+                      ],
+                    ),
                   ],
                 ),
               ),

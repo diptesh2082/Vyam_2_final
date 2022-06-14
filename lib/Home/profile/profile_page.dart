@@ -420,6 +420,29 @@ class _ProfilePartState extends State<ProfilePart> {
                   const SizedBox(
                     height: 24,
                   ),
+                  // ClipRRect(
+                  //   borderRadius: BorderRadius.circular(10),
+                  //   child: SizedBox(
+                  //     height: 37,
+                  //     width: 110,
+                  //     child: ElevatedButton(onPressed: (){
+                  //       Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(builder: (context) => LoginPage()),
+                  //
+                  //       );
+                  //     }, child: Text("Log Out",
+                  //       style: GoogleFonts.poppins(
+                  //           color: Color(0xffffffff)
+                  //       ),
+                  //     )
+                  //       ,style: ElevatedButton.styleFrom(
+                  //         primary: Color(0xff292F3D),
+                  //       ),
+                  //
+                  //     ),
+                  //   ),
+                  // ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: SizedBox(
