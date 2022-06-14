@@ -396,7 +396,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             Text(
                               "Workout",
                               style: GoogleFonts.poppins(
-                                  fontSize: 16, fontWeight: FontWeight.w700),
+                                  fontSize: 16, fontWeight: FontWeight.w700,color: HexColor("27AE60")),
                             ),
                             const Spacer(),
                             // if (getOderDetails[widget.index]['workout']
@@ -411,27 +411,34 @@ class _OrderDetailsState extends State<OrderDetails> {
                             //     .contains("Months"))
                             Text(
                               // getOderDetails[widget.index]['workout']
+
                               '${doc["doc"]['package_type']}'.toUpperCase(),
+
                               style: GoogleFonts.poppins(
-                                  fontSize: 16, fontWeight: FontWeight.w700),
+                                  fontSize: 16, fontWeight: FontWeight.w700,color:HexColor("27AE60")),
                             ),
                           ],
                         ),
                         Row(
                           children: [
                             Text(
+
                         '${doc["doc"]['booking_plan']=="pay per session"?doc["doc"]['booking_plan']:"Package"}',
+
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                             const Spacer(),
                             Text(
+
                               // getOderDetails[widget.index]['workout']
                                 doc["doc"]['booking_plan']=="pay per session"?'${doc["doc"]['totalDays'].toString()} days':doc["doc"]['booking_plan'],
+
 
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
+
                           ],
                         ),
                         Row(

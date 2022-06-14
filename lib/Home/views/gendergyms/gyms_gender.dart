@@ -369,7 +369,7 @@ class _GymAllState extends State<GymAll> {
             )
                 : const Center(
               child: Text(
-                "No nearby gyms in your area",
+                "No fitness options found",
                 style: TextStyle(
                   fontWeight: FontWeight.w100,
                   fontFamily: "Poppins",
