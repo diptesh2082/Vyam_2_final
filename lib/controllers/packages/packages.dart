@@ -295,7 +295,7 @@ class _PackegesState extends State<Packeges> {
                                                                     "CDCDCD"),
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w500),
+                                                                        .w800),
                                                       ),
                                                       Text(
                                                         data.docs[snapshot]

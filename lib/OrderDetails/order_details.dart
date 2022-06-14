@@ -155,30 +155,30 @@ class _OrderDetailsState extends State<OrderDetails> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "End on :",
-                                                  style: GoogleFonts.poppins(
-                                                      color: HexColor("A3A3A3"),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                                Text(
-                                                  doc["doc"]
-                                                          ['plan_end_duration']
-                                                      .toDate()
-                                                      .year
-                                                      .toString(),
-                                                  style: GoogleFonts.poppins(
-                                                      color: HexColor("A3A3A3"),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                              ],
-                                            ),
+                                            // Row(
+                                            //   children: [
+                                            //     Text(
+                                            //       "End on :",
+                                            //       style: GoogleFonts.poppins(
+                                            //           color: HexColor("A3A3A3"),
+                                            //           fontSize: 12,
+                                            //           fontWeight:
+                                            //               FontWeight.w500),
+                                            //     ),
+                                            //     Text(
+                                            //       doc["doc"]
+                                            //               ['plan_end_duration']
+                                            //           .toDate()
+                                            //           .year
+                                            //           .toString(),
+                                            //       style: GoogleFonts.poppins(
+                                            //           color: HexColor("A3A3A3"),
+                                            //           fontSize: 12,
+                                            //           fontWeight:
+                                            //               FontWeight.w500),
+                                            //     ),
+                                            //   ],
+                                            // ),
                                             Row(
                                               children: [
                                                 Container(
