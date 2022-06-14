@@ -24,7 +24,9 @@ class BooKingCancelation extends StatelessWidget {
               Icons.keyboard_backspace,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
@@ -35,15 +37,7 @@ class BooKingCancelation extends StatelessWidget {
 // <<<<<<< thed
               children: [
                 Lottie.asset('assets/icons/asf.json', height: 100, width: 400),
-// =======
-//               children:  [
-//                 Image.asset("assets/icons/x.gif",
-//                 height: 110,
-//                   width: 110,
 
-//                   // colorBlendMode: true,
-//                 ),
-// >>>>>>> master
                 SizedBox(height: 16.0),
                 Text(
                   "Booking Canceled!",
