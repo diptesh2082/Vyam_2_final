@@ -165,12 +165,12 @@ class _SearchItState extends State<SearchIt> {
 
             return document.isNotEmpty
                 ? Column(
-                  children: [
-                    ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: document.length,
-              itemBuilder: (context, index) {
+              children: [
+                ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: document.length,
+                  itemBuilder: (context, index) {
                     var distance = calculateDistance(
                         GlobalUserData["location"].latitude,
                         GlobalUserData["location"].longitude,
@@ -178,7 +178,13 @@ class _SearchItState extends State<SearchIt> {
                         document[index]["location"].longitude);
                     distance = double.parse((distance).toStringAsFixed(1));
                     // print(distance);
-                    if (distance <= 50) {
+                    if (distance <= 50
+                    // && (document[index]["locality"].toString()
+                    // .toLowerCase()
+                    // .trim() == GlobalUserData["locality"].toString()
+                    // .toLowerCase()
+                    // .trim())
+                    ) {
                       return FittedBox(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
@@ -190,7 +196,11 @@ class _SearchItState extends State<SearchIt> {
                               child: GestureDetector(
                                 onTap: () async {
                                   FocusScope.of(context).unfocus();
-
+                                  // var viku=await Geolocator.distanceBetween(GlobalUserData["location"].latitude,
+                                  //     GlobalUserData["location"].longitude,
+                                  //     document[index]["location"].latitude,
+                                  //     document[index]["location"].longitude);
+                                  // print(viku);
                                   Get.to(() => GymDetails(gymID: document[index].id,), arguments: {
                                     "id": document[index].id,
                                     "location": document[index]["location"],
@@ -201,26 +211,30 @@ class _SearchItState extends State<SearchIt> {
                                 child: Stack(
                                   children: [
                                     FittedBox(
-                                      child: CachedNetworkImage(
-                                        height: 210,
-                                        fit: BoxFit.cover,
-                                        width:
-                                        MediaQuery.of(context).size.width,
-                                        imageUrl: document[index]
-                                        ["display_picture"] ??
-                                            "",
-                                        progressIndicatorBuilder: (context,
-                                            url, downloadProgress) =>
-                                            Center(
-                                                child:
-                                                CircularProgressIndicator(
-                                                    value:
-                                                    downloadProgress
-                                                        .progress)),
-                                        errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                        // height: 195,
-                                        // width: double.infinity,
+                                      child: ColorFiltered(
+                                        colorFilter: ColorFilter.mode(
+                                            document[index]["gym_status"] ? Colors
+                                                .transparent : Colors.black,
+                                            BlendMode.color),
+                                        child: CachedNetworkImage(
+                                          filterQuality: FilterQuality.low,
+                                          height: 210,
+                                          fit: BoxFit.cover,
+                                          width:
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width,
+                                          imageUrl: document[index]
+                                          ["display_picture"] ??
+                                              "",
+                                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                              Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
+                                          errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
+                                          // height: 195,
+                                          // width: double.infinity,
+                                        ),
                                       ),
                                     ),
                                     Positioned(
@@ -245,27 +259,27 @@ class _SearchItState extends State<SearchIt> {
                                       ),
                                     ),
                                     Positioned(
-                                      bottom: size.height * .009,
-                                      left: 5,
+                                      bottom: 2,
+                                      left: 8,
                                       child: Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
                                           BorderRadius.circular(6),
                                           // color: Colors.white10,
                                         ),
-                                        // height: size.height * .078,
-                                        width: size.width * .45,
+                                        height: size.height * .078,
+                                        width: size.width * .6,
                                         padding: const EdgeInsets.only(
-                                            left: 8, bottom: 10),
+                                            left: 0, bottom: 10),
                                         child: Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          // mainAxisAlignment:
+                                          // MainAxisAlignment.start,
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               document[index]["name"] ?? "",
-                                              textAlign: TextAlign.start,
+                                              // textAlign: TextAlign.center,
                                               maxLines: 1,
                                               // overflow:
                                               // TextOverflow.ellipsis,
@@ -283,15 +297,18 @@ class _SearchItState extends State<SearchIt> {
                                               // "",
                                               document[index]["address"] ??
                                                   "",
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.start,
-                                              style: const TextStyle(
-                                                  overflow:
-                                                  TextOverflow.ellipsis,
+                                              style: GoogleFonts.poppins(
+                                                // overflow:
+                                                // TextOverflow.ellipsis,
                                                   color: Colors.white,
-                                                  fontFamily: "Poppins",
+                                                  // fontFamily: "Poppins",
                                                   fontSize: 12,
+                                                  // fontStyle: FontStyle.italic,
                                                   fontWeight:
-                                                  FontWeight.w600),
+                                                  FontWeight.w500),
                                             ),
                                           ],
                                         ),
@@ -332,7 +349,8 @@ class _SearchItState extends State<SearchIt> {
                                                   width: 5,
                                                 ),
                                                 Text(
-                                                  "${document[index]["rating"] ?? ""}",
+                                                  "${document[index]["rating"]
+                                                      .toString() }",
                                                   textAlign: TextAlign.center,
                                                   style: const TextStyle(
                                                       color: Colors.white,
@@ -379,6 +397,45 @@ class _SearchItState extends State<SearchIt> {
                                         ),
                                       ),
                                     ),
+                                    if(document[index]["gym_status"] == false)
+                                      Positioned(
+                                        top: 0,
+                                        left: 0,
+                                        // bottom: size.height * .008,
+                                        child: Container(
+                                          // child:
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(6),
+                                              gradient: const LinearGradient(
+                                                  colors: [
+                                                    Color(0x31000000),
+                                                    Color(0x56000000)
+                                                  ],
+                                                  begin: Alignment(0.0, 1),
+                                                  end: Alignment(0.0, -.6))),
+                                          alignment: Alignment.bottomRight,
+                                          height: 210,
+                                          width: 500,
+                                          padding: const EdgeInsets.only(
+                                              right: 8, bottom: 10),
+                                        ),
+                                      ),
+                                    if(document[index]["gym_status"] == false)
+                                      Positioned(
+                                        top: 10,
+                                        left: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width * .040,
+                                        child: Text("*Temporarily closed",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.red
+                                          ),
+                                        ),
+                                      ),
                                   ],
                                 ),
                               ),
@@ -388,61 +445,66 @@ class _SearchItState extends State<SearchIt> {
                       );
                     }
                     return Container();
-              },
-              separatorBuilder: (BuildContext context, int index) {
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
                     return Container(
                       height: 15,
                     );
-              },
-            ),
-                    Container(
-                      height: 350,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 120,
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 3.0),
-                                    child: SizedBox(
-                                        height: 40,
-                                        width: 95,
-                                        child: Image.asset(
-                                            "assets/Illustrations/Keep_the.png")),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 3.0),
-                                    child: SizedBox(
-                                        height: 55,
-                                        width: 140,
-                                        child: Image.asset(
-                                            "assets/Illustrations/Grind_on.png")),
-                                  ),
-                                  SizedBox(
-                                      height: 25,
-                                      width: 225,
-                                      child: Image.asset(
-                                          "assets/Illustrations/Group_187.png")),
-                                  const SizedBox(
-                                    height: 50,
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+                  },
+                ),
+                // if(document.length <4)
+                Container(
+                  height: 500,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 120,
                       ),
-                    ),
-                  ],
-                )
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Column(
+                            // mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 3.0),
+                                child: SizedBox(
+                                    height: 40,
+                                    width: 95,
+                                    child: Image.asset(
+                                        "assets/Illustrations/Keep_the.png")),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 3.0),
+                                child: SizedBox(
+                                    height: 55,
+                                    width: 140,
+                                    child: Image.asset(
+                                        "assets/Illustrations/Grind_on.png")),
+                              ),
+                              SizedBox(
+                                  height: 25,
+                                  width: 225,
+                                  child: Image.asset(
+                                      "assets/Illustrations/Group_187.png")),
+                              const SizedBox(
+                                height: 10,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // if(document.length >=4)
+                //   SizedBox(
+                //     height: 20,
+                //   ),
+              ],
+            )
                 : Column(
                   children: [
                     SizedBox(
