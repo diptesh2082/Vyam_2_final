@@ -185,30 +185,30 @@ class _OrderDetailsState extends State<OrderDetails> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "End on :",
-                                                  style: GoogleFonts.poppins(
-                                                      color: HexColor("A3A3A3"),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                                Text(
-                                                  doc["doc"]
-                                                          ['plan_end_duration']
-                                                      .toDate()
-                                                      .year
-                                                      .toString(),
-                                                  style: GoogleFonts.poppins(
-                                                      color: HexColor("A3A3A3"),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                              ],
-                                            ),
+                                            // Row(
+                                            //   children: [
+                                            //     Text(
+                                            //       "End on :",
+                                            //       style: GoogleFonts.poppins(
+                                            //           color: HexColor("A3A3A3"),
+                                            //           fontSize: 12,
+                                            //           fontWeight:
+                                            //               FontWeight.w500),
+                                            //     ),
+                                            //     Text(
+                                            //       doc["doc"]
+                                            //               ['plan_end_duration']
+                                            //           .toDate()
+                                            //           .year
+                                            //           .toString(),
+                                            //       style: GoogleFonts.poppins(
+                                            //           color: HexColor("A3A3A3"),
+                                            //           fontSize: 12,
+                                            //           fontWeight:
+                                            //               FontWeight.w500),
+                                            //     ),
+                                            //   ],
+                                            // ),
                                             Row(
                                               children: [
                                                 Container(
@@ -571,6 +571,36 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   color: HexColor("27AE60")),
                             ),
                           ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "Payment Type",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: HexColor("27AE60")),
+                            ),
+                            const Spacer(),
+                            if (doc["doc"]['payment_method']=='offline')
+                            Text(
+                              'Cash',
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: HexColor("27AE60")),
+                            ),
+                            if(doc["doc"]['payment_method']=='online')
+                            Text(
+                            'Online',
+                            style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: HexColor("27AE60")),
+                            ),
+
+
+                       ],
                         ),
                       ],
                     ),
