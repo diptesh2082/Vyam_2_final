@@ -119,7 +119,7 @@ class _SearchItState extends State<SearchIt> {
     Size size = MediaQuery.of(context).size;
     return SizedBox(
       width: size.width * .94,
-      height: size.height * .94,
+      height: size.height * .98,
       child: SingleChildScrollView(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
@@ -396,7 +396,7 @@ class _SearchItState extends State<SearchIt> {
               },
             ),
                     Container(
-                      height: 300,
+                      height: 350,
                       child: Column(
                         children: [
                           SizedBox(
@@ -443,32 +443,32 @@ class _SearchItState extends State<SearchIt> {
                     ),
                   ],
                 )
-                : SingleChildScrollView(
-              // controller: app_bar_controller,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 100,
-                  ),
-                  Center(
-                    child: Material(
-                      elevation: .2,
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(15),
-                      // decoration: BoxDecoration(
-                      //   color: Colors.white
-                      // ),
-                      child: Center(
-                        child:Image.asset("assets/Illustrations/search empty.png")
+                : Column(
+                  children: [
+                    SizedBox(
+                      height: 100,
+                    ),
+                    Center(
+                      child: Material(
+                        elevation: .2,
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(15),
+                        // decoration: BoxDecoration(
+                        //   color: Colors.white
+                        // ),
+                        child: Center(
+                          child:Image.asset("assets/Illustrations/search empty.png",
+                          height:  MediaQuery.of(context).size.width * .95,
+                          width: MediaQuery.of(context).size.width * .95,
+                          )
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 100,
-                  )
-                ],
-              ),
-            );
+                    SizedBox(
+                      height: 100,
+                    )
+                  ],
+                );
           },
         ),
       ),

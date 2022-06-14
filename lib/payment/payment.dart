@@ -1154,6 +1154,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               "booking_status":"upcoming",
                               "payment_done": false,
                             });
+                            // await FirebaseFirestore.instance.collection("booking");
+                            // );
                             // await FirebaseMessaging.instance.sendMessage(
                             //   to: "cP2cgBakT-ejsKRphU9Idg:APA91bEfTMeJmTV4EmB3qtGJ7HBlyzeaS2GHIugF1f0ZAigJwvw1GsolLllU-n0g1b5_3W3zqmLfI4EOJI-Yw_H1c-0u4ZQp1VhAHp8dAxiE_LI96SV-l8a-AGdxc46D22XwUtzZCepY",
                             // data:  {

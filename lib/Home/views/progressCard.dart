@@ -31,7 +31,8 @@ class _ProgressCardState extends State<ProgressCard> {
   getProgressStatus() async {
     try{
       int finalDate = int.parse(getDays);
-
+      print(getDays);
+      print("++++++++++++++++++++++++++++++++++++++++++++++++");
       finalDate = totalDays - finalDate;
       finaldaysLeft = finalDate / totalDays;
       day_left = totalDays - int.parse(getDays);
@@ -120,7 +121,13 @@ class _ProgressCardState extends State<ProgressCard> {
                 totalDays=totalDays.abs();
                 print(totalDays);
                 print(getDays);
-
+                if (totalDays==0){
+                  totalDays=1;
+                }
+                if (getDays==0){
+                  getDays="1";
+                }
+                print("--------------------------------------------${data.docs[index]["booking_id"]}");
                 final percent = double.parse(
                     (100 * int.parse(getDays.toString()) ~/ totalDays)
                         .toStringAsFixed(1));

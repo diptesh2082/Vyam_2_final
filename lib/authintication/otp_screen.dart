@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/authintication/google_signin.dart';
+import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 // import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/colors/color.dart';
@@ -86,9 +87,11 @@ class _OtpPageState extends State<OtpPage> {
         // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage()));
       }
     } on FirebaseAuthException catch (e) {
+      // Navigator.pushReplacement(
+      //     (context), MaterialPageRoute(builder: (context) => LoginPage()));
 
       setState(() {
-        // showLoading = false;
+        showLoading = false;
         showError = true;
       });
       // ignore: avoid_print

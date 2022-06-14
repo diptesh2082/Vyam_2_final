@@ -3,6 +3,7 @@ import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -76,22 +77,22 @@ class _FirstHomeState extends State<FirstHome> {
   double radius = 50;
   String field = 'position';
 
-  Stream<List<DocumentSnapshot>> stream = Geoflutterfire().collection(collectionRef: FirebaseFirestore.instance.collection('product_details'))
-      .within(center: Geoflutterfire().point(latitude: 12.960632, longitude: 77.641603), radius: 50, field: 'position');
-  getStream()async{
-
-    stream.listen((snapshot) {
-      if(snapshot.isEmpty){
-        print(snapshot.length);
-        print("****************************************");
-      }
-      if(snapshot.isNotEmpty){
-        print(snapshot.length);
-        print("****************************************");
-      }
-    });
-    // return stream;
-  }
+  // Stream<List<DocumentSnapshot>> stream = Geoflutterfire().collection(collectionRef: FirebaseFirestore.instance.collection('product_details'))
+  //     .within(center: Geoflutterfire().point(latitude:GlobalUserData["location"].latitude, longitude:GlobalUserData["location"].longitude), radius: 500, field: 'position');
+  // getStream()async{
+  //
+  //   stream.listen((snapshot) {
+  //     if(snapshot.isEmpty){
+  //       print(snapshot.length);
+  //       print("****************************************");
+  //     }
+  //     if(snapshot.isNotEmpty){
+  //       print(snapshot.length);
+  //       print("****************************************");
+  //     }
+  //   });
+  //   // return stream;
+  // }
 
 
 
@@ -246,13 +247,14 @@ class _FirstHomeState extends State<FirstHome> {
           .update({
         "device_token":devicetoken
       });
+      await FirebaseMessaging.instance.subscribeToTopic("bookings");
     }catch(e){
       print(e);
     }
   }
   @override
   void initState() {
-    getStream();
+    // getStream();
     updateDeviceToken();
     print(devicetoken);
 
@@ -416,7 +418,7 @@ class _FirstHomeState extends State<FirstHome> {
               physics: ClampingScrollPhysics(),
               controller: app_bar_controller,
               child: Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10),
+                padding: const EdgeInsets.only(left: 5.0, right: 5),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
