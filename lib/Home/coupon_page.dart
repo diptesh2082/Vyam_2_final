@@ -541,45 +541,58 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                         BorderRadius.all(Radius.circular(16))),
                                                     content: SizedBox(
                                                       height: 160,
-                                                      width: 160,
-                                                      child: Column(
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment.center,
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment.center,
-                                                          children: [
-                                                            IconButton(onPressed: (){
+                                                      width: 150,
+                                                      child: Stack(
+                                                        children: [
+                                                          Center(
+                                                            child: Column(
+                                                                crossAxisAlignment:
+                                                                CrossAxisAlignment.center,
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment.center,
+                                                                children: [
 
-                                                            },
-                                                                icon: Icon(
-                                                                  Icons.cancel,color: Colors.black87,)
-                                                            ),
-                                                            Text("hi"),
-                                                            Image.asset(
-                                                              "assets/icons/icons8-approval.gif",
-                                                              height: 70,
-                                                              width: 70,
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 9,
-                                                            ),
-                                                            Text(
-                                                              "$coupon Applied",
-                                                              style: const TextStyle(
-                                                                  fontFamily: "Poppins",
-                                                                  fontSize: 14,
-                                                                  fontWeight: FontWeight.w600),
-                                                            ),
-                                                            const SizedBox(height: 6),
-                                                            Text(
-                                                              "You save ${coupon_list[coupon]}",
-                                                              style: const TextStyle(
-                                                                  fontFamily: "Poppins",
-                                                                  fontSize: 16,
-                                                                  color: Colors.green,
-                                                                  fontWeight: FontWeight.w600),
-                                                            ),
-                                                          ]),
+                                                                  Image.asset(
+                                                                    "assets/icons/icons8-approval.gif",
+                                                                    height: 80,
+                                                                    width: 80,
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    height: 9,
+                                                                  ),
+                                                                  Text(
+                                                                    "$coupon Applied",
+                                                                    style: const TextStyle(
+                                                                        fontFamily: "Poppins",
+                                                                        fontSize: 16,
+                                                                        fontWeight: FontWeight.w600),
+                                                                  ),
+                                                                  const SizedBox(height: 6),
+                                                                  Text(
+                                                                    "You save ${coupon_list[coupon]}",
+                                                                    style: const TextStyle(
+                                                                        fontFamily: "Poppins",
+                                                                        fontSize: 16,
+                                                                        color: Colors.green,
+                                                                        fontWeight: FontWeight.w600),
+                                                                  ),
+                                                                ]),
+                                                          ),
+                                                          Positioned(
+                                                              top: 0,
+                                                              right: 0,
+                                                              child: InkWell(
+                                                                onTap: (){
+                                                                  Navigator.pop(context);
+                                                                },
+                                                                child: Icon(
+                                                                  Icons.cancel_outlined,color: Colors.black87,
+                                                                  size: 20,
+                                                                ),
+                                                              )
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 );
