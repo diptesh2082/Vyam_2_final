@@ -41,9 +41,16 @@ Geoflutterfire geo = Geoflutterfire();
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+// <<<<<<< HEAD
+// class couponClass extends GetxController {
+//   RxBool GlobalCouponApplied = false.obs;
+//   RxString GlobalCoupon = "".obs;
+// =======
 class couponClass extends GetxController {
   RxBool GlobalCouponApplied = false.obs;
   RxString GlobalCoupon = "".obs;
+  RxString coupon_id = "".obs;
+// >>>>>>> 7384932aa66e035ea148e5d21e568bb5045564cf
   RxString CouponDetailsMap = "".obs;
   // Map coupon_list={}.obs;
   couponAdd(bool gca, String gc) {

@@ -282,12 +282,24 @@ class _CouponDetailsState extends State<CouponDetails> {
                               shrinkWrap: true,
                               itemCount: documents.length,
                               itemBuilder: (context, index) {
+// <<<<<<< HEAD
+//                                 coupon_list.addAll({
+//                                   documents[index]["code"]
+//                                           .toString()
+//                                           .toLowerCase():
+//                                       documents[index]["discount"]
+//                                 });
+// =======
+
                                 coupon_list.addAll({
                                   documents[index]["code"]
                                           .toString()
                                           .toLowerCase():
-                                      documents[index]["discount"]
+                                      documents[index]["discount"],
+                                  "coupon_id":
+                                      documents[index]["coupon_id"].toString()
                                 });
+// >>>>>>> 7384932aa66e035ea148e5d21e568bb5045564cf
                                 print(coupon_list);
                                 return SafeArea(
                                   child: Stack(
@@ -531,11 +543,29 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                           [
                                                           "minimum_cart_value"])) {
                                                 coupon_applied = true;
+// <<<<<<< HEAD
+//                                                 myCouponController
+//                                                     .GlobalCouponApplied
+//                                                     .value = true;
+//                                                 myCouponController.GlobalCoupon
+//                                                     .value = coupon;
+//                                                 int dex = (widget.cartValue *
+//                                                         (int.parse(documents[
+//                                                                         index]
+//                                                                     ['discount']
+//                                                                 .toString()) /
+//                                                             100))
+//                                                     .toInt();
+// =======
                                                 myCouponController
                                                     .GlobalCouponApplied
                                                     .value = true;
                                                 myCouponController.GlobalCoupon
                                                     .value = coupon;
+                                                myCouponController.coupon_id
+                                                    .value = documents[index]
+                                                        ['coupon_id']
+                                                    .toString();
                                                 int dex = (widget.cartValue *
                                                         (int.parse(documents[
                                                                         index]
@@ -543,6 +573,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                                 .toString()) /
                                                             100))
                                                     .toInt();
+// >>>>>>> 7384932aa66e035ea148e5d21e568bb5045564cf
                                                 print(dex);
                                                 if (dex >=
                                                     int.parse(documents[index]
