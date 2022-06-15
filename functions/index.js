@@ -7,7 +7,7 @@ admin.initializeApp();
  exports.myFunction = functions.firestore
    .document('push_notifications/{id}')
    .onCreate((snapshot, context) => {
-   console.log(snapshot.data());
+   console.log(snapshot.data().title);
    const k= snapshot.data()
         return admin.messaging().sendToTopic('push_notifications',{
         notification:{

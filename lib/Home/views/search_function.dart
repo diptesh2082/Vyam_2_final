@@ -73,7 +73,8 @@ class _SearchItState extends State<SearchIt> {
               ),
 
               Container(
-                color: Colors.white,
+
+                color: Colors.grey[100],
                   child:   Column(
                     children: [
                       if (Get.find<Need>().search.value.isNotEmpty)
@@ -119,7 +120,7 @@ class _SearchItState extends State<SearchIt> {
     Size size = MediaQuery.of(context).size;
     return SizedBox(
       width: size.width * .94,
-      height: size.height * .98,
+      height: size.height ,
       child: SingleChildScrollView(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
@@ -454,7 +455,7 @@ class _SearchItState extends State<SearchIt> {
                 ),
                 // if(document.length <4)
                 Container(
-                  height: 500,
+                  height: 550,
                   child: Column(
                     children: [
                       SizedBox(

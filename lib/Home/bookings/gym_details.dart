@@ -49,24 +49,110 @@ class _GymDetailsState extends State<GymDetails> {
   // double _scale = 1.0;
   // double __previousScale = 1.0;
   bool touch = false;
-  // List<IconData> icons = [
-  //   Icons.ac_unit,
-  //   Icons.lock_rounded,
-  //   Icons.car_repair,
-  //   Icons.person_outline,
-  //   Icons.access_alarm,
-  // ];
+  getRatingCount(x)async{
+    DocumentReference db= await FirebaseFirestore.instance.collection("product_details").doc(widget.gymID);
+    try{
+      db.get().then((DocumentSnapshot documentSnapshot) {
+        if(documentSnapshot.exists){
+          try{
+            db.update({
+              "rating":x
+            });
+          }catch(e){
+            db.update({
+              "rating":1
+            });
+          }
 
-  // final amenities_name = [
-  //   "A/C",
-  //   "Locker",
-  //   "Parking",
-  //   "P/T",
-  //   "Alarm",
-  // ];
+        }
+      }
+
+      );
+    }catch(e){
+      // db.get().then((DocumentSnapshot documentSnapshot) {
+      //   if(documentSnapshot.exists){
+      //     db.update({
+      //       "view_count":1
+      //     });
+      //   }
+      // }
+
+      // );
+    }
 
 
-  // var docs ;
+    //     .update(
+    // {
+    // "view_count": +1;
+    // }
+    // );
+  }
+var snaptu;
+  getRating()async{
+    await FirebaseFirestore.instance.collection("Reviews")
+        .where("gym_id",isEqualTo: widget.gymID)
+        .snapshots()
+        .listen((snap) async {
+      if (snap.docs.isNotEmpty){
+        print("documentexist");
+
+        var d=snap.docs;
+        snaptu=snap.docs;
+        Get.find<Need>().review_number.value=snap.docs.length;
+        var b=0.0;
+        var star1=0.0;
+        var star2=0.0;
+        var star3=0.0;
+        var star4=0.0;
+        var star5=0.0;
+        // var c=0.0;
+        d.forEach((element) {
+          b = b + double.parse(element["rating"]);
+          if (double.parse(element["rating"])>4){
+            star1=star1+1.0;
+          }
+          else if (double.parse(element["rating"])>3 && double.parse(element["rating"])<=4){
+            star2=star2+1.0;
+          }
+          else if (double.parse(element["rating"])>2 && double.parse(element["rating"])<=3){
+            star3=star3+1.0;
+          }
+          else if (double.parse(element["rating"])>1 && double.parse(element["rating"])<=2){
+            star4=star4+1.0;
+          }else{
+            star5=star5+1.0;
+          }
+
+
+        });
+        Get.find<Need>().star1.value= double.parse((star1/d.length).toStringAsFixed(1));
+        Get.find<Need>().star2.value= double.parse((star2/d.length).toStringAsFixed(1));
+        Get.find<Need>().star3.value= double.parse((star3/d.length).toStringAsFixed(1));
+        Get.find<Need>().star4.value= double.parse((star4/d.length).toStringAsFixed(1));
+        Get.find<Need>().star5.value= double.parse((star5/d.length).toStringAsFixed(1));
+        Get.find<Need>().review.value =double.parse((b/d.length).toStringAsFixed(1));
+        // print(Get.find<Need>().star5.value);
+        // print("Get.find<Need>().star5.value)");
+        getRatingCount(await Get.find<Need>().review.value);
+      }
+
+      if(snap.docs.isEmpty){
+        Get.find<Need>().review_number.value=0;
+        Get.find<Need>().star1.value= 0.0;
+        Get.find<Need>().star2.value= 0.0;
+        Get.find<Need>().star3.value= 0.0;
+        Get.find<Need>().star4.value= 0.0;
+        Get.find<Need>().star5.value= 0.0;
+        Get.find<Need>().review.value =0.0;
+        // print(Get.find<Need>().star5.value);
+        // print("Get.find<Need>().star5.value)");
+        getRatingCount(await Get.find<Need>().review.value);
+      }
+
+    });
+
+  }
+
   // = Get.arguments["docs"]
   // final amenityDoc = Get.arguments["docs"]["name"];
   var documents;
@@ -134,6 +220,7 @@ List<dynamic>workout=[""];
   @override
   void initState() {
     getViewCount();
+    getRating();
     getTimings();
 
     super.initState();
@@ -677,150 +764,88 @@ List<dynamic>workout=[""];
                                   // SizedBox(
                                   //   height: MediaQuery.of(context).size.height * 0.01,
                                   // ),
-                                  SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: SizedBox(
-                                      height: 50,
-                                      // MediaQuery.of(context).size.height * 0.050,
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width:
-                                                MediaQuery.of(context).size.width *
-                                                    0.03,
-                                          ),
-                                          const Icon(
-                                            Icons.star,
-                                            color: Colors.yellow,
-                                            size: 18,
-                                          ),
-                                           Text(
-                                            '${docs["rating"]}',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 15),
-                                          ),
-                                          const Text(
-                                            ' | ',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 14,
-                                                color: Colors.grey),
-                                          ),
-                                          const Text(
-                                            '(113 reviews)',
+                                  SizedBox(
+                                    height: 50,
+                                    width: MediaQuery.of(context).size.width * 0.94,
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width:
+                                              MediaQuery.of(context).size.width *
+                                                  0.03,
+                                        ),
+                                        const Icon(
+                                          Icons.star,
+                                          color: Colors.yellow,
+                                          size: 18,
+                                        ),
+                                         Text(
+                                          '${docs["rating"]}',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 15),
+                                        ),
+                                        const Text(
+                                          ' | ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14,
+                                              color: Colors.grey),
+                                        ),
+                                         Obx(
+                                             ()=> Text(
+                                            '(${Get.find<Need>().review_number.value} reviews)',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w700,
                                                 fontSize: 13,
                                                 color: Colors.grey),
-                                          ),
-                                          //  const Spacer(),
-                                          SizedBox(
-                                            width:
-                                                MediaQuery.of(context).size.width *
-                                                    0.2,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 6.0),
-                                            child: SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.28,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.055,
-                                              child: Stack(
-                                                children: [
-                                                  Container(
-                                                    height: 30,
-                                                    width: 35,
-                                                    decoration: const BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        //border: Border.all(width: 1),
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                "assets/images/trainer1.png"),
-                                                            fit: BoxFit.cover)),
-                                                  ),
-                                                  Positioned(
-                                                    left: MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.055,
-                                                    child: Container(
-                                                      height: 30,
-                                                      width: 30,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                              shape:
-                                                                  BoxShape.circle,
-                                                              //border: Border.all(width: 1),
-                                                              image: DecorationImage(
-                                                                  image: AssetImage(
-                                                                      "assets/images/trainer2.png"),
-                                                                  fit: BoxFit
-                                                                      .cover)),
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                    left: MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.11,
-                                                    child: Container(
-                                                      height: 30,
-                                                      width: 30,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                              shape:
-                                                                  BoxShape.circle,
-                                                              //border: Border.all(width: 1),
-                                                              image: DecorationImage(
-                                                                  image: AssetImage(
-                                                                      "assets/images/trainer3.png"),
-                                                                  fit: BoxFit
-                                                                      .cover)),
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                    left: MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.166,
-                                                    child: Container(
-                                                      height: 30,
-                                                      width: 30,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                              shape:
-                                                                  BoxShape.circle,
-                                                              //border: Border.all(width: 1),
-                                                              image: DecorationImage(
-                                                                  image: AssetImage(
-                                                                      "assets/images/trainer1.png"),
-                                                                  fit: BoxFit
-                                                                      .cover)),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                        ),
+                                         ),
+                                         const Spacer(),
+                                        // SizedBox(
+                                        //   width:
+                                        //       MediaQuery.of(context).size.width *
+                                        //           0.2,
+                                        // ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 6.0),
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context).size.width * 0.28,
+                                            // // height: MediaQuery.of(context)
+                                            //         .size
+                                            //         .height *
+                                            //     0.055,
+                                            child: ListView.builder(
+                                              itemCount: Get.find<Need>().review_number.value<4?Get.find<Need>().review_number.value:4,
+                                              scrollDirection: Axis.horizontal,
+                                              itemBuilder: ( context,int index) {
+                                                return Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  decoration:  BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      //border: Border.all(width: 1),
+                                                      image: DecorationImage(
+                                                          image: CachedNetworkImageProvider(
+                                                              snaptu[index]["user"]["user_pic"]),
+                                                          fit: BoxFit.cover)),
+                                                );
+                                              }
                                             ),
                                           ),
-                                          SizedBox(
-                                            width:
-                                                MediaQuery.of(context).size.width *
-                                                    0.009,
-                                          ),
+                                        ),
+                                        SizedBox(
+                                          width:
+                                              MediaQuery.of(context).size.width *
+                                                  0.009,
+                                        ),
 
-                                          const Icon(
-                                            Icons.arrow_forward_ios_outlined,
-                                            size: 18,
-                                          ),
-                                        ],
-                                      ),
+                                        const Icon(
+                                          Icons.arrow_forward_ios_outlined,
+                                          size: 18,
+                                        ),
+                                      ],
                                     ),
                                   )
                                 ],
