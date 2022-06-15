@@ -1,4 +1,5 @@
 import 'package:app_settings/app_settings.dart';
+import 'package:connectivity_checker/connectivity_checker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -78,13 +79,21 @@ class NoInternet extends StatelessWidget {
               child: SizedBox(
                 height: 37,
                 width: 110,
-                child: ElevatedButton(onPressed: (){
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                        (Route<dynamic> route) => false,
-                  );
-                }, child: Text("Refresh",
+                child: ElevatedButton(onPressed: ()async {
+                  if (await ConnectivityWrapper.instance.isConnected) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NoInternet()),
+                    );
+                  }
+                },
+                  child: Text("Refresh",
                   style: GoogleFonts.poppins(
                       color: Color(0xffffffff)
                   ),
