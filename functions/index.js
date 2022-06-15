@@ -7,12 +7,12 @@ admin.initializeApp();
  exports.myFunction = functions.firestore
    .document('push_notifications/{id}')
    .onCreate(  (snapshot, context) => {
-   console.log(snapshot.data());
-   const k= snapshot.data().get();
+   console.log(snapshot.data().id);
+//   const k= admin.firestore().document("push_notifications/${snapshot.data().id}").get();
     const payload = {
          notification:{
-           title: String(k.title),
-           body:String(k.definition),
+           title: String(snapshot.data().title),
+           body:String(snapshot.data().definition),
            clickAction:'FLUTTER_NOTIFICATION_CLICK',
         }
    };
