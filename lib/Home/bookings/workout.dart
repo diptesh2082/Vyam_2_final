@@ -20,7 +20,7 @@ class _WorkoutsState extends State<Workouts> {
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('workouts')
-            .where('id', whereIn:widget.workouts)
+            // .where('id', whereIn:widget.workouts)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
@@ -33,7 +33,10 @@ class _WorkoutsState extends State<Workouts> {
           documents = snapshot.data.docs;
           var d=[];
           documents.forEach((element) {
-            d.add(element["type"]);
+            if(widget.workouts.contains(element["id"])){
+              d.add(element["type"]);
+            }
+
           });
           print(d);
           return documents.isNotEmpty

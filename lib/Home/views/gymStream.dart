@@ -344,7 +344,7 @@ class BuildBox extends StatelessWidget {
                 },
                 separatorBuilder: (BuildContext context, int index) {
                       return Container(
-                        height: 15,
+                        height: 20,
                       );
                 },
               ),

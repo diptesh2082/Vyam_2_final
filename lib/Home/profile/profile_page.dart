@@ -138,6 +138,7 @@ class _ProfilePartState extends State<ProfilePart> {
               child: Column(
                 children: [
                   FittedBox(
+                    // scrollDirection: Axis.horizontal,
                     child: Container(
                       // height: 151,
                       width: MediaQuery.of(context).size.width,
@@ -156,7 +157,7 @@ class _ProfilePartState extends State<ProfilePart> {
                               children: [
                                 Padding(
                                   padding:
-                                      EdgeInsets.only(left: size.width * .01),
+                                      EdgeInsets.only(left: size.width * 0),
                                   child: Stack(
                                     children: [
                                       Positioned(
@@ -248,11 +249,14 @@ class _ProfilePartState extends State<ProfilePart> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          email != "null" ? email : "no email",
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, ),
+                                        SingleChildScrollView(
+                                          scrollDirection:Axis.horizontal,
+                                          child: Text(
+                                            email != "null" ? email : "no email",
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, ),
+                                          ),
                                         ),
                                         Text(
                                           phone != ""
