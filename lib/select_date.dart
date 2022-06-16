@@ -356,36 +356,39 @@ class _SelectDateState extends State<SelectDate> {
               print(endDate);
               // print((months[current_mon - 1] + " ," + day + ", " + year));
               // print(months[end_mon - 1] + ", " + endday + ", " + year);
-              Get.to(
-                () =>  PaymentScreen(endDate: DateFormat("dd, MMM, yyyy").format(endDate),),
-                duration: const Duration(milliseconds: 500),
-                arguments: {
-                  "gymName": widget.getGymName,
-                  "totalMonths": widget.months,
-                  "packageType": widget.packageType,
-                  "totalPrice": widget.price,
-                  "startDate":
-                      DateFormat("dd, MMM, yyyy").format(startDate),
-                  "endDate":
-                  DateFormat("dd, MMM, yyyy").format(endDate),
-                  "address": widget.getGymAddress,
-                  "vendorId": widget.gymId,
-                  "booking_id": widget.bookingId,
-                  "gym_details": Get.arguments["docs"],
-                  "totalDays": totalDays
-                },
-              )!.then((value) async {
-                await FirebaseFirestore.instance
-                    .collection("bookings")
-                // .doc(number)
-                // .collection("user_booking")
-                    .doc(widget.bookingId)
-                    .update({
-                  "booking_date": startDate,
-                  "plan_end_duration": endDate,
-                  "totalDays": totalDays
-                });
+
+              await FirebaseFirestore.instance
+                  .collection("bookings")
+              // .doc(number)
+              // .collection("user_booking")
+                  .doc(widget.bookingId)
+                  .update({
+                "booking_date": startDate,
+                "plan_end_duration": endDate,
+                "totalDays": totalDays
+              }).then((value) {
+                Get.to(
+                      () =>  PaymentScreen(endDate: DateFormat("dd, MMM, yyyy").format(endDate),),
+                  duration: const Duration(milliseconds: 500),
+
+                  arguments: {
+                    "gymName": widget.getGymName,
+                    "totalMonths": widget.months,
+                    "packageType": widget.packageType,
+                    "totalPrice": widget.price,
+                    "startDate":
+                    DateFormat("dd, MMM, yyyy").format(startDate),
+                    "endDate":
+                    DateFormat("dd, MMM, yyyy").format(endDate),
+                    "address": widget.getGymAddress,
+                    "vendorId": widget.gymId,
+                    "booking_id": widget.bookingId,
+                    "gym_details": Get.arguments["docs"],
+                    "totalDays": totalDays
+                  },
+                );
               });
+
 
             },
             label: Text(

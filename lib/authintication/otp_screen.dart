@@ -72,8 +72,9 @@ class _OtpPageState extends State<OtpPage> {
           await setUserId(_auth.currentUser?.phoneNumber);
           print(visiting_flag);
           if (visiting_flag == true) {
-            Navigator.pushReplacement(
-                (context), MaterialPageRoute(builder: (context) => HomePage()));
+            Get.offAll(HomePage());
+            // Navigator.pushReplacement(
+            //     (context), MaterialPageRoute(builder: (context) => HomePage()));
             // Get.offAll(()=>HomePage());
           } else if (visiting_flag == false) {
             userPhoto = "null";
