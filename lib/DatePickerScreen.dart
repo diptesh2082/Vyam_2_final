@@ -226,7 +226,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                       "gym_details": Get.arguments["docs"],
                       "totalDays": endDate.difference(startDate).inDays+1
                     },
-                  )
+                  );
                 });
 
 
