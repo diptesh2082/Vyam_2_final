@@ -560,7 +560,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                 style: GoogleFonts.poppins(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
-                                    color: HexColor("27AE60")),
+                                    color: Colors.grey),
                               ),
                               const Spacer(),
                               if (doc["doc"]['payment_method']=='offline')
@@ -569,7 +569,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                   style: GoogleFonts.poppins(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
-                                      color: HexColor("27AE60")),
+                                      color:Colors.grey),
                                 ),
                               if(doc["doc"]['payment_method']=='online')
                                 Text(
@@ -577,7 +577,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                   style: GoogleFonts.poppins(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
-                                      color: HexColor("27AE60")),
+                                      color:Colors.grey),
                                 ),
 
 
