@@ -280,15 +280,19 @@ List<dynamic>workout=[""];
                       const SizedBox(height: 16),
                       Row(
                         children: [
-                          Text(
-                            '${docs["name"] ?? ""}',
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Poppins",
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width*.6,
+                            child: Text(
+                              '${docs["name"] ?? ""}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines:
+                              2,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: "Poppins",
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
                           const Spacer(),
                           const Text('OPEN NOW',

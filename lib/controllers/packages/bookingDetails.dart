@@ -226,7 +226,7 @@ class BookingDetails {
                                             "gym_address": gymLocation,
                                             "id":iiid.toString()
                                           }).then((value) {
-                                           if(bookingList[index]['title'].toLowerCase()!="pay per session")
+                                           if(int.parse(bookingList[index]['validity'].toString()) > 1)
                                            {      Get.to(
                                                  () => SelectDate(
 
@@ -253,7 +253,7 @@ class BookingDetails {
                                              duration: const Duration(
                                                  milliseconds: 500),
                                            );
-                                           }else{
+                                           }else if(int.parse(bookingList[index]['validity'].toString()) == 1){
                                              Get.to(
                                                    () => DatePickerScreen(
                                                  months: newBookingList[index]
