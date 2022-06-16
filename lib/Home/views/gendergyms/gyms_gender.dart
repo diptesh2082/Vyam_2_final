@@ -107,7 +107,7 @@ class _GymAllState extends State<GymAll> {
                 var distance=calculateDistance(GlobalUserData["location"].latitude, GlobalUserData["location"].longitude, document[index]["location"].latitude, document[index]["location"].longitude);
                 distance=double.parse((distance).toStringAsFixed(1));
                 // print(distance);
-                if (distance <= 50
+                if (distance <= 20
                     // && (document[index]["locality"].toString()
                     // .toLowerCase()
                     // .trim() == GlobalUserData["locality"].toString()
@@ -139,6 +139,8 @@ class _GymAllState extends State<GymAll> {
                             child: ColorFiltered(
                               colorFilter: ColorFilter.mode(document[index]["gym_status"]?Colors.transparent:Colors.black, BlendMode.color),
                               child: CachedNetworkImage(
+                                maxHeightDiskCache: 650,
+                                maxWidthDiskCache: 700,
                                 height: 210,
                                 fit: BoxFit.cover,
                                 width:

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,6 +10,10 @@ import '../../api/api.dart';
 import '../../golbal_variables.dart';
 import '../bookings/gym_details.dart';
 class BuildBox extends StatelessWidget {
+  static final customCacheManager=CacheManager(Config(
+    "customCacheKey2",
+    maxNrOfCacheObjects: 80
+  ));
 
   Widget build(BuildContext context) {
     Size size = MediaQuery
@@ -74,7 +79,7 @@ class BuildBox extends StatelessWidget {
                           document[index]["location"].longitude);
                       distance = double.parse((distance).toStringAsFixed(1));
                       // print(distance);
-                      if (distance <= 50
+                      if (distance <= 20
                           // && (document[index]["locality"].toString()
                           // .toLowerCase()
                           // .trim() == GlobalUserData["locality"].toString()
@@ -113,7 +118,10 @@ class BuildBox extends StatelessWidget {
                                                   .transparent : Colors.black,
                                               BlendMode.color),
                                           child: CachedNetworkImage(
-                                            filterQuality: FilterQuality.low,
+                                            // cacheManager: customCacheManager,
+                                            maxHeightDiskCache: 680,
+                                            maxWidthDiskCache: 700,
+                                            filterQuality: FilterQuality.high,
                                             height: 210,
                                             fit: BoxFit.cover,
                                             width:

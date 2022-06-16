@@ -160,7 +160,7 @@ class _SearchItState extends State<SearchIt> {
                             document[index]["location"].longitude);
                         distance = double.parse((distance).toStringAsFixed(1));
                         // print(distance);
-                        if (distance <= 50
+                        if (distance <= 20
                         // && (document[index]["locality"].toString()
                         // .toLowerCase()
                         // .trim() == GlobalUserData["locality"].toString()

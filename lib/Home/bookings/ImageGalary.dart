@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -12,14 +13,23 @@ class ImageGallery extends StatefulWidget {
 
   @override
   State<ImageGallery> createState() => _ImageGalleryState();
+
+
 }
 
 class _ImageGalleryState extends State<ImageGallery> {
+
+  static final customCacheManager=CacheManager(Config(
+      "customCacheKey2",
+      maxNrOfCacheObjects: 80
+  ));
+
   PageController page_controller =PageController();
   int _current = 1;
   final List _isSelected = [true, false, false, false, false, false,false,false];
   @override
   Widget build(BuildContext context) {
+
     return ClipRRect(
         borderRadius: BorderRadius.circular(14.0),
         child: Stack(
@@ -85,7 +95,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                                 PhotoViewComputedScale.contained *
                                     2.5,
                                 basePosition: Alignment.center,
-                                imageProvider: CachedNetworkImageProvider( widget.images[index]),
+                                imageProvider: CachedNetworkImageProvider( widget.images[index],cacheManager: customCacheManager,),
                                 // heroAttributes: PhotoViewHeroAttributes(tag: "o"),
                               );
                             },
@@ -211,6 +221,9 @@ class _ImageGalleryState extends State<ImageGallery> {
     child: ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: CachedNetworkImage(
+        // cacheManager: customCacheManager,
+        maxHeightDiskCache: 700,
+        width: 750,
         imageUrl: images,
         fit: BoxFit.cover,
       ),

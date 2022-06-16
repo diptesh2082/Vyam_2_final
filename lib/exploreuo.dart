@@ -487,7 +487,7 @@ class _ExploreiaState extends State<Exploreia> {
                   GlobalUserData["location"].latitude,
                       GlobalUserData["location"].longitude,
                       document[index]["location"].latitude,
-                      document[index]["location"].longitude)<= 50 )
+                      document[index]["location"].longitude)<= 20 )
                       _boxes(
                         document[index]["display_picture"],
                         document[index]["name"],
