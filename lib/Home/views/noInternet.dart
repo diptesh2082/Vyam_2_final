@@ -49,31 +49,31 @@ class NoInternet extends StatelessWidget {
             SizedBox(
               height: 16,
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: SizedBox(
-                height: 37,
-                width: 110,
-                child: ElevatedButton(onPressed: (){
-                    // getInternet();
-                   AppSettings.openWirelessSettings();
-
-                }, child: Text("Enable",
-                style: GoogleFonts.poppins(
-                  color: Color(0xffffffff)
-                ),
-                )
-                ,style: ElevatedButton.styleFrom(
-                    primary: Color(0xff292F3D),
-                  ),
-
-                ),
-              ),
-            ),
-            SizedBox(
-              height:20 ,
-
-            ),
+            // ClipRRect(
+            //   borderRadius: BorderRadius.circular(10),
+            //   child: SizedBox(
+            //     height: 37,
+            //     width: 110,
+            //     child: ElevatedButton(onPressed: (){
+            //         // getInternet();
+            //        AppSettings.openWirelessSettings();
+            //
+            //     }, child: Text("Enable",
+            //     style: GoogleFonts.poppins(
+            //       color: Color(0xffffffff)
+            //     ),
+            //     )
+            //     ,style: ElevatedButton.styleFrom(
+            //         primary: Color(0xff292F3D),
+            //       ),
+            //
+            //     ),
+            //   ),
+            // ),
+            // SizedBox(
+            //   height:20 ,
+            //
+            // ),
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: SizedBox(
