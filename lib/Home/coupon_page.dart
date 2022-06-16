@@ -540,8 +540,8 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                         borderRadius:
                                                         BorderRadius.all(Radius.circular(16))),
                                                     content: SizedBox(
-                                                      height: 160,
-                                                      width: 150,
+                                                      height: 200,
+                                                      width: 100,
                                                       child: Stack(
                                                         children: [
                                                           Center(
@@ -553,9 +553,9 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                                 children: [
 
                                                                   Image.asset(
-                                                                    "assets/icons/icons8-approval.gif",
-                                                                    height: 80,
-                                                                    width: 80,
+                                                                    "assets/images/S.gif",
+                                                                    height: 120,
+                                                                    width: 120,
                                                                   ),
                                                                   const SizedBox(
                                                                     height: 9,
@@ -627,8 +627,8 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                         borderRadius:
                                                         BorderRadius.all(Radius.circular(16))),
                                                     content: SizedBox(
-                                                      height: 160,
-                                                      width: 150,
+                                                      height: 200,
+                                                      width: 100,
                                                       child: Stack(
                                                         children: [
                                                           Center(
@@ -640,9 +640,9 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                                 children: [
 
                                                                   Image.asset(
-                                                                    "assets/icons/icons8-approval.gif",
-                                                                    height: 80,
-                                                                    width: 80,
+                                                                    "assets/images/S.gif",
+                                                                    height: 120,
+                                                                    width: 120,
                                                                   ),
                                                                   const SizedBox(
                                                                     height: 9,

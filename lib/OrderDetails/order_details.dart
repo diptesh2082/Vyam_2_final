@@ -626,7 +626,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                     autofocus:false,
                     onTap: () async {
                       Get.off(() => CancelDetails(
-                            bookingId: booking_id,
+                            bookingId: booking_id, vendor_name: doc["doc"]['gym_details']["name"],
+                        
                           ),
                       arguments: {
                         "doc":Get.arguments["doc"]

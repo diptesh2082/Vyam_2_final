@@ -251,20 +251,29 @@ class _ProfilePartState extends State<ProfilePart> {
                                       children: [
                                         SingleChildScrollView(
                                           scrollDirection:Axis.horizontal,
-                                          child: Text(
-                                            email != "null" ? email : "no email",
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, ),
+                                          child: SizedBox(
+                                            child: Text(
+                                              email != "null" ? email : "no email",
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, ),
+                                            ),
                                           ),
                                         ),
-                                        Text(
-                                          phone != ""
-                                              ? phone
-                                              : "no Phone number",
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, ),
+                                        Row(
+                                          children: [
+                                            Text("No -",
+                                              style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 14,color: Colors.amber ),
+                                            ),
+                                            Text(
+                                              phone != ""
+                                                  ? phone
+                                                  : "no Phone number",
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
