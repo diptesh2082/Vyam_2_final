@@ -201,34 +201,34 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   borderRadius: BorderRadius.circular(16)),
               onPressed: () async {
                 print(endDate.difference(startDate).inDays);
-
-                Get.to(
-                  () =>  PaymentScreen(endDate: DateFormat("dd, MMM, yyyy").format(endDate),),
-                  duration: const Duration(milliseconds: 500),
-                  arguments: {
-                    "gymName": widget.getGymName,
-                    "totalMonths": widget.months,
-                    "packageType": widget.packageType,
-                    "totalPrice": widget.price *
-                        (1 + endDate.difference(startDate).inDays),
-                    "startDate": DateFormat("MMMM,dd,yyyy").format(startDate),
-                    "endDate": DateFormat("MMMM,dd,yyyy").format(endDate),
-                    "address": widget.getGymAddress,
-                    "vendorId": widget.gymId,
-                    "booking_id": widget.bookingId,
-                    "gym_details": Get.arguments["docs"],
-                    "totalDays": endDate.difference(startDate).inDays+1
-                  },
-                )!.then((value) async {
-                  await FirebaseFirestore.instance
-                      .collection("bookings")
-                      .doc(widget.bookingId)
-                      .update({
-                    "booking_date": startDate,
-                    "plan_end_duration": endDate,
-                    "totalDays": endDate.difference(startDate).inDays
-                  });
+                await FirebaseFirestore.instance
+                    .collection("bookings")
+                    .doc(widget.bookingId)
+                    .update({
+                  "booking_date": startDate,
+                  "plan_end_duration": endDate,
+                  "totalDays": endDate.difference(startDate).inDays
+                }).then((value){
+                  Get.to(
+                        () =>  PaymentScreen(endDate: DateFormat("dd, MMM, yyyy").format(endDate),),
+                    duration: const Duration(milliseconds: 500),
+                    arguments: {
+                      "gymName": widget.getGymName,
+                      "totalMonths": widget.months,
+                      "packageType": widget.packageType,
+                      "totalPrice": widget.price *
+                          (1 + endDate.difference(startDate).inDays),
+                      "startDate": DateFormat("MMMM,dd,yyyy").format(startDate),
+                      "endDate": DateFormat("MMMM,dd,yyyy").format(endDate),
+                      "address": widget.getGymAddress,
+                      "vendorId": widget.gymId,
+                      "booking_id": widget.bookingId,
+                      "gym_details": Get.arguments["docs"],
+                      "totalDays": endDate.difference(startDate).inDays+1
+                    },
+                  )
                 });
+
 
               },
               label: Text(
