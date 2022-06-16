@@ -131,43 +131,43 @@ class _FirstHomeState extends State<FirstHome> {
     getAddress();
   }
 
-  getUserDetails() async {
-    Position position = await _determinePosition();
-    await GetAddressFromLatLong(position);
-    await getAddressPin(pin);
-    try {
-      await FirebaseFirestore.instance
-          .collection("user_details")
-          .doc(number)
-          .update({
-        "address": address,
-        "lat": position.latitude,
-        "long": position.longitude,
-        "location": GeoPoint(
-          position.latitude,
-          position.latitude,
-        ),
-        "pincode": pin,
-        "locality": locality.toLowerCase(),
-      });
-    } catch (e) {
-      FirebaseFirestore.instance.collection("user_details").doc().set({
-        "address": address,
-        "lat": position.latitude,
-        "long": position.longitude,
-        "location": GeoPoint(
-          position.latitude,
-          position.latitude,
-        ),
-        "pincode": pin,
-        "locality": locality.toLowerCase(),
-        "from": "notfull"
-      });
-    }
-
-    getAddressPin(pin);
-    // myLocation();
-  }
+  // getUserDetails() async {
+  //   Position position = await _determinePosition();
+  //   await GetAddressFromLatLong(position);
+  //   await getAddressPin(pin);
+  //   try {
+  //     await FirebaseFirestore.instance
+  //         .collection("user_details")
+  //         .doc(number)
+  //         .update({
+  //       "address": address,
+  //       "lat": position.latitude,
+  //       "long": position.longitude,
+  //       "location": GeoPoint(
+  //         position.latitude,
+  //         position.latitude,
+  //       ),
+  //       "pincode": pin,
+  //       "locality": locality.toLowerCase(),
+  //     });
+  //   } catch (e) {
+  //     FirebaseFirestore.instance.collection("user_details").doc().set({
+  //       "address": address,
+  //       "lat": position.latitude,
+  //       "long": position.longitude,
+  //       "location": GeoPoint(
+  //         position.latitude,
+  //         position.latitude,
+  //       ),
+  //       "pincode": pin,
+  //       "locality": locality.toLowerCase(),
+  //       "from": "notfull"
+  //     });
+  //   }
+  //
+  //   getAddressPin(pin);
+  //   // myLocation();
+  // }
 
   late LocationPermission permission;
 

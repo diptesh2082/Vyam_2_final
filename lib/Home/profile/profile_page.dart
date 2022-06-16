@@ -63,7 +63,10 @@ class _ProfilePartState extends State<ProfilePart> {
   // final id = number;
   bool Loading = true;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-
+  Future cacheImage(BuildContext context,String e)=>precacheImage(
+    CachedNetworkImageProvider(e),
+    context,
+  );
   Future getUserData() async {
     print("user is here" + number);
     DocumentReference userName =
@@ -78,6 +81,7 @@ class _ProfilePartState extends State<ProfilePart> {
             phone = snapshot.get('userId').toString().substring(3,snapshot.get('userId').toString().length);
             gender = snapshot.get("gender");
             imageUrl = snapshot.get("image");
+            cacheImage(context, snapshot.get("image")) ;
 
             Loading = false;
           });
@@ -366,7 +370,7 @@ class _ProfilePartState extends State<ProfilePart> {
                       ),
                       ListTile(
                         onTap: () {
-                          // Get.to(() => const Faq());
+                          Get.to(() => const Faq());
                         },
                         leading: const ImageIcon(
                           AssetImage("assets/icons/faq.png"),

@@ -8,8 +8,9 @@ import 'package:photo_view/photo_view_gallery.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 
 class ImageGallery extends StatefulWidget {
-  const ImageGallery({Key? key, this.images}) : super(key: key);
+   ImageGallery({Key? key, this.images,required this.loading}) : super(key: key);
   final images;
+  var loading;
 
   @override
   State<ImageGallery> createState() => _ImageGalleryState();
@@ -19,18 +20,45 @@ class ImageGallery extends StatefulWidget {
 
 class _ImageGalleryState extends State<ImageGallery> {
 
+  // bool isLoading=true;
+  List Images=[];
+  Future cacheImage(BuildContext context,String e)=>precacheImage(
+      CachedNetworkImageProvider(e,cacheKey:"customCacheKey2", cacheManager: customCacheManager),
+      context,
+  );
+  loadImage()async{
+    setState(() {
+      widget.loading=true;
+    });
+  Images=widget.images;
+  Images.map((e) =>cacheImage( context, e)).toList();
+    setState(() {
+      widget.loading=false;
+    });
+
+  }
+
   static final customCacheManager=CacheManager(Config(
       "customCacheKey2",
       maxNrOfCacheObjects: 80
   ));
 
+
   PageController page_controller =PageController();
   int _current = 1;
   final List _isSelected = [true, false, false, false, false, false,false,false];
   @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance!.addPostFrameCallback((_) {loadImage(); });
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
 
-    return ClipRRect(
+    return widget.loading?
+        Center(child: CircularProgressIndicator())
+        :ClipRRect(
         borderRadius: BorderRadius.circular(14.0),
         child: Stack(
           //mainAxisAlignment: MainAxisAlignment.start,
@@ -39,7 +67,7 @@ class _ImageGalleryState extends State<ImageGallery> {
               child: CarouselSlider.builder(
                 itemCount: widget.images.length,
                 itemBuilder: (context, index, realIndex) {
-                  final image = widget.images[index];
+                  final image = Images[index];
                   page_controller=PageController(initialPage: index);
                   return gymImages(image);
                 },
@@ -95,7 +123,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                                 PhotoViewComputedScale.contained *
                                     2.5,
                                 basePosition: Alignment.center,
-                                imageProvider: CachedNetworkImageProvider( widget.images[index],cacheManager: customCacheManager,),
+                                imageProvider: CachedNetworkImageProvider( Images[index],cacheManager: customCacheManager,),
                                 // heroAttributes: PhotoViewHeroAttributes(tag: "o"),
                               );
                             },
@@ -107,7 +135,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                                 child: CircularProgressIndicator(
                                   value: event == null
                                       ? 0
-                                      : event.cumulativeBytesLoaded / 1,
+                                      : event.cumulativeBytesLoaded  * 5,
                                 ),
                               ),
                             ),
@@ -221,9 +249,11 @@ class _ImageGalleryState extends State<ImageGallery> {
     child: ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: CachedNetworkImage(
+        // progressIndicatorBuilder: (context, url, downloadProgress) =>
+        //     Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
         // cacheManager: customCacheManager,
-        maxHeightDiskCache: 700,
-        width: 750,
+        maxHeightDiskCache: 600,
+        width: 700,
         imageUrl: images,
         fit: BoxFit.cover,
       ),

@@ -53,6 +53,8 @@ class _GymDetailsState extends State<GymDetails> {
   // double _scale = 1.0;
   // double __previousScale = 1.0;
   bool touch = false;
+
+
   getRatingCount(x) async {
     DocumentReference db = await FirebaseFirestore.instance
         .collection("product_details")
@@ -280,7 +282,8 @@ class _GymDetailsState extends State<GymDetails> {
                               height: 6,
                             ),
                             ImageGallery(
-                              images: images,
+                              images: images, loading: isLoading,
+
                             ),
                             const SizedBox(height: 16),
                             Row(
