@@ -51,9 +51,9 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
       child: Scaffold(
         appBar: AppBar(
           leading: GestureDetector(
-            onTap: () {
-              doc["doc"]["booking_status"].toLowerCase()=="upcoming"? Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomePage())):Navigator.pop(context);
-            },
+            // onTap: () {
+            //   doc["doc"]["booking_status"].toLowerCase()=="upcoming"? Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomePage())):Navigator.pop(context);
+            // },
             child: Icon(
               Icons.arrow_back,
               color: HexColor("3A3A3A"),
@@ -96,6 +96,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     fit: BoxFit.cover,
                                     height: 150,
                                     width: 145,
+                                    maxHeightDiskCache: 500,
+                                    maxWidthDiskCache: 500,
                                     imageUrl: doc["doc"]['gym_details']["image"],
                                   ),
                                 ),

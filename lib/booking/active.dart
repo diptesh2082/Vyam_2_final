@@ -276,6 +276,8 @@ class ActiveEvent extends StatelessWidget {
                                           // "",
 
                                           fit: BoxFit.cover,
+                                          maxWidthDiskCache: 500,
+                                          maxHeightDiskCache: 500,
                                           height: 150,
                                           imageUrl: data.docs[index]['gym_details']["image"],
                                           progressIndicatorBuilder: (context, url, downloadProgress) =>

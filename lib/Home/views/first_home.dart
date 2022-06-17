@@ -425,10 +425,11 @@ class _FirstHomeState extends State<FirstHome> {
                                 ),
                                 // if (Get.find<Need>().search.value.isEmpty)
                                 Catagory(),
+                                if (Get.find<Need>().search.value.isEmpty)
                                 const SizedBox(
                                   height: 7,
                                 ),
-                                // if (Get.find<Need>().search.value.isEmpty)
+                                if (Get.find<Need>().search.value.isEmpty)
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Material(

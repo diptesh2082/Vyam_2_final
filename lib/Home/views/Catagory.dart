@@ -48,6 +48,8 @@ class Catagory extends StatelessWidget {
                       child: CachedNetworkImage(
                         maxHeightDiskCache: 400,
                         filterQuality: FilterQuality.medium,
+                        maxWidthDiskCache: 500,
+
                         imageUrl: categoryDocs[index]
                         ['image'],
                         height: 150,
