@@ -413,13 +413,7 @@ class _FirstHomeState extends State<FirstHome> {
                                 const SizedBox(
                                   height: 9,
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    FocusScope.of(context).unfocus();
-                                    Get.to(CouponDetails(cartValue: null, type: '',));
-                                  },
-                                  child: Banner(bannerApi: bannerApi),
-                                ),
+                                Banner(bannerApi: bannerApi),
                                 const SizedBox(
                                   height: 15,
                                 ),
@@ -550,31 +544,40 @@ class Banner extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: data.size,
             itemBuilder: (context, int index) {
-              return SizedBox(
-                height: 120,
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: CachedNetworkImage(
-                        maxHeightDiskCache: 650,
-                        maxWidthDiskCache: 650,
-                        filterQuality: FilterQuality.medium,
-                        height: 143,
-                        imageUrl: data.docs[index]
-                        ["image"],
-                        errorWidget: (context, url,
-                            error) =>
-                        const Icon(Icons.error),
+              return InkWell(
+                onTap: (){
+                  FocusScope.of(context).unfocus();
+                  if(data.docs[index]["access"]==true){
+                    // Get.to(()=>HomePage());
+                    print("hyufufytu");
+                  }
+                },
+                child: SizedBox(
+                  height: 120,
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: 5,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                  ],
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: CachedNetworkImage(
+                          maxHeightDiskCache: 650,
+                          maxWidthDiskCache: 650,
+                          filterQuality: FilterQuality.medium,
+                          height: 143,
+                          imageUrl: data.docs[index]
+                          ["image"],
+                          errorWidget: (context, url,
+                              error) =>
+                          const Icon(Icons.error),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

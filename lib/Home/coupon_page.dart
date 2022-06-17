@@ -225,7 +225,7 @@ class _CouponDetailsState extends State<CouponDetails> {
               ),
               StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('coupon')
-                      // .where("user_id",arrayContains:GlobalUserData["userId"])
+                      .where("validity",arrayContains:true)
                       .snapshots(),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
