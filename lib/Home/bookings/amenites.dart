@@ -18,7 +18,7 @@ class _AmenitesState extends State<Amenites> {
     // if(widget.amenites.isEmpty()){}
     super.initState();
   }
-  var documents=[];
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -37,6 +37,7 @@ class _AmenitesState extends State<Amenites> {
             return Center(child: CircularProgressIndicator());
           }
           var document = snapshot.data.docs;
+          var documents=[];
           document.forEach((event){
             if(widget.amenites.contains(event["amenity_id"])){
             documents.add(event);
@@ -55,7 +56,7 @@ class _AmenitesState extends State<Amenites> {
               ? ListView.separated(
               scrollDirection: Axis.horizontal,
               itemBuilder: ((context, index) {
-                return amenities(index);
+                return amenities(documents,index);
               }),
               separatorBuilder: (context, _) => SizedBox(
                 // width: 3,
@@ -66,7 +67,7 @@ class _AmenitesState extends State<Amenites> {
       ),
     );
   }
-  Widget amenities(int index) => Column(
+  Widget amenities(List documents, int index) => Column(
     children: [
       CircleAvatar(
         radius: 30,
