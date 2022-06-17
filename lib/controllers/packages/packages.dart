@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
@@ -18,11 +19,15 @@ class Packeges extends StatefulWidget {
   final gymName;
   final gymLocation;
   final getFinalID;
+  // final display_mage;
+  // final branch;
+  final doc;
+
   const Packeges(
       {Key? key,
       required this.getFinalID,
       required this.gymName,
-      required this.gymLocation})
+      required this.gymLocation,required this.doc})
       : super(key: key);
 
   @override
@@ -43,6 +48,7 @@ class _PackegesState extends State<Packeges> {
   var userData;
   final id =
       FirebaseFirestore.instance.collection("bookings").doc().id.toString();
+
   getBookingId(id) async {
     print("//////////" + id);
     var db = FirebaseFirestore.instance.collection("bookings").doc(id);
@@ -57,12 +63,13 @@ class _PackegesState extends State<Packeges> {
           }
         })
         .then((value) async {
+          print(booking_iiid);
           await CreateBooking(id, booking_iiid);
         });
 
     // coupon_list=
   }
-
+String? iiid;
   getUserData() async {
     userDetails.doc(number).get().then((DocumentSnapshot doc) {
       userData = doc.data();
@@ -73,11 +80,11 @@ class _PackegesState extends State<Packeges> {
       // print(userData);
     });
   }
-
+// var dooc= Get.arguments["doc"];
   // bookingController booking = Get.put(bookingController());
-  var booking_iiid = 0;
-  final String image = Get.arguments["doc"]["display_picture"];
-  final String branch = Get.arguments["doc"]["branch"];
+  int booking_iiid = 0;
+  // final String image = Get.arguments["doc"]["display_picture"];
+  // final String branch = Get.arguments["doc"]["branch"];
   // var String booking_id;
   final bookings = FirebaseFirestore.instance.collection("bookings");
 
@@ -104,7 +111,7 @@ class _PackegesState extends State<Packeges> {
       "booking_date": DateTime.now(),
       "plan_end_duration": DateTime.now(),
       "otp_pass": "",
-      "gym_details": {"image": image, "name": widget.gymName, "branch": branch},
+      "gym_details": {"image": widget.doc["display_picture"], "name": widget.gymName, "branch": widget.doc["branch"]},
       "daysLeft": "0",
       "discount": "0",
       "grand_total": "",
@@ -143,6 +150,7 @@ class _PackegesState extends State<Packeges> {
     getBookingId(id);
     print(id);
     setDate();
+    iiid=id;
     setState(() {
       isLoading = false;
     });
@@ -215,6 +223,7 @@ class _PackegesState extends State<Packeges> {
                             .collection("package")
                             .doc("normal_package")
                             .collection("gym")
+                            .where("valid",isEqualTo:true)
                             .where("type", isEqualTo: "gym")
                             .orderBy("index")
                             .snapshots(),
@@ -498,13 +507,13 @@ class _PackegesState extends State<Packeges> {
                                                             context,
                                                             snapshot,
                                                             data.docs,
-                                                            "",
+                                                        "",
+                                                        // data.docs[snapshot]['title'],
                                                             widget.gymName,
                                                             widget.gymLocation,
                                                             id,
                                                             widget.getFinalID,
-                                                            Get.arguments[
-                                                                "doc"],
+                                                            widget.doc,
                                                             booking_iiid);
                                                     // CreateBooking(id);
                                                     await getBookingId(id);
@@ -577,8 +586,13 @@ class _PackegesState extends State<Packeges> {
                                       width: _width,
                                       getDocID: widget.getFinalID,
                                       gymName: widget.gymName,
-                                      gymLocation: widget.gymLocation,
-                                      iiid: booking_iiid,
+                                      gymLocation: widget.gymLocation, iiid: null,
+                                      // gym_iiid: widget.getFinalID,
+                                      // isLoading: isLoading,
+                                      // image: image,
+                                      // branch: branch,
+                                      // doc:  dooc,
+
                                     ),
                                     const SizedBox(
                                       height: 0,

@@ -1290,7 +1290,7 @@ class _GymDetailsState extends State<GymDetails> {
                                 () => Packeges(
                                       getFinalID: widget.gymID,
                                       gymName: docs["name"],
-                                      gymLocation: docs["address"],
+                                      gymLocation: docs["address"], doc: docs,
                                     ),
                                 duration: const Duration(milliseconds: 300),
                                 arguments: {

@@ -759,7 +759,7 @@ class _ExploreiaState extends State<Exploreia> {
                             BlendMode.color),
                         child: CachedNetworkImage(
                           maxWidthDiskCache: 400,
-                          maxHeightDiskCache: 500,
+                          maxHeightDiskCache: 420,
                           fit: BoxFit.cover,
                           imageUrl: _image,
                         ),

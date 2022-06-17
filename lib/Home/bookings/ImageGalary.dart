@@ -67,9 +67,12 @@ class _ImageGalleryState extends State<ImageGallery> {
               child: CarouselSlider.builder(
                 itemCount: widget.images.length,
                 itemBuilder: (context, index, realIndex) {
-                  final image = Images[index];
-                  page_controller=PageController(initialPage: index);
-                  return gymImages(image);
+                  // final image = Images[index];
+                  if(Images.isNotEmpty){
+                    page_controller=PageController(initialPage: index);
+                    return gymImages(Images[index]);
+                  }
+                 return Container();
                 },
                 options: CarouselOptions(
                     height: 255,

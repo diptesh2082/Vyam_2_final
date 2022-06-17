@@ -15,14 +15,17 @@ class YogaList extends StatefulWidget {
   final gymName;
   final iiid;
   final type;
+  // final isLoading;
   YogaList({
     Key? key,
     required double width,
     required this.getDocID,
     required this.gymName,
-    required this.gymLocation,required this.iiid,required this.type,
+    required this.gymLocation,
+    required this.iiid,required this.type,
   })  : _width = width,
         super(key: key);
+  // required this.iiid,required this.type,
 
   final double _width;
 
@@ -38,15 +41,84 @@ class _YogaListState extends State<YogaList> {
   final id = FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking").doc().id.toString();
 
   get dateTime => DateTime.now();
-  CreateBooking(String id)async{
-    final bookings= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
-    print(bookings);
-    // booking_id = bookings.doc().id;
-    // String id=bookings.doc().id;
-    bookings.doc(id).set({
-      "booking_id": id
-    });
-  }
+  // getBookingId(id) async {
+  //   print("//////////" + id);
+  //   var db = FirebaseFirestore.instance.collection("bookings").doc(id);
+  //   await FirebaseFirestore.instance
+  //       .collection("bookings")
+  //       .where("booking_status".toLowerCase(),
+  //       whereIn: ["completed", "active", "upcoming","cancelled"])
+  //       .get()
+  //       .then((value) async {
+  //     if (value.docs.isNotEmpty) {
+  //       booking_iiid = await value.docs.length;
+  //     }
+  //   })
+  //       .then((value) async {
+  //     await CreateBooking(id, booking_iiid);
+  //   });
+  //
+  //   // coupon_list=
+  // }
+  //
+  // CreateBooking(String id, int booking_id) async {
+  //   final bookings = await FirebaseFirestore.instance.collection("bookings");
+  //   // .doc(number)
+  //   // .collection("user_booking");
+  //   // print(bookings);
+  //
+  //   await bookings.doc(id).set({
+  //     "booking_id": id,
+  //     "booking_status": "incomplete",
+  //     "order_date": DateTime.now(),
+  //     // "gym_name": "",
+  //     "vendorId": widget.getFinalID,
+  //     "userId": number,
+  //     "user_name": GlobalUserData["name"],
+  //     "booking_accepted": false,
+  //     "payment_done": false,
+  //     "booking_plan": "",
+  //     "booking_price": 0.toDouble(),
+  //     "package_type": "",
+  //     "gym_address": "",
+  //     "booking_date": DateTime.now(),
+  //     "plan_end_duration": DateTime.now(),
+  //     "otp_pass": "",
+  //     "gym_details": {"image": image, "name": widget.gymName, "branch": branch},
+  //     "daysLeft": "0",
+  //     "discount": "0",
+  //     "grand_total": "",
+  //     "tax_pay": "",
+  //     "totalDays": "0",
+  //     "total_price": "",
+  //     "id": booking_id,
+  //     "payment_method": "offline"
+  //
+  //     // "gym_details":{
+  //     //   "name":widget.gymName
+  //     // },
+  //   });
+  //
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  //   print(id);
+  //   // FirebaseFirestore.instance
+  //   //     .collection("bookings")
+  //   //     .doc(id)
+  //   //     .update({
+  //   //   // "gym_name": widget.gymName,
+  //   // });
+  // }
+  // CreateBooking(String id)async{
+  //   final bookings= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
+  //   print(bookings);
+  //   // booking_id = bookings.doc().id;
+  //   // String id=bookings.doc().id;
+  //   bookings.doc(id).set({
+  //     "booking_id": id
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +289,7 @@ class _YogaListState extends State<YogaList> {
                                       RaisedButton(
                                         elevation: 0,
                                         onPressed: () async{
-                                          await CreateBooking(id);
+                                          // await CreateBooking(id);
                                           FirebaseFirestore.instance.collection("bookings")
                                               .doc(number)
                                               .collection("user_booking")
@@ -239,7 +311,8 @@ class _YogaListState extends State<YogaList> {
                                               widget.gymLocation
                                               , id,
                                               widget.getDocID,
-                                            "",widget.iiid
+                                            "",
+                                              widget.iiid
                                           );
 
                                         },
