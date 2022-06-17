@@ -45,8 +45,9 @@ class _FaqState extends State<Faq> {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("faq").snapshots(),
         builder: (context,AsyncSnapshot snapshot) {
+          var doc=snapshot.data.docs;
           return ListView.builder(
-              itemCount: 2,
+              itemCount: doc.length,
               itemBuilder: (context, index) {
                 final faq = "";
                 return Container(
@@ -74,7 +75,7 @@ class _FaqState extends State<Faq> {
                                 height: 20,
                               ),
                               Text(
-                                faq,
+                                doc[index]["answer"],
                                 style: TextStyle(
                                     color: Colors.grey[700],
                                     fontSize: 15,
@@ -92,20 +93,20 @@ class _FaqState extends State<Faq> {
                             padding: const EdgeInsets.all(10),
                             margin: const EdgeInsets.all(16),
                             child: Text(
-                              faq,
+                              doc[index]["question"],
                               style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                           );
                         },
-                        // isExpanded: faq.isExpanded,
+                        isExpanded: d,
                       )
                     ],
-                    // expansionCallback: (int item, bool status) {
-                    //   setState(() {
-                    //     faq.isExpanded = !faq.isExpanded;
-                    //   });
-                    // },
+                    expansionCallback: (int item, bool status) {
+                      setState(() {
+                        d= !d;
+                      });
+                    },
                   ),
                 );
               });
@@ -113,4 +114,5 @@ class _FaqState extends State<Faq> {
       ),
     );
   }
+  bool d=true;
 }
