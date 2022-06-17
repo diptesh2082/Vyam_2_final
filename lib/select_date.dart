@@ -134,7 +134,7 @@ class _SelectDateState extends State<SelectDate> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
         title: Text(
-          "Select a date",
+          "Choose Start Date",
           style: GoogleFonts.poppins(
               color: HexColor("3A3A3A"),
               fontSize: 18,

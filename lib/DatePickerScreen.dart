@@ -67,7 +67,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
               Padding(
                 padding: EdgeInsets.only(top: 51),
                 child: Text(
-                  'Select a Date',
+                  'Choose single/multiple dates',
                   style: GoogleFonts.poppins(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
