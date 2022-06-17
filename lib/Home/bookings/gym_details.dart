@@ -662,8 +662,7 @@ class _GymDetailsState extends State<GymDetails> {
                                   }
                                   var trainerdoc = snapshot.data!.docs;
                                   print(trainerdoc);
-                                  print(
-                                      "+++++++++++++++++++++++++++++++++++++++++++++++");
+                                  print("+++++++++++++++++++++++++++++++++++++++++++++++");
                                   return trainerdoc.length == 0
                                       ? SizedBox()
                                       : SizedBox(
@@ -750,13 +749,16 @@ class _GymDetailsState extends State<GymDetails> {
                                                                             children: [
                                                                               Column(
                                                                                 children: [
-                                                                                  ClipRRect(
-                                                                                    borderRadius: BorderRadius.circular(15),
-                                                                                    child: CachedNetworkImage(
-                                                                                      // maxWidthDiskCache: 700,
-                                                                                      maxHeightDiskCache: 400,
-                                                                                      imageUrl: snaptu[index]["user"]["user_pic"],
-                                                                                    ),
+                                                                                  Container(
+                                                                                    height: 65,
+                                                                                    width: 65,
+                                                                                    decoration: BoxDecoration(
+                                                                                        shape: BoxShape.circle,
+                                                                                        //border: Border.all(width: 1),
+                                                                                        image: DecorationImage(
+                                                                                            image: CachedNetworkImageProvider(
+                                                                                                trainerdoc[index]['image']),
+                                                                                            fit: BoxFit.cover)),
                                                                                   ),
                                                                                   SizedBox(
                                                                                     height: 2,
