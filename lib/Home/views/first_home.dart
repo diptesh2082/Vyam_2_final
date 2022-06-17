@@ -131,43 +131,6 @@ class _FirstHomeState extends State<FirstHome> {
     getAddress();
   }
 
-  // getUserDetails() async {
-  //   Position position = await _determinePosition();
-  //   await GetAddressFromLatLong(position);
-  //   await getAddressPin(pin);
-  //   try {
-  //     await FirebaseFirestore.instance
-  //         .collection("user_details")
-  //         .doc(number)
-  //         .update({
-  //       "address": address,
-  //       "lat": position.latitude,
-  //       "long": position.longitude,
-  //       "location": GeoPoint(
-  //         position.latitude,
-  //         position.latitude,
-  //       ),
-  //       "pincode": pin,
-  //       "locality": locality.toLowerCase(),
-  //     });
-  //   } catch (e) {
-  //     FirebaseFirestore.instance.collection("user_details").doc().set({
-  //       "address": address,
-  //       "lat": position.latitude,
-  //       "long": position.longitude,
-  //       "location": GeoPoint(
-  //         position.latitude,
-  //         position.latitude,
-  //       ),
-  //       "pincode": pin,
-  //       "locality": locality.toLowerCase(),
-  //       "from": "notfull"
-  //     });
-  //   }
-  //
-  //   getAddressPin(pin);
-  //   // myLocation();
-  // }
 
   late LocationPermission permission;
 
@@ -256,9 +219,9 @@ class _FirstHomeState extends State<FirstHome> {
   void initState() {
     // getStream();
     updateDeviceToken();
-    print(devicetoken);
+    // print(devicetoken);
 
-    print("running two times //////////////////");
+    // print("running two times //////////////////");
     getEverything();
 
     // if (mounted) {
@@ -419,89 +382,90 @@ class _FirstHomeState extends State<FirstHome> {
               controller: app_bar_controller,
               child: Padding(
                 padding: const EdgeInsets.only(left: 5.0, right: 5),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Obx(
-                    ()=> Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: const Divider(
-                              height: .3,
-                              thickness: 1,
+                child: Obx(
+                  ()=> Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                    Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: const Divider(
+                                height: .3,
+                                thickness: 1,
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 12,
-                          ),
+                            const SizedBox(
+                              height: 12,
+                            ),
 
-                          SizedBox(height: 60,),
+                            SizedBox(height: 60,),
 
-                          const SizedBox(
-                            height: 9,
-                          ),
-                          // if (searchGymName.isEmpty)
-                          // if (Get.find<Need>().search.value.isEmpty)
-                          Column(
-                            children: [
-                              if (getPercentage != 100) ProgressCard(),
-                              const SizedBox(
-                                height: 9,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  FocusScope.of(context).unfocus();
-                                  Get.to(CouponDetails(cartValue: null, type: '',));
-                                },
-                                child: Banner(bannerApi: bannerApi),
-                              ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              // if (Get.find<Need>().search.value.isEmpty)
-                              Catagory(),
-                              const SizedBox(
-                                height: 7,
-                              ),
-                              // if (Get.find<Need>().search.value.isEmpty)
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(10),
-                                  elevation: 0,
-                                  child: SizedBox(
-                                    height: 30,
-                                    width: 130,
-                                    child: Center(
-                                      child: Text(
-                                        "Nearby Gyms",
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
+                            const SizedBox(
+                              height: 9,
+                            ),
+                            // if (searchGymName.isEmpty)
+                            // if (Get.find<Need>().search.value.isEmpty)
+                            Column(
+                              children: [
+                                if (getPercentage != 100) ProgressCard(),
+                                const SizedBox(
+                                  height: 9,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    FocusScope.of(context).unfocus();
+                                    Get.to(CouponDetails(cartValue: null, type: '',));
+                                  },
+                                  child: Banner(bannerApi: bannerApi),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                // if (Get.find<Need>().search.value.isEmpty)
+                                Catagory(),
+                                const SizedBox(
+                                  height: 7,
+                                ),
+                                // if (Get.find<Need>().search.value.isEmpty)
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Material(
+                                    borderRadius: BorderRadius.circular(10),
+                                    elevation: 0,
+                                    child: SizedBox(
+                                      height: 30,
+                                      width: 130,
+                                      child: Center(
+                                        child: Text(
+                                          "Nearby Gyms",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+
                                       ),
-
                                     ),
                                   ),
                                 ),
-                              ),
-                              // if (Get.find<Need>().search.value.isEmpty)
-                              const SizedBox(
-                                height: 7,
-                              ),
-                              if (Get.find<Need>().search.value.isEmpty)
-                              BuildBox()
-                              // LocationList()
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                        top: 15,
-                        child: SearchIt()),
-                  ],
+                                if (Get.find<Need>().search.value.isEmpty)
+                                const SizedBox(
+                                  height: 7,
+                                ),
+                                // if (Get.find<Need>().search.value.isEmpty)
+                                BuildBox()
+                                // LocationList()
+                              ],
+                            )
+                          ],
+                        ),
+
+                      Positioned(
+                          top: 15,
+                          child: SearchIt()),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -548,8 +548,8 @@ class _PackegesState extends State<Packeges> {
                     StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection("category")
-
                             .where("name", isNotEqualTo:  "gym")
+                        .where("status",isEqualTo: true)
                             // .orderBy("index")
                             .snapshots(),
                         builder: (context,AsyncSnapshot snapshot) {

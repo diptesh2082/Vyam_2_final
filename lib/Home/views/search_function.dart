@@ -23,79 +23,84 @@ class _SearchItState extends State<SearchIt> {
   FocusNode _node =FocusNode();
   @override
   Widget build(BuildContext context) {
-    return Obx(
-        ()=> Stack(
-        children: [
-          Column(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width * .92,
-                height: 51,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  color: Colors.white,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: TextField(
-                    focusNode: _node,
-                    autofocus: false,
-                    textAlignVertical: TextAlignVertical.bottom,
-                    onSubmitted: (value) async {
-                      FocusScope.of(context).unfocus();
-                    },
-                    // controller: searchController,
-                    onChanged: (value) {
-                      if (value.length == 0) {
-                        _node.unfocus();
-                        // FocusScope.of(context).unfocus();
-                      }
-                      Get.find<Need>().search.value=value.toString().trim();
-                      // if (mounted) {
-                      //   setState(() {
-                      //     searchGymName = value.toString();
-                      //   });
-                      // }
-                    },
-                    decoration:  InputDecoration(
-                      prefixIcon: Icon(Profileicon.search),
-                      hintText: 'Search',
-                      hintStyle: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500
+    return  SizedBox(
+          height: 1000,
+          // width: MediaQuery.of(context).size.width,
+          child: Stack(
+          children: [
+            Obx(
+              ()=> Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * .92,
+                    height: 51,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      color: Colors.white,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: TextField(
+                        focusNode: _node,
+                        autofocus: false,
+                        textAlignVertical: TextAlignVertical.bottom,
+                        onSubmitted: (value) async {
+                          FocusScope.of(context).unfocus();
+                        },
+                        // controller: searchController,
+                        onChanged: (value) {
+                          if (value.length == 0) {
+                            _node.unfocus();
+                            // FocusScope.of(context).unfocus();
+                          }
+                          Get.find<Need>().search.value=value.toString().trim();
+                          // if (mounted) {
+                          //   setState(() {
+                          //     searchGymName = value.toString();
+                          //   });
+                          // }
+                        },
+                        decoration:  InputDecoration(
+                          prefixIcon: Icon(Profileicon.search),
+                          hintText: 'Search',
+                          hintStyle: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500
+                          ),
+                          border: InputBorder.none,
+                          filled: true,
+                          fillColor: Colors.white,
+                        ),
                       ),
-                      border: InputBorder.none,
-                      filled: true,
-                      fillColor: Colors.white,
                     ),
                   ),
-                ),
-              ),
-              if (Get.find<Need>().search.value.isNotEmpty)
-              Container(
-                width: MediaQuery.of(context).size.width,
-                color: Colors.grey[100],
-                  child:   Column(
-                    children: [
-                      const SizedBox(
-                        height: 15,
+                  if (Get.find<Need>().search.value.isNotEmpty)
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.grey[100],
+                      child:   Column(
+                        children: [
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          buildGymBox(),
+                          const SizedBox(
+                            height: 500,
+                          )
+                        ],
                       ),
-                      buildGymBox(),
-                      // const SizedBox(
-                      //   height: 500,
-                      // )
-                    ],
+
                   ),
 
+
+
+                ],
               ),
-
-
-
-            ],
-          ),
-        ],
+            ),
+          ],
       ),
-    );
+        );
+
   }
   SizedBox buildGymBox() {
     Size size = MediaQuery.of(context).size;
