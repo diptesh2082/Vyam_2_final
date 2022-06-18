@@ -246,7 +246,7 @@ class OlderEvent extends StatelessWidget {
                                               children: [
                                                 Container(
                                                   decoration: BoxDecoration(
-                                                      color: Colors.amber,
+                                                      color: document[index]["booking_status"].toString().toLowerCase()=="completed"? Colors.purple:Colors.red,
                                                       shape: BoxShape.circle),
                                                   width: 6,
                                                   height: 6,

@@ -507,14 +507,15 @@ String? iiid;
                                                             context,
                                                             snapshot,
                                                             data.docs,
-                                                        "",
-                                                        // data.docs[snapshot]['title'],
+                                                        // "",
+                                                        data.docs[snapshot]['title'],
                                                             widget.gymName,
                                                             widget.gymLocation,
                                                             id,
                                                             widget.getFinalID,
                                                             widget.doc,
-                                                            booking_iiid);
+
+                                                    );
                                                     // CreateBooking(id);
                                                     await getBookingId(id);
                                                   },
@@ -586,12 +587,11 @@ String? iiid;
                                       width: _width,
                                       getDocID: widget.getFinalID,
                                       gymName: widget.gymName,
-                                      gymLocation: widget.gymLocation, iiid: null,
-                                      // gym_iiid: widget.getFinalID,
-                                      // isLoading: isLoading,
-                                      // image: image,
-                                      // branch: branch,
-                                      // doc:  dooc,
+                                      gymLocation: widget.gymLocation,
+                                      image: widget.doc["display_picture"],
+                                      branch: widget.doc["branch"],
+                                      isLoading: isLoading,
+                                      doc: widget.doc,
 
                                     ),
                                     const SizedBox(

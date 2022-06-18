@@ -14,7 +14,7 @@ import '../../select_date.dart';
 class BookingDetails {
 
   void bookingDetails(context, index, bookingList, String gymType, getGymName,
-      gymLocation, booking_id, gymID, docs,iiid) {
+      gymLocation, booking_id, gymID, docs) {
     List newBookingList = bookingList;
     var booking=0;
     // final userDetails=FirebaseFirestore.instance.collection("user_details").doc(number).get();
@@ -224,7 +224,7 @@ class BookingDetails {
                                             "package_type": bookingList[index]
                                                 ['type'],
                                             "gym_address": gymLocation,
-                                            "id":iiid.toString()
+
                                           }).then((value) {
                                            if(int.parse(bookingList[index]['validity'].toString()) > 1)
                                            {      Get.to(
