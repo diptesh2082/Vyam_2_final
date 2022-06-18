@@ -1,5 +1,5 @@
 import 'dart:async';
-// import 'dart:html';
+
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,8 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Helpers/request_helpers.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
-import 'package:vyam_2_final/Home/views/first_home.dart';
-import 'package:vyam_2_final/controllers/location_controller.dart';
+
 import 'package:vyam_2_final/golbal_variables.dart';
 
 import '../../api/api.dart';

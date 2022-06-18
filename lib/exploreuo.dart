@@ -16,10 +16,10 @@ import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vyam_2_final/Helpers/request_helpers.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
-import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
+
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
-import '../../controllers/gym_controller.dart';
+
 import 'package:location/location.dart' as ln;
 
 const String api = "AIzaSyC1HHe1ulw07w6Cz-UirhV5d2Pm_GUJW38";

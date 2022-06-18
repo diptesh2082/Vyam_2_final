@@ -11,29 +11,24 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vyam_2_final/Home/bookings/gym_details.dart';
-import 'package:vyam_2_final/Home/coupon_page.dart';
+
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/Catagory.dart';
-import 'package:vyam_2_final/Home/views/genarate%20list.dart';
+
 import 'package:vyam_2_final/Home/views/gymStream.dart';
 import 'package:vyam_2_final/Home/views/location.dart';
-import 'package:vyam_2_final/Home/views/noInternet.dart';
+
 import 'package:vyam_2_final/Home/views/progressCard.dart';
 import 'package:vyam_2_final/Home/views/search_function.dart';
 
 import 'package:vyam_2_final/api/api.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
-import 'package:vyam_2_final/controllers/home_controller.dart';
-import 'package:vyam_2_final/controllers/location_controller.dart';
+
 import 'package:vyam_2_final/golbal_variables.dart';
 import '../../Notifications/notification.dart';
-import '../home_page.dart';
-import 'gyms.dart';
+
 
 class FirstHome extends StatefulWidget {
   const FirstHome({Key? key}) : super(key: key);

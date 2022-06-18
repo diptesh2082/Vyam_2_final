@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_typing_uninitialized_variables, unused_field
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +6,10 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/views/gendergyms/gym_female.dart';
 import 'package:vyam_2_final/Home/views/gendergyms/gym_male.dart';
 import 'package:vyam_2_final/Home/views/gendergyms/gym_unisex.dart';
-import 'package:vyam_2_final/Home/views/products.dart';
-import 'package:get/get.dart';
-import 'package:vyam_2_final/booking/active.dart';
-import 'package:vyam_2_final/booking/older.dart';
-import 'package:vyam_2_final/booking/upcoming.dart';
-import 'package:vyam_2_final/controllers/home_controller.dart';
 
-import '../../golbal_variables.dart';
+import 'package:get/get.dart';
+
+
 import 'gendergyms/gyms_gender.dart';
 
 class GymOption extends StatefulWidget {

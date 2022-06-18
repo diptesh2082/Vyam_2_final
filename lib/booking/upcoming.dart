@@ -8,9 +8,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:vyam_2_final/OrderDetails/order_details.dart';
 import 'package:vyam_2_final/api/api.dart';
-import 'package:vyam_2_final/controllers/gym_detail.dart';
-// import 'package:vyambooking/List/list.dart';
-// import 'package:vyambooking/OrderDetails/order_details.dart';
+
 
 class UpcomingEvent extends StatelessWidget {
   UpcomingApi upcomingApi = UpcomingApi();

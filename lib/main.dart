@@ -1,19 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
-import 'package:vyam_2_final/Providers/firebase_dynamic_link.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/register_email.dart';
 import 'package:vyam_2_final/authintication/register_gender.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
-import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/authintication/rphoto.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'Home/home_page.dart';
@@ -111,9 +108,6 @@ class MyApp extends StatelessWidget {
       getPages: [
         // GetPage(name: HomePage.id, page: () => HomePage()),
         GetPage(name: "/login", page: () => const LoginPage()),
-        // GetPage(name: OtpPage.id, page: () => const OtpPage()),
-        GetPage(
-            name: RegistrationPage.id, page: () => const RegistrationPage()),
         GetPage(name: Register1.id, page: () => Register1()),
         GetPage(name: Register2.id, page: () => Register2()),
         GetPage(name: Register3.id, page: () => Register3()),

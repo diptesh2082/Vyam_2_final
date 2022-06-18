@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:vyam_2_final/controllers/faq_controller.dart';
+
 
 import '../../golbal_variables.dart';
 
