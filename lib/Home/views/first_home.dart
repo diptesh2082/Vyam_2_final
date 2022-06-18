@@ -1,4 +1,4 @@
-import 'package:app_settings/app_settings.dart';
+
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -206,6 +206,7 @@ class _FirstHomeState extends State<FirstHome> {
         "device_token":devicetoken
       });
       await FirebaseMessaging.instance.subscribeToTopic("push_notifications");
+      await FirebaseMessaging.instance.subscribeToTopic("booking_notifications");
     }catch(e){
       print(e);
     }

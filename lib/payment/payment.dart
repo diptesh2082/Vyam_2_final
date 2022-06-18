@@ -41,15 +41,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
   int gstTax = 0;
   // ignore: prefer_typing_uninitialized_variables
   var grandTotal;
-  // ignore: prefer_typing_uninitialized_variables
+
   var totalDiscount;
-  // ignore: prefer_typing_uninitialized_variables
+
   var taxPay;
   String amount = '';
   var booking_id = Get.arguments["booking_id"];
   final app_bar_controller = ScrollController();
   final cartValue = Get.arguments["totalPrice"];
   final type=Get.arguments["booking_plan"];
+  final ven_id=Get.arguments["vendorId"];
+  final ven_name=Get.arguments["gymName"];
   showNotification(String title,String info) async {
     // setState(() {
     //   _counter++;
@@ -69,56 +71,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
 
   }
-  // getAnimation(){
-  //   controller = AnimationController(
-  //       vsync: this, value: 0.1, duration: const Duration(milliseconds: 1000));
-  //   _concontroller = AnimationController(
-  //       vsync: this, duration: const Duration(milliseconds: 400));
-  //
-  //   scaleAnimation =
-  //   CurvedAnimation(parent: controller, curve: Curves.easeInOutBack)
-  //     ..addStatusListener((status) {
-  //       if (status == AnimationStatus.completed) {
-  //         setState(() {
-  //           Timer(const Duration(milliseconds: 150),
-  //                   () => _concontroller.forward());
-  //         });
-  //       }
-  //     });
-  // }
-  //
 
   final Razorpay _razorpay = Razorpay();
   // var booking_id=getData["booking_id"];
   var booking_details;
   bool isLoading=false;
-  // getBookingData(String booking_id)async{
-  //   try{
-  //     await FirebaseFirestore.instance
-  //         .collection('bookings')
-  //         .doc(number)
-  //         .collection("user_booking")
-  //         .doc(booking_id)
-  //         .snapshots()
-  //         .listen((DocumentSnapshot documentSnapshot) {
-  //       if (documentSnapshot.exists) {
-  //         print('Document exists on the database');
-  //
-  //         booking_details= documentSnapshot.data();
-  //         // });
-  //
-  //         // return documentSnapshot.data();
-  //
-  //       }
-  //
-  //     });
-  //   }catch(e){
-  //
-  //     print(e);
-  //
-  //   }
-  //
-  // }
 
   detDil()async{
     var price;
@@ -243,38 +200,45 @@ class _PaymentScreenState extends State<PaymentScreen> {
     //     ),
     //   );
     // }else{
-    var x =  Random().nextInt(9999);
-    if (x<1000){
-      x=x+1000;
+    try{
+      var x =  Random().nextInt(9999);
+      if (x<1000){
+        x=x+1000;
+      }
+      FocusScope.of(context).unfocus();
+
+      await FirebaseFirestore.instance
+          .collection("bookings")
+          .doc(getData["booking_id"])
+          .update({
+        "otp_pass": x.toString(),
+        "booking_status": "upcoming",
+        "payment_done": true,
+        "payment_method":"online"
+      });
+      await FirebaseFirestore.instance
+          .collection("booking_notifications")
+          .doc()
+          .set({
+        "title": "booking Activated",
+        "message":"upcoming",
+        "payment_done": false,
+        "user_id":number.toString(),
+        "user_name":GlobalUserData["name"],
+        "vendor_id":ven_id,
+        "vendor_name":ven_name,
+      });
+      // booking_details["id"]!=null?
+      await showNotification("Thank You","Booking Successful");
+      // :await showNotification("Booking Status You","Booking Unsuccessful");
+
+      // booking_details["id"]!=null?
+      await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
+
+    }catch(e){
+
     }
-    FocusScope.of(context).unfocus();
-    // await getBookingData(getData["booking_id"]);
 
-
-    // print(x);
-    // if(booking_details["id"]!=null)
-    await FirebaseFirestore.instance
-        .collection("bookings")
-        .doc(getData["booking_id"])
-        .update({
-      "otp_pass": x.toString(),
-      "booking_status": "upcoming",
-      "payment_done": true,
-      "payment_method":"online"
-    });
-    // booking_details["id"]!=null?
-    await showNotification("Thank You","Booking Successful");
-    // :await showNotification("Booking Status You","Booking Unsuccessful");
-
-    // booking_details["id"]!=null?
-    await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
-    // :Get.back();
-    // }
-
-
-    // } catch (e) {
-    //   print(e);
-    // }
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -436,14 +400,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.white,
-          title: const Text(
-            // "Add Your Location Here",
-            "Booking Summary",
-            style: TextStyle(
-                fontFamily: "Poppins",
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Colors.black),
+          title: InkWell(
+            onTap: (){
+              print(ven_name);
+            },
+            child: const Text(
+              // "Add Your Location Here",
+              "Booking Summary",
+              style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black),
+            ),
           ),
           leading: IconButton(
             color: Colors.black,
@@ -1130,43 +1099,50 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         const SizedBox(width: 15),
                         GestureDetector(
                           onTap: ()async{
-                            setState(() {
-                              isLoading=true;
-                            });
-                            Navigator.pop(context);
-                            var x =  Random().nextInt(9999);
-                            if (x<1000){
-                              x=x+1000;
+                            try{
+                              setState(() {
+                                isLoading=true;
+                              });
+                              Navigator.pop(context);
+                              var x =  Random().nextInt(9999);
+                              if (x<1000){
+                                x=x+1000;
+                              }
+                              FocusScope.of(context).unfocus();
+                              // await getBookingData(getData["booking_id"]);
+                              Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
+                              setState(() {
+                                isLoading=false;
+                              });
+
+                              // print(x);
+                              await FirebaseFirestore.instance
+                                  .collection("bookings")
+                                  .doc(booking_id)
+                                  .update({
+                                "otp_pass": x.toString(),
+                                "booking_status":"upcoming",
+                                "payment_done": false,
+                              });
+                              await FirebaseFirestore.instance
+                                  .collection("booking_notifications")
+                                  .doc()
+                                  .set({
+                                "title": "booking Activated",
+                                "message":"upcoming",
+                                "payment_done": false,
+                                "user_id":number.toString(),
+                                "user_name":GlobalUserData["name"],
+                                "vendor_id":ven_id,
+                                "vendor_name":ven_name,
+                              });
+                            }catch(e){
+
                             }
-                            FocusScope.of(context).unfocus();
-                            // await getBookingData(getData["booking_id"]);
-                            Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
+
                             setState(() {
                               isLoading=false;
                             });
-
-                            // print(x);
-                            await FirebaseFirestore.instance
-                                .collection("bookings")
-                                .doc(booking_id)
-                                .update({
-                              "otp_pass": x.toString(),
-                              "booking_status":"upcoming",
-                              "payment_done": false,
-                            });
-                            // await FirebaseFirestore.instance.collection("booking");
-                            // );
-                            // await FirebaseMessaging.instance.sendMessage(
-                            //   to: "cP2cgBakT-ejsKRphU9Idg:APA91bEfTMeJmTV4EmB3qtGJ7HBlyzeaS2GHIugF1f0ZAigJwvw1GsolLllU-n0g1b5_3W3zqmLfI4EOJI-Yw_H1c-0u4ZQp1VhAHp8dAxiE_LI96SV-l8a-AGdxc46D22XwUtzZCepY",
-                            // data:  {
-                            // "score": '850',
-                            // "time": '2:45'
-                            // },
-                            // ).then((value) {
-                            //   print("its done ");
-                            // });
-                            // await showNotification("Thank You","Booking Successful");
-
 
 
                           },
