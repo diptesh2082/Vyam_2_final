@@ -5,7 +5,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:vyam_2_final/Home/bookings/gym_details.dart';
+
 
 class ImageGallery extends StatefulWidget {
    ImageGallery({Key? key, this.images,required this.loading}) : super(key: key);
@@ -65,7 +65,7 @@ class _ImageGalleryState extends State<ImageGallery> {
           children: [
             GestureDetector(
               child: CarouselSlider.builder(
-                itemCount: widget.images.length,
+                itemCount: Images.length,
                 itemBuilder: (context, index, realIndex) {
                   // final image = Images[index];
                   if(Images.isNotEmpty){
@@ -82,7 +82,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                       setState(() {
                         _current = index + 1;
                         // tkind.current.value=index+1;
-                        for (int i = 0; i < widget.images.length; i++) {
+                        for (int i = 0; i < Images.length; i++) {
                           if (i == index) {
                             _isSelected[i] = true;
                           } else {
@@ -130,7 +130,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                                 // heroAttributes: PhotoViewHeroAttributes(tag: "o"),
                               );
                             },
-                            itemCount: widget.images.length,
+                            itemCount: Images.length,
                             loadingBuilder: (context, event) => Center(
                               child: Container(
                                 width: 20.0,
@@ -171,7 +171,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                   child: Row(
 
                     children: [
-                      for (int i = 0; i < widget.images.length; i++)
+                      for (int i = 0; i < Images.length; i++)
                         Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Visibility(
@@ -255,8 +255,8 @@ class _ImageGalleryState extends State<ImageGallery> {
         // progressIndicatorBuilder: (context, url, downloadProgress) =>
         //     Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
         // cacheManager: customCacheManager,
-        maxHeightDiskCache: 600,
-        width: 700,
+        maxHeightDiskCache: 500,
+        width: 500,
         imageUrl: images,
         fit: BoxFit.cover,
       ),

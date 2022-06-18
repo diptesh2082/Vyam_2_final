@@ -4,14 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/Home/bookings/cancelpro.dart';
-import 'package:vyam_2_final/OrderDetails/active_details.dart';
-import 'package:vyam_2_final/OrderDetails/order_details.dart';
-import 'package:vyam_2_final/booking/bookings.dart';
-import 'package:vyam_2_final/booking/bookings.dart';
-
-import 'Home/home_page.dart';
-import 'Home/views/first_home.dart';
-import 'api/api.dart';
 import 'golbal_variables.dart';
 
 class MyChoice {

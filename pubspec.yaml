@@ -116,7 +116,7 @@ flutter_icons:
 
 
 flutter_native_splash:
-  color: "#000000"
+#  color: "#000000"
   image: assets/Illustrations/vyam.png
   android: true
   ios: true
