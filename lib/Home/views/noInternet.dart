@@ -47,7 +47,9 @@ class NoInternet extends StatelessWidget {
               ),
             ),
             SizedBox(
+
               height: 10,
+
             ),
             // ClipRRect(
             //   borderRadius: BorderRadius.circular(10),
@@ -70,10 +72,12 @@ class NoInternet extends StatelessWidget {
             //     ),
             //   ),
             // ),
+
             SizedBox(
               height:20 ,
 
             ),
+
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: SizedBox(
