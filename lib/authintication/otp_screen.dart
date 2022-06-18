@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/authintication/google_signin.dart';
+import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
 // import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/colors/color.dart';
@@ -65,26 +66,32 @@ class _OtpPageState extends State<OtpPage> {
         showLoading = false;
       });
       if (authCred.user != null) {
-        await getToHomePage(_auth.currentUser?.phoneNumber);
+        // await  getToHomePage(_auth.currentUser?.phoneNumber);
         await setNumber(_auth.currentUser!.phoneNumber);
-        await checkExist("${_auth.currentUser?.phoneNumber}");
-        await setUserId(_auth.currentUser?.phoneNumber);
+        await checkExist("${_auth.currentUser?.phoneNumber}").then((value) async {
+          await setUserId(_auth.currentUser?.phoneNumber);
+          print(visiting_flag);
+          if (visiting_flag == true) {
+            Navigator.pushReplacement(
+                (context), MaterialPageRoute(builder: (context) => HomePage()));
+            // Get.offAll(()=>HomePage());
+          } else if (visiting_flag == false) {
+            userPhoto = "null";
+            Navigator.pushReplacement(
+                (context), MaterialPageRoute(builder: (context) => Register1()));
+          }
+        });
+
         // await setVisitingFlag();
-        print(visiting_flag);
-        if (visiting_flag == true) {
-          Navigator.pushReplacement(
-              (context), MaterialPageRoute(builder: (context) => HomePage()));
-          // Get.offAll(()=>HomePage());
-        } else if (visiting_flag == false) {
-          userPhoto = "null";
-          Navigator.pushReplacement(
-              (context), MaterialPageRoute(builder: (context) => Register1()));
-        }
+
         // Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomePage()));
       }
     } on FirebaseAuthException catch (e) {
+      // Navigator.pushReplacement(
+      //     (context), MaterialPageRoute(builder: (context) => LoginPage()));
+
       setState(() {
-        // showLoading = false;
+        showLoading = false;
         showError = true;
       });
       // ignore: avoid_print

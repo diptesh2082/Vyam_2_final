@@ -83,7 +83,7 @@ class _ZumbaTypeState extends State<ZumbaType> {
                                   onTap: () async {
                                     print("${document[index]["name"]}");
                                     Get.to(
-                                        () => GymDetails(
+                                        () => GymDetails(gymID: document[index].id,
                                             // getID: document[index].id,
                                             // gymLocation: document[index]
                                             //     ["location"],
@@ -232,7 +232,7 @@ class _ZumbaTypeState extends State<ZumbaType> {
                       }
                       return const Center(
                         child: Text(
-                          "No nearby gyms in your area",
+                          "No fitness options found",
                           style: TextStyle(
                             fontWeight: FontWeight.w100,
                             fontFamily: "Poppins",
@@ -247,7 +247,7 @@ class _ZumbaTypeState extends State<ZumbaType> {
                   )
                 : const Center(
                     child: Text(
-                      "No nearby gyms in your area",
+                      "No fitness options found",
                       style: TextStyle(
                         fontWeight: FontWeight.w100,
                         fontFamily: "Poppins",

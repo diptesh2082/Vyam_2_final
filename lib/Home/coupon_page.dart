@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/global_snackbar.dart';
+import 'package:vyam_2_final/golbal_variables.dart';
 import 'package:vyam_2_final/payment/payment.dart';
 // import 'package:vyambooking/List/list.dart';
 
@@ -32,8 +33,15 @@ class _CouponDetailsState extends State<CouponDetails> {
   var couponDoc;
 
   CouponApi couponApi = CouponApi();
-  TextEditingController couponController = TextEditingController();
-  couponClass myCouponController = Get.put(couponClass());
+// <<<<<<< HEAD
+//   TextEditingController couponController = TextEditingController();
+//   couponClass myCouponController = Get.put(couponClass());
+// =======
+  TextEditingController couponController=TextEditingController();
+  couponClass myCouponController= Get.put(couponClass());
+
+  getCoupons(){}
+// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
 
   @override
   void initState() {
@@ -46,6 +54,8 @@ class _CouponDetailsState extends State<CouponDetails> {
   void dispose() {
     // TODO: implement dispose
     // myCouponController.dispose();
+    print("++++++++++d899999999999999999++++++++++++++++++++");
+    print([GlobalUserData["userId"]]);
     couponController.dispose();
     super.dispose();
   }
@@ -139,39 +149,77 @@ class _CouponDetailsState extends State<CouponDetails> {
                                   content: SizedBox(
                                     height: 160,
                                     width: 160,
-                                    child: FittedBox(
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Image.asset(
-                                              "assets/icons/icons8-approval.gif",
-                                              height: 70,
-                                              width: 70,
-                                            ),
-                                            const SizedBox(
-                                              height: 9,
-                                            ),
-                                            Text(
-                                              "$coupon Applied",
-                                              style: const TextStyle(
-                                                  fontFamily: "Poppins",
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            const SizedBox(height: 6),
-                                            Text(
-                                              "You save ${coupon_list[coupon]}",
-                                              style: const TextStyle(
-                                                  fontFamily: "Poppins",
-                                                  fontSize: 16,
-                                                  color: Colors.green,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          ]),
-                                    ),
+// <<<<<<< HEAD
+//                                     child: FittedBox(
+//                                       child: Column(
+//                                           crossAxisAlignment:
+//                                               CrossAxisAlignment.center,
+//                                           mainAxisAlignment:
+//                                               MainAxisAlignment.center,
+//                                           children: [
+//                                             Image.asset(
+//                                               "assets/icons/icons8-approval.gif",
+//                                               height: 70,
+//                                               width: 70,
+//                                             ),
+//                                             const SizedBox(
+//                                               height: 9,
+//                                             ),
+//                                             Text(
+//                                               "$coupon Applied",
+//                                               style: const TextStyle(
+//                                                   fontFamily: "Poppins",
+//                                                   fontSize: 14,
+//                                                   fontWeight: FontWeight.w600),
+//                                             ),
+//                                             const SizedBox(height: 6),
+//                                             Text(
+//                                               "You save ${coupon_list[coupon]}",
+//                                               style: const TextStyle(
+//                                                   fontFamily: "Poppins",
+//                                                   fontSize: 16,
+//                                                   color: Colors.green,
+//                                                   fontWeight: FontWeight.w600),
+//                                             ),
+//                                           ]),
+//                                     ),
+// =======
+                                    child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          IconButton(onPressed: (){
+
+                                          },
+                                              icon: Icon(
+                                                Icons.cancel,color: Colors.black87,)
+                                          ),
+                                          Text("data"),
+                                          Image.asset("assets/icons/icons8-approval.gif",
+                                            height: 70,
+                                            width: 70,
+                                          ),
+                                          const SizedBox(
+                                            height: 9,
+                                          ),
+                                          Text(
+                                            "$coupon Applied",
+                                            style: const TextStyle(
+                                                fontFamily: "Poppins",
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          const SizedBox(height: 6),
+                                          Text(
+                                            "You save ${coupon_list[coupon]}",
+                                            style: const TextStyle(
+                                                fontFamily: "Poppins",
+                                                fontSize: 16,
+                                                color: Colors.green,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        ]),
+// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
                                   ),
                                 ),
                               );
@@ -221,8 +269,13 @@ class _CouponDetailsState extends State<CouponDetails> {
                 ),
               ),
               StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('coupon')
+// <<<<<<< HEAD
+//                   stream: FirebaseFirestore.instance
+//                       .collection('coupon')
+// =======
+                  stream: FirebaseFirestore.instance.collection('coupon')
+                      // .where("user_id",arrayContains:GlobalUserData["userId"])
+// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
                       .snapshots(),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -239,7 +292,11 @@ class _CouponDetailsState extends State<CouponDetails> {
                             .get('package_type')
                             .toString()
                             .toLowerCase()
-                            .contains(widget.type.toString().toLowerCase());
+                            .contains(widget.type.toString().toLowerCase())
+                          // && element.
+                          //   get('package_type').contains
+
+                        ;
                       }).toList();
                     } else {
                       documents = documents.where((element) {
@@ -250,6 +307,16 @@ class _CouponDetailsState extends State<CouponDetails> {
                             .contains("package");
                       }).toList();
                     }
+                    if (widget.type.toString().toLowerCase()=="pay per session"){
+
+                    }
+                    // documents = documents.where((element){
+                    //   return element
+                    //       .get('gym_id')
+                    //       .toString()
+                    //       .toLowerCase()
+                    //       .("package");
+                    // }).toList();
 
                     couponDoc = snapshot.data.docs;
                     print(couponDoc);
@@ -261,11 +328,11 @@ class _CouponDetailsState extends State<CouponDetails> {
                       return Center(
                         child: Column(
                           children: [
-                            const SizedBox(
-                              height: 60,
-                            ),
+                            // const SizedBox(
+                            //   height: 60,
+                            // ),
                             Image.asset(
-                              "assets/Illustrations/notification empty.png",
+                              "assets/Illustrations/coupon.png",
                             ),
                           ],
                         ),
@@ -301,6 +368,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                 });
 // >>>>>>> 7384932aa66e035ea148e5d21e568bb5045564cf
                                 print(coupon_list);
+                                // if(  documents[index]["gym_id"].toList().)
                                 return SafeArea(
                                   child: Stack(
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -480,7 +548,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                         .width *
                                                     .7,
                                                 child: Text(
-                                                  documents[index]['brief']
+                                                  documents[index]['description']
                                                       .toUpperCase(),
                                                   style: GoogleFonts.poppins(
                                                       color: HexColor("858585"),
@@ -619,51 +687,105 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                                     16))),
                                                     content: SizedBox(
                                                       height: 160,
-                                                      width: 160,
-                                                      child: FittedBox(
-                                                        child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Image.asset(
-                                                                "assets/icons/icons8-approval.gif",
-                                                                height: 70,
-                                                                width: 70,
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 9,
-                                                              ),
-                                                              Text(
-                                                                "$coupon Applied",
-                                                                style: const TextStyle(
-                                                                    fontFamily:
-                                                                        "Poppins",
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
-                                                              ),
-                                                              const SizedBox(
-                                                                  height: 6),
-                                                              Text(
-                                                                "You save ${coupon_list[coupon]}",
-                                                                style: const TextStyle(
-                                                                    fontFamily:
-                                                                        "Poppins",
-                                                                    fontSize:
-                                                                        16,
-                                                                    color: Colors
-                                                                        .green,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
-                                                              ),
-                                                            ]),
+// <<<<<<< HEAD
+//                                                       width: 160,
+//                                                       child: FittedBox(
+//                                                         child: Column(
+//                                                             crossAxisAlignment:
+//                                                                 CrossAxisAlignment
+//                                                                     .center,
+//                                                             mainAxisAlignment:
+//                                                                 MainAxisAlignment
+//                                                                     .center,
+//                                                             children: [
+//                                                               Image.asset(
+//                                                                 "assets/icons/icons8-approval.gif",
+//                                                                 height: 70,
+//                                                                 width: 70,
+//                                                               ),
+//                                                               const SizedBox(
+//                                                                 height: 9,
+//                                                               ),
+//                                                               Text(
+//                                                                 "$coupon Applied",
+//                                                                 style: const TextStyle(
+//                                                                     fontFamily:
+//                                                                         "Poppins",
+//                                                                     fontSize:
+//                                                                         14,
+//                                                                     fontWeight:
+//                                                                         FontWeight
+//                                                                             .w600),
+//                                                               ),
+//                                                               const SizedBox(
+//                                                                   height: 6),
+//                                                               Text(
+//                                                                 "You save ${coupon_list[coupon]}",
+//                                                                 style: const TextStyle(
+//                                                                     fontFamily:
+//                                                                         "Poppins",
+//                                                                     fontSize:
+//                                                                         16,
+//                                                                     color: Colors
+//                                                                         .green,
+//                                                                     fontWeight:
+//                                                                         FontWeight
+//                                                                             .w600),
+//                                                               ),
+//                                                             ]),
+// =======
+                                                      width: 150,
+                                                      child: Stack(
+                                                        children: [
+                                                          Center(
+                                                            child: Column(
+                                                                crossAxisAlignment:
+                                                                CrossAxisAlignment.center,
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment.center,
+                                                                children: [
+
+                                                                  Image.asset(
+                                                                    "assets/icons/icons8-approval.gif",
+                                                                    height: 80,
+                                                                    width: 80,
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    height: 9,
+                                                                  ),
+                                                                  Text(
+                                                                    "$coupon Applied",
+                                                                    style: const TextStyle(
+                                                                        fontFamily: "Poppins",
+                                                                        fontSize: 16,
+                                                                        fontWeight: FontWeight.w600),
+                                                                  ),
+                                                                  const SizedBox(height: 6),
+                                                                  Text(
+                                                                    "You save ${coupon_list[coupon]}",
+                                                                    style: const TextStyle(
+                                                                        fontFamily: "Poppins",
+                                                                        fontSize: 16,
+                                                                        color: Colors.green,
+                                                                        fontWeight: FontWeight.w600),
+                                                                  ),
+                                                                ]),
+                                                          ),
+                                                          Positioned(
+                                                              top: 0,
+                                                              right: 0,
+                                                              child: InkWell(
+                                                                onTap: (){
+                                                                  Navigator.pop(context);
+                                                                },
+                                                                child: Icon(
+                                                                  Icons.cancel_outlined,color: Colors.black87,
+                                                                  size: 20,
+                                                                ),
+                                                              )
+                                                          ),
+                                                        ],
+// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
                                                       ),
                                                     ),
                                                   ),
@@ -719,51 +841,103 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                                     16))),
                                                     content: SizedBox(
                                                       height: 160,
-                                                      width: 160,
-                                                      child: FittedBox(
-                                                        child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Image.asset(
-                                                                "assets/icons/icons8-approval.gif",
-                                                                height: 70,
-                                                                width: 70,
+// <<<<<<< HEAD
+//                                                       width: 160,
+//                                                       child: FittedBox(
+//                                                         child: Column(
+//                                                             crossAxisAlignment:
+//                                                                 CrossAxisAlignment
+//                                                                     .center,
+//                                                             mainAxisAlignment:
+//                                                                 MainAxisAlignment
+//                                                                     .center,
+//                                                             children: [
+//                                                               Image.asset(
+//                                                                 "assets/icons/icons8-approval.gif",
+//                                                                 height: 70,
+//                                                                 width: 70,
+//                                                               ),
+//                                                               const SizedBox(
+//                                                                 height: 9,
+//                                                               ),
+//                                                               Text(
+//                                                                 "$coupon Applied",
+//                                                                 style: const TextStyle(
+//                                                                     fontFamily:
+//                                                                         "Poppins",
+//                                                                     fontSize:
+//                                                                         14,
+//                                                                     fontWeight:
+//                                                                         FontWeight
+//                                                                             .w600),
+//                                                               ),
+//                                                               const SizedBox(
+//                                                                   height: 6),
+//                                                               Text(
+//                                                                 "You save ${coupon_list[coupon]}",
+//                                                                 style: const TextStyle(
+//                                                                     fontFamily:
+//                                                                         "Poppins",
+//                                                                     fontSize:
+//                                                                         16,
+//                                                                     color: Colors
+//                                                                         .green,
+//                                                                     fontWeight:
+//                                                                         FontWeight
+//                                                                             .w600),
+// =======
+                                                      width: 150,
+                                                      child: Stack(
+                                                        children: [
+                                                          Center(
+                                                            child: Column(
+                                                                crossAxisAlignment:
+                                                                CrossAxisAlignment.center,
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment.center,
+                                                                children: [
+
+                                                                  Image.asset(
+                                                                    "assets/icons/icons8-approval.gif",
+                                                                    height: 80,
+                                                                    width: 80,
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    height: 9,
+                                                                  ),
+                                                                  Text(
+                                                                    "$coupon Applied",
+                                                                    style: const TextStyle(
+                                                                        fontFamily: "Poppins",
+                                                                        fontSize: 16,
+                                                                        fontWeight: FontWeight.w600),
+                                                                  ),
+                                                                  const SizedBox(height: 6),
+                                                                  Text(
+                                                                    "You save ${coupon_list[coupon]}",
+                                                                    style: const TextStyle(
+                                                                        fontFamily: "Poppins",
+                                                                        fontSize: 16,
+                                                                        color: Colors.green,
+                                                                        fontWeight: FontWeight.w600),
+                                                                  ),
+                                                                ]),
+                                                          ),
+                                                          Positioned(
+                                                            top: 0,
+                                                            right: 0,
+                                                            child: InkWell(
+                                                              onTap: (){
+                                                                Navigator.pop(context);
+                                                              },
+                                                              child: Icon(
+                                                                Icons.cancel_outlined,color: Colors.black87,
+                                                              size: 20,
+// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
                                                               ),
-                                                              const SizedBox(
-                                                                height: 9,
-                                                              ),
-                                                              Text(
-                                                                "$coupon Applied",
-                                                                style: const TextStyle(
-                                                                    fontFamily:
-                                                                        "Poppins",
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
-                                                              ),
-                                                              const SizedBox(
-                                                                  height: 6),
-                                                              Text(
-                                                                "You save ${coupon_list[coupon]}",
-                                                                style: const TextStyle(
-                                                                    fontFamily:
-                                                                        "Poppins",
-                                                                    fontSize:
-                                                                        16,
-                                                                    color: Colors
-                                                                        .green,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600),
-                                                              ),
-                                                            ]),
+                                                            )
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
                                                   ),

@@ -558,28 +558,52 @@ class GymAllApi {
   // }
   Stream<QuerySnapshot> getGymDetails = FirebaseFirestore.instance
       .collection("product_details")
-      .where("locality", isEqualTo: GlobalUserData["locality"])
+// <<<<<<< HEAD
+//       .where("locality", isEqualTo: GlobalUserData["locality"])
+//       .where("legit", isEqualTo: true)
+// =======
+      // .where("locality",
+      // isEqualTo: GlobalUserData["locality"])
       .where("legit", isEqualTo: true)
+// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
       .orderBy("location")
       .snapshots();
 
   Stream<QuerySnapshot> getMaleGym = FirebaseFirestore.instance
       .collection("product_details")
-      .where("locality", isEqualTo: GlobalUserData["locality"])
+// <<<<<<< HEAD
+//       .where("locality", isEqualTo: GlobalUserData["locality"])
+//       .where("legit", isEqualTo: true)
+// =======
+      // .where("locality",
+      // isEqualTo: GlobalUserData["locality"])
       .where("legit", isEqualTo: true)
+// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
       .where("gender", isEqualTo: "male")
       .orderBy("location")
       .snapshots();
   Stream<QuerySnapshot> getFemaleGym = FirebaseFirestore.instance
       .collection("product_details")
-      .where("locality", isEqualTo: GlobalUserData["locality"])
-      .where("gender", isEqualTo: "female")
+// <<<<<<< HEAD
+//       .where("locality", isEqualTo: GlobalUserData["locality"])
+//       .where("gender", isEqualTo: "female")
+//       .where("legit", isEqualTo: true)
+// =======
+      // .where("locality",
+      // isEqualTo: GlobalUserData["locality"])
+      .where("gender", whereIn: ["female", "unisex"])
       .where("legit", isEqualTo: true)
+// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
       .orderBy("location")
       .snapshots();
   Stream<QuerySnapshot> getUnisexGym = FirebaseFirestore.instance
       .collection("product_details")
-      .where("locality", isEqualTo: GlobalUserData["locality"])
+// <<<<<<< HEAD
+//       .where("locality", isEqualTo: GlobalUserData["locality"])
+// =======
+      // .where("locality",
+      // isEqualTo: GlobalUserData["locality"])
+// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
       .where("gender", isEqualTo: "unisex")
       .where("legit", isEqualTo: true)
       .orderBy("location")

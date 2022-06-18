@@ -42,7 +42,13 @@ class _GymUnisexState extends State<GymUnisex> {
         padding:
             const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
         child: StreamBuilder(
-          stream: gymAll.getUnisexGym,
+          stream:  FirebaseFirestore.instance
+              .collection("product_details")
+          // .where("locality",
+          // isEqualTo: GlobalUserData["locality"])
+              .where("legit",isEqualTo: true)
+              .orderBy("location")
+              .snapshots(),
           builder: (context, AsyncSnapshot streamSnapshot) {
             if (streamSnapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -63,7 +69,9 @@ class _GymUnisexState extends State<GymUnisex> {
                   .get('service')
                   .toString()
                   .toLowerCase()
-                  .contains(widget.type);
+                  .contains(widget.type)
+                  &&["unisex"].contains(element.get("gender"))
+              ;
             }).toList();
             return document.isNotEmpty
                 ? ListView.separated(
@@ -78,6 +86,13 @@ class _GymUnisexState extends State<GymUnisex> {
                           document[index]["location"].longitude);
                       distance = double.parse((distance).toStringAsFixed(1));
                       // print(distance);
+                      if(distance <= 50
+                      // && (document[index]["locality"].toString()
+                      // .toLowerCase()
+                      // .trim() == GlobalUserData["locality"].toString()
+                      // .toLowerCase()
+                      // .trim())
+                      ) {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
@@ -87,7 +102,7 @@ class _GymUnisexState extends State<GymUnisex> {
                             onTap: () async {
                               FocusScope.of(context).unfocus();
 
-                              Get.to(() => GymDetails(), arguments: {
+                              Get.to(() => GymDetails(gymID: document[index].id,), arguments: {
                                 "id": document[index].id,
                                 "location": document[index]["location"],
                                 "name": document[index]["name"],
@@ -153,7 +168,7 @@ class _GymUnisexState extends State<GymUnisex> {
                                       // color: Colors.white10,
                                     ),
                                     height: size.height * .078,
-                                    width: size.width * .45,
+                                    width: size.width * .6,
                                     padding: const EdgeInsets.only(
                                         left: 8, bottom: 10),
                                     child: Column(
@@ -164,7 +179,7 @@ class _GymUnisexState extends State<GymUnisex> {
                                       children: [
                                         Text(
                                           document[index]["name"] ?? "",
-                                          textAlign: TextAlign.center,
+                                          // textAlign: TextAlign.center,
                                           maxLines: 1,
                                           // overflow:
                                           // TextOverflow.ellipsis,
@@ -182,7 +197,7 @@ class _GymUnisexState extends State<GymUnisex> {
                                           // "",
                                           document[index]["address"] ??
                                               "",
-                                          textAlign: TextAlign.center,
+                                          // textAlign: TextAlign.center,
                                           style: const TextStyle(
                                               overflow:
                                               TextOverflow.ellipsis,
@@ -190,7 +205,7 @@ class _GymUnisexState extends State<GymUnisex> {
                                               fontFamily: "Poppins",
                                               fontSize: 12,
                                               fontWeight:
-                                              FontWeight.w600),
+                                              FontWeight.w500),
                                         ),
                                       ],
                                     ),
@@ -319,6 +334,8 @@ class _GymUnisexState extends State<GymUnisex> {
                           ),
                         ),
                       );
+                    }
+                return Container();
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       return Container(
@@ -328,7 +345,7 @@ class _GymUnisexState extends State<GymUnisex> {
                   )
                 : const Center(
                     child: Text(
-                      "No nearby gyms in your area",
+                      "No fitness options found",
                       style: TextStyle(
                         fontWeight: FontWeight.w100,
                         fontFamily: "Poppins",

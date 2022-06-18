@@ -45,6 +45,7 @@ class Catagory extends StatelessWidget {
                       borderRadius:
                       BorderRadius.circular(15),
                       child: CachedNetworkImage(
+                        filterQuality: FilterQuality.medium,
                         imageUrl: categoryDocs[index]
                         ['image'],
                         height: 150,
@@ -84,7 +85,7 @@ class Catagory extends StatelessWidget {
                   ],
                 ),
                 onTap: () async{
-                  String type = await categoryDocs[index]['name'];
+                  String type =  categoryDocs[index]['name'];
                   print(type);
                   await Get.to(() => GymOption(), arguments: {
                     "type": type.toLowerCase(),

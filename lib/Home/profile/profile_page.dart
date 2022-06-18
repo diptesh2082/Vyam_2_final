@@ -1,12 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
@@ -39,6 +43,17 @@ class _ProfilePartState extends State<ProfilePart> {
       'https://play.google.com/store/apps/details?id=com.findnearestfitness.vyam';
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+
+  Future<void> share() async {
+    await FlutterShare.share(
+        title: ' ',
+        text: 'https://vyam.page.link/vyamFirst',
+        linkUrl: 'https://vyam.page.link/vyamFirst',
+        //chooserTitle: 'Example Chooser Title'
+    );
+  }
+
+
   UserDetails userDetails = UserDetails();
   String name = "";
   String email = "";
@@ -60,7 +75,7 @@ class _ProfilePartState extends State<ProfilePart> {
             name = snapshot.get('name');
             // print(number);
             email = snapshot.get('email');
-            phone = snapshot.get('number');
+            phone = snapshot.get('userId').toString().substring(3,snapshot.get('userId').toString().length);
             gender = snapshot.get("gender");
             imageUrl = snapshot.get("image");
 
@@ -172,7 +187,10 @@ class _ProfilePartState extends State<ProfilePart> {
                                                     // MediaQuery.of(context).size.width * 0.3,
                                                     backgroundImage:
                                                         CachedNetworkImageProvider(
-                                                            imageUrl),
+                                                            imageUrl,
+                                                        scale: 1,
+
+                                                        ),
                                                   ),
                                           ]),
                                         ),
@@ -367,21 +385,30 @@ class _ProfilePartState extends State<ProfilePart> {
                         thickness: .3,
                         height: 0,
                       ),
-                      ListTile(
-                        onTap: ()async {
-                          print(number);
-                          // GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
-                          // PlacesSearchResponse response =await _places.searchNearbyWithRadius(Location(lng: 31.0424,lat: 42.421,), 100);
-                          // // Get.to(() => const MyOrdersScreen());
-                          // print(response.toJson());
+
+                     TextButton(
+                        onPressed:()async {
+                          share();
+                          print('PRESSED');
                         },
-                        leading: const ImageIcon(
-                          AssetImage("assets/icons/share_app.png"),
-                          color: Colors.black54,
-                        ),
-                        title:  Text(
-                          "Share",
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, ),
+                        child: ListTile(
+                          // onTap: ()async {
+                          //   print(number);
+                          //   print('SHARE BUTTON PRESSED');
+                          //   // GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
+                          //   // PlacesSearchResponse response =await _places.searchNearbyWithRadius(Location(lng: 31.0424,lat: 42.421,), 100);
+                          //   // // Get.to(() => const MyOrdersScreen());
+                          //   // print(response.toJson());
+                          //
+                          // },
+                          leading: const ImageIcon(
+                            AssetImage("assets/icons/share_app.png"),
+                            color: Colors.black54,
+                          ),
+                          title:  Text(
+                            "Share",
+                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15,),
+                          ),
                         ),
                       ),
                       const Divider(
@@ -393,6 +420,29 @@ class _ProfilePartState extends State<ProfilePart> {
                   const SizedBox(
                     height: 24,
                   ),
+                  // ClipRRect(
+                  //   borderRadius: BorderRadius.circular(10),
+                  //   child: SizedBox(
+                  //     height: 37,
+                  //     width: 110,
+                  //     child: ElevatedButton(onPressed: (){
+                  //       Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(builder: (context) => LoginPage()),
+                  //
+                  //       );
+                  //     }, child: Text("Log Out",
+                  //       style: GoogleFonts.poppins(
+                  //           color: Color(0xffffffff)
+                  //       ),
+                  //     )
+                  //       ,style: ElevatedButton.styleFrom(
+                  //         primary: Color(0xff292F3D),
+                  //       ),
+                  //
+                  //     ),
+                  //   ),
+                  // ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: SizedBox(

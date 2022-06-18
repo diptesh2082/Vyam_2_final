@@ -60,7 +60,7 @@ class _OrderDetailsState extends State<OrderDetails> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
         title: Text(
-          "Order Details",
+          "Booking Details",
           style: GoogleFonts.poppins(
               color: HexColor("3A3A3A"),
               fontSize: 18,
@@ -110,12 +110,42 @@ class _OrderDetailsState extends State<OrderDetails> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "Booking ID : " + doc["doc"]['id'],
-                                      style: GoogleFonts.poppins(
-                                          color: HexColor("3A3A3A"),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500),
+                                    Material(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(5),
+                                      elevation: 5,
+                                      // color: Colors.yellow,
+                                      // decoration: BoxDecoration(
+                                      //   color: Colors.yellowAccent,
+                                      //   borderRadius: BorderRadius.circular(5)
+                                      // ),
+                                      child:Padding(
+                                        padding: const EdgeInsets.only(left: 3,right: 2,),
+                                        child: RichText(
+                                            text: TextSpan(
+                                                style: GoogleFonts.poppins(
+                                                  // fontFamily: "Poppins",
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 12,
+                                                    color: Colors.grey),
+                                                children:  <TextSpan>[
+                                                  TextSpan(
+                                                      text: 'Booking ID - '
+                                                  ),
+                                                  TextSpan(
+                                                      text: "${doc["doc"]['id']??""}",
+                                                      style:GoogleFonts.poppins(
+                                                        // fontFamily: "Poppins",
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 12,
+                                                          color: Colors.amber
+                                                      )
+                                                  ),
+                                                ]
+
+                                            )),
+                                      ),
+
                                     ),
                                     const SizedBox(
                                       height: 4,
@@ -155,30 +185,30 @@ class _OrderDetailsState extends State<OrderDetails> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "End on :",
-                                                  style: GoogleFonts.poppins(
-                                                      color: HexColor("A3A3A3"),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                                Text(
-                                                  doc["doc"]
-                                                          ['plan_end_duration']
-                                                      .toDate()
-                                                      .year
-                                                      .toString(),
-                                                  style: GoogleFonts.poppins(
-                                                      color: HexColor("A3A3A3"),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                              ],
-                                            ),
+                                            // Row(
+                                            //   children: [
+                                            //     Text(
+                                            //       "End on :",
+                                            //       style: GoogleFonts.poppins(
+                                            //           color: HexColor("A3A3A3"),
+                                            //           fontSize: 12,
+                                            //           fontWeight:
+                                            //               FontWeight.w500),
+                                            //     ),
+                                            //     Text(
+                                            //       doc["doc"]
+                                            //               ['plan_end_duration']
+                                            //           .toDate()
+                                            //           .year
+                                            //           .toString(),
+                                            //       style: GoogleFonts.poppins(
+                                            //           color: HexColor("A3A3A3"),
+                                            //           fontSize: 12,
+                                            //           fontWeight:
+                                            //               FontWeight.w500),
+                                            //     ),
+                                            //   ],
+                                            // ),
                                             Row(
                                               children: [
                                                 Container(
@@ -366,7 +396,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             Text(
                               "Workout",
                               style: GoogleFonts.poppins(
-                                  fontSize: 16, fontWeight: FontWeight.w700),
+                                  fontSize: 16, fontWeight: FontWeight.w700,color: HexColor("27AE60")),
                             ),
                             const Spacer(),
                             // if (getOderDetails[widget.index]['workout']
@@ -381,27 +411,34 @@ class _OrderDetailsState extends State<OrderDetails> {
                             //     .contains("Months"))
                             Text(
                               // getOderDetails[widget.index]['workout']
-                              "Gym".toUpperCase(),
+
+                              '${doc["doc"]['package_type']}'.toUpperCase(),
+
                               style: GoogleFonts.poppins(
-                                  fontSize: 16, fontWeight: FontWeight.w700),
+                                  fontSize: 16, fontWeight: FontWeight.w700,color:HexColor("27AE60")),
                             ),
                           ],
                         ),
                         Row(
                           children: [
                             Text(
-                              "Package",
+
+                        '${doc["doc"]['booking_plan']=="pay per session"?doc["doc"]['booking_plan']:"Package"}',
+
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                             const Spacer(),
                             Text(
+
                               // getOderDetails[widget.index]['workout']
-                              "${doc["doc"]["booking_plan"] ?? ""}"
-                                  .toUpperCase(),
+                                doc["doc"]['booking_plan']=="pay per session"?'${doc["doc"]['totalDays'].toString()} days':doc["doc"]['booking_plan'],
+
+
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
+
                           ],
                         ),
                         Row(
@@ -414,7 +451,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             const Spacer(),
                             Text(
                               // getOderDetails[widget.index]['start_date'],
-                              "${DateFormat("MMMM,dd,yyyy").format(doc["doc"]["booking_date"].toDate())}",
+                              "${DateFormat("dd, MMM,yyyy").format(doc["doc"]["booking_date"].toDate())}",
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
@@ -429,7 +466,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             ),
                             const Spacer(),
                             Text(
-                              "${DateFormat("MMMM,dd,yyyy").format(doc["doc"]["plan_end_duration"].toDate())}",
+                              "${DateFormat("dd, MMM, yyyy").format(doc["doc"]["plan_end_duration"].toDate())}",
                               // getOderDetails[widget.index]['end_date'],
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
@@ -500,22 +537,22 @@ class _OrderDetailsState extends State<OrderDetails> {
                             ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              "Promo code",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 16, fontWeight: FontWeight.w400),
-                            ),
-                            const Spacer(),
-                            Text(
-                              doc["doc"]['discount'].toString(),
-                              // getOderDetails[widget.index]['promocode'],
-                              style: GoogleFonts.poppins(
-                                  fontSize: 16, fontWeight: FontWeight.w400),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Text(
+                        //       "Promo code",
+                        //       style: GoogleFonts.poppins(
+                        //           fontSize: 16, fontWeight: FontWeight.w400),
+                        //     ),
+                        //     const Spacer(),
+                        //     Text(
+                        //       doc["doc"]['discount'].toString(),
+                        //       // getOderDetails[widget.index]['promocode'],
+                        //       style: GoogleFonts.poppins(
+                        //           fontSize: 16, fontWeight: FontWeight.w400),
+                        //     ),
+                        //   ],
+                        // ),
                         Row(
                           children: [
                             Text(
@@ -534,6 +571,37 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   color: HexColor("27AE60")),
                             ),
                           ],
+                        ),
+                        Divider(thickness: .5,),
+                        Row(
+                          children: [
+                            Text(
+                              "Payment Type",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: HexColor("27AE60")),
+                            ),
+                            const Spacer(),
+                            if (doc["doc"]['payment_method']=='offline')
+                            Text(
+                              'Cash',
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: HexColor("27AE60")),
+                            ),
+                            if(doc["doc"]['payment_method']=='online')
+                            Text(
+                            'Online',
+                            style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: HexColor("27AE60")),
+                            ),
+
+
+                       ],
                         ),
                       ],
                     ),

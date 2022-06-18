@@ -66,19 +66,13 @@ class _ZumbaUnisexState extends State<ZumbaUnisex> {
                                   onTap: () async {
                                     print("${document[index]["name"]}");
                                     Get.to(
-                                        () => GymDetails(
+                                        () => GymDetails(gymID: document[index].id,
                                             // getID: document[index].id,
                                             // gymLocation: document[index]
                                             //     ["location"],
                                             // gymName: document[index]["name"],
                                             ),
-                                        arguments: {
-                                          "id": document[index].id,
-                                          "location": document[index]
-                                              ["location"],
-                                          "name": document[index]["name"],
-                                          "docs": document[index]
-                                        });
+                                        );
                                   },
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(15),
@@ -217,7 +211,7 @@ class _ZumbaUnisexState extends State<ZumbaUnisex> {
                       }
                       return const Center(
                         child: Text(
-                          "No nearby gyms in your area",
+                          "No fitness options found",
                           style: TextStyle(
                             fontWeight: FontWeight.w100,
                             fontFamily: "Poppins",
@@ -232,7 +226,7 @@ class _ZumbaUnisexState extends State<ZumbaUnisex> {
                   )
                 : const Center(
                     child: Text(
-                      "No nearby gyms in your area",
+                      "No fitness options found",
                       style: TextStyle(
                         fontWeight: FontWeight.w100,
                         fontFamily: "Poppins",

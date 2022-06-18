@@ -31,7 +31,8 @@ class _ProgressCardState extends State<ProgressCard> {
   getProgressStatus() async {
     try{
       int finalDate = int.parse(getDays);
-
+      print(getDays);
+      print("++++++++++++++++++++++++++++++++++++++++++++++++");
       finalDate = totalDays - finalDate;
       finaldaysLeft = finalDate / totalDays;
       day_left = totalDays - int.parse(getDays);
@@ -77,65 +78,119 @@ class _ProgressCardState extends State<ProgressCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('bookings')
-          // .doc(number)
-          // .collection("user_booking")
-              .where("userId", isEqualTo: number)
-              .where("booking_status", isEqualTo: "active")
-              .orderBy("id",descending: true)
-              .snapshots(),
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (snapshot.hasError) {
-              return const SizedBox();
-            }
-            if (!snapshot.hasData) {
-              return Container();
-            }
-            if (snapshot.hasData) {
-              final data = snapshot.requireData;
-              if (data.size == 0) {
-                return const SizedBox();
-              }
-              var document = snapshot.data.docs;
-              print("dee/////////////////");
-              print(document);
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('bookings')
+      // .doc(number)
+      // .collection("user_booking")
+          .where("userId", isEqualTo: number)
+          .where("booking_status", isEqualTo: "active")
+          .orderBy("id",descending: true)
+          .snapshots(),
+      builder: (context,AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return const SizedBox();
+        }
+        if (!snapshot.hasData) {
+          return Container();
+        }
+        if (snapshot.hasData) {
+          final data = snapshot.requireData;
+          if (data.size == 0) {
+            return const SizedBox();
+          }
 
-              return document.isNotEmpty
-                  ? ListView.builder(
-                shrinkWrap: true,
-                itemCount: 1,
-                itemBuilder: (context, index) {
+          var document = snapshot.data.docs;
+          print("dee/////////////////");
+          print(document);
 
-                  // getDays = (data.docs[index]["booking_date"]
-                  //         .toDate()
-                  //         .difference(DateTime.now())
-                  //         .inDays).abs()
-                  //     .toString();
-                  // // getDays=getDays
+          return document.isNotEmpty
+         ? ListView.builder(
+          shrinkWrap: true,
+          // scrollDirection: Axis.horizontal,
+          itemCount: 1,
+            itemBuilder: (context,int index) {
 
-                  getDays = (DateTime.now().difference(data.docs[index]["booking_date"].toDate()).inDays).toString() ;
 
-                  totalDays =(data.docs[index]["plan_end_duration"].toDate().difference(data.docs[index]["booking_date"].toDate()).inDays) ;
-                  totalDays=totalDays.abs();
-                  print(totalDays);
-                  print(getDays);
+                getDays = (DateTime.now().difference(data.docs[index]["booking_date"].toDate()).inDays).toString() ;
 
-                  final percent = double.parse(
-                      (100 * int.parse(getDays.toString()) ~/ totalDays)
-                          .toStringAsFixed(1));
-                  print(percent);
-                  print(percent);
-                  getProgressStatus();
-                  if(percent>=0.000000000000000000000000000000000000000000 && int.parse(getDays) >= -1){
-                    return
+                totalDays =(data.docs[index]["plan_end_duration"].toDate().difference(data.docs[index]["booking_date"].toDate()).inDays) ;
+                totalDays=totalDays.abs();
+                print(totalDays);
+                print(getDays);
+                if (totalDays==0){
+                  totalDays=1;
+                }
+                // if (getDays==0){
+                //   getDays="1";
+                // }
+                print("--------------------------------------------${data.docs[index]["booking_id"]}");
+                final percent = double.parse(
+                    (100 * int.parse(getDays.toString()) ~/ totalDays)
+                        .toStringAsFixed(1));
+                print(percent);
+                print(percent);
+                getProgressStatus();
+                if(percent>=0.000000000000000000000000000000000000000000 && int.parse(getDays) >= 0){
+                  return Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                      child:
+                      // StreamBuilder<QuerySnapshot>(
+                      //             stream: FirebaseFirestore.instance
+                      //                 .collection('bookings')
+                      //             // .doc(number)
+                      //             // .collection("user_booking")
+                      //                 .where("userId", isEqualTo: number)
+                      //                 .where("booking_status", isEqualTo: "active")
+                      //                 .orderBy("id",descending: true)
+                      //                 .snapshots(),
+                      //             builder: (context, AsyncSnapshot snapshot) {
+                      // if (snapshot.connectionState == ConnectionState.waiting) {
+                      //   return const Center(child: CircularProgressIndicator());
+                      // }
+                      // if (snapshot.hasError) {
+                      //   return const SizedBox();
+                      // }
+                      // if (!snapshot.hasData) {
+                      //   return Container();
+                      // }
+                      // if (snapshot.hasData) {
+                      //   final data = snapshot.requireData;
+                      //   if (data.size == 0) {
+                      //     return const SizedBox();
+                      //   }
+                      //   var document = snapshot.data.docs;
+                      //   print("dee/////////////////");
+                      //   print(document);
+
+                      // return document.isNotEmpty
+                      //   ? ListView.builder(
+                      // shrinkWrap: true,
+                      // scrollDirection: Axis.horizontal,
+                      // itemCount: document.length,
+                      // itemBuilder: (context, index) {
+                      //
+                      //
+                      //
+                      //   getDays = (DateTime.now().difference(data.docs[index]["booking_date"].toDate()).inDays).toString() ;
+                      //
+                      //   totalDays =(data.docs[index]["plan_end_duration"].toDate().difference(data.docs[index]["booking_date"].toDate()).inDays) ;
+                      //   totalDays=totalDays.abs();
+                      //   print(totalDays);
+                      //   print(getDays);
+                      //
+                      //   final percent = double.parse(
+                      //       (100 * int.parse(getDays.toString()) ~/ totalDays)
+                      //           .toStringAsFixed(1));
+                      //   print(percent);
+                      //   print(percent);
+                      //   getProgressStatus();
+                      //   if(percent>=0.000000000000000000000000000000000000000000 && int.parse(getDays) >= -1){
+                      //     return
                       Stack(
                         children: [
                           Container(
@@ -248,15 +303,22 @@ class _ProgressCardState extends State<ProgressCard> {
                             ),
                           )
                         ],
-                      );
-                  }
-                  return SizedBox();
-                },
-              )
-                  : Container();
-            }
-            return const SizedBox();
-          }),
-    );
-  }
+                      )
+                  );
+                }
+
+                          // }
+                          return SizedBox();
+                        },
+                      )
+                          : Container();
+                    }
+                    return const SizedBox();
+                  });
+              // },}
+            // );
+        }
+      // ),
+    // );
+  // }
 }

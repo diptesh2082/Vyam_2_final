@@ -70,67 +70,6 @@ class _ReviewState extends State<Review> {
     // }
     // );
   }
-  getRating()async{
-    await FirebaseFirestore.instance.collection("Reviews")
-        .where("gym_id",isEqualTo: widget.gymid)
-        .snapshots()
-        .listen((snap) async {
-          if (snap.docs.isNotEmpty){
-            print("documentexist");
-
-            var d=snap.docs;
-            Get.find<Need>().review_number.value=snap.docs.length;
-            var b=0.0;
-            var star1=0.0;
-            var star2=0.0;
-            var star3=0.0;
-            var star4=0.0;
-            var star5=0.0;
-            // var c=0.0;
-            d.forEach((element) {
-              b = b + double.parse(element["rating"]);
-              if (double.parse(element["rating"])>4){
-                star1=star1+1.0;
-              }
-              else if (double.parse(element["rating"])>3 && double.parse(element["rating"])<=4){
-                star2=star2+1.0;
-              }
-              else if (double.parse(element["rating"])>2 && double.parse(element["rating"])<=3){
-                star3=star3+1.0;
-              }
-              else if (double.parse(element["rating"])>1 && double.parse(element["rating"])<=2){
-                star4=star4+1.0;
-              }else{
-                star5=star5+1.0;
-              }
-
-
-            });
-            Get.find<Need>().star1.value= double.parse((star1/d.length).toStringAsFixed(1));
-            Get.find<Need>().star2.value= double.parse((star2/d.length).toStringAsFixed(1));
-            Get.find<Need>().star3.value= double.parse((star3/d.length).toStringAsFixed(1));
-            Get.find<Need>().star4.value= double.parse((star4/d.length).toStringAsFixed(1));
-            Get.find<Need>().star5.value= double.parse((star5/d.length).toStringAsFixed(1));
-            Get.find<Need>().review.value =double.parse((b/d.length).toStringAsFixed(1));
-            // print(Get.find<Need>().star5.value);
-            // print("Get.find<Need>().star5.value)");
-            getRatingCount(await Get.find<Need>().review.value);
-          }
-          if(snap.docs.isEmpty){
-            Get.find<Need>().star1.value= 0.0;
-            Get.find<Need>().star2.value= 0.0;
-            Get.find<Need>().star3.value= 0.0;
-            Get.find<Need>().star4.value= 0.0;
-            Get.find<Need>().star5.value= 0.0;
-            Get.find<Need>().review.value =0.0;
-            // print(Get.find<Need>().star5.value);
-            // print("Get.find<Need>().star5.value)");
-            getRatingCount(await Get.find<Need>().review.value);
-          }
-          
-    });
-
-  }
 
   @override
   void initState() {
@@ -138,7 +77,7 @@ class _ReviewState extends State<Review> {
     // print(doc["name"]);
     // print(_id);
     // print("Get.find<Need>().star5.value)");
-    getRating();
+    // getRating();
     // print(star);
     super.initState();
   }

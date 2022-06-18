@@ -1,8 +1,10 @@
 import 'package:app_settings/app_settings.dart';
+import 'package:connectivity_checker/connectivity_checker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/api/api.dart';
 
 class NoInternet extends StatelessWidget {
@@ -64,6 +66,42 @@ class NoInternet extends StatelessWidget {
                 ,style: ElevatedButton.styleFrom(
                     primary: Color(0xff292F3D),
                   ),
+
+                ),
+              ),
+            ),
+            SizedBox(
+              height:20 ,
+
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: SizedBox(
+                height: 37,
+                width: 110,
+                child: ElevatedButton(onPressed: ()async {
+                  if (await ConnectivityWrapper.instance.isConnected) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NoInternet()),
+                    );
+                  }
+                },
+                  child: Text("Refresh",
+                  style: GoogleFonts.poppins(
+                      color: Color(0xffffffff)
+                  ),
+                )
+                  ,style: ElevatedButton.styleFrom(
+                    primary: Color(0xff292F3D),
+                  ),
+
                 ),
               ),
             )

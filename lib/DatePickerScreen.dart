@@ -82,6 +82,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   width: 400,
                   child: Card(
                     child: SfDateRangePicker(
+                      // in
                       minDate: DateTime.now(),
                       maxDate: DateTime.utc(DateTime.now().year,DateTime.now().month,DateTime.now().day+31),
                       //Daddy Widget aka Calender Widget
@@ -202,7 +203,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                 print(endDate.difference(startDate).inDays);
 
                 Get.to(
-                  () => const PaymentScreen(),
+                  () =>  PaymentScreen(endDate: DateFormat("dd, MMM, yyyy").format(endDate),),
                   duration: const Duration(milliseconds: 500),
                   arguments: {
                     "gymName": widget.getGymName,
@@ -218,20 +219,23 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                     "gym_details": Get.arguments["docs"],
                     "totalDays": endDate.difference(startDate).inDays+1
                   },
-                );
-                await FirebaseFirestore.instance
-                    .collection("bookings")
-                    .doc(widget.bookingId)
-                    .update({
-                  "booking_date": startDate,
-                  "plan_end_duration": endDate,
-                  "totalDays": endDate.difference(startDate).inDays
+                )!.then((value) async {
+                  await FirebaseFirestore.instance
+                      .collection("bookings")
+                      .doc(widget.bookingId)
+                      .update({
+                    "booking_date": startDate,
+                    "plan_end_duration": endDate,
+                    "totalDays": endDate.difference(startDate).inDays
+                  });
                 });
+
               },
               label: Text(
                 "Proceed",
                 style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.bold, color: Colors.white),
+                    fontWeight: FontWeight.bold, color: Colors.white
+                ),
               ),
             )),
       ),

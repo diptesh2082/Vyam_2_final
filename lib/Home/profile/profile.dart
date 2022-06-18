@@ -49,9 +49,9 @@ class _ProfileState extends State<Profile> {
     try{
       final image = await ImagePicker().pickImage(
           source: ImageSource.gallery,
-          imageQuality: 50,
-        maxHeight: 150,
-        maxWidth: 150
+          imageQuality: 75,
+        maxHeight: 500,
+        maxWidth: 400
 
       );
       if (image == null) return;
@@ -65,35 +65,36 @@ class _ProfileState extends State<Profile> {
     }
 
   }
+  chooseImage() async {
+    XFile? pickedFile = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 50);
+    // pickedFile=await
+    //
+    return pickedFile;
+  }
+  // final _firebaseStorage =
+  uploadImageToStorage(XFile? pickedFile, String? id) async {
+    Reference _reference = FirebaseStorage.instance.ref().child("product_image")
+        .child("user_images").child(number+".jpg");
+    await _reference
+        .putData(
+      await pickedFile!.readAsBytes(),
+      SettableMetadata(contentType: 'image/jpeg'),
+    )
+        .whenComplete(() async {
+      await _reference.getDownloadURL().then((value) async {
+        var uploadedPhotoUrl = value;
+        print(value);
+        await db.collection("user_details").doc(number).update({
+          "image": value
+        });
+      });
+    });
 
-  // for selecting images from device
-  // Future getImage(bool gallery) async {
-  //   ImagePicker picker = ImagePicker();
-  //   PickedFile pickedFile;
-  //   // Let user select photo from gallery
-  //   if (gallery) {
-  //     pickedFile = (await picker.getImage(
-  //       source: ImageSource.gallery,
-  //       imageQuality: 50
-  //     ))!;
-  //   }
-  //   // Otherwise open camera to get new photo
-  //   else {
-  //     pickedFile = (await picker.getImage(
-  //       source: ImageSource.camera,
-  //     ))!;
-  //   }
-  //
-  //   setState(() {
-  //     // ignore: unnecessary_null_comparison
-  //     if (pickedFile != null) {
-  //       _image = pickedFile as File;
-  //       //_image = File(pickedFile.path); // Use if you only need a single picture
-  //     } else {
-  //       print('No image selected.');
-  //     }
-  //   });
-  // }
+  }
+
+
+
 
   saveData()async {
     if (_globalKey.currentState!.validate()) {

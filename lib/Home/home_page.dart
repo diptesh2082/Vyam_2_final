@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 // import 'package:vyam_2_final/Home/icons/home_icon_icons.dart';
 import 'package:vyam_2_final/Home/profile/profile_page.dart';
 import 'package:vyam_2_final/Home/views/explore.dart';
@@ -20,6 +21,8 @@ import 'package:vyam_2_final/booking/bookings.dart';
 import 'package:vyam_2_final/controllers/home_controller.dart';
 import 'package:vyam_2_final/exploreuo.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 import '../api/api.dart';
 import '../main.dart';
@@ -37,6 +40,14 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = false;
   bool net = true;
   // Need controller = Get.put(Need());
+
+
+
+
+
+
+
+
 
   getInternet1() async {
     InternetConnectionChecker().onStatusChange.listen((status) {
@@ -97,112 +108,129 @@ class _HomePageState extends State<HomePage> {
             content: SizedBox(
               height: 220,
               width: 180,
-              child: Column(
+              child: Stack(
                 children: [
-                  Image.asset(
-                    "assets/icons/Group188.png",
-                    height: 50,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    "Enable device location",
-                    style: GoogleFonts.poppins(
-                        fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SizedBox(
-                    width: 180,
-                    child: Text(
-                      "Please enable location for accurate location and nearest gyms",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                          fontSize: 11, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Image.asset("assets/icons/icons8-approval.gif",
-                        //   height: 70,
-                        //   width: 70,
-                        // ),
-
-                        // const SizedBox(width: 15),
-                        GestureDetector(
-                          onTap: () async {
-                            // Get.back();
-
-                            // Navigator.pop(context);
-                            try {
-                              Navigator.pop(context);
-                              if (mounted) {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                              }
-                              Position position =
-                                  await Geolocator.getCurrentPosition(
-                                      desiredAccuracy: LocationAccuracy.best);
-
-                              await GetAddressFromLatLong(position);
-
-                              await FirebaseFirestore.instance
-                                  .collection("user_details")
-                                  .doc(number)
-                                  .update({
-                                "location": GeoPoint(
-                                    position.latitude, position.longitude),
-                                "address": address,
-                                // "lat": position.latitude,
-                                // "long": position.longitude,
-                                "pincode": pin,
-                                "locality": locality,
-                                "subLocality": locality,
-                                // "number": number
-                              });
-                              if (mounted) {
-                                setState(() {
-                                  myaddress = myaddress;
-                                  address = address;
-                                  pin = pin;
-                                  isLoading = false;
-                                });
-                              }
-                            } catch (e) {
-                              setState(() {
-                                isLoading = false;
-                              });
-                            }
-                          },
-                          child: Container(
-                              height: 51,
-                              width: 145,
-                              decoration: BoxDecoration(
-                                  color: HexColor("292F3D"),
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 3, right: 3, top: 2, bottom: 2),
-                                child: Center(
-                                  child: Text(
-                                    "Enable Location",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: HexColor("FFFFFF")),
-                                  ),
-                                ),
-                              )),
+                  Column(
+                    children: [
+                      Image.asset(
+                        "assets/icons/Group188.png",
+                        height: 50,
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        "Enable device location",
+                        style: GoogleFonts.poppins(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: 180,
+                        child: Text(
+                          "Please enable location for accurate location and nearest gyms",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                              fontSize: 11, fontWeight: FontWeight.w400),
                         ),
-                      ]),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Image.asset("assets/icons/icons8-approval.gif",
+                            //   height: 70,
+                            //   width: 70,
+                            // ),
+
+                            // const SizedBox(width: 15),
+                            GestureDetector(
+                              onTap: () async {
+                                // Get.back();
+
+                                // Navigator.pop(context);
+                                try {
+                                  Navigator.pop(context);
+                                  if (mounted) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                  }
+                                  Position position =
+                                      await Geolocator.getCurrentPosition(
+                                          desiredAccuracy: LocationAccuracy.best);
+
+                                  await GetAddressFromLatLong(position);
+
+                                  await FirebaseFirestore.instance
+                                      .collection("user_details")
+                                      .doc(number)
+                                      .update({
+                                    "location": GeoPoint(
+                                        position.latitude, position.longitude),
+                                    "address": address,
+                                    // "lat": position.latitude,
+                                    // "long": position.longitude,
+                                    "pincode": pin,
+                                    "locality": locality,
+                                    "subLocality": locality,
+                                    // "number": number
+                                  });
+                                  if (mounted) {
+                                    setState(() {
+                                      myaddress = myaddress;
+                                      address = address;
+                                      pin = pin;
+                                      isLoading = false;
+                                    });
+                                  }
+                                } catch (e) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                              },
+                              child: Container(
+                                  height: 51,
+                                  width: 145,
+                                  decoration: BoxDecoration(
+                                      color: HexColor("292F3D"),
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 3, right: 3, top: 2, bottom: 2),
+                                    child: Center(
+                                      child: Text(
+                                        "Enable Location",
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700,
+                                            color: HexColor("FFFFFF")),
+                                      ),
+                                    ),
+                                  )),
+                            ),
+                          ]),
+                    ],
+                  ),
+                  Positioned(
+                      top: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.cancel_outlined,color: Colors.black87,
+                          size: 20,
+                        ),
+                      )
+                  ),
                 ],
               ),
             ),

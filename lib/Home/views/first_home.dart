@@ -3,6 +3,7 @@ import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -78,6 +79,7 @@ class _FirstHomeState extends State<FirstHome> {
   double radius = 50;
   String field = 'position';
 
+// <<<<<<< HEAD
   Stream<List<DocumentSnapshot>> stream = Geoflutterfire()
       .collection(
           collectionRef:
@@ -100,6 +102,24 @@ class _FirstHomeState extends State<FirstHome> {
     });
     // return stream;
   }
+// =======
+  // Stream<List<DocumentSnapshot>> stream = Geoflutterfire().collection(collectionRef: FirebaseFirestore.instance.collection('product_details'))
+  //     .within(center: Geoflutterfire().point(latitude:GlobalUserData["location"].latitude, longitude:GlobalUserData["location"].longitude), radius: 500, field: 'position');
+  // getStream()async{
+  //
+  //   stream.listen((snapshot) {
+  //     if(snapshot.isEmpty){
+  //       print(snapshot.length);
+  //       print("****************************************");
+  //     }
+  //     if(snapshot.isNotEmpty){
+  //       print(snapshot.length);
+  //       print("****************************************");
+  //     }
+  //   });
+  //   // return stream;
+  // }
+// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
 
   myLocation() async {
     try {
@@ -245,15 +265,23 @@ class _FirstHomeState extends State<FirstHome> {
       await FirebaseFirestore.instance
           .collection("user_details")
           .doc(number)
-          .update({"device_token": devicetoken});
-    } catch (e) {
+// <<<<<<< HEAD
+//           .update({"device_token": devicetoken});
+//     } catch (e) {
+// =======
+          .update({
+        "device_token":devicetoken
+      });
+      await FirebaseMessaging.instance.subscribeToTopic("push_notifications");
+    }catch(e){
+// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
       print(e);
     }
   }
 
   @override
   void initState() {
-    getStream();
+    // getStream();
     updateDeviceToken();
     print(devicetoken);
 
@@ -375,6 +403,7 @@ class _FirstHomeState extends State<FirstHome> {
                       ),
                     ),
                   ),
+// <<<<<<< HEAD
                   actions: [
                     Column(
                       children: [
@@ -405,9 +434,98 @@ class _FirstHomeState extends State<FirstHome> {
                           ],
                         ),
                       ],
-                    ),
-                  ],
-                ),
+// =======
+//                 ],
+              ),
+            ],
+          ),
+//           body: Snap(
+//             controller: app_bar_controller.appBar,
+//             child: SingleChildScrollView(
+//               physics: ClampingScrollPhysics(),
+//               controller: app_bar_controller,
+//               child: Padding(
+//                 padding: const EdgeInsets.only(left: 5.0, right: 5),
+//                 child: Stack(
+//                   alignment: Alignment.center,
+//                   children: [
+//                     Obx(
+//                     ()=> Column(
+//                         mainAxisAlignment: MainAxisAlignment.center,
+//                         children: [
+//                           SizedBox(
+//                             width: MediaQuery.of(context).size.width,
+//                             child: const Divider(
+//                               height: .3,
+//                               thickness: 1,
+//                             ),
+//                           ),
+//                           const SizedBox(
+//                             height: 12,
+//                           ),
+//
+//                           SizedBox(height: 60,),
+//
+//                           const SizedBox(
+//                             height: 9,
+//                           ),
+//                           // if (searchGymName.isEmpty)
+//
+//                           Column(
+//                             children: [
+//                               if (getPercentage != 100) ProgressCard(),
+//                               const SizedBox(
+//                                 height: 9,
+//                               ),
+//                               InkWell(
+//                                 onTap: () {
+//                                   FocusScope.of(context).unfocus();
+//                                   Get.to(CouponDetails(cartValue: null, type: '',));
+//                                 },
+//                                 child: Banner(bannerApi: bannerApi),
+//                               ),
+//                               const SizedBox(
+//                                 height: 15,
+//                               ),
+//                               Catagory(),
+//                               const SizedBox(
+//                                 height: 7,
+//                               ),
+//
+//                               Align(
+//                                 alignment: Alignment.centerLeft,
+//                                 child: Material(
+//                                   borderRadius: BorderRadius.circular(10),
+//                                   elevation: 0,
+//                                   child: SizedBox(
+//                                     height: 30,
+//                                     width: 130,
+//                                     child: Center(
+//                                       child: Text(
+//                                         "Nearby Gyms",
+//                                         style: GoogleFonts.poppins(
+//                                             fontSize: 16,
+//                                             fontWeight: FontWeight.w600),
+//                                       ),
+//
+//                                     ),
+//                                   ),
+//                                 ),
+//                               ),
+//                               const SizedBox(
+//                                 height: 7,
+//                               ),
+//                               if (Get.find<Need>().search.value.isEmpty)
+//                               BuildBox()
+//                               // LocationList()
+//                             ],
+//                           )
+//                         ],
+//                       ),
+// // >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
+//                     ),
+//                   ],
+//                 ),
                 body: Snap(
                   controller: app_bar_controller.appBar,
                   child: SingleChildScrollView(
@@ -581,6 +699,7 @@ class Banner extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: CachedNetworkImage(
+                        filterQuality: FilterQuality.medium,
                         height: 143,
                         imageUrl: data.docs[index]["image"],
                         errorWidget: (context, url, error) =>
