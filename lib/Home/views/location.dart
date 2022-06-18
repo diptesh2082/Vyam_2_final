@@ -234,368 +234,385 @@ class _LocInfoState extends State<LocInfo> {
             // ),
             backgroundColor: scaffoldColor,
             body: SafeArea(
-              child: Stack(
-                alignment: Alignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height:  MediaQuery.of(context).size.height,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        child: TextFormField(
-                          controller: locController,
-                          autofocus: false,
-                          focusNode: myFocousNode,
-                          onChanged: (value) async {
-                            _list =
-                                await RequestHelper().getPlaces(query: value);
-                            setState(() {});
-                            if (value.isEmpty) {
-                              _list!.clear();
-                              setState(() {
-                                locController.text = value;
-                              });
-                            }
-                          },
-                          onTap: () {
-                            setState(() {
-                              showPlacessuggesstions
-                                  ? showPlacessuggesstions = false
-                                  : showPlacessuggesstions = true;
-                              // test_controller.clear();
-                              // locController.clear();
-                              // print(locController.text);
-                            });
-                          },
-                          onFieldSubmitted: (value) async {
-                            FocusScope.of(context).unfocus();
-                            print(value);
-                            isLoading = true;
-                            if (value.isEmpty) return;
-                            final res = await RequestHelper()
-                                .getCoordinatesFromAddresss(value);
-                            // print("fhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkg"+value);
-                            setState(() {
-                              GlobalUserLocation = value;
-                              locController.text = value;
-                            });
-                            await GetAddressFromGeoPoint(
-                                GeoPoint(res.latitude, res.longitude));
-
-                            await FirebaseFirestore.instance
-                                .collection('user_details')
-                                .doc(number)
-                                .update({
-                              "location": GeoPoint(res.latitude, res.longitude),
-                              // "lat": res.latitude,
-                              // "long": res.longitude,
-                              "address": value.trim(),
-                              "pincode": pin,
-                              "locality": locality.toLowerCase(),
-                              "subLocality": subLocality.toLowerCase(),
-                            });
-                            // Get.back();
-                            Get.off(() => HomePage());
-                          },
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 10,
                           ),
-                          decoration: InputDecoration(
-                              prefixIcon: const Icon(Profileicon.location),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  locController.clear();
-                                  FocusScope.of(context)
-                                      .requestFocus(myFocousNode);
-                                },
-                                icon: const Icon(Icons.edit_outlined),
-                              ),
-                              // border: InputBorde,
-                              hintStyle: const TextStyle(
-                                  fontSize: 12,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.green),
-                              hintMaxLines: 2,
-                              hintText: 'Search your location here'),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      const SizedBox(
-                        height: 90,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: SizedBox(
-                          height: 60,
-                          child: GestureDetector(
-                            onTap: () async {
-                              try{
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: TextFormField(
+                              controller: locController,
+                              autofocus: false,
+                              focusNode: myFocousNode,
+                              onChanged: (value) async {
+                                _list =
+                                    await RequestHelper().getPlaces(query: value);
+                                setState(() {});
+                                if (value.isEmpty) {
+                                  _list!.clear();
+                                  setState(() {
+                                    locController.text = value;
+                                  });
+                                }
+                              },
+                              onTap: () {
                                 setState(() {
-                                  isLoading = true;
+                                  showPlacessuggesstions
+                                      ? showPlacessuggesstions = false
+                                      : showPlacessuggesstions = true;
+                                  // test_controller.clear();
+                                  // locController.clear();
+                                  // print(locController.text);
                                 });
+                              },
+                              onFieldSubmitted: (value) async {
+                                FocusScope.of(context).unfocus();
+                                print(value);
+                                isLoading = true;
+                                if (value.isEmpty) return;
+                                var res;
+                                try{
+                                  res= await RequestHelper()
+                                      .getCoordinatesFromAddresss(value);
+                                }catch(e){
+                                  Get.back();
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  return;
 
-                                await myLocation();
-                                // print(data);
-                                Position position = await Geolocator.getCurrentPosition();
-                                await GetAddressFromLatLong(position);
-                                // await UserApi.updateUserAddress(
-                                //     address, [position.latitude, position.longitude], pin
-                                // );
-                                await getAddressPin(pin);
+                                }
+
+                                // print("fhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkg"+value);
                                 setState(() {
-                                  myaddress = myaddress;
-                                  address = address;
-                                  pin = pin;
+                                  GlobalUserLocation = value;
+                                  locController.text = value;
                                 });
+                                await GetAddressFromGeoPoint(
+                                    GeoPoint(res.latitude, res.longitude));
+
                                 await FirebaseFirestore.instance
-                                    .collection("user_details")
+                                    .collection('user_details')
                                     .doc(number)
                                     .update({
-                                  "location": GeoPoint(
-                                      position.latitude, position.longitude),
-                                  "address": address,
-                                  // "lat": position.latitude,
-                                  // "long": position.longitude,
+                                  "location": GeoPoint(res.latitude, res.longitude),
+                                  // "lat": res.latitude,
+                                  // "long": res.longitude,
+                                  "address": value.trim(),
                                   "pincode": pin,
                                   "locality": locality.toLowerCase(),
-                                  "subLocality": locality.toLowerCase(),
-                                  // "number": number
+                                  "subLocality": subLocality.toLowerCase(),
                                 });
                                 // Get.back();
-                                await Get.offAll(() => HomePage());
-                              }catch(e){
-                                setState(() {
-                                  isLoading = false;
-                                });
-                              }
+                                Get.off(() => HomePage());
+                              },
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                              ),
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(Profileicon.location),
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      locController.clear();
+                                      FocusScope.of(context)
+                                          .requestFocus(myFocousNode);
+                                    },
+                                    icon: const Icon(Icons.edit_outlined),
+                                  ),
+                                  // border: InputBorde,
+                                  hintStyle: const TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.green),
+                                  hintMaxLines: 2,
+                                  hintText: 'Search your location here'),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          const SizedBox(
+                            height: 90,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: SizedBox(
+                              height: 60,
+                              child: GestureDetector(
+                                onTap: () async {
+                                  try{
+                                    setState(() {
+                                      isLoading = true;
+                                    });
 
-                            },
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0)),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      height: 39,
-                                      width: 60,
-                                      child: const Icon(
-                                        Icons.my_location_outlined,
-                                        color: Colors.green,
-                                        size: 20,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(7),
-                                        color: Colors.grey[200],
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          .6,
-                                      child: const Padding(
-                                        padding: EdgeInsets.only(left: 18.0),
-                                        child: Text(
-                                          'Use current location',
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.green),
+                                    await myLocation();
+                                    // print(data);
+                                    Position position = await Geolocator.getCurrentPosition();
+                                    await GetAddressFromLatLong(position);
+                                    // await UserApi.updateUserAddress(
+                                    //     address, [position.latitude, position.longitude], pin
+                                    // );
+                                    await getAddressPin(pin);
+                                    setState(() {
+                                      myaddress = myaddress;
+                                      address = address;
+                                      pin = pin;
+                                    });
+                                    await FirebaseFirestore.instance
+                                        .collection("user_details")
+                                        .doc(number)
+                                        .update({
+                                      "location": GeoPoint(
+                                          position.latitude, position.longitude),
+                                      "address": address,
+                                      // "lat": position.latitude,
+                                      // "long": position.longitude,
+                                      "pincode": pin,
+                                      "locality": locality.toLowerCase(),
+                                      "subLocality": locality.toLowerCase(),
+                                      // "number": number
+                                    });
+                                    // Get.back();
+                                    await Get.offAll(() => HomePage());
+                                  }catch(e){
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  }
+
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.0)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 39,
+                                          width: 60,
+                                          child: const Icon(
+                                            Icons.my_location_outlined,
+                                            color: Colors.green,
+                                            size: 20,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(7),
+                                            color: Colors.grey[200],
+                                          ),
                                         ),
-                                      ),
+                                        const Spacer(),
+                                        SizedBox(
+                                          width: MediaQuery.of(context).size.width *
+                                              .6,
+                                          child: const Padding(
+                                            padding: EdgeInsets.only(left: 18.0),
+                                            child: Text(
+                                              'Use current location',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.green),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 15,
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          'Cities',
-                          style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              color: Colors.black),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection('Cities')
-                            .snapshots(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (!snapshot.hasData) {
-                            return CircularProgressIndicator();
-                          }
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          }
-                          var document = snapshot.data.docs;
-                          print(document);
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: document.length,
-                            itemBuilder: ((context, index) {
-                              return document.isNotEmpty
-                                  ? Container(
-                                      child: InkWell(
-                                        onTap: () async {
-                                          FocusScope.of(context).unfocus();
-                                          // ggggggggggggggggggggggggggggggggggggggggggggggggggg
-                                          String value =
-                                              document[index]['Address'];
-                                          print(value);
-                                          isLoading = true;
-                                          if (value.isEmpty) return;
-                                          final res = await RequestHelper()
-                                              .getCoordinatesFromAddresss(
-                                                  value);
-                                          setState(() {
-                                            GlobalUserLocation = value;
-                                            locController.text = value;
-                                          });
-                                          await GetAddressFromGeoPoint(GeoPoint(
-                                              res.latitude, res.longitude));
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              'Cities',
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection('Cities')
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (!snapshot.hasData) {
+                                return CircularProgressIndicator();
+                              }
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return CircularProgressIndicator();
+                              }
+                              var document = snapshot.data.docs;
+                              print(document);
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: document.length,
+                                itemBuilder: ((context, index) {
+                                  return document.isNotEmpty
+                                      ? Container(
+                                          child: InkWell(
+                                            onTap: () async {
+                                              FocusScope.of(context).unfocus();
+                                              // ggggggggggggggggggggggggggggggggggggggggggggggggggg
+                                              String value =
+                                                  document[index]['Address'];
+                                              print(value);
+                                              isLoading = true;
+                                              if (value.isEmpty) return;
+                                              final res = await RequestHelper()
+                                                  .getCoordinatesFromAddresss(
+                                                      value);
+                                              setState(() {
+                                                GlobalUserLocation = value;
+                                                locController.text = value;
+                                              });
+                                              await GetAddressFromGeoPoint(GeoPoint(
+                                                  res.latitude, res.longitude));
 
-                                          await FirebaseFirestore.instance
-                                              .collection('user_details')
-                                              .doc(number)
-                                              .update({
-                                            "location": GeoPoint(
-                                                res.latitude, res.longitude),
-                                            // "lat": res.latitude,
-                                            // "long": res.longitude,
-                                            "address": value.trim(),
-                                            "pincode": pin,
-                                            "locality": locality.toLowerCase(),
-                                            "subLocality": subLocality.toLowerCase(),
-                                          });
-                                          // Get.back();
-                                          Get.off(() => HomePage());
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(9),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                child: Text(
-                                                  "${document[index]['Address']}",
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                      fontFamily: 'Poppins',
-                                                      fontWeight: FontWeight.w400,
-                                                      fontSize: 14,
-                                                      color: Colors.black),
-                                                ),
-                                                width: MediaQuery.of(context).size.width*.75,
+                                              await FirebaseFirestore.instance
+                                                  .collection('user_details')
+                                                  .doc(number)
+                                                  .update({
+                                                "location": GeoPoint(
+                                                    res.latitude, res.longitude),
+                                                // "lat": res.latitude,
+                                                // "long": res.longitude,
+                                                "address": value.trim(),
+                                                "pincode": pin,
+                                                "locality": locality.toLowerCase(),
+                                                "subLocality": subLocality.toLowerCase(),
+                                              });
+                                              // Get.back();
+                                              Get.off(() => HomePage());
+                                            },
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(9),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                    child: Text(
+                                                      "${document[index]['Address']}",
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          fontFamily: 'Poppins',
+                                                          fontWeight: FontWeight.w400,
+                                                          fontSize: 14,
+                                                          color: Colors.black),
+                                                    ),
+                                                    width: MediaQuery.of(context).size.width*.75,
+                                                  ),
+                                                  const Spacer(),
+                                                  Transform(
+                                                    transform:
+                                                        Matrix4.rotationY(pi),
+                                                    child: const Icon(
+                                                      Icons.call_made_sharp,
+                                                      size: 20,
+                                                    ),
+                                                  )
+                                                ],
                                               ),
-                                              const Spacer(),
-                                              Transform(
-                                                transform:
-                                                    Matrix4.rotationY(pi),
-                                                child: const Icon(
-                                                  Icons.call_made_sharp,
-                                                  size: 20,
-                                                ),
-                                              )
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    )
-                                  : SizedBox();
-                            }),
-                          );
-                        },
-                      )
+                                        )
+                                      : SizedBox();
+                                }),
+                              );
+                            },
+                          )
 
+                        ],
+                      ),
+                      _list != null && _list!.isNotEmpty
+                          ? Positioned(
+                              top: 60,
+                              child: Container(
+                                height: 500,
+                                width: MediaQuery.of(context).size.width * .95,
+                                color: Colors.white.withOpacity(.95),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 5, vertical: 5),
+                                child: _list == null
+                                    ? Container()
+                                    : ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: _list?.length,
+                                        itemBuilder: ((context, index) {
+                                          return ListTile(
+                                            title: Text(_list![index].mainText!),
+                                            subtitle:
+                                                Text(_list![index].secondaryText!),
+                                            onTap: () async {
+                                              isLoading = true;
+                                              final res = await RequestHelper()
+                                                  .getCoordinatesFromAddresss(
+                                                      _list![index].mainText!);
+                                              print(res.latitude);
+                                              print(res.longitude);
+                                              await GetAddressFromGeoPoint(GeoPoint(
+                                                  res.latitude, res.longitude));
+                                              // _gotoLocation(res.latitude, res.longitude);
+                                              FocusScope.of(context).unfocus();
+                                              setState(() {
+                                                locController.text =
+                                                    _list![index].mainText!;
+                                                GlobalUserLocation =
+                                                    _list![index].mainText!;
+                                                showPlacessuggesstions = false;
+                                              });
+                                              await FirebaseFirestore.instance
+                                                  .collection('user_details')
+                                                  .doc(number)
+                                                  .update({
+                                                "location": GeoPoint(
+                                                    res.latitude, res.longitude),
+                                                // "lat": res.latitude,
+                                                // "long": res.longitude,
+                                                "address": _list![index].mainText!,
+                                                "pincode": pin,
+                                                "locality": locality.toLowerCase(),
+                                                "subLocality": subLocality.toLowerCase(),
+                                              });
+                                              Get.off(() => HomePage());
+                                            },
+                                          );
+                                        }),
+                                      ),
+                              ),
+                            )
+                          : const SizedBox(),
                     ],
                   ),
-                  _list != null && _list!.isNotEmpty
-                      ? Positioned(
-                          top: 60,
-                          child: Container(
-                            height: 500,
-                            width: MediaQuery.of(context).size.width * .95,
-                            color: Colors.white.withOpacity(.95),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 5, vertical: 5),
-                            child: _list == null
-                                ? Container()
-                                : ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: _list?.length,
-                                    itemBuilder: ((context, index) {
-                                      return ListTile(
-                                        title: Text(_list![index].mainText!),
-                                        subtitle:
-                                            Text(_list![index].secondaryText!),
-                                        onTap: () async {
-                                          isLoading = true;
-                                          final res = await RequestHelper()
-                                              .getCoordinatesFromAddresss(
-                                                  _list![index].mainText!);
-                                          print(res.latitude);
-                                          print(res.longitude);
-                                          await GetAddressFromGeoPoint(GeoPoint(
-                                              res.latitude, res.longitude));
-                                          // _gotoLocation(res.latitude, res.longitude);
-                                          FocusScope.of(context).unfocus();
-                                          setState(() {
-                                            locController.text =
-                                                _list![index].mainText!;
-                                            GlobalUserLocation =
-                                                _list![index].mainText!;
-                                            showPlacessuggesstions = false;
-                                          });
-                                          await FirebaseFirestore.instance
-                                              .collection('user_details')
-                                              .doc(number)
-                                              .update({
-                                            "location": GeoPoint(
-                                                res.latitude, res.longitude),
-                                            // "lat": res.latitude,
-                                            // "long": res.longitude,
-                                            "address": _list![index].mainText!,
-                                            "pincode": pin,
-                                            "locality": locality.toLowerCase(),
-                                            "subLocality": subLocality.toLowerCase(),
-                                          });
-                                          Get.off(() => HomePage());
-                                        },
-                                      );
-                                    }),
-                                  ),
-                          ),
-                        )
-                      : const SizedBox(),
-                ],
+                ),
               ),
             ),
           );

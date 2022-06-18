@@ -228,18 +228,18 @@ class _ZumbaListState extends State<ZumbaList> {
                                               }
                                           )
                                           ;
-                                          bookingDetails.bookingDetails(
-                                              context,
-                                              snapshot,
-                                              data.docs,
-                                              "Zumba ",
-                                              widget.gymName,
-                                              widget.gymLocation,
-                                            id,
-                                              widget.getDocId,
-                                            ""
-                                              ,widget.iiid
-                                          );
+                                          // bookingDetails.bookingDetails(
+                                          //     context,
+                                          //     snapshot,
+                                          //     data.docs,
+                                          //     "Zumba ",
+                                          //     widget.gymName,
+                                          //     widget.gymLocation,
+                                          //   id,
+                                          //     widget.getDocId,
+                                          //
+                                          //     widget.iiid
+                                          // );
                                         },
                                         color: HexColor("292F3D"),
                                         shape: RoundedRectangleBorder(

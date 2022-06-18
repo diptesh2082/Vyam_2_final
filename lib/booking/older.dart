@@ -246,7 +246,7 @@ class OlderEvent extends StatelessWidget {
                                               children: [
                                                 Container(
                                                   decoration: BoxDecoration(
-                                                      color: Colors.amber,
+                                                      color: document[index]["booking_status"].toString().toLowerCase()=="completed"? Colors.purple:Colors.red,
                                                       shape: BoxShape.circle),
                                                   width: 6,
                                                   height: 6,
@@ -278,7 +278,8 @@ class OlderEvent extends StatelessWidget {
                                         width: 130,
                                         child: CachedNetworkImage(
                                           // "",
-
+                                          maxWidthDiskCache: 500,
+                                          maxHeightDiskCache: 500,
                                           fit: BoxFit.cover,
                                           height: 150,
                                           imageUrl: data.docs[index]['gym_details']["image"],

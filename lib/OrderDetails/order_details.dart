@@ -85,15 +85,19 @@ class _OrderDetailsState extends State<OrderDetails> {
                       children: [
                         Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: CachedNetworkImage(
-                                  fit: BoxFit.cover,
-                                  height: 150,
-                                  width: 145,
-                                  imageUrl: doc["doc"]['gym_details']["image"],
+                            Flexible(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    maxHeightDiskCache: 500,
+                                    maxWidthDiskCache: 500,
+                                    height: 150,
+                                    imageUrl: doc["doc"]['gym_details']["image"],
+                                  ),
                                 ),
                               ),
                             ),
@@ -597,7 +601,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
-                            color: HexColor("27AE60")),
+                            color:Colors.grey),
                             ),
 
 
@@ -626,7 +630,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                     autofocus:false,
                     onTap: () async {
                       Get.off(() => CancelDetails(
-                            bookingId: booking_id,
+                            bookingId: booking_id, vendor_name: doc["doc"]['gym_details']["name"], id: doc["doc"]["id"],
+                        
                           ),
                       arguments: {
                         "doc":Get.arguments["doc"]

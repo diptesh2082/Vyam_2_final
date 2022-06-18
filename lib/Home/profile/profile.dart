@@ -50,8 +50,8 @@ class _ProfileState extends State<Profile> {
       final image = await ImagePicker().pickImage(
           source: ImageSource.gallery,
           imageQuality: 75,
-        maxHeight: 500,
-        maxWidth: 400
+        maxHeight: 580,
+        maxWidth: 450
 
       );
       if (image == null) return;
@@ -65,9 +65,10 @@ class _ProfileState extends State<Profile> {
     }
 
   }
+
   chooseImage() async {
     XFile? pickedFile = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 50);
+        .pickImage(source: ImageSource.gallery, imageQuality: 60);
     // pickedFile=await
     //
     return pickedFile;

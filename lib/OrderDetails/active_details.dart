@@ -96,6 +96,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     fit: BoxFit.cover,
                                     height: 150,
                                     width: 145,
+                                    maxHeightDiskCache: 500,
+                                    maxWidthDiskCache: 500,
                                     imageUrl: doc["doc"]['gym_details']["image"],
                                   ),
                                 ),
@@ -560,7 +562,9 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                 style: GoogleFonts.poppins(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
-                                    color: Colors.grey,),
+
+                                    color: Colors.grey),
+
                               ),
                               const Spacer(),
                               if (doc["doc"]['payment_method']=='offline')
@@ -569,7 +573,9 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                   style: GoogleFonts.poppins(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
-                                      color: Colors.grey),
+
+                                      color:Colors.grey),
+
                                 ),
                               if(doc["doc"]['payment_method']=='online')
                                 Text(
@@ -577,7 +583,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                   style: GoogleFonts.poppins(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
-                                      color: HexColor("27AE60")),
+                                      color:Colors.grey),
                                 ),
 
 

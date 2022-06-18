@@ -21,8 +21,10 @@ class MyChoice {
 }
 
 class CancelDetails extends StatefulWidget {
-  CancelDetails({required this.bookingId});
+  CancelDetails({required this.bookingId, required this.vendor_name,required this.id});
   var bookingId;
+  final vendor_name;
+  final id;
 
   @override
   State<CancelDetails> createState() => _CancelDetailsState();
@@ -265,6 +267,12 @@ class _CancelDetailsState extends State<CancelDetails> {
                                               "cancel_remark":
                                                   cancelremark.text,
                                               "cancel_choice": default_choice,
+                                              "booking_id":widget.id,
+                                              "bookingId":widget.bookingId,
+                                              "vendor_id":widget.bookingId,
+                                              "vendor_name":widget.vendor_name,
+                                              "user_name":GlobalUserData["name"],
+                                              "user_number":GlobalUserData["userId"]
                                             };
                                             FirebaseFirestore.instance
                                                 .collection("Cancellation Data")
