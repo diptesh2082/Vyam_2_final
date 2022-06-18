@@ -88,17 +88,20 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                         children: [
                           Row(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    height: 150,
-                                    width: 145,
-                                    maxHeightDiskCache: 500,
-                                    maxWidthDiskCache: 500,
-                                    imageUrl: doc["doc"]['gym_details']["image"],
+                              Flexible(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      height: 150,
+                                      width: MediaQuery.of(context).size.width * .5,
+                                      maxHeightDiskCache: 500,
+                                      maxWidthDiskCache: 500,
+                                      imageUrl: doc["doc"]['gym_details']["image"],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -215,7 +218,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                                 children: [
                                                   Container(
                                                     decoration: BoxDecoration(
-                                                        color: doc["doc"]["booking_status"].toLowerCase() == "active"? HexColor("49C000"):HexColor("FEE221"),
+                                                        color: doc["doc"]["booking_status"].toLowerCase() == "active"? HexColor("49C000"): doc["doc"]["booking_status"].toLowerCase() == "completed"?Colors.purple:Colors.red,
                                                         shape: BoxShape.circle),
                                                     width: 6,
                                                     height: 6,
