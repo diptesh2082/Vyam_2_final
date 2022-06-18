@@ -43,16 +43,14 @@ class _ProfilePartState extends State<ProfilePart> {
       'https://play.google.com/store/apps/details?id=com.findnearestfitness.vyam';
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-
   Future<void> share() async {
     await FlutterShare.share(
-        title: ' ',
-        text: 'https://vyam.page.link/vyamFirst',
-        linkUrl: 'https://vyam.page.link/vyamFirst',
-        //chooserTitle: 'Example Chooser Title'
+      title: ' ',
+      text: 'https://vyam.page.link/vyamFirst',
+      linkUrl: 'https://vyam.page.link/vyamFirst',
+      //chooserTitle: 'Example Chooser Title'
     );
   }
-
 
   UserDetails userDetails = UserDetails();
   String name = "";
@@ -63,10 +61,10 @@ class _ProfilePartState extends State<ProfilePart> {
   // final id = number;
   bool Loading = true;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  Future cacheImage(BuildContext context,String e)=>precacheImage(
-    CachedNetworkImageProvider(e),
-    context,
-  );
+  Future cacheImage(BuildContext context, String e) => precacheImage(
+        CachedNetworkImageProvider(e),
+        context,
+      );
   Future getUserData() async {
     print("user is here" + number);
     DocumentReference userName =
@@ -78,10 +76,13 @@ class _ProfilePartState extends State<ProfilePart> {
             name = snapshot.get('name');
             // print(number);
             email = snapshot.get('email');
-            phone = snapshot.get('userId').toString().substring(3,snapshot.get('userId').toString().length);
+            phone = snapshot
+                .get('userId')
+                .toString()
+                .substring(3, snapshot.get('userId').toString().length);
             gender = snapshot.get("gender");
             imageUrl = snapshot.get("image");
-            cacheImage(context, snapshot.get("image")) ;
+            cacheImage(context, snapshot.get("image"));
 
             Loading = false;
           });
@@ -192,10 +193,9 @@ class _ProfilePartState extends State<ProfilePart> {
                                                     // MediaQuery.of(context).size.width * 0.3,
                                                     backgroundImage:
                                                         CachedNetworkImageProvider(
-                                                            imageUrl,
-                                                        scale: 1,
-
-                                                        ),
+                                                      imageUrl,
+                                                      scale: 1,
+                                                    ),
                                                   ),
                                           ]),
                                         ),
@@ -242,9 +242,8 @@ class _ProfilePartState extends State<ProfilePart> {
                                                         gender.toLowerCase()
                                                   });
                                             },
-                                            icon: const ImageIcon(
-                                              AssetImage("assets/icons/profile-edit.png")
-                                            ))
+                                            icon: const ImageIcon(AssetImage(
+                                                "assets/icons/profile-edit.png")))
                                       ],
                                     ),
                                     Column(
@@ -254,20 +253,28 @@ class _ProfilePartState extends State<ProfilePart> {
                                           MainAxisAlignment.start,
                                       children: [
                                         SingleChildScrollView(
-                                          scrollDirection:Axis.horizontal,
+                                          scrollDirection: Axis.horizontal,
                                           child: SizedBox(
                                             child: Text(
-                                              email != "null" ? email : "no email",
+                                              email != "null"
+                                                  ? email
+                                                  : "no email",
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
-                                              style: GoogleFonts.poppins(fontWeight: FontWeight.w400, fontSize: 14, ),
+                                              style: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 14,
+                                              ),
                                             ),
                                           ),
                                         ),
                                         Row(
                                           children: [
-                                            Text("No -",
-                                              style: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 14,color: Colors.amber ),
+                                            Text(
+                                              "+91-",
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14),
                                             ),
                                             Text(
                                               phone != ""
@@ -275,7 +282,10 @@ class _ProfilePartState extends State<ProfilePart> {
                                                   : "no Phone number",
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
-                                              style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 14, ),
+                                              style: GoogleFonts.poppins(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -308,9 +318,12 @@ class _ProfilePartState extends State<ProfilePart> {
                           Profileicon.contact_us__1_,
                           color: Colors.black54,
                         ),
-                        title:  Text(
+                        title: Text(
                           "Contact Us",
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, ),
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
                         ),
                       ),
                       const Divider(
@@ -325,9 +338,12 @@ class _ProfilePartState extends State<ProfilePart> {
                           AssetImage("assets/icons/about_us.png"),
                           color: Colors.black54,
                         ),
-                        title:  Text(
+                        title: Text(
                           "About Us",
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, ),
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                       const Divider(
@@ -342,9 +358,12 @@ class _ProfilePartState extends State<ProfilePart> {
                           AssetImage("assets/icons/terms_and_conditions.png"),
                           color: Colors.black54,
                         ),
-                        title:  Text(
+                        title: Text(
                           "Terms & Condition",
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 16, ),
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                       const Divider(
@@ -359,9 +378,12 @@ class _ProfilePartState extends State<ProfilePart> {
                           AssetImage("assets/icons/privacy_policy.png"),
                           color: Colors.black54,
                         ),
-                        title:  Text(
+                        title: Text(
                           "Privacy Policy",
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, ),
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
                         ),
                       ),
                       const Divider(
@@ -376,9 +398,12 @@ class _ProfilePartState extends State<ProfilePart> {
                           AssetImage("assets/icons/faq.png"),
                           color: Colors.black54,
                         ),
-                        title:  Text(
+                        title: Text(
                           "FAQ",
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, ),
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
                         ),
                       ),
                       const Divider(
@@ -393,18 +418,20 @@ class _ProfilePartState extends State<ProfilePart> {
                           AssetImage("assets/icons/rate_us.png"),
                           color: Colors.black54,
                         ),
-                        title:  Text(
+                        title: Text(
                           "Rate Us",
-                          style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15, ),
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
                         ),
                       ),
                       const Divider(
                         thickness: .3,
                         height: 0,
                       ),
-
-                     TextButton(
-                        onPressed:()async {
+                      TextButton(
+                        onPressed: () async {
                           share();
                           print('PRESSED');
                         },
@@ -422,9 +449,12 @@ class _ProfilePartState extends State<ProfilePart> {
                             AssetImage("assets/icons/share_app.png"),
                             color: Colors.black54,
                           ),
-                          title:  Text(
+                          title: Text(
                             "Share",
-                            style: GoogleFonts.poppins(fontWeight: FontWeight.w500, fontSize: 15,),
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                       ),
