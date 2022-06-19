@@ -248,8 +248,8 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                       "totalPrice": widget.price *
                           (1 + endDate.difference(startDate).inDays),
                       "startDate":
-                          DateFormat("dd, MMMM, yyyy").format(startDate),
-                      "endDate": DateFormat("dd, MMMM, yyyy").format(endDate),
+                          DateFormat("dd, MMM, yyyy").format(startDate),
+                      "endDate": DateFormat("dd, MMM, yyyy").format(endDate),
                       "address": widget.getGymAddress,
                       "vendorId": widget.gymId,
                       "booking_id": widget.bookingId,

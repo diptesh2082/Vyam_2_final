@@ -50,7 +50,7 @@ class couponClass extends GetxController {
   RxBool GlobalCouponApplied = false.obs;
   RxString GlobalCoupon = "".obs;
   RxString coupon_id = "".obs;
-// >>>>>>> 7384932aa66e035ea148e5d21e568bb5045564cf
+
   RxString CouponDetailsMap = "".obs;
   // Map coupon_list={}.obs;
   couponAdd(bool gca, String gc) {
@@ -558,49 +558,13 @@ class GymAllApi {
   // }
   Stream<QuerySnapshot> getGymDetails = FirebaseFirestore.instance
       .collection("product_details")
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-//       .where("locality", isEqualTo: GlobalUserData["locality"])
-//       .where("legit", isEqualTo: true)
-// =======
-      // .where("locality",
-      // isEqualTo: GlobalUserData["locality"])
-      // .where("legit", isEqualTo: true)
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
-// =======
-      // .where("locality",
-      // isEqualTo: GlobalUserData["locality"])
-      // .where("legit", isEqualTo: true)
-// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
-// =======
-      // .where("locality",
-      // isEqualTo: GlobalUserData["locality"])
       .where("legit", isEqualTo: true)
-// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
       .orderBy("location")
       .snapshots();
 
   Stream<QuerySnapshot> getMaleGym = FirebaseFirestore.instance
       .collection("product_details")
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-//       .where("locality", isEqualTo: GlobalUserData["locality"])
-//       .where("legit", isEqualTo: true)
-// =======
-      // .where("locality",
-      // isEqualTo: GlobalUserData["locality"])
-      // .where("legit", isEqualTo: true)
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
-// =======
-      // .where("locality",
-      // isEqualTo: GlobalUserData["locality"])
-      // .where("legit", isEqualTo: true)
-// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
-// =======
-      // .where("locality",
-      // isEqualTo: GlobalUserData["locality"])
+
       .where("legit", isEqualTo: true)
 // >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
       .where("gender", isEqualTo: "male")
@@ -608,27 +572,7 @@ class GymAllApi {
       .snapshots();
   Stream<QuerySnapshot> getFemaleGym = FirebaseFirestore.instance
       .collection("product_details")
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-//       .where("locality", isEqualTo: GlobalUserData["locality"])
-//       .where("gender", isEqualTo: "female")
-//       .where("legit", isEqualTo: true)
-// =======
-      // .where("locality",
-      // isEqualTo: GlobalUserData["locality"])
-      // .where("gender", whereIn: ["female", "unisex"])
-      // .where("legit", isEqualTo: true)
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
-// =======
-      // .where("locality",
-      // isEqualTo: GlobalUserData["locality"])
-      // .where("gender", whereIn: ["female", "unisex"])
-      // .where("legit", isEqualTo: true)
-// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
-// =======
-      // .where("locality",
-      // isEqualTo: GlobalUserData["locality"])
+
       .where("gender", whereIn: ["female", "unisex"])
       .where("legit", isEqualTo: true)
 // >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
@@ -636,48 +580,13 @@ class GymAllApi {
       .snapshots();
   Stream<QuerySnapshot> getUnisexGym = FirebaseFirestore.instance
       .collection("product_details")
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-//       .where("locality", isEqualTo: GlobalUserData["locality"])
-// =======
-      // .where("locality",
-      // isEqualTo: GlobalUserData["locality"])
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
-// =======
-      // .where("locality",
-      // isEqualTo: GlobalUserData["locality"])
-// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
-// =======
-      // .where("locality",
-      // isEqualTo: GlobalUserData["locality"])
-// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
+
       .where("gender", isEqualTo: "unisex")
       .where("legit", isEqualTo: true)
       .orderBy("location")
       .snapshots();
 }
 
-// class GymApi {
-//   // String number = "8859451134";
-//   List gymList = [];
-//   Future getCouponData() async {
-//     var couponFirestore = FirebaseFirestore.instance.collection('product_details');
-//
-//     try {
-//       await couponFirestore.get().then((value) {
-//         for (var result in value.docs) {
-//           gymList.add(result.data());
-//         }
-//       });
-//     } catch (e) {
-//       return null;
-//     }
-//
-//     return couponList;
-//   }
-// }
-// distance(lat1,long1,lat2,long2){
 
 double calculateDistance(lat1, lon1, lat2, lon2) {
   var p = 0.017453292519943295;
@@ -777,36 +686,10 @@ getUserLocation() async {
 checkUserLocation(bool serviceEnabled, LocationPermission permission) async {
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {}
-  //   await Geolocator.openLocationSettings();
-  //   return Future.error('Location services are disabled.');
-  // }
-  // permission = await Geolocator.checkPermission();
-  // if (permission == LocationPermission.denied) {
-  //   permission = await Geolocator.requestPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     return Future.error('Location permissions are denied');
-  //   }
-  // }
-  // if (permission == LocationPermission.deniedForever) {
-  //   // Permissions are denied forever, handle appropriately.
-  //   return Future.error(
-  //       'Location permissions are permanently denied, we cannot request permissions.');
-  // }
 
-  // return await Geolocator.getCurrentPosition();
 }
 
-// Future<void> GetAddressFromLatLong(Position position) async {
-//   List<Placemark> placemark =
-//   await placemarkFromCoordinates(position.latitude, position.longitude);
-//   Placemark place = placemark[0];
-//   print(place);
-//   address =
-//       "${place.name??""}, "+"${place.street??""}, ${place.locality??""}, ${place.subAdministrativeArea??""}, ${place.postalCode??""}";
-//   pin = "${place.postalCode}";
-//   locality = "${place.locality}";
-//   subLocality = "${place.subLocality}";
-// }
+
 class TkInd extends GetxController {
   var current = 0.obs;
   var isSelected = [true, false, false, false, false, false, false, false].obs;

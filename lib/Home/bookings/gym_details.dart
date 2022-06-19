@@ -42,15 +42,9 @@ class GymDetails extends StatefulWidget {
 
 class _GymDetailsState extends State<GymDetails> {
   static final customCacheManager = CacheManager(Config("customCacheKey",
-      maxNrOfCacheObjects: 80, stalePeriod: Duration(days: 15)));
+      maxNrOfCacheObjects: 100, stalePeriod: Duration(days: 15)));
 
-  // List trainers = [
-  //   "assets/images/trainer1.png",
-  //   "assets/images/trainer2.png",
-  //   "assets/images/trainer3.png",
-  // ];
-  // double _scale = 1.0;
-  // double __previousScale = 1.0;
+
   bool touch = false;
 
   getRatingCount(x) async {
@@ -68,15 +62,7 @@ class _GymDetailsState extends State<GymDetails> {
         }
       });
     } catch (e) {
-      // db.get().then((DocumentSnapshot documentSnapshot) {
-      //   if(documentSnapshot.exists){
-      //     db.update({
-      //       "view_count":1
-      //     });
-      //   }
-      // }
 
-      // );
     }
 
     //     .update(

@@ -603,14 +603,7 @@ class _PackegesState extends State<Packeges> {
                                       const SizedBox(
                                         height: 0,
                                       ),
-                                      // ZumbaList(
-                                      //     width: _width,
-                                      //     getDocId: widget.getFinalID,
-                                      //     gymName: widget.gymName,
-                                      //     gymLocation: widget.gymLocation),
-                                      // const SizedBox(
-                                      //   height: 50,
-                                      // ),
+
                                     ],
                                   ),
                                 );

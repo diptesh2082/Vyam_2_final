@@ -247,7 +247,24 @@ class _PaymentScreenState extends State<PaymentScreen> {
         "booking_status": "upcoming",
         "payment_done": true,
         "payment_method":"online"
-      });
+      }).then((value) async {
+        if (myCouponController
+            .GlobalCouponApplied
+            .value ==
+            true){
+          await FirebaseFirestore.instance
+              .collection("coupon")
+              .doc(myCouponController.coupon_id.value)
+              .collection("used_by")
+              .doc().set({
+            "user":GlobalUserData["userId"],
+            "user_name":GlobalUserData["userId"],
+            "vendor_id":gymData["gym_id"]
+          });
+        }
+
+
+      });;
       await FirebaseFirestore.instance
           .collection("booking_notifications")
           .doc()
@@ -260,9 +277,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
         "vendor_id":ven_id,
         "vendor_name":ven_name,
       });
-      // booking_details["id"]!=null?
-      await showNotification("Thank You","Booking Successful");
-      // :await showNotification("Booking Status You","Booking Unsuccessful");
+      booking_details["id"]!=null?
+      await showNotification("Thank You","Booking Successful")
+      :await showNotification("Booking Status You","Booking Unsuccessful");
 
       // booking_details["id"]!=null?
       await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
@@ -332,7 +349,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print("Failure Handleeerr");
   }
 
-  void _handleExternalWallet(ExternalWalletResponse response) {
+  Future<void> _handleExternalWallet(ExternalWalletResponse response) async {
     // ignore: avoid_print
     // Get.to(()=>PaymentScreen());
     print("////////////////////////////////////////");
@@ -396,7 +413,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           arguments: {"otp_pass": x, "booking_id": booking_id});
 
       // print(x);
-      FirebaseFirestore.instance
+     await FirebaseFirestore.instance
           .collection("bookings")
           .doc(getData["booking_id"])
           .update({
@@ -1235,6 +1252,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 "otp_pass": x.toString(),
                                 "booking_status":"upcoming",
                                 "payment_done": false,
+                              }).then((value) async {
+                                if (myCouponController
+                                    .GlobalCouponApplied
+                                    .value ==
+                                    true){
+                                  await FirebaseFirestore.instance
+                                      .collection("coupon")
+                                      .doc(myCouponController.coupon_id.value)
+                                      .collection("used_by")
+                                      .doc().set({
+                                        "user":GlobalUserData["userId"],
+                                          "user_name":GlobalUserData["userId"],
+                                    "vendor_id":gymData["gym_id"]
+                                  });
+                                }
+
+
                               });
                               await FirebaseFirestore.instance
                                   .collection("booking_notifications")

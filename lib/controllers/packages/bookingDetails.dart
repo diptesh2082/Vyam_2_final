@@ -231,7 +231,7 @@ class BookingDetails {
                                               Get.to(
                                                 () => SelectDate(
                                                   months: newBookingList[index]
-                                                          ['title']
+                                                          ['package_type']
                                                       .toUpperCase(),
                                                   price: int.parse(bookingList[
                                                               index]
@@ -266,7 +266,7 @@ class BookingDetails {
                                               Get.to(
                                                 () => DatePickerScreen(
                                                   months: newBookingList[index]
-                                                          ['title']
+                                                          ['package_type']
                                                       .toUpperCase(),
                                                   price: int.parse(bookingList[
                                                               index]

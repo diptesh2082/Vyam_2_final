@@ -44,38 +44,38 @@ class _FaqState extends State<Faq> {
         elevation: 0,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection("faq").snapshots(),
-        builder: (context,AsyncSnapshot snapshot) {
-          var doc=snapshot.data.docs;
-          List d=[];
-          doc.forEach((e){
-            d.add(true);
-          });
+          stream: FirebaseFirestore.instance.collection("faq").snapshots(),
+          builder: (context,AsyncSnapshot snapshot) {
+            var doc=snapshot.data.docs;
+            List d=[];
+            doc.forEach((e){
+              d.add(true);
+            });
 
 
-          print(d);
-          return ListView.builder(
-              itemCount: doc.length,
-              itemBuilder: (context, index) {
+            print(d);
+            return ListView.builder(
+                itemCount: doc.length,
+                itemBuilder: (context, index) {
 
-                final faq = "";
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Container(
-                    margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
-                    decoration: BoxDecoration(
-                      // color: Colors.white12,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Material(
-                        elevation: 5,
+                  final faq = "";
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Container(
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
+                      decoration: BoxDecoration(
+                        // color: Colors.white12,
                         borderRadius: BorderRadius.circular(16),
-                        child: Tile(index: index, doc: doc, d: d,)),
-                  ),
-                );
-              });
-        }
+                      ),
+                      child: Material(
+                          elevation: 5,
+                          borderRadius: BorderRadius.circular(16),
+                          child: Tile(index: index, doc: doc, d: d,)),
+                    ),
+                  );
+                });
+          }
       ),
     );
   }
@@ -87,7 +87,7 @@ class Tile extends StatefulWidget {
   var index;
   var d;
 
-   Tile({Key? key,required this.doc,required this.index,required this.d}) : super(key: key);
+  Tile({Key? key,required this.doc,required this.index,required this.d}) : super(key: key);
 
   @override
   State<Tile> createState() => _TileState();
@@ -99,7 +99,6 @@ class _TileState extends State<Tile> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: SizedBox(
-
         child: ExpansionPanelList(
           animationDuration: const Duration(milliseconds: 500),
           elevation: 0,
@@ -114,8 +113,8 @@ class _TileState extends State<Tile> {
 
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const Divider(
                       color: Colors.black54,
@@ -169,4 +168,3 @@ class _TileState extends State<Tile> {
     );
   }
 }
-

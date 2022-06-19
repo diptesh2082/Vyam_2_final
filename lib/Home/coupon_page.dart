@@ -49,7 +49,7 @@ class _CouponDetailsState extends State<CouponDetails> {
   void dispose() {
     // TODO: implement dispose
     // myCouponController.dispose();
-    print("++++++++++d899999999999999999++++++++++++++++++++");
+    print("++++++++++d899999999999999999++++++++++++++++++++ ${widget.type}");
     print([GlobalUserData["userId"]]);
     couponController.dispose();
     super.dispose();
@@ -233,7 +233,7 @@ class _CouponDetailsState extends State<CouponDetails> {
               StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('coupon')
-                      .where("validity", arrayContains: true)
+                      .where("validity", isEqualTo: true)
                       .snapshots(),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -244,42 +244,35 @@ class _CouponDetailsState extends State<CouponDetails> {
                     }
 
                     var documents = snapshot.data.docs;
-                    if (widget.type.toString().toLowerCase() ==
-                        "pay per session") {
-                      documents = documents.where((element) {
-                        return element
-                                .get('package_type')
-                                .toString()
-                                .toLowerCase()
-                                .contains(widget.type.toString().toLowerCase())
-                            // && element.
-                            //   get('package_type').contains
+                    // if (widget.type.toString().toLowerCase() ==
+                    //     "pay per session") {
+                    documents = documents.where((element) {
+                      return element
+                              .get('package_type')
+                              .toString()
+                              .toLowerCase()
+                              .contains(widget.type.toString().toLowerCase())
+                          // && element.
+                          //   get('package_type').contains
 
-                            ;
-                      }).toList();
-                    } else {
-                      documents = documents.where((element) {
-                        return element
-                            .get('package_type')
-                            .toString()
-                            .toLowerCase()
-                            .contains("package");
-                      }).toList();
-                    }
-                    if (widget.type.toString().toLowerCase() ==
-                        "pay per session") {}
-                    // documents = documents.where((element){
-                    //   return element
-                    //       .get('gym_id')
-                    //       .toString()
-                    //       .toLowerCase()
-                    //       .("package");
-                    // }).toList();
+                          ;
+                    }).toList();
+                    // } else {
+                    //   documents = documents.where((element) {
+                    //     return element
+                    //         .get('package_type')
+                    //         .toString()
+                    //         .toLowerCase()
+                    //         .contains("package");
+                    //   }).toList();
+                    // }
+                    // if (widget.type.toString().toLowerCase() ==
+                    //     "pay per session") {}
 
                     couponDoc = snapshot.data.docs;
                     print(couponDoc);
                     var list = [];
-                    // list.addAll({documents[0]["code"].toString().toLowerCase(): documents[index]["discount"]);
+
                     print(list);
 
                     if (documents.isEmpty) {
@@ -530,20 +523,20 @@ class _CouponDetailsState extends State<CouponDetails> {
                                             coupon = documents[index]['code']
                                                 .trim()
                                                 .toLowerCase();
-                                            print("////////////" + coupon);
-                                            print("////////////" +
-                                                documents[index]['offer_type']
-                                                    .toString());
-                                            print("////////////" +
-                                                documents[index]
-                                                    ['minimum_cart_value']);
-                                            print("////////////" +
-                                                documents[index]['max_dis']);
-                                            print("////////////" +
-                                                documents[index]['discount']);
-                                            print("////////////" +
-                                                documents[index]['offer_type']
-                                                    .toString());
+                                            // print("////////////" + coupon);
+                                            // print("////////////" +
+                                            //     documents[index]['offer_type']
+                                            //         .toString());
+                                            // print("////////////" +
+                                            //     documents[index]
+                                            //         ['minimum_cart_value']);
+                                            // print("////////////" +
+                                            //     documents[index]['max_dis']);
+                                            // print("////////////" +
+                                            //     documents[index]['discount']);
+                                            // print("////////////" +
+                                            //     documents[index]['offer_type']
+                                            //         .toString());
 
                                             if (coupon_list.containsKey(
                                                     documents[index]['code']
@@ -595,6 +588,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                       .CouponDetailsMap
                                                       .value = dex.toString();
                                                 }
+                                                myCouponController.coupon_id.value= documents[index].id;
 
                                                 setState(() {
                                                   GlobalCoupon =
