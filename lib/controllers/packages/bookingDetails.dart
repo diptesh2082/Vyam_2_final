@@ -105,8 +105,8 @@ class BookingDetails {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      gymType +
-                                          newBookingList[index]['title']
+
+                                          newBookingList[index]['type'].toString().toUpperCase() + "-" +  gymType
                                               .toUpperCase(),
                                       style: GoogleFonts.poppins(
                                           fontSize: 18,
@@ -116,8 +116,8 @@ class BookingDetails {
                                     const SizedBox(
                                       height: 12,
                                     ),
-                                    if (newBookingList[index]['title'] !=
-                                        "Pay per session")
+                                    // if (newBookingList[index]['package_type'].toString().toLowerCase() !=
+                                    //     "pay per session")
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
