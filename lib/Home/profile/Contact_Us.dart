@@ -65,11 +65,11 @@ class _ContactUsState extends State<ContactUs> {
               ListTile(
                 onTap: () async {
                   final url =
-                      'https://www.instagram.com/accounts/login/?next=/vyam.app/';
+                      'https://instagram.com/vyam.app?igshid=YmMyMTA2M2Y=';
                   if (await canLaunch(url)) {
                     await launch(
                       url,
-                      forceSafariVC: false,
+                      universalLinksOnly: true,
                     );
                   }
                 },
@@ -79,7 +79,7 @@ class _ContactUsState extends State<ContactUs> {
                   size: 20,
                 ),
                 title: Text(
-                  '@vyam',
+                  '@vyam.app',
                   style: GoogleFonts.poppins(
                       fontSize: 14, fontWeight: FontWeight.w400),
                 ),
@@ -127,7 +127,7 @@ class _ContactUsState extends State<ContactUs> {
                   size: 20,
                 ),
                 title: Text(
-                  'www.vyam.com',
+                  'vyam.co.in',
                   style: GoogleFonts.poppins(
                       fontSize: 14, fontWeight: FontWeight.w400),
                 ),

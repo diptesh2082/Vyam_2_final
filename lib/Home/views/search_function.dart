@@ -185,11 +185,10 @@ class _SearchItState extends State<SearchIt> {
                                         // print(viku);
                                         Get.to(
                                             () => GymDetails(
-                                                  // gymID: document[index].id,
+                                                // gymID: document[index].id,
                                                 ),
                                             arguments: {
-                                              "gymId":document[index].id,
-
+                                              "gymId": document[index].id,
                                             });
                                       },
                                       child: Stack(
@@ -465,7 +464,7 @@ class _SearchItState extends State<SearchIt> {
                     : Column(
                         children: [
                           SizedBox(
-                            height: 100,
+                            height: 50,
                           ),
                           Center(
                             child: Material(
@@ -484,8 +483,9 @@ class _SearchItState extends State<SearchIt> {
                             ),
                           ),
                           SizedBox(
-                            height: 100,
-                          )
+                            height: 10,
+                          ),
+                          Text("Nothing Found!"),
                         ],
                       );
               },
