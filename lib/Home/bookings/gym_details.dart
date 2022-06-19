@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -1293,9 +1292,10 @@ class _GymDetailsState extends State<GymDetails> {
                                       gymLocation: docs["address"], doc: docs,
                                     ),
                                 duration: const Duration(milliseconds: 300),
-                                arguments: {
-                                  "doc": docs,
-                                });
+                                // arguments: {
+                                //   "doc": docs,
+                                // }
+                            );
                           },
                           label: Text(
                             "Explore Packages",

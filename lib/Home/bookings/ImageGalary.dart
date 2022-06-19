@@ -46,7 +46,7 @@ class _ImageGalleryState extends State<ImageGallery> {
 
   PageController page_controller =PageController();
   int _current = 1;
-  final List _isSelected = [true, false, false, false, false, false,false,false];
+  final List _isSelected = [true, false, false, false, false, false,false,false,false,false,false,false];
   @override
   void initState() {
     // TODO: implement initState

@@ -99,6 +99,7 @@ class _TileState extends State<Tile> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: SizedBox(
+
         child: ExpansionPanelList(
           animationDuration: const Duration(milliseconds: 500),
           elevation: 0,
@@ -113,8 +114,8 @@ class _TileState extends State<Tile> {
 
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     const Divider(
                       color: Colors.black54,

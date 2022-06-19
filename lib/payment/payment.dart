@@ -221,7 +221,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           .doc()
           .set({
         "title": "booking Activated",
-        "message":"upcoming",
+        "status":"upcoming",
         "payment_done": false,
         "user_id":number.toString(),
         "user_name":GlobalUserData["name"],
@@ -1129,7 +1129,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   .doc()
                                   .set({
                                 "title": "booking Activated",
-                                "message":"upcoming",
+                                "status":"upcoming",
                                 "payment_done": false,
                                 "user_id":number.toString(),
                                 "user_name":GlobalUserData["name"],

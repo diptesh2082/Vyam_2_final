@@ -81,7 +81,7 @@ class UpcomingEvent extends StatelessWidget {
                             elevation: 1,
                             color: Colors.transparent,
                             child: Container(
-                              height: 145,
+                              height: 150,
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8)),

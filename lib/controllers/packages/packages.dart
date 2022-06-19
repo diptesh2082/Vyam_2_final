@@ -241,12 +241,13 @@ String? iiid;
                               return Center(
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 20.0),
-                                  child: Text(
-                                    "Coming Soon !! ",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.red),
-                                  ),
+                                  child:Container()
+                                  // Text(
+                                  //   "Coming Soon !! ",
+                                  //   style: GoogleFonts.poppins(
+                                  //       fontWeight: FontWeight.bold,
+                                  //       color: Colors.red),
+                                  // ),
                                 ),
                               );
                             }
