@@ -34,8 +34,8 @@ admin.initializeApp();
 //         token=snapshot1.data().device_token;
           const payload = {
                       notification:{
-                        title: String(snapshot1.data().name),
-                        body: "Your booking" + String(snapshot.data().title),
+                        title:"Booking successful for " + String(snapshot.data().vendor_name),
+                        body: "Share OTP at the center to start.",
                         clickAction:'FLUTTER_NOTIFICATION_CLICK',
                      }
                 };
@@ -55,8 +55,8 @@ admin.initializeApp();
 //                 console.log(tokens);
                   const payload1 = {
                               notification:{
-                                title: String(snapshot2.data().name),
-                                body: "vendor" + String(snapshot.data().title),
+                                title: "New booking received!",
+                                body: "Enter OTP to activate ✅",
                                 clickAction:'FLUTTER_NOTIFICATION_CLICK',
                              }
                         };
