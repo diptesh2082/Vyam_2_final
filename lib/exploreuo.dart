@@ -463,12 +463,16 @@ class _ExploreiaState extends State<Exploreia> {
             child: FittedBox(
               child: GestureDetector(
                 onTap: () {
-                  Get.to(() => GymDetails(gymID: document[index].id,), arguments: {
-                    "id": document[index].id,
-                    "location": document[index]["location"],
-                    "name": document[index]["name"],
-                    "docs": document[index],
-                  });
+                  Get.to(
+                      () => GymDetails(
+                            gymID: document[index].id,
+                          ),
+                      arguments: {
+                        "id": document[index].id,
+                        "location": document[index]["location"],
+                        "name": document[index]["name"],
+                        "docs": document[index],
+                      });
                   sslKey.currentState!.focusToItem(index);
                   // _gotoLocation(location.latitude, location.longitude);
                 },
@@ -483,20 +487,21 @@ class _ExploreiaState extends State<Exploreia> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       // SizedBox(width: 15,),
-                      if( calculateDistance(
-                  GlobalUserData["location"].latitude,
-                      GlobalUserData["location"].longitude,
-                      document[index]["location"].latitude,
-                      document[index]["location"].longitude)<= 20 )
-                      _boxes(
-                        document[index]["display_picture"],
-                        document[index]["name"],
-                        document[index]["location"],
-                        document[index]["address"],
-                        document[index]["rating"].toString(),
-                        document[index]["branch"],
-                        document[index]["gym_status"],
-                      ),
+                      if (calculateDistance(
+                              GlobalUserData["location"].latitude,
+                              GlobalUserData["location"].longitude,
+                              document[index]["location"].latitude,
+                              document[index]["location"].longitude) <=
+                          20)
+                        _boxes(
+                          document[index]["display_picture"],
+                          document[index]["name"],
+                          document[index]["location"],
+                          document[index]["address"],
+                          document[index]["rating"].toString(),
+                          document[index]["branch"],
+                          document[index]["gym_status"],
+                        ),
                       SizedBox(
                         width: 15,
                       )

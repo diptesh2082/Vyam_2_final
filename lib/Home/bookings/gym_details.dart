@@ -54,7 +54,6 @@ class _GymDetailsState extends State<GymDetails> {
   // double __previousScale = 1.0;
   bool touch = false;
 
-
   getRatingCount(x) async {
     DocumentReference db = await FirebaseFirestore.instance
         .collection("product_details")
@@ -161,7 +160,7 @@ class _GymDetailsState extends State<GymDetails> {
   // final amenityDoc = Get.arguments["docs"]["name"];
   var documents;
   List<dynamic> amenites2 = [""];
-  bool isLoad=true;
+  bool isLoad = true;
 
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
   final List _isSelected = [
@@ -282,8 +281,8 @@ class _GymDetailsState extends State<GymDetails> {
                               height: 6,
                             ),
                             ImageGallery(
-                              images: images, loading: isLoading,
-
+                              images: images,
+                              loading: isLoading,
                             ),
                             const SizedBox(height: 16),
                             Row(
@@ -662,7 +661,8 @@ class _GymDetailsState extends State<GymDetails> {
                                   }
                                   var trainerdoc = snapshot.data!.docs;
                                   print(trainerdoc);
-                                  print("+++++++++++++++++++++++++++++++++++++++++++++++");
+                                  print(
+                                      "+++++++++++++++++++++++++++++++++++++++++++++++");
                                   return trainerdoc.length == 0
                                       ? SizedBox()
                                       : SizedBox(
@@ -755,10 +755,7 @@ class _GymDetailsState extends State<GymDetails> {
                                                                                     decoration: BoxDecoration(
                                                                                         shape: BoxShape.circle,
                                                                                         //border: Border.all(width: 1),
-                                                                                        image: DecorationImage(
-                                                                                            image: CachedNetworkImageProvider(
-                                                                                                trainerdoc[index]['image']),
-                                                                                            fit: BoxFit.cover)),
+                                                                                        image: DecorationImage(image: CachedNetworkImageProvider(trainerdoc[index]['image']), fit: BoxFit.cover)),
                                                                                   ),
                                                                                   SizedBox(
                                                                                     height: 2,
@@ -894,15 +891,18 @@ class _GymDetailsState extends State<GymDetails> {
                                                         return Container(
                                                           height: 30,
                                                           width: 30,
-                                                          decoration:  BoxDecoration(
+                                                          decoration: BoxDecoration(
                                                               shape: BoxShape.circle,
 //border: Border.all(width: 1),
                                                               image: DecorationImage(
-                                                                  image: CachedNetworkImageProvider(snaptu[
-                                                                  index]
-                                                                  ["user"]
-                                                                  ["user_pic"],),
-                                                                  fit: BoxFit.cover) ),
+                                                                  image: CachedNetworkImageProvider(
+                                                                    snaptu[index]
+                                                                            [
+                                                                            "user"]
+                                                                        [
+                                                                        "user_pic"],
+                                                                  ),
+                                                                  fit: BoxFit.cover)),
                                                         );
                                                       }),
                                                 ),
@@ -1290,7 +1290,8 @@ class _GymDetailsState extends State<GymDetails> {
                                 () => Packeges(
                                       getFinalID: widget.gymID,
                                       gymName: docs["name"],
-                                      gymLocation: docs["address"], doc: docs,
+                                      gymLocation: docs["address"],
+                                      doc: docs,
                                     ),
                                 duration: const Duration(milliseconds: 300),
                                 arguments: {
@@ -1312,49 +1313,49 @@ class _GymDetailsState extends State<GymDetails> {
             });
   }
 
-  // Widget gymImages(String images) => AspectRatio(
-  //   aspectRatio: 16 / 9,
-  //   child: ClipRRect(
-  //     borderRadius: BorderRadius.circular(10),
-  //     child: CachedNetworkImage(
-  //       imageUrl: images,f
-  //       fit: BoxFit.cover,
-  //     ),
-  //   ),
-  // );
+// Widget gymImages(String images) => AspectRatio(
+//   aspectRatio: 16 / 9,
+//   child: ClipRRect(
+//     borderRadius: BorderRadius.circular(10),
+//     child: CachedNetworkImage(
+//       imageUrl: images,f
+//       fit: BoxFit.cover,
+//     ),
+//   ),
+// );
 
-  // Widget amenities(int index) => FittedBox(
-  //       child: Column(
-  //         children: [
-  //           CircleAvatar(
-  //             radius: 35,
-  //             backgroundColor: Colors.amber,
-  //             child: Image(
-  //               image: CachedNetworkImageProvider(
-  //                 documents[index]['image'],
-  //               ),
-  //               fit: BoxFit.fill,
-  //               // width: 26.5,
-  //               // height: 26.5,
-  //             ),
-  //           ),
-  //
-  //           SizedBox(
-  //             width: 90,
-  //             height: 38,
-  //             child: Text(
-  //               documents[index]['name'],
-  //               textAlign: TextAlign.center,
-  //               style: GoogleFonts.poppins(
-  //                 fontWeight: FontWeight.w400,
-  //                 fontSize: 12,
-  //               ),
-  //               maxLines: 2,
-  //               overflow: TextOverflow.clip,
-  //             ),
-  //
-  //           ),
-  //         ],
-  //       ),
-  //     );
+// Widget amenities(int index) => FittedBox(
+//       child: Column(
+//         children: [
+//           CircleAvatar(
+//             radius: 35,
+//             backgroundColor: Colors.amber,
+//             child: Image(
+//               image: CachedNetworkImageProvider(
+//                 documents[index]['image'],
+//               ),
+//               fit: BoxFit.fill,
+//               // width: 26.5,
+//               // height: 26.5,
+//             ),
+//           ),
+//
+//           SizedBox(
+//             width: 90,
+//             height: 38,
+//             child: Text(
+//               documents[index]['name'],
+//               textAlign: TextAlign.center,
+//               style: GoogleFonts.poppins(
+//                 fontWeight: FontWeight.w400,
+//                 fontSize: 12,
+//               ),
+//               maxLines: 2,
+//               overflow: TextOverflow.clip,
+//             ),
+//
+//           ),
+//         ],
+//       ),
+//     );
 }

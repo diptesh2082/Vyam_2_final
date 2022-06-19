@@ -43,7 +43,8 @@ class _LocInfoState extends State<LocInfo> {
     await FirebaseFirestore.instance
         .collection('user_details')
         .doc(number)
-        .snapshots().listen((snapshot) {
+        .snapshots()
+        .listen((snapshot) {
       if (snapshot.exists) {
         print('Document exists on the database');
         setState(() {
@@ -53,7 +54,7 @@ class _LocInfoState extends State<LocInfo> {
         });
       }
     });
-        // .then((DocumentSnapshot documentSnapshot) {
+    // .then((DocumentSnapshot documentSnapshot) {
 
     // }
     // );
@@ -106,8 +107,8 @@ class _LocInfoState extends State<LocInfo> {
       List<Placemark> placemark =
           await placemarkFromCoordinates(position.latitude, position.longitude);
       Placemark place = placemark[0];
-      Placemark place2=placemark[1];
-      Placemark place3=placemark[2];
+      Placemark place2 = placemark[1];
+      Placemark place3 = placemark[2];
       // print(placemark);
       // print("///////////////////////////");
       // print(place);
@@ -115,7 +116,8 @@ class _LocInfoState extends State<LocInfo> {
       // print(place2);
       // print("///////////////////////////");
       print(place3);
-      address =   "${place2.subLocality ?? ""}, ${place.locality ?? ""},${place3.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
+      address =
+          "${place2.subLocality ?? ""}, ${place.locality ?? ""},${place3.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
       pin = "${place.postalCode}";
       locality = "${place.locality}";
       subLocality = "${place.subLocality}";
@@ -126,8 +128,8 @@ class _LocInfoState extends State<LocInfo> {
     List<Placemark> placemark =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemark[0];
-    Placemark place2=placemark[1];
-    Placemark place3=placemark[2];
+    Placemark place2 = placemark[1];
+    Placemark place3 = placemark[2];
     // print(placemark);
     // print("///////////////////////////");
     // print(place);
@@ -135,7 +137,8 @@ class _LocInfoState extends State<LocInfo> {
     // print(place2);
     // print("///////////////////////////");
     print(place3);
-    address =   "${place2.subLocality ?? ""}, ${place.locality ?? ""},${place3.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
+    address =
+        "${place2.subLocality ?? ""}, ${place.locality ?? ""},${place3.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
     pin = "${place.postalCode}";
     locality = "${place.locality}";
     subLocality = "${place.subLocality}";
@@ -236,7 +239,7 @@ class _LocInfoState extends State<LocInfo> {
               child: SingleChildScrollView(
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height:  MediaQuery.of(context).size.height,
+                  height: MediaQuery.of(context).size.height,
                   child: Stack(
                     alignment: Alignment.center,
                     // crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,8 +256,8 @@ class _LocInfoState extends State<LocInfo> {
                               autofocus: false,
                               focusNode: myFocousNode,
                               onChanged: (value) async {
-                                _list =
-                                    await RequestHelper().getPlaces(query: value);
+                                _list = await RequestHelper()
+                                    .getPlaces(query: value);
                                 setState(() {});
                                 if (value.isEmpty) {
                                   _list!.clear();
@@ -279,16 +282,15 @@ class _LocInfoState extends State<LocInfo> {
                                 isLoading = true;
                                 if (value.isEmpty) return;
                                 var res;
-                                try{
-                                  res= await RequestHelper()
+                                try {
+                                  res = await RequestHelper()
                                       .getCoordinatesFromAddresss(value);
-                                }catch(e){
+                                } catch (e) {
                                   Get.back();
                                   setState(() {
                                     isLoading = false;
                                   });
                                   return;
-
                                 }
 
                                 // print("fhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkg"+value);
@@ -303,7 +305,8 @@ class _LocInfoState extends State<LocInfo> {
                                     .collection('user_details')
                                     .doc(number)
                                     .update({
-                                  "location": GeoPoint(res.latitude, res.longitude),
+                                  "location":
+                                      GeoPoint(res.latitude, res.longitude),
                                   // "lat": res.latitude,
                                   // "long": res.longitude,
                                   "address": value.trim(),
@@ -347,19 +350,21 @@ class _LocInfoState extends State<LocInfo> {
                             height: 90,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: SizedBox(
                               height: 60,
                               child: GestureDetector(
                                 onTap: () async {
-                                  try{
+                                  try {
                                     setState(() {
                                       isLoading = true;
                                     });
 
                                     await myLocation();
                                     // print(data);
-                                    Position position = await Geolocator.getCurrentPosition();
+                                    Position position =
+                                        await Geolocator.getCurrentPosition();
                                     await GetAddressFromLatLong(position);
                                     // await UserApi.updateUserAddress(
                                     //     address, [position.latitude, position.longitude], pin
@@ -374,8 +379,8 @@ class _LocInfoState extends State<LocInfo> {
                                         .collection("user_details")
                                         .doc(number)
                                         .update({
-                                      "location": GeoPoint(
-                                          position.latitude, position.longitude),
+                                      "location": GeoPoint(position.latitude,
+                                          position.longitude),
                                       "address": address,
                                       // "lat": position.latitude,
                                       // "long": position.longitude,
@@ -386,16 +391,16 @@ class _LocInfoState extends State<LocInfo> {
                                     });
                                     // Get.back();
                                     await Get.offAll(() => HomePage());
-                                  }catch(e){
+                                  } catch (e) {
                                     setState(() {
                                       isLoading = false;
                                     });
                                   }
-
                                 },
                                 child: Card(
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12.0)),
+                                      borderRadius:
+                                          BorderRadius.circular(12.0)),
                                   child: Padding(
                                     padding: const EdgeInsets.only(left: 10.0),
                                     child: Row(
@@ -409,16 +414,20 @@ class _LocInfoState extends State<LocInfo> {
                                             size: 20,
                                           ),
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(7),
+                                            borderRadius:
+                                                BorderRadius.circular(7),
                                             color: Colors.grey[200],
                                           ),
                                         ),
                                         const Spacer(),
                                         SizedBox(
-                                          width: MediaQuery.of(context).size.width *
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
                                               .6,
                                           child: const Padding(
-                                            padding: EdgeInsets.only(left: 18.0),
+                                            padding:
+                                                EdgeInsets.only(left: 18.0),
                                             child: Text(
                                               'Use current location',
                                               style: TextStyle(
@@ -493,21 +502,25 @@ class _LocInfoState extends State<LocInfo> {
                                                 GlobalUserLocation = value;
                                                 locController.text = value;
                                               });
-                                              await GetAddressFromGeoPoint(GeoPoint(
-                                                  res.latitude, res.longitude));
+                                              await GetAddressFromGeoPoint(
+                                                  GeoPoint(res.latitude,
+                                                      res.longitude));
 
                                               await FirebaseFirestore.instance
                                                   .collection('user_details')
                                                   .doc(number)
                                                   .update({
                                                 "location": GeoPoint(
-                                                    res.latitude, res.longitude),
+                                                    res.latitude,
+                                                    res.longitude),
                                                 // "lat": res.latitude,
                                                 // "long": res.longitude,
                                                 "address": value.trim(),
                                                 "pincode": pin,
-                                                "locality": locality.toLowerCase(),
-                                                "subLocality": subLocality.toLowerCase(),
+                                                "locality":
+                                                    locality.toLowerCase(),
+                                                "subLocality":
+                                                    subLocality.toLowerCase(),
                                               });
                                               // Get.back();
                                               Get.off(() => HomePage());
@@ -520,14 +533,20 @@ class _LocInfoState extends State<LocInfo> {
                                                     child: Text(
                                                       "${document[index]['Address']}",
                                                       maxLines: 1,
-                                                      overflow: TextOverflow.ellipsis,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                       style: TextStyle(
                                                           fontFamily: 'Poppins',
-                                                          fontWeight: FontWeight.w400,
+                                                          fontWeight:
+                                                              FontWeight.w400,
                                                           fontSize: 14,
                                                           color: Colors.black),
                                                     ),
-                                                    width: MediaQuery.of(context).size.width*.75,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            .75,
                                                   ),
                                                   const Spacer(),
                                                   Transform(
@@ -548,7 +567,6 @@ class _LocInfoState extends State<LocInfo> {
                               );
                             },
                           )
-
                         ],
                       ),
                       _list != null && _list!.isNotEmpty
@@ -567,9 +585,10 @@ class _LocInfoState extends State<LocInfo> {
                                         itemCount: _list?.length,
                                         itemBuilder: ((context, index) {
                                           return ListTile(
-                                            title: Text(_list![index].mainText!),
-                                            subtitle:
-                                                Text(_list![index].secondaryText!),
+                                            title:
+                                                Text(_list![index].mainText!),
+                                            subtitle: Text(
+                                                _list![index].secondaryText!),
                                             onTap: () async {
                                               isLoading = true;
                                               final res = await RequestHelper()
@@ -577,8 +596,9 @@ class _LocInfoState extends State<LocInfo> {
                                                       _list![index].mainText!);
                                               print(res.latitude);
                                               print(res.longitude);
-                                              await GetAddressFromGeoPoint(GeoPoint(
-                                                  res.latitude, res.longitude));
+                                              await GetAddressFromGeoPoint(
+                                                  GeoPoint(res.latitude,
+                                                      res.longitude));
                                               // _gotoLocation(res.latitude, res.longitude);
                                               FocusScope.of(context).unfocus();
                                               setState(() {
@@ -593,13 +613,17 @@ class _LocInfoState extends State<LocInfo> {
                                                   .doc(number)
                                                   .update({
                                                 "location": GeoPoint(
-                                                    res.latitude, res.longitude),
+                                                    res.latitude,
+                                                    res.longitude),
                                                 // "lat": res.latitude,
                                                 // "long": res.longitude,
-                                                "address": _list![index].mainText!,
+                                                "address":
+                                                    _list![index].mainText!,
                                                 "pincode": pin,
-                                                "locality": locality.toLowerCase(),
-                                                "subLocality": subLocality.toLowerCase(),
+                                                "locality":
+                                                    locality.toLowerCase(),
+                                                "subLocality":
+                                                    subLocality.toLowerCase(),
                                               });
                                               Get.off(() => HomePage());
                                             },
@@ -617,11 +641,11 @@ class _LocInfoState extends State<LocInfo> {
           );
   }
 
-  // Future<void> _gotoLocation(double lat, double long) async {
-  //   final GoogleMapController controller = await _controller.future;
-  //   controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-  //     target: LatLng(lat, long),
-  //     zoom: 17,
-  //   )));
-  // }
+// Future<void> _gotoLocation(double lat, double long) async {
+//   final GoogleMapController controller = await _controller.future;
+//   controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+//     target: LatLng(lat, long),
+//     zoom: 17,
+//   )));
+// }
 }

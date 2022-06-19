@@ -66,9 +66,36 @@ class _OtpPageState extends State<OtpPage> {
         showLoading = false;
       });
       if (authCred.user != null) {
-        await  getToHomePage(_auth.currentUser?.phoneNumber);
+// <<<<<<< HEAD
+// // <<<<<<< HEAD
+//         // await  getToHomePage(_auth.currentUser?.phoneNumber);
+// // =======
+//         await getToHomePage(_auth.currentUser?.phoneNumber);
+// // >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
+//         await setNumber(_auth.currentUser!.phoneNumber);
+//         await checkExist("${_auth.currentUser?.phoneNumber}")
+//             .then((value) async {
+//           await setUserId(_auth.currentUser?.phoneNumber);
+//           print(visiting_flag);
+//           if (visiting_flag == true) {
+// // <<<<<<< HEAD
+// //             Navigator.pushReplacement(
+// //                 (context), MaterialPageRoute(builder: (context) => HomePage()));
+// // =======
+//             Get.offAll(HomePage());
+//             // Navigator.pushReplacement(
+//             //     (context), MaterialPageRoute(builder: (context) => HomePage()));
+// // >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
+//             // Get.offAll(()=>HomePage());
+//           } else if (visiting_flag == false) {
+//             userPhoto = "null";
+//             Navigator.pushReplacement((context),
+//                 MaterialPageRoute(builder: (context) => Register1()));
+// =======
+        await getToHomePage(_auth.currentUser?.phoneNumber);
         await setNumber(_auth.currentUser!.phoneNumber);
-        await checkExist("${_auth.currentUser?.phoneNumber}").then((value) async {
+        await checkExist("${_auth.currentUser?.phoneNumber}")
+            .then((value) async {
           await setUserId(_auth.currentUser?.phoneNumber);
           print(visiting_flag);
           if (visiting_flag == true) {
@@ -78,8 +105,9 @@ class _OtpPageState extends State<OtpPage> {
             // Get.offAll(()=>HomePage());
           } else if (visiting_flag == false) {
             userPhoto = "null";
-            Navigator.pushReplacement(
-                (context), MaterialPageRoute(builder: (context) => Register1()));
+            Navigator.pushReplacement((context),
+                MaterialPageRoute(builder: (context) => Register1()));
+// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
           }
         });
 
@@ -175,13 +203,11 @@ class _OtpPageState extends State<OtpPage> {
       },
       child: Scaffold(
         backgroundColor: scaffoldColor,
-        body:
-        showLoading
+        body: showLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            :
-        SafeArea(
+            : SafeArea(
                 child: SingleChildScrollView(
                 child: Container(
                     color: backgroundColor,
@@ -289,10 +315,10 @@ class _OtpPageState extends State<OtpPage> {
                                 ),
                                 TextButton(
                                     onPressed: activateButton!
-                                        ? ()  {
-                                      // setState(() {
-                                      //   showLoading = true;
-                                      // });
+                                        ? () {
+                                            // setState(() {
+                                            //   showLoading = true;
+                                            // });
                                             // Get.off(() =>
                                             //     const OtpPage(),
                                             //   // arguments: [
@@ -305,7 +331,7 @@ class _OtpPageState extends State<OtpPage> {
                                             // print("+91${docId}");
 
                                             var _forceResendingToken;
-                                             _auth.verifyPhoneNumber(
+                                            _auth.verifyPhoneNumber(
                                                 timeout:
                                                     const Duration(seconds: 27),
                                                 forceResendingToken:

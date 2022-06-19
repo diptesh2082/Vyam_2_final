@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
+import 'package:vyam_2_final/Providers/firebase_dynamic_link.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/register_email.dart';
