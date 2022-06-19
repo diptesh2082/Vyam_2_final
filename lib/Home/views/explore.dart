@@ -5,27 +5,26 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
+
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/cupertino.dart';
-// import 'package:google_maps_webservice/geocoding.dart';
+
 import 'package:google_maps_webservice/places.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vyam_2_final/Helpers/request_helpers.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
-import 'package:vyam_2_final/Home/home_page.dart';
+
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
-import 'package:vyam_2_final/Home/views/first_home.dart';
-// import 'package:vyam_2_final/Home/views/scratch_map.dart';
+
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
-import '../../controllers/gym_controller.dart';
+
 import 'package:location/location.dart' as ln;
 
 const String api = "AIzaSyC1HHe1ulw07w6Cz-UirhV5d2Pm_GUJW38";

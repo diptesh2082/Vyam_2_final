@@ -11,29 +11,23 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vyam_2_final/Home/bookings/gym_details.dart';
-import 'package:vyam_2_final/Home/coupon_page.dart';
+
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/Catagory.dart';
-import 'package:vyam_2_final/Home/views/genarate%20list.dart';
+
 import 'package:vyam_2_final/Home/views/gymStream.dart';
 import 'package:vyam_2_final/Home/views/location.dart';
-import 'package:vyam_2_final/Home/views/noInternet.dart';
+
 import 'package:vyam_2_final/Home/views/progressCard.dart';
 import 'package:vyam_2_final/Home/views/search_function.dart';
 
 import 'package:vyam_2_final/api/api.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
-import 'package:vyam_2_final/controllers/home_controller.dart';
-import 'package:vyam_2_final/controllers/location_controller.dart';
+
 import 'package:vyam_2_final/golbal_variables.dart';
 import '../../Notifications/notification.dart';
-import '../home_page.dart';
-import 'gyms.dart';
 
 class FirstHome extends StatefulWidget {
   const FirstHome({Key? key}) : super(key: key);
@@ -79,30 +73,6 @@ class _FirstHomeState extends State<FirstHome> {
   double radius = 50;
   String field = 'position';
 
-// <<<<<<< HEAD
-  Stream<List<DocumentSnapshot>> stream = Geoflutterfire()
-      .collection(
-          collectionRef:
-              FirebaseFirestore.instance.collection('product_details'))
-      .within(
-          center:
-              Geoflutterfire().point(latitude: 12.960632, longitude: 77.641603),
-          radius: 50,
-          field: 'position');
-  getStream() async {
-    stream.listen((snapshot) {
-      if (snapshot.isEmpty) {
-        print(snapshot.length);
-        print("****************************************");
-      }
-      if (snapshot.isNotEmpty) {
-        print(snapshot.length);
-        print("****************************************");
-      }
-    });
-    // return stream;
-  }
-// =======
   // Stream<List<DocumentSnapshot>> stream = Geoflutterfire().collection(collectionRef: FirebaseFirestore.instance.collection('product_details'))
   //     .within(center: Geoflutterfire().point(latitude:GlobalUserData["location"].latitude, longitude:GlobalUserData["location"].longitude), radius: 500, field: 'position');
   // getStream()async{
@@ -119,7 +89,6 @@ class _FirstHomeState extends State<FirstHome> {
   //   });
   //   // return stream;
   // }
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
 
   myLocation() async {
     try {
@@ -154,44 +123,6 @@ class _FirstHomeState extends State<FirstHome> {
     getAddress();
     sharedPreferences.setString("pin", pin.toString());
     getAddress();
-  }
-
-  getUserDetails() async {
-    Position position = await _determinePosition();
-    await GetAddressFromLatLong(position);
-    await getAddressPin(pin);
-    try {
-      await FirebaseFirestore.instance
-          .collection("user_details")
-          .doc(number)
-          .update({
-        "address": address,
-        "lat": position.latitude,
-        "long": position.longitude,
-        "location": GeoPoint(
-          position.latitude,
-          position.latitude,
-        ),
-        "pincode": pin,
-        "locality": locality.toLowerCase(),
-      });
-    } catch (e) {
-      FirebaseFirestore.instance.collection("user_details").doc().set({
-        "address": address,
-        "lat": position.latitude,
-        "long": position.longitude,
-        "location": GeoPoint(
-          position.latitude,
-          position.latitude,
-        ),
-        "pincode": pin,
-        "locality": locality.toLowerCase(),
-        "from": "notfull"
-      });
-    }
-
-    getAddressPin(pin);
-    // myLocation();
   }
 
   late LocationPermission permission;
@@ -265,16 +196,9 @@ class _FirstHomeState extends State<FirstHome> {
       await FirebaseFirestore.instance
           .collection("user_details")
           .doc(number)
-// <<<<<<< HEAD
-//           .update({"device_token": devicetoken});
-//     } catch (e) {
-// =======
-          .update({
-        "device_token":devicetoken
-      });
+          .update({"device_token": devicetoken});
       await FirebaseMessaging.instance.subscribeToTopic("push_notifications");
-    }catch(e){
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
+    } catch (e) {
       print(e);
     }
   }
@@ -283,9 +207,9 @@ class _FirstHomeState extends State<FirstHome> {
   void initState() {
     // getStream();
     updateDeviceToken();
-    print(devicetoken);
+    // print(devicetoken);
 
-    print("running two times //////////////////");
+    // print("running two times //////////////////");
     getEverything();
 
     // if (mounted) {
@@ -403,7 +327,6 @@ class _FirstHomeState extends State<FirstHome> {
                       ),
                     ),
                   ),
-// <<<<<<< HEAD
                   actions: [
                     Column(
                       children: [
@@ -434,184 +357,95 @@ class _FirstHomeState extends State<FirstHome> {
                           ],
                         ),
                       ],
-// =======
-//                 ],
-              ),
-            ],
-          ),
-//           body: Snap(
-//             controller: app_bar_controller.appBar,
-//             child: SingleChildScrollView(
-//               physics: ClampingScrollPhysics(),
-//               controller: app_bar_controller,
-//               child: Padding(
-//                 padding: const EdgeInsets.only(left: 5.0, right: 5),
-//                 child: Stack(
-//                   alignment: Alignment.center,
-//                   children: [
-//                     Obx(
-//                     ()=> Column(
-//                         mainAxisAlignment: MainAxisAlignment.center,
-//                         children: [
-//                           SizedBox(
-//                             width: MediaQuery.of(context).size.width,
-//                             child: const Divider(
-//                               height: .3,
-//                               thickness: 1,
-//                             ),
-//                           ),
-//                           const SizedBox(
-//                             height: 12,
-//                           ),
-//
-//                           SizedBox(height: 60,),
-//
-//                           const SizedBox(
-//                             height: 9,
-//                           ),
-//                           // if (searchGymName.isEmpty)
-//
-//                           Column(
-//                             children: [
-//                               if (getPercentage != 100) ProgressCard(),
-//                               const SizedBox(
-//                                 height: 9,
-//                               ),
-//                               InkWell(
-//                                 onTap: () {
-//                                   FocusScope.of(context).unfocus();
-//                                   Get.to(CouponDetails(cartValue: null, type: '',));
-//                                 },
-//                                 child: Banner(bannerApi: bannerApi),
-//                               ),
-//                               const SizedBox(
-//                                 height: 15,
-//                               ),
-//                               Catagory(),
-//                               const SizedBox(
-//                                 height: 7,
-//                               ),
-//
-//                               Align(
-//                                 alignment: Alignment.centerLeft,
-//                                 child: Material(
-//                                   borderRadius: BorderRadius.circular(10),
-//                                   elevation: 0,
-//                                   child: SizedBox(
-//                                     height: 30,
-//                                     width: 130,
-//                                     child: Center(
-//                                       child: Text(
-//                                         "Nearby Gyms",
-//                                         style: GoogleFonts.poppins(
-//                                             fontSize: 16,
-//                                             fontWeight: FontWeight.w600),
-//                                       ),
-//
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                               const SizedBox(
-//                                 height: 7,
-//                               ),
-//                               if (Get.find<Need>().search.value.isEmpty)
-//                               BuildBox()
-//                               // LocationList()
-//                             ],
-//                           )
-//                         ],
-//                       ),
-// // >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
-//                     ),
-//                   ],
-//                 ),
+                    ),
+                  ],
+                ),
                 body: Snap(
                   controller: app_bar_controller.appBar,
                   child: SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
                     controller: app_bar_controller,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width,
-                                child: const Divider(
-                                  height: .3,
-                                  thickness: 1,
+                      padding: const EdgeInsets.only(left: 5.0, right: 5),
+                      child: Obx(
+                        () => Stack(
+                          alignment: Alignment.topCenter,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: const Divider(
+                                    height: .3,
+                                    thickness: 1,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 12,
-                              ),
+                                const SizedBox(
+                                  height: 12,
+                                ),
 
-                              SizedBox(
-                                height: 60,
-                              ),
+                                SizedBox(
+                                  height: 60,
+                                ),
 
-                              const SizedBox(
-                                height: 9,
-                              ),
-                              // if (searchGymName.isEmpty)
-
-                              Column(
-                                children: [
-                                  if (getPercentage != 100) ProgressCard(),
-                                  const SizedBox(
-                                    height: 9,
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      FocusScope.of(context).unfocus();
-                                      Get.to(CouponDetails(
-                                        cartValue: 100,
-                                        type: '',
-                                      ));
-                                    },
-                                    child: Banner(bannerApi: bannerApi),
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Catagory(),
-                                  const SizedBox(
-                                    height: 7,
-                                  ),
-
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Material(
-                                      borderRadius: BorderRadius.circular(10),
-                                      elevation: 0,
-                                      child: SizedBox(
-                                        height: 30,
-                                        width: 130,
-                                        child: Center(
-                                          child: Text(
-                                            "Nearby Gyms",
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600),
+                                const SizedBox(
+                                  height: 9,
+                                ),
+                                // if (searchGymName.isEmpty)
+                                // if (Get.find<Need>().search.value.isEmpty)
+                                Column(
+                                  children: [
+                                    if (getPercentage != 100) ProgressCard(),
+                                    const SizedBox(
+                                      height: 9,
+                                    ),
+                                    Banner(bannerApi: bannerApi),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    // if (Get.find<Need>().search.value.isEmpty)
+                                    Catagory(),
+                                    if (Get.find<Need>().search.value.isEmpty)
+                                      const SizedBox(
+                                        height: 7,
+                                      ),
+                                    if (Get.find<Need>().search.value.isEmpty)
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Material(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          elevation: 0,
+                                          child: SizedBox(
+                                            height: 30,
+                                            width: 130,
+                                            child: Center(
+                                              child: Text(
+                                                "Nearby Gyms",
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 7,
-                                  ),
-                                  BuildBox()
-                                  // LocationList()
-                                ],
-                              )
-                            ],
-                          ),
-                          Positioned(top: 15, child: SearchIt()),
-                        ],
+                                    if (Get.find<Need>().search.value.isEmpty)
+                                      const SizedBox(
+                                        height: 7,
+                                      ),
+                                    // if (Get.find<Need>().search.value.isEmpty)
+                                    BuildBox()
+                                    // LocationList()
+                                  ],
+                                )
+                              ],
+                            ),
+                            Positioned(top: 15, child: SearchIt()),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -689,27 +523,38 @@ class Banner extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: data.size,
             itemBuilder: (context, int index) {
-              return SizedBox(
-                height: 120,
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: CachedNetworkImage(
-                        filterQuality: FilterQuality.medium,
-                        height: 143,
-                        imageUrl: data.docs[index]["image"],
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+              return InkWell(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                  if (data.docs[index]["access"] == true) {
+                    // Get.to(()=>HomePage());
+                    print("hyufufytu");
+                  }
+                },
+                child: SizedBox(
+                  height: 120,
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: 5,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                  ],
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: CachedNetworkImage(
+                          maxHeightDiskCache: 650,
+                          maxWidthDiskCache: 650,
+                          filterQuality: FilterQuality.medium,
+                          height: 143,
+                          imageUrl: data.docs[index]["image"],
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                    ],
+                  ),
                 ),
               );
             },

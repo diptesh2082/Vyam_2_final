@@ -86,6 +86,11 @@ dependencies:
   flutter_share: ^2.0.0
   share_plus: ^4.0.5
   connectivity_checker: ^1.1.0
+#<<<<<<< HEAD
+#=======
+  flutter_cache_manager: ^3.3.0
+
+#>>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
 
 
 
@@ -114,7 +119,7 @@ flutter_icons:
 
 
 flutter_native_splash:
-  color: "#000000"
+#  color: "#000000"
   image: assets/Illustrations/vyam.png
   android: true
   ios: true

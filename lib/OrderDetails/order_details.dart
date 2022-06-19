@@ -85,15 +85,20 @@ class _OrderDetailsState extends State<OrderDetails> {
                       children: [
                         Row(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: CachedNetworkImage(
-                                  fit: BoxFit.cover,
-                                  height: 150,
-                                  width: 145,
-                                  imageUrl: doc["doc"]['gym_details']["image"],
+                            Flexible(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    maxHeightDiskCache: 500,
+                                    maxWidthDiskCache: 500,
+                                    height: 150,
+                                    imageUrl: doc["doc"]['gym_details']
+                                        ["image"],
+                                  ),
                                 ),
                               ),
                             ),
@@ -119,33 +124,31 @@ class _OrderDetailsState extends State<OrderDetails> {
                                       //   color: Colors.yellowAccent,
                                       //   borderRadius: BorderRadius.circular(5)
                                       // ),
-                                      child:Padding(
-                                        padding: const EdgeInsets.only(left: 3,right: 2,),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 3,
+                                          right: 2,
+                                        ),
                                         child: RichText(
                                             text: TextSpan(
                                                 style: GoogleFonts.poppins(
-                                                  // fontFamily: "Poppins",
+                                                    // fontFamily: "Poppins",
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 12,
                                                     color: Colors.grey),
-                                                children:  <TextSpan>[
-                                                  TextSpan(
-                                                      text: 'Booking ID - '
-                                                  ),
-                                                  TextSpan(
-                                                      text: "${doc["doc"]['id']??""}",
-                                                      style:GoogleFonts.poppins(
-                                                        // fontFamily: "Poppins",
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 12,
-                                                          color: Colors.amber
-                                                      )
-                                                  ),
-                                                ]
-
-                                            )),
+                                                children: <TextSpan>[
+                                              TextSpan(text: 'Booking ID - '),
+                                              TextSpan(
+                                                  text:
+                                                      "${doc["doc"]['id'] ?? ""}",
+                                                  style: GoogleFonts.poppins(
+                                                      // fontFamily: "Poppins",
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 12,
+                                                      color: Colors.amber)),
+                                            ])),
                                       ),
-
                                     ),
                                     const SizedBox(
                                       height: 4,
@@ -396,7 +399,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                             Text(
                               "Workout",
                               style: GoogleFonts.poppins(
-                                  fontSize: 16, fontWeight: FontWeight.w700,color: HexColor("27AE60")),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: HexColor("27AE60")),
                             ),
                             const Spacer(),
                             // if (getOderDetails[widget.index]['workout']
@@ -415,30 +420,29 @@ class _OrderDetailsState extends State<OrderDetails> {
                               '${doc["doc"]['package_type']}'.toUpperCase(),
 
                               style: GoogleFonts.poppins(
-                                  fontSize: 16, fontWeight: FontWeight.w700,color:HexColor("27AE60")),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: HexColor("27AE60")),
                             ),
                           ],
                         ),
                         Row(
                           children: [
                             Text(
-
-                        '${doc["doc"]['booking_plan']=="pay per session"?doc["doc"]['booking_plan']:"Package"}',
-
+                              '${doc["doc"]['booking_plan'] == "pay per session" ? doc["doc"]['booking_plan'] : "Package"}',
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                             const Spacer(),
                             Text(
-
                               // getOderDetails[widget.index]['workout']
-                                doc["doc"]['booking_plan']=="pay per session"?'${doc["doc"]['totalDays'].toString()} days':doc["doc"]['booking_plan'],
-
+                              doc["doc"]['booking_plan'] == "pay per session"
+                                  ? '${doc["doc"]['totalDays'].toString()} days'
+                                  : doc["doc"]['booking_plan'],
 
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
-
                           ],
                         ),
                         Row(
@@ -572,7 +576,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                             ),
                           ],
                         ),
-                        Divider(thickness: .5,),
+                        Divider(
+                          thickness: .5,
+                        ),
                         Row(
                           children: [
                             Text(
@@ -580,28 +586,26 @@ class _OrderDetailsState extends State<OrderDetails> {
                               style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
-                                  color: HexColor("27AE60")),
+                                  color: Colors.grey),
                             ),
                             const Spacer(),
-                            if (doc["doc"]['payment_method']=='offline')
-                            Text(
-                              'Cash',
-                              style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: HexColor("27AE60")),
-                            ),
-                            if(doc["doc"]['payment_method']=='online')
-                            Text(
-                            'Online',
-                            style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: HexColor("27AE60")),
-                            ),
-
-
-                       ],
+                            if (doc["doc"]['payment_method'] == 'offline')
+                              Text(
+                                'Cash',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.grey),
+                              ),
+                            if (doc["doc"]['payment_method'] == 'online')
+                              Text(
+                                'Online',
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.grey),
+                              ),
+                          ],
                         ),
                       ],
                     ),
@@ -623,15 +627,15 @@ class _OrderDetailsState extends State<OrderDetails> {
               child: Row(
                 children: [
                   InkWell(
-                    autofocus:false,
+                    autofocus: false,
                     onTap: () async {
-                      Get.off(() => CancelDetails(
-                            bookingId: booking_id,
-                          ),
-                      arguments: {
-                        "doc":Get.arguments["doc"]
-                      }
-                      );
+                      Get.off(
+                          () => CancelDetails(
+                                bookingId: booking_id,
+                                vendor_name: doc["doc"]['gym_details']["name"],
+                                id: doc["doc"]["id"],
+                              ),
+                          arguments: {"doc": Get.arguments["doc"]});
                       vendorData(booking_id);
                     },
                     child: Container(
@@ -652,8 +656,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                   ),
                   const Spacer(),
                   InkWell(
-                    onTap: (){
-                      Get.to(()=>ContactUs());
+                    onTap: () {
+                      Get.to(() => ContactUs());
                     },
                     child: Container(
                       decoration: const BoxDecoration(

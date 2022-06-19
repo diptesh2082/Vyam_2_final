@@ -7,22 +7,32 @@ import 'package:vyam_2_final/global_snackbar.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
 import '../../api/api.dart';
-import '../package_controller.dart';
 
 class YogaList extends StatefulWidget {
   final getDocID;
   final gymLocation;
   final gymName;
-  final iiid;
+  // final iiid;
   final type;
+  final image;
+  final branch;
+  var isLoading;
+  final doc;
+  // final isLoading;
   YogaList({
     Key? key,
     required double width,
     required this.getDocID,
     required this.gymName,
-    required this.gymLocation,required this.iiid,required this.type,
+    required this.gymLocation,
+    required this.type,
+    required this.image,
+    required this.branch,
+    required this.isLoading,
+    required this.doc,
   })  : _width = width,
         super(key: key);
+  // required this.iiid,required this.type,
 
   final double _width;
 
@@ -34,18 +44,94 @@ class _YogaListState extends State<YogaList> {
   BookingDetails bookingDetails = BookingDetails();
 
   GlobalSnacbar globalSnacbar = GlobalSnacbar();
-  final bookings= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
-  final id = FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking").doc().id.toString();
+  final bookings = FirebaseFirestore.instance
+      .collection("bookings")
+      .doc(number)
+      .collection("user_booking");
+  final id = FirebaseFirestore.instance
+      .collection("bookings")
+      .doc(number)
+      .collection("user_booking")
+      .doc()
+      .id
+      .toString();
 
   get dateTime => DateTime.now();
-  CreateBooking(String id)async{
-    final bookings= FirebaseFirestore.instance.collection("bookings").doc(number).collection("user_booking");
-    print(bookings);
-    // booking_id = bookings.doc().id;
-    // String id=bookings.doc().id;
-    bookings.doc(id).set({
-      "booking_id": id
+  int? booking_iiid;
+  getBookingId(id) async {
+    print("//////////" + id);
+    var db = FirebaseFirestore.instance.collection("bookings").doc(id);
+    await FirebaseFirestore.instance
+        .collection("bookings")
+        .where("booking_status".toLowerCase(),
+            whereIn: ["completed", "active", "upcoming", "cancelled"])
+        .get()
+        .then((value) async {
+          if (value.docs.isNotEmpty) {
+            booking_iiid = await value.docs.length;
+          }
+        })
+        .then((value) async {
+          print(booking_iiid);
+          await CreateBooking(id, booking_iiid!);
+        });
+
+    // coupon_list=
+  }
+
+  CreateBooking(String id, int booking_id) async {
+    final bookings = await FirebaseFirestore.instance.collection("bookings");
+    // .doc(number)
+    // .collection("user_booking");
+    // print(bookings);
+
+    await bookings.doc(id).set({
+      "booking_id": id,
+      "booking_status": "incomplete",
+      "order_date": DateTime.now(),
+      // "gym_name": "",
+      "vendorId": widget.getDocID,
+      "userId": number,
+      "user_name": GlobalUserData["name"],
+      "booking_accepted": false,
+      "payment_done": false,
+      "booking_plan": "",
+      "booking_price": 0.toDouble(),
+      "package_type": "",
+      "gym_address": "",
+      "booking_date": DateTime.now(),
+      "plan_end_duration": DateTime.now(),
+      "otp_pass": "",
+      "gym_details": {
+        "image": widget.image,
+        "name": widget.gymName,
+        "branch": widget.branch
+      },
+      "daysLeft": "0",
+      "discount": "0",
+      "grand_total": "",
+      "tax_pay": "",
+      "totalDays": "0",
+      "total_price": "",
+      "id": booking_id,
+      "payment_method": "offline"
+
+      // "gym_details":{
+      //   "name":widget.gymName
+      // },
     });
+    print("////////// $booking_id");
+
+    setState(() {
+      widget.isLoading = false;
+    });
+    print(id);
+    // FirebaseFirestore.instance
+    //     .collection("bookings")
+    //     .doc(id)
+    //     .update({
+    //   // "gym_name": widget.gymName,
+    // });
   }
 
   @override
@@ -73,7 +159,7 @@ class _YogaListState extends State<YogaList> {
                   .collection("package")
                   .doc("normal_package")
                   .collection("gym")
-                  .where("type",isEqualTo: "${widget.type.toString()}")
+                  .where("type", isEqualTo: "${widget.type.toString()}")
                   .orderBy("index")
                   .snapshots(),
               builder: ((context, AsyncSnapshot snapshot) {
@@ -126,7 +212,6 @@ class _YogaListState extends State<YogaList> {
                                             fontWeight: FontWeight.w600),
                                       ),
                                       const Spacer(),
-
                                     ],
                                   ),
                                   // const SizedBox(
@@ -136,68 +221,70 @@ class _YogaListState extends State<YogaList> {
                                     children: [
                                       Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
-
                                           Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              if ( int.parse(data.docs[snapshot]['discount']) > 0 )
-                                              Container(
-                                                margin:
-                                                const EdgeInsets.all(5.0),
-                                                padding: const EdgeInsets.only(
-                                                    top: 2.0,
-                                                    bottom: 2.0,
-                                                    left: 5,
-                                                    right: 5),
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        5),
-                                                    border: Border.all(
-                                                        color: HexColor(
-                                                            "49C000"))),
-                                                child: Text(
-                                                  data.docs[snapshot]
-                                                  ['discount'] +
-                                                      "% off",
-                                                  style: GoogleFonts.poppins(
-                                                      fontWeight:
-                                                      FontWeight.w600,
-                                                      fontSize: 9,
-                                                      color:
-                                                      HexColor("49C000")),
+                                              if (int.parse(data.docs[snapshot]
+                                                      ['discount']) >
+                                                  0)
+                                                Container(
+                                                  margin:
+                                                      const EdgeInsets.all(5.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 2.0,
+                                                          bottom: 2.0,
+                                                          left: 5,
+                                                          right: 5),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      border: Border.all(
+                                                          color: HexColor(
+                                                              "49C000"))),
+                                                  child: Text(
+                                                    data.docs[snapshot]
+                                                            ['discount'] +
+                                                        "% off",
+                                                    style: GoogleFonts.poppins(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 9,
+                                                        color:
+                                                            HexColor("49C000")),
+                                                  ),
                                                 ),
-                                              ),
                                               Row(
                                                 children: [
                                                   Text(
                                                     "Rs "
-                                                        "${int.parse(data.docs[snapshot]['original_price'])}",
+                                                    "${int.parse(data.docs[snapshot]['original_price'])}",
                                                     style: GoogleFonts.poppins(
                                                         decoration:
-                                                        TextDecoration
-                                                            .lineThrough,
+                                                            TextDecoration
+                                                                .lineThrough,
                                                         fontSize: 15,
                                                         color:
-                                                        HexColor("BFB9B9"),
+                                                            HexColor("BFB9B9"),
                                                         fontWeight:
-                                                        FontWeight.w600),
+                                                            FontWeight.w600),
                                                   ),
                                                   const SizedBox(
                                                     width: 2,
                                                   ),
                                                   Text(
                                                     "Rs "
-                                                        "${int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()}",
+                                                    "${int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()}",
                                                     style: GoogleFonts.poppins(
                                                         fontSize: 14,
                                                         color:
-                                                        HexColor("3A3A3A"),
+                                                            HexColor("3A3A3A"),
                                                         fontWeight:
-                                                        FontWeight.w600),
+                                                            FontWeight.w600),
                                                   ),
                                                 ],
                                               ),
@@ -212,36 +299,35 @@ class _YogaListState extends State<YogaList> {
                                           ),
                                         ],
                                       ),
-
                                       const Spacer(),
                                       RaisedButton(
                                         elevation: 0,
-                                        onPressed: () async{
-                                          await CreateBooking(id);
-                                          FirebaseFirestore.instance.collection("bookings")
-                                              .doc(number)
-                                              .collection("user_booking")
-                                              .doc(id)
-                                              .update(
-                                              {
-                                                "order_date": dateTime,
-                                                "gym_name": widget.gymName,
-                                                "vandorId": widget.getDocID
-                                              }
-                                          )
-                                          ;
+                                        onPressed: () async {
+                                          // await CreateBooking(id);
+                                          // FirebaseFirestore.instance.collection("bookings")
+                                          //     .doc(number)
+                                          //     .collection("user_booking")
+                                          //     .doc(id)
+                                          //     .update(
+                                          //     {
+                                          //       "order_date": dateTime,
+                                          //       "gym_name": widget.gymName,
+                                          //       "vandorId": widget.getDocID
+                                          //     }
+                                          // )
+                                          // ;
                                           bookingDetails.bookingDetails(
-                                              context,
-                                              snapshot,
-                                              data.docs,
-                                              "Yoga ",
-                                              widget.gymName,
-                                              widget.gymLocation
-                                              , id,
-                                              widget.getDocID,
-                                            "",widget.iiid
+                                            context,
+                                            snapshot,
+                                            data.docs,
+                                            data.docs[snapshot]['type'],
+                                            widget.gymName,
+                                            widget.gymLocation,
+                                            id,
+                                            widget.getDocID,
+                                            widget.doc,
                                           );
-
+                                          await getBookingId(id);
                                         },
                                         color: HexColor("292F3D"),
                                         shape: RoundedRectangleBorder(

@@ -273,127 +273,6 @@ class _TrainerState extends State<Trainer> {
                                               ],
                                             ),
                                             const Spacer(),
-// <<<<<<< HEAD
-//                                           ],
-//                                         ),
-//                                         const SizedBox(
-//                                           height: 5,
-//                                         ),
-//                                         Row(
-//                                           mainAxisAlignment:
-//                                               MainAxisAlignment.spaceAround,
-//                                           children: [
-//                                             // Text(
-//                                             //   document[index]['review'],
-//                                             //   //textAlign: TextAlign.center,
-//                                             //   style: const TextStyle(
-//                                             //       fontFamily: 'Poppins',
-//                                             //       fontWeight: FontWeight.w700,
-//                                             //       fontSize: 14),
-//                                             // ),
-//                                             // Text(
-//                                             //   document[index]['clients'],
-//                                             //   //textAlign: TextAlign.center,
-//                                             //   style: const TextStyle(
-//                                             //       fontFamily: 'Poppins',
-//                                             //       fontWeight: FontWeight.w700,
-//                                             //       fontSize: 14),
-//                                             // ),
-//                                             Column(
-//                                               mainAxisAlignment:
-//                                                   MainAxisAlignment.spaceEvenly,
-//                                               crossAxisAlignment:
-//                                                   CrossAxisAlignment.center,
-//                                               children: [
-//                                                 Text(
-//                                                   document[index]['experience'],
-//                                                   //textAlign: TextAlign.center,
-//                                                   style: const TextStyle(
-//                                                     fontFamily: 'Poppins',
-//                                                     fontWeight: FontWeight.w700,
-//                                                     fontSize: 14,
-//                                                   ),
-//                                                 ),
-//                                                 Text(
-//                                                   'Experience',
-//                                                   //textAlign: TextAlign.center,
-//                                                   style: TextStyle(
-//                                                       fontFamily: 'Poppins',
-//                                                       fontWeight:
-//                                                           FontWeight.w400,
-//                                                       fontSize: 12,
-//                                                       color: Colors.grey),
-//                                                 ),
-//                                               ],
-//                                             ),
-//
-//                                             Column(
-//                                               mainAxisAlignment:
-//                                                   MainAxisAlignment.spaceEvenly,
-//                                               crossAxisAlignment:
-//                                                   CrossAxisAlignment.center,
-//                                               children: [
-//                                                 Row(
-//                                                   children: [
-//                                                     ClipRRect(
-//                                                       borderRadius:
-//                                                           BorderRadius.circular(
-//                                                               10.0),
-//                                                       child: Container(
-//                                                         height: 25,
-//                                                         width: 30,
-//                                                         decoration:
-//                                                             const BoxDecoration(
-//                                                                 shape: BoxShape
-//                                                                     .circle,
-//                                                                 //color: Colors.amber,
-//                                                                 image: DecorationImage(
-//                                                                     image: AssetImage(
-//                                                                         "assets/icons/insta_icon.png"))),
-//                                                       ),
-//                                                     ),
-//                                                     GestureDetector(
-//                                                         child: Text(
-//                                                           '@${trainernames[index].toLowerCase()}',
-//                                                           //document[index]['social_media'],
-//                                                           style: const TextStyle(
-//                                                               decoration:
-//                                                                   TextDecoration
-//                                                                       .underline,
-//                                                               fontFamily:
-//                                                                   'Poppins',
-//                                                               fontWeight:
-//                                                                   FontWeight
-//                                                                       .w400,
-//                                                               fontSize: 13),
-//                                                         ),
-//                                                         onTap: () async {
-//                                                           var urllaunchable =
-//                                                               await canLaunch(
-//                                                                   url);
-//                                                           if (urllaunchable) {
-//                                                             await launch(url);
-//                                                           } else {
-//                                                             print("Try Again");
-//                                                           }
-//                                                         })
-//                                                   ],
-//                                                 ),
-//                                                 Text(
-//                                                   'Social Handle',
-//                                                   //textAlign: TextAlign.center,
-//                                                   style: TextStyle(
-//                                                       fontFamily: 'Poppins',
-//                                                       fontWeight:
-//                                                           FontWeight.w400,
-//                                                       fontSize: 12,
-//                                                       color: Colors.grey),
-//                                                 ),
-//                                               ],
-//                                             ),
-//                                           ],
-//                                         ),
-// =======
                                           ],
                                         ),
                                         const SizedBox(
@@ -478,15 +357,12 @@ class _TrainerState extends State<Trainer> {
                                             ),
                                           ],
                                         ),
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
                                         SizedBox(
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
                                               0.001,
                                         ),
-// <<<<<<< HEAD
-// =======
                                         // Row(
                                         //   mainAxisAlignment:
                                         //       MainAxisAlignment.spaceAround,
@@ -515,7 +391,6 @@ class _TrainerState extends State<Trainer> {
                                         //     SizedBox()
                                         //   ],
                                         // ),
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
                                         const Divider(
                                           height: 9,
                                           indent: 20,

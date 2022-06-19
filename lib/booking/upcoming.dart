@@ -1,15 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:vyam_2_final/OrderDetails/order_details.dart';
 import 'package:vyam_2_final/api/api.dart';
-import 'package:vyam_2_final/controllers/gym_detail.dart';
-// import 'package:vyambooking/List/list.dart';
-// import 'package:vyambooking/OrderDetails/order_details.dart';
+
 
 class UpcomingEvent extends StatelessWidget {
   UpcomingApi upcomingApi = UpcomingApi();
@@ -63,7 +62,7 @@ class UpcomingEvent extends StatelessWidget {
                     // var end_time= data.docs[index]['plan_end_duration'];
                     var start_time=data.docs[index]['booking_date'];
                     return Padding(
-                      padding: const EdgeInsets.all(6.0),
+                      padding: const EdgeInsets.all(0.0),
                       child: GestureDetector(
                         onTap: () {
                           Get.to(() => const OrderDetails(
@@ -82,6 +81,7 @@ class UpcomingEvent extends StatelessWidget {
                             elevation: 1,
                             color: Colors.transparent,
                             child: Container(
+                              height: 145,
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(8)),
@@ -89,13 +89,13 @@ class UpcomingEvent extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Flexible(
-                                      flex: 1,
+                                      flex: 18,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
-                                            top: 4.0, left: 6, bottom: 4,right: 6),
+                                            top: 3.0, left: 6, bottom: 03,right: 6),
                                         child: Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.center,
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
@@ -179,13 +179,17 @@ class UpcomingEvent extends StatelessWidget {
                                             //         .contains("month"))
                                             Row(
                                               children: [
-                                                Text(
-                                                  "Package : ${data.docs[index]["booking_plan"]??""}",
-                                                  style: GoogleFonts.poppins(
-                                                      color: HexColor("3A3A3A"),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                      FontWeight.w700),
+                                                SizedBox(
+                                                  child: Text(
+                                                    "Package : ${data.docs[index]["booking_plan"]??""}",
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                    style: GoogleFonts.poppins(
+                                                        color: HexColor("3A3A3A"),
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                        FontWeight.w700),
+                                                  ),
                                                 ),
                                                 Text(
                                                   "",
@@ -280,22 +284,26 @@ class UpcomingEvent extends StatelessWidget {
                                         ),
                                       )),
                                   // Spacer(),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 6),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: SizedBox(
-                                        height: 130,
-                                        width: 130,
-                                        child: CachedNetworkImage(
-                                          // "",
-
-                                          fit: BoxFit.cover,
-                                          height: 150,
-                                          imageUrl: data.docs[index]['gym_details']["image"],
-                                          progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                              CircularProgressIndicator(value: downloadProgress.progress,),
-                                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                                  Flexible(
+                                    flex: 15,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 8),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: SizedBox(
+                                          // height: 130,
+                                          // width: 130,
+                                          child: CachedNetworkImage(
+                                            // "",
+                                            maxHeightDiskCache: 450,
+                                            maxWidthDiskCache: 500,
+                                            fit: BoxFit.cover,
+                                            height: 150,
+                                            imageUrl: data.docs[index]['gym_details']["image"],
+                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                CircularProgressIndicator(value: downloadProgress.progress,),
+                                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                                          ),
                                         ),
                                       ),
                                     ),

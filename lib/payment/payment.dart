@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -47,24 +47,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final app_bar_controller = ScrollController();
   final cartValue = Get.arguments["totalPrice"];
   final type = Get.arguments["booking_plan"];
-
-  var coupon_doc;
-  // couponClass d = Get.put(couponClass());
-  var userr = GlobalUserData["userId"];
-
-  addu() async {
-    //Fetch Current User Id ????
-    // Get.put(couponClass());
-    print("Hello World");
-    //Fetch Current Coupon Used Document ID ????
-    coupon_doc = await Get.put(couponClass()).coupon_id;
-    print(coupon_doc.value);
-    await FirebaseFirestore.instance
-        .collection('coupon')
-        .doc(coupon_doc.value)
-        .update({"user_id": FieldValue.arrayUnion(userr)});
-  }
-
   showNotification(String title, String info) async {
     // setState(() {
     //   _counter++;
@@ -146,12 +128,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       totalDiscount = ((price * discount) / 100).round();
       taxPay = ((price * gstTax) / 100).round();
       grandTotal = ((price - totalDiscount) + taxPay);
-// <<<<<<< HEAD
-//       amount = grandTotal.toString() + "00";
-// =======
       amount = grandTotal.toString();
-
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
     });
     await FirebaseFirestore.instance
         .collection("bookings")
@@ -645,7 +622,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                               padding: const EdgeInsets.only(
                                                   right: 0, top: 0),
                                               child: Text(
-                                                getData["endDate"].toString(),
+                                                widget.endDate.toString(),
                                                 style: GoogleFonts.poppins(
                                                     fontSize: 16,
                                                     fontWeight:
@@ -921,15 +898,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                           padding: const EdgeInsets.only(
                                               right: 0, top: 3),
                                           child: Text(
-// <<<<<<< HEAD
-//                                             "₹  ${myCouponController.GlobalCouponApplied.value ? myCouponController.CouponDetailsMap.value.toString() : totalDiscount.toString()}",
-//                                             style: const TextStyle(
-// =======
-                                            widget.endDate.toString(),
-                                            style: GoogleFonts.poppins(
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
+                                            "₹  ${myCouponController.GlobalCouponApplied.value ? myCouponController.CouponDetailsMap.value.toString() : totalDiscount.toString()}",
+                                            style: const TextStyle(
                                                 fontSize: 16,
-                                                // fontFamily: "Poppins",
+                                                fontFamily: "Poppins",
                                                 fontWeight: FontWeight.bold),
                                           ),
                                         ),
@@ -1184,52 +1156,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
           width: 280,
           child: Stack(
             children: [
-// <<<<<<< HEAD
-//               Text(
-//                 "Proceed payment in cash ?",
-//                 style: GoogleFonts.poppins(
-//                     fontSize: 15, fontWeight: FontWeight.bold),
-//               ),
-//               const SizedBox(
-//                 height: 15,
-//               ),
-//               Row(
-//                   crossAxisAlignment: CrossAxisAlignment.center,
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: [
-//                     GestureDetector(
-//                       onTap: () {
-//                         Navigator.pop(context);
-//                       },
-//                       child: Container(
-//                           height: 38,
-//                           width: 90,
-//                           decoration: BoxDecoration(
-//                               color: HexColor("FFECB2"),
-//                               borderRadius: BorderRadius.circular(8)),
-//                           child: Padding(
-//                             padding: const EdgeInsets.only(
-//                                 left: 3, right: 3, top: 2, bottom: 2),
-//                             child: Center(
-//                               child: Text(
-//                                 "Cancel",
-//                                 style: GoogleFonts.poppins(
-//                                     fontSize: 15,
-//                                     fontWeight: FontWeight.w700,
-//                                     color: HexColor("030202")),
-//                               ),
-//                             ),
-//                           )),
-// =======
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Proceed payment in cash ?",
                     style: GoogleFonts.poppins(
-                        fontSize: 15, fontWeight: FontWeight.bold
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
-                        ),
+                        fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
                     height: 15,
@@ -1288,76 +1221,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               isLoading = false;
                             });
 
-// <<<<<<< HEAD
-//                     const SizedBox(width: 15),
-//                     GestureDetector(
-//                       onTap: () async {
-//                         setState(() {
-//                           isLoading = true;
-//                         });
-//                         Navigator.pop(context);
-//                         var x = Random().nextInt(9999);
-//                         if (x < 1000) {
-//                           x = x + 1000;
-//                         }
-//                         FocusScope.of(context).unfocus();
-//                         // await getBookingData(getData["booking_id"]);
-//                         Get.offAll(() => SuccessBook(), arguments: {
-//                           "otp_pass": x,
-//                           "booking_details": booking_id
-//                         });
-//                         setState(() {
-//                           isLoading = false;
-//                         });
-//
-//                         // print(x);
-//                         await FirebaseFirestore.instance
-//                             .collection("bookings")
-//                             .doc(booking_id)
-//                             .update({
-//                           "otp_pass": x.toString(),
-//                           "booking_status": "upcoming",
-//                           "payment_done": false,
-//                         });
-//                         addu();
-// // <<<<<<< HEAD
-//
-//                         await showNotification(
-//                             "Thank You", "Booking Successful");
-// // =======
-//                         // await FirebaseMessaging.instance.sendMessage(
-//                         //   to: "cP2cgBakT-ejsKRphU9Idg:APA91bEfTMeJmTV4EmB3qtGJ7HBlyzeaS2GHIugF1f0ZAigJwvw1GsolLllU-n0g1b5_3W3zqmLfI4EOJI-Yw_H1c-0u4ZQp1VhAHp8dAxiE_LI96SV-l8a-AGdxc46D22XwUtzZCepY",
-//                         // data:  {
-//                         // "score": '850',
-//                         // "time": '2:45'
-//                         // },
-//                         // ).then((value) {
-//                         //   print("its done ");
-//                         // });
-//                         // await showNotification("Thank You","Booking Successful");
-//
-// // >>>>>>> 7384932aa66e035ea148e5d21e568bb5045564cf
-//                       },
-//                       child: Container(
-//                           height: 38,
-//                           width: 90,
-//                           decoration: BoxDecoration(
-//                               color: HexColor("27AE60"),
-//                               borderRadius: BorderRadius.circular(8)),
-//                           child: Padding(
-//                             padding: const EdgeInsets.only(
-//                                 left: 3, right: 3, top: 2, bottom: 2),
-//                             child: Center(
-//                               child: Text(
-//                                 "Proceed",
-//                                 style: GoogleFonts.poppins(
-//                                     fontSize: 15,
-//                                     fontWeight: FontWeight.w700,
-//                                     color: HexColor("030105")),
-//                               ),
-//                             ),
-//                           )),
-// =======
                             // print(x);
                             await FirebaseFirestore.instance
                                 .collection("bookings")
@@ -1411,9 +1274,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       Navigator.pop(context);
                     },
                     child: Icon(
-                      Icons.cancel_outlined, color: Colors.black87,
+                      Icons.cancel_outlined,
+                      color: Colors.black87,
                       size: 20,
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
                     ),
                   )),
             ],
@@ -1545,8 +1408,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
-                              print(
-                                  "${myCouponController.CouponDetailsMap.value.toString()}");
                               onlinePay = true;
                             });
                           },

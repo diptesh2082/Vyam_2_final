@@ -12,7 +12,20 @@ class AboutUs extends StatefulWidget {
 
 class _AboutUsState extends State<AboutUs> {
   String text =
-      'Praesent sed tellus arcu. Donec ante nunc, semper sed eros a, condimentum hendrerit sapien. Vestibulum volutpat orci eu placerat malesuada. Phasellus non faucibus odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. In suscipit neque in enim laoreet tincidunt. Sed auctor neque eget est accumsan';
+      '''VYAM - the all-in-one GYM booking app. The VYAM app allows you to work out anytime, anywhere avoiding membership and admission charges.
+Ever searched for ‘gym near me’ or ‘fitness centers near me'? Then the all-in-one gym booking mobile application is for you. VYAM is the first app in West Bengal which gives you access to find gyms in Asansol and near-abouts. You can locate nearby gyms, book your slot/session whenever you want. With VYAM the free gym app you can discover top-rated gyms at your fingertips and book fitness appointments.
+Why VYAM?
+Compare Fitness Studios/GYMs through prices, pictures, and reviews and get the best deal with amazing gifts and cashbacks. Making fitness available at low costs with a secure and safe environment abiding by the rules implemented by the Indian government with unisex and only girls timing.
+FEATURES:
+VYAM will automatically show nearby gyms and fitness centers.
+Users can avoid paying full-time membership and just PAY-PER-USE.
+Users will be able to book slots at their convenience.
+MISSION:
+  – 1 platform for all fitness freaks and beginners too.
+  – 1 platform for all gyms and fitness studios.
+  – Make fitness affordable and available for every human.
+Any doubts, questions, queries, tension, or concerns, please mail us at support@vyam.co.in
+Or call us at +91 91026 91777''';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -43,17 +56,6 @@ class _AboutUsState extends State<AboutUs> {
                     style: GoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
-                      textStyle: TextStyle(color: Colors.amber),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: Text(
-                    text,
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
                       textStyle: TextStyle(color: Colors.black),
                     ),
                   ),
@@ -66,3 +68,19 @@ class _AboutUsState extends State<AboutUs> {
     );
   }
 }
+
+
+// VYAM - the all-in-one GYM booking app. The VYAM app allows you to work out anytime, anywhere avoiding membership and admission charges.
+// Ever searched for ‘gym near me’ or ‘fitness centers near me'? Then the all-in-one gym booking mobile application is for you. VYAM is the first app in West Bengal which gives you access to find gyms in Asansol and near-abouts. You can locate nearby gyms, book your slot/session whenever you want. With VYAM the free gym app you can discover top-rated gyms at your fingertips and book fitness appointments.
+// Why VYAM?
+// Compare Fitness Studios/GYMs through prices, pictures, and reviews and get the best deal with amazing gifts and cashbacks. Making fitness available at low costs with a secure and safe environment abiding by the rules implemented by the Indian government with unisex and only girls timing.
+// FEATURES:
+// VYAM will automatically show nearby gyms and fitness centers.
+// Users can avoid paying full-time membership and just PAY-PER-USE.
+// Users will be able to book slots at their convenience.
+// MISSION:
+//   – 1 platform for all fitness freaks and beginners too.
+//   – 1 platform for all gyms and fitness studios.
+//   – Make fitness affordable and available for every human.
+// Any doubts, questions, queries, tension, or concerns, please mail us at support@vyam.co.in
+// Or call us at +91 91026 91777

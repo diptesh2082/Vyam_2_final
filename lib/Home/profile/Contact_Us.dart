@@ -35,7 +35,7 @@ class _ContactUsState extends State<ContactUs> {
             children: [
               ListTile(
                 onTap: () async {
-                  var email = "dipteshmandal555@gmail.com";
+                  var email = "support@vyam.co.in";
                   print(email);
                   String emailUrl = "mailto: ${email.toString()}";
                   if (await canLaunch(emailUrl)) {
@@ -50,7 +50,7 @@ class _ContactUsState extends State<ContactUs> {
                   size: 20,
                 ),
                 title: Text(
-                  'luffytaro@gmail.com',
+                  'support@vyam.co.in',
                   style: GoogleFonts.poppins(
                       fontSize: 14, fontWeight: FontWeight.w400),
                 ),
@@ -63,6 +63,16 @@ class _ContactUsState extends State<ContactUs> {
                 ),
               ),
               ListTile(
+                onTap: () async {
+                  final url =
+                      'https://www.instagram.com/accounts/login/?next=/vyam.app/';
+                  if (await canLaunch(url)) {
+                    await launch(
+                      url,
+                      forceSafariVC: false,
+                    );
+                  }
+                },
                 leading: Icon(
                   FontAwesomeIcons.instagram,
                   color: Color(0xff292D32),
@@ -80,28 +90,37 @@ class _ContactUsState extends State<ContactUs> {
                 height: 5,
               ),
               ListTile(
-                  onTap: () async {
-                    var number = "+916291003956";
-                    print(number);
-                    String telephoneUrl = "tel:${number.toString()}";
-                    if (await canLaunch(telephoneUrl)) {
-                      await launch(telephoneUrl);
-                    } else {
-                      throw "Error occured trying to call that number.";
-                    }
-                  },
+                onTap: () async {
+                  var number = "+919102691777";
+                  print(number);
+                  String telephoneUrl = "tel:${number.toString()}";
+                  if (await canLaunch(telephoneUrl)) {
+                    await launch(telephoneUrl);
+                  } else {
+                    throw "Error occured trying to call that number.";
+                  }
+                },
                 leading: Icon(
                   FontAwesomeIcons.phone,
                   color: Color(0xff292D32),
                   size: 20,
                 ),
                 title: Text(
-                  '+916291003956',
+                  '+919102691777',
                   style: GoogleFonts.poppins(
                       fontSize: 14, fontWeight: FontWeight.w400),
                 ),
               ),
               ListTile(
+                onTap: () async {
+                  final url = 'https://www.vyam.co.in/';
+                  if (await canLaunch(url)) {
+                    await launch(
+                      url,
+                      forceSafariVC: false,
+                    );
+                  }
+                },
                 leading: Icon(
                   FontAwesomeIcons.earthAmericas,
                   color: Color(0xff292D32),

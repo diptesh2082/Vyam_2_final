@@ -61,20 +61,30 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.grey[100],
+        appBar: AppBar(
+          leading: InkWell(
+            onTap: () {
+              Get.back();
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: HexColor("3A3A3A"),
+            ),
+          ),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          title: Text(
+            "Choose single/multiple dates",
+            style: GoogleFonts.poppins(
+                color: HexColor("3A3A3A"),
+                fontSize: 16,
+                fontWeight: FontWeight.w600),
+          ),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.only(top: 51),
-                child: Text(
-                  'Select a Date',
-                  style: GoogleFonts.poppins(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 26, 16, 10),
                 child: SizedBox(
@@ -84,7 +94,8 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                     child: SfDateRangePicker(
                       // in
                       minDate: DateTime.now(),
-                      maxDate: DateTime.utc(DateTime.now().year,DateTime.now().month,DateTime.now().day+31),
+                      maxDate: DateTime.utc(DateTime.now().year,
+                          DateTime.now().month, DateTime.now().day + 31),
                       //Daddy Widget aka Calender Widget
                       monthCellStyle: const DateRangePickerMonthCellStyle(
                         // TextStyle of each date
@@ -150,13 +161,21 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                           children: [
                             Column(
                               children: [
-                                Text('STARTS', style: regularStyle),
-                                Text(DateFormat("dd,MMMM").format(startDate),
-                                    style: boldStyle),
-                                Text(DateFormat("E").format(startDate),
+                                Text('STARTS',
                                     style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 12)),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: HexColor("3A3A3A"))),
+                                Text(DateFormat("dd,MMMM").format(startDate),
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                        color: HexColor("3A3A3A"))),
+                                Text(DateFormat("EEEEE").format(startDate),
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: HexColor("3A3A3A"))),
                               ],
                             ),
                             Icon(
@@ -166,13 +185,21 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                             ),
                             Column(
                               children: [
-                                Text('ENDS', style: regularStyle),
-                                Text(DateFormat("dd,MMMM").format(endDate),
-                                    style: boldStyle),
-                                Text(DateFormat("E").format(endDate),
+                                Text('ENDS',
                                     style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 12)),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: HexColor("3A3A3A"))),
+                                Text(DateFormat("dd,MMMM").format(endDate),
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                        color: HexColor("3A3A3A"))),
+                                Text(DateFormat("EEEE").format(endDate),
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: HexColor("3A3A3A"))),
                               ],
                             )
                           ],
@@ -201,41 +228,41 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   borderRadius: BorderRadius.circular(16)),
               onPressed: () async {
                 print(endDate.difference(startDate).inDays);
-
-                Get.to(
-                  () =>  PaymentScreen(endDate: DateFormat("dd, MMM, yyyy").format(endDate),),
-                  duration: const Duration(milliseconds: 500),
-                  arguments: {
-                    "gymName": widget.getGymName,
-                    "totalMonths": widget.months,
-                    "packageType": widget.packageType,
-                    "totalPrice": widget.price *
-                        (1 + endDate.difference(startDate).inDays),
-                    "startDate": DateFormat("MMMM,dd,yyyy").format(startDate),
-                    "endDate": DateFormat("MMMM,dd,yyyy").format(endDate),
-                    "address": widget.getGymAddress,
-                    "vendorId": widget.gymId,
-                    "booking_id": widget.bookingId,
-                    "gym_details": Get.arguments["docs"],
-                    "totalDays": endDate.difference(startDate).inDays+1
-                  },
-                )!.then((value) async {
-                  await FirebaseFirestore.instance
-                      .collection("bookings")
-                      .doc(widget.bookingId)
-                      .update({
-                    "booking_date": startDate,
-                    "plan_end_duration": endDate,
-                    "totalDays": endDate.difference(startDate).inDays
-                  });
+                await FirebaseFirestore.instance
+                    .collection("bookings")
+                    .doc(widget.bookingId)
+                    .update({
+                  "booking_date": startDate,
+                  "plan_end_duration": endDate,
+                  "totalDays": endDate.difference(startDate).inDays
+                }).then((value) {
+                  Get.to(
+                    () => PaymentScreen(
+                      endDate: DateFormat("dd, MMM, yyyy").format(endDate),
+                    ),
+                    duration: const Duration(milliseconds: 500),
+                    arguments: {
+                      "gymName": widget.getGymName,
+                      "totalMonths": widget.months,
+                      "packageType": widget.packageType,
+                      "totalPrice": widget.price *
+                          (1 + endDate.difference(startDate).inDays),
+                      "startDate":
+                          DateFormat("dd, MMMM, yyyy").format(startDate),
+                      "endDate": DateFormat("dd, MMMM, yyyy").format(endDate),
+                      "address": widget.getGymAddress,
+                      "vendorId": widget.gymId,
+                      "booking_id": widget.bookingId,
+                      "gym_details": Get.arguments["docs"],
+                      "totalDays": endDate.difference(startDate).inDays + 1
+                    },
+                  );
                 });
-
               },
               label: Text(
                 "Proceed",
                 style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.bold, color: Colors.white
-                ),
+                    fontWeight: FontWeight.bold, color: Colors.white),
               ),
             )),
       ),

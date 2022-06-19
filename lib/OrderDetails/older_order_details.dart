@@ -451,18 +451,20 @@ class _OlderOderDetailsState extends State<OlderOderDetails> {
                           style: GoogleFonts.poppins(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: HexColor("27AE60")),
+                              color: Colors.grey),
                         ),
                         const Spacer(),
-                        if (getOderDetails[widget.index]['payment_method']=='offline')
+                        if (getOderDetails[widget.index]['payment_method'] ==
+                            'offline')
                           Text(
                             'Cash',
                             style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
-                                color: HexColor("27AE60")),
+                                color: Colors.grey),
                           ),
-                        if(getOderDetails[widget.index]['payment_method']=='online')
+                        if (getOderDetails[widget.index]['payment_method'] ==
+                            'online')
                           Text(
                             'Online',
                             style: GoogleFonts.poppins(
@@ -470,8 +472,6 @@ class _OlderOderDetailsState extends State<OlderOderDetails> {
                                 fontWeight: FontWeight.w700,
                                 color: HexColor("27AE60")),
                           ),
-
-
                       ],
                     ),
                   ],

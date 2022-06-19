@@ -33,15 +33,10 @@ class _CouponDetailsState extends State<CouponDetails> {
   var couponDoc;
 
   CouponApi couponApi = CouponApi();
-// <<<<<<< HEAD
-//   TextEditingController couponController = TextEditingController();
-//   couponClass myCouponController = Get.put(couponClass());
-// =======
-  TextEditingController couponController=TextEditingController();
-  couponClass myCouponController= Get.put(couponClass());
+  TextEditingController couponController = TextEditingController();
+  couponClass myCouponController = Get.put(couponClass());
 
-  getCoupons(){}
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
+  getCoupons() {}
 
   @override
   void initState() {
@@ -149,53 +144,21 @@ class _CouponDetailsState extends State<CouponDetails> {
                                   content: SizedBox(
                                     height: 160,
                                     width: 160,
-// <<<<<<< HEAD
-//                                     child: FittedBox(
-//                                       child: Column(
-//                                           crossAxisAlignment:
-//                                               CrossAxisAlignment.center,
-//                                           mainAxisAlignment:
-//                                               MainAxisAlignment.center,
-//                                           children: [
-//                                             Image.asset(
-//                                               "assets/icons/icons8-approval.gif",
-//                                               height: 70,
-//                                               width: 70,
-//                                             ),
-//                                             const SizedBox(
-//                                               height: 9,
-//                                             ),
-//                                             Text(
-//                                               "$coupon Applied",
-//                                               style: const TextStyle(
-//                                                   fontFamily: "Poppins",
-//                                                   fontSize: 14,
-//                                                   fontWeight: FontWeight.w600),
-//                                             ),
-//                                             const SizedBox(height: 6),
-//                                             Text(
-//                                               "You save ${coupon_list[coupon]}",
-//                                               style: const TextStyle(
-//                                                   fontFamily: "Poppins",
-//                                                   fontSize: 16,
-//                                                   color: Colors.green,
-//                                                   fontWeight: FontWeight.w600),
-//                                             ),
-//                                           ]),
-//                                     ),
-// =======
                                     child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                          IconButton(onPressed: (){
-
-                                          },
+                                          IconButton(
+                                              onPressed: () {},
                                               icon: Icon(
-                                                Icons.cancel,color: Colors.black87,)
-                                          ),
+                                                Icons.cancel,
+                                                color: Colors.black87,
+                                              )),
                                           Text("data"),
-                                          Image.asset("assets/icons/icons8-approval.gif",
+                                          Image.asset(
+                                            "assets/icons/icons8-approval.gif",
                                             height: 70,
                                             width: 70,
                                           ),
@@ -219,7 +182,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                 fontWeight: FontWeight.w600),
                                           ),
                                         ]),
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
                                   ),
                                 ),
                               );
@@ -269,13 +231,9 @@ class _CouponDetailsState extends State<CouponDetails> {
                 ),
               ),
               StreamBuilder(
-// <<<<<<< HEAD
-//                   stream: FirebaseFirestore.instance
-//                       .collection('coupon')
-// =======
-                  stream: FirebaseFirestore.instance.collection('coupon')
-                      // .where("user_id",arrayContains:GlobalUserData["userId"])
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
+                  stream: FirebaseFirestore.instance
+                      .collection('coupon')
+                      .where("validity", arrayContains: true)
                       .snapshots(),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -284,19 +242,20 @@ class _CouponDetailsState extends State<CouponDetails> {
                     if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
                     }
+
                     var documents = snapshot.data.docs;
                     if (widget.type.toString().toLowerCase() ==
                         "pay per session") {
                       documents = documents.where((element) {
                         return element
-                            .get('package_type')
-                            .toString()
-                            .toLowerCase()
-                            .contains(widget.type.toString().toLowerCase())
-                          // && element.
-                          //   get('package_type').contains
+                                .get('package_type')
+                                .toString()
+                                .toLowerCase()
+                                .contains(widget.type.toString().toLowerCase())
+                            // && element.
+                            //   get('package_type').contains
 
-                        ;
+                            ;
                       }).toList();
                     } else {
                       documents = documents.where((element) {
@@ -307,9 +266,8 @@ class _CouponDetailsState extends State<CouponDetails> {
                             .contains("package");
                       }).toList();
                     }
-                    if (widget.type.toString().toLowerCase()=="pay per session"){
-
-                    }
+                    if (widget.type.toString().toLowerCase() ==
+                        "pay per session") {}
                     // documents = documents.where((element){
                     //   return element
                     //       .get('gym_id')
@@ -349,15 +307,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                               shrinkWrap: true,
                               itemCount: documents.length,
                               itemBuilder: (context, index) {
-// <<<<<<< HEAD
-//                                 coupon_list.addAll({
-//                                   documents[index]["code"]
-//                                           .toString()
-//                                           .toLowerCase():
-//                                       documents[index]["discount"]
-//                                 });
-// =======
-
                                 coupon_list.addAll({
                                   documents[index]["code"]
                                           .toString()
@@ -366,7 +315,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                                   "coupon_id":
                                       documents[index]["coupon_id"].toString()
                                 });
-// >>>>>>> 7384932aa66e035ea148e5d21e568bb5045564cf
                                 print(coupon_list);
                                 // if(  documents[index]["gym_id"].toList().)
                                 return SafeArea(
@@ -548,7 +496,8 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                         .width *
                                                     .7,
                                                 child: Text(
-                                                  documents[index]['description']
+                                                  documents[index]
+                                                          ['description']
                                                       .toUpperCase(),
                                                   style: GoogleFonts.poppins(
                                                       color: HexColor("858585"),
@@ -611,20 +560,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                           [
                                                           "minimum_cart_value"])) {
                                                 coupon_applied = true;
-// <<<<<<< HEAD
-//                                                 myCouponController
-//                                                     .GlobalCouponApplied
-//                                                     .value = true;
-//                                                 myCouponController.GlobalCoupon
-//                                                     .value = coupon;
-//                                                 int dex = (widget.cartValue *
-//                                                         (int.parse(documents[
-//                                                                         index]
-//                                                                     ['discount']
-//                                                                 .toString()) /
-//                                                             100))
-//                                                     .toInt();
-// =======
                                                 myCouponController
                                                     .GlobalCouponApplied
                                                     .value = true;
@@ -641,7 +576,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                                 .toString()) /
                                                             100))
                                                     .toInt();
-// >>>>>>> 7384932aa66e035ea148e5d21e568bb5045564cf
                                                 print(dex);
                                                 if (dex >=
                                                     int.parse(documents[index]
@@ -686,69 +620,23 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                                 Radius.circular(
                                                                     16))),
                                                     content: SizedBox(
-                                                      height: 160,
-// <<<<<<< HEAD
-//                                                       width: 160,
-//                                                       child: FittedBox(
-//                                                         child: Column(
-//                                                             crossAxisAlignment:
-//                                                                 CrossAxisAlignment
-//                                                                     .center,
-//                                                             mainAxisAlignment:
-//                                                                 MainAxisAlignment
-//                                                                     .center,
-//                                                             children: [
-//                                                               Image.asset(
-//                                                                 "assets/icons/icons8-approval.gif",
-//                                                                 height: 70,
-//                                                                 width: 70,
-//                                                               ),
-//                                                               const SizedBox(
-//                                                                 height: 9,
-//                                                               ),
-//                                                               Text(
-//                                                                 "$coupon Applied",
-//                                                                 style: const TextStyle(
-//                                                                     fontFamily:
-//                                                                         "Poppins",
-//                                                                     fontSize:
-//                                                                         14,
-//                                                                     fontWeight:
-//                                                                         FontWeight
-//                                                                             .w600),
-//                                                               ),
-//                                                               const SizedBox(
-//                                                                   height: 6),
-//                                                               Text(
-//                                                                 "You save ${coupon_list[coupon]}",
-//                                                                 style: const TextStyle(
-//                                                                     fontFamily:
-//                                                                         "Poppins",
-//                                                                     fontSize:
-//                                                                         16,
-//                                                                     color: Colors
-//                                                                         .green,
-//                                                                     fontWeight:
-//                                                                         FontWeight
-//                                                                             .w600),
-//                                                               ),
-//                                                             ]),
-// =======
-                                                      width: 150,
+                                                      height: 200,
+                                                      width: 100,
                                                       child: Stack(
                                                         children: [
                                                           Center(
                                                             child: Column(
                                                                 crossAxisAlignment:
-                                                                CrossAxisAlignment.center,
+                                                                    CrossAxisAlignment
+                                                                        .center,
                                                                 mainAxisAlignment:
-                                                                MainAxisAlignment.center,
+                                                                    MainAxisAlignment
+                                                                        .center,
                                                                 children: [
-
                                                                   Image.asset(
-                                                                    "assets/icons/icons8-approval.gif",
-                                                                    height: 80,
-                                                                    width: 80,
+                                                                    "assets/images/S.gif",
+                                                                    height: 120,
+                                                                    width: 120,
                                                                   ),
                                                                   const SizedBox(
                                                                     height: 9,
@@ -756,18 +644,27 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                                   Text(
                                                                     "$coupon Applied",
                                                                     style: const TextStyle(
-                                                                        fontFamily: "Poppins",
-                                                                        fontSize: 16,
-                                                                        fontWeight: FontWeight.w600),
+                                                                        fontFamily:
+                                                                            "Poppins",
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight.w600),
                                                                   ),
-                                                                  const SizedBox(height: 6),
+                                                                  const SizedBox(
+                                                                      height:
+                                                                          6),
                                                                   Text(
                                                                     "You save ${coupon_list[coupon]}",
                                                                     style: const TextStyle(
-                                                                        fontFamily: "Poppins",
-                                                                        fontSize: 16,
-                                                                        color: Colors.green,
-                                                                        fontWeight: FontWeight.w600),
+                                                                        fontFamily:
+                                                                            "Poppins",
+                                                                        fontSize:
+                                                                            16,
+                                                                        color: Colors
+                                                                            .green,
+                                                                        fontWeight:
+                                                                            FontWeight.w600),
                                                                   ),
                                                                 ]),
                                                           ),
@@ -775,17 +672,19 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                               top: 0,
                                                               right: 0,
                                                               child: InkWell(
-                                                                onTap: (){
-                                                                  Navigator.pop(context);
+                                                                onTap: () {
+                                                                  Navigator.pop(
+                                                                      context);
                                                                 },
                                                                 child: Icon(
-                                                                  Icons.cancel_outlined,color: Colors.black87,
+                                                                  Icons
+                                                                      .cancel_outlined,
+                                                                  color: Colors
+                                                                      .black87,
                                                                   size: 20,
                                                                 ),
-                                                              )
-                                                          ),
+                                                              )),
                                                         ],
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
                                                       ),
                                                     ),
                                                   ),
@@ -840,67 +739,23 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                                 Radius.circular(
                                                                     16))),
                                                     content: SizedBox(
-                                                      height: 160,
-// <<<<<<< HEAD
-//                                                       width: 160,
-//                                                       child: FittedBox(
-//                                                         child: Column(
-//                                                             crossAxisAlignment:
-//                                                                 CrossAxisAlignment
-//                                                                     .center,
-//                                                             mainAxisAlignment:
-//                                                                 MainAxisAlignment
-//                                                                     .center,
-//                                                             children: [
-//                                                               Image.asset(
-//                                                                 "assets/icons/icons8-approval.gif",
-//                                                                 height: 70,
-//                                                                 width: 70,
-//                                                               ),
-//                                                               const SizedBox(
-//                                                                 height: 9,
-//                                                               ),
-//                                                               Text(
-//                                                                 "$coupon Applied",
-//                                                                 style: const TextStyle(
-//                                                                     fontFamily:
-//                                                                         "Poppins",
-//                                                                     fontSize:
-//                                                                         14,
-//                                                                     fontWeight:
-//                                                                         FontWeight
-//                                                                             .w600),
-//                                                               ),
-//                                                               const SizedBox(
-//                                                                   height: 6),
-//                                                               Text(
-//                                                                 "You save ${coupon_list[coupon]}",
-//                                                                 style: const TextStyle(
-//                                                                     fontFamily:
-//                                                                         "Poppins",
-//                                                                     fontSize:
-//                                                                         16,
-//                                                                     color: Colors
-//                                                                         .green,
-//                                                                     fontWeight:
-//                                                                         FontWeight
-//                                                                             .w600),
-// =======
-                                                      width: 150,
+                                                      height: 200,
+                                                      width: 100,
                                                       child: Stack(
                                                         children: [
                                                           Center(
                                                             child: Column(
                                                                 crossAxisAlignment:
-                                                                CrossAxisAlignment.center,
+                                                                    CrossAxisAlignment
+                                                                        .center,
                                                                 mainAxisAlignment:
-                                                                MainAxisAlignment.center,
+                                                                    MainAxisAlignment
+                                                                        .center,
                                                                 children: [
-
                                                                   Image.asset(
-                                                                    "assets/icons/icons8-approval.gif",
-                                                                    height: 80,
-                                                                    width: 80,
+                                                                    "assets/images/S.gif",
+                                                                    height: 120,
+                                                                    width: 120,
                                                                   ),
                                                                   const SizedBox(
                                                                     height: 9,
@@ -908,35 +763,46 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                                   Text(
                                                                     "$coupon Applied",
                                                                     style: const TextStyle(
-                                                                        fontFamily: "Poppins",
-                                                                        fontSize: 16,
-                                                                        fontWeight: FontWeight.w600),
+                                                                        fontFamily:
+                                                                            "Poppins",
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight.w600),
                                                                   ),
-                                                                  const SizedBox(height: 6),
+                                                                  const SizedBox(
+                                                                      height:
+                                                                          6),
                                                                   Text(
                                                                     "You save ${coupon_list[coupon]}",
                                                                     style: const TextStyle(
-                                                                        fontFamily: "Poppins",
-                                                                        fontSize: 16,
-                                                                        color: Colors.green,
-                                                                        fontWeight: FontWeight.w600),
+                                                                        fontFamily:
+                                                                            "Poppins",
+                                                                        fontSize:
+                                                                            16,
+                                                                        color: Colors
+                                                                            .green,
+                                                                        fontWeight:
+                                                                            FontWeight.w600),
                                                                   ),
                                                                 ]),
                                                           ),
                                                           Positioned(
-                                                            top: 0,
-                                                            right: 0,
-                                                            child: InkWell(
-                                                              onTap: (){
-                                                                Navigator.pop(context);
-                                                              },
-                                                              child: Icon(
-                                                                Icons.cancel_outlined,color: Colors.black87,
-                                                              size: 20,
-// >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
-                                                              ),
-                                                            )
-                                                          ),
+                                                              top: 0,
+                                                              right: 0,
+                                                              child: InkWell(
+                                                                onTap: () {
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                },
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .cancel_outlined,
+                                                                  color: Colors
+                                                                      .black87,
+                                                                  size: 20,
+                                                                ),
+                                                              )),
                                                         ],
                                                       ),
                                                     ),

@@ -1,28 +1,32 @@
-// ignore_for_file: prefer_typing_uninitialized_variables
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/controllers/packages/yoga.dart';
-import 'package:vyam_2_final/controllers/packages/zumba.dart';
+
 import 'package:vyam_2_final/golbal_variables.dart';
 
-import '../package_controller.dart';
 import 'bookingDetails.dart';
 
 class Packeges extends StatefulWidget {
   final gymName;
   final gymLocation;
   final getFinalID;
+  // final display_mage;
+  // final branch;
+  final doc;
+
   const Packeges(
       {Key? key,
       required this.getFinalID,
       required this.gymName,
-      required this.gymLocation})
+      required this.gymLocation,
+      required this.doc})
       : super(key: key);
 
   @override
@@ -43,13 +47,14 @@ class _PackegesState extends State<Packeges> {
   var userData;
   final id =
       FirebaseFirestore.instance.collection("bookings").doc().id.toString();
+
   getBookingId(id) async {
     print("//////////" + id);
     var db = FirebaseFirestore.instance.collection("bookings").doc(id);
     await FirebaseFirestore.instance
         .collection("bookings")
         .where("booking_status".toLowerCase(),
-            whereIn: ["completed", "active", "upcoming","cancelled"])
+            whereIn: ["completed", "active", "upcoming", "cancelled"])
         .get()
         .then((value) async {
           if (value.docs.isNotEmpty) {
@@ -57,12 +62,14 @@ class _PackegesState extends State<Packeges> {
           }
         })
         .then((value) async {
+          print(booking_iiid);
           await CreateBooking(id, booking_iiid);
         });
 
     // coupon_list=
   }
 
+  String? iiid;
   getUserData() async {
     userDetails.doc(number).get().then((DocumentSnapshot doc) {
       userData = doc.data();
@@ -74,10 +81,11 @@ class _PackegesState extends State<Packeges> {
     });
   }
 
+// var dooc= Get.arguments["doc"];
   // bookingController booking = Get.put(bookingController());
-  var booking_iiid = 0;
-  final String image = Get.arguments["doc"]["display_picture"];
-  final String branch = Get.arguments["doc"]["branch"];
+  int booking_iiid = 0;
+  // final String image = Get.arguments["doc"]["display_picture"];
+  // final String branch = Get.arguments["doc"]["branch"];
   // var String booking_id;
   final bookings = FirebaseFirestore.instance.collection("bookings");
 
@@ -104,7 +112,11 @@ class _PackegesState extends State<Packeges> {
       "booking_date": DateTime.now(),
       "plan_end_duration": DateTime.now(),
       "otp_pass": "",
-      "gym_details": {"image": image, "name": widget.gymName, "branch": branch},
+      "gym_details": {
+        "image": widget.doc["display_picture"],
+        "name": widget.gymName,
+        "branch": widget.doc["branch"]
+      },
       "daysLeft": "0",
       "discount": "0",
       "grand_total": "",
@@ -143,6 +155,7 @@ class _PackegesState extends State<Packeges> {
     getBookingId(id);
     print(id);
     setDate();
+    iiid = id;
     setState(() {
       isLoading = false;
     });
@@ -215,6 +228,7 @@ class _PackegesState extends State<Packeges> {
                             .collection("package")
                             .doc("normal_package")
                             .collection("gym")
+                            .where("valid", isEqualTo: true)
                             .where("type", isEqualTo: "gym")
                             .orderBy("index")
                             .snapshots(),
@@ -262,42 +276,38 @@ class _PackegesState extends State<Packeges> {
                                             right: 20,
                                             top: 10,
                                             bottom: 10),
-
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            if (int.parse(
-                                                data.docs[snapshot]
-                                                ['discount']) >
+                                            if (int.parse(data.docs[snapshot]
+                                                    ['discount']) >
                                                 5)
                                               Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment
-                                                    .start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
                                                     children: [
-
                                                       Text(
                                                         "Trending",
                                                         style:
-                                                        GoogleFonts.poppins(
-                                                            fontSize: 12,
-                                                            color: Colors.red,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w800),
+                                                            GoogleFonts.poppins(
+                                                                fontSize: 12,
+                                                                color:
+                                                                    Colors.red,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800),
                                                       ),
                                                       Flexible(
                                                         child: Image.asset(
                                                           "assets/icons/trending.jpeg",
                                                           height: 20,
-
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-
                                                 ],
                                               ),
 
@@ -305,18 +315,14 @@ class _PackegesState extends State<Packeges> {
                                               children: [
                                                 Text(
                                                   data.docs[snapshot]
-                                                  ['title'] ??
+                                                          ['title'] ??
                                                       "".toUpperCase(),
-                                                  style:
-                                                  GoogleFonts.poppins(
+                                                  style: GoogleFonts.poppins(
                                                       fontSize: 15,
-                                                      color: HexColor(
-                                                          "3A3A3A"),
+                                                      color: HexColor("3A3A3A"),
                                                       fontWeight:
-                                                      FontWeight
-                                                          .w700),
+                                                          FontWeight.w700),
                                                 ),
-
                                                 if (int.parse(
                                                         data.docs[snapshot]
                                                             ['price']) <=
@@ -332,7 +338,7 @@ class _PackegesState extends State<Packeges> {
                                                   //       fontWeight:
                                                   //           FontWeight.w600),
                                                   // ),
-                                                const Spacer(),
+                                                  const Spacer(),
                                               ],
                                             ),
                                             // const SizedBox(
@@ -351,19 +357,19 @@ class _PackegesState extends State<Packeges> {
                                                 //           data.docs[snapshot]
                                                 //               ['price']) <
                                                 //       100)
-                                                    // Text(
-                                                    //   data.docs[snapshot]
-                                                    //           ['title']
-                                                    //       .toUpperCase(),
-                                                    //   style:
-                                                    //       GoogleFonts.poppins(
-                                                    //           fontSize: 16,
-                                                    //           color: HexColor(
-                                                    //               "3A3A3A"),
-                                                    //           fontWeight:
-                                                    //               FontWeight
-                                                    //                   .w600),
-                                                    // ),
+                                                // Text(
+                                                //   data.docs[snapshot]
+                                                //           ['title']
+                                                //       .toUpperCase(),
+                                                //   style:
+                                                //       GoogleFonts.poppins(
+                                                //           fontSize: 16,
+                                                //           color: HexColor(
+                                                //               "3A3A3A"),
+                                                //           fontWeight:
+                                                //               FontWeight
+                                                //                   .w600),
+                                                // ),
                                                 // const Spacer(),
                                                 Column(
                                                   crossAxisAlignment:
@@ -495,17 +501,18 @@ class _PackegesState extends State<Packeges> {
 
                                                     bookingDetails
                                                         .bookingDetails(
-                                                            context,
-                                                            snapshot,
-                                                            data.docs,
-                                                            "",
-                                                            widget.gymName,
-                                                            widget.gymLocation,
-                                                            id,
-                                                            widget.getFinalID,
-                                                            Get.arguments[
-                                                                "doc"],
-                                                            booking_iiid);
+                                                      context,
+                                                      snapshot,
+                                                      data.docs,
+                                                      // "",
+                                                      data.docs[snapshot]
+                                                          ['title'],
+                                                      widget.gymName,
+                                                      widget.gymLocation,
+                                                      id,
+                                                      widget.getFinalID,
+                                                      widget.doc,
+                                                    );
                                                     // CreateBooking(id);
                                                     await getBookingId(id);
                                                   },
@@ -548,54 +555,57 @@ class _PackegesState extends State<Packeges> {
                     StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection("category")
-
-                            .where("name", isNotEqualTo:  "gym")
+                            .where("name", isNotEqualTo: "gym")
+                            .where("status", isEqualTo: true)
                             // .orderBy("index")
                             .snapshots(),
-                        builder: (context,AsyncSnapshot snapshot) {
+                        builder: (context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return const Center(
                               child: CircularProgressIndicator(),
                             );
                           }
-                          var doc=snapshot.data.docs;
+                          var doc = snapshot.data.docs;
 
                           return ListView.builder(
                               physics: BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount:doc.length ,
-                            itemBuilder: (BuildContext context, int index) {
-                              // if ()
-                              return Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    YogaList(
-                                      type: doc[index]["name"],
-                                      width: _width,
-                                      getDocID: widget.getFinalID,
-                                      gymName: widget.gymName,
-                                      gymLocation: widget.gymLocation,
-                                      iiid: booking_iiid,
-                                    ),
-                                    const SizedBox(
-                                      height: 0,
-                                    ),
-                                    // ZumbaList(
-                                    //     width: _width,
-                                    //     getDocId: widget.getFinalID,
-                                    //     gymName: widget.gymName,
-                                    //     gymLocation: widget.gymLocation),
-                                    // const SizedBox(
-                                    //   height: 50,
-                                    // ),
-                                  ],
-                                ),
-                              );
-                            }
-                          );
+                              shrinkWrap: true,
+                              itemCount: doc.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                // if ()
+                                return Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      YogaList(
+                                        type: doc[index]["name"],
+                                        width: _width,
+                                        getDocID: widget.getFinalID,
+                                        gymName: widget.gymName,
+                                        gymLocation: widget.gymLocation,
+                                        image: widget.doc["display_picture"],
+                                        branch: widget.doc["branch"],
+                                        isLoading: isLoading,
+                                        doc: widget.doc,
+                                      ),
+                                      const SizedBox(
+                                        height: 0,
+                                      ),
+                                      // ZumbaList(
+                                      //     width: _width,
+                                      //     getDocId: widget.getFinalID,
+                                      //     gymName: widget.gymName,
+                                      //     gymLocation: widget.gymLocation),
+                                      // const SizedBox(
+                                      //   height: 50,
+                                      // ),
+                                    ],
+                                  ),
+                                );
+                              });
                         })
                   ],
                 ),

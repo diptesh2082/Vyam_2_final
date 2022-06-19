@@ -110,13 +110,13 @@ class _GymMaleState extends State<GymMale> {
                       document[index]["location"].longitude);
                   distance = double.parse((distance).toStringAsFixed(1));
                   // print(distance);
-                  if(distance <= 50
-                  // && (document[index]["locality"].toString()
-                  // .toLowerCase()
-                  // .trim() == GlobalUserData["locality"].toString()
-                  // .toLowerCase()
-                  // .trim())
-                  ) {
+                  if (distance <= 20
+                      // && (document[index]["locality"].toString()
+                      // .toLowerCase()
+                      // .trim() == GlobalUserData["locality"].toString()
+                      // .toLowerCase()
+                      // .trim())
+                      ) {
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
@@ -147,6 +147,8 @@ class _GymMaleState extends State<GymMale> {
                                           : Colors.black,
                                       BlendMode.color),
                                   child: CachedNetworkImage(
+                                    maxHeightDiskCache: 650,
+                                    maxWidthDiskCache: 700,
                                     height: 210,
                                     fit: BoxFit.cover,
                                     width: MediaQuery.of(context).size.width,
