@@ -32,14 +32,39 @@ admin.initializeApp();
           console.log(" device found");
          console.log(snapshot1.data().name);
 //         token=snapshot1.data().device_token;
-          const payload = {
-                      notification:{
-                        title:"Booking successful for " + String(snapshot.data().vendor_name),
-                        body: "Share OTP at the center to start.",
-                        clickAction:'FLUTTER_NOTIFICATION_CLICK',
-                     }
-                };
-          return admin.messaging().sendToDevice(snapshot1.data().device_token,payload);
+
+//             var payload;
+            if(snapshot.data().status == "upcoming"){
+              const  payload = {
+                                  notification:{
+                                    title:"Booking successful for " + String(snapshot.data().vendor_name),
+                                    body: "Share OTP at the center to start.",
+                                    clickAction:'FLUTTER_NOTIFICATION_CLICK',
+                                 }
+                            };
+                            return admin.messaging().sendToDevice(snapshot1.data().device_token,payload);
+            }
+            if(snapshot.data().status == "active"){
+                   const  payload = {
+                                       notification:{
+                                         title:"Booking activated " + String(snapshot.data().user_name),
+                                          body: "Stay hydrated.🚰",
+                                          clickAction:'FLUTTER_NOTIFICATION_CLICK',
+                                             }
+                                        };
+                                        return admin.messaging().sendToDevice(snapshot1.data().device_token,payload);
+            }
+               if(snapshot.data().status == "completed"){
+                               const  payload = {
+                                                   notification:{
+                                                     title:"Booking completed " + String(snapshot.data().user_name),
+                                                      body: "Eat well & take some rest 😇",
+                                                      clickAction:'FLUTTER_NOTIFICATION_CLICK',
+                                                         }
+                                                    };
+                                                    return admin.messaging().sendToDevice(snapshot1.data().device_token,payload);
+                        }
+
 
        }
        });
@@ -53,14 +78,28 @@ admin.initializeApp();
 //                 console.log(snapshot2.data().name);
                  tokens=snapshot2.data().token;
 //                 console.log(tokens);
-                  const payload1 = {
-                              notification:{
-                                title: "New booking received!",
-                                body: "Enter OTP to activate ✅",
-                                clickAction:'FLUTTER_NOTIFICATION_CLICK',
-                             }
-                        };
-                  return admin.messaging().sendToDevice(tokens,payload1);
+//  var payload1;
+    if(snapshot.data().status == "upcoming"){
+     const payload1 = {
+                       notification:{
+                        title: "New booking received!",
+                           body: "Enter OTP to activate ✅",
+                     clickAction:'FLUTTER_NOTIFICATION_CLICK',
+                                 }
+                            };
+            return admin.messaging().sendToDevice(tokens,payload1);
+    }
+        if(snapshot.data().status == "cancelled")     {
+         payload1 = {
+                           notification:{
+                            title: "Booking cancelled by user. ❌",
+
+                           clickAction:'FLUTTER_NOTIFICATION_CLICK',
+                                         }
+                                    };
+    return admin.messaging().sendToDevice(tokens,payload1);
+        }
+
 
                }
                });

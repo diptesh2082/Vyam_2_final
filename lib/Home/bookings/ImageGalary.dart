@@ -40,7 +40,7 @@ class _ImageGalleryState extends State<ImageGallery> {
 
   static final customCacheManager=CacheManager(Config(
       "customCacheKey2",
-      maxNrOfCacheObjects: 80
+      maxNrOfCacheObjects: 80,
   ));
 
 

@@ -521,8 +521,8 @@ class Banner extends StatelessWidget {
                 onTap: () {
                   FocusScope.of(context).unfocus();
                   if (data.docs[index]["access"] == true) {
-                    Get.toNamed(data.docs[index]["navigation"],arguments: {
-                      "gymId":data.docs[index]["gym_id"],
+                    Get.toNamed(data.docs[index]["navigation"]??"",arguments: {
+                      "gymId":data.docs[index]["gym_id"]??"",
                     });
                     // print("hyufufytu");
                   }

@@ -228,7 +228,7 @@ class _PackegesState extends State<Packeges> {
                             .doc("normal_package")
                             .collection("gym")
                             .where("valid", isEqualTo: true)
-                            .where("type", isEqualTo: "gym")
+                            .where("type", whereIn: ["gym","Gym","GYM"])
                             .orderBy("index")
                             .snapshots(),
                         builder: ((context, snapshot) {

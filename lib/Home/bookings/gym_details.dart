@@ -504,7 +504,8 @@ final gymID=Get.arguments["gymId"];
                                 // const Text(' '),
                                 const Spacer(),
                                 GestureDetector(
-                                  child: const Text("View more",
+                                  child: const Text(
+                                      "View more",
                                       style: TextStyle(
                                           fontFamily: "Poppins",
                                           decoration: TextDecoration.underline,

@@ -277,7 +277,7 @@ class _CancelDetailsState extends State<CancelDetails> {
                                                 .set({
                                               "title": "booking Activated",
                                               "status":"cancelled",
-                                              "payment_done": false,
+                                              // "payment_done": false,
                                               "user_id":number.toString(),
                                               "user_name":GlobalUserData["name"],
                                               "vendor_id":widget.vendorId,

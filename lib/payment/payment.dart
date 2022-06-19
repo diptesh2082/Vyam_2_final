@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -13,9 +13,9 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:vyam_2_final/Home/bookings/success_book.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
-import 'package:vyam_2_final/Home/views/first_home.dart';
+
 import 'package:vyam_2_final/golbal_variables.dart';
-import 'package:vyam_2_final/payment/custom_api.dart';
+
 
 import '../api/api.dart';
 import '../main.dart';
@@ -32,8 +32,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   var getData = Get.arguments;
   var gymData = Get.arguments["gym_details"];
   var months = Get.arguments["totalMonths"];
-  late PersistentBottomSheetController _controller; // <------ Instance variable
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  // late PersistentBottomSheetController _controller; // <------ Instance variable
+  // final _scaffoldKey = GlobalKey<ScaffoldState>();
   int discount = total_discount;
   int gstTax = 0;
   // ignore: prefer_typing_uninitialized_variables
@@ -271,7 +271,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           .set({
         "title": "booking Activated",
         "status":"upcoming",
-        "payment_done": false,
+        // "payment_done": false,
         "user_id":number.toString(),
         "user_name":GlobalUserData["name"],
         "vendor_id":ven_id,
@@ -1276,7 +1276,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   .set({
                                 "title": "booking Activated",
                                 "status":"upcoming",
-                                "payment_done": false,
+                                // "payment_done": false,
                                 "user_id":number.toString(),
                                 "user_name":GlobalUserData["name"],
                                 "vendor_id":ven_id,
@@ -1340,8 +1340,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   _bottomsheet(BuildContext context) async {
-    var _width = MediaQuery.of(context).size.width;
-    var _height = MediaQuery.of(context).size.height;
+    // var _width = MediaQuery.of(context).size.width;
+    // var _height = MediaQuery.of(context).size.height;
     bool onlinePay = true;
     // _controller = await _scaffoldKey.currentState.showBottomSheet
     return showModalBottomSheet(
