@@ -30,7 +30,8 @@ class Trainer extends StatefulWidget {
   final gym_name;
   final gym_brunch;
 
-  const Trainer({Key? key,required this.gym_name,required this.gym_brunch}) : super(key: key);
+  const Trainer({Key? key, required this.gym_name, required this.gym_brunch})
+      : super(key: key);
   @override
   _TrainerState createState() => _TrainerState();
 }
@@ -141,9 +142,7 @@ class _TrainerState extends State<Trainer> {
                     );
                   }
                   if (snapshot.data.docs.isEmpty) {
-                    return const Center(
-                      child: Text("no doc")
-                    );
+                    return const Center(child: Text("no doc"));
                   }
                   var document = snapshot.data!.docs;
                   return PageView.builder(
@@ -244,9 +243,9 @@ class _TrainerState extends State<Trainer> {
                                         Row(
                                           children: [
                                             Column(
-
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children:  [
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
                                                 Padding(
                                                   padding: EdgeInsets.only(
                                                       left: 3.0, top: 6.0),
@@ -254,7 +253,6 @@ class _TrainerState extends State<Trainer> {
                                                     '${widget.gym_name}',
                                                     textAlign: TextAlign.start,
                                                     style: GoogleFonts.poppins(
-
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         fontSize: 12),
@@ -267,7 +265,6 @@ class _TrainerState extends State<Trainer> {
                                                     'Branch - ${widget.gym_brunch}',
                                                     textAlign: TextAlign.start,
                                                     style: GoogleFonts.poppins(
-
                                                         fontWeight:
                                                             FontWeight.w500,
                                                         fontSize: 12),
@@ -276,7 +273,6 @@ class _TrainerState extends State<Trainer> {
                                               ],
                                             ),
                                             const Spacer(),
-
                                           ],
                                         ),
                                         const SizedBox(
@@ -288,23 +284,22 @@ class _TrainerState extends State<Trainer> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-
                                             Column(
                                               children: [
                                                 Text(
                                                   document[index]['experience'],
                                                   //textAlign: TextAlign.center,
-                                                  style:  GoogleFonts.poppins(
-
-                                                      fontWeight: FontWeight.w700,
+                                                  style: GoogleFonts.poppins(
+                                                      fontWeight:
+                                                          FontWeight.w700,
                                                       fontSize: 14),
                                                 ),
                                                 Text(
                                                   'Experience',
                                                   //textAlign: TextAlign.center,
                                                   style: GoogleFonts.poppins(
-
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 12,
                                                       color: Colors.grey),
                                                 ),
@@ -317,40 +312,40 @@ class _TrainerState extends State<Trainer> {
                                                 children: [
                                                   ClipRRect(
                                                     borderRadius:
-                                                    BorderRadius.circular(
-                                                        10.0),
+                                                        BorderRadius.circular(
+                                                            10.0),
                                                     child: Container(
                                                       height: 30,
                                                       width: 30,
                                                       decoration:
-                                                      const BoxDecoration(
-                                                          shape: BoxShape
-                                                              .circle,
-                                                          //color: Colors.amber,
-                                                          image: DecorationImage(
-                                                              image: AssetImage(
-                                                                  "assets/icons/insta_icon.png"))),
+                                                          const BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              //color: Colors.amber,
+                                                              image: DecorationImage(
+                                                                  image: AssetImage(
+                                                                      "assets/icons/insta_icon.png"))),
                                                     ),
                                                   ),
-                                                  SizedBox(width: 2,),
-
+                                                  SizedBox(
+                                                    width: 2,
+                                                  ),
                                                   GestureDetector(
                                                       child: Text(
                                                         '@${trainernames[index].toLowerCase()}',
                                                         //document[index]['social_media'],
-                                                        style:GoogleFonts.poppins(
+                                                        style: GoogleFonts.poppins(
                                                             decoration:
-                                                            TextDecoration
-                                                                .underline,
-
+                                                                TextDecoration
+                                                                    .underline,
                                                             fontWeight:
-                                                            FontWeight.w500,
+                                                                FontWeight.w500,
                                                             fontSize: 13),
                                                       ),
                                                       onTap: () async {
                                                         var urllaunchable =
-                                                        await canLaunch(
-                                                            url);
+                                                            await canLaunch(
+                                                                url);
                                                         if (urllaunchable) {
                                                           await launch(url);
                                                         } else {
@@ -1065,7 +1060,6 @@ class _TrainerState extends State<Trainer> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-
                             ],
                           ),
                         ],

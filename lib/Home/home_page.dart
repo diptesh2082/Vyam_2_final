@@ -20,7 +20,6 @@ import 'package:vyam_2_final/booking/bookings.dart';
 import 'package:vyam_2_final/exploreuo.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
-
 import '../api/api.dart';
 import '../main.dart';
 import 'icons/home_icon_icons.dart';
@@ -37,14 +36,6 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = false;
   bool net = true;
   // Need controller = Get.put(Need());
-
-
-
-
-
-
-
-
 
   getInternet1() async {
     InternetConnectionChecker().onStatusChange.listen((status) {
@@ -160,7 +151,8 @@ class _HomePageState extends State<HomePage> {
                                   }
                                   Position position =
                                       await Geolocator.getCurrentPosition(
-                                          desiredAccuracy: LocationAccuracy.best);
+                                          desiredAccuracy:
+                                              LocationAccuracy.best);
 
                                   await GetAddressFromLatLong(position);
 
@@ -219,15 +211,15 @@ class _HomePageState extends State<HomePage> {
                       top: 0,
                       right: 0,
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pop(context);
                         },
                         child: Icon(
-                          Icons.cancel_outlined,color: Colors.black87,
+                          Icons.cancel_outlined,
+                          color: Colors.black87,
                           size: 20,
                         ),
-                      )
-                  ),
+                      )),
                 ],
               ),
             ),

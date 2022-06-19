@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Amenites extends StatefulWidget {
-  const Amenites({Key? key,required this.amenites}) : super(key: key);
+  const Amenites({Key? key, required this.amenites}) : super(key: key);
   final amenites;
   @override
   State<Amenites> createState() => _AmenitesState();
 }
 
 class _AmenitesState extends State<Amenites> {
-@override
+  @override
   void initState() {
     // TODO: implement initState
     print(widget.amenites);
@@ -32,15 +32,14 @@ class _AmenitesState extends State<Amenites> {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           }
-          if (snapshot.connectionState ==
-              ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           }
           var document = snapshot.data.docs;
-          var documents=[];
-          document.forEach((event){
-            if(widget.amenites.contains(event["amenity_id"])){
-            documents.add(event);
+          var documents = [];
+          document.forEach((event) {
+            if (widget.amenites.contains(event["amenity_id"])) {
+              documents.add(event);
             }
           });
           // documents = documents.where((element) {
@@ -54,58 +53,57 @@ class _AmenitesState extends State<Amenites> {
           // }).toList();
           return documents.isNotEmpty
               ? ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: ((context, index) {
-                return amenities(documents,index);
-              }),
-              separatorBuilder: (context, _) => SizedBox(
-                // width: 3,
-              ),
-              itemCount: documents.length)
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: ((context, index) {
+                    return amenities(documents, index);
+                  }),
+                  separatorBuilder: (context, _) => SizedBox(
+                      // width: 3,
+                      ),
+                  itemCount: documents.length)
               : SizedBox();
         },
       ),
     );
   }
+
   Widget amenities(List documents, int index) => Column(
-    children: [
-      CircleAvatar(
-        radius: 30,
-        backgroundColor: Colors.amber,
-        // backgroundImage: CachedNetworkImageProvider(
-        //       documents[index]['image'],
-        //   // maxHeight: 30,
-        //   // maxWidth: 30
-        //     ),
-        child: Container(
-          height: 40,
-          width: 40,
-          child: Image(
-            image: CachedNetworkImageProvider(
-              documents[index]['image'],
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundColor: Colors.amber,
+            // backgroundImage: CachedNetworkImageProvider(
+            //       documents[index]['image'],
+            //   // maxHeight: 30,
+            //   // maxWidth: 30
+            //     ),
+            child: Container(
+              height: 40,
+              width: 40,
+              child: Image(
+                image: CachedNetworkImageProvider(
+                  documents[index]['image'],
+                ),
+                // width: 30,
+                // height:30,
+                fit: BoxFit.cover,
+              ),
             ),
-            // width: 30,
-            // height:30,
-            fit: BoxFit.cover,
           ),
-        ),
-      ),
-
-      SizedBox(
-        width: 80,
-        height: 38,
-        child: Text(
-          documents[index]['name'],
-          textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.w400,
-            fontSize: 12,
+          SizedBox(
+            width: 80,
+            height: 38,
+            child: Text(
+              documents[index]['name'],
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
+                fontSize: 12,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.clip,
+            ),
           ),
-          maxLines: 2,
-          overflow: TextOverflow.clip,
-        ),
-
-      ),
-    ],
-  );
+        ],
+      );
 }

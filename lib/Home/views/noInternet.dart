@@ -18,18 +18,14 @@ class NoInternet extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-                "assets/Illustrations/No_connection.png"
-            ),
+            Image.asset("assets/Illustrations/No_connection.png"),
             SizedBox(
               height: 25,
             ),
-            Text("No internet connection",
-            style: GoogleFonts.poppins(
-              fontSize: 20,
-              fontWeight: FontWeight.w500
-            ),
-
+            Text(
+              "No internet connection",
+              style: GoogleFonts.poppins(
+                  fontSize: 20, fontWeight: FontWeight.w500),
             ),
             SizedBox(
               height: 15,
@@ -37,19 +33,17 @@ class NoInternet extends StatelessWidget {
             SizedBox(
               width: 140,
               height: 40,
-              child: Text("Check your connection then, refresh the page.",
+              child: Text(
+                "Check your connection then, refresh the page.",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.poppins(
                     fontSize: 12,
                     color: Colors.grey,
-                    fontWeight: FontWeight.w500
-                ),
+                    fontWeight: FontWeight.w500),
               ),
             ),
             SizedBox(
-
               height: 10,
-
             ),
             // ClipRRect(
             //   borderRadius: BorderRadius.circular(10),
@@ -74,8 +68,7 @@ class NoInternet extends StatelessWidget {
             // ),
 
             SizedBox(
-              height:20 ,
-
+              height: 20,
             ),
 
             ClipRRect(
@@ -83,29 +76,27 @@ class NoInternet extends StatelessWidget {
               child: SizedBox(
                 height: 37,
                 width: 110,
-                child: ElevatedButton(onPressed: ()async {
-                  if (await ConnectivityWrapper.instance.isConnected) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-
-                    );
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => NoInternet()),
-                    );
-                  }
-                },
-                  child: Text("Refresh",
-                  style: GoogleFonts.poppins(
-                      color: Color(0xffffffff)
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (await ConnectivityWrapper.instance.isConnected) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomePage()),
+                      );
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => NoInternet()),
+                      );
+                    }
+                  },
+                  child: Text(
+                    "Refresh",
+                    style: GoogleFonts.poppins(color: Color(0xffffffff)),
                   ),
-                )
-                  ,style: ElevatedButton.styleFrom(
+                  style: ElevatedButton.styleFrom(
                     primary: Color(0xff292F3D),
                   ),
-
                 ),
               ),
             )

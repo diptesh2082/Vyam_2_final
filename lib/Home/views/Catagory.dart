@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'gyms.dart';
+
 class Catagory extends StatelessWidget {
   const Catagory({
     Key? key,
@@ -17,19 +18,15 @@ class Catagory extends StatelessWidget {
       child: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('category')
-        .where("status",isEqualTo: true)
-        .orderBy("position")
+            .where("status", isEqualTo: true)
+            .orderBy("position")
             .snapshots(),
-        builder: (BuildContext context,
-            AsyncSnapshot snapshot) {
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
-            return Center(
-                child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           }
-          if (snapshot.connectionState ==
-              ConnectionState.waiting) {
-            return Center(
-                child: CircularProgressIndicator());
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
           }
           var categoryDocs = snapshot.data.docs;
           return ListView.separated(
@@ -39,19 +36,15 @@ class Catagory extends StatelessWidget {
             itemBuilder: (context, int index) {
               return GestureDetector(
                 child: Stack(
-                  alignment:
-                  AlignmentDirectional.center,
+                  alignment: AlignmentDirectional.center,
                   children: [
                     ClipRRect(
-                      borderRadius:
-                      BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(15),
                       child: CachedNetworkImage(
                         maxHeightDiskCache: 400,
                         filterQuality: FilterQuality.medium,
                         maxWidthDiskCache: 500,
-
-                        imageUrl: categoryDocs[index]
-                        ['image'],
+                        imageUrl: categoryDocs[index]['image'],
                         height: 150,
                         width: 124,
                         fit: BoxFit.cover,
@@ -59,23 +52,15 @@ class Catagory extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          borderRadius:
-                          BorderRadius.circular(15),
-                          gradient:
-                          const LinearGradient(
-                              colors: [
-                                Color(0xaf000000),
-                                Colors.transparent
-                              ],
-                              begin:
-                              Alignment(0.0, 1),
-                              end: Alignment(
-                                  0.0, -.6))),
+                          borderRadius: BorderRadius.circular(15),
+                          gradient: const LinearGradient(
+                              colors: [Color(0xaf000000), Colors.transparent],
+                              begin: Alignment(0.0, 1),
+                              end: Alignment(0.0, -.6))),
                       alignment: Alignment.bottomRight,
                       height: 150,
                       width: 124,
-                      padding: const EdgeInsets.only(
-                          right: 8, bottom: 10),
+                      padding: const EdgeInsets.only(right: 8, bottom: 10),
                     ),
                     Text(
                       categoryDocs[index]['name'] ?? "",
@@ -88,8 +73,8 @@ class Catagory extends StatelessWidget {
                     ),
                   ],
                 ),
-                onTap: () async{
-                  String type =  categoryDocs[index]['name'];
+                onTap: () async {
+                  String type = categoryDocs[index]['name'];
                   print(type);
                   await Get.to(() => GymOption(), arguments: {
                     "type": type.toLowerCase(),
@@ -98,8 +83,7 @@ class Catagory extends StatelessWidget {
                 },
               );
             },
-            separatorBuilder:
-                (BuildContext context, int index) {
+            separatorBuilder: (BuildContext context, int index) {
               return const SizedBox(
                 width: 10,
               );

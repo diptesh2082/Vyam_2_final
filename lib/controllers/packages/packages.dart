@@ -12,7 +12,6 @@ import 'package:vyam_2_final/controllers/packages/yoga.dart';
 
 import 'package:vyam_2_final/golbal_variables.dart';
 
-
 import 'bookingDetails.dart';
 
 class Packeges extends StatefulWidget {
@@ -27,7 +26,8 @@ class Packeges extends StatefulWidget {
       {Key? key,
       required this.getFinalID,
       required this.gymName,
-      required this.gymLocation,required this.doc})
+      required this.gymLocation,
+      required this.doc})
       : super(key: key);
 
   @override
@@ -55,7 +55,7 @@ class _PackegesState extends State<Packeges> {
     await FirebaseFirestore.instance
         .collection("bookings")
         .where("booking_status".toLowerCase(),
-            whereIn: ["completed", "active", "upcoming","cancelled"])
+            whereIn: ["completed", "active", "upcoming", "cancelled"])
         .get()
         .then((value) async {
           if (value.docs.isNotEmpty) {
@@ -69,17 +69,17 @@ class _PackegesState extends State<Packeges> {
 
     // coupon_list=
   }
-String? iiid;
+
+  String? iiid;
   getUserData() async {
     userDetails.doc(number).get().then((DocumentSnapshot doc) {
       userData = doc.data();
-      setState(() {
-        isLoading = false;
-      });
+
 
       // print(userData);
     });
   }
+
 // var dooc= Get.arguments["doc"];
   // bookingController booking = Get.put(bookingController());
   int booking_iiid = 0;
@@ -111,7 +111,11 @@ String? iiid;
       "booking_date": DateTime.now(),
       "plan_end_duration": DateTime.now(),
       "otp_pass": "",
-      "gym_details": {"image": widget.doc["display_picture"], "name": widget.gymName, "branch": widget.doc["branch"]},
+      "gym_details": {
+        "image": widget.doc["display_picture"],
+        "name": widget.gymName,
+        "branch": widget.doc["branch"]
+      },
       "daysLeft": "0",
       "discount": "0",
       "grand_total": "",
@@ -126,9 +130,9 @@ String? iiid;
       // },
     });
 
-    setState(() {
-      isLoading = false;
-    });
+    // setState(() {
+    //   isLoading = false;
+    // });
     print(id);
     // FirebaseFirestore.instance
     //     .collection("bookings")
@@ -150,7 +154,7 @@ String? iiid;
     getBookingId(id);
     print(id);
     setDate();
-    iiid=id;
+    iiid = id;
     setState(() {
       isLoading = false;
     });
@@ -223,15 +227,15 @@ String? iiid;
                             .collection("package")
                             .doc("normal_package")
                             .collection("gym")
-                            .where("valid",isEqualTo:true)
+                            .where("valid", isEqualTo: true)
                             .where("type", isEqualTo: "gym")
                             .orderBy("index")
                             .snapshots(),
                         builder: ((context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
+                            return  Center(
+                              child: Container(),
                             );
                           }
                           if (snapshot.hasData) {
@@ -272,42 +276,38 @@ String? iiid;
                                             right: 20,
                                             top: 10,
                                             bottom: 10),
-
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            if (int.parse(
-                                                data.docs[snapshot]
-                                                ['discount']) >
+                                            if (int.parse(data.docs[snapshot]
+                                                    ['discount']) >
                                                 5)
                                               Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment
-                                                    .start,
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
                                                     children: [
-
                                                       Text(
                                                         "Trending",
                                                         style:
-                                                        GoogleFonts.poppins(
-                                                            fontSize: 12,
-                                                            color: Colors.red,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w800),
+                                                            GoogleFonts.poppins(
+                                                                fontSize: 12,
+                                                                color:
+                                                                    Colors.red,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800),
                                                       ),
                                                       Flexible(
                                                         child: Image.asset(
                                                           "assets/icons/trending.jpeg",
                                                           height: 20,
-
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-
                                                 ],
                                               ),
 
@@ -315,18 +315,14 @@ String? iiid;
                                               children: [
                                                 Text(
                                                   data.docs[snapshot]
-                                                  ['title'] ??
+                                                          ['title'] ??
                                                       "".toUpperCase(),
-                                                  style:
-                                                  GoogleFonts.poppins(
+                                                  style: GoogleFonts.poppins(
                                                       fontSize: 15,
-                                                      color: HexColor(
-                                                          "3A3A3A"),
+                                                      color: HexColor("3A3A3A"),
                                                       fontWeight:
-                                                      FontWeight
-                                                          .w700),
+                                                          FontWeight.w700),
                                                 ),
-
                                                 if (int.parse(
                                                         data.docs[snapshot]
                                                             ['price']) <=
@@ -342,7 +338,7 @@ String? iiid;
                                                   //       fontWeight:
                                                   //           FontWeight.w600),
                                                   // ),
-                                                const Spacer(),
+                                                  const Spacer(),
                                               ],
                                             ),
                                             // const SizedBox(
@@ -361,19 +357,19 @@ String? iiid;
                                                 //           data.docs[snapshot]
                                                 //               ['price']) <
                                                 //       100)
-                                                    // Text(
-                                                    //   data.docs[snapshot]
-                                                    //           ['title']
-                                                    //       .toUpperCase(),
-                                                    //   style:
-                                                    //       GoogleFonts.poppins(
-                                                    //           fontSize: 16,
-                                                    //           color: HexColor(
-                                                    //               "3A3A3A"),
-                                                    //           fontWeight:
-                                                    //               FontWeight
-                                                    //                   .w600),
-                                                    // ),
+                                                // Text(
+                                                //   data.docs[snapshot]
+                                                //           ['title']
+                                                //       .toUpperCase(),
+                                                //   style:
+                                                //       GoogleFonts.poppins(
+                                                //           fontSize: 16,
+                                                //           color: HexColor(
+                                                //               "3A3A3A"),
+                                                //           fontWeight:
+                                                //               FontWeight
+                                                //                   .w600),
+                                                // ),
                                                 // const Spacer(),
                                                 Column(
                                                   crossAxisAlignment:
@@ -505,17 +501,17 @@ String? iiid;
 
                                                     bookingDetails
                                                         .bookingDetails(
-                                                            context,
-                                                            snapshot,
-                                                            data.docs,
-                                                        // "",
-                                                        data.docs[snapshot]['title'],
-                                                            widget.gymName,
-                                                            widget.gymLocation,
-                                                            id,
-                                                            widget.getFinalID,
-                                                            widget.doc,
-
+                                                      context,
+                                                      snapshot,
+                                                      data.docs,
+                                                      // "",
+                                                      data.docs[snapshot]
+                                                          ['title'],
+                                                      widget.gymName,
+                                                      widget.gymLocation,
+                                                      id,
+                                                      widget.getFinalID,
+                                                      widget.doc,
                                                     );
                                                     // CreateBooking(id);
                                                     await getBookingId(id);
@@ -559,58 +555,66 @@ String? iiid;
                     StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection("category")
-                            .where("name", isNotEqualTo:  "gym")
-                        .where("status",isEqualTo: true)
+                            .where("name", whereNotIn: ["gym","Gym","GYM"])
+                            .where("status", isEqualTo: true)
                             // .orderBy("index")
                             .snapshots(),
-                        builder: (context,AsyncSnapshot snapshot) {
+                        builder: (context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
+                            return  Center(
+                              child: Container(),
                             );
                           }
-                          var doc=snapshot.data.docs;
+                          var docs = snapshot.data.docs;
+                          var doc=[];
+                          docs.forEach((e){
+                            if ( widget.doc["service"].contains(e.get("name") ) ){
+                              doc.add(e);
+                            }
+
+                            // return widget.doc["service"].isCaseInsensitiveContains(e.get("name")
+                            //      .toString());
+                          });
 
                           return ListView.builder(
                               physics: BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount:doc.length ,
-                            itemBuilder: (BuildContext context, int index) {
-                              // if ()
-                              return Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    YogaList(
-                                      type: doc[index]["name"],
-                                      width: _width,
-                                      getDocID: widget.getFinalID,
-                                      gymName: widget.gymName,
-                                      gymLocation: widget.gymLocation,
-                                      image: widget.doc["display_picture"],
-                                      branch: widget.doc["branch"],
-                                      isLoading: isLoading,
-                                      doc: widget.doc,
-
-                                    ),
-                                    const SizedBox(
-                                      height: 0,
-                                    ),
-                                    // ZumbaList(
-                                    //     width: _width,
-                                    //     getDocId: widget.getFinalID,
-                                    //     gymName: widget.gymName,
-                                    //     gymLocation: widget.gymLocation),
-                                    // const SizedBox(
-                                    //   height: 50,
-                                    // ),
-                                  ],
-                                ),
-                              );
-                            }
-                          );
+                              shrinkWrap: true,
+                              itemCount: doc.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                // if ()
+                                return Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      YogaList(
+                                        type: doc[index]["name"],
+                                        width: _width,
+                                        getDocID: widget.getFinalID,
+                                        gymName: widget.gymName,
+                                        gymLocation: widget.gymLocation,
+                                        image: widget.doc["display_picture"],
+                                        branch: widget.doc["branch"],
+                                        isLoading: isLoading,
+                                        doc: widget.doc,
+                                      ),
+                                      const SizedBox(
+                                        height: 0,
+                                      ),
+                                      // ZumbaList(
+                                      //     width: _width,
+                                      //     getDocId: widget.getFinalID,
+                                      //     gymName: widget.gymName,
+                                      //     gymLocation: widget.gymLocation),
+                                      // const SizedBox(
+                                      //   height: 50,
+                                      // ),
+                                    ],
+                                  ),
+                                );
+                              });
                         })
                   ],
                 ),

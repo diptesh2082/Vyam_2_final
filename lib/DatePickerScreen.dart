@@ -61,7 +61,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: Colors.grey[100],
-        appBar:AppBar(
+        appBar: AppBar(
           leading: InkWell(
             onTap: () {
               Get.back();
@@ -85,7 +85,6 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 26, 16, 10),
                 child: SizedBox(
@@ -95,7 +94,8 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                     child: SfDateRangePicker(
                       // in
                       minDate: DateTime.now(),
-                      maxDate: DateTime.utc(DateTime.now().year,DateTime.now().month,DateTime.now().day+31),
+                      maxDate: DateTime.utc(DateTime.now().year,
+                          DateTime.now().month, DateTime.now().day + 31),
                       //Daddy Widget aka Calender Widget
                       monthCellStyle: const DateRangePickerMonthCellStyle(
                         // TextStyle of each date
@@ -161,10 +161,11 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                           children: [
                             Column(
                               children: [
-                                Text('STARTS', style: GoogleFonts.poppins(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: HexColor("3A3A3A"))),
+                                Text('STARTS',
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: HexColor("3A3A3A"))),
                                 Text(DateFormat("dd,MMMM").format(startDate),
                                     style: GoogleFonts.poppins(
                                         fontSize: 14,
@@ -172,9 +173,9 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                                         color: HexColor("3A3A3A"))),
                                 Text(DateFormat("EEEEE").format(startDate),
                                     style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: HexColor("3A3A3A"))),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: HexColor("3A3A3A"))),
                               ],
                             ),
                             Icon(
@@ -184,10 +185,11 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                             ),
                             Column(
                               children: [
-                                Text('ENDS',  style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: HexColor("3A3A3A"))),
+                                Text('ENDS',
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: HexColor("3A3A3A"))),
                                 Text(DateFormat("dd,MMMM").format(endDate),
                                     style: GoogleFonts.poppins(
                                         fontSize: 14,
@@ -233,9 +235,11 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   "booking_date": startDate,
                   "plan_end_duration": endDate,
                   "totalDays": endDate.difference(startDate).inDays
-                }).then((value){
+                }).then((value) {
                   Get.to(
-                        () =>  PaymentScreen(endDate: DateFormat("dd, MMM, yyyy").format(endDate),),
+                    () => PaymentScreen(
+                      endDate: DateFormat("dd, MMM, yyyy").format(endDate),
+                    ),
                     duration: const Duration(milliseconds: 500),
                     arguments: {
                       "gymName": widget.getGymName,
@@ -243,24 +247,22 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                       "packageType": widget.packageType,
                       "totalPrice": widget.price *
                           (1 + endDate.difference(startDate).inDays),
-                      "startDate": DateFormat("dd, MMMM, yyyy").format(startDate),
+                      "startDate":
+                          DateFormat("dd, MMMM, yyyy").format(startDate),
                       "endDate": DateFormat("dd, MMMM, yyyy").format(endDate),
                       "address": widget.getGymAddress,
                       "vendorId": widget.gymId,
                       "booking_id": widget.bookingId,
                       "gym_details": Get.arguments["docs"],
-                      "totalDays": endDate.difference(startDate).inDays+1
+                      "totalDays": endDate.difference(startDate).inDays + 1
                     },
                   );
                 });
-
-
               },
               label: Text(
                 "Proceed",
                 style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.bold, color: Colors.white
-                ),
+                    fontWeight: FontWeight.bold, color: Colors.white),
               ),
             )),
       ),
