@@ -67,29 +67,47 @@ class _OtpPageState extends State<OtpPage> {
       });
       if (authCred.user != null) {
 // <<<<<<< HEAD
-        // await  getToHomePage(_auth.currentUser?.phoneNumber);
+// // <<<<<<< HEAD
+//         // await  getToHomePage(_auth.currentUser?.phoneNumber);
+// // =======
+//         await getToHomePage(_auth.currentUser?.phoneNumber);
+// // >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
+//         await setNumber(_auth.currentUser!.phoneNumber);
+//         await checkExist("${_auth.currentUser?.phoneNumber}")
+//             .then((value) async {
+//           await setUserId(_auth.currentUser?.phoneNumber);
+//           print(visiting_flag);
+//           if (visiting_flag == true) {
+// // <<<<<<< HEAD
+// //             Navigator.pushReplacement(
+// //                 (context), MaterialPageRoute(builder: (context) => HomePage()));
+// // =======
+//             Get.offAll(HomePage());
+//             // Navigator.pushReplacement(
+//             //     (context), MaterialPageRoute(builder: (context) => HomePage()));
+// // >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
+//             // Get.offAll(()=>HomePage());
+//           } else if (visiting_flag == false) {
+//             userPhoto = "null";
+//             Navigator.pushReplacement((context),
+//                 MaterialPageRoute(builder: (context) => Register1()));
 // =======
         await getToHomePage(_auth.currentUser?.phoneNumber);
-// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
         await setNumber(_auth.currentUser!.phoneNumber);
         await checkExist("${_auth.currentUser?.phoneNumber}")
             .then((value) async {
           await setUserId(_auth.currentUser?.phoneNumber);
           print(visiting_flag);
           if (visiting_flag == true) {
-// <<<<<<< HEAD
-//             Navigator.pushReplacement(
-//                 (context), MaterialPageRoute(builder: (context) => HomePage()));
-// =======
             Get.offAll(HomePage());
             // Navigator.pushReplacement(
             //     (context), MaterialPageRoute(builder: (context) => HomePage()));
-// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
             // Get.offAll(()=>HomePage());
           } else if (visiting_flag == false) {
             userPhoto = "null";
             Navigator.pushReplacement((context),
                 MaterialPageRoute(builder: (context) => Register1()));
+// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
           }
         });
 

@@ -560,13 +560,19 @@ class GymAllApi {
       .collection("product_details")
 // <<<<<<< HEAD
 // <<<<<<< HEAD
+// <<<<<<< HEAD
 //       .where("locality", isEqualTo: GlobalUserData["locality"])
 //       .where("legit", isEqualTo: true)
 // =======
       // .where("locality",
       // isEqualTo: GlobalUserData["locality"])
-      .where("legit", isEqualTo: true)
+      // .where("legit", isEqualTo: true)
 // >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
+// =======
+      // .where("locality",
+      // isEqualTo: GlobalUserData["locality"])
+      // .where("legit", isEqualTo: true)
+// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
 // =======
       // .where("locality",
       // isEqualTo: GlobalUserData["locality"])
@@ -579,6 +585,7 @@ class GymAllApi {
       .collection("product_details")
 // <<<<<<< HEAD
 // <<<<<<< HEAD
+// <<<<<<< HEAD
 //       .where("locality", isEqualTo: GlobalUserData["locality"])
 //       .where("legit", isEqualTo: true)
 // =======
@@ -589,6 +596,11 @@ class GymAllApi {
 // =======
       // .where("locality",
       // isEqualTo: GlobalUserData["locality"])
+      // .where("legit", isEqualTo: true)
+// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
+// =======
+      // .where("locality",
+      // isEqualTo: GlobalUserData["locality"])
       .where("legit", isEqualTo: true)
 // >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
       .where("gender", isEqualTo: "male")
@@ -596,6 +608,7 @@ class GymAllApi {
       .snapshots();
   Stream<QuerySnapshot> getFemaleGym = FirebaseFirestore.instance
       .collection("product_details")
+// <<<<<<< HEAD
 // <<<<<<< HEAD
 // <<<<<<< HEAD
 //       .where("locality", isEqualTo: GlobalUserData["locality"])
@@ -610,6 +623,12 @@ class GymAllApi {
 // =======
       // .where("locality",
       // isEqualTo: GlobalUserData["locality"])
+      // .where("gender", whereIn: ["female", "unisex"])
+      // .where("legit", isEqualTo: true)
+// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
+// =======
+      // .where("locality",
+      // isEqualTo: GlobalUserData["locality"])
       .where("gender", whereIn: ["female", "unisex"])
       .where("legit", isEqualTo: true)
 // >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
@@ -619,11 +638,16 @@ class GymAllApi {
       .collection("product_details")
 // <<<<<<< HEAD
 // <<<<<<< HEAD
+// <<<<<<< HEAD
 //       .where("locality", isEqualTo: GlobalUserData["locality"])
 // =======
       // .where("locality",
       // isEqualTo: GlobalUserData["locality"])
 // >>>>>>> d6a26a4410b241bd7df973876b9499147d8fb79c
+// =======
+      // .where("locality",
+      // isEqualTo: GlobalUserData["locality"])
+// >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
 // =======
       // .where("locality",
       // isEqualTo: GlobalUserData["locality"])

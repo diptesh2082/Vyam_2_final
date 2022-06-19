@@ -71,7 +71,7 @@ class _ExploreiaState extends State<Exploreia> {
     var pos = await location.getLocation();
 
     GeoFirePoint point =
-    geo.point(latitude: pos.latitude!, longitude: pos.longitude!);
+        geo.point(latitude: pos.latitude!, longitude: pos.longitude!);
     final CollectionReference users = firestore.collection("product_details");
 
     double radius = 10;
@@ -91,7 +91,7 @@ class _ExploreiaState extends State<Exploreia> {
       icon: BitmapDescriptor.defaultMarker,
       markerId: markerId,
       position:
-      LatLng(specify['location'].latitude, specify['location'].longitude),
+          LatLng(specify['location'].latitude, specify['location'].longitude),
       infoWindow: InfoWindow(title: 'Gym', snippet: specify['name']),
     );
     setState(() {
@@ -314,7 +314,7 @@ class _ExploreiaState extends State<Exploreia> {
                           GestureDetector(
                             onTap: () async {
                               Position position =
-                              await Geolocator.getCurrentPosition();
+                                  await Geolocator.getCurrentPosition();
                               await GetAddressFromLatLong(position);
                               await FirebaseFirestore.instance
                                   .collection("user_details")
@@ -448,64 +448,69 @@ class _ExploreiaState extends State<Exploreia> {
 
     return isLoading
         ? Center(
-      child: CircularProgressIndicator(),
-    )
+            child: CircularProgressIndicator(),
+          )
         : VisibilityDetector(
-      key: Key(index.toString()),
-      onVisibilityChanged: (VisibilityInfo info) async {
-        print(info.visibleFraction);
-        if (info.visibleFraction == 1) _currentItem = index.toInt();
-        // listKey=index.toInt();
-        print(_currentItem);
-        splashLocation(document[_currentItem]["location"].latitude,
-            document[_currentItem]["location"].longitude);
-      },
-      child: FittedBox(
-        child: GestureDetector(
-          onTap: () {
-            Get.to(() => GymDetails(gymID: document[index].id,), arguments: {
-              "id": document[index].id,
-              "location": document[index]["location"],
-              "name": document[index]["name"],
-              "docs": document[index],
-            });
-            sslKey.currentState!.focusToItem(index);
-            // _gotoLocation(location.latitude, location.longitude);
-          },
-          child: Card(
-            // key: sslKey,
-            color: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            elevation: 8,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // SizedBox(width: 15,),
-                if( calculateDistance(
-                    GlobalUserData["location"].latitude,
-                    GlobalUserData["location"].longitude,
-                    document[index]["location"].latitude,
-                    document[index]["location"].longitude)<= 20 )
-                  _boxes(
-                    document[index]["display_picture"],
-                    document[index]["name"],
-                    document[index]["location"],
-                    document[index]["address"],
-                    document[index]["rating"].toString(),
-                    document[index]["branch"],
-                    document[index]["gym_status"],
+            key: Key(index.toString()),
+            onVisibilityChanged: (VisibilityInfo info) async {
+              print(info.visibleFraction);
+              if (info.visibleFraction == 1) _currentItem = index.toInt();
+              // listKey=index.toInt();
+              print(_currentItem);
+              splashLocation(document[_currentItem]["location"].latitude,
+                  document[_currentItem]["location"].longitude);
+            },
+            child: FittedBox(
+              child: GestureDetector(
+                onTap: () {
+                  Get.to(
+                      () => GymDetails(
+                            gymID: document[index].id,
+                          ),
+                      arguments: {
+                        "id": document[index].id,
+                        "location": document[index]["location"],
+                        "name": document[index]["name"],
+                        "docs": document[index],
+                      });
+                  sslKey.currentState!.focusToItem(index);
+                  // _gotoLocation(location.latitude, location.longitude);
+                },
+                child: Card(
+                  // key: sslKey,
+                  color: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
-                SizedBox(
-                  width: 15,
-                )
-              ],
+                  elevation: 8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // SizedBox(width: 15,),
+                      if (calculateDistance(
+                              GlobalUserData["location"].latitude,
+                              GlobalUserData["location"].longitude,
+                              document[index]["location"].latitude,
+                              document[index]["location"].longitude) <=
+                          20)
+                        _boxes(
+                          document[index]["display_picture"],
+                          document[index]["name"],
+                          document[index]["location"],
+                          document[index]["address"],
+                          document[index]["rating"].toString(),
+                          document[index]["branch"],
+                          document[index]["gym_status"],
+                        ),
+                      SizedBox(
+                        width: 15,
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-    );
+          );
     // },
     //   separatorBuilder: (BuildContext context, int index) {
     //     return Container(
@@ -585,123 +590,123 @@ class _ExploreiaState extends State<Exploreia> {
             ),
             GlobalUserData["address"] != ""
                 ? Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                // padding: const EdgeInsets.only(left: 10),
-                // margin: const EdgeInsets.symmetric(vertical: 18.0),
-                // color: Colors.white.withOpacity(0),
-                height: 136.0,
-                width: 500,
-                child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection("product_details")
-                    // .where("locality",
-                    //     isEqualTo: GlobalUserData["locality"])
-                        .where("legit", isEqualTo: true)
-                        .orderBy("location")
-                        .snapshots(),
-                    builder: (context, AsyncSnapshot streamSnapshot) {
-                      if (streamSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      // padding: const EdgeInsets.only(left: 10),
+                      // margin: const EdgeInsets.symmetric(vertical: 18.0),
+                      // color: Colors.white.withOpacity(0),
+                      height: 136.0,
+                      width: 500,
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection("product_details")
+                              // .where("locality",
+                              //     isEqualTo: GlobalUserData["locality"])
+                              .where("legit", isEqualTo: true)
+                              .orderBy("location")
+                              .snapshots(),
+                          builder: (context, AsyncSnapshot streamSnapshot) {
+                            if (streamSnapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
 
-                      document = streamSnapshot.data.docs;
-                      document.sort((a, b) {
-                        double d1 = calculateDistance(
-                          a["location"].latitude,
-                          a["location"].longitude,
-                          GlobalUserData["location"].latitude,
-                          GlobalUserData["location"].longitude,
-                        );
-                        double d2 = calculateDistance(
-                          b["location"].latitude,
-                          b["location"].longitude,
-                          GlobalUserData["location"].latitude,
-                          GlobalUserData["location"].longitude,
-                        );
-                        if (d1 > d2)
-                          return 1;
-                        else if (d1 < d2)
-                          return -1;
-                        else
-                          return 0;
-                      });
+                            document = streamSnapshot.data.docs;
+                            document.sort((a, b) {
+                              double d1 = calculateDistance(
+                                a["location"].latitude,
+                                a["location"].longitude,
+                                GlobalUserData["location"].latitude,
+                                GlobalUserData["location"].longitude,
+                              );
+                              double d2 = calculateDistance(
+                                b["location"].latitude,
+                                b["location"].longitude,
+                                GlobalUserData["location"].latitude,
+                                GlobalUserData["location"].longitude,
+                              );
+                              if (d1 > d2)
+                                return 1;
+                              else if (d1 < d2)
+                                return -1;
+                              else
+                                return 0;
+                            });
 
-                      var d = document.length;
-                      return document.isNotEmpty
-                          ? Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: ScrollSnapList(
-                          scrollPhysics:
-                          RangeMaintainingScrollPhysics(),
-                          // dynamicItemSize: true,
-                          margin:
-                          EdgeInsets.symmetric(horizontal: 00),
-                          onItemFocus: _onItemFocus,
-                          itemCount: d,
-                          key: sslKey,
-                          // dynamicItemSize: true,
-                          listViewKey: listKey,
-                          itemBuilder: buildListItem,
-                          // reverse: true,
-                          itemSize: 310,
-                        ),
-                      )
-                          : Padding(
-                        padding: const EdgeInsets.only(
-                            left: 8.0, top: 30),
-                        child: Text(
-                          "No Fitness Option Available Here",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16),
-                        ),
-                      );
-                    }),
-              ),
-            )
+                            var d = document.length;
+                            return document.isNotEmpty
+                                ? Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ScrollSnapList(
+                                      scrollPhysics:
+                                          RangeMaintainingScrollPhysics(),
+                                      // dynamicItemSize: true,
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 00),
+                                      onItemFocus: _onItemFocus,
+                                      itemCount: d,
+                                      key: sslKey,
+                                      // dynamicItemSize: true,
+                                      listViewKey: listKey,
+                                      itemBuilder: buildListItem,
+                                      // reverse: true,
+                                      itemSize: 310,
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, top: 30),
+                                    child: Text(
+                                      "No Fitness Option Available Here",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16),
+                                    ),
+                                  );
+                          }),
+                    ),
+                  )
                 : SizedBox(),
 
             _list != null && _list!.isNotEmpty
                 ? Positioned(
-              top: 76,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                color: Colors.white.withOpacity(0.9),
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 5, vertical: 5),
-                child: _list == null
-                    ? Container()
-                    : ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _list!.length,
-                  itemBuilder: ((context, index) {
-                    return ListTile(
-                      title: Text(_list![index].mainText!),
-                      subtitle: Text(_list![index].secondaryText!),
-                      onTap: () async {
-                        final res = await RequestHelper()
-                            .getCoordinatesFromAddresss(
-                            _list![index].mainText!);
-                        // print(res.latitude);
-                        // print(res.longitude);
-                        gotoLocation(res.latitude, res.longitude);
-                        FocusScope.of(context).unfocus();
-                        _list!.clear();
-                        setState(() {
-                          // _list==null;
+                    top: 76,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.white.withOpacity(0.9),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 5),
+                      child: _list == null
+                          ? Container()
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: _list!.length,
+                              itemBuilder: ((context, index) {
+                                return ListTile(
+                                  title: Text(_list![index].mainText!),
+                                  subtitle: Text(_list![index].secondaryText!),
+                                  onTap: () async {
+                                    final res = await RequestHelper()
+                                        .getCoordinatesFromAddresss(
+                                            _list![index].mainText!);
+                                    // print(res.latitude);
+                                    // print(res.longitude);
+                                    gotoLocation(res.latitude, res.longitude);
+                                    FocusScope.of(context).unfocus();
+                                    _list!.clear();
+                                    setState(() {
+                                      // _list==null;
 
-                          showPlacessuggesstions = false;
-                        });
-                      },
-                    );
-                  }),
-                ),
-              ),
-            )
+                                      showPlacessuggesstions = false;
+                                    });
+                                  },
+                                );
+                              }),
+                            ),
+                    ),
+                  )
                 : const SizedBox(),
             Positioned(
                 right: 6,
