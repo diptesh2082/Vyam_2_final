@@ -264,7 +264,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         }
 
 
-      });;
+      });
       await FirebaseFirestore.instance
           .collection("booking_notifications")
           .doc()
@@ -277,9 +277,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
         "vendor_id":ven_id,
         "vendor_name":ven_name,
       });
-      booking_details["id"]!=null?
-      await showNotification("Thank You","Booking Successful")
-      :await showNotification("Booking Status You","Booking Unsuccessful");
+      // booking_details["id"]!=null?
+      // await showNotification("Thank You","Booking Successful")
+      // :await showNotification("Booking Status You","Booking Unsuccessful");
 
       // booking_details["id"]!=null?
       await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});

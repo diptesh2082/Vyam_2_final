@@ -634,6 +634,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 bookingId: booking_id,
                                 vendor_name: doc["doc"]['gym_details']["name"],
                                 id: doc["doc"]["id"],
+                            vendorId:gym_id,
                               ),
                           arguments: {"doc": Get.arguments["doc"]});
                       vendorData(booking_id);

@@ -280,9 +280,8 @@ class _PackegesState extends State<Packeges> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            if (int.parse(data.docs[snapshot]
-                                                    ['discount']) >
-                                                5)
+                                            if (data.docs[snapshot]
+                                                    ['trending']==true)
                                               Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,

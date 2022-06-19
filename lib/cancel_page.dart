@@ -13,10 +13,11 @@ class MyChoice {
 }
 
 class CancelDetails extends StatefulWidget {
-  CancelDetails({required this.bookingId, required this.vendor_name,required this.id});
+  CancelDetails({required this.bookingId, required this.vendor_name,required this.id,required this.vendorId});
   var bookingId;
   final vendor_name;
   final id;
+  final vendorId;
 
   @override
   State<CancelDetails> createState() => _CancelDetailsState();
@@ -266,10 +267,22 @@ class _CancelDetailsState extends State<CancelDetails> {
                                               "user_name":GlobalUserData["name"],
                                               "user_number":GlobalUserData["userId"]
                                             };
-                                            FirebaseFirestore.instance
+                                           await FirebaseFirestore.instance
                                                 .collection("Cancellation Data")
                                                 .add(cancel_data);
                                             cancelremark.clear();
+                                            await FirebaseFirestore.instance
+                                                .collection("booking_notifications")
+                                                .doc()
+                                                .set({
+                                              "title": "booking Activated",
+                                              "status":"cancelled",
+                                              "payment_done": false,
+                                              "user_id":number.toString(),
+                                              "user_name":GlobalUserData["name"],
+                                              "vendor_id":widget.vendorId,
+                                              "vendor_name":widget.vendor_name,
+                                            });
                                             // Get.snackbar("Your Booking Status", "Your Booking Cancelled",
                                             //     icon: Image.asset("assets/icons/vyam.png")
                                             // );
