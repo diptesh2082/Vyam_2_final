@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/Catagory.dart';
@@ -198,8 +199,7 @@ class _FirstHomeState extends State<FirstHome> {
           .doc(number)
           .update({"device_token": devicetoken});
       await FirebaseMessaging.instance.subscribeToTopic("push_notifications");
-// <<<<<<< HEAD
-//       await FirebaseMessaging.instance.subscribeToTopic("booking_notifications");
+
     }catch(e){
 
       print(e);
@@ -210,19 +210,10 @@ class _FirstHomeState extends State<FirstHome> {
   void initState() {
     // getStream();
     updateDeviceToken();
-    // print(devicetoken);
 
-    // print("running two times //////////////////");
     getEverything();
 
-    // if (mounted) {
-    //   setState(() {
-    //     // myaddress = myaddress;
-    //     address = address;
-    //     pin = pin;
-    //   });
-    // }
-    // print(address);
+
 
     super.initState();
   }
@@ -530,8 +521,10 @@ class Banner extends StatelessWidget {
                 onTap: () {
                   FocusScope.of(context).unfocus();
                   if (data.docs[index]["access"] == true) {
-                    // Get.to(()=>HomePage());
-                    print("hyufufytu");
+                    Get.toNamed(data.docs[index]["navigation"],arguments: {
+                      "gymId":data.docs[index]["gym_id"],
+                    });
+                    // print("hyufufytu");
                   }
                 },
                 child: SizedBox(

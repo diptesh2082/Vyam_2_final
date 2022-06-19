@@ -465,13 +465,11 @@ class _ExploreiaState extends State<Exploreia> {
                 onTap: () {
                   Get.to(
                       () => GymDetails(
-                            gymID: document[index].id,
+                            // gymID: document[index].id,
                           ),
                       arguments: {
-                        "id": document[index].id,
-                        "location": document[index]["location"],
-                        "name": document[index]["name"],
-                        "docs": document[index],
+                        "gymId":document[index].id,
+
                       });
                   sslKey.currentState!.focusToItem(index);
                   // _gotoLocation(location.latitude, location.longitude);

@@ -23,18 +23,13 @@ import 'ImageGalary.dart';
 var imageSliders;
 
 class GymDetails extends StatefulWidget {
+  static String id = "/gym_details";
   // final gymName;
-  final gymID;
+  // final gymID;
 
-  const GymDetails({Key? key, required this.gymID}) : super(key: key);
-  // final gymLocation;
-  //
-  // const GymDetails(
-  //     {Key? key,
-  //       required this.getID,
-  //       required this.gymName,
-  //       required this.gymLocation})
-  //     : super(key: key);
+
+  const GymDetails({Key? key, }) : super(key: key);
+
 
   @override
   _GymDetailsState createState() => _GymDetailsState();
@@ -44,13 +39,13 @@ class _GymDetailsState extends State<GymDetails> {
   static final customCacheManager = CacheManager(Config("customCacheKey",
       maxNrOfCacheObjects: 100, stalePeriod: Duration(days: 15)));
 
-
+final gymID=Get.arguments["gymId"];
   bool touch = false;
 
   getRatingCount(x) async {
     DocumentReference db = await FirebaseFirestore.instance
         .collection("product_details")
-        .doc(widget.gymID);
+        .doc(gymID);
     try {
       db.get().then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
@@ -76,7 +71,7 @@ class _GymDetailsState extends State<GymDetails> {
   getRating() async {
     await FirebaseFirestore.instance
         .collection("Reviews")
-        .where("gym_id", isEqualTo: widget.gymID)
+        .where("gym_id", isEqualTo: gymID)
         .snapshots()
         .listen((snap) async {
       if (snap.docs.isNotEmpty) {
@@ -166,7 +161,7 @@ class _GymDetailsState extends State<GymDetails> {
     try {
       await FirebaseFirestore.instance
           .collection("product_details")
-          .doc(widget.gymID)
+          .doc(gymID)
           .collection("timings")
           .snapshots()
           .listen((snap) {
@@ -188,7 +183,7 @@ class _GymDetailsState extends State<GymDetails> {
   getViewCount() async {
     DocumentReference db = await FirebaseFirestore.instance
         .collection("product_details")
-        .doc(widget.gymID);
+        .doc(gymID);
     try {
       db.get().then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
@@ -224,7 +219,7 @@ class _GymDetailsState extends State<GymDetails> {
         : StreamBuilder<DocumentSnapshot>(
             stream: FirebaseFirestore.instance
                 .collection("product_details")
-                .doc(widget.gymID)
+                .doc(gymID)
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -370,7 +365,7 @@ class _GymDetailsState extends State<GymDetails> {
                                 FocusScope.of(context).unfocus();
                                 Get.to(
                                   () => Timing_Screen(
-                                    id: widget.gymID,
+                                    id: gymID,
                                   ),
                                 );
                               },
@@ -520,7 +515,7 @@ class _GymDetailsState extends State<GymDetails> {
                                     FocusScope.of(context).unfocus();
                                     Get.to(
                                       () => Timing_Screen(
-                                        id: widget.gymID,
+                                        id: gymID,
                                       ),
                                     );
                                   },
@@ -624,7 +619,7 @@ class _GymDetailsState extends State<GymDetails> {
                             StreamBuilder<QuerySnapshot>(
                                 stream: FirebaseFirestore.instance
                                     .collection("product_details")
-                                    .doc("${widget.gymID}")
+                                    .doc("${gymID}")
                                     .collection("trainer")
                                     .snapshots(),
                                 builder: (context, AsyncSnapshot snapshot) {
@@ -662,7 +657,7 @@ class _GymDetailsState extends State<GymDetails> {
                                                             docs["branch"],
                                                       ),
                                                   arguments: {
-                                                    "gym_id": widget.gymID,
+                                                    "gym_id": gymID,
                                                     "image":
                                                         docs["display_picture"]
                                                   });
@@ -1273,7 +1268,7 @@ class _GymDetailsState extends State<GymDetails> {
                             print(docs["address"]);
                             Get.to(
                                 () => Packeges(
-                                      getFinalID: widget.gymID,
+                                      getFinalID: gymID,
                                       gymName: docs["name"],
                                       gymLocation: docs["address"],
                                       doc: docs,

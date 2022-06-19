@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
 import 'package:vyam_2_final/Providers/firebase_dynamic_link.dart';
@@ -114,6 +115,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: Register2.id, page: () => Register2()),
         GetPage(name: Register3.id, page: () => Register3()),
         GetPage(name: Register4.id, page: () => Register4()),
+        GetPage(name: GymDetails.id, page: () => GymDetails()),
       ],
     );
   }

@@ -260,6 +260,12 @@ class _YogaListState extends State<YogaList> {
                                                 ),
                                               Row(
                                                 children: [
+                                                  if (int.parse(data
+                                                      .docs[
+                                                  snapshot]
+                                                  [
+                                                  "discount"]) >
+                                                      0)
                                                   Text(
                                                     "Rs "
                                                     "${int.parse(data.docs[snapshot]['original_price'])}",

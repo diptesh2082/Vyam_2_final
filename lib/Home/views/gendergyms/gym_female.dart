@@ -116,13 +116,11 @@ class _GymFemaleState extends State<GymFemale> {
 
                                 Get.to(
                                     () => GymDetails(
-                                          gymID: document[index].id,
+                                          // gymID: document[index].id,
                                         ),
                                     arguments: {
-                                      "id": document[index].id,
-                                      "location": document[index]["location"],
-                                      "name": document[index]["name"],
-                                      "docs": document[index],
+                                      "gymId":document[index].id,
+
                                     });
                               },
                               child: Stack(
