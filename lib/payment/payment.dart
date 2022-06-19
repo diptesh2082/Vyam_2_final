@@ -133,7 +133,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   void initState() {
     print("//////////");
-    print(cartValue);
+    print( getData['totalMonths'],);
     print(type);
     detDil();
     myCouponController.GlobalCouponApplied.value = false;
@@ -578,7 +578,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                 months.trim().toLowerCase() ==
                                                         "pay per session"
                                                     ? "${getData["totalDays"].toString()} ${getData["totalDays"] > 1 ? "Days" : "Day"}"
-                                                    : getData['totalMonths'] ??
+                                                    : type ??
                                                         "",
                                                 style: GoogleFonts.poppins(
                                                     fontSize: 16,

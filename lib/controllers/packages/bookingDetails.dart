@@ -246,13 +246,15 @@ class BookingDetails {
                                                           .round(),
                                                   packageType:
                                                       bookingList[index]
-                                                          ['title'],
+                                                          ['type'],
                                                   getGymName: getGymName,
                                                   getGymAddress: gymLocation,
                                                   gymId: gymID,
                                                   bookingId: booking_id,
                                                   days: newBookingList[index]
-                                                      ['validity'],
+                                                      ['validity'], package_name: bookingList[index]
+                                                ['title'],
+
                                                 ),
                                                 arguments: {"docs": docs},
                                                 duration: const Duration(
@@ -285,7 +287,8 @@ class BookingDetails {
                                                   getGymName: getGymName,
                                                   getGymAddress: gymLocation,
                                                   gymId: gymID,
-                                                  bookingId: booking_id,
+                                                  bookingId: booking_id, package_name: bookingList[index]
+                                                ['title'],
                                                 ),
                                                 arguments: {"docs": docs},
                                                 duration: const Duration(

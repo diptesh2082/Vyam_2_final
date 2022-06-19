@@ -16,15 +16,16 @@ class DatePickerScreen extends StatefulWidget {
   final gymId;
   final bookingId;
   final months;
+  final package_name;
   const DatePickerScreen(
       {Key? key,
-      this.getGymName,
-      this.getGymAddress,
-      this.packageType,
-      this.price,
-      this.gymId,
-      this.bookingId,
-      this.months})
+        required  this.getGymName,
+        required this.getGymAddress,
+        required this.packageType,
+        required this.price,
+        required this.gymId,
+        required this.bookingId,
+        required this.months,required this.package_name})
       : super(key: key);
 
   @override
@@ -55,6 +56,12 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
   DateTime endDate = DateTime.now();
 
   var totalDays;
+  @override
+  void initState() {
+    // TODO: implement initState
+    print(widget.months);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -254,7 +261,8 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                       "vendorId": widget.gymId,
                       "booking_id": widget.bookingId,
                       "gym_details": Get.arguments["docs"],
-                      "totalDays": endDate.difference(startDate).inDays + 1
+                      "totalDays": endDate.difference(startDate).inDays + 1,
+                      "booking_plan":widget.package_name,
                     },
                   );
                 });
