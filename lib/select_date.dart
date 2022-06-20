@@ -386,7 +386,7 @@ class _SelectDateState extends State<SelectDate> {
                     "vendorId": widget.gymId,
                     "booking_id": widget.bookingId,
                     "gym_details": Get.arguments["docs"],
-                    "totalDays": totalDays,
+                    "totalDays": widget.days,
                     "booking_plan":widget.package_name,
                   },
                 );

@@ -87,11 +87,14 @@ class _GymAllState extends State<GymAll> {
             });
 
             document = document.where((element) {
+              print(element
+                  .get('service')
+                  .toString());
               return element
                   .get('service')
                   .toString()
                   .toLowerCase()
-                  .contains(widget.type);
+                  .contains(widget.type.toString().toLowerCase());
             }).toList();
             print(widget.type);
             print(document);

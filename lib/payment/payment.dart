@@ -75,33 +75,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   var booking_details;
 
   bool isLoading = false;
-  // getBookingData(String booking_id)async{
-  //   try{
-  //     await FirebaseFirestore.instance
-  //         .collection('bookings')
-  //         .doc(number)
-  //         .collection("user_booking")
-  //         .doc(booking_id)
-  //         .snapshots()
-  //         .listen((DocumentSnapshot documentSnapshot) {
-  //       if (documentSnapshot.exists) {
-  //         print('Document exists on the database');
-  //
-  //         booking_details= documentSnapshot.data();
-  //         // });
-  //
-  //         // return documentSnapshot.data();
-  //
-  //       }
-  //
-  //     });
-  //   }catch(e){
-  //
-  //     print(e);
-  //
-  //   }
-  //
-  // }
 
 
   detDil() async {
@@ -276,9 +249,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
         "user_name":GlobalUserData["name"],
         "vendor_id":ven_id,
         "vendor_name":ven_name,
+        "time_stamp":DateTime.now(),
+        "booking_id":booking_id,
       });
       // booking_details["id"]!=null?
-      // await showNotification("Thank You","Booking Successful")
+      await showNotification("Booking successful for " + ven_name,"Share OTP at the center to start.");
       // :await showNotification("Booking Status You","Booking Unsuccessful");
 
       // booking_details["id"]!=null?
@@ -1270,6 +1245,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
 
                               });
+
                               await FirebaseFirestore.instance
                                   .collection("booking_notifications")
                                   .doc()
@@ -1281,6 +1257,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 "user_name":GlobalUserData["name"],
                                 "vendor_id":ven_id,
                                 "vendor_name":ven_name,
+                                "time_stamp":DateTime.now(),
+                                "booking_id":booking_id,
+                              }).then((value) async {
+                                await showNotification("Booking successful for " + ven_name,"Share OTP at the center to start.");
                               });
                             }catch(e){
 

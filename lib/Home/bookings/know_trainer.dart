@@ -2,29 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:full_screen_image_null_safe/full_screen_image_null_safe.dart';
-
-import 'gym_details.dart';
 import 'package:get/get.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'review_screen.dart';
 
-// class TrainerScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return ScreenUtilInit(
-//       builder: () => MaterialApp(
-//         debugShowCheckedModeBanner: false,
-//         home: Trainer(),
-//       ),
-//     );
-//   }
-// }
 
 class Trainer extends StatefulWidget {
   final gym_name;
@@ -152,6 +136,7 @@ class _TrainerState extends State<Trainer> {
                       _current1 = index + 1;
                     }),
                     itemBuilder: (BuildContext context, int index) {
+                      var url = snapshot.data!.docs[index]["insta_id"];
                       return Card(
                         elevation: 5,
                         child: Column(
@@ -305,6 +290,7 @@ class _TrainerState extends State<Trainer> {
                                                 ),
                                               ],
                                             ),
+                                            if(url.isNotEmpty)
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   right: 25.0),
@@ -332,7 +318,7 @@ class _TrainerState extends State<Trainer> {
                                                   ),
                                                   GestureDetector(
                                                       child: Text(
-                                                        '@${trainernames[index].toLowerCase()}',
+                                                        '@${ document[index]['name'].toLowerCase()}',
                                                         //document[index]['social_media'],
                                                         style: GoogleFonts.poppins(
                                                             decoration:
@@ -443,6 +429,7 @@ class _TrainerState extends State<Trainer> {
                                           ),
                                         ),
                                         const SizedBox(height: 6),
+                                        if(document[index]['certification'].isNotEmpty)
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(left: 8.0),
@@ -464,6 +451,7 @@ class _TrainerState extends State<Trainer> {
                                           //height: MediaQuery.of(context).size.height * 0.005,
                                           height: 3,
                                         ),
+                                        if(document[index]['certification'].isNotEmpty)
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(left: 18.0),
@@ -518,6 +506,7 @@ class _TrainerState extends State<Trainer> {
                                           //height: MediaQuery.of(context).size.height * 0.022,
                                           height: 12,
                                         ),
+                                        if(document[index]['specialization'].isNotEmpty)
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(left: 8.0),
@@ -536,6 +525,7 @@ class _TrainerState extends State<Trainer> {
                                             ],
                                           ),
                                         ),
+                                        if(document[index]['specialization'].isNotEmpty)
                                         FittedBox(
                                           fit: BoxFit.contain,
                                           child: Padding(

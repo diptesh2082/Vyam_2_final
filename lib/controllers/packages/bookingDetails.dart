@@ -252,7 +252,8 @@ class BookingDetails {
                                                   gymId: gymID,
                                                   bookingId: booking_id,
                                                   days: newBookingList[index]
-                                                      ['validity'], package_name: bookingList[index]
+                                                      ['validity'],
+                                                  package_name: bookingList[index]
                                                 ['title'],
 
                                                 ),

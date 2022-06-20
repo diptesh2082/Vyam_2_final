@@ -6,14 +6,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
+
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vyam_2_final/Home/bookings/gym_details.dart';
+
 
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/Catagory.dart';
@@ -206,9 +206,11 @@ class _FirstHomeState extends State<FirstHome> {
     }
   }
 
+
   @override
   void initState() {
     // getStream();
+
     updateDeviceToken();
 
     getEverything();
@@ -520,7 +522,7 @@ class Banner extends StatelessWidget {
               return InkWell(
                 onTap: () {
                   FocusScope.of(context).unfocus();
-                  if (data.docs[index]["access"] == true) {
+                  if (data.docs[index]["access"] == true && data.docs[index]["navigation"] !="") {
                     Get.toNamed(data.docs[index]["navigation"]??"",arguments: {
                       "gymId":data.docs[index]["gym_id"]??"",
                     });

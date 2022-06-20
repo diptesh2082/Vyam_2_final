@@ -135,14 +135,13 @@ class BuildBox extends StatelessWidget {
                                                   imageUrl: document[index]
                                                           ["display_picture"] ??
                                                       "",
-                                                  progressIndicatorBuilder: (context,
-                                                          url,
-                                                          downloadProgress) =>
-                                                      Center(
-                                                          child: CircularProgressIndicator(
-                                                              value:
-                                                                  downloadProgress
-                                                                      .progress)),
+                                                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                      Container(
+                                                          color: Colors.black87.withOpacity(.5),
+                                                          child: Center(child: Image.asset( "assets/Illustrations/vyam.png",
+                                                            height: 120,
+                                                            width: 200,
+                                                          ))),
                                                   errorWidget: (context, url,
                                                           error) =>
                                                       const Icon(Icons.error),

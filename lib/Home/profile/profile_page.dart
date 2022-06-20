@@ -1,17 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_maps_webservice/places.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/profile/About_Us.dart';
@@ -60,6 +59,8 @@ class _ProfilePartState extends State<ProfilePart> {
   var imageUrl = "";
   // final id = number;
   bool Loading = true;
+  DefaultCacheManager manager = new DefaultCacheManager();
+
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   Future cacheImage(BuildContext context, String e) => precacheImage(
         CachedNetworkImageProvider(e),
@@ -505,6 +506,7 @@ class _ProfilePartState extends State<ProfilePart> {
                             // sharedPreferences.remove('number');
                             // getNumber();
                             // print(number);
+                            manager.emptyCache();
                             await _googleSignIn.signOut();
                             await _auth.signOut();
                             // Get.back();

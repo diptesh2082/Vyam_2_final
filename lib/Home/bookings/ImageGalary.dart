@@ -26,21 +26,23 @@ class _ImageGalleryState extends State<ImageGallery> {
       CachedNetworkImageProvider(e,cacheKey:"customCacheKey2", cacheManager: customCacheManager),
       context,
   );
+  bool loading=true;
   loadImage()async{
-    setState(() {
-      widget.loading=true;
-    });
+    // setState(() {
+    //  loading=true;
+    // });
   Images=widget.images;
-  Images.map((e) =>cacheImage( context, e)).toList();
+  await Future.wait(  Images.map((e) =>cacheImage(context, e)).toList());
+
     setState(() {
-      widget.loading=false;
+      loading=false;
     });
 
   }
 
   static final customCacheManager=CacheManager(Config(
       "customCacheKey2",
-      maxNrOfCacheObjects: 80,
+      maxNrOfCacheObjects: 110,
   ));
 
 
@@ -51,12 +53,13 @@ class _ImageGalleryState extends State<ImageGallery> {
   void initState() {
     // TODO: implement initState
     WidgetsBinding.instance!.addPostFrameCallback((_) {loadImage(); });
+    // loadImage();
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
 
-    return widget.loading?
+    return loading?
         Center(child: CircularProgressIndicator())
         :ClipRRect(
         borderRadius: BorderRadius.circular(14.0),
@@ -71,6 +74,9 @@ class _ImageGalleryState extends State<ImageGallery> {
                   if(Images.isNotEmpty){
                     page_controller=PageController(initialPage: index);
                     return gymImages(Images[index]);
+                  }else{
+                    return Center(child: CircularProgressIndicator());
+
                   }
                  return Container();
                 },
@@ -116,7 +122,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                             builder: (BuildContext context, int index) {
                               // listIndex=index;
                               return PhotoViewGalleryPageOptions(
-                                filterQuality: FilterQuality.medium,
+                                filterQuality: FilterQuality.low,
                                 initialScale:
                                 PhotoViewComputedScale.contained,
                                 minScale:
@@ -236,7 +242,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                         const Text("/",
                             style:
                             TextStyle(color: Colors.white)),
-                        Text(widget.images.length.toString(),
+                        Text(Images.length.toString(),
                             style: const TextStyle(
                                 color: Colors.white))
                       ],
@@ -247,13 +253,20 @@ class _ImageGalleryState extends State<ImageGallery> {
           ],
         ));
   }
+
   Widget gymImages(String images) => AspectRatio(
     aspectRatio: 16 / 9,
     child: ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: CachedNetworkImage(
-        // progressIndicatorBuilder: (context, url, downloadProgress) =>
-        //     Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
+        fadeInDuration: Duration(milliseconds: 200),
+        progressIndicatorBuilder: (context, url, downloadProgress) =>
+            Container(
+                color: Colors.black87,
+                child: Center(child: Image.asset( "assets/Illustrations/vyam.png",
+                height: 120,
+                  width: 200,
+                ))),
         // cacheManager: customCacheManager,
         maxHeightDiskCache: 500,
         width: 500,
