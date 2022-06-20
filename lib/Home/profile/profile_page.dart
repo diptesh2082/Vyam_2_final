@@ -506,7 +506,7 @@ class _ProfilePartState extends State<ProfilePart> {
                             // sharedPreferences.remove('number');
                             // getNumber();
                             // print(number);
-                            manager.emptyCache();
+                           await manager.emptyCache();
                             await _googleSignIn.signOut();
                             await _auth.signOut();
                             // Get.back();

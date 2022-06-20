@@ -71,9 +71,12 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: scaffoldColor,
       body: showLoding
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ?  Container(
+          color: Colors.white,
+          child: Center(child: Image.asset( "assets/Illustrations/vyam.png",
+            height: 200,
+            width: 200,
+          )))
           : SafeArea(
               child: SingleChildScrollView(
               child: Form(
@@ -236,19 +239,35 @@ class _LoginPageState extends State<LoginPage> {
                               final isValid = _formKey.currentState?.validate();
                               if (isValid!){
                                 _formKey.currentState?.save();
-                                setState(() {
-                                  showLoding = true;
-                                });
+
                                 var _forceResendingToken;
                                 await _auth.verifyPhoneNumber(
                                     timeout: const Duration(seconds: 30),
                                     forceResendingToken: _forceResendingToken,
                                     phoneNumber: "+91${phoneController.text}",
+                                    codeSent:
+                                        (verificationID, resendingToken) async {
+
+                                      resending_token = resendingToken;
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => OtpPage(
+                                                verificationID: verificationID,
+                                                number:
+                                                "+91${phoneController.text.trim()}",
+                                                resendingToken: resending_token,
+                                              )));
+                                      setState(() {
+                                        showLoding = false;
+                                      });
+                                    },
                                     verificationCompleted:
                                         (phoneAuthCredential) async {
                                       setState(() {
                                         showLoding = false;
-                                      });
+                                      }
+                                      );
                                     },
                                     verificationFailed: (verificationFailed) async {
                                       // Get.snackbar(
@@ -260,22 +279,7 @@ class _LoginPageState extends State<LoginPage> {
                                         showLoding = false;
                                       });
                                     },
-                                    codeSent:
-                                        (verificationID, resendingToken) async {
-                                      setState(() {
-                                        showLoding = false;
-                                      });
-                                      resending_token = resendingToken;
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => OtpPage(
-                                                verificationID: verificationID,
-                                                number:
-                                                "+91${phoneController.text.trim()}",
-                                                resendingToken: resending_token,
-                                              )));
-                                    },
+
                                     // forceResendingToken: (re){
                                     //
                                     // },

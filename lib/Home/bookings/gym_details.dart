@@ -620,6 +620,7 @@ final gymID=Get.arguments["gymId"];
                             StreamBuilder<QuerySnapshot>(
                                 stream: FirebaseFirestore.instance
                                     .collection("product_details")
+
                                     .doc("${gymID}")
                                     .collection("trainer")
                                     .snapshots(),
@@ -730,6 +731,7 @@ final gymID=Get.arguments["gymId"];
                                                                             children: [
                                                                               Column(
                                                                                 children: [
+                                                                                  if(trainerdoc[index]['image'] !=null || trainerdoc[index]['image']!="" )
                                                                                   Container(
                                                                                     height: 65,
                                                                                     width: 65,

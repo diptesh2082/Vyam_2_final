@@ -130,6 +130,9 @@ class _OtpPageState extends State<OtpPage> {
       //     const SnackBar(content: Text('Some Error Occured. Try Again Later')));
     }
   }
+  getVerified()async{
+
+  }
 
   // var docId = Get.arguments[1];
   Future<void> checkExist(String docID) async {
