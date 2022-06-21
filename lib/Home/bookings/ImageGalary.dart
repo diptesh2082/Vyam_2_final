@@ -23,7 +23,7 @@ class _ImageGalleryState extends State<ImageGallery> {
   // bool isLoading=true;
   List Images=[];
   Future cacheImage(BuildContext context,String e)=>precacheImage(
-      CachedNetworkImageProvider(e,cacheKey:"customCacheKey2", cacheManager: customCacheManager),
+      CachedNetworkImageProvider(e,cacheKey:"customCacheKey2", cacheManager: customCacheManager,maxHeight: 50,maxWidth: 50),
       context,
   );
   bool loading=true;
@@ -32,11 +32,13 @@ class _ImageGalleryState extends State<ImageGallery> {
     //  loading=true;
     // });
   Images=widget.images;
-  await Future.wait(  Images.map((e) =>cacheImage(context, e)).toList());
-
+  await Future.wait(  Images.map((e) =>cacheImage(context, e)).toList()).then((value) {
     setState(() {
       loading=false;
     });
+
+  });
+
 
   }
 
@@ -269,7 +271,9 @@ class _ImageGalleryState extends State<ImageGallery> {
                 ))),
         // cacheManager: customCacheManager,
         maxHeightDiskCache: 500,
-        width: 500,
+        maxWidthDiskCache: 700,
+        width: 400,
+        height: 400,
         imageUrl: images,
         fit: BoxFit.cover,
       ),

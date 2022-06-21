@@ -297,6 +297,8 @@ class _CancelDetailsState extends State<CancelDetails> {
                                                     "user_name":GlobalUserData["name"],
                                                     "vendor_id":widget.vendorId,
                                                     "vendor_name":widget.vendor_name,
+                                                    "time_stamp":DateTime.now(),
+                                                    "booking_id":widget.bookingId,
                                                   });
                                                   // Get.snackbar("Your Booking Status", "Your Booking Cancelled",
                                                   //     icon: Image.asset("assets/icons/vyam.png")

@@ -333,14 +333,10 @@ class _FirstHomeState extends State<FirstHome> {
                           children: [
                             IconButton(
                               // NOTIFICATION NUMBER CALLING
-                              icon: Badge(
-                                badgeContent: Text("1"),
-                                borderRadius: BorderRadius.circular(5),
-                                child: const ImageIcon(
-                                  AssetImage("assets/icons/Notification.png"),
-                                  size: 27,
-                                  color: Colors.black,
-                                ),
+                              icon: const ImageIcon(
+                                AssetImage("assets/icons/Notification.png"),
+                                size: 27,
+                                color: Colors.black,
                               ),
                               onPressed: () {
                                 Get.to(() => NotificationDetails());

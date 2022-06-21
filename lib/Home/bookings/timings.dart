@@ -75,8 +75,7 @@ class Timing_Screen extends StatelessWidget {
                                 ? SizedBox(
                                     width: MediaQuery.of(context).size.width *
                                         0.95,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.19,
+                                    height: 150,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,

@@ -89,7 +89,7 @@ class UpcomingEvent extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Flexible(
-                                      flex: 18,
+                                      flex: 20,
                                       child: Padding(
                                         padding: const EdgeInsets.only(
                                             top: 3.0, left: 6, bottom: 03,right: 6),
@@ -285,7 +285,7 @@ class UpcomingEvent extends StatelessWidget {
                                       )),
                                   // Spacer(),
                                   Flexible(
-                                    flex: 15,
+                                    flex: 16,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 5,vertical: 8),
                                       child: ClipRRect(

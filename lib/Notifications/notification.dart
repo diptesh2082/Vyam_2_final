@@ -9,8 +9,9 @@ import 'package:vyam_2_final/api/api.dart';
 import '../golbal_variables.dart';
 
 class NotificationDetails extends StatefulWidget {
+  final doc;
   const NotificationDetails({
-    Key? key,
+    Key? key, this.doc,
   }) : super(key: key);
 
   @override
