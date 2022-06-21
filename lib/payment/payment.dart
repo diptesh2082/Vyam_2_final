@@ -251,6 +251,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         "vendor_name":ven_name,
         "time_stamp":DateTime.now(),
         "booking_id":booking_id,
+        "seen":false,
       });
       // booking_details["id"]!=null?
       await showNotification("Booking successful for " + ven_name,"Share OTP at the center to start.");
@@ -1259,6 +1260,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 "vendor_name":ven_name,
                                 "time_stamp":DateTime.now(),
                                 "booking_id":booking_id,
+                                "seen":false,
                               }).then((value) async {
                                 await showNotification("Booking successful for " + ven_name,"Share OTP at the center to start.");
                               });

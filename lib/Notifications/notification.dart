@@ -65,10 +65,10 @@ class _NotificationDetailsState extends State<NotificationDetails> {
             if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             }
-            final data = snapshot.requireData;
-            print(data.size);
+            final data = snapshot.data.docs;
+            print(data.length);
 
-            if (data.size == 0) {
+            if (data.length == 0) {
               return Center(
                 child: Image.asset(
                   "assets/Illustrations/notification empty.png",
@@ -81,7 +81,7 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                   height: _height * 0.7,
                   child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: data.size,
+                      itemCount:data.length <= 0?data.length: 15,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -100,36 +100,37 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                                     top: 22.0, left: 18, bottom: 22),
                                 child: Row(
                                   children: [
-                                    Expanded(
-                                      child: RichText(
-                                        text: TextSpan(
-                                            text: data.docs[index]['title'],
-                                            style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 14,
-                                              color: HexColor("3A3A3A"),
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                  text:
-                                                      '\n${data.docs[index]['description']}',
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: HexColor("AFAFAF"),
-                                                  ))
-                                            ]),
-                                        maxLines: 3,
-                                      ),
-                                    ),
-                                    if (data.docs[index]['type']
-                                        .contains("reminder"))
+                                    Text("${data[index]["user_name"]}"),
+                                    // Expanded(
+                                      // child: RichText(
+                                      //   text: TextSpan(
+                                      //       text: data[index]['user_name'],
+                                      //       style: GoogleFonts.poppins(
+                                      //         fontWeight: FontWeight.w600,
+                                      //         fontSize: 14,
+                                      //         color: HexColor("3A3A3A"),
+                                      //       ),
+                                      //       children: [
+                                      //         TextSpan(
+                                      //             text:
+                                      //                 '\n${data[index]['user_name']}',
+                                      //             style: GoogleFonts.poppins(
+                                      //               fontSize: 12,
+                                      //               fontWeight: FontWeight.w400,
+                                      //               color: HexColor("AFAFAF"),
+                                      //             ))
+                                      //       ]),
+                                      //   maxLines: 3,
+                                      // ),
+                                    // ),
+                                    // if (data[index]['user_name']
+                                    //     .contains("reminder"))
                                       const Icon(
                                         Icons.warning_amber,
                                         color: Colors.red,
                                       ),
-                                    if (data.docs[index]['type']
-                                        .contains("coupon"))
+                                    // if (data[index]['type']
+                                    //     .contains("coupon"))
                                       Image.asset("assets/icons/discount.png"),
                                     const SizedBox(
                                       width: 20,
@@ -144,7 +145,7 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                 ),
                 InkWell(
                   onTap: () {
-                    notificationApi.clearNotificationList();
+                    // notificationApi.clearNotificationList();
                   },
                   child: Container(
                     width: _width * 0.9,

@@ -331,17 +331,42 @@ class _FirstHomeState extends State<FirstHome> {
                         ),
                         Row(
                           children: [
-                            IconButton(
-                              // NOTIFICATION NUMBER CALLING
-                              icon: const ImageIcon(
-                                AssetImage("assets/icons/Notification.png"),
-                                size: 27,
-                                color: Colors.black,
-                              ),
-                              onPressed: () {
-                                Get.to(() => NotificationDetails());
-                                print(GlobalUserData);
-                              },
+                            StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection('bookings')
+                                  .where("userId", isEqualTo: number)
+                                  .where("booking_status", isEqualTo: "upcoming")
+                                  .orderBy("order_date", descending: true)
+                                  .snapshots(),
+                              builder: (context,AsyncSnapshot snapshot) {
+                                if(snapshot.connectionState == ConnectionState.waiting){
+                                  return Center(child: CircularProgressIndicator());
+                                }
+                                if(snapshot.hasError){
+                                  return Center(child:Container());
+                                }
+                                // if(snapshot.data.docs.length==0){
+                                //   return Center(child:Container());
+                                // }
+
+                                return Badge(
+                                  elevation:  snapshot.data.docs.isNotEmpty? 2 : 0,
+                                  badgeColor: snapshot.data.docs.isNotEmpty?Colors.red:Colors.white38,
+                                  position: BadgePosition.topEnd(top: 7,end: 7),
+                                  child: IconButton(
+                                    // NOTIFICATION NUMBER CALLING
+                                    icon: const ImageIcon(
+                                      AssetImage("assets/icons/Notification.png"),
+                                      size: 27,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: () {
+                                      Get.to(() => NotificationDetails());
+                                      print(GlobalUserData);
+                                    },
+                                  ),
+                                );
+                              }
                             ),
                             SizedBox(
                               width: 5,

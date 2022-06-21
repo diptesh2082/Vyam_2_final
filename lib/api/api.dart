@@ -172,16 +172,14 @@ class UserDetails {
 
 class NotificationApi {
   final Stream<QuerySnapshot> getnotification = FirebaseFirestore.instance
-      .collection('user_details')
-      .doc(number)
-      .collection("notification")
+      .collection("booking_notifications")
+      .orderBy("time_stamp",descending: true)
+  .where("user_id",isEqualTo: number)
       .snapshots();
 
   Future clearNotificationList() async {
     var remainderFirestore = FirebaseFirestore.instance
-        .collection('user_details')
-        .doc(number)
-        .collection("notification");
+        .collection("booking_notifications");
 
     try {
       await remainderFirestore.get().then((value) {

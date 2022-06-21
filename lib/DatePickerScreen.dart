@@ -234,14 +234,14 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16)),
               onPressed: () async {
-                print(endDate.difference(startDate).inDays);
+                print(endDate.difference(startDate).inDays+1);
                 await FirebaseFirestore.instance
                     .collection("bookings")
                     .doc(widget.bookingId)
                     .update({
                   "booking_date": startDate,
                   "plan_end_duration": endDate,
-                  "totalDays": endDate.difference(startDate).inDays
+                  "totalDays": endDate.difference(startDate).inDays+1
                 }).then((value) {
                   Get.to(
                     () => PaymentScreen(

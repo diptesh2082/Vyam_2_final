@@ -347,9 +347,7 @@ class _SelectDateState extends State<SelectDate> {
               // FocusScope.of(context).n;
               startDate =
                   DateTime(int.parse(year), current_mon, int.parse(day));
-              // months[current_mon - 1] + ", " + day + ", " + year;
-              // endDate = DateTime(int.parse(year), end_mon, int.parse(endday));
-              // months[end_mon - 1] + ", " + endday + ", " + year;
+
               totalDays = DateTime(int.parse(year), end_mon, int.parse(endday))
                       .difference(DateTime(
                           int.parse(year), current_mon, int.parse(day)))
@@ -357,8 +355,7 @@ class _SelectDateState extends State<SelectDate> {
                   1;
               print(startDate);
               print(endDate);
-              // print((months[current_mon - 1] + " ," + day + ", " + year));
-              // print(months[end_mon - 1] + ", " + endday + ", " + year);
+              print(widget.days);
 
               await FirebaseFirestore.instance
                   .collection("bookings")
@@ -368,7 +365,7 @@ class _SelectDateState extends State<SelectDate> {
                   .update({
                 "booking_date": startDate,
                 "plan_end_duration": endDate,
-                "totalDays": totalDays
+                "totalDays": widget.days
               }).then((value) {
                 Get.to(
                   () => PaymentScreen(
