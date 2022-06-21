@@ -157,7 +157,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          '${widget.months}',
+                          '${"Pay Per Session"}',
                           style: GoogleFonts.poppins(
                               // fontFamily: 'PoppinsSemiBold',
                               fontWeight: FontWeight.w700,
@@ -218,6 +218,17 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
+              Align(
+                  // alignment: Alignment.bottomLeft,
+                  child: Text("Double tap to choose a single date",
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red
+                      ),
+                  ))
             ],
           ),
         ),

@@ -34,16 +34,16 @@ admin.initializeApp();
 //         token=snapshot1.data().device_token;
 
 //             var payload;
-            if(snapshot.data().status == "upcoming"){
-              const  payload = {
-                                  notification:{
-                                    title:"Booking successful for " + String(snapshot.data().vendor_name),
-                                    body: "Share OTP at the center to start.",
-                                    clickAction:'FLUTTER_NOTIFICATION_CLICK',
-                                 }
-                            };
-                            return admin.messaging().sendToDevice(snapshot1.data().device_token,payload);
-            }
+//            if(snapshot.data().status == "upcoming"){
+//              const  payload = {
+//                                  notification:{
+//                                    title:"Booking successful for " + String(snapshot.data().vendor_name),
+//                                    body: "Share OTP at the center to start.",
+//                                    clickAction:'FLUTTER_NOTIFICATION_CLICK',
+//                                 }
+//                            };
+//                            return admin.messaging().sendToDevice(snapshot1.data().device_token,payload);
+//            }
             if(snapshot.data().status == "active"){
                    const  payload = {
                                        notification:{

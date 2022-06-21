@@ -130,7 +130,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   _payment() {
     var options = {
-      'key': 'rzp_test_33NhqFvjcCXYkk',
+      'key': 'rzp_live_7twfLFOgOjQnp1',
       'amount': (myCouponController.GlobalCouponApplied.value
               ? (grandTotal -
                   int.parse(myCouponController.CouponDetailsMap.value))
@@ -141,7 +141,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       // "order_id":"test_jukjktgtu",
 
       'prefill': {
-        'contact': "7407926060".toString(),
+        'contact': number.toString().substring(3,number.length),
         'email': GlobalUserData["email"].toString()
       },
 

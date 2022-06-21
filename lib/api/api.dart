@@ -216,7 +216,7 @@ class CouponApi {
 
 class BannerApi {
   Stream<QuerySnapshot> getBanner =
-      FirebaseFirestore.instance.collection('banner_details').where("access").orderBy("position_id",).snapshots();
+      FirebaseFirestore.instance.collection('banner_details') .where("visible",isEqualTo: true).orderBy("position_id",).snapshots();
 }
 
 class UpcomingApi {
@@ -224,6 +224,7 @@ class UpcomingApi {
       .collection('bookings')
       .where("userId", isEqualTo: number)
       .where("booking_status", isEqualTo: "upcoming")
+
       .orderBy("order_date", descending: true)
       .snapshots();
 }
