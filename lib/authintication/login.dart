@@ -1,16 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vyam_2_final/Home/home_page.dart';
+
 import 'package:vyam_2_final/Home/profile/Terms_&_Conditions.dart';
-import 'package:vyam_2_final/api/api.dart';
+
 import 'package:vyam_2_final/authintication/google_signin.dart';
 import 'package:vyam_2_final/authintication/otp_screen.dart';
-import 'package:vyam_2_final/authintication/register_name.dart';
+
 import 'package:vyam_2_final/colors/color.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
