@@ -511,6 +511,7 @@ class _PackegesState extends State<Packeges> {
                                                       id,
                                                       widget.getFinalID,
                                                       widget.doc,
+                                                        data.docs[snapshot]['description']
                                                     );
                                                     // CreateBooking(id);
                                                     await getBookingId(id);

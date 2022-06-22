@@ -332,6 +332,7 @@ class _YogaListState extends State<YogaList> {
                                             id,
                                             widget.getDocID,
                                             widget.doc,
+                                              data.docs[snapshot]['description']
                                           );
                                           await getBookingId(id);
                                         },

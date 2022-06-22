@@ -13,7 +13,7 @@ import '../../select_date.dart';
 
 class BookingDetails {
   void bookingDetails(context, index, bookingList, String gymType, getGymName,
-      gymLocation, booking_id, gymID, docs) {
+      gymLocation, booking_id, gymID, docs,description) {
     List newBookingList = bookingList;
     var booking = 0;
     // final userDetails=FirebaseFirestore.instance.collection("user_details").doc(number).get();
