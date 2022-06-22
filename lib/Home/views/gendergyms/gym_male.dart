@@ -61,8 +61,8 @@ class _GymMaleState extends State<GymMale> {
               return Container();
             }
 
-            var document = streamSnapshot.data.docs;
-            document.sort((a, b) {
+            var documents = streamSnapshot.data.docs;
+            documents.sort((a, b) {
               double d1 = calculateDistance(
                 a["location"].latitude,
                 a["location"].longitude,
@@ -82,7 +82,7 @@ class _GymMaleState extends State<GymMale> {
               else
                 return 0;
             });
-            document = document.where((element) {
+            documents = documents.where((element) {
               return element
                       .get('service')
                       .toString()
@@ -90,6 +90,20 @@ class _GymMaleState extends State<GymMale> {
                       .contains(widget.type) &&
                   ["unisex", "male"].contains(element.get("gender"));
             }).toList();
+            var document = [];
+            var distances = [];
+            documents.forEach((e) {
+              var distance = calculateDistance(
+                  GlobalUserData["location"].latitude,
+                  GlobalUserData["location"].longitude,
+                  e["location"].latitude,
+                  e["location"].longitude);
+              distance = double.parse((distance).toStringAsFixed(1));
+              if (distance <= 20) {
+                document.add(e);
+                distances.add(distance);
+              }
+            });
             // document = document.where((element) {
             //   return element
             //       .get('gender')
@@ -103,20 +117,7 @@ class _GymMaleState extends State<GymMale> {
                 shrinkWrap: true,
                 itemCount: document.length,
                 itemBuilder: (context, int index) {
-                  var distance = calculateDistance(
-                      GlobalUserData["location"].latitude,
-                      GlobalUserData["location"].longitude,
-                      document[index]["location"].latitude,
-                      document[index]["location"].longitude);
-                  distance = double.parse((distance).toStringAsFixed(1));
-                  // print(distance);
-                  if (distance <= 20
-                      // && (document[index]["locality"].toString()
-                      // .toLowerCase()
-                      // .trim() == GlobalUserData["locality"].toString()
-                      // .toLowerCase()
-                      // .trim())
-                      ) {
+
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       child: Container(
@@ -295,7 +296,7 @@ class _GymMaleState extends State<GymMale> {
                                             width: 5,
                                           ),
                                           Text(
-                                            "$distance Km",
+                                            "${distances[index]} Km",
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
                                                 color: Colors.white,
@@ -350,8 +351,7 @@ class _GymMaleState extends State<GymMale> {
                         ),
                       ),
                     );
-                  }
-                  return Container();
+
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return Container(
@@ -360,15 +360,36 @@ class _GymMaleState extends State<GymMale> {
                 },
               );
             } else {
-              return const Center(
-                child: Text(
-                  "No fitness options found",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w100,
-                    fontFamily: "Poppins",
-                    fontSize: 20,
+              return  Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 25,
                   ),
-                ),
+
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Center(
+                      child: Image.asset(
+                          "assets/Illustrations/search_empty.png")),
+                  SizedBox(
+                    height: 50,
+
+                  ),
+                  SizedBox(
+                    width: 200,
+                    height: 48,
+                    child: Text(
+                      "No fitness options found",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey),
+                    ),
+                  ),
+                ],
               );
             }
           },

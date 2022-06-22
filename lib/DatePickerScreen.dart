@@ -272,7 +272,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                       "vendorId": widget.gymId,
                       "booking_id": widget.bookingId,
                       "gym_details": Get.arguments["docs"],
-                      "totalDays": endDate.difference(startDate).inDays <=0?1:endDate.difference(startDate).inDays,
+                      "totalDays": endDate.difference(startDate).inDays+1,
                       "booking_plan":widget.package_name,
                     },
                   );

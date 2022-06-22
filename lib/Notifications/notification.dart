@@ -98,42 +98,99 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                     top: 22.0, left: 18, bottom: 22),
-                                child: Row(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("${data[index]["user_name"]}"),
-                                    // Expanded(
-                                      // child: RichText(
-                                      //   text: TextSpan(
-                                      //       text: data[index]['user_name'],
-                                      //       style: GoogleFonts.poppins(
-                                      //         fontWeight: FontWeight.w600,
-                                      //         fontSize: 14,
-                                      //         color: HexColor("3A3A3A"),
-                                      //       ),
-                                      //       children: [
-                                      //         TextSpan(
-                                      //             text:
-                                      //                 '\n${data[index]['user_name']}',
-                                      //             style: GoogleFonts.poppins(
-                                      //               fontSize: 12,
-                                      //               fontWeight: FontWeight.w400,
-                                      //               color: HexColor("AFAFAF"),
-                                      //             ))
-                                      //       ]),
-                                      //   maxLines: 3,
-                                      // ),
-                                    // ),
-                                    // if (data[index]['user_name']
-                                    //     .contains("reminder"))
-                                      const Icon(
-                                        Icons.warning_amber,
-                                        color: Colors.red,
+                                    Row(
+                                      children: [
+                                        if (data[index]["status"].toString().toLowerCase()=="cancelled")
+                                          SizedBox(
+                                            child: Text("Your booking has been canceled ${data[index]["user_name"].toString()} ❌",
+                                              maxLines: 2,
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14
+                                              ),
+                                            ),
+                                            width: MediaQuery.of(context).size.width*.75,
+                                          ),
+                                        if (data[index]["status"].toString().toLowerCase()=="completed")
+                                          // Booking completed ${data[index]["user_name"].toString()}
+                                          SizedBox(
+                                            child: Text("Booking completed ${data[index]["user_name"].toString()}",
+                                              maxLines: 2,
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14
+                                              ),
+                                            ),
+                                            width: MediaQuery.of(context).size.width*.75,
+                                          ),
+
+                                        if (data[index]["status"].toString().toLowerCase()=="active")
+                                          SizedBox(
+                                            child: Text("Booking activated  ${data[index]["user_name"]} ✅",
+                                              maxLines: 2,
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14
+                                              ),
+                                            ),
+                                            width: MediaQuery.of(context).size.width*.75,
+                                          ),
+                                        if (data[index]["status"].toString().toLowerCase()=="upcoming")
+                                        SizedBox(
+                                          child: Text("Booking successful for ${data[index]["vendor_name"]} ✅",
+                                       maxLines: 2,
+                                          style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14
+                                          ),
+                                          ),
+                                          width: MediaQuery.of(context).size.width*.75,
+                                        ),
+
+                                        const SizedBox(
+                                          width: 0,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 2,
+                                    ),
+                                    if (data[index]["status"].toString().toLowerCase()=="completed")
+                                      SizedBox(
+                                        child: Text("Eat well & take some rest 😇",
+                                          maxLines: 2,
+                                          style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12
+                                          ),
+                                        ),
+                                        width: MediaQuery.of(context).size.width*.7,
                                       ),
-                                    // if (data[index]['type']
-                                    //     .contains("coupon"))
-                                      Image.asset("assets/icons/discount.png"),
-                                    const SizedBox(
-                                      width: 20,
+                                    if (data[index]["status"].toString().toLowerCase()=="active")
+                                      SizedBox(
+                                        child: Text("Stay hydrated. 🚰",
+                                          maxLines: 2,
+                                          style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12
+                                          ),
+                                        ),
+                                        width: MediaQuery.of(context).size.width*.7,
+                                      ),
+                                    if (data[index]["status"].toString().toLowerCase()=="upcoming")
+                                    SizedBox(
+                                      child: Text("Share OTP at the center to start. (body)",
+                                        maxLines: 2,
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12
+                                        ),
+                                      ),
+                                      width: MediaQuery.of(context).size.width*.7,
                                     ),
                                   ],
                                 ),
@@ -142,6 +199,9 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                           ),
                         );
                       }),
+                ),
+                SizedBox(
+                  height: 50,
                 ),
                 InkWell(
                   onTap: () {

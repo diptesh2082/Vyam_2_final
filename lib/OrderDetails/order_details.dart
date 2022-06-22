@@ -429,14 +429,14 @@ class _OrderDetailsState extends State<OrderDetails> {
                         Row(
                           children: [
                             Text(
-                              '${doc["doc"]['booking_plan'] == "pay per session" ? doc["doc"]['booking_plan'] : "Package"}',
+                              '${doc["doc"]['booking_plan'] == "pay per session" || int.parse(doc["doc"]['totalDays'].toString()) <30 ? doc["doc"]['booking_plan'] : "Package"}',
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                             const Spacer(),
                             Text(
                               // getOderDetails[widget.index]['workout']
-                              doc["doc"]['booking_plan'] == "pay per session"
+                              doc["doc"]['booking_plan'] == "pay per session" || int.parse(doc["doc"]['totalDays'].toString()) <30
                                   ? '${doc["doc"]['totalDays'].toString()} days'
                                   : doc["doc"]['booking_plan'],
 

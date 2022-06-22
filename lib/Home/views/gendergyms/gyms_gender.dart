@@ -46,11 +46,13 @@ class _GymAllState extends State<GymAll> {
           //     ),
           //   ),
           // ):
-          StreamBuilder(
+          Padding(
+        padding:
+            const EdgeInsets.only(top: 20.0, left: 10, right: 10, bottom: 20),
+        child: SingleChildScrollView(
+          child: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection("product_details")
-                // .where("locality",
-                // isEqualTo: GlobalUserData["locality"])
                 .where("legit", isEqualTo: true)
                 .orderBy("location")
                 .snapshots(),
@@ -59,6 +61,9 @@ class _GymAllState extends State<GymAll> {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
+              }
+              if (streamSnapshot == null) {
+                return Container();
               }
 
               var document = streamSnapshot.data.docs;
@@ -83,69 +88,37 @@ class _GymAllState extends State<GymAll> {
                   return 0;
               });
 
-              document = document.where((element) {
-                print(element
-                    .get('service')
-                    .toString());
-                return element
-                    .get('service')
-                    .toString()
-                    .toLowerCase()
-                    .contains(widget.type.toString().toLowerCase());
-              }).toList();
-              print(widget.type);
-              print(document);
-              // if (document == null) {
-              //   const Center(
-              //     child: Text(
-              //       "No nearby gyms in your area",
-              //       style: TextStyle(
-              //         fontWeight: FontWeight.w100,
-              //         fontFamily: "Poppins",
-              //         fontSize: 20,
-              //       ),
-              //     ),
-              //   );
-              // }
-              // if (document.isEmpty) {
-              //   const Center(
-              //     child: Text(
-              //       "No nearby gyms in your area",
-              //       style: TextStyle(
-              //         fontWeight: FontWeight.w100,
-              //         fontFamily: "Poppins",
-              //         fontSize: 20,
-              //       ),
-              //     ),
-              //   );
-              // }
-              // if (document.length==0) {
-              //   const Center(
-              //     child: Text(
-              //       "No nearby gyms in your area",
-              //       style: TextStyle(
-              //         fontWeight: FontWeight.w100,
-              //         fontFamily: "Poppins",
-              //         fontSize: 20,
-              //       ),
-              //     ),
-              //   );
-              // }
-              // print(document[0]);
-              return  Container(
-                    child:document.isNotEmpty? ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: document.length,
-                        itemBuilder: (context, int index) {
-                          var distance = calculateDistance(
-                              GlobalUserData["location"].latitude,
-                              GlobalUserData["location"].longitude,
-                              document[index]["location"].latitude,
-                              document[index]["location"].longitude);
-                          distance = double.parse((distance).toStringAsFixed(1));
-                          // print(distance);
-                          if (distance <= 20)
+              // document = document.where((element) {
+              //   return element
+              //       .get('gender')
+              //       .toString()
+              //       .toLowerCase()
+              //       .contains("male");
+              // }).toList();
+              var documents = [];
+              var distances = [];
+              document.forEach((e) {
+                var distance = calculateDistance(
+                    GlobalUserData["location"].latitude,
+                    GlobalUserData["location"].longitude,
+                    e["location"].latitude,
+                    e["location"].longitude);
+                distance = double.parse((distance).toStringAsFixed(1));
+                if (distance <= 0) {
+                  documents.add(e);
+                  distances.add(distance);
+                }
+              });
+
+              return (documents.isNotEmpty)
+                  ? Column(
+                      children: [
+                        ListView.separated(
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: documents.length,
+                          itemBuilder: (context, int index) {
+
                             return ClipRRect(
                               borderRadius: BorderRadius.circular(20),
                               child: Container(
@@ -157,11 +130,10 @@ class _GymAllState extends State<GymAll> {
 
                                     Get.to(
                                         () => GymDetails(
-                                              // gymID: document[index].id,
+                                            // gymID: document[index].id,
                                             ),
                                         arguments: {
-                                          "gymId":document[index].id,
-
+                                          "gymId": document[index].id,
                                         });
                                   },
                                   child: Stack(
@@ -169,29 +141,32 @@ class _GymAllState extends State<GymAll> {
                                       FittedBox(
                                         child: ColorFiltered(
                                           colorFilter: ColorFilter.mode(
-                                              document[index]["gym_status"]
+                                              documents[index]["gym_status"]
                                                   ? Colors.transparent
                                                   : Colors.black,
                                               BlendMode.color),
                                           child: CachedNetworkImage(
-                                            maxHeightDiskCache: 650,
-                                            maxWidthDiskCache: 700,
+                                            maxHeightDiskCache: 600,
+                                            maxWidthDiskCache: 650,
                                             height: 210,
                                             fit: BoxFit.cover,
-                                            width:
-                                                MediaQuery.of(context).size.width,
-                                            imageUrl: document[index]
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            imageUrl: documents[index]
                                                     ["display_picture"] ??
                                                 "",
-                                            progressIndicatorBuilder: (context, url,
-                                                    downloadProgress) =>
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
                                                 Center(
                                                     child:
                                                         CircularProgressIndicator(
-                                                            value: downloadProgress
-                                                                .progress)),
-                                            errorWidget: (context, url, error) =>
-                                                const Icon(Icons.error),
+                                                            value:
+                                                                downloadProgress
+                                                                    .progress)),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
                                             // height: 195,
                                             // width: double.infinity,
                                           ),
@@ -223,7 +198,8 @@ class _GymAllState extends State<GymAll> {
                                         left: 5,
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(6),
+                                            borderRadius:
+                                                BorderRadius.circular(6),
                                             // color: Colors.white10,
                                           ),
                                           height: size.height * .078,
@@ -237,7 +213,7 @@ class _GymAllState extends State<GymAll> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                document[index]["name"] ?? "",
+                                                documents[index]["name"] ?? "",
                                                 // textAlign: TextAlign.center,
                                                 maxLines: 1,
                                                 // overflow:
@@ -246,21 +222,25 @@ class _GymAllState extends State<GymAll> {
                                                     color: Colors.white,
                                                     fontFamily: "Poppins",
                                                     fontSize: 15,
-                                                    fontWeight: FontWeight.w600),
+                                                    fontWeight:
+                                                        FontWeight.w600),
                                               ),
                                               const SizedBox(
                                                 height: 2,
                                               ),
                                               Text(
                                                 // "",
-                                                document[index]["address"] ?? "",
+                                                documents[index]["address"] ??
+                                                    "",
                                                 // textAlign: TextAlign.center,
                                                 style: const TextStyle(
-                                                    overflow: TextOverflow.ellipsis,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     color: Colors.white,
                                                     fontFamily: "Poppins",
                                                     fontSize: 12,
-                                                    fontWeight: FontWeight.w500),
+                                                    fontWeight:
+                                                        FontWeight.w500),
                                               ),
                                             ],
                                           ),
@@ -271,7 +251,8 @@ class _GymAllState extends State<GymAll> {
                                         bottom: 2,
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(6),
+                                            borderRadius:
+                                                BorderRadius.circular(6),
                                             // color: Colors.black26,
                                           ),
                                           alignment: Alignment.bottomRight,
@@ -300,7 +281,7 @@ class _GymAllState extends State<GymAll> {
                                                     width: 5,
                                                   ),
                                                   Text(
-                                                    "${document[index]["rating"] ?? ""}",
+                                                    "${documents[index]["rating"] ?? ""}",
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                         color: Colors.white,
@@ -323,7 +304,8 @@ class _GymAllState extends State<GymAll> {
                                                   //   color: Colors.white,
                                                   // ),
                                                   const Icon(
-                                                    CupertinoIcons.location_solid,
+                                                    CupertinoIcons
+                                                        .location_solid,
                                                     size: 20,
                                                     color: Colors.white,
                                                   ),
@@ -331,7 +313,7 @@ class _GymAllState extends State<GymAll> {
                                                     width: 5,
                                                   ),
                                                   Text(
-                                                    "$distance Km",
+                                                    "${distances[index]} Km",
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                         color: Colors.white,
@@ -346,7 +328,8 @@ class _GymAllState extends State<GymAll> {
                                           ),
                                         ),
                                       ),
-                                      if (document[index]["gym_status"] == false)
+                                      if (document[index]["gym_status"] ==
+                                          false)
                                         Positioned(
                                           top: 0,
                                           left: 0,
@@ -370,10 +353,13 @@ class _GymAllState extends State<GymAll> {
                                                 right: 8, bottom: 10),
                                           ),
                                         ),
-                                      if (document[index]["gym_status"] == false)
+                                      if (documents[index]["gym_status"] ==
+                                          false)
                                         Positioned(
                                           top: 10,
-                                          left: MediaQuery.of(context).size.width *
+                                          left: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
                                               .040,
                                           child: Text(
                                             "*Temporarily closed",
@@ -388,55 +374,42 @@ class _GymAllState extends State<GymAll> {
                                 ),
                               ),
                             );
-
-                          return  Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 25,
-                              ),
-                              SizedBox(
-                                width: 127,
-                                height: 48,
-                                child: Text(
-                                  "Coming soon in"
-                                      " your area",
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 25,
-                              ),
-                              Center(
-                                  child: Image.asset(
-                                      "assets/Illustrations/undraw_empty_street_sfxm 1.png")),
-                              SizedBox(
-                                height: 500,
-                              )
-                            ],
-                          );
-                        },
-                        // separatorBuilder: (BuildContext context, int index) {
-                        //   return Container(
-                        //     height: 15,
-                        //   );
-                        // },
-                      ): Column(
+                            // }
+                            // return SizedBox(
+                            // );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Container(
+                              height: 15,
+                            );
+                          },
+                        ),
+                      ],
+                    )
+                  :
+                  // } else {
+                  Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
                           height: 25,
                         ),
+
                         SizedBox(
-                          width: 127,
+                          height: 25,
+                        ),
+                        Center(
+                            child: Image.asset(
+                                "assets/Illustrations/search_empty.png")),
+                        SizedBox(
+                          height: 50,
+
+                        ),
+                        SizedBox(
+                          width: 200,
                           height: 48,
                           child: Text(
-                            "Coming soon in"
-                                " your area",
+                            "No fitness options found",
                             textAlign: TextAlign.center,
                             style: GoogleFonts.poppins(
                                 fontSize: 16,
@@ -444,22 +417,13 @@ class _GymAllState extends State<GymAll> {
                                 color: Colors.grey),
                           ),
                         ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        Center(
-                            child: Image.asset(
-                                "assets/Illustrations/undraw_empty_street_sfxm 1.png")),
-                        SizedBox(
-                          height: 500,
-                        )
                       ],
-                    ),
-                  );
-
-
+                    );
+              // }
             },
           ),
+        ),
+      ),
     );
   }
 }

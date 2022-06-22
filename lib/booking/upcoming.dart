@@ -141,6 +141,8 @@ class UpcomingEvent extends StatelessWidget {
                                             ),
                                             Text(
                                               data.docs[index]['gym_details']["name"]??"",
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                               // data.docs[index]['gym_name'],
                                               style: GoogleFonts.poppins(
                                                   color: HexColor("3A3A3A"),
