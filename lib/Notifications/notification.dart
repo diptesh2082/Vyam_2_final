@@ -69,10 +69,9 @@ class _NotificationDetailsState extends State<NotificationDetails> {
             print(data.length);
 
             if (data.length == 0) {
-              return Center(
-                child: Image.asset(
-                  "assets/Illustrations/notification empty.png",
-                ),
+              return Image.asset(
+                "assets/icons/noti.png",
+                height: 1000,
               );
             }
             return Column(
