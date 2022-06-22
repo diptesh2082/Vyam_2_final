@@ -239,7 +239,10 @@ class _LoginPageState extends State<LoginPage> {
                               final isValid = _formKey.currentState?.validate();
                               if (isValid!){
                                 _formKey.currentState?.save();
-
+                                setState(() {
+                                  showLoding = true;
+                                }
+                                );
                                 var _forceResendingToken;
                                 await _auth.verifyPhoneNumber(
                                     timeout: const Duration(seconds: 30),

@@ -165,148 +165,165 @@ class _ProfilePartState extends State<ProfilePart> {
                                 // const SizedBox(
                                 //   height: 9,
                                 // ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.only(left: size.width * 0),
-                                      child: Stack(
-                                        children: [
-                                          Positioned(
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Stack(children: [
-                                                doc?.get("image") == "" ||  doc?.get("image") == "null" ||   doc?.get("image") == null
-                                                    ? CircleAvatar(
-                                                        // backgroundImage: ,
-                                                        radius: 51,
-
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        // MediaQuery.of(context).size.width * 0.3,
-                                                        backgroundImage:  doc?.get("gender")
-                                                                    .toLowerCase() ==
-                                                                "male"
-                                                            ? const AssetImage(
-                                                                "assets/Illustrations/Avatarmale.png")
-                                                            :doc?.get("gender")
-                                                            .toLowerCase() =="female"?AssetImage(
-                                                                "assets/Illustrations/Avatar.png"):
-                                                        AssetImage(
-                                                            "assets/Illustrations/user.png")
-                                                  ,
-                                                      )
-                                                    : CircleAvatar(
-                                                        // backgroundImage: ,
-                                                        radius: 51,
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        // MediaQuery.of(context).size.width * 0.3,
-                                                        backgroundImage:
-                                                            CachedNetworkImageProvider(
-                                                              doc?.get("image"),
-                                                          scale: 1,
-                                                        ),
-                                                      ),
-                                              ]),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 9,
-                                    ),
-                                    // Spacer(),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Row(
+                                InkWell(
+                                  onTap: (){
+                                    print(name);
+                                    print(email);
+                                    print(number);
+                                    Get.to(() => Profile(),
+                                        arguments: {
+                                          "name":  doc?.get("name"),
+                                          "email":  doc?.get("email"),
+                                          "imageUrl":  doc?.get("image"),
+                                          "number":  doc?.get("number"),
+                                          "gender":
+                                          doc?.get("gender").toLowerCase()
+                                        });
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.only(left: size.width * 0),
+                                        child: Stack(
                                           children: [
-                                            Text(
-                                              doc?.get("name") == "" ?   "no name": doc?.get("name"),
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                  fontFamily: "Poppins",
-                                                  fontWeight: FontWeight.w600),
+                                            Positioned(
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Stack(children: [
+                                                  doc?.get("image") == "" ||  doc?.get("image") == "null" ||   doc?.get("image") == null
+                                                      ? CircleAvatar(
+                                                          // backgroundImage: ,
+                                                          radius: 51,
+
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          // MediaQuery.of(context).size.width * 0.3,
+                                                          backgroundImage:  doc?.get("gender")
+                                                                      .toLowerCase() ==
+                                                                  "male"
+                                                              ? const AssetImage(
+                                                                  "assets/Illustrations/Avatarmale.png")
+                                                              :doc?.get("gender")
+                                                              .toLowerCase() =="female"?AssetImage(
+                                                                  "assets/Illustrations/Avatar.png"):
+                                                          AssetImage(
+                                                              "assets/Illustrations/user.png")
+                                                    ,
+                                                        )
+                                                      : CircleAvatar(
+                                                          // backgroundImage: ,
+                                                          radius: 51,
+                                                          backgroundColor:
+                                                              Colors.white,
+                                                          // MediaQuery.of(context).size.width * 0.3,
+                                                          backgroundImage:
+                                                              CachedNetworkImageProvider(
+                                                                doc?.get("image"),
+                                                            scale: 1,
+                                                          ),
+                                                        ),
+
+                                                ]),
+                                              ),
                                             ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  .1,
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  print(name);
-                                                  print(email);
-                                                  print(number);
-                                                  Get.to(() => Profile(),
-                                                      arguments: {
-                                                        "name":  doc?.get("name"),
-                                                        "email":  doc?.get("email"),
-                                                        "imageUrl":  doc?.get("image"),
-                                                        "number":  doc?.get("number"),
-                                                        "gender":
-                                                        doc?.get("gender").toLowerCase()
-                                                      });
-                                                },
-                                                icon: const ImageIcon(AssetImage(
-                                                    "assets/icons/profile-edit.png")))
                                           ],
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: SizedBox(
-                                                child: Text(
-                                                  doc?.get("email") != "null"
-                                                      ? doc?.get("email")
-                                                      : "no email",
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 14,
+                                      ),
+                                      const SizedBox(
+                                        width: 9,
+                                      ),
+                                      // Spacer(),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                doc?.get("name") == "" ?   "no name": doc?.get("name"),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                    fontFamily: "Poppins",
+                                                    fontWeight: FontWeight.w600),
+                                              ),
+                                              SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    .1,
+                                              ),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    // print(name);
+                                                    // print(email);
+                                                    // print(number);
+                                                    Get.to(() => Profile(),
+                                                        arguments: {
+                                                          "name":  doc?.get("name"),
+                                                          "email":  doc?.get("email"),
+                                                          "imageUrl":  doc?.get("image"),
+                                                          "number":  doc?.get("number"),
+                                                          "gender":
+                                                          doc?.get("gender").toLowerCase()
+                                                        });
+                                                  },
+                                                  icon: const ImageIcon(AssetImage(
+                                                      "assets/icons/profile-edit.png")))
+                                            ],
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              SingleChildScrollView(
+                                                scrollDirection: Axis.horizontal,
+                                                child: SizedBox(
+                                                  child: Text(
+                                                    doc?.get("email") != "null"
+                                                        ? doc?.get("email")
+                                                        : "no email",
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w400,
+                                                      fontSize: 14,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "+91-",
-                                                  style: GoogleFonts.poppins(
-                                                      fontWeight: FontWeight.w500,
-                                                      fontSize: 14),
-                                                ),
-                                                Text(
-                                                  doc?.get("number") != ""
-                                                      ? doc?.get("number")
-                                                      : "no Phone number",
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 14,
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "+91-",
+                                                    style: GoogleFonts.poppins(
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 14),
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                                  Text(
+                                                    doc?.get("number") != ""
+                                                        ? doc?.get("number").substring(3,doc.get("number").length)
+                                                        : "no Phone number",
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 const SizedBox(
                                   height: 18,

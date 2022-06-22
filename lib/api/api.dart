@@ -184,7 +184,9 @@ class NotificationApi {
     try {
       await remainderFirestore.get().then((value) {
         for (DocumentSnapshot ds in value.docs) {
-          ds.reference.delete();
+          ds.reference.update({
+            "seen":true
+          });
         }
       });
     } catch (e) {

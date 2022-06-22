@@ -104,7 +104,7 @@ class _GymAllState extends State<GymAll> {
                     e["location"].latitude,
                     e["location"].longitude);
                 distance = double.parse((distance).toStringAsFixed(1));
-                if (distance <= 0) {
+                if (distance <= 20) {
                   documents.add(e);
                   distances.add(distance);
                 }

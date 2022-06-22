@@ -81,7 +81,7 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                   height: _height * 0.7,
                   child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount:data.length <= 0?data.length: 15,
+                      itemCount:data.length,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -204,8 +204,20 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                   height: 50,
                 ),
                 InkWell(
-                  onTap: () {
-                    // notificationApi.clearNotificationList();
+                  onTap: () async {
+                    try {
+                      await FirebaseFirestore.instance
+                          .collection("booking_notifications")
+                          .where("user_id",isEqualTo: number).get().then((value) {
+                        for (DocumentSnapshot ds in value.docs) {
+                          ds.reference.update({
+                            "seen":true
+                          });
+                        }
+                      });
+                    } catch (e) {
+                      return null;
+                    };
                   },
                   child: Container(
                     width: _width * 0.9,

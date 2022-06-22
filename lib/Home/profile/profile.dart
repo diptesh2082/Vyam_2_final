@@ -205,32 +205,43 @@ class _ProfileState extends State<Profile> {
                                     // decoration: const BoxDecoration(
                                     //     shape: BoxShape/.circle, color: Colors.white)
                                   )
-                                : Container(
-                                    child: imageUrl == "" || imageUrl == "null"
-                                        ? CircleAvatar(
-                                            // backgroundImage: ,
-                                            radius: 51,
+                                : Stack(
+                                  children: [
+                                    Container(
+                                        child: imageUrl == "" || imageUrl == "null"
+                                            ? CircleAvatar(
+                                                // backgroundImage: ,
+                                                radius: 52,
 
-                                            backgroundColor: Colors.white,
-                                            // MediaQuery.of(context).size.width * 0.3,
-                                            backgroundImage: gender
-                                                        .toLowerCase() ==
-                                                    "male"
-                                                ? const AssetImage(
-                                                    "assets/Illustrations/Avatarmale.png")
-                                                : AssetImage(
-                                                    "assets/Illustrations/Avatar.png"),
-                                          )
-                                        : CircleAvatar(
-                                            // backgroundImage: ,
-                                            radius: 51,
-                                            backgroundColor: Colors.white,
-                                            // MediaQuery.of(context).size.width * 0.3,
-                                            backgroundImage:
-                                                CachedNetworkImageProvider(
-                                                    imageUrl),
-                                          ),
-                                  ),
+                                                backgroundColor: Colors.white,
+                                                // MediaQuery.of(context).size.width * 0.3,
+                                                backgroundImage: gender
+                                                            .toLowerCase() ==
+                                                        "male"
+                                                    ? const AssetImage(
+                                                        "assets/Illustrations/Avatarmale.png")
+                                                    : gender
+                                                    .toLowerCase() =="female"?AssetImage(
+                                                    "assets/Illustrations/Avatar.png"):
+                                                AssetImage(
+                                                    "assets/Illustrations/user.png"),
+                                              )
+                                            : CircleAvatar(
+                                                // backgroundImage: ,
+                                                radius: 51,
+                                                backgroundColor: Colors.white,
+                                                // MediaQuery.of(context).size.width * 0.3,
+                                                backgroundImage:
+                                                    CachedNetworkImageProvider(
+                                                        imageUrl),
+                                              ),
+                                      ),
+                                    Positioned(
+                                        bottom: 3,
+                                        right: 3,
+                                        child: Image.asset("assets/icons/Add.png",height: 30,width: 30,))
+                                  ],
+                                ),
                             // if (imageUrl == "")
                             // CircleAvatar(
                             //   // backgroundImage: ,

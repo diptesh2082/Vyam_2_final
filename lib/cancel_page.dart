@@ -286,7 +286,7 @@ class _CancelDetailsState extends State<CancelDetails> {
                                                     .collection("booking_notifications")
                                                     .doc()
                                                     .set({
-                                                  "title": "booking Activated",
+                                                  "title": "booking Cancelled",
                                                   "status":"cancelled",
                                                   // "payment_done": false,
                                                   "user_id":number.toString(),

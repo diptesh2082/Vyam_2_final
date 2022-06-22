@@ -555,7 +555,7 @@ class _PackegesState extends State<Packeges> {
                         stream: FirebaseFirestore.instance
                             .collection("category")
                             .where("name", whereNotIn: ["gym","Gym","GYM"])
-                            .where("status", isEqualTo: true)
+                            // .where("status", isEqualTo: true)
                             // .orderBy("index")
                             .snapshots(),
                         builder: (context, AsyncSnapshot snapshot) {
