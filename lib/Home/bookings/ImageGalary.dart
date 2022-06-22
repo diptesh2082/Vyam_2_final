@@ -23,7 +23,7 @@ class _ImageGalleryState extends State<ImageGallery> {
   // bool isLoading=true;
   List Images=[];
   Future cacheImage(BuildContext context,String e)=>precacheImage(
-      CachedNetworkImageProvider(e,cacheKey:"customCacheKey2", cacheManager: customCacheManager,maxHeight: 50,maxWidth: 50),
+      CachedNetworkImageProvider(e,cacheKey:"customCacheKey2", cacheManager: customCacheManager,),
       context,
   );
   bool loading=true;
@@ -32,7 +32,9 @@ class _ImageGalleryState extends State<ImageGallery> {
     //  loading=true;
     // });
   Images=widget.images;
-  await Future.wait(  Images.map((e) =>cacheImage(context, e)).toList()).then((value) {
+  await Future.wait(  Images.map((e) =>cacheImage(context, e)).toList());
+
+  await Future.wait(  Images.map((e) =>DefaultCacheManager().getFileFromCache(e)).toList()).then((value) {
     setState(() {
       loading=false;
     });
@@ -41,6 +43,7 @@ class _ImageGalleryState extends State<ImageGallery> {
 
 
   }
+  // var III = DefaultCacheManager().getFileFromCache(url);
 
   static final customCacheManager=CacheManager(Config(
       "customCacheKey2",
@@ -270,10 +273,10 @@ class _ImageGalleryState extends State<ImageGallery> {
                   width: 200,
                 ))),
         // cacheManager: customCacheManager,
-        maxHeightDiskCache: 500,
-        maxWidthDiskCache: 700,
-        width: 400,
-        height: 400,
+        maxHeightDiskCache: 400,
+        // maxWidthDiskCache: 700,
+        // width: 400,
+        // height: 400,
         imageUrl: images,
         fit: BoxFit.cover,
       ),
