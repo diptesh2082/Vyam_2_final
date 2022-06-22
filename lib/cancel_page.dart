@@ -33,7 +33,7 @@ class _CancelDetailsState extends State<CancelDetails> {
   var doc = Get.arguments["doc"];
   var choices;
 
-  var namee;
+  var choose;
 
   @override
   Widget build(BuildContext context) {
@@ -79,10 +79,10 @@ class _CancelDetailsState extends State<CancelDetails> {
                   child: Text("check your internet connection"));
             }
             choices=snapshot.data!.docs;
-            List doc=[];
+            List docs=[];
             int i=0;
             choices.forEach((e){
-              doc.add(e);
+              docs.add(e);
             });
 
 
@@ -106,16 +106,16 @@ class _CancelDetailsState extends State<CancelDetails> {
                   child:
                   ListView.builder(
                     shrinkWrap: true,
-                    itemCount: doc.length,
+                    itemCount: docs.length,
                     itemBuilder: (context, index) {
                       return RadioListTile<String>(
-                          value: doc[index]['question'],
+                          value: docs[index]['question'],
                           title: Text(
-                              "${doc[index]['question'].toString()} || ${doc[index]['question']}"),
-                          groupValue: namee,
+                              "${docs[index]['question'].toString()}"),
+                          groupValue: choose,
                           onChanged: (String? valuee) {
                             setState(() {
-                              // namee = valuee!;
+                              choose = valuee!;
                               // place = doc[index]['branch'];
                             });
                             // print(namee);
@@ -268,7 +268,7 @@ class _CancelDetailsState extends State<CancelDetails> {
                                                 Map<String, dynamic> cancel_data = {
                                                   "cancel_remark":
                                                       cancelremark.text,
-                                                  "cancel_choice": default_choice,
+                                                  "cancel_choice": choose,
                                                   "booking_id":widget.id,
                                                   "bookingId":widget.bookingId,
                                                   "vendor_id":widget.bookingId,

@@ -32,7 +32,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
   void initState() {
     // getOderDetails = widget.orderList;
     // print(doc["doc"]["vendorId"]);
-    vendorData(gym_id);
+    // vendorData(gym_id);
     print(booking_id);
     super.initState();
   }
@@ -40,7 +40,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
   @override
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
-    var _height = MediaQuery.of(context).size.height;
+    // var _height = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: () async {
         doc["doc"]["booking_status"].toLowerCase() == "upcoming"
@@ -155,7 +155,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                                 TextSpan(text: 'Booking ID - '),
                                                 TextSpan(
                                                     text:
-                                                        "${doc["doc"]['id'] ?? ""}",
+                                                        "${doc["doc"]['id'].toString()}",
                                                     style: GoogleFonts.poppins(
                                                         // fontFamily: "Poppins",
                                                         fontWeight:
