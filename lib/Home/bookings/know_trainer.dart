@@ -26,6 +26,7 @@ class _TrainerState extends State<Trainer> {
       .collection("product_details")
       .doc("${Get.arguments["gym_id"]}")
       .collection("trainer")
+   .where("eligible",isEqualTo: true)
       .snapshots();
 
   int _current1 = 1;

@@ -620,9 +620,9 @@ final gymID=Get.arguments["gymId"];
                             StreamBuilder<QuerySnapshot>(
                                 stream: FirebaseFirestore.instance
                                     .collection("product_details")
-
                                     .doc("${gymID}")
                                     .collection("trainer")
+                                    .where("eligible",isEqualTo: true)
                                     .snapshots(),
                                 builder: (context, AsyncSnapshot snapshot) {
                                   if (snapshot.connectionState ==
