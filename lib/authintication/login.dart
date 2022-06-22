@@ -73,10 +73,7 @@ class _LoginPageState extends State<LoginPage> {
       body: showLoding
           ?  Container(
           color: Colors.white,
-          child: Center(child: Image.asset( "assets/Illustrations/vyam.png",
-            height: 200,
-            width: 200,
-          )))
+          child: Center(child:CircularProgressIndicator()))
           : SafeArea(
               child: SingleChildScrollView(
               child: Form(
