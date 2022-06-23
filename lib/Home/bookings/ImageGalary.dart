@@ -264,16 +264,9 @@ class _ImageGalleryState extends State<ImageGallery> {
     child: ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: CachedNetworkImage(
-        fadeInDuration: Duration(milliseconds: 200),
-        // progressIndicatorBuilder: (context, url, downloadProgress) =>
-        //     Container(
-        //         color: Colors.black87,
-        //         child: Center(child: Image.asset( "assets/Illustrations/vyam.png",
-        //         height: 120,
-        //           width: 200,
-        //         ))),
-        // cacheManager: customCacheManager,
-        maxHeightDiskCache: 400,
+        fadeInDuration: Duration(milliseconds: 80),
+
+        maxHeightDiskCache: 480,
         // maxWidthDiskCache: 700,
         // width: 400,
         // height: 400,

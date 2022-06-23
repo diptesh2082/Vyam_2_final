@@ -622,8 +622,8 @@ final gymID=Get.arguments["gymId"];
                                     .collection("product_details")
                                     .doc("${gymID}")
                                     .collection("trainer")
-                                    .orderBy("position")
                                     .where("eligible",isEqualTo: true)
+                                    .orderBy("position")
                                     .snapshots(),
                                 builder: (context, AsyncSnapshot snapshot) {
                                   if (snapshot.connectionState ==
@@ -634,11 +634,11 @@ final gymID=Get.arguments["gymId"];
                                       ),
                                     );
                                   }
-                                  if (snapshot.hasError) {
-                                    return const Center(
-                                      child: Text("Theres no trainers"),
-                                    );
-                                  }
+                                  // if (snapshot.hasError) {
+                                  //   return const Center(
+                                  //     child: Text("Theres no trainers"),
+                                  //   );
+                                  // }
                                   if (snapshot.hasData == false) {
                                     return Container();
                                   }

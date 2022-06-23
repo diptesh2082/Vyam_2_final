@@ -53,7 +53,7 @@ class _NotificationDetailsState extends State<NotificationDetails> {
           style: GoogleFonts.poppins(
               color: HexColor("3A3A3A"),
               fontSize: 18,
-              fontWeight: FontWeight.w600),
+              fontWeight: FontWeight.w700),
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -69,9 +69,21 @@ class _NotificationDetailsState extends State<NotificationDetails> {
             print(data.length);
 
             if (data.length == 0) {
-              return Image.asset(
-                "assets/icons/noti.png",
-                height: 1000,
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    "assets/icons/Pushnotifications-amico.png",
+                  height: 480,
+                  ),
+                  Text("So empty!",
+                  style: GoogleFonts.poppins(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54
+                  ),
+                  )
+                ],
               );
             }
             return Column(
@@ -80,7 +92,7 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                   height: _height * 0.7,
                   child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount:data.length,
+                      itemCount:data.length<=15 ? data.length:15,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -202,39 +214,42 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                 SizedBox(
                   height: 50,
                 ),
-                InkWell(
-                  onTap: () async {
-                    try {
-                      await FirebaseFirestore.instance
-                          .collection("booking_notifications")
-                          .where("user_id",isEqualTo: number).get().then((value) {
-                        for (DocumentSnapshot ds in value.docs) {
-                          ds.reference.update({
-                            "seen":true
-                          });
-                        }
-                      });
-                    } catch (e) {
-                      return null;
-                    };
-                  },
-                  child: Container(
-                    width: _width * 0.9,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: HexColor("292F3D"),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Center(
-                      child: Text(
-                        "Clear all",
-                        style: GoogleFonts.poppins(
-                            color: HexColor("FFFFFF"),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
-                ),
+                // InkWell(
+                //   onTap: () async {
+                //     // try {
+                //  await FirebaseFirestore.instance
+                //           .collection("booking_notifications")
+                //           .where("user_id",isEqualTo: number).get().then((value) {
+                //             value.docs.forEach((element) {
+                //               element.data().update("seen", (value) => true);
+                //             });
+                //         // for (DocumentSnapshot ds in value.docs) {
+                //         //   ds.reference.update({
+                //         //     "seen":true
+                //         //   });
+                //         // }
+                //       });
+                //     // } catch (e) {
+                //     //   return null;
+                //     // };
+                //   },
+                //   child: Container(
+                //     width: _width * 0.9,
+                //     height: 50,
+                //     decoration: BoxDecoration(
+                //         color: HexColor("292F3D"),
+                //         borderRadius: BorderRadius.circular(8)),
+                //     child: Center(
+                //       child: Text(
+                //         "Clear all",
+                //         style: GoogleFonts.poppins(
+                //             color: HexColor("FFFFFF"),
+                //             fontSize: 16,
+                //             fontWeight: FontWeight.w700),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             );
           }),

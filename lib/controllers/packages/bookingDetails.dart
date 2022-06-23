@@ -169,7 +169,7 @@ class BookingDetails {
                                       height: 10,
                                     ),
                                     Text(
-                                      "Note - if you book for an off-day, dont worry it will get adjusted.",
+                                      description.toString()==""?  "Note - if you book for an off-day, dont worry it will get adjusted.": "${description.toString()}",
                                       style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           color: HexColor("3A3A3A"),
