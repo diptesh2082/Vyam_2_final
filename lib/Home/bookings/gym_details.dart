@@ -884,8 +884,7 @@ final gymID=Get.arguments["gymId"];
                                                                     snaptu[index]
                                                                             [
                                                                             "user"]
-                                                                        [
-                                                                        "user_pic"],
+                                                                        ["user_pic"],
                                                                     maxWidth: 100,
                                                                     maxHeight: 100
                                                                   ),

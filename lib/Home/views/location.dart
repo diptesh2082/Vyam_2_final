@@ -20,9 +20,9 @@ import 'package:vyam_2_final/golbal_variables.dart';
 
 import '../../api/api.dart';
 
-const String api = "AIzaSyBdpLJQN_y-VtLZ2oLwp8OEE5SlR8cHHcQ";
-// core.GoogleMapsPlaces _places = core.GoogleMapsPlaces(apiKey: api);
-GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
+// const String api = "AIzaSyBueDk3xi4f8z5oGKwI8VLu-A190d89I8A";
+// // core.GoogleMapsPlaces _places = core.GoogleMapsPlaces(apiKey: api);
+// GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
 
 class LocInfo extends StatefulWidget {
   @override
