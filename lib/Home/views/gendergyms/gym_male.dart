@@ -146,8 +146,8 @@ class _GymMaleState extends State<GymMale> {
                                           : Colors.black,
                                       BlendMode.color),
                                   child: CachedNetworkImage(
-                                    maxHeightDiskCache: 650,
-                                    maxWidthDiskCache: 700,
+                                    maxHeightDiskCache: 480,
+                                    maxWidthDiskCache: 750,
                                     height: 210,
                                     fit: BoxFit.cover,
                                     width: MediaQuery.of(context).size.width,

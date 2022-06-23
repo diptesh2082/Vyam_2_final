@@ -149,8 +149,8 @@ class _GymUnisexState extends State<GymUnisex> {
                                               : Colors.black,
                                           BlendMode.color),
                                       child: CachedNetworkImage(
-                                        maxHeightDiskCache: 650,
-                                        maxWidthDiskCache: 700,
+                                        maxHeightDiskCache: 480,
+                                        maxWidthDiskCache: 750,
                                         height: 210,
                                         fit: BoxFit.cover,
                                         width:

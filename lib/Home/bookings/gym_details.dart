@@ -740,7 +740,7 @@ final gymID=Get.arguments["gymId"];
                                                                                     decoration: BoxDecoration(
                                                                                         shape: BoxShape.circle,
                                                                                         //border: Border.all(width: 1),
-                                                                                        image: DecorationImage(image: CachedNetworkImageProvider(trainerdoc[index]['image']), fit: BoxFit.cover)),
+                                                                                        image: DecorationImage(image: CachedNetworkImageProvider(trainerdoc[index]['image'],maxHeight: 350,maxWidth: 450), fit: BoxFit.cover)),
                                                                                   ),
                                                                                   SizedBox(
                                                                                     height: 2,
@@ -886,6 +886,8 @@ final gymID=Get.arguments["gymId"];
                                                                             "user"]
                                                                         [
                                                                         "user_pic"],
+                                                                    maxWidth: 100,
+                                                                    maxHeight: 100
                                                                   ),
                                                                   fit: BoxFit.cover)),
                                                         );
