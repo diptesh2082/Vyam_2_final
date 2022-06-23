@@ -254,7 +254,8 @@ class BookingDetails {
                                                   days: newBookingList[index]
                                                       ['validity'],
                                                   package_name: bookingList[index]
-                                                ['title'],
+                                                ['title'], branch:  bookingList[index]
+                                                  ['branch'],
 
                                                 ),
                                                 arguments: {"docs": docs},
@@ -290,6 +291,8 @@ class BookingDetails {
                                                   gymId: gymID,
                                                   bookingId: booking_id, package_name: bookingList[index]
                                                 ['title'],
+                                                    branch:  bookingList[index]
+                                                    ['branch']
                                                 ),
                                                 arguments: {"docs": docs},
                                                 duration: const Duration(

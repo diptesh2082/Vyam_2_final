@@ -57,6 +57,7 @@ class Timing_Screen extends StatelessWidget {
                     .collection("product_details")
                     .doc(id)
                     .collection("timings")
+                .orderBy("timing_id",descending: true)
                     .snapshots(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {

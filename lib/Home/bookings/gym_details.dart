@@ -163,6 +163,7 @@ final gymID=Get.arguments["gymId"];
           .collection("product_details")
           .doc(gymID)
           .collection("timings")
+          .orderBy("timing_id",descending: true)
           .snapshots()
           .listen((snap) {
         setState(() {

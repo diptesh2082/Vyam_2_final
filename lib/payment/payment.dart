@@ -50,6 +50,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final type=Get.arguments["booking_plan"];
   final ven_id=Get.arguments["vendorId"];
   final ven_name=Get.arguments["gymName"];
+  final branch=Get.arguments["branch"];
   showNotification(String title,String info) async {
 
     // setState(() {
@@ -237,7 +238,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           .collection("booking_notifications")
           .doc()
           .set({
-        "title": "booking Activated",
+        "title": "upcoming booking",
         "status":"upcoming",
         // "payment_done": false,
         "user_id":number.toString(),
@@ -247,6 +248,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         "time_stamp":DateTime.now(),
         "booking_id":booking_id,
         "seen":false,
+        "branch":branch
       }).then((value) async {
 
         await FirebaseFirestore.instance
@@ -1256,7 +1258,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   .collection("booking_notifications")
                                   .doc()
                                   .set({
-                                "title": "booking Activated",
+                                "title": "upcoming booking",
                                 "status":"upcoming",
                                 // "payment_done": false,
                                 "user_id":number.toString(),
@@ -1266,6 +1268,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 "time_stamp":DateTime.now(),
                                 "booking_id":booking_id,
                                 "seen":false,
+                                "branch":branch
                               }).then((value) async {
                                 await showNotification("Booking successful for " + ven_name,"Share OTP at the center to start.");
                               }).then((value) async {

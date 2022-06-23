@@ -23,6 +23,7 @@ class SelectDate extends StatefulWidget {
   final bookingId;
   final days;
   final package_name;
+  final branch;
   const SelectDate(
       {Key? key,
       required this.months,
@@ -32,7 +33,7 @@ class SelectDate extends StatefulWidget {
       required this.getGymAddress,
       required this.gymId,
         required this.bookingId,
-      required this.days,required this.package_name})
+      required this.days,required this.package_name,required this.branch})
       : super(key: key);
 
   final String months;
@@ -385,6 +386,7 @@ class _SelectDateState extends State<SelectDate> {
                     "gym_details": Get.arguments["docs"],
                     "totalDays": widget.days,
                     "booking_plan":widget.package_name,
+                    "branch":widget.branch
                   },
                 );
               });

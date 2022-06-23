@@ -17,6 +17,7 @@ class DatePickerScreen extends StatefulWidget {
   final bookingId;
   final months;
   final package_name;
+  final branch;
   const DatePickerScreen(
       {Key? key,
         required  this.getGymName,
@@ -25,7 +26,7 @@ class DatePickerScreen extends StatefulWidget {
         required this.price,
         required this.gymId,
         required this.bookingId,
-        required this.months,required this.package_name})
+        required this.months,required this.package_name,required this.branch})
       : super(key: key);
 
   @override
@@ -274,6 +275,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                       "gym_details": Get.arguments["docs"],
                       "totalDays": endDate.difference(startDate).inDays+1,
                       "booking_plan":widget.package_name,
+                      "branch":widget.branch
                     },
                   );
                 });
