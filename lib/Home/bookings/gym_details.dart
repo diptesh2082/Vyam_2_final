@@ -622,6 +622,7 @@ final gymID=Get.arguments["gymId"];
                                     .collection("product_details")
                                     .doc("${gymID}")
                                     .collection("trainer")
+                                    .orderBy("position")
                                     .where("eligible",isEqualTo: true)
                                     .snapshots(),
                                 builder: (context, AsyncSnapshot snapshot) {
