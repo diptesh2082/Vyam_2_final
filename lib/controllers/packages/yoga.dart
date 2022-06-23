@@ -332,9 +332,10 @@ class _YogaListState extends State<YogaList> {
                                             id,
                                             widget.getDocID,
                                             widget.doc,
-                                              data.docs[snapshot]['description']
+                                              data.docs[snapshot]['description'],
+                                              widget.branch
                                           );
-                                           await CreateBooking(id);
+                                          await Future.wait(CreateBooking(id)) ;
                                         },
                                         color: HexColor("292F3D"),
                                         shape: RoundedRectangleBorder(

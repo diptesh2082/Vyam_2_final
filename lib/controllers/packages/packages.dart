@@ -19,7 +19,7 @@ class Packeges extends StatefulWidget {
   final gymLocation;
   final getFinalID;
   // final display_mage;
-  // final branch;
+  final branch;
   final doc;
 
   const Packeges(
@@ -27,7 +27,7 @@ class Packeges extends StatefulWidget {
       required this.getFinalID,
       required this.gymName,
       required this.gymLocation,
-      required this.doc})
+      required this.doc,required this.branch})
       : super(key: key);
 
   @override
@@ -511,10 +511,11 @@ class _PackegesState extends State<Packeges> {
                                                       id,
                                                       widget.getFinalID,
                                                       widget.doc,
-                                                        data.docs[snapshot]['description']
+                                                        data.docs[snapshot]['description'],
+                                                      widget.branch
                                                     );
                                                     // CreateBooking(id);
-                                                    await CreateBooking(id);
+                                                    await Future.wait(CreateBooking(id)) ;
                                                   },
                                                   color: HexColor("292F3D"),
                                                   shape: RoundedRectangleBorder(

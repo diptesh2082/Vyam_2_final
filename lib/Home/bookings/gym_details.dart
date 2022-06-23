@@ -1276,7 +1276,7 @@ final gymID=Get.arguments["gymId"];
                                       getFinalID: gymID,
                                       gymName: docs["name"],
                                       gymLocation: docs["address"],
-                                      doc: docs,
+                                      doc: docs, branch: docs["branch"],
                                     ),
                                 duration: const Duration(milliseconds: 300),
                                 // arguments: {

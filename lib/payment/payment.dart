@@ -257,7 +257,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             .collection("used_by")
             .doc().set({
           "user":GlobalUserData["userId"],
-          "user_name":GlobalUserData["userId"],
+          "user_name":GlobalUserData["name"],
           "vendor_id":gymData["gym_id"]
         });
       });
@@ -1279,7 +1279,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     .collection("used_by")
                                     .doc().set({
                                   "user":GlobalUserData["userId"],
-                                  "user_name":GlobalUserData["userId"],
+                                  "user_name":GlobalUserData["name"],
                                   "vendor_id":gymData["gym_id"]
                                 });
                               });

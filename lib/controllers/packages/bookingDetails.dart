@@ -13,7 +13,7 @@ import '../../select_date.dart';
 
 class BookingDetails {
   void bookingDetails(context, index, bookingList, String gymType, getGymName,
-      gymLocation, booking_id, gymID, docs,description) {
+      gymLocation, booking_id, gymID, docs,description, String branch) {
     List newBookingList = bookingList;
     var booking = 0;
     // final userDetails=FirebaseFirestore.instance.collection("user_details").doc(number).get();
@@ -254,8 +254,8 @@ class BookingDetails {
                                                   days: newBookingList[index]
                                                       ['validity'],
                                                   package_name: bookingList[index]
-                                                ['title'], branch:  bookingList[index]
-                                                  ['branch'],
+                                                ['title'],
+                                                  branch:  branch,
 
                                                 ),
                                                 arguments: {"docs": docs},
@@ -291,8 +291,7 @@ class BookingDetails {
                                                   gymId: gymID,
                                                   bookingId: booking_id, package_name: bookingList[index]
                                                 ['title'],
-                                                    branch:  bookingList[index]
-                                                    ['branch']
+                                                    branch: branch
                                                 ),
                                                 arguments: {"docs": docs},
                                                 duration: const Duration(
