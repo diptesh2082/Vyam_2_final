@@ -122,7 +122,7 @@ class _ContactUsState extends State<ContactUs> {
                   ),
                   ListTile(
                     onTap: () async {
-                      final url = "${snapshot.data.get("website")}";
+                      final url = "https:${snapshot.data.get("website")}";
                       if (await canLaunch(url)) {
                         await launch(
                           url,

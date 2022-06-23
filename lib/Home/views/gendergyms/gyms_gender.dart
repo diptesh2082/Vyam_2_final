@@ -97,6 +97,7 @@ class _GymAllState extends State<GymAll> {
               // }).toList();
               var documents = [];
               var distances = [];
+
               document.forEach((e) {
                 var distance = calculateDistance(
                     GlobalUserData["location"].latitude,
@@ -109,6 +110,13 @@ class _GymAllState extends State<GymAll> {
                   distances.add(distance);
                 }
               });
+              documents = documents.where((element) {
+                return element
+                    .get('service')
+                    .toString()
+                    .toLowerCase()
+                    .contains(widget.type);
+              }).toList();
 
               return (documents.isNotEmpty)
                   ? Column(
