@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,124 +17,134 @@ class _ContactUsState extends State<ContactUs> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-          backgroundColor: scaffoldColor,
-          appBar: AppBar(
-            title: Text("Contact Us"),
-            centerTitle: true,
-            // foregroundColor: Color(0xff3A3A3A),
-            backgroundColor: Color(0xffEAEAEA),
-            elevation: 0,
-            automaticallyImplyLeading: true,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () => Navigator.pop(context, false),
-              color: Color(0xff3A3A3A),
-            ),
-          ),
-          body: Column(
-            children: [
-              ListTile(
-                onTap: () async {
-                  var email = "support@vyam.co.in";
-                  print(email);
-                  String emailUrl = "mailto: ${email.toString()}";
-                  if (await canLaunch(emailUrl)) {
-                    await launch(emailUrl);
-                  } else {
-                    throw "Error occured trying to call that number.";
-                  }
-                },
-                leading: Icon(
-                  FontAwesomeIcons.envelope,
-                  color: Color(0xff292D32),
-                  size: 20,
-                ),
-                title: Text(
-                  'support@vyam.co.in',
-                  style: GoogleFonts.poppins(
-                      fontSize: 14, fontWeight: FontWeight.w400),
+      child: StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance.collection("app details").doc("contact_us").snapshots(),
+        builder: (context,AsyncSnapshot snapshot) {
+          if(snapshot.connectionState==ConnectionState.waiting){
+            return Container(
+                color: Colors.white,
+                child: Center(child: CircularProgressIndicator()));
+          }
+          return Scaffold(
+              backgroundColor: scaffoldColor,
+              appBar: AppBar(
+                title: Text("Contact Us"),
+                centerTitle: true,
+                // foregroundColor: Color(0xff3A3A3A),
+                backgroundColor: Color(0xffEAEAEA),
+                elevation: 0,
+                automaticallyImplyLeading: true,
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: () => Navigator.pop(context, false),
+                  color: Color(0xff3A3A3A),
                 ),
               ),
-              SizedBox(
-                child: Divider(
-                  color: Color(0xffE9E9E9),
-                  thickness: 1.5,
-                  height: 5,
-                ),
-              ),
-              ListTile(
-                onTap: () async {
-                  final url =
-                      'https://www.instagram.com/accounts/login/?next=/vyam.app/';
-                  if (await canLaunch(url)) {
-                    await launch(
-                      url,
-                      forceSafariVC: false,
-                    );
-                  }
-                },
-                leading: Icon(
-                  FontAwesomeIcons.instagram,
-                  color: Color(0xff292D32),
-                  size: 20,
-                ),
-                title: Text(
-                  '@vyam',
-                  style: GoogleFonts.poppins(
-                      fontSize: 14, fontWeight: FontWeight.w400),
-                ),
-              ),
-              Divider(
-                color: Color(0xffE9E9E9),
-                thickness: 1.5,
-                height: 5,
-              ),
-              ListTile(
-                onTap: () async {
-                  var number = "+919102691777";
-                  print(number);
-                  String telephoneUrl = "tel:${number.toString()}";
-                  if (await canLaunch(telephoneUrl)) {
-                    await launch(telephoneUrl);
-                  } else {
-                    throw "Error occured trying to call that number.";
-                  }
-                },
-                leading: Icon(
-                  FontAwesomeIcons.phone,
-                  color: Color(0xff292D32),
-                  size: 20,
-                ),
-                title: Text(
-                  '+919102691777',
-                  style: GoogleFonts.poppins(
-                      fontSize: 14, fontWeight: FontWeight.w400),
-                ),
-              ),
-              ListTile(
-                onTap: () async {
-                  final url = 'https://www.vyam.co.in/';
-                  if (await canLaunch(url)) {
-                    await launch(
-                      url,
-                      forceSafariVC: false,
-                    );
-                  }
-                },
-                leading: Icon(
-                  FontAwesomeIcons.earthAmericas,
-                  color: Color(0xff292D32),
-                  size: 20,
-                ),
-                title: Text(
-                  'www.vyam.com',
-                  style: GoogleFonts.poppins(
-                      fontSize: 14, fontWeight: FontWeight.w400),
-                ),
-              ),
-            ],
-          )),
+              body: Column(
+                children: [
+                  ListTile(
+                    onTap: () async {
+                      var email = "${snapshot.data.get("email")}";
+                      print(email);
+                      String emailUrl = "mailto: ${email.toString()}";
+                      if (await canLaunch(emailUrl)) {
+                        await launch(emailUrl);
+                      } else {
+                        throw "Error occured trying to call that number.";
+                      }
+                    },
+                    leading: Icon(
+                      FontAwesomeIcons.envelope,
+                      color: Color(0xff292D32),
+                      size: 20,
+                    ),
+                    title: Text(
+                      "${snapshot.data.get("email")}",
+                      style: GoogleFonts.poppins(
+                          fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  SizedBox(
+                    child: Divider(
+                      color: Color(0xffE9E9E9),
+                      thickness: 1.5,
+                      height: 5,
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () async {
+                      final url =
+                          "${snapshot.data.get("instaId")}";
+                      if (await canLaunch(url)) {
+                        await launch(
+                          url,
+                          forceSafariVC: false,
+                        );
+                      }
+                    },
+                    leading: Icon(
+                      FontAwesomeIcons.instagram,
+                      color: Color(0xff292D32),
+                      size: 20,
+                    ),
+                    title: Text(
+                      '@vyam',
+                      style: GoogleFonts.poppins(
+                          fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  Divider(
+                    color: Color(0xffE9E9E9),
+                    thickness: 1.5,
+                    height: 5,
+                  ),
+                  ListTile(
+                    onTap: () async {
+                      var number = "${snapshot.data.get("phonenumber")}";
+                      print(number);
+                      String telephoneUrl = "tel:${number.toString()}";
+                      if (await canLaunch(telephoneUrl)) {
+                        await launch(telephoneUrl);
+                      } else {
+                        throw "Error occured trying to call that number.";
+                      }
+                    },
+                    leading: Icon(
+                      FontAwesomeIcons.phone,
+                      color: Color(0xff292D32),
+                      size: 20,
+                    ),
+                    title: Text(
+                      "${snapshot.data.get("phonenumber")}",
+                      style: GoogleFonts.poppins(
+                          fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () async {
+                      final url = "${snapshot.data.get("website")}";
+                      if (await canLaunch(url)) {
+                        await launch(
+                          url,
+                          forceSafariVC: false,
+                        );
+                      }
+                    },
+                    leading: Icon(
+                      FontAwesomeIcons.earthAmericas,
+                      color: Color(0xff292D32),
+                      size: 20,
+                    ),
+                    title: Text(
+                      "${snapshot.data.get("website")}",
+                      style: GoogleFonts.poppins(
+                          fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                ],
+              ));
+        }
+      ),
     );
   }
 }

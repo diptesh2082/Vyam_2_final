@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -44,25 +45,35 @@ Or call us at +91 91026 91777''';
             color: Color(0xff3A3A3A),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(40.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20.0),
-                  child: Text(
-                    text,
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      textStyle: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
+        body: StreamBuilder<DocumentSnapshot>(
+          stream:  FirebaseFirestore.instance.collection("app details").doc("about_us").snapshots(),
+          builder: (context,AsyncSnapshot snapshot) {
+            if(snapshot.connectionState==ConnectionState.waiting){
+              return Container(
+                  color: Colors.white,
+                  child: Center(child: CircularProgressIndicator()));
+            }
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(40.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: Text(
+                        "${snapshot.data.get("about")}",
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
+                          textStyle: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }
         ),
       ),
     );

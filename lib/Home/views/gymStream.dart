@@ -124,7 +124,7 @@ class BuildBox extends StatelessWidget {
                                                 child: CachedNetworkImage(
                                                   // cacheManager: customCacheManager,
                                                   maxHeightDiskCache: 430,
-                                                  // maxWidthDiskCache: 700,
+                                                  maxWidthDiskCache: 750,
                                                   filterQuality:
                                                       FilterQuality.high,
                                                   height: 210,
