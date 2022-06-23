@@ -49,26 +49,26 @@ class _PackegesState extends State<Packeges> {
   final id =
       FirebaseFirestore.instance.collection("bookings").doc().id.toString();
 
-  getBookingId(id) async {
-    print("//////////" + id);
-    var db = FirebaseFirestore.instance.collection("bookings").doc(id);
-    await FirebaseFirestore.instance
-        .collection("bookings")
-        .where("booking_status".toLowerCase(),
-            whereIn: ["completed", "active", "upcoming", "cancelled"])
-        .get()
-        .then((value) async {
-          if (value.docs.isNotEmpty) {
-            booking_iiid = await value.docs.length;
-          }
-        })
-        .then((value) async {
-          print(booking_iiid);
-          await CreateBooking(id, (booking_iiid + 500));
-        });
-
-    // coupon_list=
-  }
+  // getBookingId(id) async {
+  //   print("//////////" + id);
+  //   var db = FirebaseFirestore.instance.collection("bookings").doc(id);
+  //   await FirebaseFirestore.instance
+  //       .collection("bookings")
+  //       .where("booking_status".toLowerCase(),
+  //           whereIn: ["completed", "active", "upcoming", "cancelled"])
+  //       .get()
+  //       .then((value) async {
+  //         if (value.docs.isNotEmpty) {
+  //           booking_iiid = await value.docs.length;
+  //         }
+  //       })
+  //       .then((value) async {
+  //         print(booking_iiid);
+  //         await CreateBooking(id, (booking_iiid + 500));
+  //       });
+  //
+  //   // coupon_list=
+  // }
 
   String? iiid;
   getUserData() async {
@@ -88,7 +88,7 @@ class _PackegesState extends State<Packeges> {
   // var String booking_id;
   final bookings = FirebaseFirestore.instance.collection("bookings");
 
-  CreateBooking(String id, int booking_id) async {
+  CreateBooking(String id) async {
     final bookings = await FirebaseFirestore.instance.collection("bookings");
     // .doc(number)
     // .collection("user_booking");
@@ -122,7 +122,7 @@ class _PackegesState extends State<Packeges> {
       "tax_pay": "",
       "totalDays": "0",
       "total_price": "",
-      "id": booking_id,
+      "id": "",
       "payment_method": "offline"
 
       // "gym_details":{
@@ -151,7 +151,7 @@ class _PackegesState extends State<Packeges> {
   void initState() {
     print(id);
     // CreateBooking(id);
-    getBookingId(id);
+    // getBookingId(id);
     print(id);
     setDate();
     iiid = id;
@@ -514,7 +514,7 @@ class _PackegesState extends State<Packeges> {
                                                         data.docs[snapshot]['description']
                                                     );
                                                     // CreateBooking(id);
-                                                    await getBookingId(id);
+                                                    await CreateBooking(id);
                                                   },
                                                   color: HexColor("292F3D"),
                                                   shape: RoundedRectangleBorder(

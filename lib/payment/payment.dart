@@ -211,32 +211,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
         x=x+1000;
       }
       FocusScope.of(context).unfocus();
-
+      int booking_iiid=0;
       await FirebaseFirestore.instance
           .collection("bookings")
-          .doc(getData["booking_id"])
-          .update({
-        "otp_pass": x.toString(),
-        "booking_status": "upcoming",
-        "payment_done": true,
-        "payment_method":"online"
-      }).then((value) async {
-        if (myCouponController
-            .GlobalCouponApplied
-            .value ==
-            true){
-          await FirebaseFirestore.instance
-              .collection("coupon")
-              .doc(myCouponController.coupon_id.value)
-              .collection("used_by")
-              .doc().set({
-            "user":GlobalUserData["userId"],
-            "user_name":GlobalUserData["userId"],
-            "vendor_id":gymData["gym_id"]
-          });
+          .where("booking_status".toLowerCase(),
+          whereIn: ["completed", "active", "upcoming", "cancelled"])
+          .get()
+          .then((value) async {
+        if (value.docs.isNotEmpty) {
+          booking_iiid = await value.docs.length;
         }
-
-
+      }).then((value) async {
+        await FirebaseFirestore.instance
+            .collection("bookings")
+            .doc(getData["booking_id"])
+            .update({
+          "otp_pass": x.toString(),
+          "booking_status": "upcoming",
+          "payment_done": true,
+          "payment_method":"online",
+          "id":booking_iiid
+        });
       });
       await FirebaseFirestore.instance
           .collection("booking_notifications")
@@ -252,7 +247,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
         "time_stamp":DateTime.now(),
         "booking_id":booking_id,
         "seen":false,
+      }).then((value) async {
+
+        await FirebaseFirestore.instance
+            .collection("coupon")
+            .doc(myCouponController.coupon_id.value)
+            .collection("used_by")
+            .doc().set({
+          "user":GlobalUserData["userId"],
+          "user_name":GlobalUserData["userId"],
+          "vendor_id":gymData["gym_id"]
+        });
       });
+
+
+        // }
+
+
       // booking_details["id"]!=null?
       await showNotification("Booking successful for " + ven_name,"Share OTP at the center to start.");
       // :await showNotification("Booking Status You","Booking Unsuccessful");
@@ -1219,34 +1230,28 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               setState(() {
                                 isLoading=false;
                               });
-
-                              // print(x);
+                              int? booking_iiid;
                               await FirebaseFirestore.instance
                                   .collection("bookings")
-                                  .doc(booking_id)
-                                  .update({
-                                "otp_pass": x.toString(),
-                                "booking_status":"upcoming",
-                                "payment_done": false,
-                              }).then((value) async {
-                                if (myCouponController
-                                    .GlobalCouponApplied
-                                    .value ==
-                                    true){
-                                  await FirebaseFirestore.instance
-                                      .collection("coupon")
-                                      .doc(myCouponController.coupon_id.value)
-                                      .collection("used_by")
-                                      .doc().set({
-                                        "user":GlobalUserData["userId"],
-                                          "user_name":GlobalUserData["userId"],
-                                    "vendor_id":gymData["gym_id"]
-                                  });
+                                  .where("booking_status".toLowerCase(),
+                                  whereIn: ["completed", "active", "upcoming", "cancelled"])
+                                  .get()
+                                  .then((value) async {
+                                if (value.docs.isNotEmpty) {
+                                  booking_iiid = await value.docs.length;
                                 }
-
+                              }).then((value) async {
+                                await FirebaseFirestore.instance
+                                    .collection("bookings")
+                                    .doc(booking_id)
+                                    .update({
+                                  "otp_pass": x.toString(),
+                                  "booking_status":"upcoming",
+                                  "payment_done": false,
+                                  "id":booking_iiid
+                                });
 
                               });
-
                               await FirebaseFirestore.instance
                                   .collection("booking_notifications")
                                   .doc()
@@ -1263,17 +1268,31 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 "seen":false,
                               }).then((value) async {
                                 await showNotification("Booking successful for " + ven_name,"Share OTP at the center to start.");
-                              });
-                            }catch(e){
+                              }).then((value) async {
 
-                            }
+                                await FirebaseFirestore.instance
+                                    .collection("coupon")
+                                    .doc(myCouponController.coupon_id.value)
+                                    .collection("used_by")
+                                    .doc().set({
+                                  "user":GlobalUserData["userId"],
+                                  "user_name":GlobalUserData["userId"],
+                                  "vendor_id":gymData["gym_id"]
+                                });
+                              });
+
+
+
 
 
                             setState(() {
                               isLoading = false;
                             });
 
-                          },
+                          }catch(e){
+
+                            }
+                            },
                           child: Container(
                               height: 38,
                               width: 90,

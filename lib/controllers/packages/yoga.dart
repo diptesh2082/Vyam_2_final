@@ -58,28 +58,28 @@ class _YogaListState extends State<YogaList> {
 
   get dateTime => DateTime.now();
   int? booking_iiid;
-  getBookingId(id) async {
-    print("//////////" + id);
-    var db = FirebaseFirestore.instance.collection("bookings").doc(id);
-    await FirebaseFirestore.instance
-        .collection("bookings")
-        .where("booking_status".toLowerCase(),
-            whereIn: ["completed", "active", "upcoming", "cancelled"])
-        .get()
-        .then((value) async {
-          if (value.docs.isNotEmpty) {
-            booking_iiid = await value.docs.length;
-          }
-        })
-        .then((value) async {
-          print(booking_iiid);
-          await CreateBooking(id, booking_iiid!);
-        });
+  // getBookingId(id) async {
+  //   print("//////////" + id);
+  //   var db = FirebaseFirestore.instance.collection("bookings").doc(id);
+  //   await FirebaseFirestore.instance
+  //       .collection("bookings")
+  //       .where("booking_status".toLowerCase(),
+  //           whereIn: ["completed", "active", "upcoming", "cancelled"])
+  //       .get()
+  //       .then((value) async {
+  //         if (value.docs.isNotEmpty) {
+  //           booking_iiid = await value.docs.length;
+  //         }
+  //       })
+  //       .then((value) async {
+  //         print(booking_iiid);
+  //         await CreateBooking(id, booking_iiid!);
+  //       });
+  //
+  //   // coupon_list=
+  // }
 
-    // coupon_list=
-  }
-
-  CreateBooking(String id, int booking_id) async {
+  CreateBooking(String id) async {
     final bookings = await FirebaseFirestore.instance.collection("bookings");
     // .doc(number)
     // .collection("user_booking");
@@ -113,14 +113,14 @@ class _YogaListState extends State<YogaList> {
       "tax_pay": "",
       "totalDays": "0",
       "total_price": "",
-      "id": booking_id,
+      "id": "",
       "payment_method": "offline"
 
       // "gym_details":{
       //   "name":widget.gymName
       // },
     });
-    print("////////// $booking_id");
+
 
     setState(() {
       widget.isLoading = false;
@@ -334,7 +334,7 @@ class _YogaListState extends State<YogaList> {
                                             widget.doc,
                                               data.docs[snapshot]['description']
                                           );
-                                          await getBookingId(id);
+                                           await CreateBooking(id);
                                         },
                                         color: HexColor("292F3D"),
                                         shape: RoundedRectangleBorder(
