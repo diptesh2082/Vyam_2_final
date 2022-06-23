@@ -67,7 +67,7 @@ class _SelectDateState extends State<SelectDate> {
     'Sunday',
   ];
   var startDate = DateTime.now();
-  var endDate;
+  var endDate= DateTime.now();
   var totalDays;
   var now = DateTime.now();
   var current_mon;
