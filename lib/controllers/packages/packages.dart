@@ -404,10 +404,13 @@ class _PackegesState extends State<Packeges> {
                                                                     color: HexColor(
                                                                         "49C000"))),
                                                             child: Text(
-                                                              data.docs[snapshot]
+                                                              data.docs[snapshot]["ptype"]==true?  data.docs[snapshot]
                                                                       [
                                                                       'discount'] +
-                                                                  "% off",
+                                                                  "% off": data.docs[snapshot]
+                                                              [
+                                                              'discount'] +
+                                                                  " Rs off",
                                                               style: GoogleFonts.poppins(
                                                                   fontWeight:
                                                                       FontWeight
@@ -445,7 +448,7 @@ class _PackegesState extends State<Packeges> {
                                                             ),
                                                             Text(
                                                               "Rs "
-                                                              "${int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()}",
+                                                              "${data.docs[snapshot]["ptype"]==true?(int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()):(int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["discount"]) ))}",
                                                               style: GoogleFonts.poppins(
                                                                   fontSize: 18,
                                                                   color: HexColor(
