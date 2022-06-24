@@ -266,7 +266,7 @@ class _ImageGalleryState extends State<ImageGallery> {
       child: CachedNetworkImage(
         fadeInDuration: Duration(milliseconds: 80),
 
-        maxHeightDiskCache: 500,
+        maxHeightDiskCache: 600,
         // maxWidthDiskCache: 700,
         // width: 400,
         // height: 400,

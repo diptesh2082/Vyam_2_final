@@ -123,8 +123,8 @@ class BuildBox extends StatelessWidget {
                                                     BlendMode.color),
                                                 child: CachedNetworkImage(
                                                   // cacheManager: customCacheManager,
-                                                  maxHeightDiskCache: 500,
-                                                  maxWidthDiskCache: 800,
+                                                  maxHeightDiskCache: 520,
+
                                                   filterQuality:
                                                       FilterQuality.high,
                                                   height: 210,
