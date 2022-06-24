@@ -26,7 +26,7 @@
     
    <application
     
-        android:label="vyam_2_final"
+        android:label="VYAM"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
        <meta-data android:name="com.google.android.geo.API_KEY"
