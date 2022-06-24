@@ -63,7 +63,7 @@ class _CancelDetailsState extends State<CancelDetails> {
           )),
       body: SizedBox(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection("cancelation question").snapshots(),
+          stream: FirebaseFirestore.instance.collection("cancelation_question").snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -279,7 +279,7 @@ class _CancelDetailsState extends State<CancelDetails> {
                                                   "branch":widget.branch
                                                 };
                                                await FirebaseFirestore.instance
-                                                    .collection("Cancellation Data")
+                                                    .collection("Cancellation_Data")
                                                     .add(cancel_data);
                                                 cancelremark.clear();
                                                 await FirebaseFirestore.instance
