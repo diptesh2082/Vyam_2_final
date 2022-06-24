@@ -298,7 +298,6 @@ class UpcomingEvent extends StatelessWidget {
                                           child: CachedNetworkImage(
                                             // "",
                                             maxHeightDiskCache: 450,
-                                            maxWidthDiskCache: 500,
                                             fit: BoxFit.cover,
                                             height: 150,
                                             imageUrl: data.docs[index]['gym_details']["image"],

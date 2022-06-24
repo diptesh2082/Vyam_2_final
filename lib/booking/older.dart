@@ -277,9 +277,8 @@ class OlderEvent extends StatelessWidget {
                                         height: 130,
                                         width: 130,
                                         child: CachedNetworkImage(
-                                          // "",
-                                          maxWidthDiskCache: 500,
-                                          maxHeightDiskCache: 500,
+                                          // ""
+                                          maxHeightDiskCache: 450,
                                           fit: BoxFit.cover,
                                           height: 150,
                                           imageUrl: data.docs[index]['gym_details']["image"],

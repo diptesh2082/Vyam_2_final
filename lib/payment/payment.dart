@@ -270,7 +270,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       await showNotification("Booking successful for " + ven_name,"Share OTP at the center to start.");
       // :await showNotification("Booking Status You","Booking Unsuccessful");
 
-      // booking_details["id"]!=null?
+      // booking_dCachetails["id"]!=null?
       await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
 
     }catch(e){
