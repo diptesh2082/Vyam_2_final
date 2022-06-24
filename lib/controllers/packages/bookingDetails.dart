@@ -58,7 +58,7 @@ class BookingDetails {
                           children: [
                             Text(
                               "Rs "
-                              "${int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["original_price"]) * int.parse(bookingList[index]["discount"]) / 100).round()}",
+                                  "${bookingList[index]["ptype"]==true?(int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["original_price"]) * int.parse(bookingList[index]["discount"]) / 100).round()):(int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["discount"]) ))}",
                               style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontSize: 42,
@@ -208,18 +208,8 @@ class BookingDetails {
                                             // "time_stamp":serv
                                             "booking_plan":
                                                 newBookingList[index]['title'],
-                                            "booking_price": (int.parse(
-                                                        bookingList[index][
-                                                            "original_price"]) -
-                                                    (int.parse(bookingList[
-                                                                    index][
-                                                                "original_price"]) *
-                                                            int.parse(bookingList[
-                                                                    index]
-                                                                ["discount"]) /
-                                                            100)
-                                                        .round())
-                                                .toDouble(),
+                                            "booking_price":   bookingList[index]["ptype"]==true?(int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["original_price"]) * int.parse(bookingList[index]["discount"]) / 100).round()):(int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["discount"]) )),
+
                                             "package_type": bookingList[index]
                                                 ['type'],
                                             "gym_address": gymLocation,
@@ -233,17 +223,8 @@ class BookingDetails {
                                                   months: newBookingList[index]
                                                           ['package_type']
                                                       .toUpperCase(),
-                                                  price: int.parse(bookingList[
-                                                              index]
-                                                          ["original_price"]) -
-                                                      (int.parse(bookingList[
-                                                                      index][
-                                                                  "original_price"]) *
-                                                              int.parse(bookingList[
-                                                                      index][
-                                                                  "discount"]) /
-                                                              100)
-                                                          .round(),
+                                                  price: bookingList[index]["ptype"]==true?(int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["original_price"]) * int.parse(bookingList[index]["discount"]) / 100).round()):(int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["discount"]) )),
+
                                                   packageType:
                                                       bookingList[index]
                                                           ['type'],
@@ -272,18 +253,9 @@ class BookingDetails {
                                                   months: newBookingList[index]
                                                           ['package_type']
                                                       .toUpperCase(),
-                                                  price: int.parse(bookingList[
-                                                              index]
-                                                          ["original_price"]) -
-                                                      (int.parse(bookingList[
-                                                                      index][
-                                                                  "original_price"]) *
-                                                              int.parse(bookingList[
-                                                                      index][
-                                                                  "discount"]) /
-                                                              100)
-                                                          .round(),
-                                                  packageType:
+                                                  price:  bookingList[index]["ptype"]==true?(int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["original_price"]) * int.parse(bookingList[index]["discount"]) / 100).round()):(int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["discount"]) )),
+
+                                                    packageType:
                                                       bookingList[index]
                                                           ['type'],
                                                   getGymName: getGymName,

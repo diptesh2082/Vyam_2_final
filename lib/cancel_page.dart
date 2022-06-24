@@ -43,14 +43,14 @@ class _CancelDetailsState extends State<CancelDetails> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: true,
-          title: const Text(
+          title:  Text(
             'Cancellation Details',
             textAlign: TextAlign.center,
-            style: TextStyle(
-                fontFamily: 'Poppins',
+            style: GoogleFonts.poppins(
+
                 color: Colors.black,
                 fontSize: 14,
-                fontWeight: FontWeight.w500),
+                fontWeight: FontWeight.w700),
           ),
           leading: GestureDetector(
             onTap: () {
@@ -63,7 +63,7 @@ class _CancelDetailsState extends State<CancelDetails> {
           )),
       body: SizedBox(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection("cancelation_question").snapshots(),
+          stream: FirebaseFirestore.instance.collection("cancellation_question").snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
