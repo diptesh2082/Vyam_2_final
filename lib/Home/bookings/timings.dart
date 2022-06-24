@@ -77,10 +77,10 @@ class Timing_Screen extends StatelessWidget {
                                 ? SizedBox(
                                     width: MediaQuery.of(context).size.width *
                                         0.95,
-                                    height: 150,
+                                    height: 156,
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         const SizedBox(height: 10),
                                         Padding(
@@ -191,69 +191,75 @@ class Timing_Screen extends StatelessWidget {
                                                         .width *
                                                     0.06,
                                               ),
-                                              Column(
-                                                children: [
-                                                  Wrap(
-                                                      direction: Axis.vertical,
-                                                      children: [
-                                                        const Text(' Evening',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'poppins',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontSize: 14)),
-                                                        const SizedBox(
-                                                            height: 5),
-                                                        Text(
-                                                            doc[index][
-                                                                    "evening_days"] ??
-                                                                "no information",
-                                                            style: const TextStyle(
-                                                                fontFamily:
-                                                                    'poppins',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize: 14)),
-                                                        const SizedBox(
-                                                            height: 5),
-                                                        Text(
-                                                            doc[index][
-                                                                    "Evening"] ??
-                                                                "no information",
-                                                            style: const TextStyle(
-                                                                fontFamily:
-                                                                    'poppins',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: Colors
-                                                                    .green,
-                                                                fontSize: 12)),
-                                                        const SizedBox(
-                                                            height: 5),
-                                                        Text(
-                                                            doc[index]["closed"] !=
-                                                                    null
-                                                                ? "closed ${doc[index]["closed"] ?? "Sunday closed"}"
-                                                                : 'Sunday closed',
-                                                            style: const TextStyle(
-                                                                fontFamily:
-                                                                    'poppins',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontSize: 12)),
-                                                      ])
-                                                ],
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 9.0, right: 9.0),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Wrap(
+                                                        direction: Axis.vertical,
+                                                        children: [
+                                                          const Text(' Evening',
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'poppins',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color:
+                                                                      Colors.grey,
+                                                                  fontSize: 14)),
+                                                          const SizedBox(
+                                                              height: 5),
+                                                          Text(
+                                                              doc[index][
+                                                                      "evening_days"] ??
+                                                                  "no information",
+                                                              style: const TextStyle(
+                                                                  fontFamily:
+                                                                      'poppins',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 14)),
+                                                          const SizedBox(
+                                                              height: 5),
+                                                          Text(
+                                                              doc[index][
+                                                                      "Evening"] ??
+                                                                  "no information",
+                                                              style: const TextStyle(
+                                                                  fontFamily:
+                                                                      'poppins',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: Colors
+                                                                      .green,
+                                                                  fontSize: 12)),
+                                                          const SizedBox(
+                                                              height: 5),
+                                                          Text(
+                                                              doc[index]["closed"] !=
+                                                                      null
+                                                                  ? "closed ${doc[index]["closed"] ?? "Sunday closed"}"
+                                                                  : 'Sunday closed',
+                                                              style: const TextStyle(
+                                                                  fontFamily:
+                                                                      'poppins',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color:
+                                                                      Colors.grey,
+                                                                  fontSize: 12)),
+                                                        ])
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           )),
