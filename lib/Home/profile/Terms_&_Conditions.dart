@@ -32,7 +32,7 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
           ),
         ),
         body: StreamBuilder<DocumentSnapshot>(
-          stream:  FirebaseFirestore.instance.collection("app details").doc("t&c").snapshots(),
+          stream:  FirebaseFirestore.instance.collection("app_details").doc("t&c").snapshots(),
           builder: (context, snapshot) {
             if(snapshot.connectionState==ConnectionState.waiting){
               return Container(
@@ -51,7 +51,7 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: Text(
-                            "${snapshot.data!.get("policy")}",
+                            "${snapshot.data!.get("t&c")}",
                           style: GoogleFonts.poppins(
                               fontSize: 13,
                               fontWeight: FontWeight.w400,

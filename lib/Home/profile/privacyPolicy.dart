@@ -75,7 +75,7 @@ vyam.co.in does not knowingly collect any Personal Identifiable Information from
           ),
         ),
         body: StreamBuilder<DocumentSnapshot>(
-          stream: FirebaseFirestore.instance.collection("app details").doc("privacy_policy").snapshots(),
+          stream: FirebaseFirestore.instance.collection("app_details").doc("privacy_policy").snapshots(),
           builder: (context,AsyncSnapshot snapshot) {
             if(snapshot.connectionState==ConnectionState.waiting){
               return Container(

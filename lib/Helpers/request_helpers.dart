@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:vyam_2_final/api/api.dart';
 
 // import '../private_variable.dart';
-final placesApiKey="AIzaSyCda5p31iGswCodulgMqLELDARSg21NRR4";
+final placesApiKey="AIzaSyBueDk3xi4f8z5oGKwI8VLu-A190d89I8A";
 class RequestHelper {
   Future getPlaces({String? query}) async {
     String url =
@@ -31,7 +31,7 @@ class RequestHelper {
         }
         return list;
       } else {
-        // print("The error has ocurred");
+        print("The error has ocurred");
       }
     } catch (e) {
       print(e);

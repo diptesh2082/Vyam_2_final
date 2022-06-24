@@ -46,7 +46,7 @@ Or call us at +91 91026 91777''';
           ),
         ),
         body: StreamBuilder<DocumentSnapshot>(
-          stream:  FirebaseFirestore.instance.collection("app details").doc("about_us").snapshots(),
+          stream:  FirebaseFirestore.instance.collection("app_details").doc("about_us").snapshots(),
           builder: (context,AsyncSnapshot snapshot) {
             if(snapshot.connectionState==ConnectionState.waiting){
               return Container(
