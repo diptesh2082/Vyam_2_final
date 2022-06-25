@@ -220,7 +220,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           .get()
           .then((value) async {
         if (value.docs.isNotEmpty) {
-          booking_iiid = await value.docs.length+200;
+          booking_iiid = await value.docs.length+186;
         }
       }).then((value) async {
         await FirebaseFirestore.instance
@@ -266,7 +266,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
       });
 
-      await showNotification("Booking successful for " + ven_name,"Share OTP at the center to start.");
+      await Future.wait(showNotification("Booking successful for " + ven_name,"Share OTP at the center to start."));
       // :await showNotification("Booking Status You","Booking Unsuccessful");
 
       // booking_dCachetails["id"]!=null?
