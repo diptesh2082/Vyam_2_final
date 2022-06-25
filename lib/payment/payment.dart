@@ -131,7 +131,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   _payment() {
     var options = {
-      'key': 'rzp_test_33NhqFvjcCXYkk',
+      'key': 'rzp_live_7twfLFOgOjQnp1',
       'amount': (myCouponController.GlobalCouponApplied.value
               ? (grandTotal -
                   int.parse(myCouponController.CouponDetailsMap.value))
