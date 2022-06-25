@@ -220,7 +220,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           .get()
           .then((value) async {
         if (value.docs.isNotEmpty) {
-          booking_iiid = await value.docs.length;
+          booking_iiid = await value.docs.length+200;
         }
       }).then((value) async {
         await FirebaseFirestore.instance
@@ -260,18 +260,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
           "user_name":GlobalUserData["name"],
           "vendor_id":gymData["gym_id"]
         });
+      }).then((value) async {
+
+        await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
+
       });
 
-
-        // }
-
-
-      // booking_details["id"]!=null?
       await showNotification("Booking successful for " + ven_name,"Share OTP at the center to start.");
       // :await showNotification("Booking Status You","Booking Unsuccessful");
 
       // booking_dCachetails["id"]!=null?
-      await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
 
     }catch(e){
 
@@ -1240,7 +1238,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   .get()
                                   .then((value) async {
                                 if (value.docs.isNotEmpty) {
-                                  booking_iiid = await value.docs.length;
+                                  booking_iiid = await value.docs.length + 200;
                                 }
                               }).then((value) async {
                                 await FirebaseFirestore.instance
