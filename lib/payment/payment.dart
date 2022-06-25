@@ -131,7 +131,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   _payment() {
     var options = {
-      'key': 'rzp_live_7twfLFOgOjQnp1',
+      'key': 'rzp_test_33NhqFvjcCXYkk',
       'amount': (myCouponController.GlobalCouponApplied.value
               ? (grandTotal -
                   int.parse(myCouponController.CouponDetailsMap.value))
@@ -173,46 +173,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print("the  theory${response.paymentId}");
     print("the  theory${response.paymentId}");
     print(response.orderId);
-    // if (response.orderId!=null && response.signature !=null) {
-    //   Get.back();
-    //   showDialog(
-    //     context: context,
-    //     builder: (context) => AlertDialog(
-    //       shape: const RoundedRectangleBorder(
-    //           borderRadius: BorderRadius.all(Radius.circular(16))),
-    //       content: SizedBox(
-    //         height: 180,
-    //         child: Column(
-    //             crossAxisAlignment: CrossAxisAlignment.center,
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             children: const [
-    //               Icon(
-    //                 Icons.cancel,
-    //                 color: Colors.red,
-    //                 size: 50,
-    //               ),
-    //               SizedBox(height: 15),
-    //               Text(
-    //                 'Payment Failed',
-    //                 style: TextStyle(
-    //                     fontFamily: "Poppins",
-    //                     fontSize: 16,
-    //                     color: Colors.black,
-    //                     fontWeight: FontWeight.w700),
-    //               ),
-    //             ]),
-    //       ),
-    //     ),
-    //   );
-    // }else{
+
 
     try{
+
       var x =  Random().nextInt(9999);
       if (x<1000){
         x=x+1000;
       }
       FocusScope.of(context).unfocus();
       int booking_iiid=0;
+      // Future.wait();
       await FirebaseFirestore.instance
           .collection("bookings")
           .where("booking_status".toLowerCase(),
@@ -233,40 +204,42 @@ class _PaymentScreenState extends State<PaymentScreen> {
           "payment_method":"online",
           "id":booking_iiid
         });
-      });
-      await FirebaseFirestore.instance
-          .collection("booking_notifications")
-          .doc()
-          .set({
-        "title": "upcoming booking",
-        "status":"upcoming",
-        // "payment_done": false,
-        "user_id":number.toString(),
-        "user_name":GlobalUserData["name"],
-        "vendor_id":ven_id,
-        "vendor_name":ven_name,
-        "time_stamp":DateTime.now(),
-        "booking_id":booking_id,
-        "seen":false,
-        "branch":branch
-      }).then((value) async {
-
+      }).then((value) async =>{
         await FirebaseFirestore.instance
-            .collection("coupon")
-            .doc(myCouponController.coupon_id.value)
-            .collection("used_by")
-            .doc().set({
-          "user":GlobalUserData["userId"],
+            .collection("booking_notifications")
+            .doc()
+            .set({
+          "title": "upcoming booking",
+          "status":"upcoming",
+          // "payment_done": false,
+          "user_id":number.toString(),
           "user_name":GlobalUserData["name"],
-          "vendor_id":gymData["gym_id"]
-        });
-      }).then((value) async {
+          "vendor_id":ven_id,
+          "vendor_name":ven_name,
+          "time_stamp":DateTime.now(),
+          "booking_id":booking_id,
+          "seen":false,
+          "branch":branch
+        }).then((value) => Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id})).then((value)  =>{
+      showNotification("Booking successful for " + ven_name,"Share OTP at the center to start."),
+        }),
+      await FirebaseFirestore.instance
+          .collection("coupon")
+          .doc(myCouponController.coupon_id.value)
+          .collection("used_by")
+          .doc().set({
+      "user":GlobalUserData["userId"],
+      "user_name":GlobalUserData["name"],
+      "vendor_id":gymData["gym_id"]
+      }),
 
-        await Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
+
 
       });
 
-      await Future.wait(showNotification("Booking successful for " + ven_name,"Share OTP at the center to start."));
+
+
+
       // :await showNotification("Booking Status You","Booking Unsuccessful");
 
       // booking_dCachetails["id"]!=null?
@@ -394,20 +367,76 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
       );
     } else {
-      var x = Random().nextInt(9999);
-      FocusScope.of(context).unfocus();
-      Get.offAll(() => SuccessBook(),
-          arguments: {"otp_pass": x, "booking_id": booking_id});
 
-      // print(x);
-     await FirebaseFirestore.instance
-          .collection("bookings")
-          .doc(getData["booking_id"])
-          .update({
-        "otp_pass": x.toString(),
-        "booking_status": "upcoming",
-        "payment_done": true,
-      });
+      try{
+        var x =  Random().nextInt(9999);
+        if (x<1000){
+          x=x+1000;
+        }
+        FocusScope.of(context).unfocus();
+        int booking_iiid=0;
+        await FirebaseFirestore.instance
+            .collection("bookings")
+            .where("booking_status".toLowerCase(),
+            whereIn: ["completed", "active", "upcoming", "cancelled"])
+            .get()
+            .then((value) async {
+          if (value.docs.isNotEmpty) {
+            booking_iiid = await value.docs.length+186;
+          }
+        }).then((value) async {
+          await FirebaseFirestore.instance
+              .collection("bookings")
+              .doc(getData["booking_id"])
+              .update({
+            "otp_pass": x.toString(),
+            "booking_status": "upcoming",
+            "payment_done": true,
+            "payment_method":"online",
+            "id":booking_iiid
+          });
+        });
+        await FirebaseFirestore.instance
+            .collection("booking_notifications")
+            .doc()
+            .set({
+          "title": "upcoming booking",
+          "status":"upcoming",
+          // "payment_done": false,
+          "user_id":number.toString(),
+          "user_name":GlobalUserData["name"],
+          "vendor_id":ven_id,
+          "vendor_name":ven_name,
+          "time_stamp":DateTime.now(),
+          "booking_id":booking_id,
+          "seen":false,
+          "branch":branch
+        }).then((value) async {
+
+          await FirebaseFirestore.instance
+              .collection("coupon")
+              .doc(myCouponController.coupon_id.value)
+              .collection("used_by")
+              .doc().set({
+            "user":GlobalUserData["userId"],
+            "user_name":GlobalUserData["name"],
+            "vendor_id":gymData["gym_id"]
+          });
+        }).then((value) async {
+
+          Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
+
+        });
+
+        await Future.wait(showNotification("Booking successful for " + ven_name,"Share OTP at the center to start."));
+        // :await showNotification("Booking Status You","Booking Unsuccessful");
+
+        // booking_dCachetails["id"]!=null?
+
+      }catch(e){
+
+      }
+
     }
 
     print("Wallet");
