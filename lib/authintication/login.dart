@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sms_autofill/sms_autofill.dart';
+import 'package:vyam_2_final/Home/home_page.dart';
+
 import 'package:vyam_2_final/Home/profile/Terms_&_Conditions.dart';
 
 import 'package:vyam_2_final/authintication/google_signin.dart';
@@ -23,6 +27,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  var appSignatureID;
   bool showLoding = false;
   TextEditingController phoneController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -232,6 +237,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: size.height / 17,
                           child: ElevatedButton(
                             onPressed: () async {
+                              appSignatureID = await SmsAutoFill().getAppSignature;
                               final isValid = _formKey.currentState?.validate();
                               if (isValid!){
                                 _formKey.currentState?.save();
@@ -277,6 +283,24 @@ class _LoginPageState extends State<LoginPage> {
                                         wrong=true;
                                         showLoding = false;
                                       });
+                                    },
+
+                                    codeSent:
+                                        (verificationID, resendingToken) async {
+                                      setState(() {
+                                        showLoding = false;
+                                      });
+                                      resending_token = resendingToken;
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => OtpPage(
+                                                appSignature: appSignatureID,
+                                                verificationID: verificationID,
+                                                number:
+                                                "+91${phoneController.text.trim()}",
+                                                resendingToken: resending_token,
+                                              )));
                                     },
 
                                     // forceResendingToken: (re){
