@@ -55,6 +55,8 @@ class Onboarding1 extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                              SizedBox(height: 20),
+
                                   Text(
                                     _controller.onboardingPages[index].title,
                                     textAlign: TextAlign.center,
@@ -65,24 +67,24 @@ class Onboarding1 extends StatelessWidget {
                                         decoration: TextDecoration.none,
                                         fontWeight: FontWeight.w600),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        top: size.height * .015,
-                                        left: size.width * .02,
-                                        right: size.width * .02),
-                                    child: Text(
-                                      _controller
-                                          .onboardingPages[index].description,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black45,
-                                        decoration: TextDecoration.none,
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //       top: size.height * .015,
+                                  //       left: size.width * .02,
+                                  //       right: size.width * .02),
+                                  //   child: Text(
+                                  //     _controller
+                                  //         .onboardingPages[index].description,
+                                  //     textAlign: TextAlign.center,
+                                  //     style: const TextStyle(
+                                  //       fontSize: 16,
+                                  //       color: Colors.black45,
+                                  //       decoration: TextDecoration.none,
+                                  //       fontFamily: 'Poppins',
+                                  //       fontWeight: FontWeight.w400,
+                                  //     ),
+                                  //   ),
+                                  // ),
                                   SizedBox(
                                     height: size.height / 35,
                                   ),

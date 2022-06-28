@@ -42,19 +42,13 @@ class Products extends StatelessWidget {
                         GestureDetector(
                           onTap: () async {
                             Get.to(
-                              () => GymDetails(
-                                // getID: data.docs,
-                                // gymName: data.docs[index]["name"],
-                                // gymLocation: data.docs[index]["address"],
-                                // docs: data.docs[index],
-                              ),
-                              arguments: {
-                                "pin":data.docs[index]["pincode"],
-                                  "id": data.docs[index].id,
-                                  "location": data.docs[index]["location"],
-                              "docs": data.docs[index]
-                              }
-                            );
+                                    () => GymDetails(
+                                  // gymID: document[index].id,
+                                ),
+                                arguments: {
+                                  "gymId":data.docs[index].id,
+
+                                });
                           },
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),

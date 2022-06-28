@@ -4,25 +4,30 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/controllers/packages/yoga.dart';
-import 'package:vyam_2_final/controllers/packages/zumba.dart';
+
 import 'package:vyam_2_final/golbal_variables.dart';
 
-import '../package_controller.dart';
 import 'bookingDetails.dart';
 
 class Packeges extends StatefulWidget {
   final gymName;
   final gymLocation;
   final getFinalID;
+  // final display_mage;
+  final branch;
+  final doc;
+
   const Packeges(
       {Key? key,
       required this.getFinalID,
       required this.gymName,
-      required this.gymLocation})
+      required this.gymLocation,
+      required this.doc,required this.branch})
       : super(key: key);
 
   @override
@@ -41,64 +46,52 @@ class _PackegesState extends State<Packeges> {
   final userDetails = FirebaseFirestore.instance.collection("user_details");
   final auth = FirebaseAuth.instance;
   var userData;
-  final id =   FirebaseFirestore.instance
-      .collection("bookings")
-      .doc()
-      .id
-      .toString();
-  getBookingId(id)async{
-    print("//////////"+id);
-    var db=FirebaseFirestore.instance.collection("bookings").doc(id);
-    await FirebaseFirestore.instance.collection("bookings")
-        .where("booking_status".toLowerCase(),whereIn: ["completed","active","upcoming"])
-        .get()
-        .then((value) async {
-      if(value.docs.isNotEmpty){
-        booking_iiid=await value.docs.length;
-        // try{
-        //   db.update({
-        //     "id":booking.toString()
-        //   });
-        // }catch(e){
-        //   db.update({
-        //     "id":100
-        //   });
-        // }
-      }
+  final id =
+      FirebaseFirestore.instance.collection("bookings").doc().id.toString();
 
-    }).then((value) async {
-      await CreateBooking(id,booking_iiid);
-    });
+  // getBookingId(id) async {
+  //   print("//////////" + id);
+  //   var db = FirebaseFirestore.instance.collection("bookings").doc(id);
+  //   await FirebaseFirestore.instance
+  //       .collection("bookings")
+  //       .where("booking_status".toLowerCase(),
+  //           whereIn: ["completed", "active", "upcoming", "cancelled"])
+  //       .get()
+  //       .then((value) async {
+  //         if (value.docs.isNotEmpty) {
+  //           booking_iiid = await value.docs.length;
+  //         }
+  //       })
+  //       .then((value) async {
+  //         print(booking_iiid);
+  //         await CreateBooking(id, (booking_iiid + 500));
+  //       });
+  //
+  //   // coupon_list=
+  // }
 
-
-    // coupon_list=
-  }
-
-
+  String? iiid;
   getUserData() async {
     userDetails.doc(number).get().then((DocumentSnapshot doc) {
       userData = doc.data();
-      setState(() {
-        isLoading = false;
-      });
+
 
       // print(userData);
     });
   }
+
+// var dooc= Get.arguments["doc"];
   // bookingController booking = Get.put(bookingController());
-  var booking_iiid=0;
-  final String image=Get.arguments["doc"]["display_picture"];
-  final String branch=Get.arguments["doc"]["branch"];
+  int booking_iiid = 0;
+  // final String image = Get.arguments["doc"]["display_picture"];
+  // final String branch = Get.arguments["doc"]["branch"];
   // var String booking_id;
-  final bookings = FirebaseFirestore.instance
-      .collection("bookings");
+  final bookings = FirebaseFirestore.instance.collection("bookings");
 
-  CreateBooking(String id,int booking_id) async {
-
-    final bookings = await FirebaseFirestore.instance
-        .collection("bookings");
-        // .doc(number)
-        // .collection("user_booking");
+  CreateBooking(String id) async {
+    final bookings = await FirebaseFirestore.instance.collection("bookings");
+    // .doc(number)
+    // .collection("user_booking");
     // print(bookings);
 
     await bookings.doc(id).set({
@@ -119,9 +112,9 @@ class _PackegesState extends State<Packeges> {
       "plan_end_duration": DateTime.now(),
       "otp_pass": "",
       "gym_details": {
-        "image": image,
+        "image": widget.doc["display_picture"],
         "name": widget.gymName,
-        "branch": branch
+        "branch": widget.doc["branch"]
       },
       "daysLeft": "0",
       "discount": "0",
@@ -129,7 +122,7 @@ class _PackegesState extends State<Packeges> {
       "tax_pay": "",
       "totalDays": "0",
       "total_price": "",
-      "id": booking_id,
+      "id": "",
       "payment_method": "offline"
 
       // "gym_details":{
@@ -137,9 +130,9 @@ class _PackegesState extends State<Packeges> {
       // },
     });
 
-    setState(() {
-      isLoading = false;
-    });
+    // setState(() {
+    //   isLoading = false;
+    // });
     print(id);
     // FirebaseFirestore.instance
     //     .collection("bookings")
@@ -148,7 +141,6 @@ class _PackegesState extends State<Packeges> {
     //   // "gym_name": widget.gymName,
     // });
   }
-
 
   // getBooking()async{
   //  await getBookingId();
@@ -159,11 +151,12 @@ class _PackegesState extends State<Packeges> {
   void initState() {
     print(id);
     // CreateBooking(id);
-  getBookingId(id);
+    // getBookingId(id);
     print(id);
     setDate();
+    iiid = id;
     setState(() {
-      isLoading=false;
+      isLoading = false;
     });
     // getBookingId();
     // getBookingId();
@@ -174,12 +167,14 @@ class _PackegesState extends State<Packeges> {
     // print(userDetails);
     super.initState();
   }
-@override
+
+  @override
   void dispose() {
     // TODO: implement dispose
-  // booking.dispose();
+    // booking.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
@@ -222,6 +217,7 @@ class _PackegesState extends State<Packeges> {
               width: _width,
               height: _height,
               child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
                 child: Column(
                   children: [
                     StreamBuilder<QuerySnapshot>(
@@ -231,13 +227,15 @@ class _PackegesState extends State<Packeges> {
                             .collection("package")
                             .doc("normal_package")
                             .collection("gym")
-                        .orderBy("index")
+                            .where("valid", isEqualTo: true)
+                            .where("type", whereIn: ["gym","Gym","GYM"])
+                            .orderBy("index")
                             .snapshots(),
                         builder: ((context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
+                            return  Center(
+                              child: Container(),
                             );
                           }
                           if (snapshot.hasData) {
@@ -247,12 +245,13 @@ class _PackegesState extends State<Packeges> {
                               return Center(
                                 child: Padding(
                                   padding: const EdgeInsets.only(bottom: 20.0),
-                                  child: Text(
-                                    "Coming Soon !! ",
-                                    style: GoogleFonts.poppins(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.red),
-                                  ),
+                                  child:Container()
+                                  // Text(
+                                  //   "Coming Soon !! ",
+                                  //   style: GoogleFonts.poppins(
+                                  //       fontWeight: FontWeight.bold,
+                                  //       color: Colors.red),
+                                  // ),
                                 ),
                               );
                             }
@@ -281,59 +280,64 @@ class _PackegesState extends State<Packeges> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Row(
-                                              children: [
-                                                if (int.parse(
-                                                        data.docs[snapshot]
-                                                            ['price']) >
-                                                    100)
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                            if (data.docs[snapshot]
+                                                    ['trending']==true)
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
                                                     children: [
                                                       Text(
                                                         "Trending",
                                                         style:
                                                             GoogleFonts.poppins(
-                                                                fontSize: 10,
-                                                                color: HexColor(
-                                                                    "CDCDCD"),
+                                                                fontSize: 12,
+                                                                color:
+                                                                    Colors.red,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w500),
+                                                                        .w800),
                                                       ),
-                                                      Text(
-                                                        data.docs[snapshot]
-                                                                ['title'] ??
-                                                            "".toUpperCase(),
-                                                        style:
-                                                            GoogleFonts.poppins(
-                                                                fontSize: 15,
-                                                                color: HexColor(
-                                                                    "3A3A3A"),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700),
+                                                      Flexible(
+                                                        child: Image.asset(
+                                                          "assets/icons/trending.jpeg",
+                                                          height: 20,
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
+                                                ],
+                                              ),
+
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  data.docs[snapshot]
+                                                          ['title'] ??
+                                                      "".toUpperCase(),
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 15,
+                                                      color: HexColor("3A3A3A"),
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                ),
                                                 if (int.parse(
                                                         data.docs[snapshot]
                                                             ['price']) <=
                                                     100)
-                                                  Text(
-                                                    data.docs[snapshot]
-                                                            ['title'] ??
-                                                        "".toUpperCase(),
-                                                    style: GoogleFonts.poppins(
-                                                        fontSize: 16,
-                                                        color:
-                                                            HexColor("3A3A3A"),
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                const Spacer(),
+                                                  // Text(
+                                                  //   data.docs[snapshot]
+                                                  //           ['title'] ??
+                                                  //       "".toUpperCase(),
+                                                  //   style: GoogleFonts.poppins(
+                                                  //       fontSize: 16,
+                                                  //       color:
+                                                  //           HexColor("3A3A3A"),
+                                                  //       fontWeight:
+                                                  //           FontWeight.w600),
+                                                  // ),
+                                                  const Spacer(),
                                               ],
                                             ),
                                             // const SizedBox(
@@ -344,27 +348,27 @@ class _PackegesState extends State<Packeges> {
                                                   MainAxisAlignment.start,
                                               // crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                if (int.parse(
-                                                        data.docs[snapshot]
-                                                            ['price']) >
-                                                    100)
-                                                  if (int.parse(
-                                                          data.docs[snapshot]
-                                                              ['price']) <
-                                                      100)
-                                                    Text(
-                                                      data.docs[snapshot]
-                                                              ['title']
-                                                          .toUpperCase(),
-                                                      style:
-                                                          GoogleFonts.poppins(
-                                                              fontSize: 16,
-                                                              color: HexColor(
-                                                                  "3A3A3A"),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
+                                                // if (int.parse(
+                                                //         data.docs[snapshot]
+                                                //             ['price']) >
+                                                //     100)
+                                                //   if (int.parse(
+                                                //           data.docs[snapshot]
+                                                //               ['price']) <
+                                                //       100)
+                                                // Text(
+                                                //   data.docs[snapshot]
+                                                //           ['title']
+                                                //       .toUpperCase(),
+                                                //   style:
+                                                //       GoogleFonts.poppins(
+                                                //           fontSize: 16,
+                                                //           color: HexColor(
+                                                //               "3A3A3A"),
+                                                //           fontWeight:
+                                                //               FontWeight
+                                                //                   .w600),
+                                                // ),
                                                 // const Spacer(),
                                                 Column(
                                                   crossAxisAlignment:
@@ -400,10 +404,13 @@ class _PackegesState extends State<Packeges> {
                                                                     color: HexColor(
                                                                         "49C000"))),
                                                             child: Text(
-                                                              data.docs[snapshot]
+                                                              data.docs[snapshot]["ptype"]==true?  data.docs[snapshot]
                                                                       [
                                                                       'discount'] +
-                                                                  "% off",
+                                                                  "% off": data.docs[snapshot]
+                                                              [
+                                                              'discount'] +
+                                                                  " Rs off",
                                                               style: GoogleFonts.poppins(
                                                                   fontWeight:
                                                                       FontWeight
@@ -415,27 +422,33 @@ class _PackegesState extends State<Packeges> {
                                                           ),
                                                         Row(
                                                           children: [
-                                                            if(int.parse(data.docs[snapshot]["discount"])>0 )
-                                                            Text(
-                                                              "Rs "
-                                                              "${int.parse(data.docs[snapshot]['original_price'])}",
-                                                              style: GoogleFonts.poppins(
-                                                                  decoration:
-                                                                      TextDecoration
-                                                                          .lineThrough,
-                                                                  fontSize: 15,
-                                                                  color: HexColor(
-                                                                      "BFB9B9"),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600),
-                                                            ),
+                                                            if (int.parse(data
+                                                                            .docs[
+                                                                        snapshot]
+                                                                    [
+                                                                    "discount"]) >
+                                                                0)
+                                                              Text(
+                                                                "Rs "
+                                                                "${int.parse(data.docs[snapshot]['original_price'])}",
+                                                                style: GoogleFonts.poppins(
+                                                                    decoration:
+                                                                        TextDecoration
+                                                                            .lineThrough,
+                                                                    fontSize:
+                                                                        15,
+                                                                    color: HexColor(
+                                                                        "BFB9B9"),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600),
+                                                              ),
                                                             const SizedBox(
                                                               width: 2,
                                                             ),
                                                             Text(
                                                               "Rs "
-                                                              "${int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()}",
+                                                              "${data.docs[snapshot]["ptype"]==true?(int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()):(int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["discount"]) ))}",
                                                               style: GoogleFonts.poppins(
                                                                   fontSize: 18,
                                                                   color: HexColor(
@@ -493,17 +506,19 @@ class _PackegesState extends State<Packeges> {
                                                       context,
                                                       snapshot,
                                                       data.docs,
-                                                      "",
+                                                      // "",
+                                                      data.docs[snapshot]
+                                                          ['title'],
                                                       widget.gymName,
                                                       widget.gymLocation,
                                                       id,
                                                       widget.getFinalID,
-                                                      Get.arguments["doc"],
-                                                      booking_iiid
+                                                      widget.doc,
+                                                        data.docs[snapshot]['description'],
+                                                      widget.branch
                                                     );
-                                                     // CreateBooking(id);
-                                                   await getBookingId(id);
-
+                                                    // CreateBooking(id);
+                                                    await Future.wait(CreateBooking(id)) ;
                                                   },
                                                   color: HexColor("292F3D"),
                                                   shape: RoundedRectangleBorder(
@@ -541,32 +556,63 @@ class _PackegesState extends State<Packeges> {
                             ),
                           );
                         })),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          YogaList(
-                            width: _width,
-                            getDocID: widget.getFinalID,
-                            gymName: widget.gymName,
-                            gymLocation: widget.gymLocation,
-                            iiid: booking_iiid,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          ZumbaList(
-                              width: _width,
-                              getDocId: widget.getFinalID,
-                              gymName: widget.gymName,
-                              gymLocation: widget.gymLocation),
-                          const SizedBox(
-                            height: 50,
-                          ),
-                        ],
-                      ),
-                    )
+                    StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection("category")
+                            .where("name", whereNotIn: ["gym","Gym","GYM"])
+                            // .where("status", isEqualTo: true)
+                            // .orderBy("index")
+                            .snapshots(),
+                        builder: (context, AsyncSnapshot snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return  Center(
+                              child: Container(),
+                            );
+                          }
+                          var docs = snapshot.data.docs;
+                          var doc=[];
+                          docs.forEach((e){
+                            if ( widget.doc["service"].contains(e.get("name") ) ){
+                              doc.add(e);
+                            }
+
+                            // return widget.doc["service"].isCaseInsensitiveContains(e.get("name")
+                            //      .toString());
+                          });
+
+                          return ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: doc.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                // if ()
+                                return Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      YogaList(
+                                        type: doc[index]["name"],
+                                        width: _width,
+                                        getDocID: widget.getFinalID,
+                                        gymName: widget.gymName,
+                                        gymLocation: widget.gymLocation,
+                                        image: widget.doc["display_picture"],
+                                        branch: widget.doc["branch"],
+                                        isLoading: isLoading,
+                                        doc: widget.doc,
+                                      ),
+                                      const SizedBox(
+                                        height: 0,
+                                      ),
+
+                                    ],
+                                  ),
+                                );
+                              });
+                        })
                   ],
                 ),
               ),

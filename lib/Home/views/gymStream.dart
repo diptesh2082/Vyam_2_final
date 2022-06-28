@@ -2,60 +2,20 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../api/api.dart';
 import '../../golbal_variables.dart';
 import '../bookings/gym_details.dart';
-class BuildBox extends StatelessWidget {
-//   @override
-//   State<BuildBox> createState() => _BuildBoxState();
-// }
-//
-// class _BuildBoxState extends State<BuildBox> {
-  //   Future<double> distanceFromMyLocation(Location location) async {
-  //   double distance = await Geolocator.distanceBetween(
-  //       GlobalUserData["location"].latitude,
-  //       GlobalUserData["location"].longitude,
-  //       location.latitude,
-  //       location.longitude) /
-  //       1000;
-  //   return distance;
-//     // }
-// sortByDistance(List locationlist) async {
-//
-//       // make this an empty list by intializing with []
-//       List<Map<String, dynamic>> locationListWithDistance = [];
-//
-//       // associate location with distance
-//       for(var location in locationlist) {
-//         double distance = calculateDistance(location.latitude,location.longitude, GlobalUserData["location"].latitude,
-//           GlobalUserData["location"].longitude,);
-//         locationListWithDistance.add({
-//           'location': location,
-//           'distance': distance,
-//         });
-//       }
-//
-//       // sort by distance
-//       locationListWithDistance.sort((a, b) {
-//         int d1 = a['distance'];
-//         int d2 = b['distance'];
-//         if (d1 > d2) return 1;
-//         else if (d1 < d2) return -1;
-//         else return 0;
-//       });
-//       print(locationListWithDistance);
-//       print("-----------------------+++++++++++++++++++++++++++");
-//       return locationListWithDistance;
-//     }
 
-  // final Map<String, dynamic> locationAndDistance;
+class BuildBox extends StatelessWidget {
+  static final customCacheManager =
+  CacheManager(Config("customCacheKey2", maxNrOfCacheObjects: 80));
+
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     return Container(
       child: SizedBox(
         width: size.width * .94,
@@ -64,7 +24,7 @@ class BuildBox extends StatelessWidget {
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection("product_details")
-                .where("locality", isEqualTo: GlobalUserData["locality"])
+            // .where("locality", isEqualTo: GlobalUserData["locality"])
                 .orderBy("location")
                 .where("legit", isEqualTo: true)
                 .snapshots(),
@@ -79,16 +39,20 @@ class BuildBox extends StatelessWidget {
                     child: Text("check your internet connection"));
               }
 
-              var document = streamSnapshot.data.docs;
-              document.sort((a, b) {
+              var documents = streamSnapshot.data.docs;
+              documents.sort((a, b) {
                 double d1 = calculateDistance(
-                  a["location"].latitude, a["location"].longitude,
+                  a["location"].latitude,
+                  a["location"].longitude,
                   GlobalUserData["location"].latitude,
-                  GlobalUserData["location"].longitude,);
+                  GlobalUserData["location"].longitude,
+                );
                 double d2 = calculateDistance(
-                  b["location"].latitude, b["location"].longitude,
+                  b["location"].latitude,
+                  b["location"].longitude,
                   GlobalUserData["location"].latitude,
-                  GlobalUserData["location"].longitude,);
+                  GlobalUserData["location"].longitude,
+                );
                 if (d1 > d2)
                   return 1;
                 else if (d1 < d2)
@@ -97,27 +61,38 @@ class BuildBox extends StatelessWidget {
                   return 0;
               });
 
+              // document = document.where((element) {
+              //   return element
+              //       .get('gender')
+              //       .toString()
+              //       .toLowerCase()
+              //       .contains("male");
+              // }).toList();
+              var document = [];
+              var distances = [];
 
-              return document.isNotEmpty
-                  ? Column(
-                    children: [
-                      ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: document.length,
-                itemBuilder: (context, index) {
-                      var distance = calculateDistance(
-                          GlobalUserData["location"].latitude,
-                          GlobalUserData["location"].longitude,
-                          document[index]["location"].latitude,
-                          document[index]["location"].longitude);
-                      distance = double.parse((distance).toStringAsFixed(1));
-                      // print(distance);
-                      if (distance <= 50 && (document[index]["locality"].toString()
-                          .toLowerCase()
-                          .trim() == GlobalUserData["locality"].toString()
-                          .toLowerCase()
-                          .trim())) {
+              documents.forEach((e) {
+                var distance = calculateDistance(
+                    GlobalUserData["location"].latitude,
+                    GlobalUserData["location"].longitude,
+                    e["location"].latitude,
+                    e["location"].longitude);
+                distance = double.parse((distance).toStringAsFixed(1));
+                if (distance <= 20) {
+                  document.add(e);
+                  distances.add(distance);
+                }
+              });
+              print(distances);
+
+              if (document.isNotEmpty)
+                return Column(
+                  children: [
+                    ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: document.length,
+                      itemBuilder: (context, index) {
                         return FittedBox(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
@@ -134,41 +109,45 @@ class BuildBox extends StatelessWidget {
                                     //     document[index]["location"].latitude,
                                     //     document[index]["location"].longitude);
                                     // print(viku);
-                                    Get.to(() => GymDetails(), arguments: {
-                                      "id": document[index].id,
-                                      "location": document[index]["location"],
-                                      "name": document[index]["name"],
-                                      "docs": document[index],
-                                    });
+                                    Get.to(
+                                            () => GymDetails(
+                                          // gymID: document[index].id,
+                                        ),
+                                        arguments: {
+                                          "gymId": document[index].id,
+                                        });
                                   },
                                   child: Stack(
                                     children: [
                                       FittedBox(
                                         child: ColorFiltered(
                                           colorFilter: ColorFilter.mode(
-                                              document[index]["gym_status"] ? Colors
-                                                  .transparent : Colors.black,
+                                              document[index]["gym_status"]
+                                                  ? Colors.transparent
+                                                  : Colors.black,
                                               BlendMode.color),
                                           child: CachedNetworkImage(
+                                            // cacheManager: customCacheManager,
+                                            maxHeightDiskCache: 520,
+
+                                            filterQuality: FilterQuality.high,
                                             height: 210,
                                             fit: BoxFit.cover,
-                                            width:
-                                            MediaQuery
-                                                .of(context)
+                                            width: MediaQuery.of(context)
                                                 .size
                                                 .width,
                                             imageUrl: document[index]
                                             ["display_picture"] ??
                                                 "",
-                                            // progressIndicatorBuilder: (context,
-                                            //     url, downloadProgress) =>
-                                            //     Center(
-                                            //         child:
-                                            //         CircularProgressIndicator(
-                                            //             value:
-                                            //             downloadProgress
-                                            //                 .progress)),
-                                            errorWidget: (context, url, error) =>
+                                            // progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                            //     Container(
+                                            //         color: Colors.black87.withOpacity(.5),
+                                            //         child: Center(child: Image.asset( "assets/Illustrations/vyam.png",
+                                            //           height: 120,
+                                            //           width: 200,
+                                            //         ))),
+                                            errorWidget:
+                                                (context, url, error) =>
                                             const Icon(Icons.error),
                                             // height: 195,
                                             // width: double.infinity,
@@ -217,7 +196,7 @@ class BuildBox extends StatelessWidget {
                                             children: [
                                               Text(
                                                 document[index]["name"] ?? "",
-                                                textAlign: TextAlign.center,
+                                                // textAlign: TextAlign.center,
                                                 maxLines: 1,
                                                 // overflow:
                                                 // TextOverflow.ellipsis,
@@ -244,6 +223,7 @@ class BuildBox extends StatelessWidget {
                                                     color: Colors.white,
                                                     // fontFamily: "Poppins",
                                                     fontSize: 12,
+                                                    // fontStyle: FontStyle.italic,
                                                     fontWeight:
                                                     FontWeight.w500),
                                               ),
@@ -286,8 +266,7 @@ class BuildBox extends StatelessWidget {
                                                     width: 5,
                                                   ),
                                                   Text(
-                                                    "${document[index]["rating"]
-                                                        .toString() }",
+                                                    "${document[index]["rating"].toString()}",
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                         color: Colors.white,
@@ -319,7 +298,7 @@ class BuildBox extends StatelessWidget {
                                                     width: 5,
                                                   ),
                                                   Text(
-                                                    "$distance Km",
+                                                    "${distances[index]} Km",
                                                     textAlign: TextAlign.center,
                                                     style: const TextStyle(
                                                         color: Colors.white,
@@ -334,7 +313,8 @@ class BuildBox extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      if(document[index]["gym_status"] == false)
+                                      if (document[index]["gym_status"] ==
+                                          false)
                                         Positioned(
                                           top: 0,
                                           left: 0,
@@ -358,19 +338,20 @@ class BuildBox extends StatelessWidget {
                                                 right: 8, bottom: 10),
                                           ),
                                         ),
-                                      if(document[index]["gym_status"] == false)
+                                      if (document[index]["gym_status"] ==
+                                          false)
                                         Positioned(
                                           top: 10,
-                                          left: MediaQuery
-                                              .of(context)
+                                          left: MediaQuery.of(context)
                                               .size
-                                              .width * .040,
-                                          child: Text("*Temporarily closed",
+                                              .width *
+                                              .040,
+                                          child: Text(
+                                            "*Temporarily closed",
                                             style: GoogleFonts.poppins(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w400,
-                                                color: Colors.red
-                                            ),
+                                                color: Colors.red),
                                           ),
                                         ),
                                     ],
@@ -380,26 +361,67 @@ class BuildBox extends StatelessWidget {
                             ),
                           ),
                         );
-                      }
-                      return Container();
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                      return Container(
-                        height: 15,
-                      );
-                },
-              ),
-                      if(document.length <4)
-                        SizedBox(
-                          height: 400,
-                        ),
-                      if(document.length >=4)
-                        SizedBox(
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Container(
                           height: 20,
-                        ),
-                    ],
-                  )
-                  : Column(
+                        );
+                      },
+                    ),
+                    // if(document.length <4)
+                    Container(
+                      height: 400,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 120,
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 3.0),
+                                    child: SizedBox(
+                                        height: 40,
+                                        width: 95,
+                                        child: Image.asset(
+                                            "assets/Illustrations/Keep_the.png")),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 3.0),
+                                    child: SizedBox(
+                                        height: 55,
+                                        width: 140,
+                                        child: Image.asset(
+                                            "assets/Illustrations/Grind_on.png")),
+                                  ),
+                                  SizedBox(
+                                      height: 25,
+                                      width: 225,
+                                      child: Image.asset(
+                                          "assets/Illustrations/Group_187.png")),
+                                  const SizedBox(
+                                    height: 21,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // if(document.length >=4)
+                    //   SizedBox(
+                    //     height: 20,
+                    //   ),
+                  ],
+                );
+              return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
@@ -408,14 +430,14 @@ class BuildBox extends StatelessWidget {
                   SizedBox(
                     width: 127,
                     height: 48,
-                    child: Text("Coming soon in"
-                        " your area",
+                    child: Text(
+                      "Coming soon in"
+                          " your area",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.grey
-                      ),
+                          color: Colors.grey),
                     ),
                   ),
                   SizedBox(
@@ -423,9 +445,7 @@ class BuildBox extends StatelessWidget {
                   ),
                   Center(
                       child: Image.asset(
-                          "assets/Illustrations/undraw_empty_street_sfxm 1.png"
-                      )
-                  ),
+                          "assets/Illustrations/undraw_empty_street_sfxm 1.png")),
                   SizedBox(
                     height: 500,
                   )
@@ -438,5 +458,3 @@ class BuildBox extends StatelessWidget {
     );
   }
 }
-
-

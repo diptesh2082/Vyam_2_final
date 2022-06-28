@@ -85,15 +85,45 @@ class ActiveEvent extends StatelessWidget {
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              "Booking ID : ${data.docs[index]['id']??""}",
-                                              style: GoogleFonts.poppins(
-                                                  color: HexColor("3A3A3A"),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500),
+                                            Material(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(5),
+                                              elevation: 5,
+                                              // color: Colors.yellow,
+                                              // decoration: BoxDecoration(
+                                              //   color: Colors.yellowAccent,
+                                              //   borderRadius: BorderRadius.circular(5)
+                                              // ),
+                                              child:Padding(
+                                                padding: const EdgeInsets.only(left: 3,right: 2,),
+                                                child: RichText(
+                                                    text: TextSpan(
+                                                        style: GoogleFonts.poppins(
+                                                          // fontFamily: "Poppins",
+                                                            fontWeight: FontWeight.w500,
+                                                            fontSize: 12,
+                                                            color: Colors.grey),
+                                                        children:  <TextSpan>[
+                                                          TextSpan(
+                                                              text: 'Booking ID - '
+                                                          ),
+                                                          TextSpan(
+                                                              text: "${data.docs[index]['id']??""}",
+                                                              style:GoogleFonts.poppins(
+                                                                // fontFamily: "Poppins",
+                                                                  fontWeight: FontWeight.w600,
+                                                                  fontSize: 12,
+                                                                  color: Colors.amber
+                                                              )
+                                                          ),
+                                                        ]
+
+                                                    )),
+                                              ),
+
                                             ),
                                             const SizedBox(
-                                              height: 4,
+                                              height: 3,
                                             ),
                                             Text(
                                                 data.docs[index]['gym_details']["name"]??"",
@@ -107,7 +137,7 @@ class ActiveEvent extends StatelessWidget {
                                               children: [
                                                 const Icon(
                                                   Icons.location_on,
-                                                  size: 20,
+                                                  size: 16,
                                                 ),
                                                 const SizedBox(
                                                   width: 4,
@@ -117,7 +147,7 @@ class ActiveEvent extends StatelessWidget {
                                                   // data.docs[index]['gym_name'],
                                                   style: GoogleFonts.poppins(
                                                       color: HexColor("3A3A3A"),
-                                                      fontSize: 14,
+                                                      fontSize: 12,
                                                       fontWeight:
                                                       FontWeight.w500),
                                                 ),
@@ -246,6 +276,8 @@ class ActiveEvent extends StatelessWidget {
                                           // "",
 
                                           fit: BoxFit.cover,
+                                          maxWidthDiskCache: 450,
+                                          // maxHeightDiskCache: 500,
                                           height: 150,
                                           imageUrl: data.docs[index]['gym_details']["image"],
                                           progressIndicatorBuilder: (context, url, downloadProgress) =>
