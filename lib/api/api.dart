@@ -294,7 +294,7 @@ class UserApi {
         ),
         "pincode": "",
         "locality": "",
-
+      "time_stamp":DateTime.now()
         // "name": name,
       };
       await docUser.set(myJson);

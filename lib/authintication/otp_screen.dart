@@ -133,9 +133,6 @@ class _OtpPageState extends State<OtpPage> {
       //     const SnackBar(content: Text('Some Error Occured. Try Again Later')));
     }
   }
-  getVerified()async{
-
-  }
 
   getVerified() async {}
 
@@ -222,7 +219,6 @@ class _OtpPageState extends State<OtpPage> {
         backgroundColor: scaffoldColor,
         body: showLoading
             ? const Center(
-
           child: CircularProgressIndicator(),
         )
             : SafeArea(
@@ -246,7 +242,6 @@ class _OtpPageState extends State<OtpPage> {
                               height: size.height / 2.8,
                               width: size.width / 1.7,
                               fit: BoxFit.fitWidth,
-
                             ),
                           ),
                           SizedBox(
@@ -355,7 +350,6 @@ class _OtpPageState extends State<OtpPage> {
                                   // color: Colors.red
                                 ),
                               ),
-
                               TextButton(
                                   onPressed: activateButton!
                                       ? () async {
@@ -417,7 +411,6 @@ class _OtpPageState extends State<OtpPage> {
                                                       widget.number,
                                                       resendingToken:
                                                       resendingToken)));
-
 
                                           checkExist(widget.number);
                                           var resending_token =
