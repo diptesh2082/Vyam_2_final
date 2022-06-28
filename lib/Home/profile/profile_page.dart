@@ -129,13 +129,23 @@ class _ProfilePartState extends State<ProfilePart> {
             elevation: 0.3,
             backgroundColor: scaffoldColor,
             centerTitle: true,
-            title: Text(
-              "Profile",
-              style: GoogleFonts.poppins(
-                  // fontFamily: "Poppins",
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black),
+            title: InkWell(
+              onTap: () async {
+                // print(number);
+                await manager.emptyCache();
+                await _googleSignIn.signOut();
+                await _auth.signOut();
+                Get.offAll(() => const LoginPage());
+                setVisitingFlagFalse();
+              },
+              child: Text(
+                "Profile",
+                style: GoogleFonts.poppins(
+                    // fontFamily: "Poppins",
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black),
+              ),
             ),
           ),
           body: SingleChildScrollView(
