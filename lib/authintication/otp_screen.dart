@@ -96,7 +96,7 @@ class _OtpPageState extends State<OtpPage> {
 //                 MaterialPageRoute(builder: (context) => Register1()));
 // =======
         await getToHomePage(_auth.currentUser?.phoneNumber);
-        await setNumber(_auth.currentUser!.phoneNumber);
+        await setNumber(_auth.currentUser?.phoneNumber);
         await checkExist("${_auth.currentUser?.phoneNumber}")
             .then((value) async {
           await setUserId(_auth.currentUser?.phoneNumber);
