@@ -51,6 +51,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final ven_id=Get.arguments["vendorId"];
   final ven_name=Get.arguments["gymName"];
   final branch=Get.arguments["branch"];
+
+
+
   showNotification(String title,String info) async {
 
     // setState(() {

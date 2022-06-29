@@ -107,6 +107,7 @@ class _PackegesState extends State<Packeges> {
       "booking_plan": "",
       "booking_price": 0.toDouble(),
       "package_type": "",
+      "banner":"",
       "gym_address": "",
       "booking_date": DateTime.now(),
       "plan_end_duration": DateTime.now(),
@@ -116,6 +117,7 @@ class _PackegesState extends State<Packeges> {
         "name": widget.gymName,
         "branch": widget.doc["branch"]
       },
+      "banner":"",
       "daysLeft": "0",
       "discount": "0",
       "grand_total": "",
@@ -289,7 +291,8 @@ class _PackegesState extends State<Packeges> {
                                                   Row(
                                                     children: [
                                                       Text(
-                                                        "Trending",
+                                                        data.docs[snapshot]
+                                                        ['banner'],
                                                         style:
                                                             GoogleFonts.poppins(
                                                                 fontSize: 12,
@@ -300,9 +303,10 @@ class _PackegesState extends State<Packeges> {
                                                                         .w800),
                                                       ),
                                                       Flexible(
-                                                        child: Image.asset(
-                                                          "assets/icons/trending.jpeg",
-                                                          height: 20,
+                                                        child:Text(
+                                                          data.docs[snapshot]
+                                                          ['t_icon'],
+                                                          //height: 20,
                                                         ),
                                                       ),
                                                     ],
