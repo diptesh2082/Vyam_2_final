@@ -24,29 +24,38 @@ class Register4 extends StatefulWidget {
 
 class _Register4State extends State<Register4> {
   TextEditingController email = TextEditingController();
-  File? image;
-  Future pickImage() async {
-    try {
-      final image = await ImagePicker()
-          .pickImage(source: ImageSource.gallery, imageQuality: 60);
-      if (image == null) return;
-      final imageTemporary = File(image.path);
-      setState(() {
-        this.image = imageTemporary;
-      });
-    } on PlatformException catch (e) {
-      // ignore: avoid_print
-      print("Faild to pick image: $e");
-    }
+  // File? image;
+  // Future pickImage() async {
+  //   try {
+  //     final image = await ImagePicker()
+  //         .pickImage(source: ImageSource.gallery, imageQuality: 60);
+  //     if (image == null) return;
+  //     final imageTemporary = File(image.path);
+  //     setState(() {
+  //       this.image = imageTemporary;
+  //     });
+  //   } on PlatformException catch (e) {
+  //     // ignore: avoid_print
+  //     print("Faild to pick image: $e");
+  //   }
+  // }
+  chooseImage() async {
+    XFile? pickedFile = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 75);
+    // pickedFile=await
+    //
+    return pickedFile;
   }
+
   final db = FirebaseFirestore.instance;
   saveData(image)async {
     // if (_globalKey.currentState!.validate()) {
       try{
         // _globalKey.currentState!.save();
         final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
-        await ref.putFile(image!);
+        await ref.putFile(File(image.path));
         final url = await ref.getDownloadURL();
+        print(url);
         await db.collection("user_details").doc(number).update({
           "image": url
         });
@@ -55,14 +64,18 @@ class _Register4State extends State<Register4> {
         //   // isLoading=false;
         // });
       }catch (e){
-        // imageUrl="";
+        print(e);
+        print("jjjjjjjjjjjj");
+        await db.collection("user_details").doc(number).update({
+          "image": ""
+        });
       }
 
       // print(imageUrl);
 
     // }
   }
-
+  var image;
   final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -114,9 +127,12 @@ class _Register4State extends State<Register4> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
-            onPressed: () async {
-               Get.offAll(() => HomePage());
+            onPressed: ()  async {
+
+
+              Get.offAll(() => HomePage());
               await saveData(image);
+
               // final ref = FirebaseStorage.instance
               //     .ref()
               //     .child("user_images")
@@ -189,8 +205,13 @@ class _Register4State extends State<Register4> {
                   Padding(
                     padding: const EdgeInsets.only(left: 12.0),
                     child: GestureDetector(
-                      onTap: () {
-                        pickImage();
+                      onTap: () async {
+                        image= await chooseImage();
+
+                        setState(() {
+
+                        });
+
                       },
                       child: Stack(children: [
                         CircleAvatar(
@@ -200,7 +221,7 @@ class _Register4State extends State<Register4> {
                           child: image != null
                               ? ClipOval(
                                   child: Image.file(
-                                    image!,
+                                    File(image.path),
                                     height: 150,
                                     width: 150,
                                   ),

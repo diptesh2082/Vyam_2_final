@@ -25,18 +25,21 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
 
-  TextEditingController nameTextEditingController = TextEditingController(text: Get.arguments["name"]);
+  TextEditingController nameTextEditingController =
+      TextEditingController(text: Get.arguments["name"]);
 
-  TextEditingController emailTextEditingController = TextEditingController(text: Get.arguments["email"]);
+  TextEditingController emailTextEditingController =
+      TextEditingController(text: Get.arguments["email"]);
 
-  TextEditingController phoneTextEditingController = TextEditingController(text: Get.arguments["number"]);
+  TextEditingController phoneTextEditingController =
+      TextEditingController(text: Get.arguments["number"]);
 
   DocumentReference sightingRef =
-  FirebaseFirestore.instance.collection("sightings").doc();
-  var imageUrl=Get.arguments["imageUrl"];
-  var gender=Get.arguments["gender"];
-  bool selected=false;
-  bool isLoading=false;
+      FirebaseFirestore.instance.collection("sightings").doc();
+  var imageUrl = Get.arguments["imageUrl"];
+  var gender = Get.arguments["gender"];
+  bool selected = false;
+  bool isLoading = false;
   final db = FirebaseFirestore.instance;
   String id = number;
   // UserId userId = UserId();
@@ -46,14 +49,12 @@ class _ProfileState extends State<Profile> {
 
   File? image;
   Future pickImage() async {
-    try{
+    try {
       final image = await ImagePicker().pickImage(
           source: ImageSource.gallery,
-          imageQuality: 50,
-        maxHeight: 150,
-        maxWidth: 150
-
-      );
+          imageQuality: 75,
+          maxHeight: 580,
+          maxWidth: 450);
       if (image == null) return;
       final imageTemporary = File(image.path);
       setState(() {
@@ -63,66 +64,71 @@ class _ProfileState extends State<Profile> {
       // ignore: avoid_print
       print("Faild to pick image: $e");
     }
-
   }
 
-  // for selecting images from device
-  // Future getImage(bool gallery) async {
-  //   ImagePicker picker = ImagePicker();
-  //   PickedFile pickedFile;
-  //   // Let user select photo from gallery
-  //   if (gallery) {
-  //     pickedFile = (await picker.getImage(
-  //       source: ImageSource.gallery,
-  //       imageQuality: 50
-  //     ))!;
-  //   }
-  //   // Otherwise open camera to get new photo
-  //   else {
-  //     pickedFile = (await picker.getImage(
-  //       source: ImageSource.camera,
-  //     ))!;
-  //   }
-  //
-  //   setState(() {
-  //     // ignore: unnecessary_null_comparison
-  //     if (pickedFile != null) {
-  //       _image = pickedFile as File;
-  //       //_image = File(pickedFile.path); // Use if you only need a single picture
-  //     } else {
-  //       print('No image selected.');
-  //     }
-  //   });
-  // }
+  chooseImage() async {
+    XFile? pickedFile = await ImagePicker()
+        .pickImage(source: ImageSource.gallery, imageQuality: 60);
+    // pickedFile=await
+    //
+    return pickedFile;
+  }
 
-  saveData()async {
+  // final _firebaseStorage =
+  uploadImageToStorage(XFile? pickedFile, String? id) async {
+    Reference _reference = FirebaseStorage.instance
+        .ref()
+        .child("product_image")
+        .child("user_images")
+        .child(number + ".jpg");
+    await _reference
+        .putData(
+      await pickedFile!.readAsBytes(),
+      SettableMetadata(contentType: 'image/jpeg'),
+    )
+        .whenComplete(() async {
+      await _reference.getDownloadURL().then((value) async {
+        var uploadedPhotoUrl = value;
+        print(value);
+        await db
+            .collection("user_details")
+            .doc(number)
+            .update({"image": value});
+      });
+    });
+  }
+
+  saveData() async {
     if (_globalKey.currentState!.validate()) {
-      try{
+      try {
         _globalKey.currentState!.save();
-        final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child("user_images")
+            .child(number + ".jpg");
         await ref.putFile(image!);
         final url = await ref.getDownloadURL();
-        await db.collection("user_details").doc(number).update({
-          "image": url
-        });
+        await db.collection("user_details").doc(number).update({"image": url});
         setState(() {
-          imageUrl=url;
+          imageUrl = url;
           // isLoading=false;
         });
-      }catch (e){
-        imageUrl="";
+      } catch (e) {
+        imageUrl = "";
       }
 
       // print(imageUrl);
 
     }
   }
+
   @override
   void initState() {
     // TODO: implement initState
     print(imageUrl);
     super.initState();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -156,209 +162,233 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: isLoading?const Center(
-        child: CircularProgressIndicator(),
-      )
-          :Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _globalKey,
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 50,
-                ),
-                Center(
-                  child:GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        selected=true;
-                      });
-                      pickImage();
-                    },
-                    child: Stack(children: [
-                      image != null  ?
-                      CircleAvatar(
-                        radius: 51,
-                        backgroundColor: Colors.white,
-                        // MediaQuery.of(context).size.width * 0.3,
-                        child: image != null ? ClipOval(
-                          child: Image.file(image !,
-                            height: 150,
-                            width: 150,
-                          ),
-                        ): const Icon(Icons.camera_alt_outlined,
-                          size: 40,
-                        ),
-                        // decoration: const BoxDecoration(
-                        //     shape: BoxShape/.circle, color: Colors.white)
-                      ):
-                      Container(
-                        child: imageUrl == "" || imageUrl == "null"?
-                        CircleAvatar(
-                          // backgroundImage: ,
-                          radius: 51,
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _globalKey,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selected = true;
+                            });
+                            pickImage();
+                          },
+                          child: Stack(children: [
+                            image != null
+                                ? CircleAvatar(
+                                    radius: 51,
+                                    backgroundColor: Colors.white,
+                                    // MediaQuery.of(context).size.width * 0.3,
+                                    child: image != null
+                                        ? ClipOval(
+                                            child: Image.file(
+                                              image!,
+                                              height: 150,
+                                              width: 150,
+                                            ),
+                                          )
+                                        : const Icon(
+                                            Icons.camera_alt_outlined,
+                                            size: 40,
+                                          ),
+                                    // decoration: const BoxDecoration(
+                                    //     shape: BoxShape/.circle, color: Colors.white)
+                                  )
+                                : Stack(
+                                  children: [
+                                    Container(
+                                        child: imageUrl == "" || imageUrl == "null"
+                                            ? CircleAvatar(
+                                                // backgroundImage: ,
+                                                radius: 52,
 
-                          backgroundColor: Colors.white,
-                          // MediaQuery.of(context).size.width * 0.3,
-                          backgroundImage:  gender.toLowerCase()=="male"?const AssetImage("assets/Illustrations/Avatarmale.png"):AssetImage("assets/Illustrations/Avatar.png"),
-                        ): CircleAvatar(
-                          // backgroundImage: ,
-                          radius: 51,
-                          backgroundColor: Colors.white,
-                          // MediaQuery.of(context).size.width * 0.3,
-                          backgroundImage:  CachedNetworkImageProvider(imageUrl),
+                                                backgroundColor: Colors.white,
+                                                // MediaQuery.of(context).size.width * 0.3,
+                                                backgroundImage: gender
+                                                            .toLowerCase() ==
+                                                        "male"
+                                                    ? const AssetImage(
+                                                        "assets/Illustrations/Avatarmale.png")
+                                                    : gender
+                                                    .toLowerCase() =="female"?AssetImage(
+                                                    "assets/Illustrations/Avatar.png"):
+                                                AssetImage(
+                                                    "assets/Illustrations/user.png"),
+                                              )
+                                            : CircleAvatar(
+                                                // backgroundImage: ,
+                                                radius: 51,
+                                                backgroundColor: Colors.white,
+                                                // MediaQuery.of(context).size.width * 0.3,
+                                                backgroundImage:
+                                                    CachedNetworkImageProvider(
+                                                        imageUrl),
+                                              ),
+                                      ),
+                                    Positioned(
+                                        bottom: 3,
+                                        right: 3,
+                                        child: Image.asset("assets/icons/Add.png",height: 30,width: 30,))
+                                  ],
+                                ),
+                            // if (imageUrl == "")
+                            // CircleAvatar(
+                            //   // backgroundImage: ,
+                            //   radius: 51,
+                            //
+                            //   backgroundColor: Colors.white,
+                            //   // MediaQuery.of(context).size.width * 0.3,
+                            //   backgroundImage:  gender.toLowerCase()=="male"?const AssetImage("assets/Illustrations/Avatarmale.png"):const AssetImage("assets/Illustrations/Avatar.png"),
+                            // ),
+                            // selected? CircleAvatar(
+                            //   // backgroundImage: ,
+                            //   radius: 60,
+                            //   backgroundImage: FileImage(image !,
+                            //   )
+                            //
+                            //   // child:
+                            // ) :CachedNetworkImage( imageUrl: imageUrl,),
+                            // Positioned(
+                            // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
+                            //   bottom: 14.5,
+                            //   // right: 20,
+                            //   left: 32.5,
+                            //   child: Container(
+                            //     width: MediaQuery.of(context).size.width * 0.3,
+                            //     child: const Icon(
+                            //       Icons.add,
+                            //       size: 21,
+                            //     ),
+                            //     //color: Colors.amber,
+                            //     decoration: BoxDecoration(
+                            //       shape: BoxShape.circle,
+                            //       color: Colors.red.shade400,
+                            //     ),
+                            //   ),
+                            // )
+                          ]),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      const Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Name',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      TextFormField(
+                        validator: (val) {
+                          if (val!.isEmpty || val.length < 2) {
+                            return "Please Provide valid Username";
+                          } else {
+                            return null;
+                          }
+                        },
+                        controller: nameTextEditingController,
+                        decoration: const InputDecoration(
+                          hintText: 'name',
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      const Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Email',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      TextFormField(
+                        validator: (val) {
+                          return RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(val!)
+                              ? null
+                              : "Please Provide valid correct Email";
+                        },
+                        controller: emailTextEditingController,
+                        decoration: const InputDecoration(
+                          hintText: 'email',
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      const Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Phone',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      TextFormField(
+                        // validator: (val) {
+                        //   if (val!.isEmpty || val.length < 10) {
+                        //     return "Please Provide valid Phone number";
+                        //   } else {
+                        //     return null;
+                        //   }
+                        // },
+                        readOnly: true,
+                        controller: phoneTextEditingController,
+                        decoration: const InputDecoration(
+                          hintText: '1200-112-304',
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          await FirebaseFirestore.instance
+                              .collection("user_details")
+                              .doc(number)
+                              .update({
+                            'email': emailTextEditingController.text,
+                            'name': nameTextEditingController.text,
+                          });
+
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await saveData();
+                          Get.back();
+                        },
+                        child: Text(
+                          'Update',
+                          style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xff292F3D),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          fixedSize: const Size(150, 45),
                         ),
                       )
-                      ,
-                      // if (imageUrl == "")
-                      // CircleAvatar(
-                      //   // backgroundImage: ,
-                      //   radius: 51,
-                      //
-                      //   backgroundColor: Colors.white,
-                      //   // MediaQuery.of(context).size.width * 0.3,
-                      //   backgroundImage:  gender.toLowerCase()=="male"?const AssetImage("assets/Illustrations/Avatarmale.png"):const AssetImage("assets/Illustrations/Avatar.png"),
-                      // ),
-                      // selected? CircleAvatar(
-                      //   // backgroundImage: ,
-                      //   radius: 60,
-                      //   backgroundImage: FileImage(image !,
-                      //   )
-                      //
-                      //   // child:
-                      // ) :CachedNetworkImage( imageUrl: imageUrl,),
-                      // Positioned(
-                      // top: 0,                                  //MediaQuery.of(context).size.height * 0.052,
-                      //   bottom: 14.5,
-                      //   // right: 20,
-                      //   left: 32.5,
-                      //   child: Container(
-                      //     width: MediaQuery.of(context).size.width * 0.3,
-                      //     child: const Icon(
-                      //       Icons.add,
-                      //       size: 21,
-                      //     ),
-                      //     //color: Colors.amber,
-                      //     decoration: BoxDecoration(
-                      //       shape: BoxShape.circle,
-                      //       color: Colors.red.shade400,
-                      //     ),
-                      //   ),
-                      // )
-                    ]
-                    ),
-                  ),
-
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Name',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    ],
                   ),
                 ),
-                TextFormField(
-                  validator: (val) {
-                    if (val!.isEmpty || val.length < 2) {
-                      return "Please Provide valid Username";
-                    } else {
-                      return null;
-                    }
-                  },
-                  controller: nameTextEditingController,
-                  decoration: const InputDecoration(
-                    hintText: 'name',
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Email',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                TextFormField(
-                  validator: (val) {
-                    return RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(val!)
-                        ? null
-                        : "Please Provide valid correct Email";
-                  },
-                  controller: emailTextEditingController,
-                  decoration: const InputDecoration(
-                    hintText: 'email',
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Phone',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                TextFormField(
-                  // validator: (val) {
-                  //   if (val!.isEmpty || val.length < 10) {
-                  //     return "Please Provide valid Phone number";
-                  //   } else {
-                  //     return null;
-                  //   }
-                  // },
-                  readOnly: true,
-                  controller: phoneTextEditingController,
-                  decoration: const InputDecoration(
-                    hintText: '1200-112-304',
-                  ),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    await FirebaseFirestore.instance.collection("user_details")
-                        .doc(number).update({
-                      'email': emailTextEditingController.text,
-                      'name': nameTextEditingController.text,
-                    });
-
-                    setState(() {
-                      isLoading=true;
-
-                    });
-                    await saveData();
-                    Get.back();
-                  },
-                  child:  Text(
-                    'Update',
-                    style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,color: Colors.white),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xff292F3D),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    fixedSize: const Size(150, 45),
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

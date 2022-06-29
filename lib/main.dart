@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
 import 'package:vyam_2_final/Providers/firebase_dynamic_link.dart';
@@ -13,14 +14,14 @@ import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/register_email.dart';
 import 'package:vyam_2_final/authintication/register_gender.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
-import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/authintication/rphoto.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'Home/home_page.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel', // id
-    'High Importance Notifications', // title
+    'High Importance Noti'
+        'fications', // title
     description:
         'This channel is used for important notifications.', // description
     importance: Importance.high,
@@ -60,6 +61,7 @@ Future<void> main() async {
     alert: true,
     badge: true,
     sound: true,
+
   );
 
 
@@ -110,13 +112,11 @@ class MyApp extends StatelessWidget {
       getPages: [
         // GetPage(name: HomePage.id, page: () => HomePage()),
         GetPage(name: "/login", page: () => const LoginPage()),
-        // GetPage(name: OtpPage.id, page: () => const OtpPage()),
-        GetPage(
-            name: RegistrationPage.id, page: () => const RegistrationPage()),
         GetPage(name: Register1.id, page: () => Register1()),
         GetPage(name: Register2.id, page: () => Register2()),
         GetPage(name: Register3.id, page: () => Register3()),
         GetPage(name: Register4.id, page: () => Register4()),
+        GetPage(name: GymDetails.id, page: () => GymDetails()),
       ],
     );
   }

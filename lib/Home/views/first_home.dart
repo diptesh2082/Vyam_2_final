@@ -1,38 +1,34 @@
-import 'package:app_settings/app_settings.dart';
+
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
+
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vyam_2_final/Home/bookings/gym_details.dart';
-import 'package:vyam_2_final/Home/coupon_page.dart';
+
+
 import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
 import 'package:vyam_2_final/Home/views/Catagory.dart';
-import 'package:vyam_2_final/Home/views/genarate%20list.dart';
+
 import 'package:vyam_2_final/Home/views/gymStream.dart';
 import 'package:vyam_2_final/Home/views/location.dart';
-import 'package:vyam_2_final/Home/views/noInternet.dart';
+
 import 'package:vyam_2_final/Home/views/progressCard.dart';
 import 'package:vyam_2_final/Home/views/search_function.dart';
 
 import 'package:vyam_2_final/api/api.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
-import 'package:vyam_2_final/controllers/home_controller.dart';
-import 'package:vyam_2_final/controllers/location_controller.dart';
+
 import 'package:vyam_2_final/golbal_variables.dart';
 import '../../Notifications/notification.dart';
-import '../home_page.dart';
-import 'gyms.dart';
 
 class FirstHome extends StatefulWidget {
   const FirstHome({Key? key}) : super(key: key);
@@ -68,41 +64,42 @@ class _FirstHomeState extends State<FirstHome> {
   Geoflutterfire geo = Geoflutterfire();
 
   // Create a geoFirePoint
-  GeoFirePoint center = Geoflutterfire().point(latitude: 12.960632, longitude: 77.641603);
+  GeoFirePoint center =
+      Geoflutterfire().point(latitude: 12.960632, longitude: 77.641603);
 
 // get the collection reference or query
-  var collectionReference = FirebaseFirestore.instance.collection('product_details');
+  var collectionReference =
+      FirebaseFirestore.instance.collection('product_details');
 
   double radius = 50;
   String field = 'position';
 
-  Stream<List<DocumentSnapshot>> stream = Geoflutterfire().collection(collectionRef: FirebaseFirestore.instance.collection('product_details'))
-      .within(center: Geoflutterfire().point(latitude: 12.960632, longitude: 77.641603), radius: 50, field: 'position');
-  getStream()async{
-
-    stream.listen((snapshot) {
-      if(snapshot.isEmpty){
-        print(snapshot.length);
-        print("****************************************");
-      }
-      if(snapshot.isNotEmpty){
-        print(snapshot.length);
-        print("****************************************");
-      }
-    });
-    // return stream;
-  }
-
-
+  // Stream<List<DocumentSnapshot>> stream = Geoflutterfire().collection(collectionRef: FirebaseFirestore.instance.collection('product_details'))
+  //     .within(center: Geoflutterfire().point(latitude:GlobalUserData["location"].latitude, longitude:GlobalUserData["location"].longitude), radius: 500, field: 'position');
+  // getStream()async{
+  //
+  //   stream.listen((snapshot) {
+  //     if(snapshot.isEmpty){
+  //       print(snapshot.length);
+  //       print("****************************************");
+  //     }
+  //     if(snapshot.isNotEmpty){
+  //       print(snapshot.length);
+  //       print("****************************************");
+  //     }
+  //   });
+  //   // return stream;
+  // }
 
   myLocation() async {
     try {
       await FirebaseFirestore.instance
           .collection('user_details')
           .doc(number)
-          .snapshots().listen((snapshot) {
-        if(snapshot.exists){
-          if(mounted)
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.exists) {
+          if (mounted)
             setState(() {
               user_data = snapshot.data();
               GlobalUserData = snapshot.data();
@@ -120,7 +117,6 @@ class _FirstHomeState extends State<FirstHome> {
     }
   }
 
-
   NotificationApi notificationApi = NotificationApi();
 
   getAddressPin(var pin) async {
@@ -130,46 +126,7 @@ class _FirstHomeState extends State<FirstHome> {
     getAddress();
   }
 
-  getUserDetails() async {
-    Position position = await _determinePosition();
-    await GetAddressFromLatLong(position);
-    await getAddressPin(pin);
-    try {
-      await FirebaseFirestore.instance
-          .collection("user_details")
-          .doc(number)
-          .update({
-        "address": address,
-        "lat": position.latitude,
-        "long": position.longitude,
-        "location": GeoPoint(
-          position.latitude,
-          position.latitude,
-        ),
-        "pincode": pin,
-        "locality": locality.toLowerCase(),
-      });
-    } catch (e) {
-      FirebaseFirestore.instance.collection("user_details").doc().set({
-        "address": address,
-        "lat": position.latitude,
-        "long": position.longitude,
-        "location": GeoPoint(
-          position.latitude,
-          position.latitude,
-        ),
-        "pincode": pin,
-        "locality": locality.toLowerCase(),
-        "from": "notfull"
-      });
-    }
-
-    getAddressPin(pin);
-    // myLocation();
-  }
-
   late LocationPermission permission;
-
 
   getEverything() async {
     if (mounted) {
@@ -185,9 +142,6 @@ class _FirstHomeState extends State<FirstHome> {
         isLoading = false;
       });
     }
-
-
-
   }
 
   bool showCard = false;
@@ -198,7 +152,6 @@ class _FirstHomeState extends State<FirstHome> {
   // final LocationController yourLocation = Get.find();
   // GymDetailApi gymDetailApi = GymDetailApi();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -235,38 +188,34 @@ class _FirstHomeState extends State<FirstHome> {
   final app_bar_controller = ScrollController();
   String searchGymName = '';
   BannerApi bannerApi = BannerApi();
-  bool result=false;
+  bool result = false;
   var devicetoken;
-  updateDeviceToken()async{
-    devicetoken =await getDevicetoken();
+  updateDeviceToken() async {
+    devicetoken = await getDevicetoken();
     print(devicetoken);
-    try{
-      await FirebaseFirestore.instance.collection("user_details")
+    try {
+      await FirebaseFirestore.instance
+          .collection("user_details")
           .doc(number)
-          .update({
-        "device_token":devicetoken
-      });
+          .update({"device_token": devicetoken});
+      await FirebaseMessaging.instance.subscribeToTopic("push_notifications");
+
     }catch(e){
+
       print(e);
     }
   }
+
+
   @override
   void initState() {
-    getStream();
-    updateDeviceToken();
-    print(devicetoken);
+    // getStream();
 
-    print("running two times //////////////////");
+    updateDeviceToken();
+
     getEverything();
 
-    // if (mounted) {
-    //   setState(() {
-    //     // myaddress = myaddress;
-    //     address = address;
-    //     pin = pin;
-    //   });
-    // }
-    // print(address);
+
 
     super.initState();
   }
@@ -284,221 +233,241 @@ class _FirstHomeState extends State<FirstHome> {
     Size size = MediaQuery.of(context).size;
 
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         FocusScope.of(context).unfocus();
         return true;
       },
       child: SafeArea(
         child: isLoading
             ? const Center(
-          child: CircularProgressIndicator(),
-        )
-            :  Scaffold(
-          backgroundColor: scaffoldColor,
-          appBar: ScrollAppBar(
-            controller: app_bar_controller,
-            elevation: .0,
-            centerTitle: false,
-            backgroundColor: const Color(0xffF4F4F4),
-            leading: IconButton(
-              iconSize: 24,
-              icon: const Icon(
-                Profileicon.location,
-                color: Color(0xff3A3A3A),
-              ),
-              onPressed: () async {
-                FocusScope.of(context).unfocus();
-                await getAddressPin(pin);
-                if (mounted) {
-                  setState(() {
-                    // myaddress = myaddress;
-                    address = address;
-                    pin = pin;
-                    GlobalUserLocation = user_data["address"];
-                  });
-                }
-                Get.to(() => LocInfo());
-              },
-            ),
-            title: Transform(
-              transform: Matrix4.translationValues(-26, 0, 0),
-              child: InkWell(
-                onTap: () async {
-                  FocusScope.of(context).unfocus();
-                  await getAddressPin(pin);
-                  if (mounted) {
-                    setState(() {
-                      // myaddress = myaddress;
-                      address = address;
-                      pin = pin;
-                      GlobalUserLocation = user_data["address"];
-                    });
-                  }
-                  Get.to(() => LocInfo());
-                },
-                child: SizedBox(
-                  width: size.width * .666,
-                  height: 45,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if(GlobalUserData["address"] == null)
-                          Text(
-                            "Tap here to choose your Location",
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-
-                            style: GoogleFonts.poppins(
-                                color: const Color(0xff3A3A3A),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        if(GlobalUserData["address"] != null)
-                          Text(
-                            GlobalUserData["address"].toString() == ""
-                                ? "Tap here to choose your Location"
-                                : GlobalUserData["address"].toString(),
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-
-                            style: GoogleFonts.poppins(
-                                color: const Color(0xff3A3A3A),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500),
-                          ),
-                      ],
+                child: CircularProgressIndicator(),
+              )
+            : Scaffold(
+                backgroundColor: scaffoldColor,
+                appBar: ScrollAppBar(
+                  controller: app_bar_controller,
+                  elevation: .0,
+                  centerTitle: false,
+                  backgroundColor: const Color(0xffF4F4F4),
+                  leading: IconButton(
+                    iconSize: 24,
+                    icon: const Icon(
+                      Profileicon.location,
+                      color: Color(0xff3A3A3A),
                     ),
+                    onPressed: () async {
+                      FocusScope.of(context).unfocus();
+                      await getAddressPin(pin);
+                      if (mounted) {
+                        setState(() {
+                          // myaddress = myaddress;
+                          address = address;
+                          pin = pin;
+                          GlobalUserLocation = user_data["address"];
+                        });
+                      }
+                      Get.to(() => LocInfo());
+                    },
                   ),
-                ),
-              ),
-            ),
-            actions: [
-              Column(
-                children: [
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        // NOTIFICATION NUMBER CALLING
-                        icon: Badge(
-                          badgeContent: Text("1"),
-                          borderRadius: BorderRadius.circular(5),
-                          child: const ImageIcon(
-                            AssetImage("assets/icons/Notification.png"),
-                            size: 27,
-                            color: Colors.black,
-                          ),
-                        ),
-                        onPressed: () {
-
-                          Get.to(() => NotificationDetails());
-                          print(GlobalUserData);
-                        },
-                      ),
-                      SizedBox(
-                        width: 5,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-          body: Snap(
-            controller: app_bar_controller.appBar,
-            child: SingleChildScrollView(
-              controller: app_bar_controller,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 10.0, right: 10),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: const Divider(
-                            height: .3,
-                            thickness: 1,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-
-                        SizedBox(height: 60,),
-
-                        const SizedBox(
-                          height: 9,
-                        ),
-                        // if (searchGymName.isEmpty)
-
-                        Column(
-                          children: [
-                            if (getPercentage != 100) ProgressCard(),
-                            const SizedBox(
-                              height: 9,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                                Get.to(CouponDetails(cartValue: null, type: '',));
-                              },
-                              child: Banner(bannerApi: bannerApi),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Catagory(),
-                            const SizedBox(
-                              height: 7,
-                            ),
-
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Material(
-                                borderRadius: BorderRadius.circular(10),
-                                elevation: 0,
-                                child: SizedBox(
-                                  height: 30,
-                                  width: 130,
-                                  child: Center(
-                                    child: Text(
-                                      "Nearby Gyms",
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-
-                                  ),
+                  title: Transform(
+                    transform: Matrix4.translationValues(-26, 0, 0),
+                    child: InkWell(
+                      onTap: () async {
+                        FocusScope.of(context).unfocus();
+                        await getAddressPin(pin);
+                        if (mounted) {
+                          setState(() {
+                            // myaddress = myaddress;
+                            address = address;
+                            pin = pin;
+                            GlobalUserLocation = user_data["address"];
+                          });
+                        }
+                        Get.to(() => LocInfo());
+                      },
+                      child: SizedBox(
+                        width: size.width * .666,
+                        height: 45,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (GlobalUserData["address"] == null)
+                                Text(
+                                  "Tap here to choose your Location",
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff3A3A3A),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500),
                                 ),
-                              ),
+                              if (GlobalUserData["address"] != null)
+                                Text(
+                                  GlobalUserData["address"].toString() == ""
+                                      ? "Tap here to choose your Location"
+                                      : GlobalUserData["address"].toString(),
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  style: GoogleFonts.poppins(
+                                      color: const Color(0xff3A3A3A),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  actions: [
+                    Column(
+                      children: [
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          children: [
+                            StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection('bookings')
+                                  .where("userId", isEqualTo: number)
+                                  .where("booking_status", isEqualTo: "upcoming")
+                                  .orderBy("order_date", descending: true)
+                                  .snapshots(),
+                              builder: (context,AsyncSnapshot snapshot) {
+                                if(snapshot.connectionState == ConnectionState.waiting){
+                                  return Center(child: CircularProgressIndicator());
+                                }
+                                if(snapshot.hasError){
+                                  return Center(child:Container());
+                                }
+                                // if(snapshot.data.docs.length==0){
+                                //   return Center(child:Container());
+                                // }
+
+                                return Badge(
+                                  elevation:  snapshot.data.docs.isNotEmpty? 2 : 0,
+                                  badgeColor: snapshot.data.docs.isNotEmpty?Colors.red:Colors.white38,
+                                  position: BadgePosition.topEnd(top: 7,end: 7),
+                                  child: IconButton(
+                                    // NOTIFICATION NUMBER CALLING
+                                    icon: const ImageIcon(
+                                      AssetImage("assets/icons/Notification.png"),
+                                      size: 27,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: () {
+                                      Get.to(() => NotificationDetails());
+                                      print(GlobalUserData);
+                                    },
+                                  ),
+                                );
+                              }
                             ),
-                            const SizedBox(
-                              height: 7,
-                            ),
-                            BuildBox()
-                            // LocationList()
+                            SizedBox(
+                              width: 5,
+                            )
                           ],
-                        )
+                        ),
                       ],
                     ),
-                    Positioned(
-                        top: 15,
-                        child: SearchIt()),
                   ],
                 ),
+                body: Snap(
+                  controller: app_bar_controller.appBar,
+                  child: SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    controller: app_bar_controller,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 5.0, right: 5),
+                      child: Obx(
+                        () => Stack(
+                          alignment: Alignment.topCenter,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: const Divider(
+                                    height: .3,
+                                    thickness: 1,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 12,
+                                ),
+
+                                SizedBox(
+                                  height: 60,
+                                ),
+
+                                const SizedBox(
+                                  height: 9,
+                                ),
+                                // if (searchGymName.isEmpty)
+                                // if (Get.find<Need>().search.value.isEmpty)
+                                Column(
+                                  children: [
+                                    if (getPercentage != 100) ProgressCard(),
+                                    const SizedBox(
+                                      height: 9,
+                                    ),
+                                    Banner(bannerApi: bannerApi),
+                                    const SizedBox(
+                                      height: 15,
+                                    ),
+                                    // if (Get.find<Need>().search.value.isEmpty)
+                                    Catagory(),
+                                    if (Get.find<Need>().search.value.isEmpty)
+                                      const SizedBox(
+                                        height: 7,
+                                      ),
+                                    if (Get.find<Need>().search.value.isEmpty)
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Material(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          elevation: 0,
+                                          child: SizedBox(
+                                            height: 30,
+                                            width: 130,
+                                            child: Center(
+                                              child: Text(
+                                                "Nearby Gyms",
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    if (Get.find<Need>().search.value.isEmpty)
+                                      const SizedBox(
+                                        height: 7,
+                                      ),
+                                    // if (Get.find<Need>().search.value.isEmpty)
+                                    BuildBox()
+                                    // LocationList()
+                                  ],
+                                )
+                              ],
+                            ),
+                            Positioned(top: 15, child: SearchIt()),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -530,13 +499,11 @@ class _FirstHomeState extends State<FirstHome> {
               });
             }
           },
-          decoration:  InputDecoration(
+          decoration: InputDecoration(
             prefixIcon: Icon(Profileicon.search),
             hintText: 'Search',
-            hintStyle: GoogleFonts.poppins(
-                fontSize: 16,
-                fontWeight: FontWeight.w500
-            ),
+            hintStyle:
+                GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
             border: InputBorder.none,
             filled: true,
             fillColor: Colors.white,
@@ -545,8 +512,6 @@ class _FirstHomeState extends State<FirstHome> {
       ),
     );
   }
-
-
 }
 
 class Banner extends StatelessWidget {
@@ -563,10 +528,8 @@ class Banner extends StatelessWidget {
       height: 135,
       child: StreamBuilder<QuerySnapshot>(
         stream: bannerApi.getBanner,
-        builder:
-            (context, AsyncSnapshot streamSnapshot) {
-          if (streamSnapshot.connectionState ==
-              ConnectionState.waiting) {
+        builder: (context, AsyncSnapshot streamSnapshot) {
+          if (streamSnapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
@@ -577,28 +540,40 @@ class Banner extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: data.size,
             itemBuilder: (context, int index) {
-              return SizedBox(
-                height: 120,
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: CachedNetworkImage(
-                        height: 143,
-                        imageUrl: data.docs[index]
-                        ["image"],
-                        errorWidget: (context, url,
-                            error) =>
-                        const Icon(Icons.error),
+              return InkWell(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                  if (data.docs[index]["access"] == true && data.docs[index]["navigation"] !="") {
+                    Get.toNamed(data.docs[index]["navigation"]??"",arguments: {
+                      "gymId":data.docs[index]["gym_id"]??"",
+                    });
+                    // print("hyufufytu");
+                  }
+                },
+                child: SizedBox(
+                  height: 120,
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: 5,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                  ],
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: CachedNetworkImage(
+                          maxHeightDiskCache: 650,
+                          maxWidthDiskCache: 650,
+                          filterQuality: FilterQuality.medium,
+                          height: 143,
+                          imageUrl: data.docs[index]["image"],
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
@@ -608,13 +583,6 @@ class Banner extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
 
 //Todo internet
 // getInternet()async{
@@ -632,10 +600,6 @@ class Banner extends StatelessWidget {
 //     }
 //   });
 // }
-
-
-
-
 
 //Todo get details
 // getProgressStatus() async {
@@ -678,7 +642,6 @@ class Banner extends StatelessWidget {
 //     showCard=false;
 //   }
 // }
-
 
 //TODO: check avalablity
 
@@ -832,7 +795,6 @@ class Banner extends StatelessWidget {
 //     );
 //   }
 // }
-
 
 // TODO: progress card
 
@@ -1019,21 +981,6 @@ class Banner extends StatelessWidget {
 //         }),
 //   );
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // isLoading ? Expanded(
 //

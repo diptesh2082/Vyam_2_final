@@ -1,37 +1,89 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:vyam_2_final/Home/bookings/gym_details.dart';
+
 
 class ImageGallery extends StatefulWidget {
-  const ImageGallery({Key? key, this.images}) : super(key: key);
+   ImageGallery({Key? key, this.images,required this.loading}) : super(key: key);
   final images;
+  var loading;
 
   @override
   State<ImageGallery> createState() => _ImageGalleryState();
+
+
 }
 
 class _ImageGalleryState extends State<ImageGallery> {
+
+  // bool isLoading=true;
+  List Images=[];
+  Future cacheImage(BuildContext context,String e)=>precacheImage(
+      CachedNetworkImageProvider(e,cacheKey:"customCacheKey2", cacheManager: customCacheManager,),
+      context,
+  );
+  bool loading=true;
+  loadImage()async{
+    // setState(() {
+    //  loading=true;
+    // });
+  Images=widget.images;
+  await Future.wait(  Images.map((e) =>cacheImage(context, e)).toList());
+
+  await Future.wait(  Images.map((e) =>DefaultCacheManager().getFileFromCache(e)).toList()).then((value) {
+    setState(() {
+      loading=false;
+    });
+
+  });
+
+
+  }
+  // var III = DefaultCacheManager().getFileFromCache(url);
+
+  static final customCacheManager=CacheManager(Config(
+      "customCacheKey2",
+      maxNrOfCacheObjects: 110,
+  ));
+
+
   PageController page_controller =PageController();
   int _current = 1;
-  final List _isSelected = [true, false, false, false, false, false,false,false];
+  final List _isSelected = [true, false, false, false, false, false,false,false,false,false,false,false];
+  @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance!.addPostFrameCallback((_) {loadImage(); });
+    // loadImage();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+
+    return loading?
+        Center(child: CircularProgressIndicator())
+        :ClipRRect(
         borderRadius: BorderRadius.circular(14.0),
         child: Stack(
           //mainAxisAlignment: MainAxisAlignment.start,
           children: [
             GestureDetector(
               child: CarouselSlider.builder(
-                itemCount: widget.images.length,
+                itemCount: Images.length,
                 itemBuilder: (context, index, realIndex) {
-                  final image = widget.images[index];
-                  page_controller=PageController(initialPage: index);
-                  return gymImages(image);
+                  // final image = Images[index];
+                  if(Images.isNotEmpty){
+                    page_controller=PageController(initialPage: index);
+                    return gymImages(Images[index]);
+                  }else{
+                    return Center(child: CircularProgressIndicator());
+
+                  }
+                 return Container();
                 },
                 options: CarouselOptions(
                     height: 255,
@@ -41,7 +93,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                       setState(() {
                         _current = index + 1;
                         // tkind.current.value=index+1;
-                        for (int i = 0; i < widget.images.length; i++) {
+                        for (int i = 0; i < Images.length; i++) {
                           if (i == index) {
                             _isSelected[i] = true;
                           } else {
@@ -75,6 +127,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                             builder: (BuildContext context, int index) {
                               // listIndex=index;
                               return PhotoViewGalleryPageOptions(
+                                filterQuality: FilterQuality.low,
                                 initialScale:
                                 PhotoViewComputedScale.contained,
                                 minScale:
@@ -84,11 +137,11 @@ class _ImageGalleryState extends State<ImageGallery> {
                                 PhotoViewComputedScale.contained *
                                     2.5,
                                 basePosition: Alignment.center,
-                                imageProvider: CachedNetworkImageProvider( widget.images[index]),
+                                imageProvider: CachedNetworkImageProvider( Images[index],cacheManager: customCacheManager,),
                                 // heroAttributes: PhotoViewHeroAttributes(tag: "o"),
                               );
                             },
-                            itemCount: widget.images.length,
+                            itemCount: Images.length,
                             loadingBuilder: (context, event) => Center(
                               child: Container(
                                 width: 20.0,
@@ -96,7 +149,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                                 child: CircularProgressIndicator(
                                   value: event == null
                                       ? 0
-                                      : event.cumulativeBytesLoaded / 1,
+                                      : event.cumulativeBytesLoaded  * 5,
                                 ),
                               ),
                             ),
@@ -129,7 +182,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                   child: Row(
 
                     children: [
-                      for (int i = 0; i < widget.images.length; i++)
+                      for (int i = 0; i < Images.length; i++)
                         Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Visibility(
@@ -194,7 +247,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                         const Text("/",
                             style:
                             TextStyle(color: Colors.white)),
-                        Text(widget.images.length.toString(),
+                        Text(Images.length.toString(),
                             style: const TextStyle(
                                 color: Colors.white))
                       ],
@@ -205,11 +258,18 @@ class _ImageGalleryState extends State<ImageGallery> {
           ],
         ));
   }
+
   Widget gymImages(String images) => AspectRatio(
     aspectRatio: 16 / 9,
     child: ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: CachedNetworkImage(
+        fadeInDuration: Duration(milliseconds: 80),
+
+        maxHeightDiskCache: 600,
+        // maxWidthDiskCache: 700,
+        // width: 400,
+        // height: 400,
         imageUrl: images,
         fit: BoxFit.cover,
       ),

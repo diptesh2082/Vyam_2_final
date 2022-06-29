@@ -13,8 +13,7 @@ import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
 class ActiveOrderDetails extends StatefulWidget {
-  const ActiveOrderDetails({Key? key})
-      : super(key: key);
+  const ActiveOrderDetails({Key? key}) : super(key: key);
   // final index;
   // final orderList;
 
@@ -26,14 +25,14 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
   List getOderDetails = [];
   var doc = Get.arguments;
 // var gym__details;
-  var gym_id= Get.arguments["doc"]["vendorId"];
-  var booking_id=Get.arguments["doc"]["booking_id"];
+  var gym_id = Get.arguments["doc"]["vendorId"];
+  var booking_id = Get.arguments["doc"]["booking_id"];
 
   @override
   void initState() {
     // getOderDetails = widget.orderList;
     // print(doc["doc"]["vendorId"]);
-    vendorData(gym_id);
+    // vendorData(gym_id);
     print(booking_id);
     super.initState();
   }
@@ -41,18 +40,27 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
   @override
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
-    var _height = MediaQuery.of(context).size.height;
+    // var _height = MediaQuery.of(context).size.height;
     return WillPopScope(
-
-      onWillPop: () async{
-        doc["doc"]["booking_status"].toLowerCase()=="upcoming"? Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomePage())):Navigator.pop(context);
+      onWillPop: () async {
+        doc["doc"]["booking_status"].toLowerCase() == "upcoming"
+            ? Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HomePage()))
+            : Navigator.pop(context);
         return true;
       },
       child: Scaffold(
         appBar: AppBar(
           leading: GestureDetector(
             onTap: () {
-              doc["doc"]["booking_status"].toLowerCase()=="upcoming"? Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => HomePage())):Navigator.pop(context);
+              doc["doc"]["booking_status"].toLowerCase() == "upcoming"
+                  ? Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => HomePage()))
+                  : Navigator.pop(context);
             },
             child: Icon(
               Icons.arrow_back,
@@ -63,7 +71,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
           backgroundColor: Colors.transparent,
           centerTitle: true,
           title: Text(
-            "Order Details",
+            "Booking Details",
             style: GoogleFonts.poppins(
                 color: HexColor("3A3A3A"),
                 fontSize: 18,
@@ -83,20 +91,27 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                     child: Container(
                       width: MediaQuery.of(context).size.width * .95,
                       decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(8)),
+                          BoxDecoration(borderRadius: BorderRadius.circular(8)),
                       child: Column(
                         children: [
                           Row(
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    height: 150,
-                                    width: 145,
-                                    imageUrl: doc["doc"]['gym_details']["image"],
+                              Flexible(
+                                flex: 1,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      height: 150,
+                                      width: MediaQuery.of(context).size.width *
+                                          .5,
+                                      maxHeightDiskCache: 500,
+                                      maxWidthDiskCache: 500,
+                                      imageUrl: doc["doc"]['gym_details']
+                                          ["image"],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -110,15 +125,45 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       top: 22.0, bottom: 20),
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "Booking ID : " + doc["doc"]['id'],
-                                        style: GoogleFonts.poppins(
-                                            color: HexColor("3A3A3A"),
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500),
+                                      Material(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(5),
+                                        elevation: 5,
+                                        // color: Colors.yellow,
+                                        // decoration: BoxDecoration(
+                                        //   color: Colors.yellowAccent,
+                                        //   borderRadius: BorderRadius.circular(5)
+                                        // ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 3,
+                                            right: 2,
+                                          ),
+                                          child: RichText(
+                                              text: TextSpan(
+                                                  style: GoogleFonts.poppins(
+                                                      // fontFamily: "Poppins",
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 12,
+                                                      color: Colors.grey),
+                                                  children: <TextSpan>[
+                                                TextSpan(text: 'Booking ID - '),
+                                                TextSpan(
+                                                    text:
+                                                        "${doc["doc"]['id'].toString()}",
+                                                    style: GoogleFonts.poppins(
+                                                        // fontFamily: "Poppins",
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 12,
+                                                        color: Colors.amber)),
+                                              ])),
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 4,
@@ -140,7 +185,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                             width: 4.5,
                                           ),
                                           Text(
-                                            doc["doc"]["gym_details"]['branch'] ??
+                                            doc["doc"]["gym_details"]
+                                                    ['branch'] ??
                                                 "",
                                             style: GoogleFonts.poppins(
                                                 color: HexColor("3A3A3A"),
@@ -150,39 +196,49 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                         ],
                                       ),
                                       const SizedBox(
-                                        height: 4,
+                                        height: 5,
                                       ),
                                       Row(
                                         children: [
                                           Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    "End on :",
-                                                    style: GoogleFonts.poppins(
-                                                        color: HexColor("A3A3A3"),
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                        FontWeight.w500),
-                                                  ),
-                                                  Text(
-                                                    "${DateFormat("MMMM,dd,yyyy").format(doc["doc"]["plan_end_duration"].toDate())}",
-                                                    style: GoogleFonts.poppins(
-                                                        color: HexColor("A3A3A3"),
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                        FontWeight.w500),
-                                                  ),
-                                                ],
-                                              ),
+                                              // Row(
+                                              //   children: [
+                                              //     Text(
+                                              //       "End on :",
+                                              //       style: GoogleFonts.poppins(
+                                              //           color: HexColor("A3A3A3"),
+                                              //           fontSize: 12,
+                                              //           fontWeight:
+                                              //           FontWeight.w500),
+                                              //     ),
+                                              //     Text(
+                                              //       "${DateFormat("MMMM,dd,yyyy").format(doc["doc"]["plan_end_duration"].toDate())}",
+                                              //       style: GoogleFonts.poppins(
+                                              //           color: HexColor("A3A3A3"),
+                                              //           fontSize: 12,
+                                              //           fontWeight:
+                                              //           FontWeight.w500),
+                                              //     ),
+                                              //   ],
+                                              // ),
+
                                               Row(
                                                 children: [
                                                   Container(
                                                     decoration: BoxDecoration(
-                                                        color: doc["doc"]["booking_status"].toLowerCase() == "active"? HexColor("49C000"):HexColor("FEE221"),
+                                                        color: doc["doc"][
+                                                                        "booking_status"]
+                                                                    .toLowerCase() ==
+                                                                "active"
+                                                            ? HexColor("49C000")
+                                                            : doc["doc"]["booking_status"]
+                                                                        .toLowerCase() ==
+                                                                    "completed"
+                                                                ? Colors.purple
+                                                                : Colors.red,
                                                         shape: BoxShape.circle),
                                                     width: 6,
                                                     height: 6,
@@ -191,12 +247,13 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                                     width: 5,
                                                   ),
                                                   Text(
-                                                    "${doc["doc"]["booking_status"].toLowerCase()=="upcoming"?"Cancelled":doc["doc"]["booking_status"]}",
+                                                    "${doc["doc"]["booking_status"].toLowerCase() == "upcoming" ? "Cancelled" : doc["doc"]["booking_status"]}",
                                                     style: GoogleFonts.poppins(
-                                                        color: HexColor("3A3A3A"),
+                                                        color:
+                                                            HexColor("3A3A3A"),
                                                         fontSize: 10,
                                                         fontWeight:
-                                                        FontWeight.w500),
+                                                            FontWeight.w500),
                                                   ),
                                                 ],
                                               ),
@@ -206,7 +263,6 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                             width: 5,
                                           ),
                                           const Spacer(),
-
                                         ],
                                       ),
                                       const SizedBox(
@@ -214,7 +270,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                            MainAxisAlignment.start,
                                         children: [
                                           // Container(
                                           //     decoration: BoxDecoration(
@@ -249,30 +305,32 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                             //       number);
                                             // },
                                             child: GestureDetector(
-
                                               onTap: () async {
-                                                var number = (vendorDetails['number']);
+                                                var number =
+                                                    (vendorDetails['number']);
                                                 print(number);
-                                                String telephoneUrl = "tel:${number.toString()}";
-                                                if (await canLaunch(telephoneUrl)) {
+                                                String telephoneUrl =
+                                                    "tel:${number.toString()}";
+                                                if (await canLaunch(
+                                                    telephoneUrl)) {
                                                   await launch(telephoneUrl);
                                                 } else {
                                                   throw "Error occured trying to call that number.";
                                                 }
                                               },
-
                                               child: Container(
                                                   decoration: BoxDecoration(
                                                       color: HexColor("292F3D"),
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          10)),
+                                                          BorderRadius.circular(
+                                                              10)),
                                                   child: Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        left: 14,
-                                                        right: 14,
-                                                        top: 6,
-                                                        bottom: 6),
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 14,
+                                                            right: 14,
+                                                            top: 6,
+                                                            bottom: 6),
                                                     child: Row(
                                                       children: [
                                                         Image.asset(
@@ -282,16 +340,15 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                                         ),
                                                         Text(
                                                           "Call",
-                                                          style:
-                                                          GoogleFonts.poppins(
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w700,
-                                                              color: HexColor(
-                                                                  "FFFFFF")),
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  color: HexColor(
+                                                                      "FFFFFF")),
                                                         ),
-
                                                       ],
                                                     ),
                                                   )),
@@ -299,17 +356,21 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                           ),
                                           const Spacer(),
                                           GestureDetector(
-                                            onTap: ()async{
-                                              print( vendorDetails['location'].latitude);
-                                              await MapsLaucherApi().launchMaps(vendorDetails['location'].latitude,
-                                                  vendorDetails['location'].longitude);
+                                            onTap: () async {
+                                              print(vendorDetails['location']
+                                                  .latitude);
+                                              await MapsLaucherApi().launchMaps(
+                                                  vendorDetails['location']
+                                                      .latitude,
+                                                  vendorDetails['location']
+                                                      .longitude);
                                             },
                                             child: Padding(
                                               padding: const EdgeInsets.only(
                                                   right: 20.0),
                                               child: Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.center,
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   Image.asset(
                                                     "assets/icons/bx_bxs-direction-right.png",
@@ -318,10 +379,11 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                                   Text(
                                                     "Navigate",
                                                     style: GoogleFonts.poppins(
-                                                        color: HexColor("49C000"),
+                                                        color:
+                                                            HexColor("49C000"),
                                                         fontSize: 10,
                                                         fontWeight:
-                                                        FontWeight.w500),
+                                                            FontWeight.w500),
                                                   ),
                                                 ],
                                               ),
@@ -364,19 +426,9 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                     fontSize: 16, fontWeight: FontWeight.w700),
                               ),
                               const Spacer(),
-                              // if (getOderDetails[widget.index]['workout']
-                              //     .contains("Pay"))
-                              //   Text(
-                              //     getOderDetails[widget.index]['workout']
-                              //         .toUpperCase(),
-                              //     style: GoogleFonts.poppins(
-                              //         fontSize: 20, fontWeight: FontWeight.w700),
-                              //   ),
-                              // if (getOderDetails[widget.index]['workout']
-                              //     .contains("Months"))
                               Text(
                                 // getOderDetails[widget.index]['workout']
-                                "Gym".toUpperCase(),
+                                '${doc["doc"]['package_type']}'.toUpperCase(),
                                 style: GoogleFonts.poppins(
                                     fontSize: 16, fontWeight: FontWeight.w700),
                               ),
@@ -385,15 +437,16 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                           Row(
                             children: [
                               Text(
-                                "Package",
+                                '${doc["doc"]['booking_plan'] == "pay per session" ? doc["doc"]['booking_plan'] : "Package"}',
                                 style: GoogleFonts.poppins(
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
                               const Spacer(),
                               Text(
                                 // getOderDetails[widget.index]['workout']
-                                "${doc["doc"]["booking_plan"] ?? ""}"
+                                "${doc["doc"]['booking_plan'] == "pay per session" ? '${doc["doc"]['totalDays'].toString()} days' : doc["doc"]['booking_plan']}"
                                     .toUpperCase(),
+
                                 style: GoogleFonts.poppins(
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
@@ -409,7 +462,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                               const Spacer(),
                               Text(
                                 // getOderDetails[widget.index]['start_date'],
-                                "${DateFormat("MMMM,dd,yyyy").format(doc["doc"]["booking_date"].toDate())}",
+                                "${DateFormat("dd, MMM, yyyy").format(doc["doc"]["booking_date"].toDate())}",
                                 style: GoogleFonts.poppins(
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
@@ -424,7 +477,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                               ),
                               const Spacer(),
                               Text(
-                                "${DateFormat("MMMM,dd,yyyy").format(doc["doc"]["plan_end_duration"].toDate())}",
+                                "${DateFormat("dd, MMM, yyyy").format(doc["doc"]["plan_end_duration"].toDate())}",
                                 // getOderDetails[widget.index]['end_date'],
                                 style: GoogleFonts.poppins(
                                     fontSize: 16, fontWeight: FontWeight.w400),
@@ -495,22 +548,22 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                "Promo code",
-                                style: GoogleFonts.poppins(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
-                              ),
-                              const Spacer(),
-                              Text(
-                                doc["doc"]['discount'].toString(),
-                                // getOderDetails[widget.index]['promocode'],
-                                style: GoogleFonts.poppins(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   children: [
+                          //     Text(
+                          //       "Promo code",
+                          //       style: GoogleFonts.poppins(
+                          //           fontSize: 16, fontWeight: FontWeight.w400),
+                          //     ),
+                          //     const Spacer(),
+                          //     Text(
+                          //       doc["doc"]['discount'].toString(),
+                          //       // getOderDetails[widget.index]['promocode'],
+                          //       style: GoogleFonts.poppins(
+                          //           fontSize: 16, fontWeight: FontWeight.w400),
+                          //     ),
+                          //   ],
+                          // ),
                           Row(
                             children: [
                               Text(
@@ -530,6 +583,37 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                               ),
                             ],
                           ),
+                          Divider(
+                            thickness: .5,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "Payment Type",
+                                style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.grey),
+                              ),
+                              const Spacer(),
+                              if (doc["doc"]['payment_method'] == 'offline')
+                                Text(
+                                  'Cash',
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.grey),
+                                ),
+                              if (doc["doc"]['payment_method'] == 'online')
+                                Text(
+                                  'Online',
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.grey),
+                                ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -546,8 +630,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
               //   ),
               // ),
               InkWell(
-                onTap: (){
-                  Get.to(()=>ContactUs());
+                onTap: () {
+                  Get.to(() => ContactUs());
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -559,7 +643,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                             color: Colors.amber, shape: BoxShape.circle),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
-                          child: Image.asset("assets/icons/message-question.png"),
+                          child:
+                              Image.asset("assets/icons/message-question.png"),
                         ),
                       )
                     ],

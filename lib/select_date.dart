@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:vyam_2_final/DatePickerScreen.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
@@ -20,7 +21,9 @@ class SelectDate extends StatefulWidget {
   final price;
   final gymId;
   final bookingId;
-
+  final days;
+  final package_name;
+  final branch;
   const SelectDate(
       {Key? key,
       required this.months,
@@ -29,7 +32,8 @@ class SelectDate extends StatefulWidget {
       required this.getGymName,
       required this.getGymAddress,
       required this.gymId,
-      this.bookingId})
+        required this.bookingId,
+      required this.days,required this.package_name,required this.branch})
       : super(key: key);
 
   final String months;
@@ -62,8 +66,8 @@ class _SelectDateState extends State<SelectDate> {
     'Saturday',
     'Sunday',
   ];
-  var startDate;
-  var endDate;
+  var startDate = DateTime.now();
+  var endDate= DateTime.now();
   var totalDays;
   var now = DateTime.now();
   var current_mon;
@@ -87,20 +91,24 @@ class _SelectDateState extends State<SelectDate> {
 
   @override
   void initState() {
+    print(widget.days);
+    print("+++++++++++++++++++++++++++++");
+    getDays = int.parse(widget.days);
     total_discount = 0;
-    if (widget.months.contains("PAY PER SESSION")) {
-      getDays = 1;
-    }
-    if (widget.months.contains("1")) {
-      getDays = 28;
-    }
-    if (widget.months.contains("3")) {
-      getDays = 84;
-    }
-    if (widget.months.contains("6")) {
-      getDays = 168;
-    }
+    // if (widget.months.contains("pay per session")) {
+    //   getDays = 1;
+    // }
+    // if (widget.months.contains("1")) {
+    //   getDays = 28;
+    // }
+    // if (widget.months.contains("3")) {
+    //   getDays = 84;
+    // }
+    // if (widget.months.contains("6")) {
+    //   getDays = 168;
+    // }
     _selectedDay = DateTime.now();
+    endDate = DateTime.now().add(Duration(days: int.parse(widget.days)));
     selected_week = now.weekday;
     current_mon = now.month;
     end_mon = DateTime.now().add(Duration(days: getDays)).month;
@@ -129,7 +137,7 @@ class _SelectDateState extends State<SelectDate> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
         title: Text(
-          "Select a date",
+          "Choose Start Date",
           style: GoogleFonts.poppins(
               color: HexColor("3A3A3A"),
               fontSize: 18,
@@ -163,24 +171,6 @@ class _SelectDateState extends State<SelectDate> {
                       selectedDayPredicate: (day) {
                         return isSameDay(_selectedDay, day);
                       },
-
-                      // onDayLongPressed: (selectedDay, pressedDay) => setState(() {
-                      //   _selectedDay = selectedDay;
-                      //   print(_selectedDay);
-                      //   _focusedDay = DateTime.now();
-                      //   print(_focusedDay);
-                      //   day = _selectedDay.day.toString();
-                      //   endday = _selectedDay
-                      //       .add(Duration(days: getDays))
-                      //       .day
-                      //       .toString();
-                      //   current_mon = _selectedDay.month;
-                      //   selected_week = _selectedDay.weekday;
-                      //
-                      //   end_mon = _selectedDay.add(Duration(days: getDays)).month;
-                      //   end_week =
-                      //       _selectedDay.add(Duration(days: getDays)).weekday;
-                      // }),
                       onDaySelected: (selectedDay, focusedDay) => setState(() {
                         _selectedDay = selectedDay;
                         _focusedDay = _selectedDay;
@@ -191,6 +181,9 @@ class _SelectDateState extends State<SelectDate> {
                             .toString();
                         current_mon = _selectedDay.month;
                         selected_week = _selectedDay.weekday;
+                        startDate = _selectedDay;
+                        endDate = _selectedDay
+                            .add(Duration(days: int.parse(widget.days)));
 
                         end_mon =
                             _selectedDay.add(Duration(days: getDays)).month;
@@ -219,7 +212,8 @@ class _SelectDateState extends State<SelectDate> {
                               fontWeight: FontWeight.w700,
                               color: HexColor("3A3A3A"))),
                       firstDay: DateTime.now(),
-                      lastDay: DateTime.utc(DateTime.now().year,DateTime.now().month,DateTime.now().day+31),
+                      lastDay: DateTime.utc(DateTime.now().year,
+                          DateTime.now().month, DateTime.now().day + 31),
                       focusedDay: _selectedDay,
                     ),
                   ),
@@ -263,7 +257,7 @@ class _SelectDateState extends State<SelectDate> {
                                   const SizedBox(
                                     height: 4,
                                   ),
-                                  Text(months[current_mon - 1] + " " + day,
+                                  Text(DateFormat("dd, MMM").format(startDate),
                                       style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
@@ -302,7 +296,7 @@ class _SelectDateState extends State<SelectDate> {
                                   const SizedBox(
                                     height: 4,
                                   ),
-                                  Text(months[end_mon - 1] + " " + endday,
+                                  Text(DateFormat("dd, MMM ").format(endDate),
                                       style: GoogleFonts.poppins(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w700,
@@ -354,9 +348,7 @@ class _SelectDateState extends State<SelectDate> {
               // FocusScope.of(context).n;
               startDate =
                   DateTime(int.parse(year), current_mon, int.parse(day));
-              // months[current_mon - 1] + ", " + day + ", " + year;
-              endDate = DateTime(int.parse(year), end_mon, int.parse(endday));
-              // months[end_mon - 1] + ", " + endday + ", " + year;
+
               totalDays = DateTime(int.parse(year), end_mon, int.parse(endday))
                       .difference(DateTime(
                           int.parse(year), current_mon, int.parse(day)))
@@ -364,27 +356,8 @@ class _SelectDateState extends State<SelectDate> {
                   1;
               print(startDate);
               print(endDate);
-              // print((months[current_mon - 1] + " ," + day + ", " + year));
-              // print(months[end_mon - 1] + ", " + endday + ", " + year);
-              Get.to(
-                () => const PaymentScreen(),
-                duration: const Duration(milliseconds: 500),
-                arguments: {
-                  "gymName": widget.getGymName,
-                  "totalMonths": widget.months,
-                  "packageType": widget.packageType,
-                  "totalPrice": widget.price,
-                  "startDate":
-                      (months[current_mon - 1] + " ," + day + ", " + year),
-                  "endDate":
-                      (months[end_mon - 1] + ", " + endday + ", " + year),
-                  "address": widget.getGymAddress,
-                  "vendorId": widget.gymId,
-                  "booking_id": widget.bookingId,
-                  "gym_details": Get.arguments["docs"],
-                  "totalDays": totalDays
-                },
-              );
+              print(widget.days);
+
               await FirebaseFirestore.instance
                   .collection("bookings")
                   // .doc(number)
@@ -393,7 +366,29 @@ class _SelectDateState extends State<SelectDate> {
                   .update({
                 "booking_date": startDate,
                 "plan_end_duration": endDate,
-                "totalDays": totalDays
+                "totalDays": widget.days
+              }).then((value) {
+                Get.to(
+                  () => PaymentScreen(
+                    endDate: DateFormat("dd, MMM, yyyy").format(endDate),
+                  ),
+                  duration: const Duration(milliseconds: 500),
+                  arguments: {
+                    "gymName": widget.getGymName,
+                    "totalMonths": widget.months,
+                    "packageType": widget.packageType,
+                    "totalPrice": widget.price,
+                    "startDate": DateFormat("dd, MMM, yyyy").format(startDate),
+                    "endDate": DateFormat("dd, MMM, yyyy").format(endDate),
+                    "address": widget.getGymAddress,
+                    "vendorId": widget.gymId,
+                    "booking_id": widget.bookingId,
+                    "gym_details": Get.arguments["docs"],
+                    "totalDays": widget.days,
+                    "booking_plan":widget.package_name,
+                    "branch":widget.branch
+                  },
+                );
               });
             },
             label: Text(

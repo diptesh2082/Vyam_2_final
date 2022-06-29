@@ -1,4 +1,4 @@
-package com.example.vyam_2_final
+package com.findnearestfitness.vyam
 
 import io.flutter.embedding.android.FlutterActivity
 

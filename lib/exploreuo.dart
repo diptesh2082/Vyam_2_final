@@ -16,10 +16,10 @@ import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:vyam_2_final/Helpers/request_helpers.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
-import 'package:vyam_2_final/Home/icons/profileicon_icons.dart';
+
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
-import '../../controllers/gym_controller.dart';
+
 import 'package:location/location.dart' as ln;
 
 const String api = "AIzaSyC1HHe1ulw07w6Cz-UirhV5d2Pm_GUJW38";
@@ -381,7 +381,7 @@ class _ExploreiaState extends State<Exploreia> {
 
   @override
   void initState() {
-    // print(location.latitude);
+
     getEverything();
 
     setState(() {
@@ -463,12 +463,14 @@ class _ExploreiaState extends State<Exploreia> {
             child: FittedBox(
               child: GestureDetector(
                 onTap: () {
-                  Get.to(() => GymDetails(), arguments: {
-                    "id": document[index].id,
-                    "location": document[index]["location"],
-                    "name": document[index]["name"],
-                    "docs": document[index],
-                  });
+                  Get.to(
+                      () => GymDetails(
+                            // gymID: document[index].id,
+                          ),
+                      arguments: {
+                        "gymId":document[index].id,
+
+                      });
                   sslKey.currentState!.focusToItem(index);
                   // _gotoLocation(location.latitude, location.longitude);
                 },
@@ -483,15 +485,21 @@ class _ExploreiaState extends State<Exploreia> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       // SizedBox(width: 15,),
-                      _boxes(
-                        document[index]["display_picture"],
-                        document[index]["name"],
-                        document[index]["location"],
-                        document[index]["address"],
-                        document[index]["rating"].toString(),
-                        document[index]["branch"],
-                        document[index]["gym_status"],
-                      ),
+                      if (calculateDistance(
+                              GlobalUserData["location"].latitude,
+                              GlobalUserData["location"].longitude,
+                              document[index]["location"].latitude,
+                              document[index]["location"].longitude) <=
+                          20)
+                        _boxes(
+                          document[index]["display_picture"],
+                          document[index]["name"],
+                          document[index]["location"],
+                          document[index]["address"],
+                          document[index]["rating"].toString(),
+                          document[index]["branch"],
+                          document[index]["gym_status"],
+                        ),
                       SizedBox(
                         width: 15,
                       )
@@ -590,8 +598,8 @@ class _ExploreiaState extends State<Exploreia> {
                       child: StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection("product_details")
-                              .where("locality",
-                                  isEqualTo: GlobalUserData["locality"])
+                              // .where("locality",
+                              //     isEqualTo: GlobalUserData["locality"])
                               .where("legit", isEqualTo: true)
                               .orderBy("location")
                               .snapshots(),
@@ -659,77 +667,7 @@ class _ExploreiaState extends State<Exploreia> {
                     ),
                   )
                 : SizedBox(),
-            // Positioned(
-            //   // top: 9,
-            //   // left: 1,
-            //   child: Align(
-            //     alignment: Alignment.center,
-            //     child: Column(
-            //       children: [
-            //         const SizedBox(
-            //           height: 24,
-            //         ),
-            //         Padding(
-            //           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            //           child: Material(
-            //             elevation: 8,
-            //             borderRadius: BorderRadius.circular(15),
-            //             child: Container(
-            //               // width: MediaQuery.of(context).size.width * .90,
-            //               height: 51,
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(14),
-            //                 color: Colors.white,
-            //               ),
-            //               child: TextField(
-            //                 textAlignVertical: TextAlignVertical.center,
-            //                 controller: test_controller,
-            //                 autofocus: false,
-            //                 onChanged: (value) async {
-            //                   if (value.length == 0) {
-            //                     // setState(() {
-            //                     FocusScope.of(context).unfocus();
-            //                   }
-            //                   // });
-            //                   _list =
-            //                   await RequestHelper().getPlaces(query: value);
-            //                   setState(() {});
-            //                   if (value.isEmpty) {
-            //                     _list!.clear();
-            //                     // setState(() {}
-            //                     // );
-            //                   }
-            //                 },
-            //                 onSubmitted: (value) {
-            //                   FocusScope.of(context).unfocus();
-            //                   setState(() {
-            //                     showPlacessuggesstions = false;
-            //                     _list!.clear();
-            //                   });
-            //                 },
-            //                 decoration: const InputDecoration(
-            //                     hintText: 'Search places',
-            //                     border: InputBorder.none,
-            //                     hintStyle: TextStyle(fontWeight: FontWeight.bold),
-            //                     prefixIcon: Icon(Profileicon.search)),
-            //                 onTap: () {
-            //                   setState(() {
-            //                     _list!.clear();
-            //                     FocusScope.of(context).unfocus();
-            //                     showPlacessuggesstions
-            //                         ? showPlacessuggesstions = false
-            //                         : showPlacessuggesstions = true;
-            //                     test_controller.clear();
-            //                   });
-            //                 },
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
+
             _list != null && _list!.isNotEmpty
                 ? Positioned(
                     top: 76,
@@ -823,6 +761,8 @@ class _ExploreiaState extends State<Exploreia> {
                             status ? Colors.transparent : Colors.black,
                             BlendMode.color),
                         child: CachedNetworkImage(
+                          maxWidthDiskCache: 400,
+                          maxHeightDiskCache: 420,
                           fit: BoxFit.cover,
                           imageUrl: _image,
                         ),
