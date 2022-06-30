@@ -412,23 +412,25 @@ class _PaymentScreenState extends State<PaymentScreen> {
           "seen":false,
           "branch":branch
         }).then((value) async {
+          if(myCouponController.GlobalCouponApplied.value==true){
+            await FirebaseFirestore.instance
+                .collection("coupon")
+                .doc(myCouponController.coupon_id.value)
+                .collection("used_by")
+                .doc().set({
+              "user":GlobalUserData["userId"],
+              "user_name":GlobalUserData["name"],
+              "vendor_id":gymData["gym_id"]
+            });
+          }
 
-          await FirebaseFirestore.instance
-              .collection("coupon")
-              .doc(myCouponController.coupon_id.value)
-              .collection("used_by")
-              .doc().set({
-            "user":GlobalUserData["userId"],
-            "user_name":GlobalUserData["name"],
-            "vendor_id":gymData["gym_id"]
-          });
         }).then((value) async {
 
           Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
 
         });
 
-        await Future.wait(showNotification("Booking successful for " + ven_name,"Share OTP at the center to start."));
+        await (showNotification("Booking successful for " + ven_name,"Share OTP at the center to start."));
         // :await showNotification("Booking Status You","Booking Unsuccessful");
 
         // booking_dCachetails["id"]!=null?
