@@ -534,18 +534,45 @@ class Banner extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          final data = streamSnapshot.requireData;
+          if (streamSnapshot.hasError) {
+            return  Center(
+              child:Container(),
+            );
+          }
+          if (streamSnapshot.data.docs.isEmpty) {
+            return  Center(
+              child: Container(),
+            );
+          }
+          List data =[];
+           streamSnapshot.data.docs.forEach((e){
+             if (e["area"]==true){
+               var distance = calculateDistance(
+                   GlobalUserData["location"].latitude,
+                   GlobalUserData["location"].longitude,
+                   e["selected_area"].latitude,
+                   e["selected_area"].longitude);
+               distance = double.parse((distance).toStringAsFixed(1));
+               if (distance <= 20) {
+                 data.add(e);
+                 // data.add(distance);
+               }
+             }else{
+               data.add(e);
+             }
+           });
+
           return ListView.builder(
             // controller: _controller.,
             scrollDirection: Axis.horizontal,
-            itemCount: data.size,
+            itemCount: data.length,
             itemBuilder: (context, int index) {
               return InkWell(
                 onTap: () {
                   FocusScope.of(context).unfocus();
-                  if (data.docs[index]["access"] == true && data.docs[index]["navigation"] !="") {
-                    Get.toNamed(data.docs[index]["navigation"]??"",arguments: {
-                      "gymId":data.docs[index]["gym_id"]??"",
+                  if (data[index]["access"] == true && data[index]["navigation"] !="") {
+                    Get.toNamed(data[index]["navigation"]??"",arguments: {
+                      "gymId":data[index]["gym_id"]??"",
                     });
                     // print("hyufufytu");
                   }
@@ -564,7 +591,7 @@ class Banner extends StatelessWidget {
                           maxWidthDiskCache: 650,
                           filterQuality: FilterQuality.medium,
                           height: 143,
-                          imageUrl: data.docs[index]["image"],
+                          imageUrl: data[index]["image"],
                           errorWidget: (context, url, error) =>
                               const Icon(Icons.error),
                         ),

@@ -51,6 +51,20 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
   }
+  // void submit() async {
+  //   if (phoneController.text == "") return;
+  //
+  //   var appSignatureID = await SmsAutoFill().getAppSignature;
+  //   Map sendOtpData = {
+  //     "mobile_number": phoneController.text,
+  //     "app_signature_id": appSignatureID
+  //   };
+  //   print(sendOtpData);
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => const VerifyOTPScreen()),
+  //   );
+  // }
 
   @override
   void initState() {
@@ -236,7 +250,13 @@ class _LoginPageState extends State<LoginPage> {
                         child: ElevatedButton(
                           onPressed: () async {
                             appSignatureID = await SmsAutoFill().getAppSignature;
+                            Map sendOtpData = {
+                              "mobile_number": phoneController.text,
+                              "app_signature_id": appSignatureID
+                            };
+                            print(sendOtpData);
                             final isValid = _formKey.currentState?.validate();
+                            PhoneAuthCredential?  phoneAuthCredential1;
                             if (isValid!){
                               _formKey.currentState?.save();
                               setState(() {
@@ -247,11 +267,16 @@ class _LoginPageState extends State<LoginPage> {
                                   timeout: const Duration(seconds: 30),
                                   forceResendingToken: _forceResendingToken,
                                   phoneNumber: "+91${phoneController.text}",
+
                                   verificationCompleted:
                                       (phoneAuthCredential) async {
                                     setState(() {
                                       showLoding = false;
+                                      phoneAuthCredential1=phoneAuthCredential;
                                     });
+                                    // print("+++++++++++++++++++++++************");
+                                    // print(phoneAuthCredential.);
+                                    // print("+++++++++++++++++++++++************");
                                   },
                                   verificationFailed: (verificationFailed) async {
                                     // Get.snackbar(
@@ -278,6 +303,7 @@ class _LoginPageState extends State<LoginPage> {
                                               number:
                                               "+91${phoneController.text.trim()}",
                                               resendingToken: resending_token,
+                                              credential: phoneAuthCredential1,
                                             )));
                                   },
                                   // forceResendingToken: (re){

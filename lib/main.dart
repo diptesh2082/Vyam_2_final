@@ -35,6 +35,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("A bg message just showed up : ${message.messageId}");
 }
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -56,6 +57,12 @@ Future<void> main() async {
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()!
       .createNotificationChannel(channel);
+final InitializationSettings initializationSettings = InitializationSettings(
+  android: AndroidInitializationSettings("@mipmap/launcher_icon.png")
+);
+//   await flutterLocalNotificationsPlugin.initialize(initializationSettings,onSelectNotification: (String? route)async{
+// Get.to(()=>HomePage());
+//   });
 
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
