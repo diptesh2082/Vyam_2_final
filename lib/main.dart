@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> {
 
     FirebaseMessaging.instance.getInitialMessage();
 
-    FirebaseMessaging.onMessage.listen((message){
+    FirebaseMessaging.onMessage.listen((RemoteMessage message){
 
       if(message.notification != null)
         {
@@ -106,15 +106,11 @@ class _MyAppState extends State<MyApp> {
 
     });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((message)
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message)
     {
-      if(message.data != null)
-      {
-        print(message.notification!.body);
-        print(message.notification!.title);
-        // print(message.data["route"]);
+      print('A new onMessageOpenedApp event was published!');
+      Navigator.pushNamed(context,GymDetails.id,);
 
-      }
       // final routeFromMessage = message.data["GymDetails"];
       // print(routeFromMessage);
 
