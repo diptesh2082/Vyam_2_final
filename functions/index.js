@@ -20,7 +20,11 @@ admin.initializeApp();
            title: String(snapshot.data().title),
            body:String(snapshot.data().definition),
            clickAction:'FLUTTER_NOTIFICATION_CLICK',
-        }
+        },
+       data: {
+                      title: "Cloud Messaging",
+                      message: "Open the app right now, please.",
+                  }
    };
         return admin.messaging().sendToTopic('push_notifications',payload);
 

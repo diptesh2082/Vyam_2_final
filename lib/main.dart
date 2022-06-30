@@ -108,9 +108,15 @@ class _MyAppState extends State<MyApp> {
 
     FirebaseMessaging.onMessageOpenedApp.listen((message)
     {
-      print('A new onMessageOpenedApp event was published');
-      final routeFromMessage = message.data["GymDetails"];
-      print(routeFromMessage);
+      if(message.data != null)
+      {
+        print(message.notification!.body);
+        print(message.notification!.title);
+        // print(message.data["route"]);
+
+      }
+      // final routeFromMessage = message.data["GymDetails"];
+      // print(routeFromMessage);
 
     });
     super.initState();
