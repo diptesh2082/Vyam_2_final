@@ -537,7 +537,8 @@ class _GymDetailsState extends State<GymDetails> {
                             ),
 
                             buildButton(
-                              text: "TESTING",
+                              text: "60% on First Booking",
+                              subText: "USE CODE VYAM30",
                               onClicked: () => showModalBottomSheet(
                                 context: context,
                                 builder: (context) => buildSheet(),
@@ -1367,15 +1368,44 @@ class _GymDetailsState extends State<GymDetails> {
   Widget buildButton({
     required String text,
     required VoidCallback onClicked,
+    required String subText,
   }) =>
-      ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-        ),
-        onPressed: onClicked,
-        child: Text(
-          text,
-          style: TextStyle(fontSize: 20),
+      GestureDetector(
+        // style: ElevatedButton.styleFrom(
+        //   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        // ),
+        onTap: onClicked,
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: new BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          height: 60,
+          width: 25,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                'assets/icons/new discount.png',
+                height: 40,
+                width: 40,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(
+                  text,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                ),
+                SizedBox(height: 5,),
+                Text(
+                  subText,
+                  style: TextStyle(fontSize:8,),
+                ),
+              ]),
+            ],
+          ),
         ),
       );
 

@@ -35,6 +35,13 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("A bg message just showed up : ${message.messageId}");
 }
 
+Future<void> backgroundHandler(RemoteMessage message)
+async
+{
+  print(message.data.toString());
+  print(message.notification!.title);
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -63,29 +70,52 @@ Future<void> main() async {
     sound: true,
 
   );
-
-
-
-
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
 
 
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    FirebaseMessaging.instance.getInitialMessage();
+
+    FirebaseMessaging.onMessage.listen((message){
+
+      if(message.notification != null)
+        {
+          print(message.notification!.body);
+          print(message.notification!.title);
+        }
+
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message)
+    {
+      print('A new onMessageOpenedApp event was published');
+      final routeFromMessage = message.data["GymDetails"];
+      print(routeFromMessage);
+
+    });
+    super.initState();
+  }
   // const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     FirebaseAuth _auth = FirebaseAuth.instance;
     return GetMaterialApp(
       title: 'Flutter Demo',
-
       theme: ThemeData(primarySwatch: Colors.grey),
       // Themes().lightTheme,
-
       // home: SplashScreen(),
-
       // theme: Themes().lightTheme,
       debugShowCheckedModeBanner: false,
       home: StreamBuilder(
@@ -96,14 +126,12 @@ class MyApp extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-
           if (snapshot.hasData &&
               exist &&
               _auth.currentUser != null &&
               number.isNotEmpty) {
             return HomePage();
           }
-
           return Onboarding1();
         },
       ),
