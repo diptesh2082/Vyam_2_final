@@ -27,9 +27,9 @@ class GymDetails extends StatefulWidget {
   // final gymName;
   // final gymID;
 
-
-  const GymDetails({Key? key, }) : super(key: key);
-
+  const GymDetails({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _GymDetailsState createState() => _GymDetailsState();
@@ -39,7 +39,7 @@ class _GymDetailsState extends State<GymDetails> {
   static final customCacheManager = CacheManager(Config("customCacheKey",
       maxNrOfCacheObjects: 100, stalePeriod: Duration(days: 15)));
 
-final gymID=Get.arguments["gymId"];
+  final gymID = Get.arguments["gymId"];
   bool touch = false;
 
   getRatingCount(x) async {
@@ -56,9 +56,7 @@ final gymID=Get.arguments["gymId"];
           }
         }
       });
-    } catch (e) {
-
-    }
+    } catch (e) {}
 
     //     .update(
     // {
@@ -69,7 +67,7 @@ final gymID=Get.arguments["gymId"];
 
   var snaptu;
   getRating() async {
-    try{
+    try {
       await FirebaseFirestore.instance
           .collection("Reviews")
           .where("gym_id", isEqualTo: gymID)
@@ -135,12 +133,11 @@ final gymID=Get.arguments["gymId"];
           getRatingCount(await Get.find<Need>().review.value);
         }
       });
-    }catch(e){
+    } catch (e) {
       setState(() {
         isLoading = false;
       });
     }
-
   }
 
   // = Get.arguments["docs"]
@@ -170,7 +167,7 @@ final gymID=Get.arguments["gymId"];
           .collection("product_details")
           .doc(gymID)
           .collection("timings")
-          .orderBy("position",descending: false)
+          .orderBy("position", descending: false)
           .snapshots()
           .listen((snap) {
         setState(() {
@@ -202,12 +199,16 @@ final gymID=Get.arguments["gymId"];
           }
         }
       });
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
 
   List<dynamic> workout = [""];
+  List<String> rules = [
+    '· Bring your towel and use it',
+    '· Bring seperate shoes.',
+    '· Re-rack equipments',
+    '· No heavy lifting without spotter'
+  ];
 
   @override
   void initState() {
@@ -291,12 +292,18 @@ final gymID=Get.arguments["gymId"];
                                   ),
                                 ),
                                 const Spacer(),
-                                const Text('OPEN NOW',
+                                Text(
+                                    docs['gym_status'] != false
+                                        ? 'OPEN NOW'
+                                        : 'CLOSED',
                                     style: TextStyle(
-                                        fontFamily: "poppins",
-                                        color: Colors.lightGreen,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500)),
+                                      fontFamily: "poppins",
+                                      color: docs['gym_status'] != false
+                                          ? Colors.lightGreen
+                                          : Colors.red,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    )),
                               ],
                             ),
                             SizedBox(height: 12),
@@ -514,8 +521,7 @@ final gymID=Get.arguments["gymId"];
                                 // const Text(' '),
                                 const Spacer(),
                                 GestureDetector(
-                                  child: const Text(
-                                      "View more",
+                                  child: const Text("View more",
                                       style: TextStyle(
                                           fontFamily: "Poppins",
                                           decoration: TextDecoration.underline,
@@ -632,7 +638,7 @@ final gymID=Get.arguments["gymId"];
                                     .collection("product_details")
                                     .doc("${gymID}")
                                     .collection("trainer")
-                                    .where("eligible",isEqualTo: true)
+                                    .where("eligible", isEqualTo: true)
                                     .orderBy("position")
                                     .snapshots(),
                                 builder: (context, AsyncSnapshot snapshot) {
@@ -742,15 +748,15 @@ final gymID=Get.arguments["gymId"];
                                                                             children: [
                                                                               Column(
                                                                                 children: [
-                                                                                  if(trainerdoc[index]['image'] !=null || trainerdoc[index]['image']!="" )
-                                                                                  Container(
-                                                                                    height: 65,
-                                                                                    width: 65,
-                                                                                    decoration: BoxDecoration(
-                                                                                        shape: BoxShape.circle,
-                                                                                        //border: Border.all(width: 1),
-                                                                                        image: DecorationImage(image: CachedNetworkImageProvider(trainerdoc[index]['image'],maxHeight: 350,maxWidth: 450), fit: BoxFit.cover)),
-                                                                                  ),
+                                                                                  if (trainerdoc[index]['image'] != null || trainerdoc[index]['image'] != "")
+                                                                                    Container(
+                                                                                      height: 65,
+                                                                                      width: 65,
+                                                                                      decoration: BoxDecoration(
+                                                                                          shape: BoxShape.circle,
+                                                                                          //border: Border.all(width: 1),
+                                                                                          image: DecorationImage(image: CachedNetworkImageProvider(trainerdoc[index]['image'], maxHeight: 350, maxWidth: 450), fit: BoxFit.cover)),
+                                                                                    ),
                                                                                   SizedBox(
                                                                                     height: 2,
                                                                                   ),
@@ -885,19 +891,22 @@ final gymID=Get.arguments["gymId"];
                                                         return Container(
                                                           height: 30,
                                                           width: 30,
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape.circle,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
 //border: Border.all(width: 1),
-                                                              image: DecorationImage(
-                                                                  image: CachedNetworkImageProvider(
-                                                                    snaptu[index]
-                                                                            [
-                                                                            "user"]
-                                                                        ["user_pic"],
-                                                                    maxWidth: 100,
-                                                                    maxHeight: 100
-                                                                  ),
-                                                                  fit: BoxFit.cover)),
+                                                                  image: DecorationImage(
+                                                                      image: CachedNetworkImageProvider(
+                                                                          snaptu[index]["user"]
+                                                                              [
+                                                                              "user_pic"],
+                                                                          maxWidth:
+                                                                              100,
+                                                                          maxHeight:
+                                                                              100),
+                                                                      fit: BoxFit
+                                                                          .cover)),
                                                         );
                                                       }),
                                                 ),
@@ -941,62 +950,22 @@ final gymID=Get.arguments["gymId"];
                                               fontWeight: FontWeight.w700,
                                             )),
                                       ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.015,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 21.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "•  Bring your towel and use it.",
-                                              style: GoogleFonts.poppins(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.015,
-                                            ),
-                                            Text("•  Bring seperate shoes.",
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 12,
-                                                )),
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.015,
-                                            ),
-                                            Text("•  Re-rack equipments",
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 12,
-                                                )),
-                                            SizedBox(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.015,
-                                            ),
-                                            Text(
-                                                "•  No heavy lifting without spotter",
-                                                style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 12,
-                                                )),
-                                          ],
-                                        ),
-                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(left: 8.0),
+                                        child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: rules.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return Text(
+                                                rules[index],
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              );
+                                            }),
+                                      )
                                     ],
                                   ),
                                 )),
@@ -1282,16 +1251,17 @@ final gymID=Get.arguments["gymId"];
                             // print(docs["images"]);
                             print(docs["address"]);
                             Get.to(
-                                () => Packeges(
-                                      getFinalID: gymID,
-                                      gymName: docs["name"],
-                                      gymLocation: docs["address"],
-                                      doc: docs, branch: docs["branch"],
-                                    ),
-                                duration: const Duration(milliseconds: 300),
-                                // arguments: {
-                                //   "doc": docs,
-                                // }
+                              () => Packeges(
+                                getFinalID: gymID,
+                                gymName: docs["name"],
+                                gymLocation: docs["address"],
+                                doc: docs,
+                                branch: docs["branch"],
+                              ),
+                              duration: const Duration(milliseconds: 300),
+                              // arguments: {
+                              //   "doc": docs,
+                              // }
                             );
                           },
                           label: Text(
