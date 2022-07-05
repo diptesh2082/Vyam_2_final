@@ -31,7 +31,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   print("A bg message just showed up : ${message.messageId}");
 }
 
@@ -95,21 +95,24 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
 
     FirebaseMessaging.instance.getInitialMessage();
-
+    //
     FirebaseMessaging.onMessage.listen((RemoteMessage message){
 
       if(message.notification != null)
         {
           print(message.notification!.body);
           print(message.notification!.title);
+          // Get.to(()=>HomePage());
+
         }
 
     });
-
+    //
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message)
     {
       print('A new onMessageOpenedApp event was published!');
-      Navigator.pushNamed(context,GymDetails.id,);
+      // Navigator.pushNamed(context,GymDetails.id,);
+      Get.to(()=>HomePage());
 
       // final routeFromMessage = message.data["GymDetails"];
       // print(routeFromMessage);

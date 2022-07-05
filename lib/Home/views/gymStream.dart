@@ -30,9 +30,7 @@ class BuildBox extends StatelessWidget {
                 .snapshots(),
             builder: (context, AsyncSnapshot streamSnapshot) {
               if (streamSnapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return   Center(child: Container());
               }
               if (streamSnapshot.hasError) {
                 return const Center(
@@ -128,7 +126,7 @@ class BuildBox extends StatelessWidget {
                                               BlendMode.color),
                                           child: CachedNetworkImage(
                                             // cacheManager: customCacheManager,
-                                            maxHeightDiskCache: 520,
+                                            maxHeightDiskCache: 600,
 
                                             filterQuality: FilterQuality.high,
                                             height: 210,

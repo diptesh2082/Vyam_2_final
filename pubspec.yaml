@@ -85,14 +85,10 @@ dependencies:
   firebase_dynamic_links: ^4.2.5
   flutter_share: ^2.0.0
   share_plus: ^4.0.5
-
   sms_autofill: ^2.2.0
-
   connectivity_checker: ^1.1.0
-
-
-
   flutter_cache_manager: ^3.3.0
+  http: ^0.13.4
 
 
 

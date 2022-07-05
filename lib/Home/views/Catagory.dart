@@ -26,7 +26,7 @@ class Catagory extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return  Center(child: Container());
           }
           var categoryDocs = snapshot.data.docs;
           return ListView.separated(

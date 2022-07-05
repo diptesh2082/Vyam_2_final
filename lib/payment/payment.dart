@@ -1,8 +1,8 @@
 import 'dart:math';
-
+import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -15,7 +15,6 @@ import 'package:vyam_2_final/Home/bookings/success_book.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
 
 import 'package:vyam_2_final/golbal_variables.dart';
-
 
 import '../api/api.dart';
 import '../main.dart';
@@ -47,12 +46,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final app_bar_controller = ScrollController();
   final cartValue = Get.arguments["totalPrice"];
 
-  final type=Get.arguments["booking_plan"];
-  final ven_id=Get.arguments["vendorId"];
-  final ven_name=Get.arguments["gymName"];
-  final branch=Get.arguments["branch"];
-  showNotification(String title,String info) async {
-
+  final type = Get.arguments["booking_plan"];
+  final ven_id = Get.arguments["vendorId"];
+  final ven_name = Get.arguments["gymName"];
+  final branch = Get.arguments["branch"];
+  showNotification(String title, String info) async {
     // setState(() {
     //   _counter++;
     // });
@@ -76,7 +74,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
   var booking_details;
 
   bool isLoading = false;
-
 
   detDil() async {
     var price;
@@ -107,7 +104,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   void initState() {
     print("//////////");
-    print( getData['totalMonths'],);
+    print(
+      getData['totalMonths'],
+    );
     print(type);
     detDil();
     myCouponController.GlobalCouponApplied.value = false;
@@ -129,6 +128,100 @@ class _PaymentScreenState extends State<PaymentScreen> {
     _razorpay.clear();
   }
 
+  _simplpay() async {
+    var client = http.Client();
+    try {
+      var response = await http.post(
+          Uri.https( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction/initiate',"whatsit/create"),
+          body: {
+            'merchant_client_id': '8a54a9a0d2c99b86f81d23fff76e1537',
+            'transaction_status_redirection_url':
+                "https://merchant-website.com/simpl/transactions/status",
+            "transaction_status_webhook_url":
+                "https://merchant-website.com/simpl/transactions_webhook/status",
+            "user": {
+              "phone_number": number.toString().substring(3, number.length),
+              "email": GlobalUserData["email"].toString(),
+              "first_name": "",
+              "last_name": ""
+            },
+            "order_id": booking_id,
+            "amount_in_paise": (myCouponController.GlobalCouponApplied.value
+                    ? (grandTotal -
+                        int.parse(myCouponController.CouponDetailsMap.value))
+                    : grandTotal) *
+                100,
+            "discount_in_paise": 0,
+            "shipping_amount_in_paise": 0,
+            // "items":
+            "device_params": {
+      "manufacturer": "OnePlus",
+      "model": "OnePlus6",
+      "rooted": true,
+      "android_id": "92184bf0a60baf71",
+      "ip_address": "13.235.154.11",
+      "lat_lng": "0.0,0.0",
+      "custom_param_1" : "value_1",
+      "custom_param_2": "value_2"
+      },
+      "merchant_params": {
+      "customer_id": "Some unique ID",
+      "inventory_partner": {
+      "ip_id": "Some unique ID",
+      "ip_name": "Abc xyz",
+      "ip_phone_number": "7865432109",
+      "ip_email": "abc@test.com",
+      "ip_address": "Block A, street 4, Bangalore"
+      },
+      "service_partner": {
+      "sp_id": "Some unique ID",
+      "sp_name": "Abc xyz",
+      "sp_phone_number": "7865432109",
+      "sp_address": "Block A, street 4, Bangalore"
+      }
+      },
+      "billing_address": {
+      "line1": "811, Crescent Business Park",
+      "line2": "Near Telephone exchange",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "country": "India",
+      "pincode": "560001"
+      },
+      "shipping_address": {
+      "line1": "811, Crescent Business Park",
+      "line2": "Near Telephone exchange",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "country": "India",
+      "pincode": "560001"
+      },
+      "metadata": {
+      "delivery_type": "express",
+      "custom_param_1": "value",
+      "custom_param_2": "value"
+      }
+
+          });
+      if(response.statusCode==200){
+        print("success");
+      }
+      // var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      // var uri = Uri.parse(decodedResponse['uri'] );
+      // print(await client.get(uri));
+    } finally {
+      client.close();
+    }
+    // var app={
+    //   "amount_in_paise":(myCouponController.GlobalCouponApplied.value
+    //       ? (grandTotal -
+    //       int.parse(myCouponController.CouponDetailsMap.value))
+    //       : grandTotal) *
+    //       100,
+    //
+    // };
+  }
+
   _payment() {
     var options = {
       'key': 'rzp_live_7twfLFOgOjQnp1',
@@ -142,7 +235,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       // "order_id":"test_jukjktgtu",
 
       'prefill': {
-        'contact': number.toString().substring(3,number.length),
+        'contact': number.toString().substring(3, number.length),
         'email': GlobalUserData["email"].toString()
       },
 
@@ -174,81 +267,79 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print("the  theory${response.paymentId}");
     print(response.orderId);
 
-
-    try{
-
-      var x =  Random().nextInt(9999);
-      if (x<1000){
-        x=x+1000;
+    try {
+      var x = Random().nextInt(9999);
+      if (x < 1000) {
+        x = x + 1000;
       }
       FocusScope.of(context).unfocus();
-      int booking_iiid=0;
+      int booking_iiid = 0;
       // Future.wait();
       await FirebaseFirestore.instance
           .collection("bookings")
           .where("booking_status".toLowerCase(),
-          whereIn: ["completed", "active", "upcoming", "cancelled"])
+              whereIn: ["completed", "active", "upcoming", "cancelled"])
           .get()
           .then((value) async {
-        if (value.docs.isNotEmpty) {
-          booking_iiid = await value.docs.length+186;
-        }
-      }).then((value) async {
-        await FirebaseFirestore.instance
-            .collection("bookings")
-            .doc(getData["booking_id"])
-            .update({
-          "otp_pass": x.toString(),
-          "booking_status": "upcoming",
-          "payment_done": true,
-          "payment_method":"online",
-          "id":booking_iiid
-        });
-      }).then((value) async =>{
-        await FirebaseFirestore.instance
-            .collection("booking_notifications")
-            .doc()
-            .set({
-          "title": "upcoming booking",
-          "status":"upcoming",
-          // "payment_done": false,
-          "user_id":number.toString(),
-          "user_name":GlobalUserData["name"],
-          "vendor_id":ven_id,
-          "vendor_name":ven_name,
-          "time_stamp":DateTime.now(),
-          "booking_id":booking_id,
-          "seen":false,
-          "branch":branch
-        }).then((value) => Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id})).then((value)  =>{
-      showNotification("Booking successful for " + ven_name,"Share OTP at the center to start."),
-        }),
-      await FirebaseFirestore.instance
-          .collection("coupon")
-          .doc(myCouponController.coupon_id.value)
-          .collection("used_by")
-          .doc().set({
-      "user":GlobalUserData["userId"],
-      "user_name":GlobalUserData["name"],
-      "vendor_id":gymData["gym_id"]
-      }),
-
-
-
-      });
-
-
-
+            if (value.docs.isNotEmpty) {
+              booking_iiid = await value.docs.length + 186;
+            }
+          })
+          .then((value) async {
+            await FirebaseFirestore.instance
+                .collection("bookings")
+                .doc(getData["booking_id"])
+                .update({
+              "otp_pass": x.toString(),
+              "booking_status": "upcoming",
+              "payment_done": true,
+              "payment_method": "online",
+              "id": booking_iiid
+            });
+          })
+          .then((value) async => {
+                await FirebaseFirestore.instance
+                    .collection("booking_notifications")
+                    .doc()
+                    .set({
+                      "title": "upcoming booking",
+                      "status": "upcoming",
+                      // "payment_done": false,
+                      "user_id": number.toString(),
+                      "user_name": GlobalUserData["name"],
+                      "vendor_id": ven_id,
+                      "vendor_name": ven_name,
+                      "time_stamp": DateTime.now(),
+                      "booking_id": booking_id,
+                      "seen": false,
+                      "branch": branch
+                    })
+                    .then((value) => Get.offAll(() => SuccessBook(),
+                            arguments: {
+                              "otp_pass": x,
+                              "booking_details": booking_id
+                            }))
+                    .then((value) => {
+                          showNotification("Booking successful for " + ven_name,
+                              "Share OTP at the center to start."),
+                        }),
+                await FirebaseFirestore.instance
+                    .collection("coupon")
+                    .doc(myCouponController.coupon_id.value)
+                    .collection("used_by")
+                    .doc()
+                    .set({
+                  "user": GlobalUserData["userId"],
+                  "user_name": GlobalUserData["name"],
+                  "vendor_id": gymData["gym_id"]
+                }),
+              });
 
       // :await showNotification("Booking Status You","Booking Unsuccessful");
 
       // booking_dCachetails["id"]!=null?
 
-    }catch(e){
-
-    }
-
-
+    } catch (e) {}
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -367,78 +458,75 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
       );
     } else {
-
-      try{
-        var x =  Random().nextInt(9999);
-        if (x<1000){
-          x=x+1000;
+      try {
+        var x = Random().nextInt(9999);
+        if (x < 1000) {
+          x = x + 1000;
         }
         FocusScope.of(context).unfocus();
-        int booking_iiid=0;
+        int booking_iiid = 0;
         await FirebaseFirestore.instance
             .collection("bookings")
             .where("booking_status".toLowerCase(),
-            whereIn: ["completed", "active", "upcoming", "cancelled"])
+                whereIn: ["completed", "active", "upcoming", "cancelled"])
             .get()
             .then((value) async {
-          if (value.docs.isNotEmpty) {
-            booking_iiid = await value.docs.length+186;
-          }
-        }).then((value) async {
-          await FirebaseFirestore.instance
-              .collection("bookings")
-              .doc(getData["booking_id"])
-              .update({
-            "otp_pass": x.toString(),
-            "booking_status": "upcoming",
-            "payment_done": true,
-            "payment_method":"online",
-            "id":booking_iiid
-          });
-        });
+              if (value.docs.isNotEmpty) {
+                booking_iiid = await value.docs.length + 186;
+              }
+            })
+            .then((value) async {
+              await FirebaseFirestore.instance
+                  .collection("bookings")
+                  .doc(getData["booking_id"])
+                  .update({
+                "otp_pass": x.toString(),
+                "booking_status": "upcoming",
+                "payment_done": true,
+                "payment_method": "online",
+                "id": booking_iiid
+              });
+            });
         await FirebaseFirestore.instance
             .collection("booking_notifications")
             .doc()
             .set({
           "title": "upcoming booking",
-          "status":"upcoming",
+          "status": "upcoming",
           // "payment_done": false,
-          "user_id":number.toString(),
-          "user_name":GlobalUserData["name"],
-          "vendor_id":ven_id,
-          "vendor_name":ven_name,
-          "time_stamp":DateTime.now(),
-          "booking_id":booking_id,
-          "seen":false,
-          "branch":branch
+          "user_id": number.toString(),
+          "user_name": GlobalUserData["name"],
+          "vendor_id": ven_id,
+          "vendor_name": ven_name,
+          "time_stamp": DateTime.now(),
+          "booking_id": booking_id,
+          "seen": false,
+          "branch": branch
         }).then((value) async {
-          if(myCouponController.GlobalCouponApplied.value==true){
+          if (myCouponController.GlobalCouponApplied.value == true) {
             await FirebaseFirestore.instance
                 .collection("coupon")
                 .doc(myCouponController.coupon_id.value)
                 .collection("used_by")
-                .doc().set({
-              "user":GlobalUserData["userId"],
-              "user_name":GlobalUserData["name"],
-              "vendor_id":gymData["gym_id"]
+                .doc()
+                .set({
+              "user": GlobalUserData["userId"],
+              "user_name": GlobalUserData["name"],
+              "vendor_id": gymData["gym_id"]
             });
           }
-
         }).then((value) async {
-
-          Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
-
+          Get.offAll(() => SuccessBook(),
+              arguments: {"otp_pass": x, "booking_details": booking_id});
         });
 
-        await (showNotification("Booking successful for " + ven_name,"Share OTP at the center to start."));
+        await (showNotification("Booking successful for " + ven_name,
+            "Share OTP at the center to start."));
         // :await showNotification("Booking Status You","Booking Unsuccessful");
 
         // booking_dCachetails["id"]!=null?
 
-      }catch(e){
-
-      }
-
+      } catch (e) {}
     }
 
     print("Wallet");
@@ -454,229 +542,250 @@ class _PaymentScreenState extends State<PaymentScreen> {
     //     initState();
     // }
 
-
-    return isLoading? Container(
-      color: Colors.white,
-      child: Center(
-        child: CircularProgressIndicator(
-          backgroundColor: Colors.white,
-        ),
-      ),
-    )
-        :Scaffold(
-        appBar: ScrollAppBar(
-          controller: app_bar_controller,
-          centerTitle: true,
-          elevation: 0,
-          backgroundColor: Colors.white,
-          title: InkWell(
-            onTap: (){
-              print(ven_name);
-            },
-            child: const Text(
-              // "Add Your Location Here",
-              "Booking Summary",
-              style: TextStyle(
-                  fontFamily: "Poppins",
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black),
+    return isLoading
+        ? Container(
+            color: Colors.white,
+            child: Center(
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.white,
+              ),
             ),
-          ),
-          leading: IconButton(
-            color: Colors.black,
-            onPressed: () {
-              Get.back();
-            },
-            icon: const Icon(Icons.arrow_back_ios),
-          ),
-        ),
-        backgroundColor: Colors.black,
-        body: Container(
-          color: Colors.white,
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: SafeArea(
-              child: SingleChildScrollView(
-                // controller: app_bar_controller,
-                padding: const EdgeInsets.only(top: 10),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Card(
-                        elevation: 0.2,
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(left: 3),
-                              child: DetailBox(
-                                  getData['gymName'].toString(),
-                                  getData['gym_details']["branch"].toString(),
-                                  getData["gym_details"]['address'].toString(),
-                                  getData["gym_details"]['display_picture']),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            const Divider(
-                              color: Colors.black26,
-                              height: 10,
-                              thickness: .3,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, right: 8, top: 5, bottom: 0),
-                              child: SizedBox(
-                                height: 127,
-                                child: Column(
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-
-                                      children: [
-                                        Row(
+          )
+        : Scaffold(
+            appBar: ScrollAppBar(
+              controller: app_bar_controller,
+              centerTitle: true,
+              elevation: 0,
+              backgroundColor: Colors.white,
+              title: InkWell(
+                onTap: () {
+                  print(ven_name);
+                },
+                child: const Text(
+                  // "Add Your Location Here",
+                  "Booking Summary",
+                  style: TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black),
+                ),
+              ),
+              leading: IconButton(
+                color: Colors.black,
+                onPressed: () {
+                  Get.back();
+                },
+                icon: const Icon(Icons.arrow_back_ios),
+              ),
+            ),
+            backgroundColor: Colors.black,
+            body: Container(
+              color: Colors.white,
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body: SafeArea(
+                  child: SingleChildScrollView(
+                    // controller: app_bar_controller,
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Card(
+                            elevation: 0.2,
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(left: 3),
+                                  child: DetailBox(
+                                      getData['gymName'].toString(),
+                                      getData['gym_details']["branch"]
+                                          .toString(),
+                                      getData["gym_details"]['address']
+                                          .toString(),
+                                      getData["gym_details"]
+                                          ['display_picture']),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                const Divider(
+                                  color: Colors.black26,
+                                  height: 10,
+                                  thickness: .3,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8, top: 5, bottom: 0),
+                                  child: SizedBox(
+                                      height: 127,
+                                      child: Column(children: [
+                                        Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Padding(
-                                              padding: EdgeInsets.only(left: 0),
-                                              child: Text(
-                                                "Workout",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontFamily: "Poppins",
-                                                    fontSize: 16,
-                                                    color: Colors.green),
-                                              ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 0),
+                                                  child: Text(
+                                                    "Workout",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontFamily: "Poppins",
+                                                        fontSize: 16,
+                                                        color: Colors.green),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 0),
+                                                  child: Text(
+                                                    getData['packageType'],
+                                                    style: const TextStyle(
+                                                        color: Colors.green,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontFamily: "Poppins",
+                                                        fontSize: 16),
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 0),
-                                              child: Text(
-                                                getData['packageType'],
-                                                style: const TextStyle(
-                                                    color: Colors.green,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontFamily: "Poppins",
-                                                    fontSize: 16),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  right: 0, top: 0, left: 0),
-                                              child: Center(
-                                                child: Text(
-                                                  months.trim().toLowerCase() ==
-                                                          "pay per session"
-                                                      ? months
-                                                      : "Package",
-                                                  textAlign: TextAlign.center,
-                                                  style: GoogleFonts.poppins(
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: 0,
+                                                      top: 0,
+                                                      left: 0),
+                                                  child: Center(
+                                                    child: Text(
+                                                      months
+                                                                  .trim()
+                                                                  .toLowerCase() ==
+                                                              "pay per session"
+                                                          ? months
+                                                          : "Package",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 0, top: 0),
+                                                  child: Text(
+                                                    months
+                                                                .trim()
+                                                                .toLowerCase() ==
+                                                            "pay per session"
+                                                        ? "${getData["totalDays"].toString()} ${getData["totalDays"] > 1 ? "Days" : "Day"}"
+                                                        : type ?? "",
+                                                    style: GoogleFonts.poppins(
+                                                        fontSize: 16,
+                                                        // color: ,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 0, top: 0),
+                                                  child: Text(
+                                                    "Start Date",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: 16,
+                                                      // fontFamily: "Poppins",
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 0, top: 0),
+                                                  child: Text(
+                                                    getData["startDate"]
+                                                        .toString(),
+                                                    style: GoogleFonts.poppins(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 0, top: 0),
+                                                  child: Text(
+                                                    "Valid Upto",
+                                                    style: GoogleFonts.poppins(
+                                                      // fontFamily: "Poppins",
                                                       fontSize: 16,
                                                       fontWeight:
-                                                          FontWeight.w500),
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 0, top: 0),
-                                              child: Text(
-                                                months.trim().toLowerCase() ==
-                                                        "pay per session"
-                                                    ? "${getData["totalDays"].toString()} ${getData["totalDays"] > 1 ? "Days" : "Day"}"
-                                                    : type ??
-                                                        "",
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 16,
-                                                    // color: ,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 0, top: 0),
-                                              child: Text(
-                                                "Start Date",
-                                                style: GoogleFonts.poppins(
-                                                  fontSize: 16,
-                                                  // fontFamily: "Poppins",
-                                                  fontWeight: FontWeight.w500,
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 0, top: 0),
+                                                  child: Text(
+                                                    widget.endDate.toString(),
+                                                    style: GoogleFonts.poppins(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 0, top: 0),
-                                              child: Text(
-                                                getData["startDate"].toString(),
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 0, top: 0),
-                                              child: Text(
-                                                "Valid Upto",
-                                                style: GoogleFonts.poppins(
-                                                  // fontFamily: "Poppins",
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 0, top: 0),
-                                              child: Text(
-                                                widget.endDate.toString(),
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    ]
-                                  )
-                                ),
-                            )
+                                      ])),
+                                )
                               ],
                             ),
                           ),
@@ -1244,87 +1353,90 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                         const SizedBox(width: 15),
                         GestureDetector(
-
-                          onTap: ()async{
-                            try{
+                          onTap: () async {
+                            try {
                               setState(() {
-                                isLoading=true;
+                                isLoading = true;
                               });
                               Navigator.pop(context);
-                              var x =  Random().nextInt(9999);
-                              if (x<1000){
-                                x=x+1000;
+                              var x = Random().nextInt(9999);
+                              if (x < 1000) {
+                                x = x + 1000;
                               }
                               FocusScope.of(context).unfocus();
                               // await getBookingData(getData["booking_id"]);
-                              Get.offAll(() => SuccessBook(), arguments: {"otp_pass": x,"booking_details":booking_id});
+                              Get.offAll(() => SuccessBook(), arguments: {
+                                "otp_pass": x,
+                                "booking_details": booking_id
+                              });
                               setState(() {
-                                isLoading=false;
+                                isLoading = false;
                               });
                               int? booking_iiid;
                               await FirebaseFirestore.instance
                                   .collection("bookings")
                                   .where("booking_status".toLowerCase(),
-                                  whereIn: ["completed", "active", "upcoming", "cancelled"])
+                                      whereIn: [
+                                        "completed",
+                                        "active",
+                                        "upcoming",
+                                        "cancelled"
+                                      ])
                                   .get()
                                   .then((value) async {
-                                if (value.docs.isNotEmpty) {
-                                  booking_iiid = await value.docs.length + 200;
-                                }
-                              }).then((value) async {
-                                await FirebaseFirestore.instance
-                                    .collection("bookings")
-                                    .doc(booking_id)
-                                    .update({
-                                  "otp_pass": x.toString(),
-                                  "booking_status":"upcoming",
-                                  "payment_done": false,
-                                  "id":booking_iiid
-                                });
-
-                              });
+                                    if (value.docs.isNotEmpty) {
+                                      booking_iiid =
+                                          await value.docs.length + 200;
+                                    }
+                                  })
+                                  .then((value) async {
+                                    await FirebaseFirestore.instance
+                                        .collection("bookings")
+                                        .doc(booking_id)
+                                        .update({
+                                      "otp_pass": x.toString(),
+                                      "booking_status": "upcoming",
+                                      "payment_done": false,
+                                      "id": booking_iiid
+                                    });
+                                  });
                               await FirebaseFirestore.instance
                                   .collection("booking_notifications")
                                   .doc()
                                   .set({
                                 "title": "upcoming booking",
-                                "status":"upcoming",
+                                "status": "upcoming",
                                 // "payment_done": false,
-                                "user_id":number.toString(),
-                                "user_name":GlobalUserData["name"],
-                                "vendor_id":ven_id,
-                                "vendor_name":ven_name,
-                                "time_stamp":DateTime.now(),
-                                "booking_id":booking_id,
-                                "seen":false,
-                                "branch":branch
+                                "user_id": number.toString(),
+                                "user_name": GlobalUserData["name"],
+                                "vendor_id": ven_id,
+                                "vendor_name": ven_name,
+                                "time_stamp": DateTime.now(),
+                                "booking_id": booking_id,
+                                "seen": false,
+                                "branch": branch
                               }).then((value) async {
-                                await showNotification("Booking successful for " + ven_name,"Share OTP at the center to start.");
+                                await showNotification(
+                                    "Booking successful for " + ven_name,
+                                    "Share OTP at the center to start.");
                               }).then((value) async {
-
                                 await FirebaseFirestore.instance
                                     .collection("coupon")
                                     .doc(myCouponController.coupon_id.value)
                                     .collection("used_by")
-                                    .doc().set({
-                                  "user":GlobalUserData["userId"],
-                                  "user_name":GlobalUserData["name"],
-                                  "vendor_id":gymData["gym_id"]
+                                    .doc()
+                                    .set({
+                                  "user": GlobalUserData["userId"],
+                                  "user_name": GlobalUserData["name"],
+                                  "vendor_id": gymData["gym_id"]
                                 });
                               });
 
-
-
-
-
-                            setState(() {
-                              isLoading = false;
-                            });
-
-                          }catch(e){
-
-                            }
-                            },
+                              setState(() {
+                                isLoading = false;
+                              });
+                            } catch (e) {}
+                          },
                           child: Container(
                               height: 38,
                               width: 90,
@@ -1436,10 +1548,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         height: 60,
                         child: GestureDetector(
                           onTap: () {
-                            if(gymData["cash_pay"] == true)
-                            setState(() {
-                              onlinePay = false;
-                            });
+                            if (gymData["cash_pay"] == true)
+                              setState(() {
+                                onlinePay = false;
+                              });
 
                             // _PaymentScreenState();
                           },
@@ -1458,17 +1570,81 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 width: 20,
                               ),
                               if (gymData["cash_pay"] == true)
-                              const Text(
-                                "Pay at gym",
-                                style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14),
+                                const Text(
+                                  "Pay at gym",
+                                  style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                ),
+                              if (gymData["cash_pay"] == true) const Spacer(),
+                              if (onlinePay == false ||
+                                  (gymData["online_pay"] == false &&
+                                      gymData["cash_pay"] == true))
+                                const Icon(
+                                  Icons.check,
+                                  color: Colors.black,
+                                  size: 15,
+                                ),
+                              if (gymData["cash_pay"] == false)
+                                const Text(
+                                  "Cash isn't available in this gym",
+                                  style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12),
+                                ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: SizedBox(
+                        height: 60,
+                        child: GestureDetector(
+                          onTap: () {
+                            if (gymData["cash_pay"] == true)
+                              setState(() {
+                                onlinePay = false;
+                              });
+
+                            // _PaymentScreenState();
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Row(children: [
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Image.asset(
+                                "assets/images/Simpl_Logo.png",
+                                width: 60,
+                              ),
+                              const SizedBox(
+                                width: 20,
                               ),
                               if (gymData["cash_pay"] == true)
-                              const Spacer(),
+                                const Text(
+                                  "Pay at gym",
+                                  style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                ),
+                              if (gymData["cash_pay"] == true) const Spacer(),
                               if (onlinePay == false ||
-                                (  gymData["online_pay"] == false && gymData["cash_pay"] == true ))
+                                  (gymData["online_pay"] == false &&
+                                      gymData["cash_pay"] == true))
                                 const Icon(
                                   Icons.check,
                                   color: Colors.black,
@@ -1677,29 +1853,30 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             ),
                             onPressed: () async {
                               print('hhhhhhhhhhhhhh$booking_id');
-                              await FirebaseFirestore.instance
-                                  .collection("bookings")
-                                  .doc(booking_id)
-                                  .update({
-                                "discount":
-                                    myCouponController.GlobalCouponApplied.value
-                                        ? (int.parse(myCouponController
-                                            .CouponDetailsMap.value))
-                                        : totalDiscount,
-                                "grand_total":
-                                    myCouponController.GlobalCouponApplied.value
-                                        ? (grandTotal -
-                                                int.parse(myCouponController
-                                                    .CouponDetailsMap.value))
-                                            .toString()
-                                        : grandTotal.toString(),
-                                "tax_pay": taxPay,
-                                "booking_status": "incomplete",
-                              });
-                              // await getBookingData(booking_id);
-                              onlinePay == true && gymData["online_pay"]
-                                  ? Pay()
-                                  :  gymData["cash_pay"]?OffPay():SizedBox();
+                              _simplpay();
+                              // await FirebaseFirestore.instance
+                              //     .collection("bookings")
+                              //     .doc(booking_id)
+                              //     .update({
+                              //   "discount":
+                              //       myCouponController.GlobalCouponApplied.value
+                              //           ? (int.parse(myCouponController
+                              //               .CouponDetailsMap.value))
+                              //           : totalDiscount,
+                              //   "grand_total":
+                              //       myCouponController.GlobalCouponApplied.value
+                              //           ? (grandTotal -
+                              //                   int.parse(myCouponController
+                              //                       .CouponDetailsMap.value))
+                              //               .toString()
+                              //           : grandTotal.toString(),
+                              //   "tax_pay": taxPay,
+                              //   "booking_status": "incomplete",
+                              // });
+                              // // await getBookingData(booking_id);
+                              // onlinePay == true && gymData["online_pay"]
+                              //     ? Pay()
+                              //     :  gymData["cash_pay"]?OffPay():SizedBox();
                             }),
                       ),
                     ),

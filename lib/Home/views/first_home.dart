@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
@@ -340,7 +341,7 @@ class _FirstHomeState extends State<FirstHome> {
                                   .snapshots(),
                               builder: (context,AsyncSnapshot snapshot) {
                                 if(snapshot.connectionState == ConnectionState.waiting){
-                                  return Center(child: CircularProgressIndicator());
+                                  return Center(child: Container());
                                 }
                                 if(snapshot.hasError){
                                   return Center(child:Container());
@@ -360,9 +361,11 @@ class _FirstHomeState extends State<FirstHome> {
                                       size: 27,
                                       color: Colors.black,
                                     ),
-                                    onPressed: () {
+                                    onPressed: () async {
+
+                                      // await DefaultCacheManager().emptyCache();
                                       Get.to(() => NotificationDetails());
-                                      print(GlobalUserData);
+                                      // print(GlobalUserData);
                                     },
                                   ),
                                 );
@@ -530,9 +533,7 @@ class Banner extends StatelessWidget {
         stream: bannerApi.getBanner,
         builder: (context, AsyncSnapshot streamSnapshot) {
           if (streamSnapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return   Center(child: Container());
           }
           if (streamSnapshot.hasError) {
             return  Center(

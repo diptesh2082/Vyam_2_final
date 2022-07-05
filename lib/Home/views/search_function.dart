@@ -202,8 +202,7 @@ class _SearchItState extends State<SearchIt> {
                                                       : Colors.black,
                                                   BlendMode.color),
                                               child: CachedNetworkImage(
-                                                maxHeightDiskCache: 480,
-                                                maxWidthDiskCache: 750,
+                                                maxHeightDiskCache: 600,
                                                 filterQuality:
                                                     FilterQuality.low,
                                                 height: 210,

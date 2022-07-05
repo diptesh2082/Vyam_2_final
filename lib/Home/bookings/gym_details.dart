@@ -212,6 +212,7 @@ class _GymDetailsState extends State<GymDetails> {
 
     super.initState();
   }
+  // final admin=Fireb
 
   PageController page_controller = PageController();
 
@@ -536,12 +537,35 @@ class _GymDetailsState extends State<GymDetails> {
                               height: 5,
                             ),
 
-                            buildButton(
-                              text: "60% on First Booking",
-                              subText: "USE CODE VYAM30",
-                              onClicked: () => showModalBottomSheet(
-                                context: context,
-                                builder: (context) => buildSheet(),
+                            SizedBox(
+                              height: 80,
+                              // width: MediaQuery.of(context).size.width*.9,
+                              child: StreamBuilder<QuerySnapshot>(
+                                stream: FirebaseFirestore.instance.
+                                collection("product_details").
+                                doc(gymID).
+                                collection("offers").
+                                snapshots(),
+                                builder: (context, snapshot) {
+                                  if(snapshot.connectionState==ConnectionState.waiting){
+                                    return Center(child: Container());
+                                  }
+                                  return ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    // shrinkWrap: true,
+                                    itemCount: snapshot.data!.docs.length,
+                                    itemBuilder: (BuildContext context,int index) {
+                                      return buildButton(
+                                        text: snapshot.data!.docs[index]["title"],
+                                        subText:  snapshot.data!.docs[index]["description"],
+                                        onClicked: () => showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) => buildSheet(),
+                                        ),
+                                      );
+                                    }
+                                  );
+                                }
                               ),
                             ),
 
@@ -1386,6 +1410,7 @@ class _GymDetailsState extends State<GymDetails> {
             child: SizedBox(
               height: 60,
               // width: 25,
+              width: MediaQuery.of(context).size.width*.8,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [

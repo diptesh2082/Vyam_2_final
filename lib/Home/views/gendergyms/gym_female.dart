@@ -137,8 +137,7 @@ class _GymFemaleState extends State<GymFemale> {
                                           BlendMode.color),
                                       child: CachedNetworkImage(
                                         height: 210,
-                                        maxHeightDiskCache: 480,
-                                        maxWidthDiskCache: 750,
+                                        maxHeightDiskCache: 600,
                                         fit: BoxFit.cover,
                                         width:
                                             MediaQuery.of(context).size.width,
