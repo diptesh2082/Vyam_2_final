@@ -132,79 +132,42 @@ class _PaymentScreenState extends State<PaymentScreen> {
     var client = http.Client();
     try {
       var response = await http.post(
-          Uri.https( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction/initiate',"whatsit/create"),
+          Uri.parse( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction/initiate',),
+          headers:{
+            'Content-Type':'application/json',
+            'Authorization':'18c8e9a52d818f865cd0f7df2a254dc3'
+          },
           body: {
-            'merchant_client_id': '8a54a9a0d2c99b86f81d23fff76e1537',
-            'transaction_status_redirection_url':
-                "https://merchant-website.com/simpl/transactions/status",
-            "transaction_status_webhook_url":
-                "https://merchant-website.com/simpl/transactions_webhook/status",
+            "merchant_client_id": "8a54a9a0d2c99b86f81d23fff76e1537",
+            "transaction_status_redirection_url": "http://localhost/transac/response.php",
+            "transaction_status_webhook_url": "http://localhost/transac/webhook.php",
+            "order_id": "1745024511",
             "user": {
-              "phone_number": number.toString().substring(3, number.length),
-              "email": GlobalUserData["email"].toString(),
-              "first_name": "",
-              "last_name": ""
+              "phone_number": "82xxxxx557",
+              "email": "mayuresh.madav@getsimpl.com"
             },
-            "order_id": booking_id,
-            "amount_in_paise": (myCouponController.GlobalCouponApplied.value
-                    ? (grandTotal -
-                        int.parse(myCouponController.CouponDetailsMap.value))
-                    : grandTotal) *
-                100,
-            "discount_in_paise": 0,
-            "shipping_amount_in_paise": 0,
-            // "items":
-            "device_params": {
-      "manufacturer": "OnePlus",
-      "model": "OnePlus6",
-      "rooted": true,
-      "android_id": "92184bf0a60baf71",
-      "ip_address": "13.235.154.11",
-      "lat_lng": "0.0,0.0",
-      "custom_param_1" : "value_1",
-      "custom_param_2": "value_2"
-      },
-      "merchant_params": {
-      "customer_id": "Some unique ID",
-      "inventory_partner": {
-      "ip_id": "Some unique ID",
-      "ip_name": "Abc xyz",
-      "ip_phone_number": "7865432109",
-      "ip_email": "abc@test.com",
-      "ip_address": "Block A, street 4, Bangalore"
-      },
-      "service_partner": {
-      "sp_id": "Some unique ID",
-      "sp_name": "Abc xyz",
-      "sp_phone_number": "7865432109",
-      "sp_address": "Block A, street 4, Bangalore"
-      }
-      },
-      "billing_address": {
-      "line1": "811, Crescent Business Park",
-      "line2": "Near Telephone exchange",
-      "city": "Bangalore",
-      "state": "Karnataka",
-      "country": "India",
-      "pincode": "560001"
-      },
-      "shipping_address": {
-      "line1": "811, Crescent Business Park",
-      "line2": "Near Telephone exchange",
-      "city": "Bangalore",
-      "state": "Karnataka",
-      "country": "India",
-      "pincode": "560001"
-      },
-      "metadata": {
-      "delivery_type": "express",
-      "custom_param_1": "value",
-      "custom_param_2": "value"
-      }
-
-          });
+            "billing_address": {
+              "line1": "10",
+              "line2": "thxxxxoad",
+              "city": "Txxne",
+              "state": "maxxxxxra",
+              "country": "India",
+              "pincode": "110018"
+            },
+            "items": [
+              {
+                "sku": "1",
+                "quantity": "1",
+                "rate_per_item": "1200"
+              }
+            ],
+            "amount_in_paise": 300
+          }
+              .toString());
+      print(response.body);
       if(response.statusCode==200){
         print("success");
+        // print(response.body as List);
       }
       // var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
       // var uri = Uri.parse(decodedResponse['uri'] );
@@ -351,49 +314,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print("payment faild");
     Get.back();
 
-    // var signature;
-    // // response.
-    //   print(response.signature);
-    //   print(response.paymentId);
-    //   print(response.orderId);
-    //   if (response.orderId == null || response.signature == null) {
-    //     Navigator.pop(context);
-    //     showDialog(
-    //       context: context,
-    //       builder: (context) => GestureDetector(
-    //         onTap: () {
-    //           Get.off(() => const PaymentScreen(), arguments: getData);
-    //         },
-    //         child: AlertDialog(
-    //           shape: const RoundedRectangleBorder(
-    //               borderRadius: BorderRadius.all(Radius.circular(16))),
-    //           content: SizedBox(
-    //             height: 180,
-    //             child: Column(
-    //                 crossAxisAlignment: CrossAxisAlignment.center,
-    //                 mainAxisAlignment: MainAxisAlignment.center,
-    //                 children: const [
-    //                   Icon(
-    //                     Icons.cancel,
-    //                     color: Colors.red,
-    //                     size: 50,
-    //                   ),
-    //                   SizedBox(height: 15),
-    //                   Text(
-    //                     'Payment Failed',
-    //                     style: TextStyle(
-    //                         fontFamily: "Poppins",
-    //                         fontSize: 16,
-    //                         color: Colors.black,
-    //                         fontWeight: FontWeight.w700),
-    //                   ),
-    //                 ]),
-    //           ),
-    //         ),
-    //       ),
-    //     );
-    //     return;
-    //   }
 
     print("Failed");
     print("//////////////////////////////////////////////////////////////");

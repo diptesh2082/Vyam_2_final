@@ -99,10 +99,7 @@ class _ExploreiaState extends State<Exploreia> {
     });
   }
 
-  // if (!serviceEnabled) {
-  // await Geolocator.openLocationSettings();
-  // return Future.error('Location services are disabled.');
-  // }
+
 
   getMarkerData() async {
     await Firebase.initializeApp();
@@ -159,31 +156,7 @@ class _ExploreiaState extends State<Exploreia> {
       });
     }
 
-    // Position position = await _determinePosition();
-    // await GetAddressFromLatLong(position);
-    // if(mounted) {
-    //   setState(() {
-    //     myaddress = myaddress;
-    //     address = address;
-    //     pin = pin;
-    //   });
-    // }
-    // await FirebaseFirestore.instance
-    //     .collection("user_details")
-    //     .doc(number)
-    //     .update({
-    //   "location": GeoPoint(position.latitude, position.longitude),
-    //   "address": address,
-    //   // "lat": position.latitude,
-    //   // "long": position.longitude,
-    //   "pincode": pin,
-    //   "locality": locality,
-    //   "subLocality": locality,
-    //   // "number": number
-    // });
-    // setState(() {
-    //   location_service =  true;
-    // });
+
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
@@ -204,19 +177,6 @@ class _ExploreiaState extends State<Exploreia> {
           child: WillPopScope(
             onWillPop: () async {
               print("hola hola behen ka lola");
-              // await FirebaseFirestore.instance
-              //     .collection("user_details")
-              //     .doc(number)
-              //     .update({
-              //   "location": GeoPoint(position.latitude, position.longitude),
-              //   "address": address,
-              //   // "lat": position.latitude,
-              //   // "long": position.longitude,
-              //   "pincode": pin,
-              //   "locality": locality,
-              //   "subLocality": locality,
-              //   // "number": number
-              // });
 
               var Enabled = await Geolocator.isLocationServiceEnabled();
               if (Enabled) {
@@ -240,30 +200,7 @@ class _ExploreiaState extends State<Exploreia> {
                 isLoading = false;
               });
 
-              // try {
-              //   Position position = await _determinePosition();
-              //   await GetAddressFromLatLong(position);
-              //   if (mounted) {
-              //     setState(() {
-              //       myaddress = myaddress;
-              //       address = address;
-              //       pin = pin;
-              //     });
-              //   }
 
-              //   setState(() {
-              //     location_service = true;
-              //     // isLoading=false;
-              //   });
-              // } catch (e) {
-              //   getEverything();
-              // }
-              //
-              // if(location) {
-              //   setState(() {
-              //   location_service =  true;
-              // });
-              // }
               return true;
             },
             child: AlertDialog(
@@ -409,24 +346,7 @@ class _ExploreiaState extends State<Exploreia> {
     await _gotoLocation(latitude, longitude);
   }
 
-  // void _currentLocation() async {
-  //   final GoogleMapController controller = await _controller.future;
-  //   LocationData currentLocation;
-  //   var location =  Location();
-  //   try {
-  //     currentLocation = await location.getLocation();
-  //   } on Exception {
-  //     currentLocation = null;
-  //   }
-  //
-  //   controller.animateCamera(CameraUpdate.newCameraPosition(
-  //     CameraPosition(
-  //       bearing: 0,
-  //       target: LatLng(currentLocation.latitude, currentLocation.longitude),
-  //       zoom: 17.0,
-  //     ),
-  //   ));
-  // }
+
 
   late List<PlacesApiHelperModel>? _list = [];
 
@@ -594,7 +514,7 @@ class _ExploreiaState extends State<Exploreia> {
                       // margin: const EdgeInsets.symmetric(vertical: 18.0),
                       // color: Colors.white.withOpacity(0),
                       height: 136.0,
-                      width: 500,
+                      width: 350,
                       child: StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection("product_details")
@@ -606,8 +526,8 @@ class _ExploreiaState extends State<Exploreia> {
                           builder: (context, AsyncSnapshot streamSnapshot) {
                             if (streamSnapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
+                              return  Center(
+                                child: Container(),
                               );
                             }
 
