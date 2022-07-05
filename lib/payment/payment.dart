@@ -1434,6 +1434,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         height: 60,
                         child: GestureDetector(
                           onTap: () {
+                            if(gymData["cash_pay"] == true)
                             setState(() {
                               onlinePay = false;
                             });
@@ -1454,6 +1455,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               const SizedBox(
                                 width: 20,
                               ),
+                              if (gymData["cash_pay"] == true)
                               const Text(
                                 "Pay at gym",
                                 style: TextStyle(
@@ -1461,13 +1463,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14),
                               ),
+                              if (gymData["cash_pay"] == true)
                               const Spacer(),
                               if (onlinePay == false ||
-                                  gymData["online_pay"] == false)
+                                (  gymData["online_pay"] == false && gymData["cash_pay"] == true ))
                                 const Icon(
                                   Icons.check,
                                   color: Colors.black,
                                   size: 15,
+                                ),
+                              if (gymData["cash_pay"] == false)
+                                const Text(
+                                  "Cash isn't available in this gym",
+                                  style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12),
                                 ),
                               const SizedBox(
                                 width: 5,
@@ -1685,7 +1697,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               // await getBookingData(booking_id);
                               onlinePay == true && gymData["online_pay"]
                                   ? Pay()
-                                  : OffPay();
+                                  :  gymData["cash_pay"]?OffPay():SizedBox();
                             }),
                       ),
                     ),

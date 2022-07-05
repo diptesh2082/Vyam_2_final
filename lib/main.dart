@@ -55,6 +55,19 @@ Future<void> main() async {
         importance: Importance.high,
         playSound: true);
 
+//<<<<<<< someshwarNew
+//=======
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()!
+      .createNotificationChannel(channel);
+final InitializationSettings initializationSettings = InitializationSettings(
+  android: AndroidInitializationSettings("@mipmap/launcher_icon.png")
+);
+//   await flutterLocalNotificationsPlugin.initialize(initializationSettings,onSelectNotification: (String? route)async{
+// Get.to(()=>HomePage());
+//   });
+//>>>>>>> master
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin

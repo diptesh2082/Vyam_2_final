@@ -274,7 +274,9 @@ class _HomePageState extends State<HomePage> {
                 playSound: true,
                 icon: '@mipmap/launcher_icon',
               ),
-            ));
+            ),
+        payload: message.data["route"],
+        );
       }
     });
 
@@ -320,6 +322,7 @@ class _HomePageState extends State<HomePage> {
             playSound: true,
             icon: '@mipmap/launcher_icon'),
       ),
+
     );
   }
 

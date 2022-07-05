@@ -25,20 +25,21 @@ class OtpPage extends StatefulWidget {
   final number;
   final resendingToken;
   final appSignature;
+  final credential;
 
   OtpPage(
       {Key? key,
         required this.verificationID,
         required this.number,
         required this.resendingToken,
-        required this.appSignature})
+        required this.appSignature, this.credential})
       : super(key: key);
 
   @override
   State<OtpPage> createState() => _OtpPageState();
 }
 
-class _OtpPageState extends State<OtpPage> {
+class _OtpPageState extends State<OtpPage> with CodeAutoFill {
   var settings;
 
   getToHomePage(var number) async {
@@ -56,6 +57,13 @@ class _OtpPageState extends State<OtpPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool showLoading = false;
   TextEditingController otpController = TextEditingController();
+  void listenOtp() async {
+    // await SmsAutoFill().unregisterListener();
+    // listenForCode();
+    await SmsAutoFill().listenForCode;
+    print("OTP listen Called");
+  }
+
 
   void signInWithPhoneAuthCred(AuthCredential phoneAuthCredential) async {
     setState(() {
@@ -69,34 +77,9 @@ class _OtpPageState extends State<OtpPage> {
         showLoading = false;
       });
       if (authCred.user != null) {
-// <<<<<<< HEAD
-// // <<<<<<< HEAD
-//         // await  getToHomePage(_auth.currentUser?.phoneNumber);
-// // =======
-//         await getToHomePage(_auth.currentUser?.phoneNumber);
-// // >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
-//         await setNumber(_auth.currentUser!.phoneNumber);
-//         await checkExist("${_auth.currentUser?.phoneNumber}")
-//             .then((value) async {
-//           await setUserId(_auth.currentUser?.phoneNumber);
-//           print(visiting_flag);
-//           if (visiting_flag == true) {
-// // <<<<<<< HEAD
-// //             Navigator.pushReplacement(
-// //                 (context), MaterialPageRoute(builder: (context) => HomePage()));
-// // =======
-//             Get.offAll(HomePage());
-//             // Navigator.pushReplacement(
-//             //     (context), MaterialPageRoute(builder: (context) => HomePage()));
-// // >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
-//             // Get.offAll(()=>HomePage());
-//           } else if (visiting_flag == false) {
-//             userPhoto = "null";
-//             Navigator.pushReplacement((context),
-//                 MaterialPageRoute(builder: (context) => Register1()));
-// =======
+
         await getToHomePage(_auth.currentUser?.phoneNumber);
-        await setNumber(_auth.currentUser!.phoneNumber);
+        await setNumber(_auth.currentUser?.phoneNumber);
         await checkExist("${_auth.currentUser?.phoneNumber}")
             .then((value) async {
           await setUserId(_auth.currentUser?.phoneNumber);
@@ -134,7 +117,9 @@ class _OtpPageState extends State<OtpPage> {
     }
   }
 
-  getVerified() async {}
+  getVerified() async {
+
+  }
 
   // var docId = Get.arguments[1];
   Future<void> checkExist(String docID) async {
@@ -165,16 +150,17 @@ class _OtpPageState extends State<OtpPage> {
   void initState() {
     startTimer();
     listenOtp();
+    print(widget.credential);
     super.initState();
   }
 
-
-  void listenOtp() async {
-    // await SmsAutoFill().unregisterListener();
-    // listenForCode();
-    await SmsAutoFill().listenForCode;
-    print("OTP listen Called");
-  }
+  //
+  // void listenOtp() async {
+  //   // await SmsAutoFill().unregisterListener();
+  //   // listenForCode();
+  //   await SmsAutoFill().listenForCode;
+  //   print("OTP listen Called");
+  // }
 
   Timer? _timer;
   int _start = 30;
@@ -279,11 +265,13 @@ class _OtpPageState extends State<OtpPage> {
                             //   borderRadius: BorderRadius.circular(10),
                             // ),
                             child: PinFieldAutoFill(
+                              // decoration: Duration(milliseconds: 300),
                               currentCode: codeValue,
                               codeLength: 6,
                               controller: otpController,
                               onCodeChanged: (code) {
                                 print("onCodeChanged $code");
+                                print("onCodeChanged ${widget.appSignature}");
                                 setState(() {
                                   codeValue = code.toString();
                                 });
@@ -475,4 +463,15 @@ class _OtpPageState extends State<OtpPage> {
       ),
     );
   }
+
+  @override
+  void codeUpdated() {
+    // TODO: implement codeUpdated
+    print("update code");
+    setState(() {
+      print("code updated");
+    });
+  }
+
+
 }
