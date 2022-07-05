@@ -547,6 +547,18 @@ class _GymDetailsState extends State<GymDetails> {
                             const SizedBox(
                               height: 5,
                             ),
+
+                            buildButton(
+                              text: "60% on First Booking",
+                              subText: "USE CODE VYAM30",
+                              onClicked: () => showModalBottomSheet(
+                                context: context,
+                                builder: (context) => buildSheet(),
+                              ),
+                            ),
+
+                            SizedBox(height: 5),
+
                             Text(
                               'Description',
                               style: GoogleFonts.poppins(
@@ -1324,4 +1336,59 @@ class _GymDetailsState extends State<GymDetails> {
 //         ],
 //       ),
 //     );
+
+  Widget buildButton({
+    required String text,
+    required VoidCallback onClicked,
+    required String subText,
+  }) =>
+      GestureDetector(
+        // style: ElevatedButton.styleFrom(
+        //   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+        // ),
+        onTap: onClicked,
+        child: Card(
+          color: Theme.of(context).colorScheme.surfaceVariant,
+          elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: SizedBox(
+              height: 60,
+              // width: 25,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    'assets/icons/new discount.png',
+                    height: 40,
+                    width: 40,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text(
+                      text,
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
+                    SizedBox(height: 5,),
+                    Text(
+                      subText,
+                      style: TextStyle(fontSize:8,),
+                    ),
+
+                  ]),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+  Widget buildSheet() => Container();
 }

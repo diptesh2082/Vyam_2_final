@@ -134,7 +134,6 @@ class UpcomingEvent extends StatelessWidget {
 
                                                     )),
                                               ),
-
                                             ),
                                             const SizedBox(
                                               height: 2,
