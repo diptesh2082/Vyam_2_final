@@ -50,7 +50,7 @@ class _CouponDetailsState extends State<CouponDetails> {
     // TODO: implement dispose
     // myCouponController.dispose();
     print("++++++++++d899999999999999999++++++++++++++++++++ ${widget.type}");
-    print([GlobalUserData["userId"]]);
+    print([ Get.find<GlobalUserData>().userData.value["userId"]]);
     couponController.dispose();
     super.dispose();
   }

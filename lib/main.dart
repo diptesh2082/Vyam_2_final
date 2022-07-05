@@ -52,7 +52,7 @@ Future<void> main() async {
   } catch (e) {
     number = "";
   }
-
+  Get.lazyPut(() => GlobalUserData());
   await myLocation();
   await getInfo();
   // getAddress();
@@ -118,6 +118,7 @@ class _MyAppState extends State<MyApp> {
       // print(routeFromMessage);
 
     });
+
     super.initState();
   }
   // const MyApp({Key? key}) : super(key: key);

@@ -56,7 +56,9 @@ class _GymDetailsState extends State<GymDetails> {
           }
         }
       });
-    } catch (e) {}
+    } catch (e) {
+
+    }
 
     //     .update(
     // {
@@ -329,30 +331,7 @@ class _GymDetailsState extends State<GymDetails> {
                                     ],
                                   )),
 
-                              // GestureDetector(
-                              //   onTap: () async {
-                              //     final PendingDynamicLinkData? initialLink = await FirebaseDynamicLinks.instance.getInitialLink();
-                              //     final Uri? deepLink = initialLink?.link;
-                              //
-                              //     Uri url = await FireBaseDynamicLinkService.dynamicLink();
-                              //
-                              //     print(url);
-                              //    // print(deepLink);
-                              //
-                              //   },
-                              //   child: Column(
-                              //     children: [
-                              //       const Icon(Icons.share,color: Colors.black,),
-                              //       Text('Share',
-                              //           style: GoogleFonts.poppins(
-                              //               color: Colors.black,
-                              //               fontSize: 8,
-                              //               fontWeight: FontWeight.w600))
-                              //     ],
-                              //   ),
-                              // )
 
-                              //const Text('   ')
                             ]),
                             const SizedBox(height: 12),
                             Text(
@@ -556,8 +535,8 @@ class _GymDetailsState extends State<GymDetails> {
                                     itemCount: snapshot.data!.docs.length,
                                     itemBuilder: (BuildContext context,int index) {
                                       return buildButton(
-                                        text: snapshot.data!.docs[index]["title"],
-                                        subText:  snapshot.data!.docs[index]["description"],
+                                        text: snapshot.data!.docs[index]["title"].toString(),
+                                        subText:  snapshot.data!.docs[index]["offer"].toString(),
                                         onClicked: () => showModalBottomSheet(
                                           context: context,
                                           builder: (context) => buildSheet(),

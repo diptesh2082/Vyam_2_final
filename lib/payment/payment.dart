@@ -199,7 +199,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
       'prefill': {
         'contact': number.toString().substring(3, number.length),
-        'email': GlobalUserData["email"].toString()
+        'email':  Get.find<GlobalUserData>().userData.value["email"].toString()
       },
 
       // 'prefill': {
@@ -269,7 +269,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       "status": "upcoming",
                       // "payment_done": false,
                       "user_id": number.toString(),
-                      "user_name": GlobalUserData["name"],
+                      "user_name":  Get.find<GlobalUserData>().userData.value["name"],
                       "vendor_id": ven_id,
                       "vendor_name": ven_name,
                       "time_stamp": DateTime.now(),
@@ -292,8 +292,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     .collection("used_by")
                     .doc()
                     .set({
-                  "user": GlobalUserData["userId"],
-                  "user_name": GlobalUserData["name"],
+                  "user":  Get.find<GlobalUserData>().userData.value["userId"],
+                  "user_name":  Get.find<GlobalUserData>().userData.value["name"],
                   "vendor_id": gymData["gym_id"]
                 }),
               });
@@ -415,7 +415,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           "status": "upcoming",
           // "payment_done": false,
           "user_id": number.toString(),
-          "user_name": GlobalUserData["name"],
+          "user_name":  Get.find<GlobalUserData>().userData.value["name"],
           "vendor_id": ven_id,
           "vendor_name": ven_name,
           "time_stamp": DateTime.now(),
@@ -430,8 +430,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 .collection("used_by")
                 .doc()
                 .set({
-              "user": GlobalUserData["userId"],
-              "user_name": GlobalUserData["name"],
+              "user":  Get.find<GlobalUserData>().userData.value["userId"],
+              "user_name":  Get.find<GlobalUserData>().userData.value["name"],
               "vendor_id": gymData["gym_id"]
             });
           }
@@ -1328,7 +1328,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 "status": "upcoming",
                                 // "payment_done": false,
                                 "user_id": number.toString(),
-                                "user_name": GlobalUserData["name"],
+                                "user_name":  Get.find<GlobalUserData>().userData.value["name"],
                                 "vendor_id": ven_id,
                                 "vendor_name": ven_name,
                                 "time_stamp": DateTime.now(),
@@ -1346,8 +1346,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     .collection("used_by")
                                     .doc()
                                     .set({
-                                  "user": GlobalUserData["userId"],
-                                  "user_name": GlobalUserData["name"],
+                                  "user":  Get.find<GlobalUserData>().userData.value["userId"],
+                                  "user_name":  Get.find<GlobalUserData>().userData.value["name"],
                                   "vendor_id": gymData["gym_id"]
                                 });
                               });

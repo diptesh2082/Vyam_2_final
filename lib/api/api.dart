@@ -449,6 +449,7 @@ Future<void> checkExist(String docID) async {
 myLocation() async {
   // number=getUserId();
   // print(number);
+
   try {
     await FirebaseFirestore.instance
         .collection('user_details')
@@ -457,7 +458,7 @@ myLocation() async {
         .listen((snapshot) {
       if (snapshot.exists) {
         // var userData = snapshot.data();
-        GlobalUserData = snapshot.data();
+        Get.find<GlobalUserData>().userData.value = snapshot.data()!;
         // GlobalUserLocation = GlobalUserData["pincode"]??"Tap here to tap your location";
 
         print(GlobalUserLocation);
@@ -465,7 +466,7 @@ myLocation() async {
       }
     });
   } catch (e) {
-    GlobalUserData = {
+    Get.find<GlobalUserData>().userData.value= {
       "pincode": "700091",
       "address": "Tap here to choose your location",
       "gender": ""

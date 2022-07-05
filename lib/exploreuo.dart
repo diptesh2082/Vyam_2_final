@@ -160,7 +160,7 @@ class _ExploreiaState extends State<Exploreia> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
-    if (!serviceEnabled || GlobalUserData["address"] == "") {
+    if (!serviceEnabled ||  Get.find<GlobalUserData>().userData.value["address"] == "") {
       setState(() {
         isLoading = true;
         location_service = false;
@@ -323,8 +323,8 @@ class _ExploreiaState extends State<Exploreia> {
 
     setState(() {
       // });
-      lat = GlobalUserData["location"].latitude;
-      long = GlobalUserData["location"].longitude;
+      lat =  Get.find<GlobalUserData>().userData.value["location"].latitude;
+      long =  Get.find<GlobalUserData>().userData.value["location"].longitude;
     });
 
     getMarkerData();
@@ -406,8 +406,8 @@ class _ExploreiaState extends State<Exploreia> {
                     children: [
                       // SizedBox(width: 15,),
                       if (calculateDistance(
-                              GlobalUserData["location"].latitude,
-                              GlobalUserData["location"].longitude,
+                          Get.find<GlobalUserData>().userData.value["location"].latitude,
+                          Get.find<GlobalUserData>().userData.value["location"].longitude,
                               document[index]["location"].latitude,
                               document[index]["location"].longitude) <=
                           20)
@@ -493,8 +493,8 @@ class _ExploreiaState extends State<Exploreia> {
               mapType: MapType.terrain,
               zoomControlsEnabled: false,
               initialCameraPosition: CameraPosition(
-                target: LatLng(GlobalUserData["location"].latitude!,
-                    GlobalUserData["location"].longitude!),
+                target: LatLng( Get.find<GlobalUserData>().userData.value["location"].latitude!,
+                    Get.find<GlobalUserData>().userData.value["location"].longitude!),
                 zoom: 10,
               ),
               myLocationEnabled: true,
@@ -506,7 +506,7 @@ class _ExploreiaState extends State<Exploreia> {
               },
               markers: Set<Marker>.of(markers.values),
             ),
-            GlobalUserData["address"] != ""
+            Get.find<GlobalUserData>().userData.value["address"] != ""
                 ? Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
@@ -536,14 +536,14 @@ class _ExploreiaState extends State<Exploreia> {
                               double d1 = calculateDistance(
                                 a["location"].latitude,
                                 a["location"].longitude,
-                                GlobalUserData["location"].latitude,
-                                GlobalUserData["location"].longitude,
+                                Get.find<GlobalUserData>().userData.value["location"].latitude,
+                                Get.find<GlobalUserData>().userData.value["location"].longitude,
                               );
                               double d2 = calculateDistance(
                                 b["location"].latitude,
                                 b["location"].longitude,
-                                GlobalUserData["location"].latitude,
-                                GlobalUserData["location"].longitude,
+                                Get.find<GlobalUserData>().userData.value["location"].latitude,
+                                Get.find<GlobalUserData>().userData.value["location"].longitude,
                               );
                               if (d1 > d2)
                                 return 1;

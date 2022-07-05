@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/controllers/packages/bookingDetails.dart';
@@ -92,7 +93,7 @@ class _YogaListState extends State<YogaList> {
       // "gym_name": "",
       "vendorId": widget.getDocID,
       "userId": number,
-      "user_name": GlobalUserData["name"],
+      "user_name":  Get.find<GlobalUserData>().userData.value["name"],
       "booking_accepted": false,
       "payment_done": false,
       "booking_plan": "",

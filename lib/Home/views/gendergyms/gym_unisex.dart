@@ -61,14 +61,14 @@ class _GymUnisexState extends State<GymUnisex> {
               double d1 = calculateDistance(
                 a["location"].latitude,
                 a["location"].longitude,
-                GlobalUserData["location"].latitude,
-                GlobalUserData["location"].longitude,
+                Get.find<GlobalUserData>().userData.value["location"].latitude,
+                Get.find<GlobalUserData>().userData.value["location"].longitude,
               );
               double d2 = calculateDistance(
                 b["location"].latitude,
                 b["location"].longitude,
-                GlobalUserData["location"].latitude,
-                GlobalUserData["location"].longitude,
+                Get.find<GlobalUserData>().userData.value["location"].latitude,
+                Get.find<GlobalUserData>().userData.value["location"].longitude,
               );
               if (d1 > d2)
                 return 1;
@@ -90,8 +90,8 @@ class _GymUnisexState extends State<GymUnisex> {
             var distances = [];
             documents.forEach((e) {
               var distance = calculateDistance(
-                  GlobalUserData["location"].latitude,
-                  GlobalUserData["location"].longitude,
+                  Get.find<GlobalUserData>().userData.value["location"].latitude,
+                  Get.find<GlobalUserData>().userData.value["location"].longitude,
                   e["location"].latitude,
                   e["location"].longitude);
               distance = double.parse((distance).toStringAsFixed(1));

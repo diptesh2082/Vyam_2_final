@@ -153,8 +153,8 @@ class _SearchItState extends State<SearchIt> {
                         itemCount: document.length,
                         itemBuilder: (context, index) {
                           var distance = calculateDistance(
-                              GlobalUserData["location"].latitude,
-                              GlobalUserData["location"].longitude,
+                              Get.find<GlobalUserData>().userData.value["location"].latitude,
+                              Get.find<GlobalUserData>().userData.value["location"].longitude,
                               document[index]["location"].latitude,
                               document[index]["location"].longitude);
                           distance =

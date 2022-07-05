@@ -193,7 +193,7 @@ class _ExploreState extends State<Explore> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
-    if (!serviceEnabled || GlobalUserData["address"] == "") {
+    if (!serviceEnabled ||  Get.find<GlobalUserData>().userData.value["address"] == "") {
       setState(() {
         isLoading=true;
         location_service =  false;
@@ -368,8 +368,8 @@ class _ExploreState extends State<Explore> {
 
 
       // });
-      lat=GlobalUserData["location"].latitude;
-      long = GlobalUserData["location"].longitude;
+      lat= Get.find<GlobalUserData>().userData.value["location"].latitude;
+      long =  Get.find<GlobalUserData>().userData.value["location"].longitude;
     });
 
     getMarkerData();
@@ -474,7 +474,7 @@ splashLocation(latitude,longitude)async{
               // markers: ,
               mapType: MapType.terrain,
               initialCameraPosition: CameraPosition(
-                target: LatLng(GlobalUserData["location"].latitude!,GlobalUserData["location"].longitude!),
+                target: LatLng( Get.find<GlobalUserData>().userData.value["location"].latitude!, Get.find<GlobalUserData>().userData.value["location"].longitude!),
                 zoom: 10,
               ),
               myLocationEnabled: true,

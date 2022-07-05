@@ -78,8 +78,8 @@ class _HomePageState extends State<HomePage> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
     if (!serviceEnabled ||
-        GlobalUserData["address"] == "" ||
-        GlobalUserData["address"] == null) {
+        Get.find<GlobalUserData>().userData.value["address"] == "" ||
+        Get.find<GlobalUserData>().userData.value["address"] == null) {
       showDialog(
         context: context,
         barrierDismissible: true,
@@ -480,6 +480,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> _buildScreens() {
+
     FocusScope.of(context).unfocus();
     return [
       const FirstHome(),

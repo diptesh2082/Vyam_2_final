@@ -103,7 +103,7 @@ class _FirstHomeState extends State<FirstHome> {
           if (mounted)
             setState(() {
               user_data = snapshot.data();
-              GlobalUserData = snapshot.data();
+              Get.find<GlobalUserData>().userData.value = snapshot.data()!;
             });
         }
       });
@@ -111,7 +111,7 @@ class _FirstHomeState extends State<FirstHome> {
       if (mounted) {
         setState(() {
           user_data = {};
-          GlobalUserData = {};
+          Get.find<GlobalUserData>().userData.value = {};
           // GlobalUserLocation = "";
         });
       }
@@ -294,7 +294,7 @@ class _FirstHomeState extends State<FirstHome> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              if (GlobalUserData["address"] == null)
+                              if ( Get.find<GlobalUserData>().userData.value["address"] == null)
                                 Text(
                                   "Tap here to choose your Location",
                                   textAlign: TextAlign.left,
@@ -305,11 +305,11 @@ class _FirstHomeState extends State<FirstHome> {
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500),
                                 ),
-                              if (GlobalUserData["address"] != null)
+                              if ( Get.find<GlobalUserData>().userData.value["address"] != null)
                                 Text(
-                                  GlobalUserData["address"].toString() == ""
+                                  Get.find<GlobalUserData>().userData.value["address"].toString() == ""
                                       ? "Tap here to choose your Location"
-                                      : GlobalUserData["address"].toString(),
+                                      :  Get.find<GlobalUserData>().userData.value["address"].toString(),
                                   textAlign: TextAlign.left,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -549,8 +549,8 @@ class Banner extends StatelessWidget {
            streamSnapshot.data.docs.forEach((e){
              if (e["area"]==true){
                var distance = calculateDistance(
-                   GlobalUserData["location"].latitude,
-                   GlobalUserData["location"].longitude,
+                   Get.find<GlobalUserData>().userData.value["location"].latitude,
+                   Get.find<GlobalUserData>().userData.value["location"].longitude,
                    e["selected_area"].latitude,
                    e["selected_area"].longitude);
                distance = double.parse((distance).toStringAsFixed(1));

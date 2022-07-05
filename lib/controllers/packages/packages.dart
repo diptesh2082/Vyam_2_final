@@ -102,7 +102,7 @@ class _PackegesState extends State<Packeges> {
       // "gym_name": "",
       "vendorId": widget.getFinalID,
       "userId": number,
-      "user_name": GlobalUserData["name"],
+      "user_name":  Get.find<GlobalUserData>().userData.value["name"],
       "booking_accepted": false,
       "payment_done": false,
       "booking_plan": "",
