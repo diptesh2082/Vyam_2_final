@@ -954,11 +954,11 @@ class _GymDetailsState extends State<GymDetails> {
                                         padding: EdgeInsets.only(left: 8.0),
                                         child: ListView.builder(
                                             shrinkWrap: true,
-                                            itemCount: rules.length,
+                                            itemCount: docs['rules'].length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               return Text(
-                                                rules[index],
+                                                docs['rules'][index],
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight:

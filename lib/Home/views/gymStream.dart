@@ -472,44 +472,6 @@ class BuildBox extends StatelessWidget {
                         InkWell(
                           onTap: () async {
                             var urllaunchable = await canLaunch(
-                                'https://www.facebook.com/VYAM.application/');
-                            if (urllaunchable) {
-                              await launch(
-                                  'https://www.facebook.com/VYAM.application/');
-                            } else {
-                              print("Try Again");
-                            }
-                          },
-                          child: SizedBox(
-                            height: 35,
-                            width: 35,
-                            child: Image.asset('assets/icons/fb.png'),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   width: 20,
-                        // ),
-                        // InkWell(
-                        //   onTap: () async {
-                        //     var urllaunchable = await canLaunch(url);
-                        //     if (urllaunchable) {
-                        //       await launch(url);
-                        //     } else {
-                        //       print("Try Again");
-                        //     }
-                        //   },
-                        //   child: SizedBox(
-                        //     height: 40,
-                        //     width: 40,
-                        //     child: Image.asset('assets/icons/twitter.png'),
-                        //   ),
-                        // ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            var urllaunchable = await canLaunch(
                                 "https://www.instagram.com/vyam.app/?hl=en");
                             if (urllaunchable) {
                               await launch(
@@ -524,7 +486,50 @@ class BuildBox extends StatelessWidget {
                             child: Image.asset('assets/icons/insta.png'),
                           ),
                         ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            var urllaunchable = await canLaunch(
+                                'https://www.facebook.com/VYAM.application/');
+                            if (urllaunchable) {
+                              await launch(
+                                  'https://www.facebook.com/VYAM.application/');
+                            } else {
+                              print("Try Again");
+                            }
+                          },
+                          child: SizedBox(
+                            height: 25,
+                            width: 25,
+                            child: Image.asset('assets/icons/fb.png'),
+                          ),
+                        ),
                       ],
+                    ),
+
+                    // SizedBox(
+                    //   width: 20,
+                    // ),
+                    // InkWell(
+                    //   onTap: () async {
+                    //     var urllaunchable = await canLaunch(url);
+                    //     if (urllaunchable) {
+                    //       await launch(url);
+                    //     } else {
+                    //       print("Try Again");
+                    //     }
+                    //   },
+                    //   child: SizedBox(
+                    //     height: 40,
+                    //     width: 40,
+                    //     child: Image.asset('assets/icons/twitter.png'),
+                    //   ),
+                    // ),
+
+                    SizedBox(
+                      height: 350,
                     ),
                     Container(
                       // height: 300,
