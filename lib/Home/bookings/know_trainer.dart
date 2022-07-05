@@ -237,13 +237,18 @@ class _TrainerState extends State<Trainer> {
                                                     Padding(
                                                       padding: EdgeInsets.only(
                                                           left: 3.0, top: 6.0),
-                                                      child: Text(
-                                                        '${widget.gym_name}',
-                                                        textAlign: TextAlign.start,
-                                                        style: GoogleFonts.poppins(
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            fontSize: 12),
+                                                      child: SizedBox(
+                                                        width: 170,
+                                                        child: Text(
+                                                          '${widget.gym_name}',
+                                                          textAlign: TextAlign.start,
+                                                          style: GoogleFonts.poppins(
+                                                              fontWeight:
+                                                                  FontWeight.w500,
+                                                              fontSize: 12),
+                                                          overflow: TextOverflow.ellipsis,
+                                                          maxLines: 2,
+                                                        ),
                                                       ),
                                                     ),
                                                     Padding(

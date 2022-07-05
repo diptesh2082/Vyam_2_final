@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -18,29 +19,15 @@ import 'package:vyam_2_final/authintication/rphoto.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'Home/home_page.dart';
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Noti'
-        'fications', // title
-    description:
-        'This channel is used for important notifications.', // description
-    importance: Importance.high,
-    playSound: true);
+late AndroidNotificationChannel channel ;
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print("A bg message just showed up : ${message.messageId}");
 }
 
-Future<void> backgroundHandler(RemoteMessage message)
-async
-{
-  print(message.data.toString());
-  print(message.notification!.title);
-}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,18 +45,31 @@ Future<void> main() async {
   // print(GlobalUserData);
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  if(!kIsWeb) {
+    channel = const AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Noti'
+            'fications', // title
+        description:
+        'This channel is used for important notifications.', // description
+        importance: Importance.high,
+        playSound: true);
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()!
-      .createNotificationChannel(channel);
 
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()!
+        .createNotificationChannel(channel);
 
-  );
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
+
   runApp(MyApp());
 }
 
@@ -88,22 +88,33 @@ class _MyAppState extends State<MyApp> {
 
     FirebaseMessaging.instance.getInitialMessage();
 
-    FirebaseMessaging.onMessage.listen((message){
-
-      if(message.notification != null)
+    FirebaseMessaging.onMessage.listen((RemoteMessage message){
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if(notification!=null && android != null && !kIsWeb)
         {
-          print(message.notification!.body);
-          print(message.notification!.title);
+         flutterLocalNotificationsPlugin.show(
+           notification.hashCode,
+           notification.title,
+           notification.body,
+           NotificationDetails(
+             android: AndroidNotificationDetails(
+               channel.id,
+               channel.name,
+               //channel.description,
+               icon: 'launcher_icon',
+             ),
+           ),
+         );
         }
 
     });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((message)
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message)
     {
       print('A new onMessageOpenedApp event was published');
-      final routeFromMessage = message.data["GymDetails"];
-      print(routeFromMessage);
-
+      // final routeFromMessage = message.data["GymDetails"];
+      // print(routeFromMessage);
     });
     super.initState();
   }
