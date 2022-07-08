@@ -7,8 +7,9 @@ var number = "";
 var address2 = "";
 bool location_denied = false;
 var serviceEnabled;
+// var closedday = [];
 // class locationController extends GetxController{
 //   var GlobalUserData={}.obs;
 // }
 
-final Color scaffoldColor =  Color(0xffF5F5F5);
+final Color scaffoldColor = Color(0xffF5F5F5);

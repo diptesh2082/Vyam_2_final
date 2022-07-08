@@ -55,14 +55,14 @@ Future<void> main() async {
 
 //<<<<<<< someshwarNew
 //=======
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()!
-        .createNotificationChannel(channel);
-    final InitializationSettings initializationSettings =
-        InitializationSettings(
-            android:
-                AndroidInitializationSettings("@mipmap/launcher_icon.png"));
+//     await flutterLocalNotificationsPlugin
+//         .resolvePlatformSpecificImplementation<
+//             AndroidFlutterLocalNotificationsPlugin>()!
+//         .createNotificationChannel(channel);
+//     final InitializationSettings initializationSettings =
+//         InitializationSettings(
+//             android:
+//                 AndroidInitializationSettings("@mipmap/launcher_icon.png"));
 //   await flutterLocalNotificationsPlugin.initialize(initializationSettings,onSelectNotification: (String? route)async{
 // Get.to(()=>HomePage());
 //   });

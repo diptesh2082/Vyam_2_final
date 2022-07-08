@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -161,6 +162,8 @@ class _GymDetailsState extends State<GymDetails> {
   var listIndex = 0;
   var times;
   bool isLoading = true;
+  var closedday = [];
+
   getTimings() async {
     try {
       await FirebaseFirestore.instance
@@ -177,12 +180,31 @@ class _GymDetailsState extends State<GymDetails> {
             isLoading = false;
           }
         });
+        print("++++++++FFF+++++${times[0]["closed"].toString()}");
+        print(
+            "_++++ASDA${DateFormat("EEEE").format(DateTime.now()).toString()}");
       });
     } catch (e) {
       setState(() {
         isLoading = false;
       });
     }
+  }
+
+  getclosed() async {
+    await FirebaseFirestore.instance
+        .collection("product_details")
+        .doc(gymID)
+        .collection("timings")
+        .snapshots()
+        .listen((snap) {
+      setState(() {
+        if (snap.docs.isNotEmpty) {
+          closedday = snap.docs;
+        }
+        print(closedday);
+      });
+    });
   }
 
   getViewCount() async {
@@ -215,6 +237,7 @@ class _GymDetailsState extends State<GymDetails> {
     getViewCount();
     getRating();
     getTimings();
+    getclosed();
 
     super.initState();
   }
@@ -293,14 +316,22 @@ class _GymDetailsState extends State<GymDetails> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                    docs['gym_status'] != false
-                                        ? 'OPEN NOW'
-                                        : 'CLOSED',
+                                    (docs['gym_status'] == false) ||
+                                            (times[0]["closed"].contains(
+                                                DateFormat("EEEE")
+                                                    .format(DateTime.now())
+                                                    .toString()))
+                                        ? 'CLOSED'
+                                        : 'OPEN NOW',
                                     style: TextStyle(
                                       fontFamily: "poppins",
-                                      color: docs['gym_status'] != false
-                                          ? Colors.lightGreen
-                                          : Colors.red,
+                                      color: (docs['gym_status'] == false) ||
+                                              (times[0]["closed"].contains(
+                                                  DateFormat("EEEE")
+                                                      .format(DateTime.now())
+                                                      .toString()))
+                                          ? Colors.red
+                                          : Colors.lightGreen,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                     )),
@@ -491,7 +522,7 @@ class _GymDetailsState extends State<GymDetails> {
                                               //crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
                                                 Text(
-                                                    times[0]["closed"] ??
+                                                    times[0]["closed"][0] ??
                                                         "closed",
                                                     style: const TextStyle(
                                                         fontFamily: 'poppins',
@@ -502,7 +533,8 @@ class _GymDetailsState extends State<GymDetails> {
                                                 const SizedBox(height: 10),
                                                 Text(
                                                     // "",
-                                                    times[0]["closed"] != null
+                                                    times[0]["closed"][0] !=
+                                                            null
                                                         ? 'Closed'
                                                         : "no information",
                                                     style: const TextStyle(
@@ -1370,19 +1402,24 @@ class _GymDetailsState extends State<GymDetails> {
                     width: 10,
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(
-                      text,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                    ),
-                    SizedBox(height: 5,),
-                    Text(
-                      subText,
-                      style: TextStyle(fontSize:8,),
-                    ),
-
-                  ]),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          text,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          subText,
+                          style: TextStyle(
+                            fontSize: 8,
+                          ),
+                        ),
+                      ]),
                 ],
               ),
             ),
