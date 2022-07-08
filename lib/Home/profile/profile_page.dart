@@ -18,7 +18,7 @@ import 'package:vyam_2_final/Home/profile/Contact_Us.dart';
 import 'package:vyam_2_final/Home/profile/faq.dart';
 import 'package:vyam_2_final/Home/profile/privacyPolicy.dart';
 import 'package:vyam_2_final/Home/profile/profile.dart';
-import 'package:vyam_2_final/Home/views/explore.dart';
+
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/golbal_variables.dart';

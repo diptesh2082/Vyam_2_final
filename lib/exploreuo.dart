@@ -38,10 +38,7 @@ var long;
 
 // = GlobalUserData["location"].longitude;
 class _ExploreiaState extends State<Exploreia> {
-  static final _initialCameraPosition = CameraPosition(
-    target: LatLng(lat, long),
-    zoom: 12,
-  );
+
 
   final Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -90,8 +87,7 @@ class _ExploreiaState extends State<Exploreia> {
     final Marker marker = Marker(
       icon: BitmapDescriptor.defaultMarker,
       markerId: markerId,
-      position:
-          LatLng(specify['location'].latitude, specify['location'].longitude),
+      position: LatLng(specify['location'].latitude, specify['location'].longitude),
       infoWindow: InfoWindow(title: 'Gym', snippet: specify['name']),
     );
     setState(() {
@@ -102,7 +98,7 @@ class _ExploreiaState extends State<Exploreia> {
 
 
   getMarkerData() async {
-    await Firebase.initializeApp();
+    // await Firebase.initializeApp();
     await FirebaseFirestore.instance
         .collection('product_details')
         .get()
@@ -394,36 +390,38 @@ class _ExploreiaState extends State<Exploreia> {
                   sslKey.currentState!.focusToItem(index);
                   // _gotoLocation(location.latitude, location.longitude);
                 },
-                child: Card(
-                  // key: sslKey,
-                  color: Colors.transparent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  elevation: 8,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      // SizedBox(width: 15,),
-                      if (calculateDistance(
-                          Get.find<GlobalUserData>().userData.value["location"].latitude,
-                          Get.find<GlobalUserData>().userData.value["location"].longitude,
-                              document[index]["location"].latitude,
-                              document[index]["location"].longitude) <=
-                          20)
-                        _boxes(
-                          document[index]["display_picture"],
-                          document[index]["name"],
-                          document[index]["location"],
-                          document[index]["address"],
-                          document[index]["rating"].toString(),
-                          document[index]["branch"],
-                          document[index]["gym_status"],
-                        ),
-                      SizedBox(
-                        width: 15,
-                      )
-                    ],
+                child: Obx(
+                  ()=> Card(
+                    // key: sslKey,
+                    color: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    elevation: 8,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        // SizedBox(width: 15,),
+                        if (calculateDistance(
+                            Get.find<GlobalUserData>().userData.value["location"].latitude,
+                            Get.find<GlobalUserData>().userData.value["location"].longitude,
+                                document[index]["location"].latitude,
+                                document[index]["location"].longitude) <=
+                            20)
+                          _boxes(
+                            document[index]["display_picture"],
+                            document[index]["name"],
+                            document[index]["location"],
+                            document[index]["address"],
+                            document[index]["rating"].toString(),
+                            document[index]["branch"],
+                            document[index]["gym_status"],
+                          ),
+                        SizedBox(
+                          width: 15,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -443,46 +441,7 @@ class _ExploreiaState extends State<Exploreia> {
     // getEverything();
     // if(location_service)
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Transform(
-      //     transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
-      //     child: SizedBox(
-      //       child: TextField(
-      //         controller:test_controller,
-      //         autofocus: false,
-      //         onChanged: (value) async {
-      //           _list = await RequestHelper().getPlaces(query: value);
-      //           setState(() {});
-      //           if (value.isEmpty) {
-      //             _list!.clear();
-      //             setState(() {});
-      //           }
-      //         },
-      //         onSubmitted: (value){
-      //           FocusScope.of(context).unfocus();
-      //           setState(() {
-      //             showPlacessuggesstions? showPlacessuggesstions =true:showPlacessuggesstions=false ;
-      //           });
-      //
-      //         },
-      //         decoration: const InputDecoration(
-      //             hintText: 'Search places',
-      //             hintStyle: TextStyle(fontWeight: FontWeight.bold),
-      //             prefixIcon: Icon(Icons.search)),
-      //         onTap: () {
-      //           setState(() {
-      //
-      //             FocusScope.of(context).unfocus();
-      //             showPlacessuggesstions? showPlacessuggesstions =false:showPlacessuggesstions=true ;
-      //             test_controller.clear();
-      //           });
-      //         },
-      //       ),
-      //     ),
-      //   ),
-      //   backgroundColor: Colors.white,
-      //   elevation: 0,
-      // ),
+
       backgroundColor: scaffoldColor,
       body: SafeArea(
         child: Stack(

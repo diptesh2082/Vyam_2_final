@@ -459,8 +459,7 @@ class _GymDetailsState extends State<GymDetails> {
                                               //crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
                                                 Text(
-                                                    times[0]["closed"] ??
-                                                        "closed",
+                                                    "${times[0]["closed"].join(" ")}",
                                                     style: const TextStyle(
                                                         fontFamily: 'poppins',
                                                         fontWeight:

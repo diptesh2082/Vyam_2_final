@@ -33,12 +33,12 @@ class _LocInfoState extends State<LocInfo> {
   FocusNode myFocousNode = FocusNode();
   var data;
   bool isLoading = false;
-  final Completer<GoogleMapController> _controller = Completer();
+  // final Completer<GoogleMapController> _controller = Completer();
   // ln.Location location = ln.Location();
   late GoogleMapController mapcontroller;
   Geoflutterfire geo = Geoflutterfire();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  // LocationController locationController = Get.put(dependency)
+
   myLocation() async {
     await FirebaseFirestore.instance
         .collection('user_details')
@@ -69,33 +69,33 @@ class _LocInfoState extends State<LocInfo> {
     getAddress();
   }
 
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      await Geolocator.openLocationSettings();
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.best);
-  }
+  // Future<Position> _determinePosition() async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
+  //
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     await Geolocator.openLocationSettings();
+  //     return Future.error('Location services are disabled.');
+  //   }
+  //
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       return Future.error('Location permissions are denied');
+  //     }
+  //   }
+  //
+  //   if (permission == LocationPermission.deniedForever) {
+  //     // Permissions are denied forever, handle appropriately.
+  //     return Future.error(
+  //         'Location permissions are permanently denied, we cannot request permissions.');
+  //   }
+  //
+  //   return await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.best);
+  // }
 
   String pin = "";
   String locality = "";
@@ -130,12 +130,7 @@ class _LocInfoState extends State<LocInfo> {
     Placemark place = placemark[0];
     Placemark place2 = placemark[1];
     Placemark place3 = placemark[2];
-    // print(placemark);
-    // print("///////////////////////////");
-    // print(place);
-    // print("///////////////////////////");
-    // print(place2);
-    // print("///////////////////////////");
+
     print(place3);
     address =
         "${place2.subLocality ?? ""}, ${place.locality ?? ""},${place3.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
@@ -187,53 +182,7 @@ class _LocInfoState extends State<LocInfo> {
             ),
           )
         : Scaffold(
-            // appBar: AppBar(
-            //   centerTitle: true,
-            //   leading: const Icon(Icons.location_on_outlined,color: Colors.black,),
-            //   title: Transform(
-            //     transform: Matrix4.translationValues(-20.0, 0.0, 0.0),
-            //     child: TextField(
-            //       controller:locController,
-            //       onChanged: (value) async {
-            //         _list = await RequestHelper().getPlaces(query: value);
-            //         setState(() {});
-            //         if (value.isEmpty) {
-            //           _list!.clear();
-            //           setState(() {});
-            //         }
-            //       },
-            //       decoration: const InputDecoration(
-            //           hintText: 'Barakar, West Bengal',
-            //           hintStyle: TextStyle(fontWeight: FontWeight.bold),
-            //           // prefixIcon: Icon(Icons.search)
-            //       ),
-            //       onTap: () {
-            //         setState(() {
-            //
-            //           FocusScope.of(context).unfocus();
-            //           showPlacessuggesstions? showPlacessuggesstions =true:showPlacessuggesstions=false ;
-            //           locController.clear();
-            //         });
-            //       },
-            //     ),
-            //   ),
-            //   actions: [
-            //     IconButton(
-            //       icon: const Icon(
-            //         Icons.edit,
-            //         // HomeIcon.notification,
-            //         color: Colors.black,
-            //       ),
-            //       onPressed: () {
-            //         // print(number);
-            //         FocusScope.of(context).unfocus();
-            //         // Get.to(const NotificationDetails());
-            //       },
-            //     ),
-            //   ],
-            //   backgroundColor: Colors.white,
-            //   elevation: 0,
-            // ),
+
             backgroundColor: scaffoldColor,
             body: SafeArea(
               child: SingleChildScrollView(
@@ -389,8 +338,8 @@ class _LocInfoState extends State<LocInfo> {
                                       "subLocality": locality.toLowerCase(),
                                       // "number": number
                                     });
-                                    // Get.back();
-                                    await Get.offAll(() => HomePage());
+                                    Get.back();
+                                    // await Get.offAll(() => HomePage());
                                   } catch (e) {
                                     setState(() {
                                       isLoading = false;
@@ -522,8 +471,8 @@ class _LocInfoState extends State<LocInfo> {
                                                 "subLocality":
                                                     subLocality.toLowerCase(),
                                               });
-                                              // Get.back();
-                                              Get.off(() => HomePage());
+                                              Get.back();
+                                              // Get.off(() => HomePage());
                                             },
                                             child: Padding(
                                               padding: const EdgeInsets.all(9),
@@ -625,7 +574,8 @@ class _LocInfoState extends State<LocInfo> {
                                                 "subLocality":
                                                     subLocality.toLowerCase(),
                                               });
-                                              Get.off(() => HomePage());
+                                              Get.back();
+                                              // Get.off(() => HomePage());
                                             },
                                           );
                                         }),

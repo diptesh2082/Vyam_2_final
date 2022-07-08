@@ -11,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vyam_2_final/Home/bookings/success_book.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
 
@@ -21,7 +22,8 @@ import '../main.dart';
 
 class PaymentScreen extends StatefulWidget {
   final endDate;
-  const PaymentScreen({Key? key, required this.endDate}) : super(key: key);
+  final booking_id;
+  const PaymentScreen({Key? key, required this.endDate, required this.booking_id}) : super(key: key);
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -42,7 +44,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   var taxPay;
   String amount = '';
-  var booking_id = Get.arguments["booking_id"];
+  // String booking_id = Get.arguments["booking_id"];
   final app_bar_controller = ScrollController();
   final cartValue = Get.arguments["totalPrice"];
 
@@ -91,7 +93,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     });
     await FirebaseFirestore.instance
         .collection("bookings")
-        .doc(booking_id)
+        .doc(widget.booking_id)
         .update({
       "total_price": price,
       // "total_discount":totalDiscount,
@@ -100,6 +102,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       "tax_pay": taxPay,
     });
   }
+  var obj={};
 
   @override
   void initState() {
@@ -107,6 +110,32 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print(
       getData['totalMonths'],
     );
+   obj={
+      "merchant_client_id": "8a54a9a0d2c99b86f81d23fff76e1537",
+      "transaction_status_redirection_url": "http://localhost/transac/response.php",
+      "transaction_status_webhook_url": "http://localhost/transac/webhook.php",
+      "order_id": "${widget.booking_id.toString()}",
+      "user": {
+        "phone_number": number.toString().substring(3, number.length),
+        "email":  Get.find<GlobalUserData>().userData.value["email"].toString()
+      },
+      "billing_address": {
+        "line1":  Get.find<GlobalUserData>().userData.value["address"].toString(),
+        "line2": Get.find<GlobalUserData>().userData.value["locality"].toString(),
+        "city": Get.find<GlobalUserData>().userData.value["subLocality"].toString(),
+        "state": "West Bangal",
+        "country": "India",
+        "pincode": Get.find<GlobalUserData>().userData.value["pincode"].toString()
+      },
+      "items": [
+        {
+          "sku": "1",
+          "quantity": "1",
+          "rate_per_item": "1200"
+        }
+      ],
+      "amount_in_paise": 300
+    };
     print(type);
     detDil();
     myCouponController.GlobalCouponApplied.value = false;
@@ -128,6 +157,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     _razorpay.clear();
   }
 
+
   _simplpay() async {
     var client = http.Client();
     try {
@@ -137,43 +167,56 @@ class _PaymentScreenState extends State<PaymentScreen> {
             'Content-Type':'application/json',
             'Authorization':'18c8e9a52d818f865cd0f7df2a254dc3'
           },
-          body: {
-            "merchant_client_id": "8a54a9a0d2c99b86f81d23fff76e1537",
-            "transaction_status_redirection_url": "http://localhost/transac/response.php",
-            "transaction_status_webhook_url": "http://localhost/transac/webhook.php",
-            "order_id": "1745024511",
-            "user": {
-              "phone_number": "82xxxxx557",
-              "email": "mayuresh.madav@getsimpl.com"
-            },
-            "billing_address": {
-              "line1": "10",
-              "line2": "thxxxxoad",
-              "city": "Txxne",
-              "state": "maxxxxxra",
-              "country": "India",
-              "pincode": "110018"
-            },
-            "items": [
-              {
-                "sku": "1",
-                "quantity": "1",
-                "rate_per_item": "1200"
-              }
-            ],
-            "amount_in_paise": 300
-          }
-              .toString());
+          body: jsonEncode(obj)
+      );
+
       print(response.body);
+      print(response.statusCode);
       if(response.statusCode==200){
-        print("success");
-        // print(response.body as List);
+        // print("success");
+        var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) ;
+        print(decodedResponse["data"]["redirection_url"]);
+        var uri = Uri.parse(decodedResponse["data"]["redirection_url"] );
+        if (await canLaunch(uri.toString())) {
+          await launch(uri.toString(),
+          forceSafariVC: true,
+            forceWebView: true,
+            enableJavaScript: true
+          );
+        } else {
+          throw "Error occured trying to call that number.";
+        }
+        // var res=await client.get(uri);
+        // print(jsonDecode(utf8.decode(res.bodyBytes)));
+
       }
-      // var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      // var uri = Uri.parse(decodedResponse['uri'] );
+      _bottomsheet2(context);
+      var response2 = await http.get(
+          Uri.parse( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction_by_order_id/"${widget.booking_id.toString()}"/status',),
+          headers:{
+            'Content-Type':'application/json',
+            'Authorization':'18c8e9a52d818f865cd0f7df2a254dc3'
+          },
+          // body: jsonEncode(obj)
+      );
+      print(response2.body);
+      print(response2.statusCode);
+      print("success");
+      print("+++++++++++++++++++++++++++++++");
+      if(response2.statusCode==200){
+        print("success");
+        print("+++++++++++++++++++++++++++++++");
+      }
+      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
+      var uri = Uri.parse(decodedResponse['data']["status"] );
+      decodedResponse.obs;
       // print(await client.get(uri));
+      // response2.transform(utf8.decoder).listen((data) {
+      //   contents.write(data);
+      // }, onDone: () => completer.complete(contents.toString()));
+      // return completer.future;
     } finally {
-      client.close();
+      // client.close();
     }
     // var app={
     //   "amount_in_paise":(myCouponController.GlobalCouponApplied.value
@@ -273,14 +316,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       "vendor_id": ven_id,
                       "vendor_name": ven_name,
                       "time_stamp": DateTime.now(),
-                      "booking_id": booking_id,
+                      "booking_id": widget.booking_id,
                       "seen": false,
                       "branch": branch
                     })
                     .then((value) => Get.offAll(() => SuccessBook(),
                             arguments: {
                               "otp_pass": x,
-                              "booking_details": booking_id
+                              "booking_details": widget.booking_id
                             }))
                     .then((value) => {
                           showNotification("Booking successful for " + ven_name,
@@ -419,7 +462,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           "vendor_id": ven_id,
           "vendor_name": ven_name,
           "time_stamp": DateTime.now(),
-          "booking_id": booking_id,
+          "booking_id": widget.booking_id,
           "seen": false,
           "branch": branch
         }).then((value) async {
@@ -437,7 +480,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           }
         }).then((value) async {
           Get.offAll(() => SuccessBook(),
-              arguments: {"otp_pass": x, "booking_details": booking_id});
+              arguments: {"otp_pass": x, "booking_details": widget.booking_id});
         });
 
         await (showNotification("Booking successful for " + ven_name,
@@ -1195,7 +1238,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Pay() async {
     await FirebaseFirestore.instance
         .collection("bookings")
-        .doc(booking_id)
+        .doc(widget.booking_id)
         .update({
       "discount": myCouponController.GlobalCouponApplied.value
           ? (int.parse(myCouponController.CouponDetailsMap.value))
@@ -1287,7 +1330,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               // await getBookingData(getData["booking_id"]);
                               Get.offAll(() => SuccessBook(), arguments: {
                                 "otp_pass": x,
-                                "booking_details": booking_id
+                                "booking_details": widget.booking_id
                               });
                               setState(() {
                                 isLoading = false;
@@ -1312,7 +1355,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   .then((value) async {
                                     await FirebaseFirestore.instance
                                         .collection("bookings")
-                                        .doc(booking_id)
+                                        .doc(widget.booking_id)
                                         .update({
                                       "otp_pass": x.toString(),
                                       "booking_status": "upcoming",
@@ -1332,7 +1375,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 "vendor_id": ven_id,
                                 "vendor_name": ven_name,
                                 "time_stamp": DateTime.now(),
-                                "booking_id": booking_id,
+                                "booking_id": widget.booking_id,
                                 "seen": false,
                                 "branch": branch
                               }).then((value) async {
@@ -1402,6 +1445,280 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   OffPay() async {
     makeSure();
+  }
+  _bottomsheet2(BuildContext context) async {
+    // var _width = MediaQuery.of(context).size.width;
+    // var _height = MediaQuery.of(context).size.height;
+    bool onlinePay = true;
+    // _controller = await _scaffoldKey.currentState.showBottomSheet
+    return showModalBottomSheet(
+      // isDismissible: false,
+        isScrollControlled: true,
+        // enableDrag: false,
+        context: context,
+        elevation: 8,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        builder: (context) {
+          return WillPopScope(
+            onWillPop: ()async {
+
+              return true;
+            },
+            child: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return SingleChildScrollView(
+                    child: Container(
+                      // height: 5,
+                      // height: 600,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(right: 8.0, top: 8),
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: CircleAvatar(
+                                  radius: 10.0,
+                                  backgroundColor: Colors.grey,
+                                  child: Icon(
+                                    Icons.close,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          const Text(
+                            "Payment method Simpl",
+                            style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600),
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: SizedBox(
+                              height: 60,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (gymData["cash_pay"] == true)
+                                    setState(() {
+                                      onlinePay = false;
+                                    });
+
+                                  // _PaymentScreenState();
+                                },
+                                child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Row(children: [
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Image.asset(
+                                      "assets/images/Simpl_Logo.png",
+                                      width: 60,
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    if (gymData["cash_pay"] == true)
+                                      const Text(
+                                        "Pay at gym",
+                                        style: TextStyle(
+                                            fontFamily: "Poppins",
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14),
+                                      ),
+                                    if (gymData["cash_pay"] == true) const Spacer(),
+                                    if (onlinePay == false ||
+                                        (gymData["online_pay"] == false &&
+                                            gymData["cash_pay"] == true))
+                                      const Icon(
+                                        Icons.check,
+                                        color: Colors.black,
+                                        size: 15,
+                                      ),
+                                    if (gymData["cash_pay"] == false)
+                                      const Text(
+                                        "Cash isn't available in this gym",
+                                        style: TextStyle(
+                                            fontFamily: "Poppins",
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 12),
+                                      ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                  ]),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: SizedBox(
+                              // height: 155,
+                              child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8.0, top: 8, right: 8, bottom: 10),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Payment",
+                                          style: GoogleFonts.poppins(
+                                            // fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 18,
+                                              color: Colors.green),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Total amount",
+                                              style: GoogleFonts.poppins(
+                                                // fontFamily: "Poppins",
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16),
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              "₹${getData["totalPrice"]}",
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 16),
+                                            ),
+                                            const SizedBox(
+                                              width: 6,
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Discount",
+                                              style: GoogleFonts.poppins(
+                                                // fontFamily: "Poppins",
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 16),
+                                            ),
+                                            const Spacer(),
+                                            Obx(
+                                                  () => Text(
+                                                "₹  ${myCouponController.GlobalCouponApplied.value ? myCouponController.CouponDetailsMap.value.toString() : totalDiscount.toString()}",
+                                                style: GoogleFonts.poppins(
+                                                  // fontFamily: "Poppins",
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 16),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 7,
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 7,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "Grand Total",
+                                              style: GoogleFonts.poppins(
+                                                  color: Colors.green,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 16),
+                                            ),
+                                            const Spacer(),
+                                            Text(
+                                              "₹${myCouponController.GlobalCouponApplied.value ? (grandTotal - int.parse(myCouponController.CouponDetailsMap.value)) : grandTotal.toString()}",
+                                              style: GoogleFonts.poppins(
+                                                  color: Colors.green,
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 16),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Align(
+                            alignment: Alignment.bottomRight,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width *.44,
+                                child: FloatingActionButton.extended(
+                                    backgroundColor: Colors.green,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10)),
+                                    label: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal:8.0),
+                                      child: Text(
+                                        "Confirm Payment",
+                                        style: GoogleFonts.poppins(
+
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      print('hhhhhhhhhhhhhh${widget.booking_id}');
+                                      _simplpay();
+
+                                    }),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+          );
+        });
   }
 
   _bottomsheet(BuildContext context) async {
@@ -1772,7 +2089,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   color: Colors.white),
                             ),
                             onPressed: () async {
-                              print('hhhhhhhhhhhhhh$booking_id');
+                              print('hhhhhhhhhhhhhh${widget.booking_id}');
                               _simplpay();
                               // await FirebaseFirestore.instance
                               //     .collection("bookings")
@@ -1897,20 +2214,3 @@ class DetailBox extends StatelessWidget {
     );
   }
 }
-
-// class myBottomSheet extends StatefulWidget {
-//   const myBottomSheet({Key? key}) : super(key: key);
-//
-//   @override
-//   State<myBottomSheet> createState() => _myBottomSheetState();
-// }
-//
-// class _myBottomSheetState extends State<myBottomSheet> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       child: showModalBottomSheet(
-//           ),
-//     );
-//   }
-// }

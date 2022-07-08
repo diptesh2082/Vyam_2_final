@@ -370,6 +370,7 @@ class _SelectDateState extends State<SelectDate> {
               }).then((value) {
                 Get.to(
                   () => PaymentScreen(
+                    booking_id:  widget.bookingId,
                     endDate: DateFormat("dd, MMM, yyyy").format(endDate),
                   ),
                   duration: const Duration(milliseconds: 500),
@@ -382,7 +383,7 @@ class _SelectDateState extends State<SelectDate> {
                     "endDate": DateFormat("dd, MMM, yyyy").format(endDate),
                     "address": widget.getGymAddress,
                     "vendorId": widget.gymId,
-                    "booking_id": widget.bookingId,
+                    // "booking_id": widget.bookingId,
                     "gym_details": Get.arguments["docs"],
                     "totalDays": widget.days,
                     "booking_plan":widget.package_name,

@@ -200,6 +200,7 @@ class _FirstHomeState extends State<FirstHome> {
           .doc(number)
           .update({"device_token": devicetoken});
       await FirebaseMessaging.instance.subscribeToTopic("push_notifications");
+      await FirebaseMessaging.instance.subscribeToTopic("personalised_notification");
 
     }catch(e){
 
