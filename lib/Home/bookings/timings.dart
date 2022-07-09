@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:vyam_2_final/Home/bookings/review_screen.dart';
+import '../../golbal_variables.dart';
 import 'gym_details.dart';
 
 // class Timing extends StatelessWidget {
@@ -57,8 +58,7 @@ class Timing_Screen extends StatelessWidget {
                     .collection("product_details")
                     .doc(id)
                     .collection("timings")
-                .orderBy("position",descending: false)
-
+                    .orderBy("position", descending: false)
                     .snapshots(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -195,11 +195,14 @@ class Timing_Screen extends StatelessWidget {
                                                 padding: const EdgeInsets.only(
                                                     left: 9.0, right: 9.0),
                                                 child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Wrap(
-                                                        direction: Axis.vertical,
+                                                        direction:
+                                                            Axis.vertical,
                                                         children: [
                                                           const Text(' Evening',
                                                               style: TextStyle(
@@ -208,9 +211,10 @@ class Timing_Screen extends StatelessWidget {
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w400,
-                                                                  color:
-                                                                      Colors.grey,
-                                                                  fontSize: 14)),
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontSize:
+                                                                      14)),
                                                           const SizedBox(
                                                               height: 5),
                                                           Text(
@@ -225,7 +229,8 @@ class Timing_Screen extends StatelessWidget {
                                                                           .w600,
                                                                   color: Colors
                                                                       .black,
-                                                                  fontSize: 14)),
+                                                                  fontSize:
+                                                                      14)),
                                                           const SizedBox(
                                                               height: 5),
                                                           Text(
@@ -240,7 +245,8 @@ class Timing_Screen extends StatelessWidget {
                                                                           .w600,
                                                                   color: Colors
                                                                       .green,
-                                                                  fontSize: 12)),
+                                                                  fontSize:
+                                                                      12)),
                                                           const SizedBox(
                                                               height: 5),
                                                           Text(
@@ -254,9 +260,10 @@ class Timing_Screen extends StatelessWidget {
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w400,
-                                                                  color:
-                                                                      Colors.grey,
-                                                                  fontSize: 12)),
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontSize:
+                                                                      12)),
                                                         ])
                                                   ],
                                                 ),
