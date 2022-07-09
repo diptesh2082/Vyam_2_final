@@ -156,7 +156,27 @@ class _PaymentScreenState extends State<PaymentScreen> {
     super.dispose();
     _razorpay.clear();
   }
+check_simpl()async{
 
+  var response2 = await http.get(
+    Uri.parse( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction_by_order_id/"${widget.booking_id.toString()}"/status',),
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':'18c8e9a52d818f865cd0f7df2a254dc3'
+    },
+    // body: jsonEncode(obj)
+  );
+  print(response2.body);
+  print(response2.statusCode);
+  print("success");
+  print("+++++++++++++++++++++++++++++++");
+  if(response2.statusCode==200){
+    print("success");
+    print("+++++++++++++++++++++++++++++++");
+  }
+  var decodedResponse = jsonDecode(utf8.decode(response2.bodyBytes)) as Map;
+  var uri = Uri.parse(decodedResponse['data']["status"] );
+}
 
   _simplpay() async {
     var client = http.Client();
@@ -193,25 +213,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
       }
 
-      var response2 = await http.get(
-          Uri.parse( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction_by_order_id/"${widget.booking_id.toString()}"/status',),
-          headers:{
-            'Content-Type':'application/json',
-            'Authorization':'18c8e9a52d818f865cd0f7df2a254dc3'
-          },
-          // body: jsonEncode(obj)
-      );
-      print(response2.body);
-      print(response2.statusCode);
-      print("success");
-      print("+++++++++++++++++++++++++++++++");
-      if(response2.statusCode==200){
-        print("success");
-        print("+++++++++++++++++++++++++++++++");
-      }
-      var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) as Map;
-      var uri = Uri.parse(decodedResponse['data']["status"] );
-      decodedResponse.obs;
+      // decodedResponse.obs;
       // print(await client.get(uri));
       // response2.transform(utf8.decoder).listen((data) {
       //   contents.write(data);
