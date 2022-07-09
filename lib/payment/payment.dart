@@ -1720,6 +1720,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           );
         });
   }
+  String PAY="on";
 
   _bottomsheet(BuildContext context) async {
     // var _width = MediaQuery.of(context).size.width;
@@ -1787,7 +1788,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           onTap: () {
                             if (gymData["cash_pay"] == true)
                               setState(() {
-                                onlinePay = false;
+                                PAY = "off";
                               });
 
                             // _PaymentScreenState();
@@ -1815,7 +1816,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       fontSize: 14),
                                 ),
                               if (gymData["cash_pay"] == true) const Spacer(),
-                              if (onlinePay == false ||
+                              if (PAY == "off" ||
                                   (gymData["online_pay"] == false &&
                                       gymData["cash_pay"] == true))
                                 const Icon(
@@ -1849,9 +1850,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         height: 60,
                         child: GestureDetector(
                           onTap: () {
-                            if (gymData["cash_pay"] == true)
+                            // if (gymData["cash_pay"] == true)
                               setState(() {
-                                onlinePay = false;
+                                PAY = "simpl";
                               });
 
                             // _PaymentScreenState();
@@ -1872,14 +1873,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               ),
                               if (gymData["cash_pay"] == true)
                                 const Text(
-                                  "Pay at gym",
+                                  "Pay with Simpl",
                                   style: TextStyle(
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14),
                                 ),
                               if (gymData["cash_pay"] == true) const Spacer(),
-                              if (onlinePay == false ||
+                              if (PAY == "simpl" ||
                                   (gymData["online_pay"] == false &&
                                       gymData["cash_pay"] == true))
                                 const Icon(
@@ -1915,7 +1916,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         child: GestureDetector(
                           onTap: () {
                             setState(() {
-                              onlinePay = true;
+                              PAY = "on";
                             });
                           },
                           child: Card(
@@ -1950,7 +1951,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       fontSize: 12),
                                 ),
                               const Spacer(),
-                              if (onlinePay == true && gymData["online_pay"])
+                              if (PAY == "on" && gymData["online_pay"])
                                 const Icon(
                                   Icons.check,
                                   color: Colors.black,
@@ -2090,6 +2091,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             ),
                             onPressed: () async {
                               print('hhhhhhhhhhhhhh${widget.booking_id}');
+                              // if(PAY)
                               _simplpay();
                               // await FirebaseFirestore.instance
                               //     .collection("bookings")
