@@ -112,7 +112,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
    obj={
       "merchant_client_id": "8a54a9a0d2c99b86f81d23fff76e1537",
-      "transaction_status_redirection_url": "http://localhost/transac/response.php",
+      "transaction_status_redirection_url": "/gym_details",
       "transaction_status_webhook_url": "http://localhost/transac/webhook.php",
       "order_id": "${widget.booking_id.toString()}",
       "user": {
