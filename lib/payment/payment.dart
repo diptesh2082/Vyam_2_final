@@ -112,7 +112,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
    obj={
       "merchant_client_id": "8a54a9a0d2c99b86f81d23fff76e1537",
-      "transaction_status_redirection_url": "/gym_details",
+      "transaction_status_redirection_url": "https://vyam.page.link/downloadApp",
       "transaction_status_webhook_url": "http://localhost/transac/webhook.php",
       "order_id": "${widget.booking_id.toString()}",
       "user": {
@@ -177,11 +177,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
         var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) ;
         print(decodedResponse["data"]["redirection_url"]);
         var uri = Uri.parse(decodedResponse["data"]["redirection_url"] );
+        _bottomsheet2(context);
+        Navigator.of(context).pop();
         if (await canLaunch(uri.toString())) {
           await launch(uri.toString(),
-          forceSafariVC: true,
-            forceWebView: true,
-            enableJavaScript: true
+          // forceSafariVC: true,
+          //   forceWebView: true,
+          //   enableJavaScript: true
           );
         } else {
           throw "Error occured trying to call that number.";
@@ -190,7 +192,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         // print(jsonDecode(utf8.decode(res.bodyBytes)));
 
       }
-      _bottomsheet2(context);
+
       var response2 = await http.get(
           Uri.parse( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction_by_order_id/"${widget.booking_id.toString()}"/status',),
           headers:{
