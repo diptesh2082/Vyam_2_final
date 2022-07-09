@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../api/api.dart';
 import '../../golbal_variables.dart';
@@ -12,7 +13,7 @@ import '../bookings/gym_details.dart';
 
 class BuildBox extends StatelessWidget {
   static final customCacheManager =
-  CacheManager(Config("customCacheKey2", maxNrOfCacheObjects: 80));
+      CacheManager(Config("customCacheKey2", maxNrOfCacheObjects: 80));
 
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -24,7 +25,7 @@ class BuildBox extends StatelessWidget {
           child: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection("product_details")
-            // .where("locality", isEqualTo: GlobalUserData["locality"])
+                // .where("locality", isEqualTo: GlobalUserData["locality"])
                 .orderBy("location")
                 .where("legit", isEqualTo: true)
                 .snapshots(),
@@ -83,7 +84,7 @@ class BuildBox extends StatelessWidget {
               });
               print(distances);
 
-              if (document.isNotEmpty)
+              if (document.isNotEmpty) {
                 return Column(
                   children: [
                     ListView.separated(
@@ -108,9 +109,9 @@ class BuildBox extends StatelessWidget {
                                     //     document[index]["location"].longitude);
                                     // print(viku);
                                     Get.to(
-                                            () => GymDetails(
-                                          // gymID: document[index].id,
-                                        ),
+                                        () => GymDetails(
+                                            // gymID: document[index].id,
+                                            ),
                                         arguments: {
                                           "gymId": document[index].id,
                                         });
@@ -135,7 +136,7 @@ class BuildBox extends StatelessWidget {
                                                 .size
                                                 .width,
                                             imageUrl: document[index]
-                                            ["display_picture"] ??
+                                                    ["display_picture"] ??
                                                 "",
                                             // progressIndicatorBuilder: (context, url, downloadProgress) =>
                                             //     Container(
@@ -146,7 +147,7 @@ class BuildBox extends StatelessWidget {
                                             //         ))),
                                             errorWidget:
                                                 (context, url, error) =>
-                                            const Icon(Icons.error),
+                                                    const Icon(Icons.error),
                                             // height: 195,
                                             // width: double.infinity,
                                           ),
@@ -158,7 +159,7 @@ class BuildBox extends StatelessWidget {
                                         child: Container(
                                           decoration: BoxDecoration(
                                               borderRadius:
-                                              BorderRadius.circular(6),
+                                                  BorderRadius.circular(6),
                                               gradient: const LinearGradient(
                                                   colors: [
                                                     Color(0xaf000000),
@@ -179,7 +180,7 @@ class BuildBox extends StatelessWidget {
                                         child: Container(
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(6),
+                                                BorderRadius.circular(6),
                                             // color: Colors.white10,
                                           ),
                                           height: size.height * .078,
@@ -190,7 +191,7 @@ class BuildBox extends StatelessWidget {
                                             // mainAxisAlignment:
                                             // MainAxisAlignment.start,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 document[index]["name"] ?? "",
@@ -203,7 +204,7 @@ class BuildBox extends StatelessWidget {
                                                     fontFamily: "Poppins",
                                                     fontSize: 15,
                                                     fontWeight:
-                                                    FontWeight.w600),
+                                                        FontWeight.w600),
                                               ),
                                               const SizedBox(
                                                 height: 2,
@@ -216,14 +217,14 @@ class BuildBox extends StatelessWidget {
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.start,
                                                 style: GoogleFonts.poppins(
-                                                  // overflow:
-                                                  // TextOverflow.ellipsis,
+                                                    // overflow:
+                                                    // TextOverflow.ellipsis,
                                                     color: Colors.white,
                                                     // fontFamily: "Poppins",
                                                     fontSize: 12,
                                                     // fontStyle: FontStyle.italic,
                                                     fontWeight:
-                                                    FontWeight.w500),
+                                                        FontWeight.w500),
                                               ),
                                             ],
                                           ),
@@ -235,7 +236,7 @@ class BuildBox extends StatelessWidget {
                                         child: Container(
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                            BorderRadius.circular(6),
+                                                BorderRadius.circular(6),
                                             // color: Colors.black26,
                                           ),
                                           alignment: Alignment.bottomRight,
@@ -245,13 +246,13 @@ class BuildBox extends StatelessWidget {
                                               right: 8, bottom: 10),
                                           child: Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                                MainAxisAlignment.end,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                                CrossAxisAlignment.end,
                                             children: [
                                               Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                                    MainAxisAlignment.end,
                                                 children: [
                                                   // SvgPicture.asset(
                                                   //     'assets/Icons/rating star small.svg'),
@@ -271,7 +272,7 @@ class BuildBox extends StatelessWidget {
                                                         fontSize: 15,
                                                         fontFamily: "Poppins",
                                                         fontWeight:
-                                                        FontWeight.w600),
+                                                            FontWeight.w600),
                                                   ),
                                                 ],
                                               ),
@@ -280,7 +281,7 @@ class BuildBox extends StatelessWidget {
                                               ),
                                               Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                                    MainAxisAlignment.end,
                                                 children: [
                                                   // SvgPicture.asset(
                                                   //   'assets/Icons/Location.svg',
@@ -303,7 +304,7 @@ class BuildBox extends StatelessWidget {
                                                         fontFamily: "Poppins",
                                                         fontSize: 12,
                                                         fontWeight:
-                                                        FontWeight.w600),
+                                                            FontWeight.w600),
                                                   ),
                                                 ],
                                               ),
@@ -321,7 +322,7 @@ class BuildBox extends StatelessWidget {
                                             // child:
                                             decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(6),
+                                                    BorderRadius.circular(6),
                                                 gradient: const LinearGradient(
                                                     colors: [
                                                       Color(0x31000000),
@@ -341,8 +342,8 @@ class BuildBox extends StatelessWidget {
                                         Positioned(
                                           top: 10,
                                           left: MediaQuery.of(context)
-                                              .size
-                                              .width *
+                                                  .size
+                                                  .width *
                                               .040,
                                           child: Text(
                                             "*Temporarily closed",
@@ -419,35 +420,163 @@ class BuildBox extends StatelessWidget {
                     //   ),
                   ],
                 );
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 25,
-                  ),
-                  SizedBox(
-                    width: 127,
-                    height: 48,
-                    child: Text(
-                      "Coming soon in"
-                          " your area",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey),
+              }
+              return SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 25,
                     ),
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  Center(
-                      child: Image.asset(
-                          "assets/Illustrations/undraw_empty_street_sfxm 1.png")),
-                  SizedBox(
-                    height: 500,
-                  )
-                ],
+                    SizedBox(
+                      width: 127,
+                      height: 48,
+                      child: Text(
+                        "Coming soon in"
+                        " your area",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Center(
+                        child: Image.asset(
+                            "assets/Illustrations/undraw_empty_street_sfxm 1.png")),
+                    SizedBox(height: 20),
+                    Divider(
+                      thickness: 0.5,
+                      color: Colors.grey,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Follow Us",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w900, fontSize: 15),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            var urllaunchable = await canLaunch(
+                                "https://www.instagram.com/vyam.app/?hl=en");
+                            if (urllaunchable) {
+                              await launch(
+                                  "https://www.instagram.com/vyam.app/?hl=en");
+                            } else {
+                              print("Try Again");
+                            }
+                          },
+                          child: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: Image.asset('assets/icons/insta.png'),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            var urllaunchable = await canLaunch(
+                                'https://www.facebook.com/VYAM.application/');
+                            if (urllaunchable) {
+                              await launch(
+                                  'https://www.facebook.com/VYAM.application/');
+                            } else {
+                              print("Try Again");
+                            }
+                          },
+                          child: SizedBox(
+                            height: 25,
+                            width: 25,
+                            child: Image.asset('assets/icons/fb.png'),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    // SizedBox(
+                    //   width: 20,
+                    // ),
+                    // InkWell(
+                    //   onTap: () async {
+                    //     var urllaunchable = await canLaunch(url);
+                    //     if (urllaunchable) {
+                    //       await launch(url);
+                    //     } else {
+                    //       print("Try Again");
+                    //     }
+                    //   },
+                    //   child: SizedBox(
+                    //     height: 40,
+                    //     width: 40,
+                    //     child: Image.asset('assets/icons/twitter.png'),
+                    //   ),
+                    // ),
+
+                    SizedBox(
+                      height: 350,
+                    ),
+                    Container(
+                      // height: 300,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 50,
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Column(
+                                // mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 3.0),
+                                    child: SizedBox(
+                                        height: 40,
+                                        width: 95,
+                                        child: Image.asset(
+                                            "assets/Illustrations/Keep_the.png")),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 3.0),
+                                    child: SizedBox(
+                                        height: 55,
+                                        width: 140,
+                                        child: Image.asset(
+                                            "assets/Illustrations/Grind_on.png")),
+                                  ),
+                                  SizedBox(
+                                      height: 25,
+                                      width: 225,
+                                      child: Image.asset(
+                                          "assets/Illustrations/Group_187.png")),
+                                  SizedBox(
+                                    height: 20,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
           ),

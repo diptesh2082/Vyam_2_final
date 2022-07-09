@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -18,22 +19,14 @@ import 'package:vyam_2_final/authintication/rphoto.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'Home/home_page.dart';
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Noti'
-        'fications', // title
-    description:
-        'This channel is used for important notifications.', // description
-    importance: Importance.high,
-    playSound: true);
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+late AndroidNotificationChannel channel;
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // await Firebase.initializeApp();
   print("A bg message just showed up : ${message.messageId}");
 }
+
 
 
 Future<void> backgroundHandler(RemoteMessage message)
@@ -60,60 +53,118 @@ Future<void> main() async {
   // print(GlobalUserData);
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  if (!kIsWeb) {
+    channel = const AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Noti'
+            'fications', // title
+        description:
+            'This channel is used for important notifications.', // description
+        importance: Importance.high,
+        playSound: true);
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()!
-      .createNotificationChannel(channel);
-final InitializationSettings initializationSettings = InitializationSettings(
-  android: AndroidInitializationSettings("@mipmap/launcher_icon.png")
-);
+//<<<<<<< someshwarNew
+//=======
+//     await flutterLocalNotificationsPlugin
+//         .resolvePlatformSpecificImplementation<
+//             AndroidFlutterLocalNotificationsPlugin>()!
+//         .createNotificationChannel(channel);
+//     final InitializationSettings initializationSettings =
+//         InitializationSettings(
+//             android:
+//                 AndroidInitializationSettings("@mipmap/launcher_icon.png"));
 //   await flutterLocalNotificationsPlugin.initialize(initializationSettings,onSelectNotification: (String? route)async{
 // Get.to(()=>HomePage());
 //   });
+//>>>>>>> master
 
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()!
+        .createNotificationChannel(channel);
 
-  );
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
+
+// <<<<<<< HEAD
+//   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+//     alert: true,
+//     badge: true,
+//     sound: true,
+//   );
+//
+//   runApp(MyApp());
+// }
+//
+// class MyApp extends StatelessWidget {
+// =======
   runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-
-
   @override
   void initState() {
     // TODO: implement initState
 
     FirebaseMessaging.instance.getInitialMessage();
-    //
-    FirebaseMessaging.onMessage.listen((RemoteMessage message){
+// <<<<<<< HEAD
+//     //
+//     FirebaseMessaging.onMessage.listen((RemoteMessage message){
+//
+//       if(message.notification != null)
+//         {
+//           print(message.notification!.body);
+//           print(message.notification!.title);
+//           // Get.to(()=>HomePage());
+//
+//         }
+//
+//     });
+//     //
+//     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message)
+//     {
+//       print('A new onMessageOpenedApp event was published!');
+//       // Navigator.pushNamed(context,GymDetails.id,);
+//       Get.to(()=>HomePage());
+//
+//       // final routeFromMessage = message.data["GymDetails"];
+//       // print(routeFromMessage);
+//
+// =======
 
-      if(message.notification != null)
-        {
-          print(message.notification!.body);
-          print(message.notification!.title);
-          // Get.to(()=>HomePage());
-
-        }
-
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      if (notification != null && android != null && !kIsWeb) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              //channel.description,
+              icon: 'launcher_icon',
+            ),
+          ),
+        );
+      }
     });
-    //
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message)
-    {
-      print('A new onMessageOpenedApp event was published!');
-      // Navigator.pushNamed(context,GymDetails.id,);
-      Get.to(()=>HomePage());
 
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published');
       // final routeFromMessage = message.data["GymDetails"];
       // print(routeFromMessage);
 
@@ -121,6 +172,8 @@ class _MyAppState extends State<MyApp> {
 
     super.initState();
   }
+
+// >>>>>>> 1cc80ba4c0261a41d1f92673b24fc22f8be925ed
   // const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
