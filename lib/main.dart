@@ -1,11 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:package_info/package_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
@@ -94,6 +98,8 @@ Future<void> main() async {
 //
 // class MyApp extends StatelessWidget {
 // =======
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
   runApp(MyApp());
 }
 
@@ -108,6 +114,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
 
     FirebaseMessaging.instance.getInitialMessage();
+    // FirebaseCrashlytics.instance.crash();
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
@@ -134,6 +141,7 @@ class _MyAppState extends State<MyApp> {
       // final routeFromMessage = message.data["GymDetails"];
       // print(routeFromMessage);
     });
+
     super.initState();
   }
 
@@ -161,7 +169,12 @@ class _MyAppState extends State<MyApp> {
               exist &&
               _auth.currentUser != null &&
               number.isNotEmpty) {
-            return HomePage();
+            return FutureBuilder<FirebaseRemoteConfig>(
+                future: setupRemoteConfig(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<FirebaseRemoteConfig> snapshot) {
+                  return Home(remoteConfig: snapshot.requireData);
+                });
           }
           return Onboarding1();
         },
