@@ -173,7 +173,8 @@ class _MyAppState extends State<MyApp> {
                 future: setupRemoteConfig(),
                 builder: (BuildContext context,
                     AsyncSnapshot<FirebaseRemoteConfig> snapshot) {
-                  return Home(remoteConfig: snapshot.requireData);
+                  // return HomePage(remoteConfig: snapshot.requireData);
+                  return HomePage();
                 });
           }
           return Onboarding1();
@@ -191,5 +192,12 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: GymDetails.id, page: () => GymDetails()),
       ],
     );
+  }
+
+  Future<FirebaseRemoteConfig> setupRemoteConfig() async {
+    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.fetch();
+    await remoteConfig.activate();
+    return remoteConfig;
   }
 }
