@@ -1,3 +1,4 @@
+
 import 'dart:math';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -159,7 +160,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 check_simpl()async{
 
   var response2 = await http.get(
-    Uri.parse( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction_by_order_id/"${widget.booking_id.toString()}"/status',),
+    Uri.parse( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction_by_order_id/"${widget.booking_id}"/status',),
     headers:{
       'Content-Type':'application/json',
       'Authorization':'18c8e9a52d818f865cd0f7df2a254dc3'
@@ -176,10 +177,171 @@ check_simpl()async{
   }
   var decodedResponse = jsonDecode(utf8.decode(response2.bodyBytes)) as Map;
   var uri = Uri.parse(decodedResponse['data']["status"] );
+  print(decodedResponse);
+  print(uri);
+  if (uri.toString().toLowerCase()=="success")
+    {
+      try {
+        var x = Random().nextInt(9999);
+        if (x < 1000) {
+          x = x + 1000;
+        }
+        FocusScope.of(context).unfocus();
+        int booking_iiid = 0;
+        // Future.wait();
+        await FirebaseFirestore.instance
+            .collection("bookings")
+            .where("booking_status".toLowerCase(),
+            whereIn: ["completed", "active", "upcoming", "cancelled"])
+            .get()
+            .then((value) async {
+          if (value.docs.isNotEmpty) {
+            booking_iiid = await value.docs.length + 186;
+          }
+        })
+            .then((value) async {
+          await FirebaseFirestore.instance
+              .collection("bookings")
+              .doc(getData["booking_id"])
+              .update({
+            "otp_pass": x.toString(),
+            "booking_status": "upcoming",
+            "payment_done": true,
+            "payment_method": "online",
+            "id": booking_iiid
+          });
+        })
+            .then((value) async => {
+          await FirebaseFirestore.instance
+              .collection("booking_notifications")
+              .doc()
+              .set({
+            "title": "upcoming booking",
+            "status": "upcoming",
+            // "payment_done": false,
+            "user_id": number.toString(),
+            "user_name":  Get.find<GlobalUserData>().userData.value["name"],
+            "vendor_id": ven_id,
+            "vendor_name": ven_name,
+            "time_stamp": DateTime.now(),
+            "booking_id": widget.booking_id,
+            "seen": false,
+            "branch": branch
+          })
+              .then((value) => Get.offAll(() => SuccessBook(),
+              arguments: {
+                "otp_pass": x,
+                "booking_details": widget.booking_id
+              }))
+              .then((value) => {
+            showNotification("Booking successful for " + ven_name,
+                "Share OTP at the center to start."),
+          }),
+          await FirebaseFirestore.instance
+              .collection("coupon")
+              .doc(myCouponController.coupon_id.value)
+              .collection("used_by")
+              .doc()
+              .set({
+            "user":  Get.find<GlobalUserData>().userData.value["userId"],
+            "user_name":  Get.find<GlobalUserData>().userData.value["name"],
+            "vendor_id": gymData["gym_id"]
+          }),
+        });
+
+        // :await showNotification("Booking Status You","Booking Unsuccessful");
+
+        // booking_dCachetails["id"]!=null?
+
+      } catch (e) {}
+    }else{
+  Navigator.of(context).pop();
+  showDialog(
+    context: context,
+    builder: (context) =>
+        AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius:
+              BorderRadius.all(
+                  Radius.circular(
+                      16))),
+          content: SizedBox(
+            height: 200,
+            width: 100,
+            child: Stack(
+              children: [
+                Center(
+                  child: Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment
+                          .center,
+                      mainAxisAlignment:
+                      MainAxisAlignment
+                          .center,
+                      children: [
+                        Image.asset(
+                          "assets/icons/x.gif",
+                          height: 100,
+                          width: 100,
+                        ),
+                        const SizedBox(
+                          height: 9,
+                        ),
+                        Text(
+                          "something wrong",
+                          style: const TextStyle(
+                              fontFamily:
+                              "Poppins",
+                              fontSize:
+                              16,
+                              fontWeight:
+                              FontWeight.w600),
+                        ),
+                        const SizedBox(
+                            height:
+                            6),
+                        Text(
+                          "try again",
+                          style: const TextStyle(
+                              fontFamily:
+                              "Poppins",
+                              fontSize:
+                              16,
+                              color: Colors
+                                  .red,
+                              fontWeight:
+                              FontWeight.w600),
+                        ),
+                      ]),
+                ),
+                Positioned(
+                    top: 0,
+                    right: 0,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pop(
+                            context);
+                      },
+                      child: Icon(
+                        Icons
+                            .cancel_outlined,
+                        color: Colors
+                            .black87,
+                        size: 20,
+                      ),
+                    )),
+              ],
+            ),
+          ),
+        ),
+  );
+  }
+
 }
 
   _simplpay() async {
     var client = http.Client();
+
     try {
       var response = await http.post(
           Uri.parse( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction/initiate',),
@@ -193,12 +355,16 @@ check_simpl()async{
       print(response.body);
       print(response.statusCode);
       if(response.statusCode==200){
+
+        Navigator.of(context).pop();
+        Get.to(()=>simpl_pay(check_simpl: check_simpl, gymData: gymData, myCouponController: myCouponController, booking_id: widget.booking_id, grandTotal: grandTotal, getData: getData, totalDiscount: totalDiscount));
+        // _bottomsheet2(context);
         // print("success");
         var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) ;
         print(decodedResponse["data"]["redirection_url"]);
+
         var uri = Uri.parse(decodedResponse["data"]["redirection_url"] );
-        _bottomsheet2(context);
-        Navigator.of(context).pop();
+        //
         if (await canLaunch(uri.toString())) {
           await launch(uri.toString(),
           // forceSafariVC: true,
@@ -1450,6 +1616,7 @@ check_simpl()async{
   OffPay() async {
     makeSure();
   }
+
   _bottomsheet2(BuildContext context) async {
     // var _width = MediaQuery.of(context).size.width;
     // var _height = MediaQuery.of(context).size.height;
@@ -1465,262 +1632,264 @@ check_simpl()async{
         builder: (context) {
           return WillPopScope(
             onWillPop: ()async {
-
+            check_simpl();
               return true;
             },
-            child: StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
-                  return SingleChildScrollView(
-                    child: Container(
-                      // height: 5,
-                      // height: 600,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Padding(
-                              padding: EdgeInsets.only(right: 8.0, top: 8),
-                              child: Align(
-                                alignment: Alignment.topRight,
-                                child: CircleAvatar(
-                                  radius: 10.0,
-                                  backgroundColor: Colors.grey,
-                                  child: Icon(
-                                    Icons.close,
-                                    size: 16,
-                                    color: Colors.white,
+            child: Scaffold(
+              body: StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return SingleChildScrollView(
+                      child: Container(
+                        // height: 5,
+                        // height: 600,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.only(right: 8.0, top: 8),
+                                child: Align(
+                                  alignment: Alignment.topRight,
+                                  child: CircleAvatar(
+                                    radius: 10.0,
+                                    backgroundColor: Colors.grey,
+                                    child: Icon(
+                                      Icons.close,
+                                      size: 16,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          const Text(
-                            "Payment method Simpl",
-                            style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
-                          ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            const Text(
+                              "Payment method Simpl",
+                              style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600),
+                            ),
 
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: SizedBox(
-                              height: 60,
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (gymData["cash_pay"] == true)
-                                    setState(() {
-                                      onlinePay = false;
-                                    });
-
-                                  // _PaymentScreenState();
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: Row(children: [
-                                    const SizedBox(
-                                      width: 10,
-                                    ),
-                                    Image.asset(
-                                      "assets/images/Simpl_Logo.png",
-                                      width: 60,
-                                    ),
-                                    const SizedBox(
-                                      width: 20,
-                                    ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: SizedBox(
+                                height: 60,
+                                child: GestureDetector(
+                                  onTap: () {
                                     if (gymData["cash_pay"] == true)
-                                      const Text(
-                                        "Pay at gym",
-                                        style: TextStyle(
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14),
+                                      setState(() {
+                                        onlinePay = false;
+                                      });
+
+                                    // _PaymentScreenState();
+                                  },
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12)),
+                                    child: Row(children: [
+                                      const SizedBox(
+                                        width: 10,
                                       ),
-                                    if (gymData["cash_pay"] == true) const Spacer(),
-                                    if (onlinePay == false ||
-                                        (gymData["online_pay"] == false &&
-                                            gymData["cash_pay"] == true))
-                                      const Icon(
-                                        Icons.check,
-                                        color: Colors.black,
-                                        size: 15,
+                                      Image.asset(
+                                        "assets/images/Simpl_Logo.png",
+                                        width: 60,
                                       ),
-                                    if (gymData["cash_pay"] == false)
-                                      const Text(
-                                        "Cash isn't available in this gym",
-                                        style: TextStyle(
-                                            fontFamily: "Poppins",
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12),
+                                      const SizedBox(
+                                        width: 20,
                                       ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                  ]),
+                                      if (gymData["cash_pay"] == true)
+                                        const Text(
+                                          "Pay at gym",
+                                          style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14),
+                                        ),
+                                      if (gymData["cash_pay"] == true) const Spacer(),
+                                      if (onlinePay == false ||
+                                          (gymData["online_pay"] == false &&
+                                              gymData["cash_pay"] == true))
+                                        const Icon(
+                                          Icons.check,
+                                          color: Colors.black,
+                                          size: 15,
+                                        ),
+                                      if (gymData["cash_pay"] == false)
+                                        const Text(
+                                          "Cash isn't available in this gym",
+                                          style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12),
+                                        ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                    ]),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
+                            const SizedBox(
+                              height: 10,
+                            ),
 
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: SizedBox(
-                              // height: 155,
-                              child: Card(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, top: 8, right: 8, bottom: 10),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Payment",
-                                          style: GoogleFonts.poppins(
-                                            // fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 18,
-                                              color: Colors.green),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "Total amount",
-                                              style: GoogleFonts.poppins(
-                                                // fontFamily: "Poppins",
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 16),
-                                            ),
-                                            const Spacer(),
-                                            Text(
-                                              "₹${getData["totalPrice"]}",
-                                              style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 16),
-                                            ),
-                                            const SizedBox(
-                                              width: 6,
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "Discount",
-                                              style: GoogleFonts.poppins(
-                                                // fontFamily: "Poppins",
-                                                  fontWeight: FontWeight.w500,
-                                                  fontSize: 16),
-                                            ),
-                                            const Spacer(),
-                                            Obx(
-                                                  () => Text(
-                                                "₹  ${myCouponController.GlobalCouponApplied.value ? myCouponController.CouponDetailsMap.value.toString() : totalDiscount.toString()}",
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              child: SizedBox(
+                                // height: 155,
+                                child: Card(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 8, right: 8, bottom: 10),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Payment",
+                                            style: GoogleFonts.poppins(
+                                              // fontFamily: "Poppins",
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 18,
+                                                color: Colors.green),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Total amount",
                                                 style: GoogleFonts.poppins(
                                                   // fontFamily: "Poppins",
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16),
+                                              ),
+                                              const Spacer(),
+                                              Text(
+                                                "₹${getData["totalPrice"]}",
+                                                style: GoogleFonts.poppins(
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 16),
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              width: 7,
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 7,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "Grand Total",
-                                              style: GoogleFonts.poppins(
-                                                  color: Colors.green,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 16),
-                                            ),
-                                            const Spacer(),
-                                            Text(
-                                              "₹${myCouponController.GlobalCouponApplied.value ? (grandTotal - int.parse(myCouponController.CouponDetailsMap.value)) : grandTotal.toString()}",
-                                              style: GoogleFonts.poppins(
-                                                  color: Colors.green,
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 16),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  )),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width *.44,
-                                child: FloatingActionButton.extended(
-                                    backgroundColor: Colors.green,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10)),
-                                    label: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal:8.0),
-                                      child: Text(
-                                        "Confirm Payment",
-                                        style: GoogleFonts.poppins(
-
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                            color: Colors.white),
+                                              const SizedBox(
+                                                width: 6,
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Discount",
+                                                style: GoogleFonts.poppins(
+                                                  // fontFamily: "Poppins",
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 16),
+                                              ),
+                                              const Spacer(),
+                                              Obx(
+                                                    () => Text(
+                                                  "₹  ${myCouponController.GlobalCouponApplied.value ? myCouponController.CouponDetailsMap.value.toString() : totalDiscount.toString()}",
+                                                  style: GoogleFonts.poppins(
+                                                    // fontFamily: "Poppins",
+                                                      fontWeight: FontWeight.w700,
+                                                      fontSize: 16),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 7,
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 7,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Grand Total",
+                                                style: GoogleFonts.poppins(
+                                                    color: Colors.green,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 16),
+                                              ),
+                                              const Spacer(),
+                                              Text(
+                                                "₹${myCouponController.GlobalCouponApplied.value ? (grandTotal - int.parse(myCouponController.CouponDetailsMap.value)) : grandTotal.toString()}",
+                                                style: GoogleFonts.poppins(
+                                                    color: Colors.green,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 16),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                       ),
-                                    ),
-                                    onPressed: () async {
-                                      print('hhhhhhhhhhhhhh${widget.booking_id}');
-                                      _simplpay();
-
-                                    }),
+                                    )),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          )
-                        ],
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                                child: SizedBox(
+                                  width: MediaQuery.of(context).size.width *.44,
+                                  child: FloatingActionButton.extended(
+                                      backgroundColor: Colors.green,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10)),
+                                      label: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal:8.0),
+                                        child: Text(
+                                          "Confirm Payment",
+                                          style: GoogleFonts.poppins(
+
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        print('hhhhhhhhhhhhhh${widget.booking_id}');
+                                        check_simpl();
+
+                                      }),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  }),
+            ),
           );
         });
   }
@@ -2095,28 +2264,41 @@ check_simpl()async{
                             ),
                             onPressed: () async {
                               print('hhhhhhhhhhhhhh${widget.booking_id}');
-                              // if(PAY)
-                              _simplpay();
-                              // await FirebaseFirestore.instance
-                              //     .collection("bookings")
-                              //     .doc(booking_id)
-                              //     .update({
-                              //   "discount":
-                              //       myCouponController.GlobalCouponApplied.value
-                              //           ? (int.parse(myCouponController
-                              //               .CouponDetailsMap.value))
-                              //           : totalDiscount,
-                              //   "grand_total":
-                              //       myCouponController.GlobalCouponApplied.value
-                              //           ? (grandTotal -
-                              //                   int.parse(myCouponController
-                              //                       .CouponDetailsMap.value))
-                              //               .toString()
-                              //           : grandTotal.toString(),
-                              //   "tax_pay": taxPay,
-                              //   "booking_status": "incomplete",
-                              // });
-                              // // await getBookingData(booking_id);
+                              await FirebaseFirestore.instance
+                                  .collection("bookings")
+                                  .doc(widget.booking_id)
+                                  .update({
+                                "discount":
+                                myCouponController.GlobalCouponApplied.value
+                                    ? (int.parse(myCouponController
+                                    .CouponDetailsMap.value))
+                                    : totalDiscount,
+                                "grand_total":
+                                myCouponController.GlobalCouponApplied.value
+                                    ? (grandTotal -
+                                    int.parse(myCouponController
+                                        .CouponDetailsMap.value))
+                                    .toString()
+                                    : grandTotal.toString(),
+                                "tax_pay": taxPay,
+                                "booking_status": "incomplete",
+                              }).then((value){
+                                if(PAY=="simpl"){
+                                  _simplpay();
+                                }
+                                if(PAY=="on"){
+                                  Pay();
+                                }
+                                if(PAY=="off"){
+                                  OffPay();
+                                }
+                              });
+
+                              // check_simpl();
+
+
+
+                              // await getBookingData(booking_id);
                               // onlinePay == true && gymData["online_pay"]
                               //     ? Pay()
                               //     :  gymData["cash_pay"]?OffPay():SizedBox();
@@ -2216,6 +2398,295 @@ class DetailBox extends StatelessWidget {
             ],
           ))
         ],
+      ),
+    );
+  }
+
+}
+class simpl_pay extends StatelessWidget {
+  final Function check_simpl;
+  final gymData;
+  final myCouponController;
+  final booking_id;
+  final grandTotal;
+  final getData;
+  final totalDiscount;
+  const simpl_pay({Key? key,required this.check_simpl,required this.gymData,required this.myCouponController,required this.booking_id,
+    required this.grandTotal,required this.getData,required this.totalDiscount}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: ()async {
+        check_simpl();
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 1,
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title:  Text(
+            "Payment method Simpl",
+            style: TextStyle(
+                fontFamily: "Poppins",
+                fontSize: 18,
+                fontWeight: FontWeight.w600),
+          ),
+          leading: IconButton(icon: Icon(CupertinoIcons.back),
+            onPressed: () {
+          check_simpl();
+          },),
+        ),
+        body: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return Container(
+                // height: 5,
+                // height: 600,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(12)),
+                child: Column(
+                  children: [
+                    Spacer(),
+                    // SizedBox(
+                    //   height:MediaQuery.of(context).size.height*.4,
+                    // ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     Navigator.of(context).pop();
+                    //   },
+                    //   child: const Padding(
+                    //     padding: EdgeInsets.only(right: 8.0, top: 8),
+                    //     child: Align(
+                    //       alignment: Alignment.topRight,
+                    //       child: CircleAvatar(
+                    //         radius: 10.0,
+                    //         backgroundColor: Colors.grey,
+                    //         child: Icon(
+                    //           Icons.close,
+                    //           size: 16,
+                    //           color: Colors.white,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    // const
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: SizedBox(
+                        height: 60,
+                        child: GestureDetector(
+                          onTap: () {
+                            if (gymData["cash_pay"] == true)
+                              setState(() {
+                                onlinePay = false;
+                              });
+
+                            // _PaymentScreenState();
+                          },
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Row(children: [
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Image.asset(
+                                "assets/images/Simpl_Logo.png",
+                                width: 60,
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              if (gymData["cash_pay"] == true)
+                                const Text(
+                                  "Pay at gym",
+                                  style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14),
+                                ),
+                              if (gymData["cash_pay"] == true) const Spacer(),
+                              if (onlinePay == false ||
+                                  (gymData["online_pay"] == false &&
+                                      gymData["cash_pay"] == true))
+                                const Icon(
+                                  Icons.check,
+                                  color: Colors.black,
+                                  size: 15,
+                                ),
+                              if (gymData["cash_pay"] == false)
+                                const Text(
+                                  "Cash isn't available in this gym",
+                                  style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12),
+                                ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: SizedBox(
+                        // height: 155,
+                        child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 8.0, top: 8, right: 8, bottom: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Payment",
+                                    style: GoogleFonts.poppins(
+                                      // fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 18,
+                                        color: Colors.green),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Total amount",
+                                        style: GoogleFonts.poppins(
+                                          // fontFamily: "Poppins",
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        "₹${getData["totalPrice"]}",
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16),
+                                      ),
+                                      const SizedBox(
+                                        width: 6,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Discount",
+                                        style: GoogleFonts.poppins(
+                                          // fontFamily: "Poppins",
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                      const Spacer(),
+                                      Obx(
+                                            () => Text(
+                                          "₹  ${myCouponController.GlobalCouponApplied.value ? myCouponController.CouponDetailsMap.value.toString() : totalDiscount.toString()}",
+                                          style: GoogleFonts.poppins(
+                                            // fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 7,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 7,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Grand Total",
+                                        style: GoogleFonts.poppins(
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        "₹${myCouponController.GlobalCouponApplied.value ? (grandTotal - int.parse(myCouponController.CouponDetailsMap.value)) : grandTotal.toString()}",
+                                        style: GoogleFonts.poppins(
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16),
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width *.44,
+                          child: FloatingActionButton.extended(
+                              backgroundColor: Colors.green,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              label: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal:8.0),
+                                child: Text(
+                                  "Confirm Payment",
+                                  style: GoogleFonts.poppins(
+
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: Colors.white),
+                                ),
+                              ),
+                              onPressed: () async {
+                                print('hhhhhhhhhhhhhh${booking_id}');
+                                check_simpl();
+
+                              }),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    )
+                  ],
+                ),
+              );
+            }),
       ),
     );
   }
