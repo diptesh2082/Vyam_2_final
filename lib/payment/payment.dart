@@ -255,7 +255,7 @@ check_simpl()async{
 
       } catch (e) {}
     }else{
-  Navigator.of(context).pop();
+
   showDialog(
     context: context,
     builder: (context) =>
@@ -2435,7 +2435,9 @@ class simpl_pay extends StatelessWidget {
           ),
           leading: IconButton(icon: Icon(CupertinoIcons.back),
             onPressed: () {
-          check_simpl();
+              check_simpl();
+            Navigator.pop(context);
+
           },),
         ),
         body: StatefulBuilder(

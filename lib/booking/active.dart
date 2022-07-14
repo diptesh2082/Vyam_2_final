@@ -165,13 +165,16 @@ class ActiveEvent extends StatelessWidget {
                                             //         .contains("month"))
                                               Row(
                                                 children: [
-                                                  Text(
-                                                    "Package : ${data.docs[index]["booking_plan"]??""}",
-                                                    style: GoogleFonts.poppins(
-                                                        color: HexColor("3A3A3A"),
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                        FontWeight.w700),
+                                                  SizedBox(
+                                                    width: MediaQuery.of(context).size.width*.45,
+                                                    child: Text(
+                                                      "Package : ${data.docs[index]["booking_plan"]??""}",
+                                                      style: GoogleFonts.poppins(
+                                                          color: HexColor("3A3A3A"),
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                          FontWeight.w700),
+                                                    ),
                                                   ),
                                                   Text(
                                                     "",
@@ -276,12 +279,12 @@ class ActiveEvent extends StatelessWidget {
                                           // "",
 
                                           fit: BoxFit.cover,
-                                          maxWidthDiskCache: 450,
-                                          // maxHeightDiskCache: 500,
+                                          maxWidthDiskCache: 400,
+                                          maxHeightDiskCache: 420,
                                           height: 150,
                                           imageUrl: data.docs[index]['gym_details']["image"],
                                           progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                              CircularProgressIndicator(value: downloadProgress.progress,),
+                                              Container(),
                                           errorWidget: (context, url, error) => const Icon(Icons.error),
                                         ),
                                       ),

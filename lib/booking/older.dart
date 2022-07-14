@@ -169,13 +169,16 @@ class OlderEvent extends StatelessWidget {
                                             //         .contains("month"))
                                             Row(
                                               children: [
-                                                Text(
-                                                  "Package : ${data.docs[index]["booking_plan"]??""}",
-                                                  style: GoogleFonts.poppins(
-                                                      color: HexColor("3A3A3A"),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                      FontWeight.w700),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context).size.width*.45,
+                                                  child: Text(
+                                                    "Package : ${data.docs[index]["booking_plan"]??""}",
+                                                    style: GoogleFonts.poppins(
+                                                        color: HexColor("3A3A3A"),
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                        FontWeight.w700),
+                                                  ),
                                                 ),
                                                 Text(
                                                   "",
@@ -278,12 +281,13 @@ class OlderEvent extends StatelessWidget {
                                         width: 130,
                                         child: CachedNetworkImage(
                                           // ""
-                                          maxHeightDiskCache: 450,
+                                          maxWidthDiskCache: 400,
+                                          maxHeightDiskCache: 420,
                                           fit: BoxFit.cover,
                                           height: 150,
                                           imageUrl: data.docs[index]['gym_details']["image"],
                                           progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                              CircularProgressIndicator(value: downloadProgress.progress,),
+                                              Container(),
                                           errorWidget: (context, url, error) => const Icon(Icons.error),
                                         ),
                                       ),

@@ -89,7 +89,7 @@ class _ProgressCardState extends State<ProgressCard> {
           .snapshots(),
       builder: (context,AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child:  const SizedBox());
         }
         if (snapshot.hasError) {
           return const SizedBox();

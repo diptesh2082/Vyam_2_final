@@ -594,10 +594,13 @@ class Banner extends StatelessWidget {
                           maxWidthDiskCache: 650,
                           filterQuality: FilterQuality.medium,
                           height: 143,
-                          imageUrl: data[index]["image"],
+                          imageUrl: data[index]["image"].toString(),
                           errorWidget: (context, url, error) =>
                               const Icon(Icons.error),
+                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                              Container(),
                         ),
+
                       ),
                       const SizedBox(
                         width: 5,

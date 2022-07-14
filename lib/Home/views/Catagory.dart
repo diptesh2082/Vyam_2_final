@@ -23,7 +23,7 @@ class Catagory extends StatelessWidget {
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: Container());
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return  Center(child: Container());
@@ -48,6 +48,9 @@ class Catagory extends StatelessWidget {
                         height: 150,
                         width: 124,
                         fit: BoxFit.cover,
+                        progressIndicatorBuilder: (context, url, downloadProgress) =>
+                            Container(),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
                       ),
                     ),
                     Container(

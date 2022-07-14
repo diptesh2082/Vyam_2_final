@@ -181,17 +181,22 @@ class UpcomingEvent extends StatelessWidget {
                                             Row(
                                               children: [
                                                 SizedBox(
-                                                  child: Text(
-                                                    "Package : ${data.docs[index]["booking_plan"]??""}",
-                                                    overflow: TextOverflow.ellipsis,
-                                                    maxLines: 1,
-                                                    style: GoogleFonts.poppins(
-                                                        color: HexColor("3A3A3A"),
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                        FontWeight.w700),
+
+                                                  child: SizedBox(
+                                                    child: Text(
+                                                      "Package : ${data.docs[index]["booking_plan"]??""}",
+                                                      overflow: TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                      style: GoogleFonts.poppins(
+                                                          color: HexColor("3A3A3A"),
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                          FontWeight.w700),
+                                                    ),
+                                                    width: MediaQuery.of(context).size.width*.45,
                                                   ),
                                                 ),
+
                                                 Text(
                                                   "",
                                                   // data.docs[index]['workout']
@@ -296,12 +301,14 @@ class UpcomingEvent extends StatelessWidget {
                                           // width: 130,
                                           child: CachedNetworkImage(
                                             // "",
-                                            maxHeightDiskCache: 450,
+
                                             fit: BoxFit.cover,
                                             height: 150,
+                                            maxWidthDiskCache: 400,
+                                            maxHeightDiskCache: 420,
                                             imageUrl: data.docs[index]['gym_details']["image"],
                                             progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                CircularProgressIndicator(value: downloadProgress.progress,),
+                                                Container(),
                                             errorWidget: (context, url, error) => const Icon(Icons.error),
                                           ),
                                         ),
