@@ -599,8 +599,40 @@ class _ExploreiaState extends State<Exploreia> {
                       //   primary: Colors.white.withOpacity(.0)
                       // ),
                       onPressed: () async {
-                        final pos = await location.getLocation();
-                        _gotoLocation(pos.latitude!, pos.longitude!);
+                        // final pos = await location.getLocation();
+
+                        Position position =
+                        await Geolocator.getCurrentPosition();
+                        _gotoLocation(position.latitude, position.longitude);
+                        await GetAddressFromLatLong(position);
+                        await FirebaseFirestore.instance
+                            .collection("user_details")
+                            .doc(number)
+                            .update({
+                          "location": GeoPoint(
+                              position.latitude, position.longitude),
+                          "address": address,
+                          // "lat": position.latitude,
+                          // "long": position.longitude,
+                          "pincode": pin,
+                          "locality": locality,
+                          "subLocality": locality,
+                          // "number": number
+                        });
+                        // await runRun();
+                        if (mounted) {
+                          setState(() {
+                            myaddress = myaddress;
+                            address = address;
+                            pin = pin;
+                            isLoading = false;
+                          });
+                        }
+                        Get.back();
+                        setState(() {
+                          location_service = true;
+                        });
+
                       },
                       // child: Center(
                       //   child: const Icon(Icons.my_location_outlined

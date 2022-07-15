@@ -42,7 +42,7 @@ class YogaList extends StatefulWidget {
 }
 
 class _YogaListState extends State<YogaList> {
-  BookingDetails bookingDetails = BookingDetails();
+  // BookingDetails bookingDetails = BookingDetails();
 
   GlobalSnacbar globalSnacbar = GlobalSnacbar();
   final bookings = FirebaseFirestore.instance
@@ -327,9 +327,9 @@ class _YogaListState extends State<YogaList> {
                                           //     }
                                           // )
                                           // ;
-                                          bookingDetails.bookingDetails(
+                                         bookingDetails(
                                             context,
-                                            snapshot,
+                                            // snapshot,
                                             data.docs,
                                             data.docs[snapshot]['type'],
                                             widget.gymName,

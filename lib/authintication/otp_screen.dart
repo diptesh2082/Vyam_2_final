@@ -190,6 +190,7 @@ class _OtpPageState extends State<OtpPage> with CodeAutoFill {
   @override
   void dispose() {
     _timer!.cancel();
+    otpController.dispose();
     super.dispose();
   }
   // bool isLoding=true;

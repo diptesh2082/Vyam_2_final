@@ -36,7 +36,7 @@ class Packeges extends StatefulWidget {
 }
 
 class _PackegesState extends State<Packeges> {
-  BookingDetails bookingDetails = BookingDetails();
+  // BookingDetails bookingDetails = BookingDetails();
 
   var dateTime;
   bool isLoading = true;
@@ -511,11 +511,11 @@ class _PackegesState extends State<Packeges> {
                                                         ?.unfocus();
                                                     // FocusScope.of(context).requestFocus( FocusNode());
 
-                                                    bookingDetails
-                                                        .bookingDetails(
+
+                                                        bookingDetails(
                                                       context,
-                                                      snapshot,
-                                                      data.docs,
+                                                      // snapshot,
+                                                      data.docs[snapshot],
                                                       // "",
                                                       data.docs[snapshot]
                                                           ['title'],

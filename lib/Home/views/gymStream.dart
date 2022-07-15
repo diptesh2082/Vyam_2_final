@@ -87,6 +87,30 @@ class BuildBox extends StatelessWidget {
               if (document.isNotEmpty) {
                 return Column(
                   children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Material(
+                        borderRadius:
+                        BorderRadius.circular(10),
+                        elevation: 0,
+                        child: SizedBox(
+                          height: 30,
+                          width: 130,
+                          child: Center(
+                            child: Text(
+                              "Nearby Gyms",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight:
+                                  FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
                     ListView.separated(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
