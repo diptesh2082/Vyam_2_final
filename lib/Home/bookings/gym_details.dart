@@ -1010,7 +1010,7 @@ class _GymDetailsState extends State<GymDetails> {
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight:
-                                                        FontWeight.bold),
+                                                        FontWeight.w500),
                                               );
                                             }),
                                       )
@@ -1412,7 +1412,7 @@ class _GymDetailsState extends State<GymDetails> {
                       children: [
                         Text(
                           text,
-                          style: TextStyle(
+                          style: GoogleFonts.poppins(
                               fontWeight: FontWeight.bold, fontSize: 15),
                         ),
                         SizedBox(
@@ -1420,8 +1420,9 @@ class _GymDetailsState extends State<GymDetails> {
                         ),
                         Text(
                           subText,
-                          style: TextStyle(
-                            fontSize: 8,
+                          style:  GoogleFonts.poppins(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500
                           ),
                         ),
                       ]),

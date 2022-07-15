@@ -202,10 +202,8 @@ class BookingDetails {
                                           print(booking_id);
                                           await FirebaseFirestore.instance
                                               .collection("bookings")
-                                              // .where("booking_id", isEqualTo: )
                                               .doc(booking_id)
                                               .update({
-                                            // "time_stamp":serv
                                             "booking_plan":
                                                 newBookingList[index]['title'],
                                             "booking_price":   bookingList[index]["ptype"]==true?(int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["original_price"]) * int.parse(bookingList[index]["discount"]) / 100).round()):(int.parse(bookingList[index]["original_price"]) - (int.parse(bookingList[index]["discount"]) )),
