@@ -432,28 +432,7 @@ class _FirstHomeState extends State<FirstHome> {
                                       const SizedBox(
                                         height: 7,
                                       ),
-                                    // if (Get.find<Need>().search.value.isEmpty)
-                                    //   Align(
-                                    //     alignment: Alignment.centerLeft,
-                                    //     child: Material(
-                                    //       borderRadius:
-                                    //           BorderRadius.circular(10),
-                                    //       elevation: 0,
-                                    //       child: SizedBox(
-                                    //         height: 30,
-                                    //         width: 130,
-                                    //         child: Center(
-                                    //           child: Text(
-                                    //             "Nearby Gyms",
-                                    //             style: GoogleFonts.poppins(
-                                    //                 fontSize: 16,
-                                    //                 fontWeight:
-                                    //                     FontWeight.w600),
-                                    //           ),
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //   ),
+
                                     if (Get.find<Need>().search.value.isEmpty)
                                       const SizedBox(
                                         height: 7,

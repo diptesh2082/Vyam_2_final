@@ -36,7 +36,7 @@ class Packeges extends StatefulWidget {
 }
 
 class _PackegesState extends State<Packeges> {
-  // BookingDetails bookingDetails = BookingDetails();
+  BookingDetails bookingDetails = BookingDetails();
 
   var dateTime;
   bool isLoading = true;
@@ -117,7 +117,7 @@ class _PackegesState extends State<Packeges> {
         "name": widget.gymName,
         "branch": widget.doc["branch"]
       },
-      "daysLeft": "0",
+      // "daysLeft": "0",
       "discount": "0",
       "grand_total": "",
       "tax_pay": "",
@@ -358,28 +358,7 @@ class _PackegesState extends State<Packeges> {
                                                   MainAxisAlignment.start,
                                               // crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                // if (int.parse(
-                                                //         data.docs[snapshot]
-                                                //             ['price']) >
-                                                //     100)
-                                                //   if (int.parse(
-                                                //           data.docs[snapshot]
-                                                //               ['price']) <
-                                                //       100)
-                                                // Text(
-                                                //   data.docs[snapshot]
-                                                //           ['title']
-                                                //       .toUpperCase(),
-                                                //   style:
-                                                //       GoogleFonts.poppins(
-                                                //           fontSize: 16,
-                                                //           color: HexColor(
-                                                //               "3A3A3A"),
-                                                //           fontWeight:
-                                                //               FontWeight
-                                                //                   .w600),
-                                                // ),
-                                                // const Spacer(),
+
                                                 Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -503,32 +482,37 @@ class _PackegesState extends State<Packeges> {
                                                 MaterialButton(
                                                   elevation: 2,
                                                   onPressed: () async {
-                                                    FocusScope.of(context)
-                                                        .unfocus();
+                                                    // FocusScope.of(context)
+                                                    //     .unfocus();
                                                     // CreateBooking();
-                                                    FocusManager
-                                                        .instance.primaryFocus
-                                                        ?.unfocus();
+
                                                     // FocusScope.of(context).requestFocus( FocusNode());
+                                                      try{
+                                                        FocusManager
+                                                            .instance.primaryFocus
+                                                            ?.unfocus();
+                                                        bookingDetails.bookingDetails(
+                                                            context,
+                                                            snapshot,
+                                                            data.docs,
+                                                            // "",
+                                                            data.docs[snapshot]
+                                                            ['title'],
+                                                            widget.gymName,
+                                                            widget.gymLocation,
+                                                            id,
+                                                            widget.getFinalID,
+                                                            widget.doc,
+                                                            data.docs[snapshot]['description'],
+                                                            widget.branch
+                                                        );
+                                                        // CreateBooking(id);
+                                                        await Future.wait(CreateBooking(id)) ;
+                                                      }finally{
+
+                                                      }
 
 
-                                                        bookingDetails(
-                                                      context,
-                                                      // snapshot,
-                                                      data.docs[snapshot],
-                                                      // "",
-                                                      data.docs[snapshot]
-                                                          ['title'],
-                                                      widget.gymName,
-                                                      widget.gymLocation,
-                                                      id,
-                                                      widget.getFinalID,
-                                                      widget.doc,
-                                                        data.docs[snapshot]['description'],
-                                                      widget.branch
-                                                    );
-                                                    // CreateBooking(id);
-                                                    await Future.wait(CreateBooking(id)) ;
                                                   },
                                                   color: HexColor("292F3D"),
                                                   shape: RoundedRectangleBorder(

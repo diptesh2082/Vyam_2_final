@@ -93,7 +93,7 @@ class _SelectDateState extends State<SelectDate> {
   void initState() {
     print(widget.days);
     print("+++++++++++++++++++++++++++++");
-    getDays = int.parse(widget.days);
+    getDays = int.parse(widget.days.toString());
     total_discount = 0;
     // if (widget.months.contains("pay per session")) {
     //   getDays = 1;
@@ -108,7 +108,7 @@ class _SelectDateState extends State<SelectDate> {
     //   getDays = 168;
     // }
     _selectedDay = DateTime.now();
-    endDate = DateTime.now().add(Duration(days: int.parse(widget.days)));
+    endDate = DateTime.now().add(Duration(days: int.parse(widget.days.toString())));
     selected_week = now.weekday;
     current_mon = now.month;
     end_mon = DateTime.now().add(Duration(days: getDays)).month;
@@ -183,7 +183,7 @@ class _SelectDateState extends State<SelectDate> {
                         selected_week = _selectedDay.weekday;
                         startDate = _selectedDay;
                         endDate = _selectedDay
-                            .add(Duration(days: int.parse(widget.days)));
+                            .add(Duration(days: int.parse(widget.days.toString())));
 
                         end_mon =
                             _selectedDay.add(Duration(days: getDays)).month;

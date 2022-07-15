@@ -30,14 +30,14 @@ String male =
 String female =
     "https://firebasestorage.googleapis.com/v0/b/vyam-f99ab.appspot.com/o/user_images%2FAvatar.png?alt=media&token=4cd8e6ae-d54c-45d1-aede-9b695982dba6";
 
-class ProfilePart extends StatefulWidget {
+class ProfilePart extends StatelessWidget {
   ProfilePart({Key? key}) : super(key: key);
 
-  @override
-  State<ProfilePart> createState() => _ProfilePartState();
-}
-
-class _ProfilePartState extends State<ProfilePart> {
+//   @override
+//   State<ProfilePart> createState() => _ProfilePartState();
+// }
+//
+// class _ProfilePartState extends State<ProfilePart> {
   final String playStoreUrl =
       'https://play.google.com/store/apps/details?id=com.findnearestfitness.vyam';
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -58,7 +58,7 @@ class _ProfilePartState extends State<ProfilePart> {
   String gender = "";
   var imageUrl = "";
   // final id = number;
-  bool Loading = true;
+  bool Loading = false;
   DefaultCacheManager manager = new DefaultCacheManager();
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -105,12 +105,12 @@ class _ProfilePartState extends State<ProfilePart> {
   // }
 
   // final FirebaseAuth _auth =FirebaseAuth.instance;
-  @override
-  void initState() {
-    // getUserData();
-    Loading = false;
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   // getUserData();
+  //   Loading = false;
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
