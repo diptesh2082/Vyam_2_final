@@ -1370,19 +1370,24 @@ class _GymDetailsState extends State<GymDetails> {
                     width: 10,
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(
-                      text,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                    ),
-                    SizedBox(height: 5,),
-                    Text(
-                      subText,
-                      style: TextStyle(fontSize:8,),
-                    ),
-
-                  ]),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          text,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 15),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          subText,
+                          style: TextStyle(
+                            fontSize: 8,
+                          ),
+                        ),
+                      ]),
                 ],
               ),
             ),
@@ -1391,4 +1396,15 @@ class _GymDetailsState extends State<GymDetails> {
       );
 
   Widget buildSheet() => Container();
+  // SafeArea(
+  //       child: Column(
+  //         children: [
+  //           Text(
+  //             "Offer Details",
+  //             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+  //           ),
+  //           Divider(color: Colors.grey),
+  //         ],
+  //       ),
+  //     );
 }
