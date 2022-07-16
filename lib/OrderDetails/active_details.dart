@@ -107,8 +107,8 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                       height: 150,
                                       width: MediaQuery.of(context).size.width *
                                           .5,
-                                      maxHeightDiskCache: 500,
-                                      maxWidthDiskCache: 500,
+                                      maxWidthDiskCache: 400,
+                                      maxHeightDiskCache: 420,
                                       imageUrl: doc["doc"]['gym_details']
                                           ["image"],
                                     ),

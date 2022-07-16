@@ -12,15 +12,22 @@ import '../icons/profileicon_icons.dart';
 
 class SearchIt extends StatefulWidget {
   const SearchIt({Key? key}) : super(key: key);
-
   @override
   State<SearchIt> createState() => _SearchItState();
 }
 
 class _SearchItState extends State<SearchIt> {
+
+
   // TextEditingController searchController = TextEditingController();
-  String searchGymName = '';
+  // String searchGymName = '';
   FocusNode _node = FocusNode();
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _node.unfocus();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -50,7 +57,10 @@ class _SearchItState extends State<SearchIt> {
                       // controller: searchController,
                       onChanged: (value) {
                         if (value.length == 0) {
-                          _node.unfocus();
+                          Future.delayed(Duration(milliseconds: 200),(){
+                            _node.unfocus();
+                          });
+
                           // FocusScope.of(context).unfocus();
                         }
                         Get.find<Need>().search.value = value.toString().trim();
@@ -153,8 +163,8 @@ class _SearchItState extends State<SearchIt> {
                         itemCount: document.length,
                         itemBuilder: (context, index) {
                           var distance = calculateDistance(
-                              GlobalUserData["location"].latitude,
-                              GlobalUserData["location"].longitude,
+                              Get.find<GlobalUserData>().userData.value["location"].latitude,
+                              Get.find<GlobalUserData>().userData.value["location"].longitude,
                               document[index]["location"].latitude,
                               document[index]["location"].longitude);
                           distance =
@@ -202,8 +212,7 @@ class _SearchItState extends State<SearchIt> {
                                                       : Colors.black,
                                                   BlendMode.color),
                                               child: CachedNetworkImage(
-                                                maxHeightDiskCache: 480,
-                                                maxWidthDiskCache: 750,
+                                                maxHeightDiskCache: 600,
                                                 filterQuality:
                                                     FilterQuality.low,
                                                 height: 210,

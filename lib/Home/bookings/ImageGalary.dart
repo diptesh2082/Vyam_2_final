@@ -43,6 +43,7 @@ class _ImageGalleryState extends State<ImageGallery> {
         loading = false;
       });
     });
+
   }
   // var III = DefaultCacheManager().getFileFromCache(url);
 
@@ -75,6 +76,12 @@ class _ImageGalleryState extends State<ImageGallery> {
     });
     // loadImage();
     super.initState();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    page_controller.dispose();
+    super.dispose();
   }
 
   @override

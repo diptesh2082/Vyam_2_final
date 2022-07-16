@@ -23,8 +23,13 @@ late AndroidNotificationChannel channel;
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   print("A bg message just showed up : ${message.messageId}");
+}
+
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print(message.data.toString());
+  print(message.notification!.title);
 }
 
 Future<void> main() async {
@@ -35,7 +40,7 @@ Future<void> main() async {
   } catch (e) {
     number = "";
   }
-
+  Get.lazyPut(() => GlobalUserData());
   await myLocation();
   await getInfo();
   // getAddress();
@@ -110,7 +115,34 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
 
     FirebaseMessaging.instance.getInitialMessage();
+// <<<<<<< HEAD
     // FirebaseCrashlytics.instance.crash();
+// =======
+// <<<<<<< HEAD
+//     //
+//     FirebaseMessaging.onMessage.listen((RemoteMessage message){
+//
+//       if(message.notification != null)
+//         {
+//           print(message.notification!.body);
+//           print(message.notification!.title);
+//           // Get.to(()=>HomePage());
+//
+//         }
+//
+//     });
+//     //
+//     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message)
+//     {
+//       print('A new onMessageOpenedApp event was published!');
+//       // Navigator.pushNamed(context,GymDetails.id,);
+//       Get.to(()=>HomePage());
+//
+//       // final routeFromMessage = message.data["GymDetails"];
+//       // print(routeFromMessage);
+//
+// =======
+// >>>>>>> 730ad5b1b982c1cc820d8984882a770b957e963b
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;

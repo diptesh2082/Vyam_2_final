@@ -38,10 +38,7 @@ var long;
 
 // = GlobalUserData["location"].longitude;
 class _ExploreiaState extends State<Exploreia> {
-  static final _initialCameraPosition = CameraPosition(
-    target: LatLng(lat, long),
-    zoom: 12,
-  );
+
 
   final Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -90,8 +87,7 @@ class _ExploreiaState extends State<Exploreia> {
     final Marker marker = Marker(
       icon: BitmapDescriptor.defaultMarker,
       markerId: markerId,
-      position:
-          LatLng(specify['location'].latitude, specify['location'].longitude),
+      position: LatLng(specify['location'].latitude, specify['location'].longitude),
       infoWindow: InfoWindow(title: 'Gym', snippet: specify['name']),
     );
     setState(() {
@@ -99,13 +95,10 @@ class _ExploreiaState extends State<Exploreia> {
     });
   }
 
-  // if (!serviceEnabled) {
-  // await Geolocator.openLocationSettings();
-  // return Future.error('Location services are disabled.');
-  // }
+
 
   getMarkerData() async {
-    await Firebase.initializeApp();
+    // await Firebase.initializeApp();
     await FirebaseFirestore.instance
         .collection('product_details')
         .get()
@@ -159,35 +152,11 @@ class _ExploreiaState extends State<Exploreia> {
       });
     }
 
-    // Position position = await _determinePosition();
-    // await GetAddressFromLatLong(position);
-    // if(mounted) {
-    //   setState(() {
-    //     myaddress = myaddress;
-    //     address = address;
-    //     pin = pin;
-    //   });
-    // }
-    // await FirebaseFirestore.instance
-    //     .collection("user_details")
-    //     .doc(number)
-    //     .update({
-    //   "location": GeoPoint(position.latitude, position.longitude),
-    //   "address": address,
-    //   // "lat": position.latitude,
-    //   // "long": position.longitude,
-    //   "pincode": pin,
-    //   "locality": locality,
-    //   "subLocality": locality,
-    //   // "number": number
-    // });
-    // setState(() {
-    //   location_service =  true;
-    // });
+
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
-    if (!serviceEnabled || GlobalUserData["address"] == "") {
+    if (!serviceEnabled ||  Get.find<GlobalUserData>().userData.value["address"] == "") {
       setState(() {
         isLoading = true;
         location_service = false;
@@ -204,19 +173,6 @@ class _ExploreiaState extends State<Exploreia> {
           child: WillPopScope(
             onWillPop: () async {
               print("hola hola behen ka lola");
-              // await FirebaseFirestore.instance
-              //     .collection("user_details")
-              //     .doc(number)
-              //     .update({
-              //   "location": GeoPoint(position.latitude, position.longitude),
-              //   "address": address,
-              //   // "lat": position.latitude,
-              //   // "long": position.longitude,
-              //   "pincode": pin,
-              //   "locality": locality,
-              //   "subLocality": locality,
-              //   // "number": number
-              // });
 
               var Enabled = await Geolocator.isLocationServiceEnabled();
               if (Enabled) {
@@ -240,30 +196,7 @@ class _ExploreiaState extends State<Exploreia> {
                 isLoading = false;
               });
 
-              // try {
-              //   Position position = await _determinePosition();
-              //   await GetAddressFromLatLong(position);
-              //   if (mounted) {
-              //     setState(() {
-              //       myaddress = myaddress;
-              //       address = address;
-              //       pin = pin;
-              //     });
-              //   }
 
-              //   setState(() {
-              //     location_service = true;
-              //     // isLoading=false;
-              //   });
-              // } catch (e) {
-              //   getEverything();
-              // }
-              //
-              // if(location) {
-              //   setState(() {
-              //   location_service =  true;
-              // });
-              // }
               return true;
             },
             child: AlertDialog(
@@ -386,8 +319,8 @@ class _ExploreiaState extends State<Exploreia> {
 
     setState(() {
       // });
-      lat = GlobalUserData["location"].latitude;
-      long = GlobalUserData["location"].longitude;
+      lat =  Get.find<GlobalUserData>().userData.value["location"].latitude;
+      long =  Get.find<GlobalUserData>().userData.value["location"].longitude;
     });
 
     getMarkerData();
@@ -409,24 +342,7 @@ class _ExploreiaState extends State<Exploreia> {
     await _gotoLocation(latitude, longitude);
   }
 
-  // void _currentLocation() async {
-  //   final GoogleMapController controller = await _controller.future;
-  //   LocationData currentLocation;
-  //   var location =  Location();
-  //   try {
-  //     currentLocation = await location.getLocation();
-  //   } on Exception {
-  //     currentLocation = null;
-  //   }
-  //
-  //   controller.animateCamera(CameraUpdate.newCameraPosition(
-  //     CameraPosition(
-  //       bearing: 0,
-  //       target: LatLng(currentLocation.latitude, currentLocation.longitude),
-  //       zoom: 17.0,
-  //     ),
-  //   ));
-  // }
+
 
   late List<PlacesApiHelperModel>? _list = [];
 
@@ -474,36 +390,38 @@ class _ExploreiaState extends State<Exploreia> {
                   sslKey.currentState!.focusToItem(index);
                   // _gotoLocation(location.latitude, location.longitude);
                 },
-                child: Card(
-                  // key: sslKey,
-                  color: Colors.transparent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  elevation: 8,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      // SizedBox(width: 15,),
-                      if (calculateDistance(
-                              GlobalUserData["location"].latitude,
-                              GlobalUserData["location"].longitude,
-                              document[index]["location"].latitude,
-                              document[index]["location"].longitude) <=
-                          20)
-                        _boxes(
-                          document[index]["display_picture"],
-                          document[index]["name"],
-                          document[index]["location"],
-                          document[index]["address"],
-                          document[index]["rating"].toString(),
-                          document[index]["branch"],
-                          document[index]["gym_status"],
-                        ),
-                      SizedBox(
-                        width: 15,
-                      )
-                    ],
+                child: Obx(
+                  ()=> Card(
+                    // key: sslKey,
+                    color: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    elevation: 8,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        // SizedBox(width: 15,),
+                        if (calculateDistance(
+                            Get.find<GlobalUserData>().userData.value["location"].latitude,
+                            Get.find<GlobalUserData>().userData.value["location"].longitude,
+                                document[index]["location"].latitude,
+                                document[index]["location"].longitude) <=
+                            20)
+                          _boxes(
+                            document[index]["display_picture"],
+                            document[index]["name"],
+                            document[index]["location"],
+                            document[index]["address"],
+                            document[index]["rating"].toString(),
+                            document[index]["branch"],
+                            document[index]["gym_status"],
+                          ),
+                        SizedBox(
+                          width: 15,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -523,46 +441,7 @@ class _ExploreiaState extends State<Exploreia> {
     // getEverything();
     // if(location_service)
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Transform(
-      //     transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
-      //     child: SizedBox(
-      //       child: TextField(
-      //         controller:test_controller,
-      //         autofocus: false,
-      //         onChanged: (value) async {
-      //           _list = await RequestHelper().getPlaces(query: value);
-      //           setState(() {});
-      //           if (value.isEmpty) {
-      //             _list!.clear();
-      //             setState(() {});
-      //           }
-      //         },
-      //         onSubmitted: (value){
-      //           FocusScope.of(context).unfocus();
-      //           setState(() {
-      //             showPlacessuggesstions? showPlacessuggesstions =true:showPlacessuggesstions=false ;
-      //           });
-      //
-      //         },
-      //         decoration: const InputDecoration(
-      //             hintText: 'Search places',
-      //             hintStyle: TextStyle(fontWeight: FontWeight.bold),
-      //             prefixIcon: Icon(Icons.search)),
-      //         onTap: () {
-      //           setState(() {
-      //
-      //             FocusScope.of(context).unfocus();
-      //             showPlacessuggesstions? showPlacessuggesstions =false:showPlacessuggesstions=true ;
-      //             test_controller.clear();
-      //           });
-      //         },
-      //       ),
-      //     ),
-      //   ),
-      //   backgroundColor: Colors.white,
-      //   elevation: 0,
-      // ),
+
       backgroundColor: scaffoldColor,
       body: SafeArea(
         child: Stack(
@@ -573,8 +452,8 @@ class _ExploreiaState extends State<Exploreia> {
               mapType: MapType.terrain,
               zoomControlsEnabled: false,
               initialCameraPosition: CameraPosition(
-                target: LatLng(GlobalUserData["location"].latitude!,
-                    GlobalUserData["location"].longitude!),
+                target: LatLng( Get.find<GlobalUserData>().userData.value["location"].latitude!,
+                    Get.find<GlobalUserData>().userData.value["location"].longitude!),
                 zoom: 10,
               ),
               myLocationEnabled: true,
@@ -586,7 +465,7 @@ class _ExploreiaState extends State<Exploreia> {
               },
               markers: Set<Marker>.of(markers.values),
             ),
-            GlobalUserData["address"] != ""
+            Get.find<GlobalUserData>().userData.value["address"] != ""
                 ? Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
@@ -594,7 +473,7 @@ class _ExploreiaState extends State<Exploreia> {
                       // margin: const EdgeInsets.symmetric(vertical: 18.0),
                       // color: Colors.white.withOpacity(0),
                       height: 136.0,
-                      width: 500,
+                      width: 350,
                       child: StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection("product_details")
@@ -606,8 +485,8 @@ class _ExploreiaState extends State<Exploreia> {
                           builder: (context, AsyncSnapshot streamSnapshot) {
                             if (streamSnapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
+                              return  Center(
+                                child: Container(),
                               );
                             }
 
@@ -616,14 +495,14 @@ class _ExploreiaState extends State<Exploreia> {
                               double d1 = calculateDistance(
                                 a["location"].latitude,
                                 a["location"].longitude,
-                                GlobalUserData["location"].latitude,
-                                GlobalUserData["location"].longitude,
+                                Get.find<GlobalUserData>().userData.value["location"].latitude,
+                                Get.find<GlobalUserData>().userData.value["location"].longitude,
                               );
                               double d2 = calculateDistance(
                                 b["location"].latitude,
                                 b["location"].longitude,
-                                GlobalUserData["location"].latitude,
-                                GlobalUserData["location"].longitude,
+                                Get.find<GlobalUserData>().userData.value["location"].latitude,
+                                Get.find<GlobalUserData>().userData.value["location"].longitude,
                               );
                               if (d1 > d2)
                                 return 1;
@@ -720,8 +599,40 @@ class _ExploreiaState extends State<Exploreia> {
                       //   primary: Colors.white.withOpacity(.0)
                       // ),
                       onPressed: () async {
-                        final pos = await location.getLocation();
-                        _gotoLocation(pos.latitude!, pos.longitude!);
+                        // final pos = await location.getLocation();
+
+                        Position position =
+                        await Geolocator.getCurrentPosition();
+                        _gotoLocation(position.latitude, position.longitude);
+                        await GetAddressFromLatLong(position);
+                        await FirebaseFirestore.instance
+                            .collection("user_details")
+                            .doc(number)
+                            .update({
+                          "location": GeoPoint(
+                              position.latitude, position.longitude),
+                          "address": address,
+                          // "lat": position.latitude,
+                          // "long": position.longitude,
+                          "pincode": pin,
+                          "locality": locality,
+                          "subLocality": locality,
+                          // "number": number
+                        });
+                        // await runRun();
+                        if (mounted) {
+                          setState(() {
+                            myaddress = myaddress;
+                            address = address;
+                            pin = pin;
+                            isLoading = false;
+                          });
+                        }
+                        Get.back();
+                        setState(() {
+                          location_service = true;
+                        });
+
                       },
                       // child: Center(
                       //   child: const Icon(Icons.my_location_outlined

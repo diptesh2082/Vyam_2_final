@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -101,7 +102,7 @@ class _PackegesState extends State<Packeges> {
       // "gym_name": "",
       "vendorId": widget.getFinalID,
       "userId": number,
-      "user_name": GlobalUserData["name"],
+      "user_name":  Get.find<GlobalUserData>().userData.value["name"],
       "booking_accepted": false,
       "payment_done": false,
       "booking_plan": "",
@@ -116,7 +117,7 @@ class _PackegesState extends State<Packeges> {
         "name": widget.gymName,
         "branch": widget.doc["branch"]
       },
-      "daysLeft": "0",
+      // "daysLeft": "0",
       "discount": "0",
       "grand_total": "",
       "tax_pay": "",
@@ -289,7 +290,9 @@ class _PackegesState extends State<Packeges> {
                                                   Row(
                                                     children: [
                                                       Text(
-                                                        "Trending",
+                                      data.docs[snapshot]
+                                      ['tdescribe'],
+                                                        // "Trending",
                                                         style:
                                                             GoogleFonts.poppins(
                                                                 fontSize: 12,
@@ -300,11 +303,18 @@ class _PackegesState extends State<Packeges> {
                                                                         .w800),
                                                       ),
                                                       Flexible(
-                                                        child: Image.asset(
-                                                          "assets/icons/trending.jpeg",
-                                                          height: 20,
+                                                        child: CachedNetworkImage(
+
+                                                          height: 20, imageUrl: data.docs[snapshot]
+                                                        ['trending_img'],
                                                         ),
                                                       ),
+                                                      // Flexible(
+                                                      //   child: Image.asset(
+                                                      //     "assets/icons/trending.jpeg",
+                                                      //     height: 20,
+                                                      //   ),
+                                                      // ),
                                                     ],
                                                   ),
                                                 ],
@@ -348,28 +358,7 @@ class _PackegesState extends State<Packeges> {
                                                   MainAxisAlignment.start,
                                               // crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                // if (int.parse(
-                                                //         data.docs[snapshot]
-                                                //             ['price']) >
-                                                //     100)
-                                                //   if (int.parse(
-                                                //           data.docs[snapshot]
-                                                //               ['price']) <
-                                                //       100)
-                                                // Text(
-                                                //   data.docs[snapshot]
-                                                //           ['title']
-                                                //       .toUpperCase(),
-                                                //   style:
-                                                //       GoogleFonts.poppins(
-                                                //           fontSize: 16,
-                                                //           color: HexColor(
-                                                //               "3A3A3A"),
-                                                //           fontWeight:
-                                                //               FontWeight
-                                                //                   .w600),
-                                                // ),
-                                                // const Spacer(),
+
                                                 Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -493,32 +482,38 @@ class _PackegesState extends State<Packeges> {
                                                 MaterialButton(
                                                   elevation: 2,
                                                   onPressed: () async {
-                                                    FocusScope.of(context)
-                                                        .unfocus();
+                                                    // FocusScope.of(context)
+                                                    //     .unfocus();
                                                     // CreateBooking();
-                                                    FocusManager
-                                                        .instance.primaryFocus
-                                                        ?.unfocus();
-                                                    // FocusScope.of(context).requestFocus( FocusNode());
 
-                                                    bookingDetails
-                                                        .bookingDetails(
-                                                      context,
-                                                      snapshot,
-                                                      data.docs,
-                                                      // "",
-                                                      data.docs[snapshot]
-                                                          ['title'],
-                                                      widget.gymName,
-                                                      widget.gymLocation,
-                                                      id,
-                                                      widget.getFinalID,
-                                                      widget.doc,
-                                                        data.docs[snapshot]['description'],
-                                                      widget.branch
-                                                    );
-                                                    // CreateBooking(id);
-                                                    await Future.wait(CreateBooking(id)) ;
+                                                    // FocusScope.of(context).requestFocus( FocusNode());
+                                                      try{
+                                                        FocusManager
+                                                            .instance.primaryFocus
+                                                            ?.unfocus();
+                                                        bookingDetails.bookingDetails(
+                                                            context,
+                                                            snapshot,
+                                                            data.docs,
+                                                            // "",
+                                                            data.docs[snapshot]
+                                                            ['title'],
+                                                            widget.gymName,
+                                                            widget.gymLocation,
+                                                            id,
+                                                            widget.getFinalID,
+                                                            widget.doc,
+                                                            data.docs[snapshot]['description'],
+                                                            widget.branch,
+                                                          isLoading
+                                                        );
+                                                        // CreateBooking(id);
+                                                        await Future.wait(CreateBooking(id)) ;
+                                                      }finally{
+
+                                                      }
+
+
                                                   },
                                                   color: HexColor("292F3D"),
                                                   shape: RoundedRectangleBorder(

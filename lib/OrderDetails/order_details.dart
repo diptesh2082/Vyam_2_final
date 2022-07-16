@@ -93,8 +93,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   borderRadius: BorderRadius.circular(15),
                                   child: CachedNetworkImage(
                                     fit: BoxFit.cover,
-                                    maxHeightDiskCache: 500,
-                                    maxWidthDiskCache: 500,
+                                    maxWidthDiskCache: 400,
+                                    maxHeightDiskCache: 420,
                                     height: 150,
                                     imageUrl: doc["doc"]['gym_details']
                                         ["image"],

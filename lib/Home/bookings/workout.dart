@@ -4,14 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Workouts extends StatefulWidget {
-  const Workouts({Key? key, required this.workouts}) : super(key: key);
+class Workouts extends StatelessWidget {
+   Workouts({Key? key, required this.workouts}) : super(key: key);
   final workouts;
-  @override
-  State<Workouts> createState() => _WorkoutsState();
-}
 
-class _WorkoutsState extends State<Workouts> {
   var documents;
   @override
   Widget build(BuildContext context) {
@@ -32,18 +28,18 @@ class _WorkoutsState extends State<Workouts> {
           documents = snapshot.data.docs;
           var d = [];
           documents.forEach((element) {
-            if (widget.workouts.contains(element["id"])) {
+            if (workouts.contains(element["id"])) {
               d.add(element["type"]);
             }
           });
           print(d);
-          return documents.isNotEmpty ? workouts(d) : SizedBox();
+          return documents.isNotEmpty ? workouts1(d,context) : SizedBox();
         },
       ),
     );
   }
 
-  Widget workouts(List document) => Column(
+  Widget workouts1(List document, BuildContext context) => Column(
         children: [
           Card(
             elevation: .3,

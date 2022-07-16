@@ -66,14 +66,14 @@ class _GymMaleState extends State<GymMale> {
               double d1 = calculateDistance(
                 a["location"].latitude,
                 a["location"].longitude,
-                GlobalUserData["location"].latitude,
-                GlobalUserData["location"].longitude,
+                Get.find<GlobalUserData>().userData.value["location"].latitude,
+                Get.find<GlobalUserData>().userData.value["location"].longitude,
               );
               double d2 = calculateDistance(
                 b["location"].latitude,
                 b["location"].longitude,
-                GlobalUserData["location"].latitude,
-                GlobalUserData["location"].longitude,
+                Get.find<GlobalUserData>().userData.value["location"].latitude,
+                Get.find<GlobalUserData>().userData.value["location"].longitude,
               );
               if (d1 > d2)
                 return 1;
@@ -94,8 +94,8 @@ class _GymMaleState extends State<GymMale> {
             var distances = [];
             documents.forEach((e) {
               var distance = calculateDistance(
-                  GlobalUserData["location"].latitude,
-                  GlobalUserData["location"].longitude,
+                  Get.find<GlobalUserData>().userData.value["location"].latitude,
+                  Get.find<GlobalUserData>().userData.value["location"].longitude,
                   e["location"].latitude,
                   e["location"].longitude);
               distance = double.parse((distance).toStringAsFixed(1));
@@ -146,8 +146,7 @@ class _GymMaleState extends State<GymMale> {
                                           : Colors.black,
                                       BlendMode.color),
                                   child: CachedNetworkImage(
-                                    maxHeightDiskCache: 480,
-                                    maxWidthDiskCache: 750,
+                                    maxHeightDiskCache: 600,
                                     height: 210,
                                     fit: BoxFit.cover,
                                     width: MediaQuery.of(context).size.width,
