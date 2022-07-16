@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -9,7 +10,6 @@ import 'package:get/get.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
-import 'package:vyam_2_final/Providers/firebase_dynamic_link.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/register_email.dart';
@@ -27,15 +27,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("A bg message just showed up : ${message.messageId}");
 }
 
-
-
-Future<void> backgroundHandler(RemoteMessage message)
-async
-{
+Future<void> backgroundHandler(RemoteMessage message) async {
   print(message.data.toString());
   print(message.notification!.title);
 }
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -104,6 +99,8 @@ Future<void> main() async {
 //
 // class MyApp extends StatelessWidget {
 // =======
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
   runApp(MyApp());
 }
 
@@ -118,6 +115,9 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
 
     FirebaseMessaging.instance.getInitialMessage();
+// <<<<<<< HEAD
+    // FirebaseCrashlytics.instance.crash();
+// =======
 // <<<<<<< HEAD
 //     //
 //     FirebaseMessaging.onMessage.listen((RemoteMessage message){
@@ -142,6 +142,7 @@ class _MyAppState extends State<MyApp> {
 //       // print(routeFromMessage);
 //
 // =======
+// >>>>>>> 730ad5b1b982c1cc820d8984882a770b957e963b
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
@@ -167,7 +168,6 @@ class _MyAppState extends State<MyApp> {
       print('A new onMessageOpenedApp event was published');
       // final routeFromMessage = message.data["GymDetails"];
       // print(routeFromMessage);
-
     });
 
     super.initState();
