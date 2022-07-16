@@ -165,8 +165,7 @@ class _MyAppState extends State<MyApp> {
               exist &&
               _auth.currentUser != null &&
               number.isNotEmpty) {
-                  return HomePage();
-
+            return HomePage();
           }
           return Onboarding1();
         },
@@ -184,6 +183,4 @@ class _MyAppState extends State<MyApp> {
       ],
     );
   }
-
-
 }
