@@ -160,8 +160,7 @@ class BuildBox extends StatelessWidget {
                                                 .size
                                                 .width,
                                             imageUrl: document[index]
-                                                    ["display_picture"] ??
-                                                "",
+                                                    ["display_picture"].toString(),
                                             // progressIndicatorBuilder: (context, url, downloadProgress) =>
                                             //     Container(
                                             //         color: Colors.black87.withOpacity(.5),
@@ -235,8 +234,7 @@ class BuildBox extends StatelessWidget {
                                               ),
                                               Text(
                                                 // "",
-                                                document[index]["address"] ??
-                                                    "",
+                                                document[index]["address"].toString(),
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.start,

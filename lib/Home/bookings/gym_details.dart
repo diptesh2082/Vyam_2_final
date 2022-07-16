@@ -743,6 +743,7 @@ class _GymDetailsState extends State<GymDetails> {
                                                               BoxDecoration(
                                                                   shape: BoxShape
                                                                       .circle,
+
 //border: Border.all(width: 1),
                                                                   image: DecorationImage(
                                                                       image: CachedNetworkImageProvider(

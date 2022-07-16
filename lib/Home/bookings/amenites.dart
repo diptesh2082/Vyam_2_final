@@ -70,7 +70,7 @@ class Amenites extends StatelessWidget {
               width: 40,
               child: Image(
                 image: CachedNetworkImageProvider(
-                  documents[index]['image'],
+                  documents[index]['image'].toString(),
                 ),
                 // width: 30,
                 // height:30,
