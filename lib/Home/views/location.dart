@@ -240,6 +240,11 @@ class _LocInfoState extends State<LocInfo> {
                                     isLoading = false;
                                   });
                                   return;
+                                }finally{
+                                  Get.back();
+                                  setState(() {
+                                    isLoading = false;
+                                  });
                                 }
 
                                 // print("fhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkg"+value);
@@ -305,46 +310,61 @@ class _LocInfoState extends State<LocInfo> {
                               height: 60,
                               child: GestureDetector(
                                 onTap: () async {
-                                  try {
+                                  Future.delayed(Duration(milliseconds: 300),() async {
+                                    try {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+
+                                      await myLocation();
+
+                                      // print(data);
+                                      Position position =
+                                          await Geolocator.getCurrentPosition();
+                                      await GetAddressFromLatLong(position);
+                                      // await UserApi.updateUserAddress(
+                                      //     address, [position.latitude, position.longitude], pin
+                                      // );
+                                      await getAddressPin(pin);
+                                      setState(() {
+                                        myaddress = myaddress;
+                                        address = address;
+                                        pin = pin;
+                                      });
+                                      await FirebaseFirestore.instance
+                                          .collection("user_details")
+                                          .doc(number)
+                                          .update({
+                                        "location": GeoPoint(position.latitude,
+                                            position.longitude),
+                                        "address": address,
+                                        // "lat": position.latitude,
+                                        // "long": position.longitude,
+                                        "pincode": pin,
+                                        "locality": locality.toLowerCase(),
+                                        "subLocality": locality.toLowerCase(),
+                                        // "number": number
+                                      });
+                                      Get.back();
+                                      // await Get.offAll(() => HomePage());
+                                    } catch (e) {
+                                      Get.back();
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }finally{
+                                      Get.back();
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }
+
+                                  }).then((value) {
+                                    Get.back();
                                     setState(() {
                                       isLoading = true;
                                     });
-
-                                    await myLocation();
-                                    // print(data);
-                                    Position position =
-                                        await Geolocator.getCurrentPosition();
-                                    await GetAddressFromLatLong(position);
-                                    // await UserApi.updateUserAddress(
-                                    //     address, [position.latitude, position.longitude], pin
-                                    // );
-                                    await getAddressPin(pin);
-                                    setState(() {
-                                      myaddress = myaddress;
-                                      address = address;
-                                      pin = pin;
-                                    });
-                                    await FirebaseFirestore.instance
-                                        .collection("user_details")
-                                        .doc(number)
-                                        .update({
-                                      "location": GeoPoint(position.latitude,
-                                          position.longitude),
-                                      "address": address,
-                                      // "lat": position.latitude,
-                                      // "long": position.longitude,
-                                      "pincode": pin,
-                                      "locality": locality.toLowerCase(),
-                                      "subLocality": locality.toLowerCase(),
-                                      // "number": number
-                                    });
-                                    Get.back();
-                                    // await Get.offAll(() => HomePage());
-                                  } catch (e) {
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                  }
+                                  });
                                 },
                                 child: Card(
                                   shape: RoundedRectangleBorder(
@@ -437,41 +457,49 @@ class _LocInfoState extends State<LocInfo> {
                                       ? Container(
                                           child: InkWell(
                                             onTap: () async {
-                                              FocusScope.of(context).unfocus();
-                                              // ggggggggggggggggggggggggggggggggggggggggggggggggggg
-                                              String value =
-                                                  document[index]['Address'];
-                                              print(value);
-                                              isLoading = true;
-                                              if (value.isEmpty) return;
-                                              final res = await RequestHelper()
-                                                  .getCoordinatesFromAddresss(
-                                                      value);
-                                              setState(() {
-                                                GlobalUserLocation = value;
-                                                locController.text = value;
-                                              });
-                                              await GetAddressFromGeoPoint(
-                                                  GeoPoint(res.latitude,
-                                                      res.longitude));
+                                              try{
+                                                FocusScope.of(context).unfocus();
+                                                // ggggggggggggggggggggggggggggggggggggggggggggggggggg
+                                                String value =
+                                                document[index]['Address'];
+                                                print(value);
+                                                isLoading = true;
+                                                if (value.isEmpty) return;
+                                                final res = await RequestHelper()
+                                                    .getCoordinatesFromAddresss(
+                                                    value);
+                                                setState(() {
+                                                  GlobalUserLocation = value;
+                                                  locController.text = value;
+                                                });
+                                                await GetAddressFromGeoPoint(
+                                                    GeoPoint(res.latitude,
+                                                        res.longitude));
 
-                                              await FirebaseFirestore.instance
-                                                  .collection('user_details')
-                                                  .doc(number)
-                                                  .update({
-                                                "location": GeoPoint(
-                                                    res.latitude,
-                                                    res.longitude),
-                                                // "lat": res.latitude,
-                                                // "long": res.longitude,
-                                                "address": value.trim(),
-                                                "pincode": pin,
-                                                "locality":
-                                                    locality.toLowerCase(),
-                                                "subLocality":
-                                                    subLocality.toLowerCase(),
-                                              });
-                                              Get.back();
+                                                await FirebaseFirestore.instance
+                                                    .collection('user_details')
+                                                    .doc(number)
+                                                    .update({
+                                                  "location": GeoPoint(
+                                                      res.latitude,
+                                                      res.longitude),
+                                                  // "lat": res.latitude,
+                                                  // "long": res.longitude,
+                                                  "address": value.trim(),
+                                                  "pincode": pin,
+                                                  "locality":
+                                                  locality.toLowerCase(),
+                                                  "subLocality":
+                                                  subLocality.toLowerCase(),
+                                                });
+                                                Get.back();
+                                              }finally{
+                                                Get.back();
+                                                setState(() {
+                                                  isLoading = false;
+                                                });
+                                              }
+
                                               // Get.off(() => HomePage());
                                             },
                                             child: Padding(
@@ -539,10 +567,11 @@ class _LocInfoState extends State<LocInfo> {
                                             subtitle: Text(
                                                 _list![index].secondaryText!),
                                             onTap: () async {
+                                            try{
                                               isLoading = true;
                                               final res = await RequestHelper()
                                                   .getCoordinatesFromAddresss(
-                                                      _list![index].mainText!);
+                                                  _list![index].mainText!);
                                               print(res.latitude);
                                               print(res.longitude);
                                               await GetAddressFromGeoPoint(
@@ -552,9 +581,9 @@ class _LocInfoState extends State<LocInfo> {
                                               FocusScope.of(context).unfocus();
                                               setState(() {
                                                 locController.text =
-                                                    _list![index].mainText!;
+                                                _list![index].mainText!;
                                                 GlobalUserLocation =
-                                                    _list![index].mainText!;
+                                                _list![index].mainText!;
                                                 showPlacessuggesstions = false;
                                               });
                                               await FirebaseFirestore.instance
@@ -567,14 +596,20 @@ class _LocInfoState extends State<LocInfo> {
                                                 // "lat": res.latitude,
                                                 // "long": res.longitude,
                                                 "address":
-                                                    _list![index].mainText!,
+                                                _list![index].mainText!,
                                                 "pincode": pin,
                                                 "locality":
-                                                    locality.toLowerCase(),
+                                                locality.toLowerCase(),
                                                 "subLocality":
-                                                    subLocality.toLowerCase(),
+                                                subLocality.toLowerCase(),
                                               });
                                               Get.back();
+                                            }finally{
+                                              Get.back();
+                                              setState(() {
+                                                isLoading=false;
+                                              });
+                                            }
                                               // Get.off(() => HomePage());
                                             },
                                           );
