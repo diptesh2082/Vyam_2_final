@@ -485,11 +485,29 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _buildScreens() {
     FocusScope.of(context).unfocus();
     return [
-      const FirstHome(),
+      FutureBuilder<FirebaseRemoteConfig>(
+        future: setupRemoteConfig(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Container());
+          }
+          return FirstHome(remoteConfig: snapshot.requireData);
+        },
+      ),
       const BookingDetails(),
       const Exploreia(),
       ProfilePart(),
     ];
+  }
+
+  Future<FirebaseRemoteConfig> setupRemoteConfig() async {
+    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.fetch();
+    await remoteConfig.activate();
+    return remoteConfig;
   }
 
   int currentIndex = 0;
@@ -511,18 +529,6 @@ class _HomePageState extends State<HomePage> {
     _controller.dispose();
 
     super.dispose();
-  }
-
-  AlertDialog showAlertDialog(
-      BuildContext context, FirebaseRemoteConfig remoteConfig) {
-    Widget cancel = TextButton(onPressed: () {}, child: Text("Cancel"));
-    Widget update = TextButton(onPressed: () {}, child: Text("Update"));
-
-    return AlertDialog(
-      title: Text(remoteConfig.getString("title")),
-      content: Text(remoteConfig.getString("Message")),
-      actions: [cancel, update],
-    );
   }
 
   @override

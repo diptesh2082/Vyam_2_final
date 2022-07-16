@@ -3,17 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:package_info/package_info.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
-import 'package:vyam_2_final/Providers/firebase_dynamic_link.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/register_email.dart';
@@ -169,13 +165,8 @@ class _MyAppState extends State<MyApp> {
               exist &&
               _auth.currentUser != null &&
               number.isNotEmpty) {
-            return FutureBuilder<FirebaseRemoteConfig>(
-                future: setupRemoteConfig(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<FirebaseRemoteConfig> snapshot) {
-                  // return HomePage(remoteConfig: snapshot.requireData);
                   return HomePage();
-                });
+
           }
           return Onboarding1();
         },
@@ -194,10 +185,5 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Future<FirebaseRemoteConfig> setupRemoteConfig() async {
-    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
-    await remoteConfig.fetch();
-    await remoteConfig.activate();
-    return remoteConfig;
-  }
+
 }
