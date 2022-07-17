@@ -70,7 +70,7 @@ class _ImageGalleryState extends State<ImageGallery> {
   @override
   void initState() {
     // TODO: implement initState
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       loadImage();
     });
     // loadImage();

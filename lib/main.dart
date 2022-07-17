@@ -54,21 +54,6 @@ Future<void> main() async {
         playSound: true);
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-    // await flutterLocalNotificationsPlugin
-    //     .resolvePlatformSpecificImplementation<
-    //         AndroidFlutterLocalNotificationsPlugin>()!
-    //     .createNotificationChannel(channel);
-    // final InitializationSettings initializationSettings =
-    //     InitializationSettings(
-    //         android:
-    //             AndroidInitializationSettings("@mipmap/launcher_icon.png"));
-//   await flutterLocalNotificationsPlugin.initialize(initializationSettings,onSelectNotification: (String? route)async{
-// Get.to(()=>HomePage());
-//   });
-//>>>>>>> master
-
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()!
@@ -82,18 +67,6 @@ Future<void> main() async {
     );
   }
 
-// <<<<<<< HEAD
-//   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-//     alert: true,
-//     badge: true,
-//     sound: true,
-//   );
-//
-//   runApp(MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-// =======
   runApp(MyApp());
 }
 

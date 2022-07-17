@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +18,7 @@ import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/controllers/packages/packages.dart';
 import 'package:vyam_2_final/Home/bookings/know_trainer.dart';
 import 'package:vyam_2_final/Providers/firebase_dynamic_link.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 import 'ImageGalary.dart';
 
@@ -41,6 +43,7 @@ class _GymDetailsState extends State<GymDetails> {
 
   final gymID = Get.arguments["gymId"];
   bool touch = false;
+  var couponDoc;
 
   getRatingCount(x) async {
     DocumentReference db = await FirebaseFirestore.instance
@@ -160,7 +163,10 @@ class _GymDetailsState extends State<GymDetails> {
   int _current = 1;
   var listIndex = 0;
   var times;
+  var offer;
   bool isLoading = true;
+  var closedday = [];
+
   getTimings() async {
     try {
       await FirebaseFirestore.instance
@@ -173,9 +179,35 @@ class _GymDetailsState extends State<GymDetails> {
         setState(() {
           if (snap.docs.isNotEmpty) {
             times = snap.docs;
-
             isLoading = false;
           }
+        });
+        print("++++++++FFF+++++${times[0]["closed"].toString()}");
+        print(
+            "_++++ASDA${DateFormat("EEEE").format(DateTime.now()).toString()}");
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  getOffers() async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("product_details")
+          .doc(gymID)
+          .collection("offers")
+          .where('validity', isEqualTo: true)
+          .snapshots()
+          .listen((snap) {
+        setState(() {
+          if (snap.docs.isNotEmpty) {
+            offer = snap.docs;
+            isLoading = false;
+          }
+          print('mmmm<<><><><><><NJUGIG$offer');
         });
       });
     } catch (e) {
@@ -183,6 +215,22 @@ class _GymDetailsState extends State<GymDetails> {
         isLoading = false;
       });
     }
+  }
+
+  getclosed() async {
+    await FirebaseFirestore.instance
+        .collection("product_details")
+        .doc(gymID)
+        .collection("timings")
+        .snapshots()
+        .listen((snap) {
+      setState(() {
+        if (snap.docs.isNotEmpty) {
+          closedday = snap.docs;
+        }
+        print(closedday);
+      });
+    });
   }
 
   getViewCount() async {
@@ -215,6 +263,8 @@ class _GymDetailsState extends State<GymDetails> {
     getViewCount();
     getRating();
     getTimings();
+    getclosed();
+    getOffers();
 
     super.initState();
   }
@@ -293,14 +343,22 @@ class _GymDetailsState extends State<GymDetails> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                    docs['gym_status'] != false
-                                        ? 'OPEN NOW'
-                                        : 'CLOSED',
+                                    (docs['gym_status'] == false) ||
+                                            (times[0]["closed"].contains(
+                                                DateFormat("EEEE")
+                                                    .format(DateTime.now())
+                                                    .toString()))
+                                        ? 'CLOSED'
+                                        : 'OPEN NOW',
                                     style: TextStyle(
                                       fontFamily: "poppins",
-                                      color: docs['gym_status'] != false
-                                          ? Colors.lightGreen
-                                          : Colors.red,
+                                      color: (docs['gym_status'] == false) ||
+                                              (times[0]["closed"].contains(
+                                                  DateFormat("EEEE")
+                                                      .format(DateTime.now())
+                                                      .toString()))
+                                          ? Colors.red
+                                          : Colors.lightGreen,
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                     )),
@@ -491,7 +549,7 @@ class _GymDetailsState extends State<GymDetails> {
                                               //crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
                                                 Text(
-                                                    times[0]["closed"] ??
+                                                    times[0]["closed"][0] ??
                                                         "closed",
                                                     style: const TextStyle(
                                                         fontFamily: 'poppins',
@@ -502,7 +560,8 @@ class _GymDetailsState extends State<GymDetails> {
                                                 const SizedBox(height: 10),
                                                 Text(
                                                     // "",
-                                                    times[0]["closed"] != null
+                                                    times[0]["closed"][0] !=
+                                                            null
                                                         ? 'Closed'
                                                         : "no information",
                                                     style: const TextStyle(
@@ -549,13 +608,59 @@ class _GymDetailsState extends State<GymDetails> {
                             ),
 
                             buildButton(
-                              text: "60% on First Booking",
-                              subText: "USE CODE VYAM30",
-                              onClicked: () => showModalBottomSheet(
+                              text: offer[0]['title'].toString(),
+                              subText: offer[0]['offer'],
+                              onClicked: () => showModalBottomSheet<dynamic>(
+                                isScrollControlled: true,
+                                constraints: BoxConstraints.loose(Size(
+                                    MediaQuery.of(context).size.width,
+                                    MediaQuery.of(context).size.height * 0.47)),
+                                //useRootNavigator: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
                                 context: context,
                                 builder: (context) => buildSheet(),
                               ),
                             ),
+                            // StreamBuilder<QuerySnapshot>(
+                            //     stream: FirebaseFirestore.instance
+                            //         .collection('product_details')
+                            //         .doc(gymID)
+                            //         .collection('offers')
+                            //         .where('validity', isEqualTo: true)
+                            //         .snapshots(),
+                            //     builder: (context, snapshot) {
+                            //       if (snapshot.connectionState ==
+                            //           ConnectionState.waiting) {
+                            //         return Center(
+                            //             child: CircularProgressIndicator());
+                            //       }
+                            //       if (snapshot.hasError) {
+                            //         return Text(snapshot.error.toString());
+                            //       }
+                            //       var documents = snapshot.data!.docs;
+                            //       var snap;
+                            //       print("mmmmmmmmm,,,,,<<<<");
+                            //       print(documents);
+                            //       return ListView.builder(
+                            //           itemCount: documents.length,
+                            //           itemBuilder: (context, index) {
+                            //             return buildButton(
+                            //               text: documents[index]['title'],
+                            //               subText: documents[index]
+                            //                   ['offer_type'],
+                            //               onClicked: () => showModalBottomSheet(
+                            //                 shape: RoundedRectangleBorder(
+                            //                   borderRadius:
+                            //                       BorderRadius.circular(15.0),
+                            //                 ),
+                            //                 context: context,
+                            //                 builder: (context) => buildSheet(),
+                            //               ),
+                            //             );
+                            //           });
+                            //     }),
 
                             SizedBox(height: 5),
 
@@ -1395,16 +1500,121 @@ class _GymDetailsState extends State<GymDetails> {
         ),
       );
 
-  Widget buildSheet() => Container();
-  // SafeArea(
-  //       child: Column(
-  //         children: [
-  //           Text(
-  //             "Offer Details",
-  //             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-  //           ),
-  //           Divider(color: Colors.grey),
-  //         ],
-  //       ),
-  //     );
+  Widget buildSheet() => SafeArea(
+        child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('product_details')
+                .doc(gymID)
+                .collection('offers')
+                .where('validity', isEqualTo: true)
+                .snapshots(),
+            builder: (context, AsyncSnapshot snapshot) {
+              var couponData = snapshot.data;
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              var documents = snapshot.data.docs;
+              var snap;
+              print("mmmmmmmmm,,,,,<<<<");
+              print(documents);
+              return ListView.builder(
+                  itemCount: documents.length,
+                  itemBuilder: (context, index) {
+                    snap = documents[index];
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              "Offer Details",
+                              style: TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Divider(color: Colors.grey),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/new discount.png',
+                                      height: 30,
+                                      width: 30,
+                                    ),
+                                    Text(
+                                      documents[index]['title'].toString(),
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  documents[index]['description'],
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(color: Colors.grey),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              documents[index]['offer'],
+                              style: TextStyle(fontSize: 15),
+                            ),
+                          ),
+                          Divider(color: Colors.grey),
+                          Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snap['rules'].length,
+                                itemBuilder: (context, index) => Container(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Image.asset(
+                                              "assets/images/tick2002.png",
+                                              width: 20,
+                                              height: 20,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                                snap['rules'][index].toString())
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ))
+                        ],
+                      ),
+                    );
+                  });
+            }),
+      );
 }
