@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -26,6 +27,9 @@ import 'icons/home_icon_icons.dart';
 
 class HomePage extends StatefulWidget {
   static String id = "/HomePage";
+  // final FirebaseRemoteConfig remoteConfig;
+
+  // const HomePage({Key? key, required this.remoteConfig}) : super(key: key);
   // const HomePage({Key? key, required this.title}) : super(key: key);
 
   @override
@@ -262,20 +266,20 @@ class _HomePageState extends State<HomePage> {
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                color: Colors.blue,
-                playSound: true,
-                icon: '@mipmap/launcher_icon',
-              ),
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              channel.id,
+              channel.name,
+              channelDescription: channel.description,
+              color: Colors.blue,
+              playSound: true,
+              icon: '@mipmap/launcher_icon',
             ),
-        payload: message.data["route"],
+          ),
+          payload: message.data["route"],
         );
       }
     });
@@ -322,7 +326,6 @@ class _HomePageState extends State<HomePage> {
             playSound: true,
             icon: '@mipmap/launcher_icon'),
       ),
-
     );
   }
 
@@ -483,11 +486,29 @@ class _HomePageState extends State<HomePage> {
 
     FocusScope.of(context).unfocus();
     return [
-      const FirstHome(),
+      FutureBuilder<FirebaseRemoteConfig>(
+        future: setupRemoteConfig(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Container());
+          }
+          return FirstHome(remoteConfig: snapshot.requireData);
+        },
+      ),
       const BookingDetails(),
       const Exploreia(),
       ProfilePart(),
     ];
+  }
+
+  Future<FirebaseRemoteConfig> setupRemoteConfig() async {
+    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.fetch();
+    await remoteConfig.activate();
+    return remoteConfig;
   }
 
   int currentIndex = 0;
@@ -513,6 +534,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // var update = widget.remoteConfig.getBool("Update");
+
     Get.lazyPut(() => Need(), fenix: true);
     return isLoading
         ? Container(
