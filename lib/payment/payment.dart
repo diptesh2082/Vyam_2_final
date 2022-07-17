@@ -103,40 +103,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
       "tax_pay": taxPay,
     });
   }
-  var obj={};
+
 
   @override
   void initState() {
     print("//////////");
+    print(widget.booking_id);
     print(
       getData['totalMonths'],
     );
-   obj={
-      "merchant_client_id": "8a54a9a0d2c99b86f81d23fff76e1537",
-      "transaction_status_redirection_url": "https://vyam.page.link/downloadApp",
-      "transaction_status_webhook_url": "http://localhost/transac/webhook.php",
-      "order_id": "${widget.booking_id.toString()}",
-      "user": {
-        "phone_number": number.toString().substring(3, number.length),
-        "email":  Get.find<GlobalUserData>().userData.value["email"].toString()
-      },
-      "billing_address": {
-        "line1":  Get.find<GlobalUserData>().userData.value["address"].toString(),
-        "line2": Get.find<GlobalUserData>().userData.value["locality"].toString(),
-        "city": Get.find<GlobalUserData>().userData.value["subLocality"].toString(),
-        "state": "West Bangal",
-        "country": "India",
-        "pincode": Get.find<GlobalUserData>().userData.value["pincode"].toString()
-      },
-      "items": [
-        {
-          "sku": "1",
-          "quantity": "1",
-          "rate_per_item": "1200"
-        }
-      ],
-      "amount_in_paise": 300
-    };
+
     print(type);
     detDil();
     myCouponController.GlobalCouponApplied.value = false;
@@ -160,7 +136,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 check_simpl()async{
 
   var response2 = await http.get(
-    Uri.parse( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction_by_order_id/"${widget.booking_id}"/status',),
+    Uri.parse( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction_by_order_id/${widget.booking_id}/status',),
     headers:{
       'Content-Type':'application/json',
       'Authorization':'18c8e9a52d818f865cd0f7df2a254dc3'
@@ -202,7 +178,7 @@ check_simpl()async{
             .then((value) async {
           await FirebaseFirestore.instance
               .collection("bookings")
-              .doc(getData["booking_id"])
+              .doc(widget.booking_id)
               .update({
             "otp_pass": x.toString(),
             "booking_status": "upcoming",
@@ -341,6 +317,36 @@ check_simpl()async{
 
   _simplpay() async {
     var client = http.Client();
+   var obj={
+      "merchant_client_id": "8a54a9a0d2c99b86f81d23fff76e1537",
+      "transaction_status_redirection_url": "https://vyam.page.link/downloadApp",
+      "transaction_status_webhook_url": "http://localhost/transac/webhook.php",
+      "order_id": "${widget.booking_id.toString()}",
+      "user": {
+        "phone_number": number.toString().substring(3, number.length),
+        "email":  Get.find<GlobalUserData>().userData.value["email"].toString()
+      },
+      "billing_address": {
+        "line1":  Get.find<GlobalUserData>().userData.value["address"].toString(),
+        "line2": Get.find<GlobalUserData>().userData.value["locality"].toString(),
+        "city": Get.find<GlobalUserData>().userData.value["subLocality"].toString(),
+        "state": "West Bangal",
+        "country": "India",
+        "pincode": Get.find<GlobalUserData>().userData.value["pincode"].toString()
+      },
+      "items": [
+        {
+          "sku": "1",
+          "quantity": "1",
+          "rate_per_item": "1200"
+        }
+      ],
+      "amount_in_paise":  (myCouponController.GlobalCouponApplied.value
+          ? (grandTotal -
+          int.parse(myCouponController.CouponDetailsMap.value))
+          : grandTotal) *
+          100,
+    };
 
     try {
       var response = await http.post(
@@ -357,7 +363,7 @@ check_simpl()async{
       if(response.statusCode==200){
 
         Navigator.of(context).pop();
-        Get.to(()=>simpl_pay(check_simpl: check_simpl, gymData: gymData, myCouponController: myCouponController, booking_id: widget.booking_id, grandTotal: grandTotal, getData: getData, totalDiscount: totalDiscount));
+        Get.to(()=>simpl_pay(check_simpl: check_simpl, gymData: gymData, myCouponController: myCouponController, booking_id: widget.booking_id, grandTotal: grandTotal, getData: getData, totalDiscount: totalDiscount),duration: Duration(milliseconds: 500));
         // _bottomsheet2(context);
         // print("success");
         var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) ;
@@ -369,8 +375,11 @@ check_simpl()async{
           await launch(uri.toString(),
           // forceSafariVC: true,
           //   forceWebView: true,
-          //   enableJavaScript: true
+          //   enableJavaScript: true,
+          //   //   // universalLinksOnly:true
+            // webOnlyWindowName:"/login"
           );
+          return;
         } else {
           throw "Error occured trying to call that number.";
         }
@@ -1617,282 +1626,284 @@ check_simpl()async{
     makeSure();
   }
 
-  _bottomsheet2(BuildContext context) async {
-    // var _width = MediaQuery.of(context).size.width;
-    // var _height = MediaQuery.of(context).size.height;
-    bool onlinePay = true;
-    // _controller = await _scaffoldKey.currentState.showBottomSheet
-    return showModalBottomSheet(
-      // isDismissible: false,
-        isScrollControlled: true,
-        // enableDrag: false,
-        context: context,
-        elevation: 8,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        builder: (context) {
-          return WillPopScope(
-            onWillPop: ()async {
-            check_simpl();
-              return true;
-            },
-            child: Scaffold(
-              body: StatefulBuilder(
-                  builder: (BuildContext context, StateSetter setState) {
-                    return SingleChildScrollView(
-                      child: Container(
-                        // height: 5,
-                        // height: 600,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.only(right: 8.0, top: 8),
-                                child: Align(
-                                  alignment: Alignment.topRight,
-                                  child: CircleAvatar(
-                                    radius: 10.0,
-                                    backgroundColor: Colors.grey,
-                                    child: Icon(
-                                      Icons.close,
-                                      size: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            const Text(
-                              "Payment method Simpl",
-                              style: TextStyle(
-                                  fontFamily: "Poppins",
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600),
-                            ),
-
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: SizedBox(
-                                height: 60,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    if (gymData["cash_pay"] == true)
-                                      setState(() {
-                                        onlinePay = false;
-                                      });
-
-                                    // _PaymentScreenState();
-                                  },
-                                  child: Card(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12)),
-                                    child: Row(children: [
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Image.asset(
-                                        "assets/images/Simpl_Logo.png",
-                                        width: 60,
-                                      ),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      if (gymData["cash_pay"] == true)
-                                        const Text(
-                                          "Pay at gym",
-                                          style: TextStyle(
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14),
-                                        ),
-                                      if (gymData["cash_pay"] == true) const Spacer(),
-                                      if (onlinePay == false ||
-                                          (gymData["online_pay"] == false &&
-                                              gymData["cash_pay"] == true))
-                                        const Icon(
-                                          Icons.check,
-                                          color: Colors.black,
-                                          size: 15,
-                                        ),
-                                      if (gymData["cash_pay"] == false)
-                                        const Text(
-                                          "Cash isn't available in this gym",
-                                          style: TextStyle(
-                                              fontFamily: "Poppins",
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 12),
-                                        ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                    ]),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: SizedBox(
-                                // height: 155,
-                                child: Card(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8.0, top: 8, right: 8, bottom: 10),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Payment",
-                                            style: GoogleFonts.poppins(
-                                              // fontFamily: "Poppins",
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 18,
-                                                color: Colors.green),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "Total amount",
-                                                style: GoogleFonts.poppins(
-                                                  // fontFamily: "Poppins",
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 16),
-                                              ),
-                                              const Spacer(),
-                                              Text(
-                                                "₹${getData["totalPrice"]}",
-                                                style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 16),
-                                              ),
-                                              const SizedBox(
-                                                width: 6,
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "Discount",
-                                                style: GoogleFonts.poppins(
-                                                  // fontFamily: "Poppins",
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 16),
-                                              ),
-                                              const Spacer(),
-                                              Obx(
-                                                    () => Text(
-                                                  "₹  ${myCouponController.GlobalCouponApplied.value ? myCouponController.CouponDetailsMap.value.toString() : totalDiscount.toString()}",
-                                                  style: GoogleFonts.poppins(
-                                                    // fontFamily: "Poppins",
-                                                      fontWeight: FontWeight.w700,
-                                                      fontSize: 16),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 7,
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 7,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "Grand Total",
-                                                style: GoogleFonts.poppins(
-                                                    color: Colors.green,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 16),
-                                              ),
-                                              const Spacer(),
-                                              Text(
-                                                "₹${myCouponController.GlobalCouponApplied.value ? (grandTotal - int.parse(myCouponController.CouponDetailsMap.value)) : grandTotal.toString()}",
-                                                style: GoogleFonts.poppins(
-                                                    color: Colors.green,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 16),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    )),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Align(
-                              alignment: Alignment.bottomRight,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width *.44,
-                                  child: FloatingActionButton.extended(
-                                      backgroundColor: Colors.green,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10)),
-                                      label: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal:8.0),
-                                        child: Text(
-                                          "Confirm Payment",
-                                          style: GoogleFonts.poppins(
-
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 14,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                      onPressed: () async {
-                                        print('hhhhhhhhhhhhhh${widget.booking_id}');
-                                        check_simpl();
-
-                                      }),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-            ),
-          );
-        });
-  }
+  // _bottomsheet2(BuildContext context) async {
+  //   // var _width = MediaQuery.of(context).size.width;
+  //   // var _height = MediaQuery.of(context).size.height;
+  //   bool onlinePay = true;
+  //   // _controller = await _scaffoldKey.currentState.showBottomSheet
+  //   return showModalBottomSheet(
+  //     // isDismissible: false,
+  //       isScrollControlled: true,
+  //       // enableDrag: false,
+  //       context: context,
+  //       elevation: 8,
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  //       builder: (context) {
+  //         return WillPopScope(
+  //           onWillPop: ()async {
+  //             await check_simpl();
+  //             Future.delayed(Duration(milliseconds: 200));
+  //
+  //             return true;
+  //           },
+  //           child: Scaffold(
+  //             body: StatefulBuilder(
+  //                 builder: (BuildContext context, StateSetter setState) {
+  //                   return SingleChildScrollView(
+  //                     child: Container(
+  //                       // height: 5,
+  //                       // height: 600,
+  //                       width: MediaQuery.of(context).size.width,
+  //                       decoration: BoxDecoration(
+  //                           color: Colors.grey[100],
+  //                           borderRadius: BorderRadius.circular(12)),
+  //                       child: Column(
+  //                         children: [
+  //                           GestureDetector(
+  //                             onTap: () {
+  //                               Navigator.of(context).pop();
+  //                             },
+  //                             child: const Padding(
+  //                               padding: EdgeInsets.only(right: 8.0, top: 8),
+  //                               child: Align(
+  //                                 alignment: Alignment.topRight,
+  //                                 child: CircleAvatar(
+  //                                   radius: 10.0,
+  //                                   backgroundColor: Colors.grey,
+  //                                   child: Icon(
+  //                                     Icons.close,
+  //                                     size: 16,
+  //                                     color: Colors.white,
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                           const SizedBox(
+  //                             height: 5,
+  //                           ),
+  //                           const Text(
+  //                             "Payment method Simpl",
+  //                             style: TextStyle(
+  //                                 fontFamily: "Poppins",
+  //                                 fontSize: 18,
+  //                                 fontWeight: FontWeight.w600),
+  //                           ),
+  //
+  //                           Padding(
+  //                             padding: const EdgeInsets.symmetric(horizontal: 8),
+  //                             child: SizedBox(
+  //                               height: 60,
+  //                               child: GestureDetector(
+  //                                 onTap: () {
+  //                                   if (gymData["cash_pay"] == true)
+  //                                     setState(() {
+  //                                       onlinePay = false;
+  //                                     });
+  //
+  //                                   // _PaymentScreenState();
+  //                                 },
+  //                                 child: Card(
+  //                                   shape: RoundedRectangleBorder(
+  //                                       borderRadius: BorderRadius.circular(12)),
+  //                                   child: Row(children: [
+  //                                     const SizedBox(
+  //                                       width: 10,
+  //                                     ),
+  //                                     Image.asset(
+  //                                       "assets/images/Simpl_Logo.png",
+  //                                       width: 60,
+  //                                     ),
+  //                                     const SizedBox(
+  //                                       width: 20,
+  //                                     ),
+  //                                     if (gymData["cash_pay"] == true)
+  //                                       const Text(
+  //                                         "Pay at gym",
+  //                                         style: TextStyle(
+  //                                             fontFamily: "Poppins",
+  //                                             fontWeight: FontWeight.w500,
+  //                                             fontSize: 14),
+  //                                       ),
+  //                                     if (gymData["cash_pay"] == true) const Spacer(),
+  //                                     if (onlinePay == false ||
+  //                                         (gymData["online_pay"] == false &&
+  //                                             gymData["cash_pay"] == true))
+  //                                       const Icon(
+  //                                         Icons.check,
+  //                                         color: Colors.black,
+  //                                         size: 15,
+  //                                       ),
+  //                                     if (gymData["cash_pay"] == false)
+  //                                       const Text(
+  //                                         "Cash isn't available in this gym",
+  //                                         style: TextStyle(
+  //                                             fontFamily: "Poppins",
+  //                                             color: Colors.red,
+  //                                             fontWeight: FontWeight.w400,
+  //                                             fontSize: 12),
+  //                                       ),
+  //                                     const SizedBox(
+  //                                       width: 5,
+  //                                     ),
+  //                                   ]),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                           const SizedBox(
+  //                             height: 10,
+  //                           ),
+  //
+  //                           const SizedBox(
+  //                             height: 10,
+  //                           ),
+  //                           Padding(
+  //                             padding: const EdgeInsets.symmetric(horizontal: 8),
+  //                             child: SizedBox(
+  //                               // height: 155,
+  //                               child: Card(
+  //                                   shape: RoundedRectangleBorder(
+  //                                       borderRadius: BorderRadius.circular(12)),
+  //                                   child: Padding(
+  //                                     padding: const EdgeInsets.only(
+  //                                         left: 8.0, top: 8, right: 8, bottom: 10),
+  //                                     child: Column(
+  //                                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                                       children: [
+  //                                         Text(
+  //                                           "Payment",
+  //                                           style: GoogleFonts.poppins(
+  //                                             // fontFamily: "Poppins",
+  //                                               fontWeight: FontWeight.w700,
+  //                                               fontSize: 18,
+  //                                               color: Colors.green),
+  //                                         ),
+  //                                         const SizedBox(
+  //                                           height: 10,
+  //                                         ),
+  //                                         Row(
+  //                                           children: [
+  //                                             Text(
+  //                                               "Total amount",
+  //                                               style: GoogleFonts.poppins(
+  //                                                 // fontFamily: "Poppins",
+  //                                                   fontWeight: FontWeight.w500,
+  //                                                   fontSize: 16),
+  //                                             ),
+  //                                             const Spacer(),
+  //                                             Text(
+  //                                               "₹${getData["totalPrice"]}",
+  //                                               style: GoogleFonts.poppins(
+  //                                                   fontWeight: FontWeight.w700,
+  //                                                   fontSize: 16),
+  //                                             ),
+  //                                             const SizedBox(
+  //                                               width: 6,
+  //                                             ),
+  //                                           ],
+  //                                         ),
+  //                                         const SizedBox(
+  //                                           height: 5,
+  //                                         ),
+  //                                         Row(
+  //                                           children: [
+  //                                             Text(
+  //                                               "Discount",
+  //                                               style: GoogleFonts.poppins(
+  //                                                 // fontFamily: "Poppins",
+  //                                                   fontWeight: FontWeight.w500,
+  //                                                   fontSize: 16),
+  //                                             ),
+  //                                             const Spacer(),
+  //                                             Obx(
+  //                                                   () => Text(
+  //                                                 "₹  ${myCouponController.GlobalCouponApplied.value ? myCouponController.CouponDetailsMap.value.toString() : totalDiscount.toString()}",
+  //                                                 style: GoogleFonts.poppins(
+  //                                                   // fontFamily: "Poppins",
+  //                                                     fontWeight: FontWeight.w700,
+  //                                                     fontSize: 16),
+  //                                               ),
+  //                                             ),
+  //                                             const SizedBox(
+  //                                               width: 7,
+  //                                             ),
+  //                                           ],
+  //                                         ),
+  //                                         const SizedBox(
+  //                                           height: 7,
+  //                                         ),
+  //                                         Row(
+  //                                           children: [
+  //                                             Text(
+  //                                               "Grand Total",
+  //                                               style: GoogleFonts.poppins(
+  //                                                   color: Colors.green,
+  //                                                   fontWeight: FontWeight.w700,
+  //                                                   fontSize: 16),
+  //                                             ),
+  //                                             const Spacer(),
+  //                                             Text(
+  //                                               "₹${myCouponController.GlobalCouponApplied.value ? (grandTotal - int.parse(myCouponController.CouponDetailsMap.value)) : grandTotal.toString()}",
+  //                                               style: GoogleFonts.poppins(
+  //                                                   color: Colors.green,
+  //                                                   fontWeight: FontWeight.w700,
+  //                                                   fontSize: 16),
+  //                                             ),
+  //                                             const SizedBox(
+  //                                               width: 10,
+  //                                             ),
+  //                                           ],
+  //                                         )
+  //                                       ],
+  //                                     ),
+  //                                   )),
+  //                             ),
+  //                           ),
+  //                           const SizedBox(
+  //                             height: 15,
+  //                           ),
+  //                           Align(
+  //                             alignment: Alignment.bottomRight,
+  //                             child: Padding(
+  //                               padding: const EdgeInsets.symmetric(horizontal: 6.0),
+  //                               child: SizedBox(
+  //                                 width: MediaQuery.of(context).size.width *.44,
+  //                                 child: FloatingActionButton.extended(
+  //                                     backgroundColor: Colors.green,
+  //                                     shape: RoundedRectangleBorder(
+  //                                         borderRadius: BorderRadius.circular(10)),
+  //                                     label: Padding(
+  //                                       padding: const EdgeInsets.symmetric(horizontal:8.0),
+  //                                       child: Text(
+  //                                         "Confirm Payment",
+  //                                         style: GoogleFonts.poppins(
+  //
+  //                                             fontWeight: FontWeight.bold,
+  //                                             fontSize: 14,
+  //                                             color: Colors.white),
+  //                                       ),
+  //                                     ),
+  //                                     onPressed: () async {
+  //                                       print('hhhhhhhhhhhhhh${widget.booking_id}');
+  //                                       await check_simpl();
+  //
+  //                                     }),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                           const SizedBox(
+  //                             height: 15,
+  //                           )
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   );
+  //                 }),
+  //           ),
+  //         );
+  //       });
+  // }
   String PAY="on";
 
   _bottomsheet(BuildContext context) async {
@@ -2294,14 +2305,7 @@ check_simpl()async{
                                 }
                               });
 
-                              // check_simpl();
 
-
-
-                              // await getBookingData(booking_id);
-                              // onlinePay == true && gymData["online_pay"]
-                              //     ? Pay()
-                              //     :  gymData["cash_pay"]?OffPay():SizedBox();
                             }),
                       ),
                     ),
@@ -2418,7 +2422,8 @@ class simpl_pay extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: ()async {
-        check_simpl();
+        await check_simpl();
+        Future.delayed(Duration(milliseconds: 200));
         return true;
       },
       child: Scaffold(
@@ -2433,12 +2438,13 @@ class simpl_pay extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.w600),
           ),
-          leading: IconButton(icon: Icon(CupertinoIcons.back),
-            onPressed: () {
-              check_simpl();
-            Navigator.pop(context);
-
-          },),
+          // leading: IconButton(icon: Icon(CupertinoIcons.back),
+          //   onPressed: () {
+          //     check_simpl();
+          //   Navigator.pop(context);
+          //
+          // },
+          // ),
         ),
         body: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
