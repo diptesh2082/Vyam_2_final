@@ -257,6 +257,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                 }).then((value) {
                   Get.to(
                     () => PaymentScreen(
+                      booking_id: widget.bookingId,
                       endDate: DateFormat("dd, MMM, yyyy").format(endDate),
                     ),
                     duration: const Duration(milliseconds: 500),
@@ -271,7 +272,7 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                       "endDate":endDate==DateTime.now()?DateTime(DateTime.now().day+1) :DateFormat("dd, MMM, yyyy").format(endDate),
                       "address": widget.getGymAddress,
                       "vendorId": widget.gymId,
-                      "booking_id": widget.bookingId,
+                      // "booking_id": widget.bookingId,
                       "gym_details": Get.arguments["docs"],
                       "totalDays": endDate.difference(startDate).inDays+1,
                       "booking_plan":widget.package_name,

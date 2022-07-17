@@ -20,7 +20,11 @@ admin.initializeApp();
            title: String(snapshot.data().title),
            body:String(snapshot.data().definition),
            clickAction:'FLUTTER_NOTIFICATION_CLICK',
-        }
+        },
+       data: {
+                      title: "Cloud Messaging",
+                      message: "Open the app right now, please.",
+                  }
    };
         return admin.messaging().sendToTopic('push_notifications',payload);
 
@@ -112,3 +116,37 @@ admin.initializeApp();
 
 
             });
+ exports.myFunction3 = functions.firestore
+   .document('personalised_notification/{id}')
+   .onCreate(  (snapshot, context) => {
+   console.log(snapshot.data().id);
+       admin.firestore().collection("user_details").get().then((snapshot1) =>{
+
+           if (snapshot1.empty){
+           console.log("no device found");
+           }else{
+              console.log("device found");
+//             console.log(snapshot1.data().name);
+                snapshot1.forEach( snapshot5 =>{
+
+                  const payload = {
+                                     notification:{
+                                       title: "Hi " + String(snapshot5.data().name)+ " " + String(snapshot.data().p_title),
+                                       body:String(snapshot.data().description),
+                                       clickAction:'FLUTTER_NOTIFICATION_CLICK',
+                                    },
+                                   data: {
+                                                  title: "Cloud Messaging",
+                                                  message: "Open the app right now, please.",
+                                              }
+                               };
+                                    return admin.messaging().sendToDevice(snapshot5.data().device_token,payload);
+
+                });
+
+
+
+           }
+           });
+
+    });

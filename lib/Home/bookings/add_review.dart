@@ -69,9 +69,9 @@ class _AddReviewState extends State<AddReview> {
                     "title": title.text,
                     "experience": exp.text,
                     "user":{
-                      'user_id':GlobalUserData["userId"],
-                      "user_pic":GlobalUserData["image"],
-                      "user_name":GlobalUserData["name"],
+                      'user_id': Get.find<GlobalUserData>().userData.value["userId"],
+                      "user_pic": Get.find<GlobalUserData>().userData.value["image"],
+                      "user_name": Get.find<GlobalUserData>().userData.value["name"],
                     } ,
                     "gym_id": Get.arguments["gym_id"],
                     "review": id,

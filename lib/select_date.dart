@@ -93,7 +93,7 @@ class _SelectDateState extends State<SelectDate> {
   void initState() {
     print(widget.days);
     print("+++++++++++++++++++++++++++++");
-    getDays = int.parse(widget.days);
+    getDays = int.parse(widget.days.toString());
     total_discount = 0;
     // if (widget.months.contains("pay per session")) {
     //   getDays = 1;
@@ -108,7 +108,7 @@ class _SelectDateState extends State<SelectDate> {
     //   getDays = 168;
     // }
     _selectedDay = DateTime.now();
-    endDate = DateTime.now().add(Duration(days: int.parse(widget.days)));
+    endDate = DateTime.now().add(Duration(days: int.parse(widget.days.toString())));
     selected_week = now.weekday;
     current_mon = now.month;
     end_mon = DateTime.now().add(Duration(days: getDays)).month;
@@ -183,7 +183,7 @@ class _SelectDateState extends State<SelectDate> {
                         selected_week = _selectedDay.weekday;
                         startDate = _selectedDay;
                         endDate = _selectedDay
-                            .add(Duration(days: int.parse(widget.days)));
+                            .add(Duration(days: int.parse(widget.days.toString())));
 
                         end_mon =
                             _selectedDay.add(Duration(days: getDays)).month;
@@ -370,6 +370,7 @@ class _SelectDateState extends State<SelectDate> {
               }).then((value) {
                 Get.to(
                   () => PaymentScreen(
+                    booking_id:  widget.bookingId,
                     endDate: DateFormat("dd, MMM, yyyy").format(endDate),
                   ),
                   duration: const Duration(milliseconds: 500),
@@ -382,7 +383,7 @@ class _SelectDateState extends State<SelectDate> {
                     "endDate": DateFormat("dd, MMM, yyyy").format(endDate),
                     "address": widget.getGymAddress,
                     "vendorId": widget.gymId,
-                    "booking_id": widget.bookingId,
+                    // "booking_id": widget.bookingId,
                     "gym_details": Get.arguments["docs"],
                     "totalDays": widget.days,
                     "booking_plan":widget.package_name,

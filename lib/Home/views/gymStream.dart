@@ -31,9 +31,7 @@ class BuildBox extends StatelessWidget {
                 .snapshots(),
             builder: (context, AsyncSnapshot streamSnapshot) {
               if (streamSnapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return   Center(child: Container());
               }
               if (streamSnapshot.hasError) {
                 return const Center(
@@ -45,14 +43,14 @@ class BuildBox extends StatelessWidget {
                 double d1 = calculateDistance(
                   a["location"].latitude,
                   a["location"].longitude,
-                  GlobalUserData["location"].latitude,
-                  GlobalUserData["location"].longitude,
+                  Get.find<GlobalUserData>().userData.value["location"].latitude,
+                  Get.find<GlobalUserData>().userData.value["location"].longitude,
                 );
                 double d2 = calculateDistance(
                   b["location"].latitude,
                   b["location"].longitude,
-                  GlobalUserData["location"].latitude,
-                  GlobalUserData["location"].longitude,
+                  Get.find<GlobalUserData>().userData.value["location"].latitude,
+                  Get.find<GlobalUserData>().userData.value["location"].longitude,
                 );
                 if (d1 > d2)
                   return 1;
@@ -74,8 +72,8 @@ class BuildBox extends StatelessWidget {
 
               documents.forEach((e) {
                 var distance = calculateDistance(
-                    GlobalUserData["location"].latitude,
-                    GlobalUserData["location"].longitude,
+                    Get.find<GlobalUserData>().userData.value["location"].latitude,
+                    Get.find<GlobalUserData>().userData.value["location"].longitude,
                     e["location"].latitude,
                     e["location"].longitude);
                 distance = double.parse((distance).toStringAsFixed(1));
@@ -89,6 +87,30 @@ class BuildBox extends StatelessWidget {
               if (document.isNotEmpty) {
                 return Column(
                   children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Material(
+                        borderRadius:
+                        BorderRadius.circular(10),
+                        elevation: 0,
+                        child: SizedBox(
+                          height: 30,
+                          width: 130,
+                          child: Center(
+                            child: Text(
+                              "Nearby Gyms",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight:
+                                  FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
                     ListView.separated(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -129,7 +151,7 @@ class BuildBox extends StatelessWidget {
                                               BlendMode.color),
                                           child: CachedNetworkImage(
                                             // cacheManager: customCacheManager,
-                                            maxHeightDiskCache: 520,
+                                            maxHeightDiskCache: 600,
 
                                             filterQuality: FilterQuality.high,
                                             height: 210,
@@ -138,8 +160,7 @@ class BuildBox extends StatelessWidget {
                                                 .size
                                                 .width,
                                             imageUrl: document[index]
-                                                    ["display_picture"] ??
-                                                "",
+                                                    ["display_picture"].toString(),
                                             // progressIndicatorBuilder: (context, url, downloadProgress) =>
                                             //     Container(
                                             //         color: Colors.black87.withOpacity(.5),
@@ -213,8 +234,7 @@ class BuildBox extends StatelessWidget {
                                               ),
                                               Text(
                                                 // "",
-                                                document[index]["address"] ??
-                                                    "",
+                                                document[index]["address"].toString(),
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.start,

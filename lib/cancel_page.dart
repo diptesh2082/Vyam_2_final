@@ -273,8 +273,8 @@ class _CancelDetailsState extends State<CancelDetails> {
                                                   "bookingId":widget.bookingId,
                                                   "vendor_id":widget.bookingId,
                                                   "vendor_name":widget.vendor_name,
-                                                  "user_name":GlobalUserData["name"],
-                                                  "user_number":GlobalUserData["userId"],
+                                                  "user_name": Get.find<GlobalUserData>().userData.value["name"],
+                                                  "user_number": Get.find<GlobalUserData>().userData.value["userId"],
                                                   "time_stamp":DateTime.now(),
                                                   "branch":widget.branch
                                                 };
@@ -290,7 +290,7 @@ class _CancelDetailsState extends State<CancelDetails> {
                                                   "status":"cancelled",
                                                   // "payment_done": false,
                                                   "user_id":number.toString(),
-                                                  "user_name":GlobalUserData["name"],
+                                                  "user_name": Get.find<GlobalUserData>().userData.value["name"],
                                                   "vendor_id":widget.vendorId,
                                                   "vendor_name":widget.vendor_name,
                                                   "time_stamp":DateTime.now(),

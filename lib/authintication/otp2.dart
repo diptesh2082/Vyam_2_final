@@ -146,6 +146,7 @@ class _OtpPage2State extends State<OtpPage2> {
   @override
   void dispose() {
     _timer!.cancel();
+    otpController.dispose();
     super.dispose();
   }
 

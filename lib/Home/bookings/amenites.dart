@@ -3,21 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Amenites extends StatefulWidget {
+class Amenites extends StatelessWidget {
   const Amenites({Key? key, required this.amenites}) : super(key: key);
   final amenites;
-  @override
-  State<Amenites> createState() => _AmenitesState();
-}
-
-class _AmenitesState extends State<Amenites> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    print(widget.amenites);
-    // if(widget.amenites.isEmpty()){}
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +26,7 @@ class _AmenitesState extends State<Amenites> {
           var document = snapshot.data.docs;
           var documents = [];
           document.forEach((event) {
-            if (widget.amenites.contains(event["amenity_id"])) {
+            if (amenites.contains(event["amenity_id"])) {
               documents.add(event);
             }
           });
@@ -82,7 +70,7 @@ class _AmenitesState extends State<Amenites> {
               width: 40,
               child: Image(
                 image: CachedNetworkImageProvider(
-                  documents[index]['image'],
+                  documents[index]['image'].toString(),
                 ),
                 // width: 30,
                 // height:30,

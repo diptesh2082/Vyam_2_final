@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -9,7 +10,6 @@ import 'package:get/get.dart';
 import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 
 import 'package:vyam_2_final/Onbording_pages/onboarding1.dart';
-import 'package:vyam_2_final/Providers/firebase_dynamic_link.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/register_email.dart';
@@ -23,8 +23,13 @@ late AndroidNotificationChannel channel;
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   print("A bg message just showed up : ${message.messageId}");
+}
+
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print(message.data.toString());
+  print(message.notification!.title);
 }
 
 Future<void> main() async {
@@ -35,7 +40,7 @@ Future<void> main() async {
   } catch (e) {
     number = "";
   }
-
+  Get.lazyPut(() => GlobalUserData());
   await myLocation();
   await getInfo();
   // getAddress();
@@ -67,6 +72,20 @@ Future<void> main() async {
     );
   }
 
+// <<<<<<< HEAD
+//   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+//     alert: true,
+//     badge: true,
+//     sound: true,
+//   );
+//
+//   runApp(MyApp());
+// }
+//
+// class MyApp extends StatelessWidget {
+// =======
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
   runApp(MyApp());
 }
 
@@ -81,6 +100,34 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
 
     FirebaseMessaging.instance.getInitialMessage();
+// <<<<<<< HEAD
+    // FirebaseCrashlytics.instance.crash();
+// =======
+// <<<<<<< HEAD
+//     //
+//     FirebaseMessaging.onMessage.listen((RemoteMessage message){
+//
+//       if(message.notification != null)
+//         {
+//           print(message.notification!.body);
+//           print(message.notification!.title);
+//           // Get.to(()=>HomePage());
+//
+//         }
+//
+//     });
+//     //
+//     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message)
+//     {
+//       print('A new onMessageOpenedApp event was published!');
+//       // Navigator.pushNamed(context,GymDetails.id,);
+//       Get.to(()=>HomePage());
+//
+//       // final routeFromMessage = message.data["GymDetails"];
+//       // print(routeFromMessage);
+//
+// =======
+// >>>>>>> 730ad5b1b982c1cc820d8984882a770b957e963b
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
@@ -107,6 +154,7 @@ class _MyAppState extends State<MyApp> {
       // final routeFromMessage = message.data["GymDetails"];
       // print(routeFromMessage);
     });
+
     super.initState();
   }
 

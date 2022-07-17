@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-var GlobalUserData;
+class GlobalUserData extends GetxController{
+ var userData={}.obs;
+}
+// var GlobalUserData;
 var GlobalUserLocation;
 var number = "";
 var address2 = "";
