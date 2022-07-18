@@ -31,6 +31,17 @@ import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import '../../Notifications/notification.dart';
 
+class FirstHome2 extends StatelessWidget {
+  final remoteConfig;
+  const FirstHome2({Key? key, this.remoteConfig}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FirstHome(remoteConfig: remoteConfig,);
+  }
+}
+
+
 class FirstHome extends StatefulWidget {
   final FirebaseRemoteConfig remoteConfig;
   const FirstHome({Key? key, required this.remoteConfig}) : super(key: key);

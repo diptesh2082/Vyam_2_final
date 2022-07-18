@@ -85,7 +85,7 @@ class _OtpPageState extends State<OtpPage> with CodeAutoFill {
           await setUserId(_auth.currentUser?.phoneNumber);
           print(visiting_flag);
           if (visiting_flag == true) {
-            Get.offAll(HomePage());
+            Get.offAll(HomePage2());
             // Navigator.pushReplacement(
             //     (context), MaterialPageRoute(builder: (context) => HomePage()));
             // Get.offAll(()=>HomePage());

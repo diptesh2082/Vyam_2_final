@@ -47,7 +47,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
             ? Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (BuildContext context) => HomePage()))
+                    builder: (BuildContext context) => HomePage2()))
             : Navigator.pop(context);
         return true;
       },
@@ -59,7 +59,7 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                   ? Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (BuildContext context) => HomePage()))
+                          builder: (BuildContext context) => HomePage2()))
                   : Navigator.pop(context);
             },
             child: Icon(

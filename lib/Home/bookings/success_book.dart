@@ -65,7 +65,7 @@ class _SuccessBookState extends State<SuccessBook>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        await Get.offAll(() => HomePage());
+        await Get.offAll(() => HomePage2());
         return true;
       },
       child: Scaffold(
@@ -387,7 +387,7 @@ class _PanelWidgetState extends State<PanelWidget> {
                             fontSize: 14),
                       ),
                       onPressed: () {
-                        Get.off(() => HomePage());
+                        Get.off(() => HomePage2());
                       },
                     ),
                   ),
