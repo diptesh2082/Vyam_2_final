@@ -37,6 +37,7 @@ class FirstHome2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return FirstHome(remoteConfig: remoteConfig,);
   }
 }
@@ -117,22 +118,6 @@ class _FirstHomeState extends State<FirstHome> {
   double radius = 50;
   String field = 'position';
 
-  // Stream<List<DocumentSnapshot>> stream = Geoflutterfire().collection(collectionRef: FirebaseFirestore.instance.collection('product_details'))
-  //     .within(center: Geoflutterfire().point(latitude:GlobalUserData["location"].latitude, longitude:GlobalUserData["location"].longitude), radius: 500, field: 'position');
-  // getStream()async{
-  //
-  //   stream.listen((snapshot) {
-  //     if(snapshot.isEmpty){
-  //       print(snapshot.length);
-  //       print("****************************************");
-  //     }
-  //     if(snapshot.isNotEmpty){
-  //       print(snapshot.length);
-  //       print("****************************************");
-  //     }
-  //   });
-  //   // return stream;
-  // }
 
   myLocation() async {
     try {
@@ -185,6 +170,7 @@ class _FirstHomeState extends State<FirstHome> {
         isLoading = false;
       });
     }
+    print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
   }
 
   bool showCard = false;
@@ -252,11 +238,11 @@ class _FirstHomeState extends State<FirstHome> {
   @override
   void initState() {
     // getStream();
-
+print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
     updateDeviceToken();
-
+print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
     getEverything();
-
+print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
     super.initState();
   }
 

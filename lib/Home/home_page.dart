@@ -32,6 +32,7 @@ class HomePage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 1));
+    print("sexsexsexsexsexsexsexsexsexsexsexx");
     return HomePage();
   }
 }

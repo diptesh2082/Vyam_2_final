@@ -62,7 +62,7 @@ class OlderEvent extends StatelessWidget {
                           ),
                               arguments: {
                                 "doc":data.docs[index]
-                              }
+                              },duration: Duration(milliseconds: 450),
                           );
                         },
                         child: FittedBox(

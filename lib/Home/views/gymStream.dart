@@ -136,6 +136,7 @@ class BuildBox extends StatelessWidget {
                                         () => GymDetails(
                                             // gymID: document[index].id,
                                             ),
+                                        duration: Duration(milliseconds: 300),
                                         arguments: {
                                           "gymId": document[index].id,
                                         });

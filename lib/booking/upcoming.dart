@@ -69,9 +69,10 @@ class UpcomingEvent extends StatelessWidget {
                             // index: index,
                             // orderList: data.docs,
                           ),
+
                               arguments: {
                                 "doc":data.docs[index]
-                              }
+                              },duration: Duration(milliseconds: 450),
                           );
                         },
                         child: FittedBox(
