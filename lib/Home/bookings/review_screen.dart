@@ -71,21 +71,21 @@ class _ReviewState extends State<Review> {
     // );
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    // print(doc["name"]);
-    // print(_id);
-    // print("Get.find<Need>().star5.value)");
-    // getRating();
-    // print(star);
-    super.initState();
-  }
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   // print(doc["name"]);
+  //   // print(_id);
+  //   // print("Get.find<Need>().star5.value)");
+  //   // getRating();
+  //   // print(star);
+  //   super.initState();
+  // }
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
