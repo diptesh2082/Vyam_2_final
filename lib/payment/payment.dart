@@ -15,9 +15,7 @@ import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:vyam_2_final/Home/bookings/success_book.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
-
 import 'package:vyam_2_final/golbal_variables.dart';
-
 import '../api/api.dart';
 import '../main.dart';
 
@@ -319,7 +317,7 @@ check_simpl()async{
     var client = http.Client();
    var obj={
       "merchant_client_id": "8a54a9a0d2c99b86f81d23fff76e1537",
-      "transaction_status_redirection_url": "https://vyam.page.link/downloadApp",
+      "transaction_status_redirection_url": "D:/applications/Vyam_2_the_project_dev/lib/payment/payment.dart",
       "transaction_status_webhook_url": "http://localhost/transac/webhook.php",
       "order_id": "${widget.booking_id.toString()}",
       "user": {
@@ -373,9 +371,9 @@ check_simpl()async{
         //
         if (await canLaunch(uri.toString())) {
           await launch(uri.toString(),
-          // forceSafariVC: true,
-          //   forceWebView: true,
-          //   enableJavaScript: true,
+          forceSafariVC: true,
+            forceWebView: true,
+            enableJavaScript: true,
           //   //   // universalLinksOnly:true
             // webOnlyWindowName:"/login"
           );
