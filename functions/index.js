@@ -131,7 +131,7 @@ admin.initializeApp();
 
                   const payload = {
                                      notification:{
-                                       title: "Hi " + String(snapshot5.data().name)+ " " + String(snapshot.data().p_title),
+                                       title: String(snapshot5.data().name)+ " " + String(snapshot.data().p_title),
                                        body:String(snapshot.data().description),
                                        clickAction:'FLUTTER_NOTIFICATION_CLICK',
                                     },

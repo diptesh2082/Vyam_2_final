@@ -238,7 +238,7 @@ class _FirstHomeState extends State<FirstHome> {
   @override
   void initState() {
     // getStream();]
-    DefaultCacheManager().emptyCache();
+
 print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
     updateDeviceToken();
 print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
