@@ -206,6 +206,8 @@ class _GymDetailsState extends State<GymDetails> {
           if (snap.docs.isNotEmpty) {
             offer = snap.docs;
             isLoading = false;
+          } else {
+            offer = [];
           }
           print('mmmm<<><><><><><NJUGIG$offer');
         });
@@ -606,23 +608,24 @@ class _GymDetailsState extends State<GymDetails> {
                             const SizedBox(
                               height: 5,
                             ),
-
-                            buildButton(
-                              text: offer[0]['title'].toString(),
-                              subText: offer[0]['offer'],
-                              onClicked: () => showModalBottomSheet<dynamic>(
-                                isScrollControlled: true,
-                                constraints: BoxConstraints.loose(Size(
-                                    MediaQuery.of(context).size.width,
-                                    MediaQuery.of(context).size.height * 0.47)),
-                                //useRootNavigator: true,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
+                            if (offer.isNotEmpty)
+                              buildButton(
+                                text: offer[0]['title'].toString(),
+                                subText: offer[0]['offer'],
+                                onClicked: () => showModalBottomSheet<dynamic>(
+                                  isScrollControlled: true,
+                                  constraints: BoxConstraints.loose(Size(
+                                      MediaQuery.of(context).size.width,
+                                      MediaQuery.of(context).size.height *
+                                          0.47)),
+                                  //useRootNavigator: true,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  context: context,
+                                  builder: (context) => buildSheet(),
                                 ),
-                                context: context,
-                                builder: (context) => buildSheet(),
                               ),
-                            ),
                             // StreamBuilder<QuerySnapshot>(
                             //     stream: FirebaseFirestore.instance
                             //         .collection('product_details')
@@ -1532,17 +1535,27 @@ class _GymDetailsState extends State<GymDetails> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              "Offer Details",
-                              style: TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0, vertical: 6),
+                                child: Text(
+                                  "Offer Details",
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 15, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Spacer(),
+                              IconButton(onPressed: (){
+                                Navigator.pop(context);
+                              }, icon: Icon(Icons.cancel))
+                            ],
                           ),
                           Divider(color: Colors.grey),
                           Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 2),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -1556,15 +1569,24 @@ class _GymDetailsState extends State<GymDetails> {
                                     ),
                                     Text(
                                       documents[index]['title'].toString(),
-                                      style: TextStyle(
+                                      style: GoogleFonts.poppins(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  documents[index]['description'],
-                                  style: TextStyle(fontSize: 10),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 30,
+                                    ),
+                                    Text(
+                                      documents[index]['description'],
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -1574,7 +1596,8 @@ class _GymDetailsState extends State<GymDetails> {
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
                               documents[index]['offer'],
-                              style: TextStyle(fontSize: 15),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 15, fontWeight: FontWeight.w500),
                             ),
                           ),
                           Divider(color: Colors.grey),
@@ -1600,7 +1623,11 @@ class _GymDetailsState extends State<GymDetails> {
                                               width: 5,
                                             ),
                                             Text(
-                                                snap['rules'][index].toString())
+                                              snap['rules'][index].toString(),
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
                                           ],
                                         ),
                                         SizedBox(
