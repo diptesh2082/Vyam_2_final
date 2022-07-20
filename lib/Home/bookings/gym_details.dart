@@ -200,7 +200,7 @@ class _GymDetailsState extends State<GymDetails> {
       "morning_days":"",
         "position":"",
         "timing_id":"",
-      }];
+      },{}];
       setState(() {
         isLoading = false;
       });
@@ -306,6 +306,7 @@ class _GymDetailsState extends State<GymDetails> {
                 return Container();
               }
               var docs = snapshot.data;
+
               try{
                 amenites2 = docs!["amenities"];
                 if (amenites2.isEmpty) {
@@ -328,6 +329,13 @@ class _GymDetailsState extends State<GymDetails> {
               //   images.add()
               // });
               // imageSliders=["images"];
+              var rules;
+              try{
+                 rules = docs['rules'];
+              }catch(e){
+                rules = [];
+              }
+
               return Scaffold(
                 // backgroundColor: const Color(0xffffffff),
                 body: SafeArea(
@@ -574,7 +582,7 @@ class _GymDetailsState extends State<GymDetails> {
                                               //crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
                                                 Text(
-                                                    times[0]["closed"][0] ??
+                                                    times[0]["closed"] ??
                                                         "closed",
                                                     style: const TextStyle(
                                                         fontFamily: 'poppins',
@@ -585,7 +593,7 @@ class _GymDetailsState extends State<GymDetails> {
                                                 const SizedBox(height: 10),
                                                 Text(
                                                     // "",
-                                                    times[0]["closed"][0] !=
+                                                    times[0]["closed"] !=
                                                             null
                                                         ? 'Closed'
                                                         : "no information",
@@ -1093,15 +1101,16 @@ class _GymDetailsState extends State<GymDetails> {
                                               fontWeight: FontWeight.w700,
                                             )),
                                       ),
+                                      if(rules.length >0)
                                       Container(
                                         padding: EdgeInsets.only(left: 8.0),
                                         child: ListView.builder(
                                             shrinkWrap: true,
-                                            itemCount: docs['rules'].length,
+                                            itemCount: rules.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               return Text(
-                                                docs['rules'][index],
+                                                rules[index],
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontWeight:
