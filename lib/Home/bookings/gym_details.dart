@@ -292,15 +292,24 @@ class _GymDetailsState extends State<GymDetails> {
                 return Container();
               }
               var docs = snapshot.data;
-              amenites2 = docs!["amenities"];
-              if (amenites2.isEmpty) {
+              try{
+                amenites2 = docs!["amenities"];
+                if (amenites2.isEmpty) {
+                  amenites2 = [""];
+                }
+              }catch(e){
                 amenites2 = [""];
               }
-              workout = docs["workouts"];
+            try{
+              workout = docs!["workouts"];
               if (workout.isEmpty) {
                 workout = [""];
               }
-              var images = docs["images"];
+            }catch(e){
+              workout = [""];
+            }
+
+              var images = docs!["images"];
               // docs["images"].forEach((e){
               //   images.add()
               // });
@@ -333,7 +342,7 @@ class _GymDetailsState extends State<GymDetails> {
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * .6,
                                   child: Text(
-                                    '${docs["name"] ?? ""}',
+                                    '${docs["name"].toString()}',
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style: const TextStyle(
@@ -373,7 +382,7 @@ class _GymDetailsState extends State<GymDetails> {
                                 size: 18,
                               ),
                               Text(
-                                '${docs["branch"] ?? ""}',
+                                '${docs["branch"].toString()}',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                     color: Colors.grey),
@@ -875,7 +884,7 @@ class _GymDetailsState extends State<GymDetails> {
                                                                                       decoration: BoxDecoration(
                                                                                           shape: BoxShape.circle,
                                                                                           //border: Border.all(width: 1),
-                                                                                          image: DecorationImage(image: CachedNetworkImageProvider(trainerdoc[index]['image'], maxHeight: 350, maxWidth: 450), fit: BoxFit.cover)),
+                                                                                          image: DecorationImage(image: CachedNetworkImageProvider(trainerdoc[index]['image'].toString(), maxHeight: 350, maxWidth: 450), fit: BoxFit.cover)),
                                                                                     ),
                                                                                   SizedBox(
                                                                                     height: 2,
@@ -1020,7 +1029,7 @@ class _GymDetailsState extends State<GymDetails> {
                                                                       image: CachedNetworkImageProvider(
                                                                           snaptu[index]["user"]
                                                                               [
-                                                                              "user_pic"],
+                                                                              "user_pic"].toString(),
                                                                           maxWidth:
                                                                               100,
                                                                           maxHeight:

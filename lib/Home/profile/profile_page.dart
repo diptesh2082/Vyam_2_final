@@ -138,10 +138,10 @@ class ProfilePart extends StatelessWidget {
                                     print(number);
                                     Get.to(() => Profile(),
                                         arguments: {
-                                          "name":  doc?.get("name"),
-                                          "email":  doc?.get("email"),
-                                          "imageUrl":  doc?.get("image"),
-                                          "number":  doc?.get("number"),
+                                          "name":  doc?.get("name").toString(),
+                                          "email":  doc?.get("email").toString(),
+                                          "imageUrl":  doc?.get("image").toString(),
+                                          "number":  doc?.get("number").toString(),
                                           "gender":
                                           doc?.get("gender").toLowerCase()
                                         });
