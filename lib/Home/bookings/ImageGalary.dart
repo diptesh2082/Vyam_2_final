@@ -281,9 +281,30 @@ class _ImageGalleryState extends State<ImageGallery> {
             fadeInDuration: Duration(milliseconds: 80),
 
             maxHeightDiskCache: 600,
-            // maxWidthDiskCache: 700,
+            maxWidthDiskCache: 800,
             // width: 400,
             // height: 400,
+
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                Container(
+                    color: Colors.black87.withOpacity(1),
+                    child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset( "assets/Illustrations/vyam.png",
+                      height: 120,
+                      width: 200,
+                    ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width*.5,
+                              child: LinearProgressIndicator(
+                                color: Colors.yellow,
+                              ),
+                            )
+                          ],
+                        ))),
             imageUrl: images,
             fit: BoxFit.cover,
           ),

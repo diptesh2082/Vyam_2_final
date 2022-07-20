@@ -130,7 +130,7 @@ class _Register4State extends State<Register4> {
             onPressed: ()  async {
 
 
-              Get.offAll(() => HomePage());
+              Get.offAll(() => HomePage2());
               await saveData(image);
 
               // final ref = FirebaseStorage.instance

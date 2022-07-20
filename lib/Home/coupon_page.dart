@@ -248,14 +248,10 @@ class _CouponDetailsState extends State<CouponDetails> {
                     //     "pay per session") {
                     documents = documents.where((element) {
                       return element
-                              .get('package_type')
-                              .toString()
-                              .toLowerCase()
-                              .contains(widget.type.toString().toLowerCase())
-                          // && element.
-                          //   get('package_type').contains
-
-                          ;
+                          .get('package_type')
+                          .toString()
+                          .toLowerCase()
+                          .contains(widget.type.toString().toLowerCase());
                     }).toList();
                     // } else {
                     //   documents = documents.where((element) {
@@ -273,7 +269,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                     print(couponDoc);
                     var list = [];
 
-                    print(list);
+                    print('...<<<<<>>>>>>$list');
 
                     if (documents.isEmpty) {
                       return Center(
@@ -308,7 +304,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                                   "coupon_id":
                                       documents[index]["coupon_id"].toString()
                                 });
-                                print(coupon_list);
+                                print('//fjjfjwjfiji$coupon_list');
                                 // if(  documents[index]["gym_id"].toList().)
                                 return SafeArea(
                                   child: Stack(
@@ -588,7 +584,9 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                       .CouponDetailsMap
                                                       .value = dex.toString();
                                                 }
-                                                myCouponController.coupon_id.value= documents[index].id;
+                                                myCouponController
+                                                        .coupon_id.value =
+                                                    documents[index].id;
 
                                                 setState(() {
                                                   GlobalCoupon =

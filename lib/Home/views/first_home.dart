@@ -31,6 +31,18 @@ import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import '../../Notifications/notification.dart';
 
+class FirstHome2 extends StatelessWidget {
+  final remoteConfig;
+  const FirstHome2({Key? key, this.remoteConfig}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FirstHome(
+      remoteConfig: remoteConfig,
+    );
+  }
+}
+
 class FirstHome extends StatefulWidget {
   final FirebaseRemoteConfig remoteConfig;
   const FirstHome({Key? key, required this.remoteConfig}) : super(key: key);
@@ -52,33 +64,69 @@ class _FirstHomeState extends State<FirstHome> {
           Navigator.pop(context);
         },
         child: Text("Cancel"));
-    Widget update = ElevatedButton(
-        style:
-            ElevatedButton.styleFrom(primary: Color.fromRGBO(247, 188, 40, 1)),
-        onPressed: () async {
-          var urllaunchable = await canLaunch(url);
-          if (urllaunchable) {
-            await launch(url);
-          } else {
-            print("Try Again");
-          }
-        },
-        child: Text(
-          "Update",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+    Widget update = SizedBox(
+        width: 140,
+        height: 45,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Color.fromRGBO(247, 188, 40, 1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20), // <-- Radius
+            ),
+          ),
+          onPressed: () async {
+            var urllaunchable = await canLaunch(url);
+            if (urllaunchable) {
+              await launch(url);
+            } else {
+              print("Try Again");
+            }
+          },
+          child: Text(
+            "Update Now",
+            style: GoogleFonts.poppins(
+                color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+          ),
         ));
 
     return AlertDialog(
-      title: Text(remoteConfig.getString("Title")),
-      content: Column(
-        children: [
-          SizedBox(height: 300, child: Image.asset('assets/icons/roc.png')),
-          Text(remoteConfig.getString("Message")),
-          SizedBox(
-            height: 20,
-          ),
-          update,
-        ],
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(40.0))),
+      contentPadding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+      // title: ,
+      content: Container(
+        height: 550,
+        width: 600,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 300, child: Image.asset('assets/icons/roc.png')),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              remoteConfig.getString("Title"),
+              style: GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(remoteConfig.getString("Message"),
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                    color: Colors.grey,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500)),
+            SizedBox(
+              height: 70,
+            ),
+            update,
+          ],
+        ),
       ),
       // actions: <Widget>[update],
     );
@@ -115,23 +163,6 @@ class _FirstHomeState extends State<FirstHome> {
 
   double radius = 50;
   String field = 'position';
-
-  // Stream<List<DocumentSnapshot>> stream = Geoflutterfire().collection(collectionRef: FirebaseFirestore.instance.collection('product_details'))
-  //     .within(center: Geoflutterfire().point(latitude:GlobalUserData["location"].latitude, longitude:GlobalUserData["location"].longitude), radius: 500, field: 'position');
-  // getStream()async{
-  //
-  //   stream.listen((snapshot) {
-  //     if(snapshot.isEmpty){
-  //       print(snapshot.length);
-  //       print("****************************************");
-  //     }
-  //     if(snapshot.isNotEmpty){
-  //       print(snapshot.length);
-  //       print("****************************************");
-  //     }
-  //   });
-  //   // return stream;
-  // }
 
   myLocation() async {
     try {
@@ -184,6 +215,8 @@ class _FirstHomeState extends State<FirstHome> {
         isLoading = false;
       });
     }
+    print(
+        " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
   }
 
   bool showCard = false;
@@ -250,12 +283,16 @@ class _FirstHomeState extends State<FirstHome> {
 
   @override
   void initState() {
-    // getStream();
-
+    // getStream();]
+    DefaultCacheManager().emptyCache();
+    print(
+        " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
     updateDeviceToken();
-
+    print(
+        " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
     getEverything();
-
+    print(
+        " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
     super.initState();
   }
 

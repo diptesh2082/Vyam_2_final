@@ -269,7 +269,7 @@ class _LocInfoState extends State<LocInfo> {
                                   "subLocality": subLocality.toLowerCase(),
                                 });
                                 // Get.back();
-                                Get.off(() => HomePage());
+                                Get.off(() => HomePage2());
                               },
                               style: const TextStyle(
                                 fontSize: 12,

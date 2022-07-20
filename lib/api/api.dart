@@ -500,7 +500,7 @@ checkEmailExist(String email) async {
         setNumber(emailId);
         await setUserId(emailId);
         await getToHomePage(emailId);
-        await Get.offAll(() => HomePage());
+        await Get.offAll(() => HomePage2());
         // return true;
         // email=true as bool;
         // return true;

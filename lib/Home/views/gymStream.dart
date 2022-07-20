@@ -136,6 +136,7 @@ class BuildBox extends StatelessWidget {
                                         () => GymDetails(
                                             // gymID: document[index].id,
                                             ),
+                                        duration: Duration(milliseconds: 300),
                                         arguments: {
                                           "gymId": document[index].id,
                                         });
@@ -152,7 +153,7 @@ class BuildBox extends StatelessWidget {
                                           child: CachedNetworkImage(
                                             // cacheManager: customCacheManager,
                                             maxHeightDiskCache: 600,
-
+                                            maxWidthDiskCache: 800,
                                             filterQuality: FilterQuality.high,
                                             height: 210,
                                             fit: BoxFit.cover,
@@ -161,13 +162,29 @@ class BuildBox extends StatelessWidget {
                                                 .width,
                                             imageUrl: document[index]
                                                     ["display_picture"].toString(),
-                                            // progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                            //     Container(
-                                            //         color: Colors.black87.withOpacity(.5),
-                                            //         child: Center(child: Image.asset( "assets/Illustrations/vyam.png",
-                                            //           height: 120,
-                                            //           width: 200,
-                                            //         ))),
+                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                Container(
+                                                    color: Colors.black87.withOpacity(1),
+                                                    child: Center(
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                          children: [
+                                                            SizedBox(
+                                                              height: 12,
+                                                            ),
+                                                            Image.asset( "assets/Illustrations/vyam.png",
+                                                              height: 120,
+                                                              width: 200,
+                                                            ),
+                                                            SizedBox(
+                                                              width: MediaQuery.of(context).size.width*.5,
+                                                              child: LinearProgressIndicator(
+                                                                color: Colors.yellow,
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ))),
                                             errorWidget:
                                                 (context, url, error) =>
                                                     const Icon(Icons.error),

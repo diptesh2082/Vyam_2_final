@@ -3,9 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:vyam_2_final/Home/views/gendergyms/gym_female.dart';
-import 'package:vyam_2_final/Home/views/gendergyms/gym_male.dart';
-import 'package:vyam_2_final/Home/views/gendergyms/gym_unisex.dart';
+
+
 
 import 'package:get/get.dart';
 
@@ -208,14 +207,17 @@ class _GymOptionState extends State<GymOption> {
         body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              GymAll(type: data),
-              GymMale(type: data),
-              GymFemale(
-                type: data,
-              ),
-              GymUnisex(
-                type: data,
-              )
+              GymAll(type: data, catagory: ["unisex", "male","female"],),
+              GymAll(type: data, catagory: ["unisex", "male"],),
+              GymAll(type: data, catagory: ["unisex", "female"],),
+              GymAll(type: data, catagory: ["unisex"],),
+              // GymMale(type: data),
+              // GymFemale(
+              //   type: data,
+              // ),
+              // GymUnisex(
+              //   type: data,
+              // )
             ]),
       ),
     );

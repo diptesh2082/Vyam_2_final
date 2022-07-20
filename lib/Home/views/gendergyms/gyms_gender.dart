@@ -10,25 +10,21 @@ import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
-class GymAll extends StatefulWidget {
+class GymAll extends StatelessWidget {
   final type;
-  const GymAll({Key? key, required this.type}) : super(key: key);
+  final catagory;
+    GymAll({Key? key, required this.type,required this.catagory}) : super(key: key);
 
-  @override
-  State<GymAll> createState() => _GymAllState();
-}
-
-class _GymAllState extends State<GymAll> {
   List events = [];
   List notificationList = [];
 
   GymAllApi gymAll = GymAllApi();
 
-  @override
-  void initState() {
-    super.initState();
-    print("/////////" + widget.type);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   print("/////////" + widget.type);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -65,58 +61,77 @@ class _GymAllState extends State<GymAll> {
               if (streamSnapshot == null) {
                 return Container();
               }
-
               var document = streamSnapshot.data.docs;
-              document.sort((a, b) {
-                double d1 = calculateDistance(
-                  a["location"].latitude,
-                  a["location"].longitude,
-                  Get.find<GlobalUserData>().userData.value["location"].latitude,
-                  Get.find<GlobalUserData>().userData.value["location"].longitude,
-                );
-                double d2 = calculateDistance(
-                  b["location"].latitude,
-                  b["location"].longitude,
-                  Get.find<GlobalUserData>().userData.value["location"].latitude,
-                  Get.find<GlobalUserData>().userData.value["location"].longitude,
-                );
-                if (d1 > d2)
-                  return 1;
-                else if (d1 < d2)
-                  return -1;
-                else
-                  return 0;
-              });
-
-              // document = document.where((element) {
-              //   return element
-              //       .get('gender')
-              //       .toString()
-              //       .toLowerCase()
-              //       .contains("male");
-              // }).toList();
               var documents = [];
               var distances = [];
+              try{
 
-              document.forEach((e) {
-                var distance = calculateDistance(
-                    Get.find<GlobalUserData>().userData.value["location"].latitude,
-                    Get.find<GlobalUserData>().userData.value["location"].longitude,
-                    e["location"].latitude,
-                    e["location"].longitude);
-                distance = double.parse((distance).toStringAsFixed(1));
-                if (distance <= 20) {
-                  documents.add(e);
-                  distances.add(distance);
-                }
-              });
-              documents = documents.where((element) {
-                return element
-                    .get('service')
-                    .toString()
-                    .toLowerCase()
-                    .contains(widget.type);
-              }).toList();
+                document.sort((a, b) {
+                  double d1 = calculateDistance(
+                    a["location"].latitude,
+                    a["location"].longitude,
+                    Get.find<GlobalUserData>()
+                        .userData
+                        .value["location"]
+                        .latitude,
+                    Get.find<GlobalUserData>()
+                        .userData
+                        .value["location"]
+                        .longitude,
+                  );
+                  double d2 = calculateDistance(
+                    b["location"].latitude,
+                    b["location"].longitude,
+                    Get.find<GlobalUserData>()
+                        .userData
+                        .value["location"]
+                        .latitude,
+                    Get.find<GlobalUserData>()
+                        .userData
+                        .value["location"]
+                        .longitude,
+                  );
+                  if (d1 > d2)
+                    return 1;
+                  else if (d1 < d2)
+                    return -1;
+                  else
+                    return 0;
+                });
+                document = document.where((element) {
+                  return element
+                          .get('service')
+                          .toString()
+                          .toLowerCase()
+                          .contains(type) &&
+                      catagory.contains(element.get("gender"));
+                }).toList();
+
+
+
+                document.forEach((e) {
+                  var distance = calculateDistance(
+                      Get.find<GlobalUserData>()
+                          .userData
+                          .value["location"]
+                          .latitude,
+                      Get.find<GlobalUserData>()
+                          .userData
+                          .value["location"]
+                          .longitude,
+                      e["location"].latitude,
+                      e["location"].longitude);
+                  distance = double.parse((distance).toStringAsFixed(1));
+                  if (distance <= 20) {
+                    documents.add(e);
+                    distances.add(distance);
+                  }
+                });
+              }catch(e){
+                 document = [];
+                 documents = [];
+                 distances = [];
+              }
 
               return (documents.isNotEmpty)
                   ? Column(
@@ -155,6 +170,7 @@ class _GymAllState extends State<GymAll> {
                                               BlendMode.color),
                                           child: CachedNetworkImage(
                                             maxHeightDiskCache: 600,
+                                            maxWidthDiskCache: 800,
                                             height: 210,
                                             fit: BoxFit.cover,
                                             width: MediaQuery.of(context)

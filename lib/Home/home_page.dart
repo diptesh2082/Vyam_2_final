@@ -25,6 +25,18 @@ import '../api/api.dart';
 import '../main.dart';
 import 'icons/home_icon_icons.dart';
 
+
+class HomePage2 extends StatelessWidget {
+  const HomePage2({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Future.delayed(Duration(seconds: 1));
+    print("sexsexsexsexsexsexsexsexsexsexsexx");
+    return HomePage();
+  }
+}
+
 class HomePage extends StatefulWidget {
   static String id = "/HomePage";
   // final FirebaseRemoteConfig remoteConfig;
@@ -495,7 +507,7 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasError) {
             return Center(child: Container());
           }
-          return FirstHome(remoteConfig: snapshot.requireData);
+          return FirstHome2(remoteConfig: snapshot.requireData);
         },
       ),
       const BookingDetails(),

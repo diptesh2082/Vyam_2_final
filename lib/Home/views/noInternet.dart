@@ -81,7 +81,7 @@ class NoInternet extends StatelessWidget {
                     if (await ConnectivityWrapper.instance.isConnected) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
+                        MaterialPageRoute(builder: (context) => HomePage2()),
                       );
                     } else {
                       Navigator.push(
