@@ -52,7 +52,9 @@ class _FirstHomeState extends State<FirstHome> {
           Navigator.pop(context);
         },
         child: Text("Cancel"));
-    Widget update = TextButton(
+    Widget update = ElevatedButton(
+        style:
+            ElevatedButton.styleFrom(primary: Color.fromRGBO(247, 188, 40, 1)),
         onPressed: () async {
           var urllaunchable = await canLaunch(url);
           if (urllaunchable) {
@@ -63,14 +65,22 @@ class _FirstHomeState extends State<FirstHome> {
         },
         child: Text(
           "Update",
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.orangeAccent),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ));
 
     return AlertDialog(
       title: Text(remoteConfig.getString("Title")),
-      content: Text(remoteConfig.getString("Message")),
-      actions: <Widget>[update],
+      content: Column(
+        children: [
+          SizedBox(height: 300, child: Image.asset('assets/icons/roc.png')),
+          Text(remoteConfig.getString("Message")),
+          SizedBox(
+            height: 20,
+          ),
+          update,
+        ],
+      ),
+      // actions: <Widget>[update],
     );
   }
 
