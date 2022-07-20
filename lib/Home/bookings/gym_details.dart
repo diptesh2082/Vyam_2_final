@@ -182,11 +182,25 @@ class _GymDetailsState extends State<GymDetails> {
             isLoading = false;
           }
         });
-        print("++++++++FFF+++++${times[0]["closed"].toString()}");
+        // print("++++++++FFF+++++${times[0]["closed"].toString()}");
         print(
             "_++++ASDA${DateFormat("EEEE").format(DateTime.now()).toString()}");
       });
     } catch (e) {
+      times=[];
+      setState(() {
+        isLoading = false;
+      });
+    }finally{
+      times=[{
+        "closed":"",
+        "Evening":"",
+        "Morning":"",
+        "evening_days": "",
+      "morning_days":"",
+        "position":"",
+        "timing_id":"",
+      }];
       setState(() {
         isLoading = false;
       });
