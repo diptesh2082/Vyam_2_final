@@ -634,6 +634,8 @@ class Banner extends StatelessWidget {
                           maxWidthDiskCache: 650,
                           filterQuality: FilterQuality.medium,
                           height: 143,
+                          width: 311,
+                          fit: BoxFit.cover,
                           imageUrl: data[index]["image"].toString(),
                           errorWidget: (context, url, error) =>
                               const Icon(Icons.error),
