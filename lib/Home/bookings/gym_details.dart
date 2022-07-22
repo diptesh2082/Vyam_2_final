@@ -229,6 +229,7 @@ class _GymDetailsState extends State<GymDetails> {
     } catch (e) {
       setState(() {
         isLoading = false;
+        offer = [];
       });
     }
   }
@@ -582,8 +583,8 @@ class _GymDetailsState extends State<GymDetails> {
                                               //crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
                                                 Text(
-                                                    times[0]["closed"] ??
-                                                        "closed",
+                                                    // times[0]["closed"][0] ??
+                                                        "${times[0]["closed_day"]}",
                                                     style: const TextStyle(
                                                         fontFamily: 'poppins',
                                                         fontWeight:
@@ -1110,11 +1111,13 @@ class _GymDetailsState extends State<GymDetails> {
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               return Text(
-                                                rules[index],
-                                                style: TextStyle(
+                                               "• ${rules[index]}",
+                                                style: GoogleFonts.poppins(
                                                     color: Colors.grey,
                                                     fontWeight:
-                                                        FontWeight.bold),
+                                                        FontWeight.w500,
+                                                fontSize: 12
+                                                ),
                                               );
                                             }),
                                       )

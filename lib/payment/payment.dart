@@ -51,6 +51,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final ven_id = Get.arguments["vendorId"];
   final ven_name = Get.arguments["gymName"];
   final branch = Get.arguments["branch"];
+  bool simpl=false;
+  getSimpl() async {
+    try{
+      await FirebaseFirestore.instance.collection("simpl").doc("simpl").snapshots().listen((event) {
+        simpl=event["eligable"];
+      });
+    }catch(e){
+      simpl=false;
+    }
+
+  }
   showNotification(String title, String info) async {
     // setState(() {
     //   _counter++;
@@ -361,7 +372,7 @@ check_simpl()async{
       if(response.statusCode==200){
 
         Navigator.of(context).pop();
-        Get.to(()=>simpl_pay(check_simpl: check_simpl, gymData: gymData, myCouponController: myCouponController, booking_id: widget.booking_id, grandTotal: grandTotal, getData: getData, totalDiscount: totalDiscount),duration: Duration(milliseconds: 500));
+        Get.to(()=>simpl_pay(check_simpl: check_simpl, gymData: gymData, myCouponController: myCouponController, booking_id: widget.booking_id, grandTotal: grandTotal, getData: getData, totalDiscount: totalDiscount, simpl: simpl,),duration: Duration(milliseconds: 500));
         // _bottomsheet2(context);
         // print("success");
         var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) ;
@@ -660,8 +671,7 @@ check_simpl()async{
               arguments: {"otp_pass": x, "booking_details": widget.booking_id});
         });
 
-        await (showNotification("Booking successful for " + ven_name,
-            "Share OTP at the center to start."));
+        await (showNotification("Booking successful for " + ven_name, "Share OTP at the center to start."));
         // :await showNotification("Booking Status You","Booking Unsuccessful");
 
         // booking_dCachetails["id"]!=null?
@@ -2026,6 +2036,7 @@ check_simpl()async{
                     const SizedBox(
                       height: 10,
                     ),
+if(simpl)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: SizedBox(
@@ -2413,11 +2424,14 @@ class simpl_pay extends StatelessWidget {
   final grandTotal;
   final getData;
   final totalDiscount;
+  final simpl;
   const simpl_pay({Key? key,required this.check_simpl,required this.gymData,required this.myCouponController,required this.booking_id,
-    required this.grandTotal,required this.getData,required this.totalDiscount}) : super(key: key);
+    required this.grandTotal,required this.getData,required this.totalDiscount,required this.simpl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(simpl);
+    print("+++++++++++++++++qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
     return WillPopScope(
       onWillPop: ()async {
         await check_simpl();
