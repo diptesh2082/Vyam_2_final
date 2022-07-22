@@ -301,7 +301,7 @@ class _GymDetailsState extends State<GymDetails> {
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: SizedBox());
               }
               if (snapshot.data!.exists == false) {
                 return Container();
@@ -641,61 +641,8 @@ class _GymDetailsState extends State<GymDetails> {
                               height: 5,
                             ),
                             if (offer.isNotEmpty)
-                              buildButton(
-                                text: offer[0]['title'].toString(),
-                                subText: offer[0]['offer'],
-                                onClicked: () => showModalBottomSheet<dynamic>(
-                                  isScrollControlled: true,
-                                  constraints: BoxConstraints.loose(Size(
-                                      MediaQuery.of(context).size.width,
-                                      MediaQuery.of(context).size.height *
-                                          0.47)),
-                                  //useRootNavigator: true,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  context: context,
-                                  builder: (context) => buildSheet(),
-                                ),
-                              ),
-                            // StreamBuilder<QuerySnapshot>(
-                            //     stream: FirebaseFirestore.instance
-                            //         .collection('product_details')
-                            //         .doc(gymID)
-                            //         .collection('offers')
-                            //         .where('validity', isEqualTo: true)
-                            //         .snapshots(),
-                            //     builder: (context, snapshot) {
-                            //       if (snapshot.connectionState ==
-                            //           ConnectionState.waiting) {
-                            //         return Center(
-                            //             child: CircularProgressIndicator());
-                            //       }
-                            //       if (snapshot.hasError) {
-                            //         return Text(snapshot.error.toString());
-                            //       }
-                            //       var documents = snapshot.data!.docs;
-                            //       var snap;
-                            //       print("mmmmmmmmm,,,,,<<<<");
-                            //       print(documents);
-                            //       return ListView.builder(
-                            //           itemCount: documents.length,
-                            //           itemBuilder: (context, index) {
-                            //             return buildButton(
-                            //               text: documents[index]['title'],
-                            //               subText: documents[index]
-                            //                   ['offer_type'],
-                            //               onClicked: () => showModalBottomSheet(
-                            //                 shape: RoundedRectangleBorder(
-                            //                   borderRadius:
-                            //                       BorderRadius.circular(15.0),
-                            //                 ),
-                            //                 context: context,
-                            //                 builder: (context) => buildSheet(),
-                            //               ),
-                            //             );
-                            //           });
-                            //     }),
+                              Addbar(context: context, gymID: gymID,),
+
 
                             SizedBox(height: 5),
 
@@ -785,150 +732,8 @@ class _GymDetailsState extends State<GymDetails> {
                               workouts: workout,
                             ),
                             const SizedBox(height: 4),
-                            StreamBuilder<QuerySnapshot>(
-                                stream: FirebaseFirestore.instance
-                                    .collection("product_details")
-                                    .doc("${gymID}")
-                                    .collection("trainer")
-                                    .where("eligible", isEqualTo: true)
-                                    .orderBy("position")
-                                    .snapshots(),
-                                builder: (context, AsyncSnapshot snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(
-                                        color: Colors.amberAccent,
-                                      ),
-                                    );
-                                  }
-                                  // if (snapshot.hasError) {
-                                  //   return const Center(
-                                  //     child: Text("Theres no trainers"),
-                                  //   );
-                                  // }
-                                  if (snapshot.hasData == false) {
-                                    return Container();
-                                  }
-                                  var trainerdoc = snapshot.data!.docs;
-                                  print(trainerdoc);
-                                  print(
-                                      "+++++++++++++++++++++++++++++++++++++++++++++++");
-                                  return trainerdoc.length == 0
-                                      ? SizedBox()
-                                      : SizedBox(
-                                          height:
-                                              145, //MediaQuery.of(context).size.height / 4.7,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              Get.to(
-                                                  () => Trainer(
-                                                        gym_name: docs["name"],
-                                                        gym_brunch:
-                                                            docs["branch"],
-                                                      ),
-                                                  arguments: {
-                                                    "gym_id": gymID,
-                                                    "image":
-                                                        docs["display_picture"]
-                                                  });
-                                            },
-                                            child: Card(
-                                                elevation: .3,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0)),
-                                                child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(8.0),
-                                                        child: Row(
-                                                          children: [
-                                                            Text('Trainers',
-                                                                style:
-                                                                    GoogleFonts
-                                                                        .poppins(
-                                                                  fontSize: 13,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                )),
-                                                            Spacer(),
-                                                            Icon(
-                                                              Icons
-                                                                  .arrow_forward_ios_outlined,
-                                                              size: 18,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 8.0),
-                                                        child: SizedBox(
-                                                            height: 100,
-                                                            //MediaQuery.of(context).size.height /
-                                                            //  9,
-                                                            child: ListView
-                                                                .builder(
-                                                                    shrinkWrap:
-                                                                        true,
-                                                                    itemCount:
-                                                                        trainerdoc
-                                                                            .length,
-                                                                    physics:
-                                                                        const PageScrollPhysics(),
-                                                                    scrollDirection:
-                                                                        Axis
-                                                                            .horizontal,
-                                                                    itemBuilder:
-                                                                        (context,
-                                                                            index) {
-                                                                      return Column(
-                                                                        children: [
-                                                                          Row(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              Column(
-                                                                                children: [
-                                                                                  if (trainerdoc[index]['image'] != null || trainerdoc[index]['image'] != "")
-                                                                                    Container(
-                                                                                      height: 65,
-                                                                                      width: 65,
-                                                                                      decoration: BoxDecoration(
-                                                                                          shape: BoxShape.circle,
-                                                                                          //border: Border.all(width: 1),
-                                                                                          image: DecorationImage(image: CachedNetworkImageProvider(trainerdoc[index]['image'].toString(), maxHeight: 350, maxWidth: 450), fit: BoxFit.cover)),
-                                                                                    ),
-                                                                                  SizedBox(
-                                                                                    height: 2,
-                                                                                  ),
-                                                                                  Text(trainerdoc[index]['name'],
-                                                                                      style: GoogleFonts.poppins(
-                                                                                        fontWeight: FontWeight.w500,
-                                                                                        fontSize: 12,
-                                                                                      )),
-                                                                                ],
-                                                                              ),
-                                                                              const SizedBox(width: 15),
-                                                                            ],
-                                                                          ),
-                                                                        ],
-                                                                      );
-                                                                    })),
-                                                      ),
-                                                    ])),
-                                          ));
-                                }),
+                            TrannerShow(gymID: gymID, docs: docs,),
+
                             const SizedBox(height: 14),
                             FittedBox(
                               child: GestureDetector(
@@ -1434,52 +1239,203 @@ class _GymDetailsState extends State<GymDetails> {
             });
   }
 
-// Widget gymImages(String images) => AspectRatio(
-//   aspectRatio: 16 / 9,
-//   child: ClipRRect(
-//     borderRadius: BorderRadius.circular(10),
-//     child: CachedNetworkImage(
-//       imageUrl: images,f
-//       fit: BoxFit.cover,
-//     ),
-//   ),
-// );
 
-// Widget amenities(int index) => FittedBox(
-//       child: Column(
-//         children: [
-//           CircleAvatar(
-//             radius: 35,
-//             backgroundColor: Colors.amber,
-//             child: Image(
-//               image: CachedNetworkImageProvider(
-//                 documents[index]['image'],
-//               ),
-//               fit: BoxFit.fill,
-//               // width: 26.5,
-//               // height: 26.5,
-//             ),
-//           ),
-//
-//           SizedBox(
-//             width: 90,
-//             height: 38,
-//             child: Text(
-//               documents[index]['name'],
-//               textAlign: TextAlign.center,
-//               style: GoogleFonts.poppins(
-//                 fontWeight: FontWeight.w400,
-//                 fontSize: 12,
-//               ),
-//               maxLines: 2,
-//               overflow: TextOverflow.clip,
-//             ),
-//
-//           ),
-//         ],
-//       ),
-//     );
 
+}
+class TrannerShow extends StatelessWidget {
+  final docs;
+  final gymID;
+  const TrannerShow({Key? key,required this.docs,required this.gymID}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection("product_details")
+            .doc("${gymID}")
+            .collection("trainer")
+            .where("eligible", isEqualTo: true)
+            .orderBy("position")
+            .snapshots(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState ==
+              ConnectionState.waiting) {
+            return const Center(
+              child: SizedBox(),
+            );
+          }
+
+          if (snapshot.hasData == false) {
+            return Container();
+          }
+          var trainerdoc = snapshot.data!.docs;
+          print(trainerdoc);
+          print(
+              "+++++++++++++++++++++++++++++++++++++++++++++++");
+          return trainerdoc.length == 0
+              ? SizedBox()
+              : SizedBox(
+              height:
+              145, //MediaQuery.of(context).size.height / 4.7,
+              child: GestureDetector(
+                onTap: () {
+                  Get.to(
+                          () => Trainer(
+                        gym_name: docs["name"],
+                        gym_brunch:
+                        docs["branch"],
+                      ),
+                      arguments: {
+                        "gym_id": gymID,
+                        "image":
+                        docs["display_picture"]
+                      });
+                },
+                child: Card(
+                    elevation: .3,
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.circular(
+                            12.0)),
+                    child: Column(
+                        crossAxisAlignment:
+                        CrossAxisAlignment
+                            .start,
+                        children: [
+                          Padding(
+                            padding:
+                            const EdgeInsets
+                                .all(8.0),
+                            child: Row(
+                              children: [
+                                Text('Trainers',
+                                    style:
+                                    GoogleFonts
+                                        .poppins(
+                                      fontSize: 13,
+                                      fontWeight:
+                                      FontWeight
+                                          .w700,
+                                    )),
+                                Spacer(),
+                                Icon(
+                                  Icons
+                                      .arrow_forward_ios_outlined,
+                                  size: 18,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                            const EdgeInsets
+                                .only(
+                                left: 8.0),
+                            child: SizedBox(
+                                height: 100,
+                                //MediaQuery.of(context).size.height /
+                                //  9,
+                                child: ListView
+                                    .builder(
+                                    shrinkWrap:
+                                    true,
+                                    itemCount:
+                                    trainerdoc
+                                        .length,
+                                    physics:
+                                    const PageScrollPhysics(),
+                                    scrollDirection:
+                                    Axis
+                                        .horizontal,
+                                    itemBuilder:
+                                        (context,
+                                        index) {
+                                      return Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  if (trainerdoc[index]['image'] != null || trainerdoc[index]['image'] != "")
+                                                    Container(
+                                                      height: 65,
+                                                      width: 65,
+                                                      decoration: BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          //border: Border.all(width: 1),
+                                                          image: DecorationImage(image: CachedNetworkImageProvider(trainerdoc[index]['image'].toString(), maxHeight: 350, maxWidth: 450), fit: BoxFit.cover)),
+                                                    ),
+                                                  SizedBox(
+                                                    height: 2,
+                                                  ),
+                                                  Text(trainerdoc[index]['name'],
+                                                      style: GoogleFonts.poppins(
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 12,
+                                                      )),
+                                                ],
+                                              ),
+                                              const SizedBox(width: 15),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    })),
+                          ),
+                        ])),
+              ));
+        });
+  }
+}
+class Addbar extends StatelessWidget {
+  final gymID;
+  final context;
+  const Addbar({Key? key, required this.gymID,required this.context}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return   StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('product_details')
+            .doc(gymID)
+            .collection('offers')
+            .where('validity', isEqualTo: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState ==
+              ConnectionState.waiting) {
+            return Center(
+                child: SizedBox());
+          }
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
+          var documents = snapshot.data!.docs;
+          // var snap;
+          // print("mmmmmmmmm,,,,,<<<<");
+          // print(documents);
+          return ListView.builder(
+              shrinkWrap: true,
+              itemCount: documents.length,
+              itemBuilder: (context, index) {
+                return buildButton(
+                  text: documents[index]['title'],
+                  subText: documents[index]
+                  ['offer_type'],
+                  onClicked: () => showModalBottomSheet(
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.circular(15.0),
+                    ),
+                    context: context,
+                    builder: (context) => buildSheet(),
+                  ),
+                );
+              });
+        });
+  }
   Widget buildButton({
     required String text,
     required VoidCallback onClicked,
@@ -1539,144 +1495,149 @@ class _GymDetailsState extends State<GymDetails> {
       );
 
   Widget buildSheet() => SafeArea(
-        child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('product_details')
-                .doc(gymID)
-                .collection('offers')
-                .where('validity', isEqualTo: true)
-                .snapshots(),
-            builder: (context, AsyncSnapshot snapshot) {
-              var couponData = snapshot.data;
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              }
-              var documents = snapshot.data.docs;
-              var snap;
-              print("mmmmmmmmm,,,,,<<<<");
-              print(documents);
-              return ListView.builder(
-                  itemCount: documents.length,
-                  itemBuilder: (context, index) {
-                    snap = documents[index];
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+    child: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('product_details')
+            .doc(gymID)
+            .collection('offers')
+            .where('validity', isEqualTo: true)
+            .snapshots(),
+        builder: (context, AsyncSnapshot snapshot) {
+          var couponData = snapshot.data;
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
+          var documents = snapshot.data.docs;
+          var snap;
+          print("mmmmmmmmm,,,,,<<<<");
+          print(documents);
+          return ListView.builder(
+              itemCount: documents.length,
+              itemBuilder: (context, index) {
+                snap = documents[index];
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0, vertical: 6),
-                                child: Text(
-                                  "Offer Details",
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 15, fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Spacer(),
-                              IconButton(onPressed: (){
-                                Navigator.pop(context);
-                              }, icon: Icon(Icons.cancel))
-                            ],
-                          ),
-                          Divider(color: Colors.grey),
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 2),
-                            child: Column(
+                                horizontal: 10.0, vertical: 8),
+                            child: Text(
+                              "Offer Details",
+                              style: GoogleFonts.poppins(
+                                  fontSize: 15, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Spacer(),
+                          IconButton(onPressed: (){
+                            Navigator.pop(context);
+                          }, icon: Icon(Icons.cancel))
+                        ],
+                      ),
+                      Divider(color: Colors.grey),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 2),
+                        child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/icons/new discount.png',
+                              height: 38,
+                              width: 38,
+                            ),
+                            SizedBox(
+                              width: 6,
+                            ),
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Image.asset(
-                                      'assets/icons/new discount.png',
-                                      height: 30,
-                                      width: 30,
-                                    ),
-                                    Text(
-                                      documents[index]['title'].toString(),
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                                Text(
+                                  documents[index]['title'].toString(),
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 30,
-                                    ),
-                                    Text(
-                                      documents[index]['description'],
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
+                                SizedBox(
+                                  width: 30,
+                                ),
+                                Text(
+                                  documents[index]['description'],
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500),
                                 ),
                               ],
                             ),
-                          ),
-                          Divider(color: Colors.grey),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              documents[index]['offer'],
-                              style: GoogleFonts.poppins(
-                                  fontSize: 15, fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          Divider(color: Colors.grey),
-                          Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snap['rules'].length,
-                                itemBuilder: (context, index) => Container(
-                                  child: SingleChildScrollView(
-                                    child: Column(
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      // Divider(color: Colors.grey),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(10.0),
+                      //   child: Text(
+                      //     documents[index]['offer'],
+                      //     style: GoogleFonts.poppins(
+                      //         fontSize: 15, fontWeight: FontWeight.w500),
+                      //   ),
+                      // ),
+                      Divider(color: Colors.grey),
+                      Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: snap['rules'].length,
+                            itemBuilder: (context, index) => Container(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Image.asset(
-                                              "assets/images/tick2002.png",
-                                              width: 20,
-                                              height: 20,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              snap['rules'][index].toString(),
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ],
+                                        Image.asset(
+                                          "assets/images/tick2002.png",
+                                          width: 12,
+                                          height: 12,
                                         ),
                                         SizedBox(
-                                          height: 5,
+                                          width: 6,
+                                        ),
+                                        Text(
+                                          snap['rules'][index].toString(),
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 14,
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.w500),
                                         ),
                                       ],
                                     ),
-                                  ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                  ],
                                 ),
-                              ))
-                        ],
-                      ),
-                    );
-                  });
-            }),
-      );
+                              ),
+                            ),
+                          ))
+                    ],
+                  ),
+                );
+              });
+        }),
+  );
 }
