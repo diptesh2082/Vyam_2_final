@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:vyam_2_final/Home/profile/profile_page.dart';
 
@@ -25,7 +26,6 @@ import '../api/api.dart';
 import '../main.dart';
 import 'icons/home_icon_icons.dart';
 
-
 class HomePage2 extends StatelessWidget {
   const HomePage2({Key? key}) : super(key: key);
 
@@ -33,15 +33,33 @@ class HomePage2 extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 1));
     print("sexsexsexsexsexsexsexsexsexsexsexx");
-    return HomePage();
+    Future<FirebaseRemoteConfig> setupRemoteConfig() async {
+      final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+      await remoteConfig.fetch();
+      await remoteConfig.activate();
+      return remoteConfig;
+    }
+
+    return FutureBuilder<FirebaseRemoteConfig>(
+      future: setupRemoteConfig(),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasError) {
+          return Center(child: Container());
+        }
+        return HomePage(remoteConfig: snapshot.requireData);
+      },
+    );
   }
 }
 
 class HomePage extends StatefulWidget {
   static String id = "/HomePage";
-  // final FirebaseRemoteConfig remoteConfig;
+  final remoteConfig;
 
-  // const HomePage({Key? key, required this.remoteConfig}) : super(key: key);
+  const HomePage({Key? key, required this.remoteConfig}) : super(key: key);
   // const HomePage({Key? key, required this.title}) : super(key: key);
 
   @override
@@ -264,10 +282,12 @@ class _HomePageState extends State<HomePage> {
 // >>>>>>> master
 
   int _counter = 0;
+
   @override
   void initState() {
     // Get.lazyPut(()=>Need());
-
+    var update = widget.remoteConfig.getBool("Update");
+    print("++++++++++++++$update");
     getInternet1();
     checkAvablity();
     getInfo();
@@ -494,34 +514,39 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
+  var remoteConfig;
+  // FutureBuilder<FirebaseRemoteConfig>(
+  // future: setupRemoteConfig(),
+  // builder: (BuildContext context, AsyncSnapshot snapshot) {
+  // if (snapshot.connectionState == ConnectionState.waiting) {
+  // return Center(child: CircularProgressIndicator());
+  // }
+  // if (snapshot.hasError) {
+  // return Center(child: Container());
+  // }
+  // return FirstHome2(remoteConfig: snapshot.requireData);
+  // },
+  // ),
+  // FutureBuilder fu(BuildContext context){
+  //   return
+  // }
   List<Widget> _buildScreens() {
-
     FocusScope.of(context).unfocus();
+
     return [
-      FutureBuilder<FirebaseRemoteConfig>(
-        future: setupRemoteConfig(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Container());
-          }
-          return FirstHome2(remoteConfig: snapshot.requireData);
-        },
-      ),
+      FirstHome2(),
       const BookingDetails(),
       const Exploreia(),
       ProfilePart(),
     ];
   }
 
-  Future<FirebaseRemoteConfig> setupRemoteConfig() async {
-    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
-    await remoteConfig.fetch();
-    await remoteConfig.activate();
-    return remoteConfig;
-  }
+  // Future<FirebaseRemoteConfig> setupRemoteConfig() async {
+  //   final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+  //   await remoteConfig.fetch();
+  //   await remoteConfig.activate();
+  //   return remoteConfig;
+  // }
 
   int currentIndex = 0;
   final backgroundColor = scaffoldColor;
@@ -535,6 +560,83 @@ class _HomePageState extends State<HomePage> {
   //   // BookingDetails(),
   //   // NotificationDetails(),
   // ];
+  final url =
+      "https://play.google.com/store/apps/details?id=com.findnearestfitness.vyam";
+  AlertDialog showAlertDialog(
+      BuildContext context, FirebaseRemoteConfig remoteConfig) {
+    Widget cancel = TextButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Text("Cancel"));
+    Widget update = SizedBox(
+        width: 140,
+        height: 45,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Color.fromRGBO(247, 188, 40, 1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20), // <-- Radius
+            ),
+          ),
+          onPressed: () async {
+            var urllaunchable = await canLaunch(url);
+            if (urllaunchable) {
+              await launch(url);
+            } else {
+              print("Try Again");
+            }
+          },
+          child: Text(
+            "Update Now",
+            style: GoogleFonts.poppins(
+                color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+          ),
+        ));
+
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(40.0))),
+      contentPadding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+      // title: ,
+      content: Container(
+        height: 550,
+        width: 600,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 300, child: Image.asset('assets/icons/roc.png')),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              remoteConfig.getString("Title"),
+              style: GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(remoteConfig.getString("Message"),
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                    color: Colors.grey,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500)),
+            SizedBox(
+              height: 70,
+            ),
+            update,
+          ],
+        ),
+      ),
+      // actions: <Widget>[update],
+    );
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -547,55 +649,68 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     // var update = widget.remoteConfig.getBool("Update");
+    var update = widget.remoteConfig.getBool("Update");
 
     Get.lazyPut(() => Need(), fenix: true);
-    return isLoading
-        ? Container(
-            color: Colors.white,
-            child: Center(
-                child: CircularProgressIndicator(
-                    // backgroundColor: Colors.white,
-                    // c,
-                    )),
-          )
-        : Scaffold(
-            backgroundColor: scaffoldColor,
-            body: net
-                ? PersistentTabView(
-                    context,
-                    controller: _controller,
-                    navBarHeight: 65,
-                    screens: _buildScreens(),
-                    items: _navBarsItems(),
-                    confineInSafeArea: true,
-                    backgroundColor: Colors.white,
-                    handleAndroidBackButtonPress: true,
-                    resizeToAvoidBottomInset: true,
-                    stateManagement: true,
-                    hideNavigationBarWhenKeyboardShows: true,
-                    popAllScreensOnTapOfSelectedTab: true,
+    return update
+        ? showAlertDialog(context, widget.remoteConfig)
+        : isLoading
+            ? Container(
+                color: Colors.white,
+                child: Center(
+                    child: CircularProgressIndicator(
+                        // backgroundColor: Colors.white,
+                        // c,
+                        )),
+              )
+            : Scaffold(
+                backgroundColor: scaffoldColor,
+                body: net
+                    ? PersistentTabView(
+                        context,
+                        controller: _controller,
+                        navBarHeight: 65,
+                        screens: _buildScreens(),
+                        items: _navBarsItems(),
+                        confineInSafeArea: true,
+                        backgroundColor: Colors.white,
+                        handleAndroidBackButtonPress: true,
+                        resizeToAvoidBottomInset: true,
+                        stateManagement: true,
+                        hideNavigationBarWhenKeyboardShows: true,
+                        popAllScreensOnTapOfSelectedTab: true,
 
-                    popActionScreens: PopActionScreensType.all,
-                    // onWillPop: FocusScope.of(context).unfocus(),
-                    itemAnimationProperties: const ItemAnimationProperties(
-                      duration: Duration(milliseconds: 200),
-                      curve: Curves.ease,
-                    ),
-                    screenTransitionAnimation: const ScreenTransitionAnimation(
-                      animateTabTransition: true,
-                      curve: Curves.ease,
-                      duration: Duration(milliseconds: 200),
-                    ),
-                    navBarStyle: NavBarStyle.style3,
-                  )
-                : NoInternet(),
-            // floatingActionButton: FloatingActionButton(
-            //   onPressed: () {
-            //     showNotification();
-            //   },
-            //   tooltip: 'Icrement',
-            //   child: Icon(Icons.add),
-            // ),
-          );
+                        popActionScreens: PopActionScreensType.all,
+                        // onWillPop: FocusScope.of(context).unfocus(),
+                        itemAnimationProperties: const ItemAnimationProperties(
+                          duration: Duration(milliseconds: 200),
+                          curve: Curves.ease,
+                        ),
+                        screenTransitionAnimation:
+                            const ScreenTransitionAnimation(
+                          animateTabTransition: true,
+                          curve: Curves.ease,
+                          duration: Duration(milliseconds: 200),
+                        ),
+                        navBarStyle: NavBarStyle.style3,
+                      )
+                    : NoInternet(),
+                // floatingActionButton: FloatingActionButton(
+                //   onPressed: () {
+                //     showNotification();
+                //   },
+                //   tooltip: 'Icrement',
+                //   child: Icon(Icons.add),
+                // ),
+              );
+  }
+}
+
+class fuu extends StatelessWidget {
+  const fuu({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
