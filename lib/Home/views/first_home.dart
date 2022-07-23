@@ -32,20 +32,20 @@ import 'package:vyam_2_final/golbal_variables.dart';
 import '../../Notifications/notification.dart';
 
 class FirstHome2 extends StatelessWidget {
-  final remoteConfig;
-  const FirstHome2({Key? key, this.remoteConfig}) : super(key: key);
+  // final remoteConfig;
+  const FirstHome2({Key? key, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
-    return FirstHome(remoteConfig: remoteConfig,);
+    return FirstHome();
   }
 }
 
 
 class FirstHome extends StatefulWidget {
-  final  remoteConfig;
-  const FirstHome({Key? key, required this.remoteConfig}) : super(key: key);
+  // final  remoteConfig;
+  const FirstHome({Key? key, }) : super(key: key);
 
   // static bool get Loading => is;
 
@@ -55,36 +55,6 @@ class FirstHome extends StatefulWidget {
 
 class _FirstHomeState extends State<FirstHome> {
   ActiveBookingApi activeBookingApi = ActiveBookingApi();
-  final url =
-      "https://play.google.com/store/apps/details?id=com.findnearestfitness.vyam";
-  AlertDialog showAlertDialog(
-      BuildContext context, FirebaseRemoteConfig remoteConfig) {
-    Widget cancel = TextButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: Text("Cancel"));
-    Widget update = TextButton(
-        onPressed: () async {
-          var urllaunchable = await canLaunch(url);
-          if (urllaunchable) {
-            await launch(url);
-          } else {
-            print("Try Again");
-          }
-        },
-        child: Text(
-          "Update",
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.orangeAccent),
-        ));
-
-    return AlertDialog(
-      title: Text(remoteConfig.getString("Title")),
-      content: Text(remoteConfig.getString("Message")),
-      actions: <Widget>[update],
-    );
-  }
 
   double finaldaysLeft = 0;
   double progress = 0;
@@ -235,9 +205,32 @@ class _FirstHomeState extends State<FirstHome> {
     }
   }
 
+  Future<FirebaseRemoteConfig> setupRemoteConfig() async {
+    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.fetch();
+    await remoteConfig.activate();
+    return remoteConfig;
+  }
+  // bool update=false;
+  // getBool()async{
+  //   var d = await setupRemoteConfig();
+  //   print(d);
+  //   var x =d.getBool("Update");
+  //   print(x);
+  //   print(x);
+  //   print(x);
+  //   print(x);
+  //   print(x);print(x);
+  //   print(x);
+  //   print(x);
+  //   print(x);
+  //
+  //
+  // }
   @override
   void initState() {
     // getStream();]
+    // getBool();
 
 print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
     updateDeviceToken();
@@ -258,7 +251,7 @@ print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var update = false;
+    // var update = false;
     // var update = widget.remoteConfig.getBool("Update");
 
     return WillPopScope(
@@ -267,9 +260,7 @@ print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-
         return true;
       },
       child: SafeArea(
-        child: update
-            ? showAlertDialog(context, widget.remoteConfig)
-            : isLoading
+        child: isLoading
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )

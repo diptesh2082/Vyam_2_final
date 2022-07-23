@@ -10,6 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:vyam_2_final/Home/profile/profile_page.dart';
 
@@ -27,12 +28,13 @@ import 'icons/home_icon_icons.dart';
 
 
 class HomePage2 extends StatelessWidget {
-  const HomePage2({Key? key}) : super(key: key);
+// final remoteConfig;
+  const HomePage2({Key? key, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 1));
-    print("sexsexsexsexsexsexsexsexsexsexsexx");
+
     return HomePage();
   }
 }
@@ -41,7 +43,7 @@ class HomePage extends StatefulWidget {
   static String id = "/HomePage";
   // final FirebaseRemoteConfig remoteConfig;
 
-  // const HomePage({Key? key, required this.remoteConfig}) : super(key: key);
+  const HomePage({Key? key, }) : super(key: key);
   // const HomePage({Key? key, required this.title}) : super(key: key);
 
   @override
@@ -498,7 +500,7 @@ class _HomePageState extends State<HomePage> {
 
     FocusScope.of(context).unfocus();
     return [
-    FirstHome2(remoteConfig: ""),
+    FirstHome2(),
       // FutureBuilder<FirebaseRemoteConfig>(
       //   future: setupRemoteConfig(),
       //   builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -516,13 +518,13 @@ class _HomePageState extends State<HomePage> {
       ProfilePart(),
     ];
   }
-
-  Future<FirebaseRemoteConfig> setupRemoteConfig() async {
-    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
-    await remoteConfig.fetch();
-    await remoteConfig.activate();
-    return remoteConfig;
-  }
+  //
+  // Future<FirebaseRemoteConfig> setupRemoteConfig() async {
+  //   final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+  //   await remoteConfig.fetch();
+  //   await remoteConfig.activate();
+  //   return remoteConfig;
+  // }
 
   int currentIndex = 0;
   final backgroundColor = scaffoldColor;
@@ -547,9 +549,21 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // var update = widget.remoteConfig.getBool("Update");
 
+    // FutureBuilder<FirebaseRemoteConfig>(
+    //   future: setupRemoteConfig(),
+    //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.waiting) {
+    //       return Center(child: CircularProgressIndicator());
+    //     }
+    //     if (snapshot.hasError) {
+    //       return Center(child: Container());
+    //     }
+    //     return FirstHome2(remoteConfig: snapshot.requireData);
+    //   },
+    // ),
     Get.lazyPut(() => Need(), fenix: true);
+
     return isLoading
         ? Container(
             color: Colors.white,
@@ -559,44 +573,59 @@ class _HomePageState extends State<HomePage> {
                     // c,
                     )),
           )
-        : Scaffold(
-            backgroundColor: scaffoldColor,
-            body: net
-                ? PersistentTabView(
-                    context,
-                    controller: _controller,
-                    navBarHeight: 65,
-                    screens: _buildScreens(),
-                    items: _navBarsItems(),
-                    confineInSafeArea: true,
-                    backgroundColor: Colors.white,
-                    handleAndroidBackButtonPress: true,
-                    resizeToAvoidBottomInset: true,
-                    stateManagement: true,
-                    hideNavigationBarWhenKeyboardShows: true,
-                    popAllScreensOnTapOfSelectedTab: true,
+        :
+    // FutureBuilder<FirebaseRemoteConfig>(
+    //       future:setupRemoteConfig(),
+    //       builder: (BuildContext context, AsyncSnapshot snapshot) {
+    // if (snapshot.connectionState == ConnectionState.waiting) {
+    //       return Center(child: CircularProgressIndicator());
+    //     }
+    //     if (snapshot.hasError) {
+    //       return Center(child: Container());
+    //     }var update = snapshot.requireData.getBool("Update");
+             Scaffold(
+                backgroundColor: scaffoldColor,
+                body: net
+                    ?
+                // update
+                //     ? showAlertDialog(context,snapshot.data )
+                //     :
+                PersistentTabView(
+                        context,
+                        controller: _controller,
+                        navBarHeight: 65,
+                        screens: _buildScreens(),
+                        items: _navBarsItems(),
+                        confineInSafeArea: true,
+                        backgroundColor: Colors.white,
+                        handleAndroidBackButtonPress: true,
+                        resizeToAvoidBottomInset: true,
+                        stateManagement: true,
+                        hideNavigationBarWhenKeyboardShows: true,
+                        popAllScreensOnTapOfSelectedTab: true,
 
-                    popActionScreens: PopActionScreensType.all,
-                    // onWillPop: FocusScope.of(context).unfocus(),
-                    itemAnimationProperties: const ItemAnimationProperties(
-                      duration: Duration(milliseconds: 200),
-                      curve: Curves.ease,
-                    ),
-                    screenTransitionAnimation: const ScreenTransitionAnimation(
-                      animateTabTransition: true,
-                      curve: Curves.ease,
-                      duration: Duration(milliseconds: 200),
-                    ),
-                    navBarStyle: NavBarStyle.style3,
-                  )
-                : NoInternet(),
-            // floatingActionButton: FloatingActionButton(
-            //   onPressed: () {
-            //     showNotification();
-            //   },
-            //   tooltip: 'Icrement',
-            //   child: Icon(Icons.add),
-            // ),
-          );
+                        popActionScreens: PopActionScreensType.all,
+                        // onWillPop: FocusScope.of(context).unfocus(),
+                        itemAnimationProperties: const ItemAnimationProperties(
+                          duration: Duration(milliseconds: 200),
+                          curve: Curves.ease,
+                        ),
+                        screenTransitionAnimation: const ScreenTransitionAnimation(
+                          animateTabTransition: true,
+                          curve: Curves.ease,
+                          duration: Duration(milliseconds: 200),
+                        ),
+                        navBarStyle: NavBarStyle.style3,
+                      )
+                    : NoInternet(),
+                // floatingActionButton: FloatingActionButton(
+                //   onPressed: () {
+                //     showNotification();
+                //   },
+                //   tooltip: 'Icrement',
+                //   child: Icon(Icons.add),
+                // ),
+              );
+
   }
 }
