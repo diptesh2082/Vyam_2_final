@@ -31,7 +31,7 @@ class BuildBox extends StatelessWidget {
                 .snapshots(),
             builder: (context, AsyncSnapshot streamSnapshot) {
               if (streamSnapshot.connectionState == ConnectionState.waiting) {
-                return   Center(child: Container());
+                return Center(child: Container());
               }
               if (streamSnapshot.hasError) {
                 return const Center(
@@ -43,14 +43,26 @@ class BuildBox extends StatelessWidget {
                 double d1 = calculateDistance(
                   a["location"].latitude,
                   a["location"].longitude,
-                  Get.find<GlobalUserData>().userData.value["location"].latitude,
-                  Get.find<GlobalUserData>().userData.value["location"].longitude,
+                  Get.find<GlobalUserData>()
+                      .userData
+                      .value["location"]
+                      .latitude,
+                  Get.find<GlobalUserData>()
+                      .userData
+                      .value["location"]
+                      .longitude,
                 );
                 double d2 = calculateDistance(
                   b["location"].latitude,
                   b["location"].longitude,
-                  Get.find<GlobalUserData>().userData.value["location"].latitude,
-                  Get.find<GlobalUserData>().userData.value["location"].longitude,
+                  Get.find<GlobalUserData>()
+                      .userData
+                      .value["location"]
+                      .latitude,
+                  Get.find<GlobalUserData>()
+                      .userData
+                      .value["location"]
+                      .longitude,
                 );
                 if (d1 > d2)
                   return 1;
@@ -72,8 +84,14 @@ class BuildBox extends StatelessWidget {
 
               documents.forEach((e) {
                 var distance = calculateDistance(
-                    Get.find<GlobalUserData>().userData.value["location"].latitude,
-                    Get.find<GlobalUserData>().userData.value["location"].longitude,
+                    Get.find<GlobalUserData>()
+                        .userData
+                        .value["location"]
+                        .latitude,
+                    Get.find<GlobalUserData>()
+                        .userData
+                        .value["location"]
+                        .longitude,
                     e["location"].latitude,
                     e["location"].longitude);
                 distance = double.parse((distance).toStringAsFixed(1));
@@ -90,8 +108,7 @@ class BuildBox extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Material(
-                        borderRadius:
-                        BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(10),
                         elevation: 0,
                         child: SizedBox(
                           height: 30,
@@ -100,9 +117,7 @@ class BuildBox extends StatelessWidget {
                             child: Text(
                               "Nearby Gyms",
                               style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight:
-                                  FontWeight.w600),
+                                  fontSize: 16, fontWeight: FontWeight.w600),
                             ),
                           ),
                         ),
@@ -161,30 +176,44 @@ class BuildBox extends StatelessWidget {
                                                 .size
                                                 .width,
                                             imageUrl: document[index]
-                                                    ["display_picture"].toString(),
-                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                    ["display_picture"]
+                                                .toString(),
+                                            progressIndicatorBuilder: (context,
+                                                    url, downloadProgress) =>
                                                 Container(
-                                                    color: Colors.black87.withOpacity(1),
+                                                    color: Colors.black87
+                                                        .withOpacity(1),
                                                     child: Center(
                                                         child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                                          children: [
-                                                            SizedBox(
-                                                              height: 12,
-                                                            ),
-                                                            Image.asset( "assets/Illustrations/vyam.png",
-                                                              height: 120,
-                                                              width: 200,
-                                                            ),
-                                                            SizedBox(
-                                                              width: MediaQuery.of(context).size.width*.5,
-                                                              child: LinearProgressIndicator(
-                                                                color: Colors.yellow,
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ))),
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 12,
+                                                        ),
+                                                        Image.asset(
+                                                          "assets/Illustrations/vyam.png",
+                                                          height: 120,
+                                                          width: 200,
+                                                        ),
+                                                        SizedBox(
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              .5,
+                                                          child:
+                                                              LinearProgressIndicator(
+                                                            color:
+                                                                Colors.yellow,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ))),
                                             errorWidget:
                                                 (context, url, error) =>
                                                     const Icon(Icons.error),
@@ -251,7 +280,8 @@ class BuildBox extends StatelessWidget {
                                               ),
                                               Text(
                                                 // "",
-                                                document[index]["address"].toString(),
+                                                document[index]["address"]
+                                                    .toString(),
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.start,
@@ -540,7 +570,7 @@ class BuildBox extends StatelessWidget {
                           child: SizedBox(
                             height: 25,
                             width: 25,
-                            child: Image.asset('assets/icons/fb.png'),
+                            child: Image.asset('assets/icons/1.png'),
                           ),
                         ),
                       ],
