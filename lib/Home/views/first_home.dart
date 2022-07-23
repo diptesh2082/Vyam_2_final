@@ -33,19 +33,24 @@ import '../../Notifications/notification.dart';
 
 class FirstHome2 extends StatelessWidget {
   // final remoteConfig;
-  const FirstHome2({Key? key, }) : super(key: key);
+  const FirstHome2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-    return FirstHome();
+    return FirstHome(
+      // remoteConfig: remoteConfig,
+    );
   }
 }
 
-
 class FirstHome extends StatefulWidget {
-  // final  remoteConfig;
-  const FirstHome({Key? key, }) : super(key: key);
+// <<<<<<< HEAD
+  // final FirebaseRemoteConfig remoteConfig;
+  const FirstHome({Key? key}) : super(key: key);
+// =======
+//   final  remoteConfig;
+//   const FirstHome({Key? key, required this.remoteConfig}) : super(key: key);
+// >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
 
   // static bool get Loading => is;
 
@@ -55,6 +60,82 @@ class FirstHome extends StatefulWidget {
 
 class _FirstHomeState extends State<FirstHome> {
   ActiveBookingApi activeBookingApi = ActiveBookingApi();
+  final url =
+      "https://play.google.com/store/apps/details?id=com.findnearestfitness.vyam";
+  AlertDialog showAlertDialog(
+      BuildContext context, FirebaseRemoteConfig remoteConfig) {
+    Widget cancel = TextButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Text("Cancel"));
+    Widget update = SizedBox(
+        width: 140,
+        height: 45,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Color.fromRGBO(247, 188, 40, 1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20), // <-- Radius
+            ),
+          ),
+          onPressed: () async {
+            var urllaunchable = await canLaunch(url);
+            if (urllaunchable) {
+              await launch(url);
+            } else {
+              print("Try Again");
+            }
+          },
+          child: Text(
+            "Update Now",
+            style: GoogleFonts.poppins(
+                color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+          ),
+        ));
+
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(40.0))),
+      contentPadding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+      // title: ,
+      content: Container(
+        height: 550,
+        width: 600,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: 300, child: Image.asset('assets/icons/roc.png')),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              remoteConfig.getString("Title"),
+              style: GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(remoteConfig.getString("Message"),
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                    color: Colors.grey,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500)),
+            SizedBox(
+              height: 70,
+            ),
+            update,
+          ],
+        ),
+      ),
+      // actions: <Widget>[update],
+    );
+  }
 
   double finaldaysLeft = 0;
   double progress = 0;
@@ -79,15 +160,14 @@ class _FirstHomeState extends State<FirstHome> {
 
   // Create a geoFirePoint
   GeoFirePoint center =
-      Geoflutterfire().point(latitude: 12.960632, longitude: 77.641603);
+  Geoflutterfire().point(latitude: 12.960632, longitude: 77.641603);
 
 // get the collection reference or query
   var collectionReference =
-      FirebaseFirestore.instance.collection('product_details');
+  FirebaseFirestore.instance.collection('product_details');
 
   double radius = 50;
   String field = 'position';
-
 
   myLocation() async {
     try {
@@ -140,7 +220,8 @@ class _FirstHomeState extends State<FirstHome> {
         isLoading = false;
       });
     }
-    print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
+    print(
+        " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
   }
 
   bool showCard = false;
@@ -205,38 +286,24 @@ class _FirstHomeState extends State<FirstHome> {
     }
   }
 
-  Future<FirebaseRemoteConfig> setupRemoteConfig() async {
-    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
-    await remoteConfig.fetch();
-    await remoteConfig.activate();
-    return remoteConfig;
-  }
-  // bool update=false;
-  // getBool()async{
-  //   var d = await setupRemoteConfig();
-  //   print(d);
-  //   var x =d.getBool("Update");
-  //   print(x);
-  //   print(x);
-  //   print(x);
-  //   print(x);
-  //   print(x);print(x);
-  //   print(x);
-  //   print(x);
-  //   print(x);
-  //
-  //
-  // }
   @override
   void initState() {
     // getStream();]
-    // getBool();
-
-print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
+// <<<<<<< HEAD
+//     DefaultCacheManager().emptyCache();
+//     print(
+//         " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
+// =======
+//
+    print(
+        " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
+// >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
     updateDeviceToken();
-print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
+    print(
+        " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
     getEverything();
-print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
+    print(
+        " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
     super.initState();
   }
 
@@ -251,8 +318,11 @@ print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // var update = false;
+// <<<<<<< HEAD
+// =======
+//     var update = false;
     // var update = widget.remoteConfig.getBool("Update");
+// >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
 
     return WillPopScope(
       onWillPop: () async {
@@ -261,242 +331,271 @@ print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-
       },
       child: SafeArea(
         child: isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Scaffold(
-                    backgroundColor: scaffoldColor,
-                    appBar: ScrollAppBar(
-                      controller: app_bar_controller,
-                      elevation: .0,
-                      centerTitle: false,
-                      backgroundColor: const Color(0xffF4F4F4),
-                      leading: IconButton(
-                        iconSize: 24,
-                        icon: const Icon(
-                          Profileicon.location,
-                          color: Color(0xff3A3A3A),
-                        ),
-                        onPressed: () async {
-                          FocusScope.of(context).unfocus();
-                          await getAddressPin(pin);
-                          if (mounted) {
-                            setState(() {
-                              // myaddress = myaddress;
-                              address = address;
-                              pin = pin;
-                              GlobalUserLocation = user_data["address"];
-                            });
-                          }
-                          Get.to(() => LocInfo());
-                        },
-                      ),
-                      title: Transform(
-                        transform: Matrix4.translationValues(-26, 0, 0),
-                        child: InkWell(
-                          onTap: () async {
-                            FocusScope.of(context).unfocus();
-                            await getAddressPin(pin);
-                            if (mounted) {
-                              setState(() {
-                                // myaddress = myaddress;
-                                address = address;
-                                pin = pin;
-                                GlobalUserLocation = user_data["address"];
-                              });
-                            }
-                            Get.to(() => LocInfo());
-                          },
-                          child: SizedBox(
-                            width: size.width * .666,
-                            height: 45,
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if (Get.find<GlobalUserData>()
-                                          .userData
-                                          .value["address"] ==
-                                      null)
-                                    Text(
-                                      "Tap here to choose your Location",
-                                      textAlign: TextAlign.left,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xff3A3A3A),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  if (Get.find<GlobalUserData>()
-                                          .userData
-                                          .value["address"] !=
-                                      null)
-                                    Text(
-                                      Get.find<GlobalUserData>()
-                                                  .userData
-                                                  .value["address"]
-                                                  .toString() ==
-                                              ""
-                                          ? "Tap here to choose your Location"
-                                          : Get.find<GlobalUserData>()
-                                              .userData
-                                              .value["address"]
-                                              .toString(),
-                                      textAlign: TextAlign.left,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: GoogleFonts.poppins(
-                                          color: const Color(0xff3A3A3A),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                ],
-                              ),
-                            ),
+            ? const Center(
+          child: CircularProgressIndicator(),
+        )
+            : Scaffold(
+          backgroundColor: scaffoldColor,
+          appBar: ScrollAppBar(
+            controller: app_bar_controller,
+            elevation: .0,
+            centerTitle: false,
+            backgroundColor: const Color(0xffF4F4F4),
+            leading: IconButton(
+              iconSize: 24,
+              icon: const Icon(
+                Profileicon.location,
+                color: Color(0xff3A3A3A),
+              ),
+              onPressed: () async {
+                FocusScope.of(context).unfocus();
+                await getAddressPin(pin);
+                if (mounted) {
+                  setState(() {
+                    // myaddress = myaddress;
+                    address = address;
+                    pin = pin;
+                    GlobalUserLocation = user_data["address"];
+                  });
+                }
+                Get.to(() => LocInfo());
+              },
+            ),
+            title: Transform(
+              transform: Matrix4.translationValues(-26, 0, 0),
+              child: InkWell(
+                onTap: () async {
+                  FocusScope.of(context).unfocus();
+                  await getAddressPin(pin);
+                  if (mounted) {
+                    setState(() {
+                      // myaddress = myaddress;
+                      address = address;
+                      pin = pin;
+                      GlobalUserLocation = user_data["address"];
+                    });
+                  }
+                  Get.to(() => LocInfo());
+                },
+                child: SizedBox(
+                  width: size.width * .666,
+                  height: 45,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (Get.find<GlobalUserData>()
+                            .userData
+                            .value["address"] ==
+                            null)
+                          Text(
+                            "Tap here to choose your Location",
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: GoogleFonts.poppins(
+                                color: const Color(0xff3A3A3A),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
                           ),
-                        ),
-                      ),
-                      actions: [
-                        Column(
-                          children: [
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Row(
-                              children: [
-                                StreamBuilder<QuerySnapshot>(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('bookings')
-                                        .where("userId", isEqualTo: number)
-                                        .where("booking_status",
-                                            isEqualTo: "upcoming")
-                                        .orderBy("order_date", descending: true)
-                                        .snapshots(),
-                                    builder: (context, AsyncSnapshot snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return Center(child: Container());
-                                      }
-                                      if (snapshot.hasError) {
-                                        return Center(child: Container());
-                                      }
-                                      // if(snapshot.data.docs.length==0){
-                                      //   return Center(child:Container());
-                                      // }
-
-                                      return Badge(
-                                        elevation: snapshot.data.docs.isNotEmpty
-                                            ? 2
-                                            : 0,
-                                        badgeColor:
-                                            snapshot.data.docs.isNotEmpty
-                                                ? Colors.red
-                                                : Colors.white38,
-                                        position: BadgePosition.topEnd(
-                                            top: 7, end: 7),
-                                        child: IconButton(
-                                          // NOTIFICATION NUMBER CALLING
-                                          icon: const ImageIcon(
-                                            AssetImage(
-                                                "assets/icons/Notification.png"),
-                                            size: 27,
-                                            color: Colors.black,
-                                          ),
-                                          onPressed: () async {
-                                            // await DefaultCacheManager().emptyCache();
-                                            Get.to(() => NotificationDetails());
-                                            // print(GlobalUserData);
-                                          },
-                                        ),
-                                      );
-                                    }),
-                                SizedBox(
-                                  width: 5,
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
+                        if (Get.find<GlobalUserData>()
+                            .userData
+                            .value["address"] !=
+                            null)
+                          Text(
+                            Get.find<GlobalUserData>()
+                                .userData
+                                .value["address"]
+                                .toString() ==
+                                ""
+                                ? "Tap here to choose your Location"
+                                : Get.find<GlobalUserData>()
+                                .userData
+                                .value["address"]
+                                .toString(),
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: GoogleFonts.poppins(
+                                color: const Color(0xff3A3A3A),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
                       ],
                     ),
-                    body: Snap(
-                      controller: app_bar_controller.appBar,
-                      child: SingleChildScrollView(
-                        physics: ClampingScrollPhysics(),
-                        controller: app_bar_controller,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 5.0, right: 5),
-                          child: Obx(
-                            () => Stack(
-                              alignment: Alignment.topCenter,
-                              children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width,
-                                      child: const Divider(
-                                        height: .3,
-                                        thickness: 1,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 12,
-                                    ),
+                  ),
+                ),
+              ),
+            ),
+            actions: [
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('bookings')
+                              .where("userId", isEqualTo: number)
+                              .where("booking_status",
+                              isEqualTo: "upcoming")
+                              .orderBy("order_date", descending: true)
+                              .snapshots(),
+                          builder: (context, AsyncSnapshot snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: Container());
+                            }
+                            if (snapshot.hasError) {
+                              return Center(child: Container());
+                            }
+                            // if(snapshot.data.docs.length==0){
+                            //   return Center(child:Container());
+                            // }
 
-                                    SizedBox(
-                                      height: 60,
-                                    ),
-
-                                    const SizedBox(
-                                      height: 9,
-                                    ),
-                                    // if (searchGymName.isEmpty)
-                                    // if (Get.find<Need>().search.value.isEmpty)
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        if (getPercentage != 100)
-                                          ProgressCard(),
-                                        const SizedBox(
-                                          height: 9,
-                                        ),
-                                        Banner(bannerApi: bannerApi),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        // if (Get.find<Need>().search.value.isEmpty)
-                                        Catagory(),
-
-                                          const SizedBox(
-                                            height: 7,
-                                          ),
-
-                                        if (Get.find<Need>()
-                                            .search
-                                            .value
-                                            .isEmpty)
-                                          const SizedBox(
-                                            height: 7,
-                                          ),
-
-                                        BuildBox()
-                                        // LocationList()
-                                      ],
-                                    )
-                                  ],
+                            return Badge(
+                              elevation:
+                              snapshot.data.docs.isNotEmpty ? 2 : 0,
+                              badgeColor: snapshot.data.docs.isNotEmpty
+                                  ? Colors.red
+                                  : Colors.white38,
+                              position:
+                              BadgePosition.topEnd(top: 7, end: 7),
+                              child: IconButton(
+                                // NOTIFICATION NUMBER CALLING
+                                icon: const ImageIcon(
+                                  AssetImage(
+                                      "assets/icons/Notification.png"),
+                                  size: 27,
+                                  color: Colors.black,
                                 ),
-                                Positioned(top: 15, child: SearchIt()),
-                              ],
+                                onPressed: () async {
+                                  // await DefaultCacheManager().emptyCache();
+                                  Get.to(() => NotificationDetails());
+                                  // print(GlobalUserData);
+                                },
+                              ),
+                            );
+                          }),
+                      SizedBox(
+                        width: 5,
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          body: Snap(
+            controller: app_bar_controller.appBar,
+            child: SingleChildScrollView(
+              physics: ClampingScrollPhysics(),
+              controller: app_bar_controller,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0, right: 5),
+                child: Obx(
+                      () => Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: const Divider(
+                              height: .3,
+                              thickness: 1,
                             ),
                           ),
-                        ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+
+                          SizedBox(
+                            height: 60,
+                          ),
+
+                          const SizedBox(
+                            height: 9,
+                          ),
+                          // if (searchGymName.isEmpty)
+                          // if (Get.find<Need>().search.value.isEmpty)
+                          Column(
+                            children: [
+                              if (getPercentage != 100) ProgressCard(),
+                              const SizedBox(
+                                height: 9,
+                              ),
+                              Banner(bannerApi: bannerApi),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              // if (Get.find<Need>().search.value.isEmpty)
+// <<<<<<< HEAD
+//                                     Catagory(),
+//                                     if (Get.find<Need>().search.value.isEmpty)
+//                                       const SizedBox(
+//                                         height: 7,
+//                                       ),
+//
+//                                     if (Get.find<Need>().search.value.isEmpty)
+//                                       const SizedBox(
+//                                         height: 7,
+//                                       ),
+//                                     if (Get.find<Need>().search.value.isEmpty)
+                              // BuildBox()
+                              // LocationList()
+// =======
+                              Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.start,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  if (getPercentage != 100)
+                                    ProgressCard(),
+                                  const SizedBox(
+                                    height: 9,
+                                  ),
+                                  Banner(bannerApi: bannerApi),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  // if (Get.find<Need>().search.value.isEmpty)
+                                  Catagory(),
+
+                                  const SizedBox(
+                                    height: 7,
+                                  ),
+
+                                  if (Get.find<Need>()
+                                      .search
+                                      .value
+                                      .isEmpty)
+                                    const SizedBox(
+                                      height: 7,
+                                    ),
+
+                                  BuildBox()
+                                  // LocationList()
+                                ],
+                              )
+// >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
+                            ],
+                          )
+                        ],
                       ),
-                    ),
+                      Positioned(top: 15, child: SearchIt()),
+                    ],
                   ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -532,7 +631,7 @@ print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-
             prefixIcon: Icon(Profileicon.search),
             hintText: 'Search',
             hintStyle:
-                GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+            GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
             border: InputBorder.none,
             filled: true,
             fillColor: Colors.white,
@@ -629,7 +728,7 @@ class Banner extends StatelessWidget {
                           fit: BoxFit.cover,
                           imageUrl: data[index]["image"].toString(),
                           errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                          const Icon(Icons.error),
                           progressIndicatorBuilder:
                               (context, url, downloadProgress) => Container(),
                         ),

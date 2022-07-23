@@ -18,7 +18,7 @@ import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/controllers/packages/packages.dart';
 import 'package:vyam_2_final/Home/bookings/know_trainer.dart';
 import 'package:vyam_2_final/Providers/firebase_dynamic_link.dart';
-import 'package:dotted_border/dotted_border.dart';
+// import 'package:dotted_border/dotted_border.dart';
 
 import 'ImageGalary.dart';
 
@@ -187,20 +187,23 @@ class _GymDetailsState extends State<GymDetails> {
             "_++++ASDA${DateFormat("EEEE").format(DateTime.now()).toString()}");
       });
     } catch (e) {
-      times=[];
+      times = [];
       setState(() {
         isLoading = false;
       });
-    }finally{
-      times=[{
-        "closed":"",
-        "Evening":"",
-        "Morning":"",
-        "evening_days": "",
-      "morning_days":"",
-        "position":"",
-        "timing_id":"",
-      },{}];
+    } finally {
+      times = [
+        {
+          "closed": "",
+          "Evening": "",
+          "Morning": "",
+          "evening_days": "",
+          "morning_days": "",
+          "position": "",
+          "timing_id": "",
+        },
+        {}
+      ];
       setState(() {
         isLoading = false;
       });
@@ -308,22 +311,22 @@ class _GymDetailsState extends State<GymDetails> {
               }
               var docs = snapshot.data;
 
-              try{
+              try {
                 amenites2 = docs!["amenities"];
                 if (amenites2.isEmpty) {
                   amenites2 = [""];
                 }
-              }catch(e){
+              } catch (e) {
                 amenites2 = [""];
               }
-            try{
-              workout = docs!["workouts"];
-              if (workout.isEmpty) {
+              try {
+                workout = docs!["workouts"];
+                if (workout.isEmpty) {
+                  workout = [""];
+                }
+              } catch (e) {
                 workout = [""];
               }
-            }catch(e){
-              workout = [""];
-            }
 
               var images = docs!["images"];
               // docs["images"].forEach((e){
@@ -331,9 +334,9 @@ class _GymDetailsState extends State<GymDetails> {
               // });
               // imageSliders=["images"];
               var rules;
-              try{
-                 rules = docs['rules'];
-              }catch(e){
+              try {
+                rules = docs['rules'];
+              } catch (e) {
                 rules = [];
               }
 
@@ -584,7 +587,7 @@ class _GymDetailsState extends State<GymDetails> {
                                               children: [
                                                 Text(
                                                     // times[0]["closed"][0] ??
-                                                        "${times[0]["closed_day"]}",
+                                                    "${times[0]["closed_day"]}",
                                                     style: const TextStyle(
                                                         fontFamily: 'poppins',
                                                         fontWeight:
@@ -594,8 +597,7 @@ class _GymDetailsState extends State<GymDetails> {
                                                 const SizedBox(height: 10),
                                                 Text(
                                                     // "",
-                                                    times[0]["closed"] !=
-                                                            null
+                                                    times[0]["closed"] != null
                                                         ? 'Closed'
                                                         : "no information",
                                                     style: const TextStyle(
@@ -641,8 +643,10 @@ class _GymDetailsState extends State<GymDetails> {
                               height: 5,
                             ),
                             if (offer.isNotEmpty)
-                              Addbar(context: context, gymID: gymID,),
-
+                              Addbar(
+                                context: context,
+                                gymID: gymID,
+                              ),
 
                             SizedBox(height: 5),
 
@@ -732,7 +736,10 @@ class _GymDetailsState extends State<GymDetails> {
                               workouts: workout,
                             ),
                             const SizedBox(height: 4),
-                            TrannerShow(gymID: gymID, docs: docs,),
+                            TrannerShow(
+                              gymID: gymID,
+                              docs: docs,
+                            ),
 
                             const SizedBox(height: 14),
                             FittedBox(
@@ -855,9 +862,8 @@ class _GymDetailsState extends State<GymDetails> {
 //border: Border.all(width: 1),
                                                                   image: DecorationImage(
                                                                       image: CachedNetworkImageProvider(
-                                                                          snaptu[index]["user"]
-                                                                              [
-                                                                              "user_pic"].toString(),
+                                                                          snaptu[index]["user"]["user_pic"]
+                                                                              .toString(),
                                                                           maxWidth:
                                                                               100,
                                                                           maxHeight:
@@ -907,25 +913,25 @@ class _GymDetailsState extends State<GymDetails> {
                                               fontWeight: FontWeight.w700,
                                             )),
                                       ),
-                                      if(rules.length >0)
-                                      Container(
-                                        padding: EdgeInsets.only(left: 8.0),
-                                        child: ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: rules.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return Text(
-                                               "• ${rules[index]}",
-                                                style: GoogleFonts.poppins(
-                                                    color: Colors.grey,
-                                                    fontWeight:
-                                                        FontWeight.w500,
-                                                fontSize: 12
-                                                ),
-                                              );
-                                            }),
-                                      )
+                                      if (rules.length > 0)
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8.0),
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: rules.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Text(
+                                                  "• ${rules[index]}",
+                                                  style: GoogleFonts.poppins(
+                                                      color: Colors.grey,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontSize: 12),
+                                                );
+                                              }),
+                                        )
                                     ],
                                   ),
                                 )),
@@ -1238,14 +1244,13 @@ class _GymDetailsState extends State<GymDetails> {
               );
             });
   }
-
-
-
 }
+
 class TrannerShow extends StatelessWidget {
   final docs;
   final gymID;
-  const TrannerShow({Key? key,required this.docs,required this.gymID}) : super(key: key);
+  const TrannerShow({Key? key, required this.docs, required this.gymID})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -1258,8 +1263,7 @@ class TrannerShow extends StatelessWidget {
             .orderBy("position")
             .snapshots(),
         builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState ==
-              ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: SizedBox(),
             );
@@ -1270,133 +1274,129 @@ class TrannerShow extends StatelessWidget {
           }
           var trainerdoc = snapshot.data!.docs;
           print(trainerdoc);
-          print(
-              "+++++++++++++++++++++++++++++++++++++++++++++++");
+          print("+++++++++++++++++++++++++++++++++++++++++++++++");
           return trainerdoc.length == 0
               ? SizedBox()
               : SizedBox(
-              height:
-              145, //MediaQuery.of(context).size.height / 4.7,
-              child: GestureDetector(
-                onTap: () {
-                  Get.to(
+                  height: 145, //MediaQuery.of(context).size.height / 4.7,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(
                           () => Trainer(
-                        gym_name: docs["name"],
-                        gym_brunch:
-                        docs["branch"],
-                      ),
-                      arguments: {
-                        "gym_id": gymID,
-                        "image":
-                        docs["display_picture"]
-                      });
-                },
-                child: Card(
-                    elevation: .3,
-                    shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(
-                            12.0)),
-                    child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment
-                            .start,
-                        children: [
-                          Padding(
-                            padding:
-                            const EdgeInsets
-                                .all(8.0),
-                            child: Row(
-                              children: [
-                                Text('Trainers',
-                                    style:
-                                    GoogleFonts
-                                        .poppins(
-                                      fontSize: 13,
-                                      fontWeight:
-                                      FontWeight
-                                          .w700,
-                                    )),
-                                Spacer(),
-                                Icon(
-                                  Icons
-                                      .arrow_forward_ios_outlined,
-                                  size: 18,
+                                gym_name: docs["name"],
+                                gym_brunch: docs["branch"],
+                              ),
+                          arguments: {
+                            "gym_id": gymID,
+                            "image": docs["display_picture"]
+                          });
+                    },
+                    child: Card(
+                        elevation: .3,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0)),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Text('Trainers',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w700,
+                                        )),
+                                    Spacer(),
+                                    Icon(
+                                      Icons.arrow_forward_ios_outlined,
+                                      size: 18,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                            const EdgeInsets
-                                .only(
-                                left: 8.0),
-                            child: SizedBox(
-                                height: 100,
-                                //MediaQuery.of(context).size.height /
-                                //  9,
-                                child: ListView
-                                    .builder(
-                                    shrinkWrap:
-                                    true,
-                                    itemCount:
-                                    trainerdoc
-                                        .length,
-                                    physics:
-                                    const PageScrollPhysics(),
-                                    scrollDirection:
-                                    Axis
-                                        .horizontal,
-                                    itemBuilder:
-                                        (context,
-                                        index) {
-                                      return Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: SizedBox(
+                                    height: 100,
+                                    //MediaQuery.of(context).size.height /
+                                    //  9,
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: trainerdoc.length,
+                                        physics: const PageScrollPhysics(),
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) {
+                                          return Column(
                                             children: [
-                                              Column(
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
-                                                  if (trainerdoc[index]['image'] != null || trainerdoc[index]['image'] != "")
-                                                    Container(
-                                                      height: 65,
-                                                      width: 65,
-                                                      decoration: BoxDecoration(
-                                                          shape: BoxShape.circle,
-                                                          //border: Border.all(width: 1),
-                                                          image: DecorationImage(image: CachedNetworkImageProvider(trainerdoc[index]['image'].toString(), maxHeight: 350, maxWidth: 450), fit: BoxFit.cover)),
-                                                    ),
-                                                  SizedBox(
-                                                    height: 2,
+                                                  Column(
+                                                    children: [
+                                                      if (trainerdoc[index]
+                                                                  ['image'] !=
+                                                              null ||
+                                                          trainerdoc[index]
+                                                                  ['image'] !=
+                                                              "")
+                                                        Container(
+                                                          height: 65,
+                                                          width: 65,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                  //border: Border.all(width: 1),
+                                                                  image: DecorationImage(
+                                                                      image: CachedNetworkImageProvider(
+                                                                          trainerdoc[index]['image']
+                                                                              .toString(),
+                                                                          maxHeight:
+                                                                              350,
+                                                                          maxWidth:
+                                                                              450),
+                                                                      fit: BoxFit
+                                                                          .cover)),
+                                                        ),
+                                                      SizedBox(
+                                                        height: 2,
+                                                      ),
+                                                      Text(
+                                                          trainerdoc[index]
+                                                              ['name'],
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontSize: 12,
+                                                          )),
+                                                    ],
                                                   ),
-                                                  Text(trainerdoc[index]['name'],
-                                                      style: GoogleFonts.poppins(
-                                                        fontWeight: FontWeight.w500,
-                                                        fontSize: 12,
-                                                      )),
+                                                  const SizedBox(width: 15),
                                                 ],
                                               ),
-                                              const SizedBox(width: 15),
                                             ],
-                                          ),
-                                        ],
-                                      );
-                                    })),
-                          ),
-                        ])),
-              ));
+                                          );
+                                        })),
+                              ),
+                            ])),
+                  ));
         });
   }
 }
+
 class Addbar extends StatelessWidget {
   final gymID;
   final context;
-  const Addbar({Key? key, required this.gymID,required this.context}) : super(key: key);
+  const Addbar({Key? key, required this.gymID, required this.context})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return   StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('product_details')
             .doc(gymID)
@@ -1404,10 +1404,8 @@ class Addbar extends StatelessWidget {
             .where('validity', isEqualTo: true)
             .snapshots(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState ==
-              ConnectionState.waiting) {
-            return Center(
-                child: SizedBox());
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: SizedBox());
           }
           if (snapshot.hasError) {
             return Text(snapshot.error.toString());
@@ -1422,12 +1420,10 @@ class Addbar extends StatelessWidget {
               itemBuilder: (context, index) {
                 return buildButton(
                   text: documents[index]['title'],
-                  subText: documents[index]
-                  ['offer_type'],
+                  subText: documents[index]['offer_type'],
                   onClicked: () => showModalBottomSheet(
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(15.0),
+                      borderRadius: BorderRadius.circular(15.0),
                     ),
                     context: context,
                     builder: (context) => buildSheet(),
@@ -1436,6 +1432,7 @@ class Addbar extends StatelessWidget {
               });
         });
   }
+
   Widget buildButton({
     required String text,
     required VoidCallback onClicked,
@@ -1474,7 +1471,7 @@ class Addbar extends StatelessWidget {
                       children: [
                         Text(
                           text,
-                          style:  GoogleFonts.poppins(
+                          style: GoogleFonts.poppins(
                               fontWeight: FontWeight.bold, fontSize: 15),
                         ),
                         SizedBox(
@@ -1495,149 +1492,176 @@ class Addbar extends StatelessWidget {
       );
 
   Widget buildSheet() => SafeArea(
-    child: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('product_details')
-            .doc(gymID)
-            .collection('offers')
-            .where('validity', isEqualTo: true)
-            .snapshots(),
-        builder: (context, AsyncSnapshot snapshot) {
-          var couponData = snapshot.data;
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
-          var documents = snapshot.data.docs;
-          var snap;
-          print("mmmmmmmmm,,,,,<<<<");
-          print(documents);
-          return ListView.builder(
-              itemCount: documents.length,
-              itemBuilder: (context, index) {
-                snap = documents[index];
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 8),
-                            child: Text(
-                              "Offer Details",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 15, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Spacer(),
-                          IconButton(onPressed: (){
-                            Navigator.pop(context);
-                          }, icon: Icon(Icons.cancel))
-                        ],
+        child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('product_details')
+                .doc(gymID)
+                .collection('offers')
+                .where('validity', isEqualTo: true)
+                .snapshots(),
+            builder: (context, AsyncSnapshot snapshot) {
+              var couponData = snapshot.data;
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              var documents = snapshot.data.docs;
+              var snap;
+              print("mmmmmmmmm,,,,,<<<<");
+              print(documents);
+              return ListView.builder(
+                  itemCount: documents.length,
+                  itemBuilder: (context, index) {
+                    snap = documents[index];
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
-                      Divider(color: Colors.grey),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 2),
-                        child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/icons/new discount.png',
-                              height: 38,
-                              width: 38,
-                            ),
-                            SizedBox(
-                              width: 6,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  documents[index]['title'].toString(),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+// <<<<<<< HEAD
+//                           Row(
+//                             children: [
+//                               Padding(
+//                                 padding: const EdgeInsets.symmetric(
+//                                     horizontal: 10.0, vertical: 6),
+//                                 child: Text(
+//                                   "Offer Details",
+//                                   style: GoogleFonts.poppins(
+//                                       fontSize: 15,
+//                                       fontWeight: FontWeight.bold),
+//                                 ),
+//                               ),
+//                               Spacer(),
+//                               IconButton(
+//                                   onPressed: () {
+//                                     Navigator.pop(context);
+//                                   },
+//                                   icon: Icon(Icons.cancel))
+//                             ],
+//                           ),
+//                           Divider(color: Colors.grey),
+// =======
+// >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0, vertical: 8),
+                                child: Text(
+                                  "Offer Details",
                                   style: GoogleFonts.poppins(
-                                      fontSize: 14,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold),
                                 ),
+                              ),
+                              Spacer(),
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: Icon(Icons.cancel))
+                            ],
+                          ),
+                          Divider(color: Colors.grey),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 2),
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/icons/new discount.png',
+                                  height: 38,
+                                  width: 38,
+                                ),
                                 SizedBox(
-                                  width: 30,
+                                  width: 6,
                                 ),
-                                Text(
-                                  documents[index]['description'],
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      // Divider(color: Colors.grey),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(10.0),
-                      //   child: Text(
-                      //     documents[index]['offer'],
-                      //     style: GoogleFonts.poppins(
-                      //         fontSize: 15, fontWeight: FontWeight.w500),
-                      //   ),
-                      // ),
-                      Divider(color: Colors.grey),
-                      Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snap['rules'].length,
-                            itemBuilder: (context, index) => Container(
-                              child: SingleChildScrollView(
-                                child: Column(
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.start,
-                                      children: [
-                                        Image.asset(
-                                          "assets/images/tick2002.png",
-                                          width: 12,
-                                          height: 12,
-                                        ),
-                                        SizedBox(
-                                          width: 6,
-                                        ),
-                                        Text(
-                                          snap['rules'][index].toString(),
-                                          style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ],
+                                    Text(
+                                      documents[index]['title'].toString(),
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                     SizedBox(
-                                      height: 5,
+                                      width: 30,
+                                    ),
+                                    Text(
+                                      documents[index]['description'],
+                                      style: GoogleFonts.poppins(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500),
                                     ),
                                   ],
                                 ),
-                              ),
+                              ],
                             ),
-                          ))
-                    ],
-                  ),
-                );
-              });
-        }),
-  );
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          // Divider(color: Colors.grey),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(10.0),
+                          //   child: Text(
+                          //     documents[index]['offer'],
+                          //     style: GoogleFonts.poppins(
+                          //         fontSize: 15, fontWeight: FontWeight.w500),
+                          //   ),
+                          // ),
+                          Divider(color: Colors.grey),
+                          Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snap['rules'].length,
+                                itemBuilder: (context, index) => Container(
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Image.asset(
+                                              "assets/images/tick2002.png",
+                                              width: 12,
+                                              height: 12,
+                                            ),
+                                            SizedBox(
+                                              width: 6,
+                                            ),
+                                            Text(
+                                              snap['rules'][index].toString(),
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 14,
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ))
+                        ],
+                      ),
+                    );
+                  });
+            }),
+      );
 }
