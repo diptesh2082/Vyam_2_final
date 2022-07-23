@@ -44,8 +44,13 @@ class FirstHome2 extends StatelessWidget {
 }
 
 class FirstHome extends StatefulWidget {
+// <<<<<<< HEAD
   // final FirebaseRemoteConfig remoteConfig;
   const FirstHome({Key? key}) : super(key: key);
+// =======
+//   final  remoteConfig;
+//   const FirstHome({Key? key, required this.remoteConfig}) : super(key: key);
+// >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
 
   // static bool get Loading => is;
 
@@ -284,9 +289,15 @@ class _FirstHomeState extends State<FirstHome> {
   @override
   void initState() {
     // getStream();]
-    DefaultCacheManager().emptyCache();
+// <<<<<<< HEAD
+//     DefaultCacheManager().emptyCache();
+//     print(
+//         " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
+// =======
+//
     print(
         " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
+// >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
     updateDeviceToken();
     print(
         " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
@@ -307,6 +318,11 @@ class _FirstHomeState extends State<FirstHome> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+// <<<<<<< HEAD
+// =======
+//     var update = false;
+    // var update = widget.remoteConfig.getBool("Update");
+// >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
 
     return WillPopScope(
       onWillPop: () async {
@@ -518,19 +534,56 @@ class _FirstHomeState extends State<FirstHome> {
                                       height: 15,
                                     ),
                                     // if (Get.find<Need>().search.value.isEmpty)
-                                    Catagory(),
-                                    if (Get.find<Need>().search.value.isEmpty)
-                                      const SizedBox(
-                                        height: 7,
-                                      ),
-
-                                    if (Get.find<Need>().search.value.isEmpty)
-                                      const SizedBox(
-                                        height: 7,
-                                      ),
-                                    // if (Get.find<Need>().search.value.isEmpty)
-                                    BuildBox()
+// <<<<<<< HEAD
+//                                     Catagory(),
+//                                     if (Get.find<Need>().search.value.isEmpty)
+//                                       const SizedBox(
+//                                         height: 7,
+//                                       ),
+//
+//                                     if (Get.find<Need>().search.value.isEmpty)
+//                                       const SizedBox(
+//                                         height: 7,
+//                                       ),
+//                                     if (Get.find<Need>().search.value.isEmpty)
+                                    // BuildBox()
                                     // LocationList()
+// =======
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        if (getPercentage != 100)
+                                          ProgressCard(),
+                                        const SizedBox(
+                                          height: 9,
+                                        ),
+                                        Banner(bannerApi: bannerApi),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        // if (Get.find<Need>().search.value.isEmpty)
+                                        Catagory(),
+
+                                        const SizedBox(
+                                          height: 7,
+                                        ),
+
+                                        if (Get.find<Need>()
+                                            .search
+                                            .value
+                                            .isEmpty)
+                                          const SizedBox(
+                                            height: 7,
+                                          ),
+
+                                        BuildBox()
+                                        // LocationList()
+                                      ],
+                                    )
+// >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
                                   ],
                                 )
                               ],
@@ -566,7 +619,7 @@ class _FirstHomeState extends State<FirstHome> {
           controller: searchController,
           onChanged: (value) {
             if (value.length == 0) {
-              FocusScope.of(context).unfocus();
+              // FocusScope.of(context).unfocus();
             }
             if (mounted) {
               setState(() {
@@ -648,7 +701,7 @@ class Banner extends StatelessWidget {
             itemBuilder: (context, int index) {
               return InkWell(
                 onTap: () {
-                  FocusScope.of(context).unfocus();
+                  // FocusScope.of(context).unfocus();
                   if (data[index]["access"] == true &&
                       data[index]["navigation"] != "") {
                     Get.toNamed(data[index]["navigation"] ?? "", arguments: {
@@ -671,6 +724,8 @@ class Banner extends StatelessWidget {
                           maxWidthDiskCache: 650,
                           filterQuality: FilterQuality.medium,
                           height: 143,
+                          width: 311,
+                          fit: BoxFit.cover,
                           imageUrl: data[index]["image"].toString(),
                           errorWidget: (context, url, error) =>
                               const Icon(Icons.error),

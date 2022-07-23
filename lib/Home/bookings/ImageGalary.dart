@@ -155,7 +155,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                                         PhotoViewComputedScale.contained * 2.5,
                                     basePosition: Alignment.center,
                                     imageProvider: CachedNetworkImageProvider(
-                                      Images[index],
+                                      Images[index].toString(),
                                       cacheManager: customCacheManager,
                                     ),
                                     // heroAttributes: PhotoViewHeroAttributes(tag: "o"),
@@ -305,7 +305,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                             )
                           ],
                         ))),
-            imageUrl: images,
+            imageUrl: images.toString(),
             fit: BoxFit.cover,
           ),
         ),

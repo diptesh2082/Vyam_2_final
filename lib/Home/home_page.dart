@@ -514,7 +514,7 @@ class _HomePageState extends State<HomePage> {
     ];
   }
 
-  var remoteConfig;
+  // var remoteConfig;
   // FutureBuilder<FirebaseRemoteConfig>(
   // future: setupRemoteConfig(),
   // builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -535,6 +535,19 @@ class _HomePageState extends State<HomePage> {
 
     return [
       FirstHome2(),
+      // FutureBuilder<FirebaseRemoteConfig>(
+      //   future: setupRemoteConfig(),
+      //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return Center(child: CircularProgressIndicator());
+      //     }
+      //     if (snapshot.hasError) {
+      //       return Center(child: Container());
+      //     }
+      //     return FirstHome2(remoteConfig: snapshot.requireData);
+      //   },
+      // ),
+// >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
       const BookingDetails(),
       const Exploreia(),
       ProfilePart(),

@@ -31,7 +31,7 @@ class _SearchItState extends State<SearchIt> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 1000,
+      // height: 1000,
       // width: MediaQuery.of(context).size.width,
       child: Stack(
         children: [
@@ -87,9 +87,10 @@ class _SearchItState extends State<SearchIt> {
                     width: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],
                     child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const SizedBox(
-                          height: 15,
+                          height: 10,
                         ),
                         buildGymBox(),
                         const SizedBox(
@@ -110,9 +111,11 @@ class _SearchItState extends State<SearchIt> {
     Size size = MediaQuery.of(context).size;
     return SizedBox(
       width: size.width * .93,
-      height: 600,
+      height: 700,
       child: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             StreamBuilder(
               stream: FirebaseFirestore.instance
@@ -188,11 +191,7 @@ class _SearchItState extends State<SearchIt> {
                                     child: GestureDetector(
                                       onTap: () async {
                                         FocusScope.of(context).unfocus();
-                                        // var viku=await Geolocator.distanceBetween(GlobalUserData["location"].latitude,
-                                        //     GlobalUserData["location"].longitude,
-                                        //     document[index]["location"].latitude,
-                                        //     document[index]["location"].longitude);
-                                        // print(viku);
+
                                         Get.to(
                                             () => GymDetails(
                                                   // gymID: document[index].id,
@@ -203,6 +202,7 @@ class _SearchItState extends State<SearchIt> {
                                             });
                                       },
                                       child: Stack(
+                                        alignment: Alignment.topCenter,
                                         children: [
                                           FittedBox(
                                             child: ColorFiltered(

@@ -51,6 +51,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final ven_id = Get.arguments["vendorId"];
   final ven_name = Get.arguments["gymName"];
   final branch = Get.arguments["branch"];
+  bool simpl=false;
+  getSimpl() async {
+    try{
+      await FirebaseFirestore.instance.collection("simpl").doc("simpl").snapshots().listen((event) {
+        simpl=event["eligable"];
+      });
+    }catch(e){
+      simpl=false;
+    }
+
+  }
   showNotification(String title, String info) async {
     // setState(() {
     //   _counter++;
@@ -361,7 +372,7 @@ check_simpl()async{
       if(response.statusCode==200){
 
         Navigator.of(context).pop();
-        Get.to(()=>simpl_pay(check_simpl: check_simpl, gymData: gymData, myCouponController: myCouponController, booking_id: widget.booking_id, grandTotal: grandTotal, getData: getData, totalDiscount: totalDiscount),duration: Duration(milliseconds: 500));
+        Get.to(()=>simpl_pay(check_simpl: check_simpl, gymData: gymData, myCouponController: myCouponController, booking_id: widget.booking_id, grandTotal: grandTotal, getData: getData, totalDiscount: totalDiscount, simpl: simpl,),duration: Duration(milliseconds: 500));
         // _bottomsheet2(context);
         // print("success");
         var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) ;
@@ -660,8 +671,7 @@ check_simpl()async{
               arguments: {"otp_pass": x, "booking_details": widget.booking_id});
         });
 
-        await (showNotification("Booking successful for " + ven_name,
-            "Share OTP at the center to start."));
+        await (showNotification("Booking successful for " + ven_name, "Share OTP at the center to start."));
         // :await showNotification("Booking Status You","Booking Unsuccessful");
 
         // booking_dCachetails["id"]!=null?
@@ -1624,284 +1634,7 @@ check_simpl()async{
     makeSure();
   }
 
-  // _bottomsheet2(BuildContext context) async {
-  //   // var _width = MediaQuery.of(context).size.width;
-  //   // var _height = MediaQuery.of(context).size.height;
-  //   bool onlinePay = true;
-  //   // _controller = await _scaffoldKey.currentState.showBottomSheet
-  //   return showModalBottomSheet(
-  //     // isDismissible: false,
-  //       isScrollControlled: true,
-  //       // enableDrag: false,
-  //       context: context,
-  //       elevation: 8,
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-  //       builder: (context) {
-  //         return WillPopScope(
-  //           onWillPop: ()async {
-  //             await check_simpl();
-  //             Future.delayed(Duration(milliseconds: 200));
-  //
-  //             return true;
-  //           },
-  //           child: Scaffold(
-  //             body: StatefulBuilder(
-  //                 builder: (BuildContext context, StateSetter setState) {
-  //                   return SingleChildScrollView(
-  //                     child: Container(
-  //                       // height: 5,
-  //                       // height: 600,
-  //                       width: MediaQuery.of(context).size.width,
-  //                       decoration: BoxDecoration(
-  //                           color: Colors.grey[100],
-  //                           borderRadius: BorderRadius.circular(12)),
-  //                       child: Column(
-  //                         children: [
-  //                           GestureDetector(
-  //                             onTap: () {
-  //                               Navigator.of(context).pop();
-  //                             },
-  //                             child: const Padding(
-  //                               padding: EdgeInsets.only(right: 8.0, top: 8),
-  //                               child: Align(
-  //                                 alignment: Alignment.topRight,
-  //                                 child: CircleAvatar(
-  //                                   radius: 10.0,
-  //                                   backgroundColor: Colors.grey,
-  //                                   child: Icon(
-  //                                     Icons.close,
-  //                                     size: 16,
-  //                                     color: Colors.white,
-  //                                   ),
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           ),
-  //                           const SizedBox(
-  //                             height: 5,
-  //                           ),
-  //                           const Text(
-  //                             "Payment method Simpl",
-  //                             style: TextStyle(
-  //                                 fontFamily: "Poppins",
-  //                                 fontSize: 18,
-  //                                 fontWeight: FontWeight.w600),
-  //                           ),
-  //
-  //                           Padding(
-  //                             padding: const EdgeInsets.symmetric(horizontal: 8),
-  //                             child: SizedBox(
-  //                               height: 60,
-  //                               child: GestureDetector(
-  //                                 onTap: () {
-  //                                   if (gymData["cash_pay"] == true)
-  //                                     setState(() {
-  //                                       onlinePay = false;
-  //                                     });
-  //
-  //                                   // _PaymentScreenState();
-  //                                 },
-  //                                 child: Card(
-  //                                   shape: RoundedRectangleBorder(
-  //                                       borderRadius: BorderRadius.circular(12)),
-  //                                   child: Row(children: [
-  //                                     const SizedBox(
-  //                                       width: 10,
-  //                                     ),
-  //                                     Image.asset(
-  //                                       "assets/images/Simpl_Logo.png",
-  //                                       width: 60,
-  //                                     ),
-  //                                     const SizedBox(
-  //                                       width: 20,
-  //                                     ),
-  //                                     if (gymData["cash_pay"] == true)
-  //                                       const Text(
-  //                                         "Pay at gym",
-  //                                         style: TextStyle(
-  //                                             fontFamily: "Poppins",
-  //                                             fontWeight: FontWeight.w500,
-  //                                             fontSize: 14),
-  //                                       ),
-  //                                     if (gymData["cash_pay"] == true) const Spacer(),
-  //                                     if (onlinePay == false ||
-  //                                         (gymData["online_pay"] == false &&
-  //                                             gymData["cash_pay"] == true))
-  //                                       const Icon(
-  //                                         Icons.check,
-  //                                         color: Colors.black,
-  //                                         size: 15,
-  //                                       ),
-  //                                     if (gymData["cash_pay"] == false)
-  //                                       const Text(
-  //                                         "Cash isn't available in this gym",
-  //                                         style: TextStyle(
-  //                                             fontFamily: "Poppins",
-  //                                             color: Colors.red,
-  //                                             fontWeight: FontWeight.w400,
-  //                                             fontSize: 12),
-  //                                       ),
-  //                                     const SizedBox(
-  //                                       width: 5,
-  //                                     ),
-  //                                   ]),
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           ),
-  //                           const SizedBox(
-  //                             height: 10,
-  //                           ),
-  //
-  //                           const SizedBox(
-  //                             height: 10,
-  //                           ),
-  //                           Padding(
-  //                             padding: const EdgeInsets.symmetric(horizontal: 8),
-  //                             child: SizedBox(
-  //                               // height: 155,
-  //                               child: Card(
-  //                                   shape: RoundedRectangleBorder(
-  //                                       borderRadius: BorderRadius.circular(12)),
-  //                                   child: Padding(
-  //                                     padding: const EdgeInsets.only(
-  //                                         left: 8.0, top: 8, right: 8, bottom: 10),
-  //                                     child: Column(
-  //                                       crossAxisAlignment: CrossAxisAlignment.start,
-  //                                       children: [
-  //                                         Text(
-  //                                           "Payment",
-  //                                           style: GoogleFonts.poppins(
-  //                                             // fontFamily: "Poppins",
-  //                                               fontWeight: FontWeight.w700,
-  //                                               fontSize: 18,
-  //                                               color: Colors.green),
-  //                                         ),
-  //                                         const SizedBox(
-  //                                           height: 10,
-  //                                         ),
-  //                                         Row(
-  //                                           children: [
-  //                                             Text(
-  //                                               "Total amount",
-  //                                               style: GoogleFonts.poppins(
-  //                                                 // fontFamily: "Poppins",
-  //                                                   fontWeight: FontWeight.w500,
-  //                                                   fontSize: 16),
-  //                                             ),
-  //                                             const Spacer(),
-  //                                             Text(
-  //                                               "₹${getData["totalPrice"]}",
-  //                                               style: GoogleFonts.poppins(
-  //                                                   fontWeight: FontWeight.w700,
-  //                                                   fontSize: 16),
-  //                                             ),
-  //                                             const SizedBox(
-  //                                               width: 6,
-  //                                             ),
-  //                                           ],
-  //                                         ),
-  //                                         const SizedBox(
-  //                                           height: 5,
-  //                                         ),
-  //                                         Row(
-  //                                           children: [
-  //                                             Text(
-  //                                               "Discount",
-  //                                               style: GoogleFonts.poppins(
-  //                                                 // fontFamily: "Poppins",
-  //                                                   fontWeight: FontWeight.w500,
-  //                                                   fontSize: 16),
-  //                                             ),
-  //                                             const Spacer(),
-  //                                             Obx(
-  //                                                   () => Text(
-  //                                                 "₹  ${myCouponController.GlobalCouponApplied.value ? myCouponController.CouponDetailsMap.value.toString() : totalDiscount.toString()}",
-  //                                                 style: GoogleFonts.poppins(
-  //                                                   // fontFamily: "Poppins",
-  //                                                     fontWeight: FontWeight.w700,
-  //                                                     fontSize: 16),
-  //                                               ),
-  //                                             ),
-  //                                             const SizedBox(
-  //                                               width: 7,
-  //                                             ),
-  //                                           ],
-  //                                         ),
-  //                                         const SizedBox(
-  //                                           height: 7,
-  //                                         ),
-  //                                         Row(
-  //                                           children: [
-  //                                             Text(
-  //                                               "Grand Total",
-  //                                               style: GoogleFonts.poppins(
-  //                                                   color: Colors.green,
-  //                                                   fontWeight: FontWeight.w700,
-  //                                                   fontSize: 16),
-  //                                             ),
-  //                                             const Spacer(),
-  //                                             Text(
-  //                                               "₹${myCouponController.GlobalCouponApplied.value ? (grandTotal - int.parse(myCouponController.CouponDetailsMap.value)) : grandTotal.toString()}",
-  //                                               style: GoogleFonts.poppins(
-  //                                                   color: Colors.green,
-  //                                                   fontWeight: FontWeight.w700,
-  //                                                   fontSize: 16),
-  //                                             ),
-  //                                             const SizedBox(
-  //                                               width: 10,
-  //                                             ),
-  //                                           ],
-  //                                         )
-  //                                       ],
-  //                                     ),
-  //                                   )),
-  //                             ),
-  //                           ),
-  //                           const SizedBox(
-  //                             height: 15,
-  //                           ),
-  //                           Align(
-  //                             alignment: Alignment.bottomRight,
-  //                             child: Padding(
-  //                               padding: const EdgeInsets.symmetric(horizontal: 6.0),
-  //                               child: SizedBox(
-  //                                 width: MediaQuery.of(context).size.width *.44,
-  //                                 child: FloatingActionButton.extended(
-  //                                     backgroundColor: Colors.green,
-  //                                     shape: RoundedRectangleBorder(
-  //                                         borderRadius: BorderRadius.circular(10)),
-  //                                     label: Padding(
-  //                                       padding: const EdgeInsets.symmetric(horizontal:8.0),
-  //                                       child: Text(
-  //                                         "Confirm Payment",
-  //                                         style: GoogleFonts.poppins(
-  //
-  //                                             fontWeight: FontWeight.bold,
-  //                                             fontSize: 14,
-  //                                             color: Colors.white),
-  //                                       ),
-  //                                     ),
-  //                                     onPressed: () async {
-  //                                       print('hhhhhhhhhhhhhh${widget.booking_id}');
-  //                                       await check_simpl();
-  //
-  //                                     }),
-  //                               ),
-  //                             ),
-  //                           ),
-  //                           const SizedBox(
-  //                             height: 15,
-  //                           )
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   );
-  //                 }),
-  //           ),
-  //         );
-  //       });
-  // }
+
   String PAY="on";
 
   _bottomsheet(BuildContext context) async {
@@ -2026,6 +1759,7 @@ check_simpl()async{
                     const SizedBox(
                       height: 10,
                     ),
+if(simpl)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: SizedBox(
@@ -2413,11 +2147,14 @@ class simpl_pay extends StatelessWidget {
   final grandTotal;
   final getData;
   final totalDiscount;
+  final simpl;
   const simpl_pay({Key? key,required this.check_simpl,required this.gymData,required this.myCouponController,required this.booking_id,
-    required this.grandTotal,required this.getData,required this.totalDiscount}) : super(key: key);
+    required this.grandTotal,required this.getData,required this.totalDiscount,required this.simpl}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(simpl);
+    print("+++++++++++++++++qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
     return WillPopScope(
       onWillPop: ()async {
         await check_simpl();

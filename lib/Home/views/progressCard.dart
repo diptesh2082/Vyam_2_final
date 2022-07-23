@@ -5,14 +5,10 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../golbal_variables.dart';
 
-class ProgressCard extends StatefulWidget {
-  const ProgressCard({Key? key}) : super(key: key);
+class ProgressCard extends StatelessWidget {
+   ProgressCard({Key? key}) : super(key: key);
 
-  @override
-  State<ProgressCard> createState() => _ProgressCardState();
-}
 
-class _ProgressCardState extends State<ProgressCard> {
   double finaldaysLeft = 0;
   double progress = 0;
   var getPercentage;
@@ -69,12 +65,12 @@ class _ProgressCardState extends State<ProgressCard> {
       // showCard=false;
     }
   }
-  @override
-  void initState() {
-    // TODO: implement initState
-
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

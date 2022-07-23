@@ -6,12 +6,8 @@ import 'package:vyam_2_final/Home/bookings/review_screen.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
-class AddReview extends StatefulWidget {
-  @override
-  State<AddReview> createState() => _AddReviewState();
-}
+class AddReview extends StatelessWidget {
 
-class _AddReviewState extends State<AddReview> {
   TextEditingController title = TextEditingController();
   TextEditingController exp = TextEditingController();
   var id = FirebaseFirestore.instance.collection("Reviews").doc().id;
@@ -118,9 +114,9 @@ class _AddReviewState extends State<AddReview> {
                       ),
                     ),
                     onRatingUpdate: (value) {
-                      setState(() {
+                      // setState(() {
                         ratingvalue = value;
-                      });
+                      // });
                     }),
                 const SizedBox(
                   // height: MediaQuery.of(context).size.height * 0.022,

@@ -66,51 +66,7 @@ class ProfilePart extends StatelessWidget {
         CachedNetworkImageProvider(e),
         context,
       );
-  // Future getUserData() async {
-  //   print("user is here" + number);
-  //   DocumentReference userName =
-  //       FirebaseFirestore.instance.collection('user_details').doc(number);
-  //   userName.snapshots().listen((snapshot) {
-  //     try {
-  //       if (snapshot.exists) {
-  //         setState(() {
-  //           name = snapshot.get('name').toString();
-  //           // print(number);
-  //           email = snapshot.get('email').toString();
-  //           phone = snapshot
-  //               .get('userId')
-  //               .toString()
-  //               .substring(3, snapshot.get('userId').toString().length);
-  //           gender = snapshot.get("gender").toString();
-  //           imageUrl = snapshot.get("image");
-  //           cacheImage(context, snapshot.get("image"));
-  //
-  //           Loading = false;
-  //         });
-  //       }
-  //     } catch (e) {
-  //       print("/////////////////////////////////////");
-  //       print(e);
-  //       setState(() {
-  //         name = "";
-  //         // print(number);
-  //         email = "";
-  //         phone = "";
-  //         imageUrl = "";
-  //         Loading = false;
-  //       });
-  //     }
-  //     Loading = false;
-  //   });
-  // }
 
-  // final FirebaseAuth _auth =FirebaseAuth.instance;
-  // @override
-  // void initState() {
-  //   // getUserData();
-  //   Loading = false;
-  //   super.initState();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -182,10 +138,10 @@ class ProfilePart extends StatelessWidget {
                                     print(number);
                                     Get.to(() => Profile(),
                                         arguments: {
-                                          "name":  doc?.get("name"),
-                                          "email":  doc?.get("email"),
-                                          "imageUrl":  doc?.get("image"),
-                                          "number":  doc?.get("number"),
+                                          "name":  doc?.get("name").toString(),
+                                          "email":  doc?.get("email").toString(),
+                                          "imageUrl":  doc?.get("image").toString(),
+                                          "number":  doc?.get("number").toString(),
                                           "gender":
                                           doc?.get("gender").toLowerCase()
                                         });
