@@ -560,7 +560,7 @@ class _FirstHomeState extends State<FirstHome> {
                                   const SizedBox(
                                     height: 9,
                                   ),
-                                  Banner(bannerApi: bannerApi),
+                                  // Banner(bannerApi: bannerApi),
                                   const SizedBox(
                                     height: 15,
                                   ),
