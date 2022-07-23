@@ -44,7 +44,7 @@ class FirstHome2 extends StatelessWidget {
 
 
 class FirstHome extends StatefulWidget {
-  final FirebaseRemoteConfig remoteConfig;
+  final  remoteConfig;
   const FirstHome({Key? key, required this.remoteConfig}) : super(key: key);
 
   // static bool get Loading => is;
@@ -258,7 +258,8 @@ print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var update = widget.remoteConfig.getBool("Update");
+    var update = false;
+    // var update = widget.remoteConfig.getBool("Update");
 
     return WillPopScope(
       onWillPop: () async {
@@ -464,6 +465,8 @@ print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-
                                     // if (searchGymName.isEmpty)
                                     // if (Get.find<Need>().search.value.isEmpty)
                                     Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         if (getPercentage != 100)
                                           ProgressCard(),
@@ -476,10 +479,7 @@ print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-
                                         ),
                                         // if (Get.find<Need>().search.value.isEmpty)
                                         Catagory(),
-                                        if (Get.find<Need>()
-                                            .search
-                                            .value
-                                            .isEmpty)
+
                                           const SizedBox(
                                             height: 7,
                                           ),
@@ -491,7 +491,7 @@ print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-
                                           const SizedBox(
                                             height: 7,
                                           ),
-                                        // if (Get.find<Need>().search.value.isEmpty)
+
                                         BuildBox()
                                         // LocationList()
                                       ],
@@ -529,7 +529,7 @@ print(" +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-
           controller: searchController,
           onChanged: (value) {
             if (value.length == 0) {
-              FocusScope.of(context).unfocus();
+              // FocusScope.of(context).unfocus();
             }
             if (mounted) {
               setState(() {
@@ -611,7 +611,7 @@ class Banner extends StatelessWidget {
             itemBuilder: (context, int index) {
               return InkWell(
                 onTap: () {
-                  FocusScope.of(context).unfocus();
+                  // FocusScope.of(context).unfocus();
                   if (data[index]["access"] == true &&
                       data[index]["navigation"] != "") {
                     Get.toNamed(data[index]["navigation"] ?? "", arguments: {

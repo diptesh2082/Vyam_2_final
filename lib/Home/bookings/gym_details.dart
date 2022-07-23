@@ -1474,7 +1474,7 @@ class Addbar extends StatelessWidget {
                       children: [
                         Text(
                           text,
-                          style: TextStyle(
+                          style:  GoogleFonts.poppins(
                               fontWeight: FontWeight.bold, fontSize: 15),
                         ),
                         SizedBox(
@@ -1482,8 +1482,8 @@ class Addbar extends StatelessWidget {
                         ),
                         Text(
                           subText,
-                          style: TextStyle(
-                            fontSize: 8,
+                          style: GoogleFonts.poppins(
+                            fontSize: 10,
                           ),
                         ),
                       ]),
@@ -1566,7 +1566,7 @@ class Addbar extends StatelessWidget {
                                 Text(
                                   documents[index]['title'].toString(),
                                   style: GoogleFonts.poppins(
-                                      fontSize: 15,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(
