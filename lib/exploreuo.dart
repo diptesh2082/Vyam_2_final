@@ -38,8 +38,6 @@ var long;
 
 // = GlobalUserData["location"].longitude;
 class _ExploreiaState extends State<Exploreia> {
-
-
   final Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   // List<DocumentSnapshot> document = [];
@@ -87,15 +85,14 @@ class _ExploreiaState extends State<Exploreia> {
     final Marker marker = Marker(
       icon: BitmapDescriptor.defaultMarker,
       markerId: markerId,
-      position: LatLng(specify['location'].latitude, specify['location'].longitude),
+      position:
+          LatLng(specify['location'].latitude, specify['location'].longitude),
       infoWindow: InfoWindow(title: 'Gym', snippet: specify['name']),
     );
     setState(() {
       markers[markerId] = marker;
     });
   }
-
-
 
   getMarkerData() async {
     // await Firebase.initializeApp();
@@ -152,11 +149,10 @@ class _ExploreiaState extends State<Exploreia> {
       });
     }
 
-
-
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
-    if (!serviceEnabled ||  Get.find<GlobalUserData>().userData.value["address"] == "") {
+    if (!serviceEnabled ||
+        Get.find<GlobalUserData>().userData.value["address"] == "") {
       setState(() {
         isLoading = true;
         location_service = false;
@@ -195,7 +191,6 @@ class _ExploreiaState extends State<Exploreia> {
               setState(() {
                 isLoading = false;
               });
-
 
               return true;
             },
@@ -314,13 +309,12 @@ class _ExploreiaState extends State<Exploreia> {
 
   @override
   void initState() {
-
     getEverything();
 
     setState(() {
       // });
-      lat =  Get.find<GlobalUserData>().userData.value["location"].latitude;
-      long =  Get.find<GlobalUserData>().userData.value["location"].longitude;
+      lat = Get.find<GlobalUserData>().userData.value["location"].latitude;
+      long = Get.find<GlobalUserData>().userData.value["location"].longitude;
     });
 
     getMarkerData();
@@ -343,8 +337,6 @@ class _ExploreiaState extends State<Exploreia> {
     await _gotoLocation(latitude, longitude);
   }
 
-
-
   late List<PlacesApiHelperModel>? _list = [];
 
   bool showPlacessuggesstions = false;
@@ -362,7 +354,13 @@ class _ExploreiaState extends State<Exploreia> {
     //   scrollDirection: Axis.horizontal,
     //   itemCount: document.length,
     //   itemBuilder: (context, index) {
+//<<<<<<< dewansh_new
+   // _gotoLocation(
+     //   Get.find<GlobalUserData>().userData.value["location"].latitude,
+    //    Get.find<GlobalUserData>().userData.value["location"].longitude);
+//=======
     //
+//>>>>>>> master
 
     return isLoading
         ? Center(
@@ -383,15 +381,20 @@ class _ExploreiaState extends State<Exploreia> {
                 onTap: () {
                   Get.to(
                       () => GymDetails(
-                            // gymID: document[index].id,
+                          // gymID: document[index].id,
                           ),
                       arguments: {
+//<<<<<<< dewansh_new
+                        "gymId": document[index].id,
+//=======
                         "gymId":Get.find<GlobalUserData>().document.value[index].id,
 
+//>>//>>>>> master
                       });
                   sslKey.currentState!.focusToItem(index);
                   // _gotoLocation(location.latitude, location.longitude);
                 },
+
                 child:Card(
                     // key: sslKey,
                     color: Colors.transparent,
@@ -419,8 +422,40 @@ class _ExploreiaState extends State<Exploreia> {
                         )
                       ],
                     ),
-                  ),
 
+                  ),
+                  elevation: 8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // SizedBox(width: 15,),
+                      if (calculateDistance(
+                              Get.find<GlobalUserData>()
+                                  .userData
+                                  .value["location"]
+                                  .latitude,
+                              Get.find<GlobalUserData>()
+                                  .userData
+                                  .value["location"]
+                                  .longitude,
+                              document[index]["location"].latitude,
+                              document[index]["location"].longitude) <=
+                          20)
+                        _boxes(
+                          document[index]["display_picture"],
+                          document[index]["name"],
+                          document[index]["location"],
+                          document[index]["address"],
+                          document[index]["rating"].toString(),
+                          document[index]["branch"],
+                          document[index]["gym_status"],
+                        ),
+                      SizedBox(
+                        width: 15,
+                      )
+                    ],
+                  ),
+                ),
               ),
             ),
           );
@@ -439,8 +474,8 @@ class _ExploreiaState extends State<Exploreia> {
     // if(location_service)
     // _gotoLocation(Get.find<GlobalUserData>().userData.value["location"].latitude,Get.find<GlobalUserData>().userData.value["location"].longitude);
     return Scaffold(
-
       backgroundColor: scaffoldColor,
+
       body: Obx(
 
         ()=> SafeArea(
@@ -488,6 +523,7 @@ class _ExploreiaState extends State<Exploreia> {
                                 return  Center(
                                   child: Container(),
                                 );
+
                               }
                               if(streamSnapshot.data.docs.isEmpty){
                                 return Padding(
@@ -541,6 +577,7 @@ class _ExploreiaState extends State<Exploreia> {
 
                                 }
                               });
+
 
                               var d = Get.find<GlobalUserData>().document.value.length;
 
@@ -660,9 +697,11 @@ class _ExploreiaState extends State<Exploreia> {
                             });
                           }
                           Get.back();
+
                           setState(() {
                             location_service = true;
                           });
+
 
                         },
                         // child: Center(
@@ -670,6 +709,7 @@ class _ExploreiaState extends State<Exploreia> {
                         //   ),
                         // )
                       ),
+
                     ),
                   ))
             ],
@@ -878,5 +918,7 @@ class Boxesss extends StatelessWidget {
     );
   }
 
+
 }
+
 

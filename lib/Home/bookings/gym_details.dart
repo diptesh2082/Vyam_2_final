@@ -17,7 +17,6 @@ import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/controllers/packages/packages.dart';
 import 'package:vyam_2_final/Home/bookings/know_trainer.dart';
 
-
 import 'ImageGalary.dart';
 
 var imageSliders;
@@ -149,7 +148,6 @@ class _GymDetailsState extends State<GymDetails> {
 
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
 
-
   var listIndex = 0;
   var times;
   var offer;
@@ -223,7 +221,7 @@ class _GymDetailsState extends State<GymDetails> {
         // isLoading = false;
         offer = [];
       });
-    }finally{
+    } finally {
       // isLoading = false;
       offer = [];
     }
@@ -269,6 +267,7 @@ class _GymDetailsState extends State<GymDetails> {
     '· Re-rack equipments',
     '· No heavy lifting without spotter'
   ];
+
 getEverithing(){
   try{
     getViewCount();
@@ -283,14 +282,14 @@ getEverithing(){
     Future.delayed(Duration(milliseconds: 700),(){
       setState(() {
         isLoading=false;
-      });
-    });
 
+      });
+    }
   }
-}
+
   @override
   void initState() {
-getEverithing();
+    getEverithing();
 
     super.initState();
   }
@@ -528,37 +527,39 @@ getEverithing();
                                           crossAxisAlignment:
                                               CrossAxisAlignment.stretch,
                                           children: [
-                                            if(times[0]["morning_days"] !="")
-                                            Column(
-                                              // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                              // crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                    // times[0]["morning_days"]
-                                                    times[0]["morning_days"] ??
-                                                        "Morning",
-                                                    style: const TextStyle(
-                                                        fontFamily: 'poppins',
-                                                        color: Colors.grey,
-                                                        fontSize: 10,
-                                                        fontWeight:
-                                                            FontWeight.w600)),
-                                                const SizedBox(height: 10),
-                                                Text(
-                                                    times[0]["Morning"] ??
-                                                        " no information",
-                                                    style: const TextStyle(
-                                                        fontFamily: 'poppins',
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.black,
-                                                        fontSize: 10)),
-                                              ],
-                                            ),
+                                            if (times[0]["morning_days"] != "")
+                                              Column(
+                                                // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                // crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                      // times[0]["morning_days"]
+                                                      times[0][
+                                                              "morning_days"] ??
+                                                          "Morning",
+                                                      style: const TextStyle(
+                                                          fontFamily: 'poppins',
+                                                          color: Colors.grey,
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                  const SizedBox(height: 10),
+                                                  Text(
+                                                      times[0]["Morning"] ??
+                                                          " no information",
+                                                      style: const TextStyle(
+                                                          fontFamily: 'poppins',
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.black,
+                                                          fontSize: 10)),
+                                                ],
+                                              ),
                                             const VerticalDivider(
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
+
                                             if(times[0]["evening_days"] !="")
                                             Column(
                                               // mainAxisAlignment: MainAxisAlignment.start,
@@ -586,36 +587,36 @@ getEverithing();
                                                 ),
                                               ],
                                             ),
+
                                             const VerticalDivider(
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
-                                            if(times[0]["closed_day"]!="")
-                                            Column(
-                                              //mainAxisAlignment: MainAxisAlignment.start,
-                                              //crossAxisAlignment: CrossAxisAlignment.end,
-                                              children: [
-
-                                                Text(
-                                                    // times[0]["closed"][0] ??
-                                                    "${times[0]["closed_day"]}",
-                                                    style: const TextStyle(
-                                                        fontFamily: 'poppins',
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: Colors.grey,
-                                                        fontSize: 10)),
-                                                const SizedBox(height: 10),
-                                                Text(
-                                                    // "",
-                                                    times[0]["closed"] != null
-                                                        ? 'Closed'
-                                                        : "no information",
-                                                    style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 10)),
-                                              ],
-                                            ),
+                                            if (times[0]["closed_day"] != "")
+                                              Column(
+                                                //mainAxisAlignment: MainAxisAlignment.start,
+                                                //crossAxisAlignment: CrossAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                      // times[0]["closed"][0] ??
+                                                      "${times[0]["closed_day"]}",
+                                                      style: const TextStyle(
+                                                          fontFamily: 'poppins',
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.grey,
+                                                          fontSize: 10)),
+                                                  const SizedBox(height: 10),
+                                                  Text(
+                                                      // "",
+                                                      times[0]["closed"] != null
+                                                          ? 'Closed'
+                                                          : "no information",
+                                                      style: const TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 10)),
+                                                ],
+                                              ),
                                           ],
                                         )),
                                       ]),
@@ -1408,8 +1409,7 @@ class Addbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-     height: 80,
-
+      height: 80,
       child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('product_details')
@@ -1429,7 +1429,7 @@ class Addbar extends StatelessWidget {
             // print("mmmmmmmmm,,,,,<<<<");
             // print(documents);
             return ListView.builder(
-              scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemCount: documents.length,
                 itemBuilder: (context, index) {
@@ -1466,7 +1466,7 @@ class Addbar extends StatelessWidget {
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 3),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 3),
             child: SizedBox(
               height: 60,
               // width: 25,
@@ -1507,134 +1507,128 @@ class Addbar extends StatelessWidget {
         ),
       );
 
+//
   Widget buildSheet(DocumentSnapshot doc) => SafeArea(
-        child:  SizedBox(
-          height: 315,
-          child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+          child: SizedBox(
+        height: 315,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+// >>>>>>> a47ec1ed21d78f396c4138fbc59b4ae5cfdfeec4
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 8),
+                    child: Text(
+                      "Offer Details",
+                      style: GoogleFonts.poppins(
+                          fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Spacer(),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.cancel))
+                ],
+              ),
+              Divider(color: Colors.grey),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2),
+                child: Row(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/icons/discount-shape.png',
+                      height: 38,
+                      width: 38,
+                    ),
+                    SizedBox(
+                      width: 6,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          doc['title'].toString(),
+                          style: GoogleFonts.poppins(
+                              fontSize: 14, fontWeight: FontWeight.bold),
                         ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Text(
+                          doc['description'].toString(),
+                          style: GoogleFonts.poppins(
+                              fontSize: 12, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              // Divider(color: Colors.grey),
+              // Padding(
+              //   padding: const EdgeInsets.all(10.0),
+              //   child: Text(
+              //     documents[index]['offer'],
+              //     style: GoogleFonts.poppins(
+              //         fontSize: 15, fontWeight: FontWeight.w500),
+              //   ),
+              // ),
+              Divider(color: Colors.grey),
+              Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: doc['rules'].length,
+                    itemBuilder: (context, index) => Container(
+                      child: SingleChildScrollView(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-
-
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10.0, vertical: 8),
-                                  child: Text(
-                                    "Offer Details",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                Image.asset(
+                                  "assets/icons/checked.png",
+                                  width: 12,
+                                  height: 12,
                                 ),
-                                Spacer(),
-                                IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: Icon(Icons.cancel))
+                                SizedBox(
+                                  width: 6,
+                                ),
+                                Text(
+                                  doc['rules'][index].toString(),
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ],
                             ),
-                            Divider(color: Colors.grey),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 2),
-                              child: Row(
-                                // mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/discount-shape.png',
-                                    height: 38,
-                                    width: 38,
-                                  ),
-                                  SizedBox(
-                                    width: 6,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        doc['title'].toString(),
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      SizedBox(
-                                        width: 30,
-                                      ),
-                                      Text(
-                                        doc['description'].toString(),
-                                        style: GoogleFonts.poppins(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
                             SizedBox(
-                              height: 8,
+                              height: 5,
                             ),
-                            // Divider(color: Colors.grey),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(10.0),
-                            //   child: Text(
-                            //     documents[index]['offer'],
-                            //     style: GoogleFonts.poppins(
-                            //         fontSize: 15, fontWeight: FontWeight.w500),
-                            //   ),
-                            // ),
-                            Divider(color: Colors.grey),
-                            Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: doc['rules'].length,
-                                  itemBuilder: (context, index) => Container(
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Image.asset(
-                                                "assets/icons/checked.png",
-                                                width: 12,
-                                                height: 12,
-                                              ),
-                                              SizedBox(
-                                                width: 6,
-                                              ),
-                                              Text(
-                                                doc['rules'][index].toString(),
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 14,
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w500),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ))
                           ],
                         ),
                       ),
-        )
-
-      );
+                    ),
+                  ))
+            ],
+          ),
+        ),
+      ));
 }
