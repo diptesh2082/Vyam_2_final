@@ -63,7 +63,10 @@ class _SearchItState extends State<SearchIt> {
 
                           // FocusScope.of(context).unfocus();
                         }
-                        Get.find<Need>().search.value = value.toString().trim();
+                        // if(value.length!=0){
+                          Get.find<Need>().search.value = value.toString().trim();
+                        // }
+
                         // if (mounted) {
                         //   setState(() {
                         //     searchGymName = value.toString();

@@ -266,7 +266,7 @@ class _FirstHomeState extends State<FirstHome> {
   String subLocality = "";
 
   final app_bar_controller = ScrollController();
-  String searchGymName = '';
+  // String searchGymName = '';
   BannerApi bannerApi = BannerApi();
   bool result = false;
   var devicetoken;
@@ -598,46 +598,46 @@ class _FirstHomeState extends State<FirstHome> {
     );
   }
 
-  Container Search(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * .92,
-      height: 51,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        color: Colors.white,
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: TextField(
-          autofocus: false,
-          textAlignVertical: TextAlignVertical.bottom,
-          onSubmitted: (value) async {
-            FocusScope.of(context).unfocus();
-          },
-          controller: searchController,
-          onChanged: (value) {
-            if (value.length == 0) {
-              // FocusScope.of(context).unfocus();
-            }
-            if (mounted) {
-              setState(() {
-                searchGymName = value.toString();
-              });
-            }
-          },
-          decoration: InputDecoration(
-            prefixIcon: Icon(Profileicon.search),
-            hintText: 'Search',
-            hintStyle:
-            GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
-            border: InputBorder.none,
-            filled: true,
-            fillColor: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
+  // Container Search(BuildContext context) {
+  //   return Container(
+  //     width: MediaQuery.of(context).size.width * .92,
+  //     height: 51,
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(14),
+  //       color: Colors.white,
+  //     ),
+  //     child: ClipRRect(
+  //       borderRadius: BorderRadius.circular(15),
+  //       child: TextField(
+  //         autofocus: false,
+  //         textAlignVertical: TextAlignVertical.bottom,
+  //         onSubmitted: (value) async {
+  //           FocusScope.of(context).unfocus();
+  //         },
+  //         controller: searchController,
+  //         onChanged: (value) {
+  //           if (value.length == 0) {
+  //             // FocusScope.of(context).unfocus();
+  //           }
+  //           // if (mounted) {
+  //           //   setState(() {
+  //           //     searchGymName = value.toString();
+  //           //   });
+  //           // }
+  //         },
+  //         decoration: InputDecoration(
+  //           prefixIcon: Icon(Profileicon.search),
+  //           hintText: 'Search',
+  //           hintStyle:
+  //           GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+  //           border: InputBorder.none,
+  //           filled: true,
+  //           fillColor: Colors.white,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
 
 class Banner extends StatelessWidget {
