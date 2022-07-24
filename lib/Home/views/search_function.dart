@@ -18,7 +18,7 @@ class _SearchItState extends State<SearchIt> {
 
   // TextEditingController searchController = TextEditingController();
   // String searchGymName = '';
-  bool showSearch=false;
+  // bool showSearch=false;
   FocusNode _node = FocusNode();
   @override
   void dispose() {
@@ -51,24 +51,24 @@ class _SearchItState extends State<SearchIt> {
                       textAlignVertical: TextAlignVertical.bottom,
                       onSubmitted: (value) async {
                         FocusScope.of(context).unfocus();
-                        setState(() {
-                          showSearch=false;
-                        });
+                        // setState(() {
+                        Get.find<Need>().showSearch.value=false;
+                        // });
                       },
                       // controller: searchController,
                       onTap: (){
-                        setState(() {
-                          showSearch=true;
-                        });
+                        // setState(() {
+                        Get.find<Need>().showSearch.value=true;
+                        // });
 
                       },
                       onChanged: (value) {
                         if (value.length == 0) {
                           Future.delayed(Duration(milliseconds: 200),(){
                             _node.unfocus();
-                            setState(() {
-                              showSearch=false;
-                            });
+                            // setState(() {
+                              Get.find<Need>().showSearch.value=false;
+                            // });
 
                           });
 
@@ -76,6 +76,7 @@ class _SearchItState extends State<SearchIt> {
                         }
                         // if(value.length!=0){
                           Get.find<Need>().search.value = value.toString().trim();
+                        Get.find<Need>().showSearch.value=true;
                         // }
 
                         // if (mounted) {
@@ -96,7 +97,7 @@ class _SearchItState extends State<SearchIt> {
                     ),
                   ),
                 ),
-                if (Get.find<Need>().search.value.isNotEmpty || showSearch)
+                if (Get.find<Need>().search.value.isNotEmpty || Get.find<Need>().showSearch.value)
                   Container(
                     width: MediaQuery.of(context).size.width,
                     color: Colors.grey[100],

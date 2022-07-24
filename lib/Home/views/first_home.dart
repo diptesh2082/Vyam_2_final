@@ -451,13 +451,14 @@ class _FirstHomeState extends State<FirstHome> {
                               height: 9,
                             ),
                             // if (searchGymName.isEmpty)
-                            if (Get.find<Need>().search.value.isEmpty)
+                            if (Get.find<Need>().search.value.isEmpty && Get.find<Need>().showSearch.value==false)
                               Column(
                                 children: [
                                   if (getPercentage != 100) ProgressCard(),
                                   const SizedBox(
                                     height: 9,
                                   ),
+                                  if (Get.find<Need>().search.value.isEmpty && Get.find<Need>().showSearch.value==false)
                                   Banner(bannerApi: bannerApi),
                                   const SizedBox(
                                     height: 15,
@@ -491,7 +492,7 @@ class _FirstHomeState extends State<FirstHome> {
                                       const SizedBox(
                                         height: 15,
                                       ),
-                                      // if (Get.find<Need>().search.value.isEmpty)
+                                      if (Get.find<Need>().search.value.isEmpty && Get.find<Need>().showSearch.value==false)
                                       Catagory(
                                         stream: stream1,
                                       ),
@@ -500,11 +501,11 @@ class _FirstHomeState extends State<FirstHome> {
                                         height: 7,
                                       ),
 
-                                      if (Get.find<Need>().search.value.isEmpty)
+                                      if (Get.find<Need>().search.value.isEmpty && Get.find<Need>().showSearch.value==false)
                                         const SizedBox(
                                           height: 7,
                                         ),
-                                      if (Get.find<Need>().search.value.isEmpty)
+                                      if (Get.find<Need>().search.value.isEmpty && Get.find<Need>().showSearch.value==false)
                                         BuildBox(
                                           search: false,
                                         ),

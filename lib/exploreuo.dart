@@ -494,7 +494,7 @@ class _ExploreiaState extends State<Exploreia> {
                             padding: const EdgeInsets.only(
                                 left: 8.0, top: 30),
                             child: Text(
-                              "No Fitness Option Available Here",
+                              "VYAM is not in this location yet",
                               style: GoogleFonts.poppins(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16),
@@ -567,7 +567,7 @@ class _ExploreiaState extends State<Exploreia> {
                           padding: const EdgeInsets.only(
                               left: 8.0, top: 30),
                           child: Text(
-                            "No Fitness Option Available Here",
+                            "VYAM is not in this location yet",
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 16),

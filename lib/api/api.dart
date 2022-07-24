@@ -69,6 +69,7 @@ class Need extends GetxController {
   var star5 = 0.0.obs;
   var review_number = 0.obs;
   RxString search = "".obs;
+  RxBool showSearch=false.obs;
 }
 
 getInfo() async {
