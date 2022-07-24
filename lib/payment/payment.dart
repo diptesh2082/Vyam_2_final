@@ -117,6 +117,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   void initState() {
     print("//////////");
+    getSimpl();
     print(widget.booking_id);
     print(
       getData['totalMonths'],
@@ -1515,10 +1516,7 @@ check_simpl()async{
                               }
                               FocusScope.of(context).unfocus();
                               // await getBookingData(getData["booking_id"]);
-                              Get.offAll(() => SuccessBook(), arguments: {
-                                "otp_pass": x,
-                                "booking_details": widget.booking_id
-                              });
+
                               setState(() {
                                 isLoading = false;
                               });
@@ -1534,6 +1532,10 @@ check_simpl()async{
                                       ])
                                   .get()
                                   .then((value) async {
+                                Get.offAll(() => SuccessBook(), arguments: {
+                                  "otp_pass": x,
+                                  "booking_details": widget.booking_id
+                                });
                                     if (value.docs.isNotEmpty) {
                                       booking_iiid =
                                           await value.docs.length + 200;
@@ -1787,7 +1789,7 @@ if(simpl)
                               const SizedBox(
                                 width: 20,
                               ),
-                              if (gymData["cash_pay"] == true)
+                              if (simpl== true)
                                 const Text(
                                   "Pay with Simpl",
                                   style: TextStyle(
@@ -1795,7 +1797,7 @@ if(simpl)
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14),
                                 ),
-                              if (gymData["cash_pay"] == true) const Spacer(),
+                              if (simpl == true) const Spacer(),
                               if (PAY == "simpl" ||
                                   (gymData["online_pay"] == false &&
                                       gymData["cash_pay"] == true))
@@ -1804,7 +1806,7 @@ if(simpl)
                                   color: Colors.black,
                                   size: 15,
                                 ),
-                              if (gymData["cash_pay"] == false)
+                              if (simpl == false)
                                 const Text(
                                   "Cash isn't available in this gym",
                                   style: TextStyle(

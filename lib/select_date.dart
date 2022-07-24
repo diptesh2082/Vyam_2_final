@@ -344,53 +344,57 @@ class _SelectDateState extends State<SelectDate> {
             onPressed: () async {
               // FocusScope.of(context).unfocus();
               FocusManager.instance.primaryFocus?.unfocus();
-              // DateTime(int.parse(year),end_mon,int.parse(endday))
-              // FocusScope.of(context).n;
-              startDate =
-                  DateTime(int.parse(year), current_mon, int.parse(day));
 
-              totalDays = DateTime(int.parse(year), end_mon, int.parse(endday))
-                      .difference(DateTime(
-                          int.parse(year), current_mon, int.parse(day)))
-                      .inDays +
-                  1;
-              print(startDate);
-              print(endDate);
-              print(widget.days);
+              try{
+                startDate =
+                    DateTime(int.parse(year), current_mon, int.parse(day));
 
-              await FirebaseFirestore.instance
-                  .collection("bookings")
-                  // .doc(number)
-                  // .collection("user_booking")
-                  .doc(widget.bookingId)
-                  .update({
-                "booking_date": startDate,
-                "plan_end_duration": endDate,
-                "totalDays": widget.days
-              }).then((value) {
-                Get.to(
-                  () => PaymentScreen(
-                    booking_id:  widget.bookingId,
-                    endDate: DateFormat("dd, MMM, yyyy").format(endDate),
-                  ),
-                  duration: const Duration(milliseconds: 500),
-                  arguments: {
-                    "gymName": widget.getGymName,
-                    "totalMonths": widget.months,
-                    "packageType": widget.packageType,
-                    "totalPrice": widget.price,
-                    "startDate": DateFormat("dd, MMM, yyyy").format(startDate),
-                    "endDate": DateFormat("dd, MMM, yyyy").format(endDate),
-                    "address": widget.getGymAddress,
-                    "vendorId": widget.gymId,
-                    // "booking_id": widget.bookingId,
-                    "gym_details": Get.arguments["docs"],
-                    "totalDays": widget.days,
-                    "booking_plan":widget.package_name,
-                    "branch":widget.branch
-                  },
-                );
-              });
+                totalDays = DateTime(int.parse(year), end_mon, int.parse(endday))
+                    .difference(DateTime(
+                    int.parse(year), current_mon, int.parse(day)))
+                    .inDays +
+                    1;
+                print(startDate);
+                print(endDate);
+                print(widget.days);
+
+                await FirebaseFirestore.instance
+                    .collection("bookings")
+                // .doc(number)
+                // .collection("user_booking")
+                    .doc(widget.bookingId)
+                    .update({
+                  "booking_date": startDate,
+                  "plan_end_duration": endDate,
+                  "totalDays": widget.days
+                }).then((value) {
+                  Get.to(
+                        () => PaymentScreen(
+                      booking_id:  widget.bookingId,
+                      endDate: DateFormat("dd, MMM, yyyy").format(endDate),
+                    ),
+                    duration: const Duration(milliseconds: 500),
+                    arguments: {
+                      "gymName": widget.getGymName,
+                      "totalMonths": widget.months,
+                      "packageType": widget.packageType,
+                      "totalPrice": widget.price,
+                      "startDate": DateFormat("dd, MMM, yyyy").format(startDate),
+                      "endDate": DateFormat("dd, MMM, yyyy").format(endDate),
+                      "address": widget.getGymAddress,
+                      "vendorId": widget.gymId,
+                      // "booking_id": widget.bookingId,
+                      "gym_details": Get.arguments["docs"],
+                      "totalDays": widget.days,
+                      "booking_plan":widget.package_name,
+                      "branch":widget.branch
+                    },
+                  );
+                });
+              }catch(e){
+                Get.snackbar("Please", "select a date");
+              }
+
             },
             label: Text(
               "Proceed",

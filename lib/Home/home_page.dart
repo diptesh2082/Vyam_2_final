@@ -32,7 +32,6 @@ class HomePage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 1));
-    print("sexsexsexsexsexsexsexsexsexsexsexx");
     Future<FirebaseRemoteConfig> setupRemoteConfig() async {
       final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
       await remoteConfig.fetch();
@@ -184,9 +183,9 @@ class _HomePageState extends State<HomePage> {
                                     });
                                   }
                                   Position position =
-                                      await Geolocator.getCurrentPosition(
-                                          desiredAccuracy:
-                                              LocationAccuracy.best);
+                                  await Geolocator.getCurrentPosition(
+                                      desiredAccuracy:
+                                      LocationAccuracy.best);
 
                                   await GetAddressFromLatLong(position);
 
@@ -362,7 +361,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   final PersistentTabController _controller =
-      PersistentTabController(initialIndex: 0);
+  PersistentTabController(initialIndex: 0);
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
@@ -421,9 +420,9 @@ class _HomePageState extends State<HomePage> {
         icon: Column(
           children: const [
             Icon(HomeIcon.active_1
-                // AssetImage("assets/icons/active.png"),
-                // size: 30,
-                ),
+              // AssetImage("assets/icons/active.png"),
+              // size: 30,
+            ),
             Text(
               "Bookings",
               style: TextStyle(
@@ -494,9 +493,9 @@ class _HomePageState extends State<HomePage> {
         icon: Column(
           children: const [
             Icon(HomeIcon.active
-                // AssetImage("assets/icons/profile.png"),
-                // size: 30,
-                ),
+              // AssetImage("assets/icons/profile.png"),
+              // size: 30,
+            ),
             Text(
               "Profile",
               style: TextStyle(
@@ -670,54 +669,54 @@ class _HomePageState extends State<HomePage> {
             color: Colors.white,
             child: showAlertDialog(context, widget.remoteConfig))
         : isLoading
-            ? Container(
-                color: Colors.white,
-                child: Center(
-                    child: CircularProgressIndicator(
-                        // backgroundColor: Colors.white,
-                        // c,
-                        )),
-              )
-            : Scaffold(
-                backgroundColor: scaffoldColor,
-                body: net
-                    ? PersistentTabView(
-                        context,
-                        controller: _controller,
-                        navBarHeight: 65,
-                        screens: _buildScreens(),
-                        items: _navBarsItems(),
-                        confineInSafeArea: true,
-                        backgroundColor: Colors.white,
-                        handleAndroidBackButtonPress: true,
-                        resizeToAvoidBottomInset: true,
-                        stateManagement: true,
-                        hideNavigationBarWhenKeyboardShows: true,
-                        popAllScreensOnTapOfSelectedTab: true,
+        ? Container(
+      color: Colors.white,
+      child: Center(
+          child: CircularProgressIndicator(
+            // backgroundColor: Colors.white,
+            // c,
+          )),
+    )
+        : Scaffold(
+      backgroundColor: scaffoldColor,
+      body: net
+          ? PersistentTabView(
+        context,
+        controller: _controller,
+        navBarHeight: 65,
+        screens: _buildScreens(),
+        items: _navBarsItems(),
+        confineInSafeArea: true,
+        backgroundColor: Colors.white,
+        handleAndroidBackButtonPress: true,
+        resizeToAvoidBottomInset: true,
+        stateManagement: true,
+        hideNavigationBarWhenKeyboardShows: true,
+        popAllScreensOnTapOfSelectedTab: true,
 
-                        popActionScreens: PopActionScreensType.all,
-                        // onWillPop: FocusScope.of(context).unfocus(),
-                        itemAnimationProperties: const ItemAnimationProperties(
-                          duration: Duration(milliseconds: 200),
-                          curve: Curves.ease,
-                        ),
-                        screenTransitionAnimation:
-                            const ScreenTransitionAnimation(
-                          animateTabTransition: true,
-                          curve: Curves.ease,
-                          duration: Duration(milliseconds: 200),
-                        ),
-                        navBarStyle: NavBarStyle.style3,
-                      )
-                    : NoInternet(),
-                // floatingActionButton: FloatingActionButton(
-                //   onPressed: () {
-                //     showNotification();
-                //   },
-                //   tooltip: 'Icrement',
-                //   child: Icon(Icons.add),
-                // ),
-              );
+        popActionScreens: PopActionScreensType.all,
+        // onWillPop: FocusScope.of(context).unfocus(),
+        itemAnimationProperties: const ItemAnimationProperties(
+          duration: Duration(milliseconds: 200),
+          curve: Curves.ease,
+        ),
+        screenTransitionAnimation:
+        const ScreenTransitionAnimation(
+          animateTabTransition: true,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 200),
+        ),
+        navBarStyle: NavBarStyle.style3,
+      )
+          : NoInternet(),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     showNotification();
+      //   },
+      //   tooltip: 'Icrement',
+      //   child: Icon(Icons.add),
+      // ),
+    );
   }
 }
 

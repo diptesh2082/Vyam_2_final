@@ -38,8 +38,8 @@ class FirstHome2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FirstHome(
-        // remoteConfig: remoteConfig,
-        );
+      // remoteConfig: remoteConfig,
+    );
   }
 }
 
@@ -160,11 +160,11 @@ class _FirstHomeState extends State<FirstHome> {
 
   // Create a geoFirePoint
   GeoFirePoint center =
-      Geoflutterfire().point(latitude: 12.960632, longitude: 77.641603);
+  Geoflutterfire().point(latitude: 12.960632, longitude: 77.641603);
 
 // get the collection reference or query
   var collectionReference =
-      FirebaseFirestore.instance.collection('product_details');
+  FirebaseFirestore.instance.collection('product_details');
 
   double radius = 50;
   String field = 'position';
@@ -266,7 +266,7 @@ class _FirstHomeState extends State<FirstHome> {
   String subLocality = "";
 
   final app_bar_controller = ScrollController();
-  String searchGymName = '';
+  // String searchGymName = '';
   BannerApi bannerApi = BannerApi();
   bool result = false;
   var devicetoken;
@@ -332,208 +332,208 @@ class _FirstHomeState extends State<FirstHome> {
       child: SafeArea(
         child: isLoading
             ? const Center(
-                child: CircularProgressIndicator(),
-              )
+          child: CircularProgressIndicator(),
+        )
             : Scaffold(
-                backgroundColor: scaffoldColor,
-                appBar: ScrollAppBar(
-                  controller: app_bar_controller,
-                  elevation: .0,
-                  centerTitle: false,
-                  backgroundColor: const Color(0xffF4F4F4),
-                  leading: IconButton(
-                    iconSize: 24,
-                    icon: const Icon(
-                      Profileicon.location,
-                      color: Color(0xff3A3A3A),
-                    ),
-                    onPressed: () async {
-                      FocusScope.of(context).unfocus();
-                      await getAddressPin(pin);
-                      if (mounted) {
-                        setState(() {
-                          // myaddress = myaddress;
-                          address = address;
-                          pin = pin;
-                          GlobalUserLocation = user_data["address"];
-                        });
-                      }
-                      Get.to(() => LocInfo());
-                    },
-                  ),
-                  title: Transform(
-                    transform: Matrix4.translationValues(-26, 0, 0),
-                    child: InkWell(
-                      onTap: () async {
-                        FocusScope.of(context).unfocus();
-                        await getAddressPin(pin);
-                        if (mounted) {
-                          setState(() {
-                            // myaddress = myaddress;
-                            address = address;
-                            pin = pin;
-                            GlobalUserLocation = user_data["address"];
-                          });
-                        }
-                        Get.to(() => LocInfo());
-                      },
-                      child: SizedBox(
-                        width: size.width * .666,
-                        height: 45,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              if (Get.find<GlobalUserData>()
-                                      .userData
-                                      .value["address"] ==
-                                  null)
-                                Text(
-                                  "Tap here to choose your Location",
-                                  textAlign: TextAlign.left,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: GoogleFonts.poppins(
-                                      color: const Color(0xff3A3A3A),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              if (Get.find<GlobalUserData>()
-                                      .userData
-                                      .value["address"] !=
-                                  null)
-                                Text(
-                                  Get.find<GlobalUserData>()
-                                              .userData
-                                              .value["address"]
-                                              .toString() ==
-                                          ""
-                                      ? "Tap here to choose your Location"
-                                      : Get.find<GlobalUserData>()
-                                          .userData
-                                          .value["address"]
-                                          .toString(),
-                                  textAlign: TextAlign.left,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: GoogleFonts.poppins(
-                                      color: const Color(0xff3A3A3A),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  actions: [
-                    Column(
+          backgroundColor: scaffoldColor,
+          appBar: ScrollAppBar(
+            controller: app_bar_controller,
+            elevation: .0,
+            centerTitle: false,
+            backgroundColor: const Color(0xffF4F4F4),
+            leading: IconButton(
+              iconSize: 24,
+              icon: const Icon(
+                Profileicon.location,
+                color: Color(0xff3A3A3A),
+              ),
+              onPressed: () async {
+                FocusScope.of(context).unfocus();
+                await getAddressPin(pin);
+                if (mounted) {
+                  setState(() {
+                    // myaddress = myaddress;
+                    address = address;
+                    pin = pin;
+                    GlobalUserLocation = user_data["address"];
+                  });
+                }
+                Get.to(() => LocInfo());
+              },
+            ),
+            title: Transform(
+              transform: Matrix4.translationValues(-26, 0, 0),
+              child: InkWell(
+                onTap: () async {
+                  FocusScope.of(context).unfocus();
+                  await getAddressPin(pin);
+                  if (mounted) {
+                    setState(() {
+                      // myaddress = myaddress;
+                      address = address;
+                      pin = pin;
+                      GlobalUserLocation = user_data["address"];
+                    });
+                  }
+                  Get.to(() => LocInfo());
+                },
+                child: SizedBox(
+                  width: size.width * .666,
+                  height: 45,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: [
-                            StreamBuilder<QuerySnapshot>(
-                                stream: FirebaseFirestore.instance
-                                    .collection('bookings')
-                                    .where("userId", isEqualTo: number)
-                                    .where("booking_status",
-                                        isEqualTo: "upcoming")
-                                    .orderBy("order_date", descending: true)
-                                    .snapshots(),
-                                builder: (context, AsyncSnapshot snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(child: Container());
-                                  }
-                                  if (snapshot.hasError) {
-                                    return Center(child: Container());
-                                  }
-                                  // if(snapshot.data.docs.length==0){
-                                  //   return Center(child:Container());
-                                  // }
-
-                                  return Badge(
-                                    elevation:
-                                        snapshot.data.docs.isNotEmpty ? 2 : 0,
-                                    badgeColor: snapshot.data.docs.isNotEmpty
-                                        ? Colors.red
-                                        : Colors.white38,
-                                    position:
-                                        BadgePosition.topEnd(top: 7, end: 7),
-                                    child: IconButton(
-                                      // NOTIFICATION NUMBER CALLING
-                                      icon: const ImageIcon(
-                                        AssetImage(
-                                            "assets/icons/Notification.png"),
-                                        size: 27,
-                                        color: Colors.black,
-                                      ),
-                                      onPressed: () async {
-                                        // await DefaultCacheManager().emptyCache();
-                                        Get.to(() => NotificationDetails());
-                                        // print(GlobalUserData);
-                                      },
-                                    ),
-                                  );
-                                }),
-                            SizedBox(
-                              width: 5,
-                            )
-                          ],
-                        ),
+                        if (Get.find<GlobalUserData>()
+                            .userData
+                            .value["address"] ==
+                            null)
+                          Text(
+                            "Tap here to choose your Location",
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: GoogleFonts.poppins(
+                                color: const Color(0xff3A3A3A),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        if (Get.find<GlobalUserData>()
+                            .userData
+                            .value["address"] !=
+                            null)
+                          Text(
+                            Get.find<GlobalUserData>()
+                                .userData
+                                .value["address"]
+                                .toString() ==
+                                ""
+                                ? "Tap here to choose your Location"
+                                : Get.find<GlobalUserData>()
+                                .userData
+                                .value["address"]
+                                .toString(),
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: GoogleFonts.poppins(
+                                color: const Color(0xff3A3A3A),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500),
+                          ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-                body: Snap(
-                  controller: app_bar_controller.appBar,
-                  child: SingleChildScrollView(
-                    physics: ClampingScrollPhysics(),
-                    controller: app_bar_controller,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 5.0, right: 5),
-                      child: Obx(
-                        () => Stack(
-                          alignment: Alignment.topCenter,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: const Divider(
-                                    height: .3,
-                                    thickness: 1,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 12,
-                                ),
+              ),
+            ),
+            actions: [
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection('bookings')
+                              .where("userId", isEqualTo: number)
+                              .where("booking_status",
+                              isEqualTo: "upcoming")
+                              .orderBy("order_date", descending: true)
+                              .snapshots(),
+                          builder: (context, AsyncSnapshot snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: Container());
+                            }
+                            if (snapshot.hasError) {
+                              return Center(child: Container());
+                            }
+                            // if(snapshot.data.docs.length==0){
+                            //   return Center(child:Container());
+                            // }
 
-                                SizedBox(
-                                  height: 60,
+                            return Badge(
+                              elevation:
+                              snapshot.data.docs.isNotEmpty ? 2 : 0,
+                              badgeColor: snapshot.data.docs.isNotEmpty
+                                  ? Colors.red
+                                  : Colors.white38,
+                              position:
+                              BadgePosition.topEnd(top: 7, end: 7),
+                              child: IconButton(
+                                // NOTIFICATION NUMBER CALLING
+                                icon: const ImageIcon(
+                                  AssetImage(
+                                      "assets/icons/Notification.png"),
+                                  size: 27,
+                                  color: Colors.black,
                                 ),
+                                onPressed: () async {
+                                  // await DefaultCacheManager().emptyCache();
+                                  Get.to(() => NotificationDetails());
+                                  // print(GlobalUserData);
+                                },
+                              ),
+                            );
+                          }),
+                      SizedBox(
+                        width: 5,
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          body: Snap(
+            controller: app_bar_controller.appBar,
+            child: SingleChildScrollView(
+              physics: ClampingScrollPhysics(),
+              controller: app_bar_controller,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0, right: 5),
+                child: Obx(
+                      () => Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: const Divider(
+                              height: .3,
+                              thickness: 1,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
 
-                                const SizedBox(
-                                  height: 9,
-                                ),
-                                // if (searchGymName.isEmpty)
-                                // if (Get.find<Need>().search.value.isEmpty)
-                                Column(
-                                  children: [
-                                    if (getPercentage != 100) ProgressCard(),
-                                    const SizedBox(
-                                      height: 9,
-                                    ),
-                                    Banner(bannerApi: bannerApi),
-                                    const SizedBox(
-                                      height: 15,
-                                    ),
-                                    // if (Get.find<Need>().search.value.isEmpty)
+                          SizedBox(
+                            height: 60,
+                          ),
+
+                          const SizedBox(
+                            height: 9,
+                          ),
+                          // if (searchGymName.isEmpty)
+                          // if (Get.find<Need>().search.value.isEmpty)
+                          Column(
+                            children: [
+                              if (getPercentage != 100) ProgressCard(),
+                              const SizedBox(
+                                height: 9,
+                              ),
+                              Banner(bannerApi: bannerApi),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              // if (Get.find<Need>().search.value.isEmpty)
 // <<<<<<< HEAD
 //                                     Catagory(),
 //                                     if (Get.find<Need>().search.value.isEmpty)
@@ -546,100 +546,98 @@ class _FirstHomeState extends State<FirstHome> {
 //                                         height: 7,
 //                                       ),
 //                                     if (Get.find<Need>().search.value.isEmpty)
-                                    // BuildBox()
-                                    // LocationList()
+                              // BuildBox()
+                              // LocationList()
 // =======
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        if (getPercentage != 100)
-                                          ProgressCard(),
-                                        const SizedBox(
-                                          height: 9,
-                                        ),
-                                        Banner(bannerApi: bannerApi),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        // if (Get.find<Need>().search.value.isEmpty)
-                                        Catagory(),
+                              Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.start,
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
+                                children: [
+                                  // if (getPercentage != 100)
+                                  //   ProgressCard(),
 
-                                        const SizedBox(
-                                          height: 7,
-                                        ),
+                                  // Banner(bannerApi: bannerApi),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  // if (Get.find<Need>().search.value.isEmpty)
+                                  Catagory(),
 
-                                        if (Get.find<Need>()
-                                            .search
-                                            .value
-                                            .isEmpty)
-                                          const SizedBox(
-                                            height: 7,
-                                          ),
+                                  const SizedBox(
+                                    height: 7,
+                                  ),
 
-                                        BuildBox()
-                                        // LocationList()
-                                      ],
-                                    )
+                                  if (Get.find<Need>()
+                                      .search
+                                      .value
+                                      .isEmpty)
+                                    const SizedBox(
+                                      height: 7,
+                                    ),
+
+                                  BuildBox()
+                                  // LocationList()
+                                ],
+                              )
 // >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
-                                  ],
-                                )
-                              ],
-                            ),
-                            Positioned(top: 15, child: SearchIt()),
-                          ],
-                        ),
+                            ],
+                          )
+                        ],
                       ),
-                    ),
+                      Positioned(top: 15, child: SearchIt()),
+                    ],
                   ),
                 ),
               ),
-      ),
-    );
-  }
-
-  Container Search(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * .92,
-      height: 51,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        color: Colors.white,
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
-        child: TextField(
-          autofocus: false,
-          textAlignVertical: TextAlignVertical.bottom,
-          onSubmitted: (value) async {
-            FocusScope.of(context).unfocus();
-          },
-          controller: searchController,
-          onChanged: (value) {
-            if (value.length == 0) {
-              // FocusScope.of(context).unfocus();
-            }
-            if (mounted) {
-              setState(() {
-                searchGymName = value.toString();
-              });
-            }
-          },
-          decoration: InputDecoration(
-            prefixIcon: Icon(Profileicon.search),
-            hintText: 'Search',
-            hintStyle:
-                GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
-            border: InputBorder.none,
-            filled: true,
-            fillColor: Colors.white,
+            ),
           ),
         ),
       ),
     );
   }
+
+  // Container Search(BuildContext context) {
+  //   return Container(
+  //     width: MediaQuery.of(context).size.width * .92,
+  //     height: 51,
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(14),
+  //       color: Colors.white,
+  //     ),
+  //     child: ClipRRect(
+  //       borderRadius: BorderRadius.circular(15),
+  //       child: TextField(
+  //         autofocus: false,
+  //         textAlignVertical: TextAlignVertical.bottom,
+  //         onSubmitted: (value) async {
+  //           FocusScope.of(context).unfocus();
+  //         },
+  //         controller: searchController,
+  //         onChanged: (value) {
+  //           if (value.length == 0) {
+  //             // FocusScope.of(context).unfocus();
+  //           }
+  //           // if (mounted) {
+  //           //   setState(() {
+  //           //     searchGymName = value.toString();
+  //           //   });
+  //           // }
+  //         },
+  //         decoration: InputDecoration(
+  //           prefixIcon: Icon(Profileicon.search),
+  //           hintText: 'Search',
+  //           hintStyle:
+  //           GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500),
+  //           border: InputBorder.none,
+  //           filled: true,
+  //           fillColor: Colors.white,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
 
 class Banner extends StatelessWidget {
@@ -728,7 +726,7 @@ class Banner extends StatelessWidget {
                           fit: BoxFit.cover,
                           imageUrl: data[index]["image"].toString(),
                           errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                          const Icon(Icons.error),
                           progressIndicatorBuilder:
                               (context, url, downloadProgress) => Container(),
                         ),

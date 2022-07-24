@@ -57,13 +57,9 @@ dependencies:
   maps_launcher: ^2.0.1
   firebase_auth: ^3.3.7
   readmore: ^2.1.0
-#<<<<<<< HEAD
   location: ^4.4.0
   firebase_crashlytics: ^ 2.7.2
-#=======
-#  location: ^4.3.0
-#>>>>>>> 730ad5b1b982c1cc820d8984882a770b957e963b
-  # flutter_google_places: ^0.3.0
+
   google_maps_webservice: ^0.0.19
   dotted_border: ^2.0.0+2
   package_info: ^2.0.2

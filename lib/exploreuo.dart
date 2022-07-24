@@ -38,8 +38,6 @@ var long;
 
 // = GlobalUserData["location"].longitude;
 class _ExploreiaState extends State<Exploreia> {
-
-
   final Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   List<DocumentSnapshot> document = [];
@@ -87,15 +85,14 @@ class _ExploreiaState extends State<Exploreia> {
     final Marker marker = Marker(
       icon: BitmapDescriptor.defaultMarker,
       markerId: markerId,
-      position: LatLng(specify['location'].latitude, specify['location'].longitude),
+      position:
+          LatLng(specify['location'].latitude, specify['location'].longitude),
       infoWindow: InfoWindow(title: 'Gym', snippet: specify['name']),
     );
     setState(() {
       markers[markerId] = marker;
     });
   }
-
-
 
   getMarkerData() async {
     // await Firebase.initializeApp();
@@ -152,11 +149,10 @@ class _ExploreiaState extends State<Exploreia> {
       });
     }
 
-
-
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     print("service status $serviceEnabled");
-    if (!serviceEnabled ||  Get.find<GlobalUserData>().userData.value["address"] == "") {
+    if (!serviceEnabled ||
+        Get.find<GlobalUserData>().userData.value["address"] == "") {
       setState(() {
         isLoading = true;
         location_service = false;
@@ -195,7 +191,6 @@ class _ExploreiaState extends State<Exploreia> {
               setState(() {
                 isLoading = false;
               });
-
 
               return true;
             },
@@ -314,19 +309,19 @@ class _ExploreiaState extends State<Exploreia> {
 
   @override
   void initState() {
-
     getEverything();
 
     setState(() {
       // });
-      lat =  Get.find<GlobalUserData>().userData.value["location"].latitude;
-      long =  Get.find<GlobalUserData>().userData.value["location"].longitude;
+      lat = Get.find<GlobalUserData>().userData.value["location"].latitude;
+      long = Get.find<GlobalUserData>().userData.value["location"].longitude;
     });
 
     getMarkerData();
-    if (doc != null) {
-      _gotoLocation(doc["location"].latitude, doc["location"].longitude);
-    }
+
+    // if (doc != null) {
+    //   _gotoLocation(doc["location"].latitude, doc["location"].longitude);
+    // }
     super.initState();
   }
 
@@ -341,8 +336,6 @@ class _ExploreiaState extends State<Exploreia> {
   splashLocation(latitude, longitude) async {
     await _gotoLocation(latitude, longitude);
   }
-
-
 
   late List<PlacesApiHelperModel>? _list = [];
 
@@ -361,6 +354,9 @@ class _ExploreiaState extends State<Exploreia> {
     //   scrollDirection: Axis.horizontal,
     //   itemCount: document.length,
     //   itemBuilder: (context, index) {
+    _gotoLocation(
+        Get.find<GlobalUserData>().userData.value["location"].latitude,
+        Get.find<GlobalUserData>().userData.value["location"].longitude);
 
     return isLoading
         ? Center(
@@ -381,47 +377,50 @@ class _ExploreiaState extends State<Exploreia> {
                 onTap: () {
                   Get.to(
                       () => GymDetails(
-                            // gymID: document[index].id,
+                          // gymID: document[index].id,
                           ),
                       arguments: {
-                        "gymId":document[index].id,
-
+                        "gymId": document[index].id,
                       });
                   sslKey.currentState!.focusToItem(index);
                   // _gotoLocation(location.latitude, location.longitude);
                 },
-                child: Obx(
-                  ()=> Card(
-                    // key: sslKey,
-                    color: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    elevation: 8,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        // SizedBox(width: 15,),
-                        if (calculateDistance(
-                            Get.find<GlobalUserData>().userData.value["location"].latitude,
-                            Get.find<GlobalUserData>().userData.value["location"].longitude,
-                                document[index]["location"].latitude,
-                                document[index]["location"].longitude) <=
-                            20)
-                          _boxes(
-                            document[index]["display_picture"],
-                            document[index]["name"],
-                            document[index]["location"],
-                            document[index]["address"],
-                            document[index]["rating"].toString(),
-                            document[index]["branch"],
-                            document[index]["gym_status"],
-                          ),
-                        SizedBox(
-                          width: 15,
-                        )
-                      ],
-                    ),
+                child: Card(
+                  // key: sslKey,
+                  color: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  elevation: 8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // SizedBox(width: 15,),
+                      if (calculateDistance(
+                              Get.find<GlobalUserData>()
+                                  .userData
+                                  .value["location"]
+                                  .latitude,
+                              Get.find<GlobalUserData>()
+                                  .userData
+                                  .value["location"]
+                                  .longitude,
+                              document[index]["location"].latitude,
+                              document[index]["location"].longitude) <=
+                          20)
+                        _boxes(
+                          document[index]["display_picture"],
+                          document[index]["name"],
+                          document[index]["location"],
+                          document[index]["address"],
+                          document[index]["rating"].toString(),
+                          document[index]["branch"],
+                          document[index]["gym_status"],
+                        ),
+                      SizedBox(
+                        width: 15,
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -441,7 +440,6 @@ class _ExploreiaState extends State<Exploreia> {
     // getEverything();
     // if(location_service)
     return Scaffold(
-
       backgroundColor: scaffoldColor,
       body: SafeArea(
         child: Stack(
@@ -452,8 +450,15 @@ class _ExploreiaState extends State<Exploreia> {
               mapType: MapType.terrain,
               zoomControlsEnabled: false,
               initialCameraPosition: CameraPosition(
-                target: LatLng( Get.find<GlobalUserData>().userData.value["location"].latitude!,
-                    Get.find<GlobalUserData>().userData.value["location"].longitude!),
+                target: LatLng(
+                    Get.find<GlobalUserData>()
+                        .userData
+                        .value["location"]
+                        .latitude!,
+                    Get.find<GlobalUserData>()
+                        .userData
+                        .value["location"]
+                        .longitude!),
                 zoom: 10,
               ),
               myLocationEnabled: true,
@@ -485,24 +490,36 @@ class _ExploreiaState extends State<Exploreia> {
                           builder: (context, AsyncSnapshot streamSnapshot) {
                             if (streamSnapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return  Center(
+                              return Center(
                                 child: Container(),
                               );
                             }
 
-                            document = streamSnapshot.data.docs;
-                            document.sort((a, b) {
+                            var documents = streamSnapshot.data.docs;
+                            documents.sort((a, b) {
                               double d1 = calculateDistance(
                                 a["location"].latitude,
                                 a["location"].longitude,
-                                Get.find<GlobalUserData>().userData.value["location"].latitude,
-                                Get.find<GlobalUserData>().userData.value["location"].longitude,
+                                Get.find<GlobalUserData>()
+                                    .userData
+                                    .value["location"]
+                                    .latitude,
+                                Get.find<GlobalUserData>()
+                                    .userData
+                                    .value["location"]
+                                    .longitude,
                               );
                               double d2 = calculateDistance(
                                 b["location"].latitude,
                                 b["location"].longitude,
-                                Get.find<GlobalUserData>().userData.value["location"].latitude,
-                                Get.find<GlobalUserData>().userData.value["location"].longitude,
+                                Get.find<GlobalUserData>()
+                                    .userData
+                                    .value["location"]
+                                    .latitude,
+                                Get.find<GlobalUserData>()
+                                    .userData
+                                    .value["location"]
+                                    .longitude,
                               );
                               if (d1 > d2)
                                 return 1;
@@ -510,6 +527,24 @@ class _ExploreiaState extends State<Exploreia> {
                                 return -1;
                               else
                                 return 0;
+                            });
+                            documents.forEach((e) {
+                              var distance = calculateDistance(
+                                  Get.find<GlobalUserData>()
+                                      .userData
+                                      .value["location"]
+                                      .latitude,
+                                  Get.find<GlobalUserData>()
+                                      .userData
+                                      .value["location"]
+                                      .longitude,
+                                  e["location"].latitude,
+                                  e["location"].longitude);
+                              distance =
+                                  double.parse((distance).toStringAsFixed(1));
+                              if (distance <= 20) {
+                                document.add(e);
+                              }
                             });
 
                             var d = document.length;
@@ -536,7 +571,7 @@ class _ExploreiaState extends State<Exploreia> {
                                     padding: const EdgeInsets.only(
                                         left: 8.0, top: 30),
                                     child: Text(
-                                      "No Fitness Option Available Here",
+                                      "VYAM is not in this location yet",
                                       style: GoogleFonts.poppins(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 16),
@@ -602,15 +637,15 @@ class _ExploreiaState extends State<Exploreia> {
                         // final pos = await location.getLocation();
 
                         Position position =
-                        await Geolocator.getCurrentPosition();
+                            await Geolocator.getCurrentPosition();
                         _gotoLocation(position.latitude, position.longitude);
                         await GetAddressFromLatLong(position);
                         await FirebaseFirestore.instance
                             .collection("user_details")
                             .doc(number)
                             .update({
-                          "location": GeoPoint(
-                              position.latitude, position.longitude),
+                          "location":
+                              GeoPoint(position.latitude, position.longitude),
                           "address": address,
                           // "lat": position.latitude,
                           // "long": position.longitude,
@@ -632,7 +667,6 @@ class _ExploreiaState extends State<Exploreia> {
                         setState(() {
                           location_service = true;
                         });
-
                       },
                       // child: Center(
                       //   child: const Icon(Icons.my_location_outlined
@@ -780,27 +814,5 @@ class _ExploreiaState extends State<Exploreia> {
       target: LatLng(lat, long),
       zoom: 12,
     )));
-  }
-
-  runRun() async {
-    setState(() {
-      isLoading = true;
-    });
-    Position position = await _determinePosition();
-    // await GetAddressFromLatLong(position);
-    // await FirebaseFirestore.instance
-    //     .collection("user_details")
-    //     .doc(number)
-    //     .update({
-    //   "location": GeoPoint(
-    //       position.latitude, position.longitude),
-    //   "address": address,
-    //   // "lat": position.latitude,
-    //   // "long": position.longitude,
-    //   "pincode": pin,
-    //   "locality": locality,
-    //   "subLocality": locality,
-    //   // "number": number
-    // });
   }
 }
