@@ -1396,41 +1396,46 @@ class Addbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('product_details')
-            .doc(gymID)
-            .collection('offers')
-            .where('validity', isEqualTo: true)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: SizedBox());
-          }
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
-          var documents = snapshot.data!.docs;
-          // var snap;
-          // print("mmmmmmmmm,,,,,<<<<");
-          // print(documents);
-          return ListView.builder(
-              shrinkWrap: true,
-              itemCount: documents.length,
-              itemBuilder: (context, index) {
-                return buildButton(
-                  text: documents[index]['title'],
-                  subText: documents[index]['offer_type'],
-                  onClicked: () => showModalBottomSheet(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
+    return SizedBox(
+     height: 80,
+
+      child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('product_details')
+              .doc(gymID)
+              .collection('offers')
+              .where('validity', isEqualTo: true)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: SizedBox());
+            }
+            if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            }
+            var documents = snapshot.data!.docs;
+            // var snap;
+            // print("mmmmmmmmm,,,,,<<<<");
+            // print(documents);
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: documents.length,
+                itemBuilder: (context, index) {
+                  return buildButton(
+                    text: documents[index]['title'].toString(),
+                    subText: documents[index]['offer_type'].toString(),
+                    onClicked: () => showModalBottomSheet(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      context: context,
+                      builder: (context) => buildSheet(documents[index]),
                     ),
-                    context: context,
-                    builder: (context) => buildSheet(),
-                  ),
-                );
-              });
-        });
+                  );
+                });
+          }),
+    );
   }
 
   Widget buildButton({
@@ -1450,7 +1455,7 @@ class Addbar extends StatelessWidget {
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(2.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 3),
             child: SizedBox(
               height: 60,
               // width: 25,
@@ -1458,7 +1463,7 @@ class Addbar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Image.asset(
-                    'assets/icons/new discount.png',
+                    'assets/icons/discount-shape.png',
                     height: 40,
                     width: 40,
                   ),
@@ -1491,177 +1496,134 @@ class Addbar extends StatelessWidget {
         ),
       );
 
-  Widget buildSheet() => SafeArea(
-        child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('product_details')
-                .doc(gymID)
-                .collection('offers')
-                .where('validity', isEqualTo: true)
-                .snapshots(),
-            builder: (context, AsyncSnapshot snapshot) {
-              var couponData = snapshot.data;
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              }
-              var documents = snapshot.data.docs;
-              var snap;
-              print("mmmmmmmmm,,,,,<<<<");
-              print(documents);
-              return ListView.builder(
-                  itemCount: documents.length,
-                  itemBuilder: (context, index) {
-                    snap = documents[index];
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-// <<<<<<< HEAD
-//                           Row(
-//                             children: [
-//                               Padding(
-//                                 padding: const EdgeInsets.symmetric(
-//                                     horizontal: 10.0, vertical: 6),
-//                                 child: Text(
-//                                   "Offer Details",
-//                                   style: GoogleFonts.poppins(
-//                                       fontSize: 15,
-//                                       fontWeight: FontWeight.bold),
-//                                 ),
-//                               ),
-//                               Spacer(),
-//                               IconButton(
-//                                   onPressed: () {
-//                                     Navigator.pop(context);
-//                                   },
-//                                   icon: Icon(Icons.cancel))
-//                             ],
-//                           ),
-//                           Divider(color: Colors.grey),
-// =======
-// >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0, vertical: 8),
-                                child: Text(
-                                  "Offer Details",
-                                  style: GoogleFonts.poppins(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Spacer(),
-                              IconButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  icon: Icon(Icons.cancel))
-                            ],
-                          ),
-                          Divider(color: Colors.grey),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10.0, vertical: 2),
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+  Widget buildSheet(DocumentSnapshot doc) => SafeArea(
+        child:  SizedBox(
+          height: 315,
+          child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
                               children: [
-                                Image.asset(
-                                  'assets/icons/new discount.png',
-                                  height: 38,
-                                  width: 38,
-                                ),
-                                SizedBox(
-                                  width: 6,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      documents[index]['title'].toString(),
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(
-                                      width: 30,
-                                    ),
-                                    Text(
-                                      documents[index]['description'],
-                                      style: GoogleFonts.poppins(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          // Divider(color: Colors.grey),
-                          // Padding(
-                          //   padding: const EdgeInsets.all(10.0),
-                          //   child: Text(
-                          //     documents[index]['offer'],
-                          //     style: GoogleFonts.poppins(
-                          //         fontSize: 15, fontWeight: FontWeight.w500),
-                          //   ),
-                          // ),
-                          Divider(color: Colors.grey),
-                          Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snap['rules'].length,
-                                itemBuilder: (context, index) => Container(
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Image.asset(
-                                              "assets/images/tick2002.png",
-                                              width: 12,
-                                              height: 12,
-                                            ),
-                                            SizedBox(
-                                              width: 6,
-                                            ),
-                                            Text(
-                                              snap['rules'][index].toString(),
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 14,
-                                                  color: Colors.grey,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                      ],
-                                    ),
+
+
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0, vertical: 8),
+                                  child: Text(
+                                    "Offer Details",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                              ))
-                        ],
+                                Spacer(),
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: Icon(Icons.cancel))
+                              ],
+                            ),
+                            Divider(color: Colors.grey),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 2),
+                              child: Row(
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/icons/discount-shape.png',
+                                    height: 38,
+                                    width: 38,
+                                  ),
+                                  SizedBox(
+                                    width: 6,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        doc['title'].toString(),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      SizedBox(
+                                        width: 30,
+                                      ),
+                                      Text(
+                                        doc['description'].toString(),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            // Divider(color: Colors.grey),
+                            // Padding(
+                            //   padding: const EdgeInsets.all(10.0),
+                            //   child: Text(
+                            //     documents[index]['offer'],
+                            //     style: GoogleFonts.poppins(
+                            //         fontSize: 15, fontWeight: FontWeight.w500),
+                            //   ),
+                            // ),
+                            Divider(color: Colors.grey),
+                            Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: doc['rules'].length,
+                                  itemBuilder: (context, index) => Container(
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Image.asset(
+                                                "assets/icons/checked.png",
+                                                width: 12,
+                                                height: 12,
+                                              ),
+                                              SizedBox(
+                                                width: 6,
+                                              ),
+                                              Text(
+                                                doc['rules'][index].toString(),
+                                                style: GoogleFonts.poppins(
+                                                    fontSize: 14,
+                                                    color: Colors.grey,
+                                                    fontWeight: FontWeight.w500),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ))
+                          ],
+                        ),
                       ),
-                    );
-                  });
-            }),
+        )
+
       );
 }

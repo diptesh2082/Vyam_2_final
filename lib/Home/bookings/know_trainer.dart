@@ -325,16 +325,20 @@ class _TrainerState extends State<Trainer> {
                                                         width: 2,
                                                       ),
                                                       GestureDetector(
-                                                          child: Text(
-                                                            '@${ document[index]['name'].toLowerCase()}',
-                                                            //document[index]['social_media'],
-                                                            style: GoogleFonts.poppins(
-                                                                decoration:
-                                                                    TextDecoration
-                                                                        .underline,
-                                                                fontWeight:
-                                                                    FontWeight.w500,
-                                                                fontSize: 13),
+                                                          child: SizedBox(
+                                                            // color: Colors.green,
+                                                            width: MediaQuery.of(context).size.width *.275,
+                                                            child: Text(
+                                                              '@${ document[index]['user_instaid'].toLowerCase()}',
+                                                              //document[index]['social_media'],
+                                                              style: GoogleFonts.poppins(
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .underline,
+                                                                  fontWeight:
+                                                                      FontWeight.w500,
+                                                                  fontSize: 13),
+                                                            ),
                                                           ),
                                                           onTap: () async {
                                                             var urllaunchable =

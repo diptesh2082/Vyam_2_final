@@ -324,9 +324,10 @@ class _ExploreiaState extends State<Exploreia> {
     });
 
     getMarkerData();
-    if (doc != null) {
-      _gotoLocation(doc["location"].latitude, doc["location"].longitude);
-    }
+
+    // if (doc != null) {
+    //   _gotoLocation(doc["location"].latitude, doc["location"].longitude);
+    // }
     super.initState();
   }
 
@@ -361,6 +362,7 @@ class _ExploreiaState extends State<Exploreia> {
     //   scrollDirection: Axis.horizontal,
     //   itemCount: document.length,
     //   itemBuilder: (context, index) {
+    _gotoLocation(Get.find<GlobalUserData>().userData.value["location"].latitude,Get.find<GlobalUserData>().userData.value["location"].longitude);
 
     return isLoading
         ? Center(
@@ -405,8 +407,8 @@ class _ExploreiaState extends State<Exploreia> {
                         if (calculateDistance(
                             Get.find<GlobalUserData>().userData.value["location"].latitude,
                             Get.find<GlobalUserData>().userData.value["location"].longitude,
-                                document[index]["location"].latitude,
-                                document[index]["location"].longitude) <=
+                            document[index]["location"].latitude,
+                            document[index]["location"].longitude) <=
                             20)
                           _boxes(
                             document[index]["display_picture"],
@@ -490,8 +492,8 @@ class _ExploreiaState extends State<Exploreia> {
                               );
                             }
 
-                            document = streamSnapshot.data.docs;
-                            document.sort((a, b) {
+                            var  documents = streamSnapshot.data.docs;
+                            documents.sort((a, b) {
                               double d1 = calculateDistance(
                                 a["location"].latitude,
                                 a["location"].longitude,
@@ -510,6 +512,24 @@ class _ExploreiaState extends State<Exploreia> {
                                 return -1;
                               else
                                 return 0;
+                            });
+                            documents.forEach((e) {
+                              var distance = calculateDistance(
+                                  Get.find<GlobalUserData>()
+                                      .userData
+                                      .value["location"]
+                                      .latitude,
+                                  Get.find<GlobalUserData>()
+                                      .userData
+                                      .value["location"]
+                                      .longitude,
+                                  e["location"].latitude,
+                                  e["location"].longitude);
+                              distance = double.parse((distance).toStringAsFixed(1));
+                              if (distance <= 20) {
+                                document.add(e);
+
+                              }
                             });
 
                             var d = document.length;

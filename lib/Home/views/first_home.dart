@@ -555,11 +555,9 @@ class _FirstHomeState extends State<FirstHome> {
                                 crossAxisAlignment:
                                 CrossAxisAlignment.start,
                                 children: [
-                                  if (getPercentage != 100)
-                                    ProgressCard(),
-                                  const SizedBox(
-                                    height: 9,
-                                  ),
+                                  // if (getPercentage != 100)
+                                  //   ProgressCard(),
+
                                   // Banner(bannerApi: bannerApi),
                                   const SizedBox(
                                     height: 15,
