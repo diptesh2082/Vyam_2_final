@@ -381,8 +381,10 @@ class _redioButtonState extends State<redioButton> {
         stream: FirebaseFirestore.instance.collection("cancellation_question").snapshots(),
         builder:(context, snapshot){
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return  Center(
+              child: Container(
+                height: 350,
+              ),
             );
           }
           if (snapshot.hasError) {
@@ -400,6 +402,7 @@ class _redioButtonState extends State<redioButton> {
             docs.add(e);
           });
          return Container(
+           height: 350,
               child:
               ListView.builder(
                   shrinkWrap: true,

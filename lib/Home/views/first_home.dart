@@ -734,7 +734,7 @@ class Banner extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                         child: CachedNetworkImage(
                           maxHeightDiskCache: 650,
-                          maxWidthDiskCache: 650,
+                          maxWidthDiskCache: 800,
                           filterQuality: FilterQuality.medium,
                           height: 143,
                           width: 311,
