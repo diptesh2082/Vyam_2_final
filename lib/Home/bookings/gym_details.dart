@@ -137,9 +137,9 @@ class _GymDetailsState extends State<GymDetails> {
         }
       });
     } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
+      // setState(() {
+      //   isLoading = false;
+      // });
     }
   }
 
@@ -179,7 +179,7 @@ class _GymDetailsState extends State<GymDetails> {
         setState(() {
           if (snap.docs.isNotEmpty) {
             times = snap.docs;
-            isLoading = false;
+            // isLoading = false;
           }
         });
         // print("++++++++FFF+++++${times[0]["closed"].toString()}");
@@ -188,9 +188,9 @@ class _GymDetailsState extends State<GymDetails> {
       });
     } catch (e) {
       times = [];
-      setState(() {
-        isLoading = false;
-      });
+      // setState(() {
+      //   isLoading = false;
+      // });
     } finally {
       times = [
         {
@@ -204,9 +204,9 @@ class _GymDetailsState extends State<GymDetails> {
         },
         {}
       ];
-      setState(() {
-        isLoading = false;
-      });
+      // setState(() {
+      //   isLoading = false;
+      // });
     }
   }
 
@@ -222,7 +222,7 @@ class _GymDetailsState extends State<GymDetails> {
         setState(() {
           if (snap.docs.isNotEmpty) {
             offer = snap.docs;
-            isLoading = false;
+            // isLoading = false;
           } else {
             offer = [];
           }
@@ -231,9 +231,12 @@ class _GymDetailsState extends State<GymDetails> {
       });
     } catch (e) {
       setState(() {
-        isLoading = false;
+        // isLoading = false;
         offer = [];
       });
+    }finally{
+      // isLoading = false;
+      offer = [];
     }
   }
 
@@ -277,14 +280,28 @@ class _GymDetailsState extends State<GymDetails> {
     '· Re-rack equipments',
     '· No heavy lifting without spotter'
   ];
-
-  @override
-  void initState() {
+getEverithing(){
+  try{
     getViewCount();
     getRating();
     getTimings();
     getclosed();
     getOffers();
+    // Future.delayed(Duration(seconds: 10));
+  }catch(e){
+    print(e);
+  }finally{
+    Future.delayed(Duration(milliseconds: 800),(){
+      setState(() {
+        isLoading=false;
+      });
+    });
+
+  }
+}
+  @override
+  void initState() {
+getEverithing();
 
     super.initState();
   }
@@ -522,6 +539,7 @@ class _GymDetailsState extends State<GymDetails> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.stretch,
                                           children: [
+                                            if(times[0]["morning_days"] !="")
                                             Column(
                                               // mainAxisAlignment: MainAxisAlignment.spaceAround,
                                               // crossAxisAlignment: CrossAxisAlignment.center,
@@ -552,6 +570,7 @@ class _GymDetailsState extends State<GymDetails> {
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
+                                            if(times[0]["evening_days"] !="")
                                             Column(
                                               // mainAxisAlignment: MainAxisAlignment.start,
                                               //crossAxisAlignment: CrossAxisAlignment.end,
@@ -581,10 +600,12 @@ class _GymDetailsState extends State<GymDetails> {
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
+                                            if(times[0]["closed_day"]!="")
                                             Column(
                                               //mainAxisAlignment: MainAxisAlignment.start,
                                               //crossAxisAlignment: CrossAxisAlignment.end,
                                               children: [
+
                                                 Text(
                                                     // times[0]["closed"][0] ??
                                                     "${times[0]["closed_day"]}",

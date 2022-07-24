@@ -39,26 +39,26 @@ class _LocInfoState extends State<LocInfo> {
   Geoflutterfire geo = Geoflutterfire();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  myLocation() async {
-    await FirebaseFirestore.instance
-        .collection('user_details')
-        .doc(number)
-        .snapshots()
-        .listen((snapshot) {
-      if (snapshot.exists) {
-        print('Document exists on the database');
-        setState(() {
-          data = snapshot.data();
-          // isLoading = false;
-          locController.text = data != null ? data["address"] : "your Location";
-        });
-      }
-    });
-    // .then((DocumentSnapshot documentSnapshot) {
-
-    // }
-    // );
-  }
+  // myLocation() async {
+  //   await FirebaseFirestore.instance
+  //       .collection('user_details')
+  //       .doc(number)
+  //       .snapshots()
+  //       .listen((snapshot) {
+  //     if (snapshot.exists) {
+  //       print('Document exists on the database');
+  //       setState(() {
+  //         data = snapshot.data();
+  //         // isLoading = false;
+  //         locController.text = data != null ? data["address"] : "your Location";
+  //       });
+  //     }
+  //   });
+  //   // .then((DocumentSnapshot documentSnapshot) {
+  //
+  //   // }
+  //   // );
+  // }
 
   // bool isLoading = true;
 
@@ -144,15 +144,16 @@ class _LocInfoState extends State<LocInfo> {
   late List<PlacesApiHelperModel>? _list = [];
 
   TextEditingController locController = TextEditingController();
-  // getUser()async{
-  //   setState(() {
-  //     locController.text =  data != null ?  data["address"] : "your Location";
-  //   });
-  // }
+  getUser()async{
+    setState(() {
+      locController.text =   Get.find<GlobalUserData>().userData.value != null ?   Get.find<GlobalUserData>().userData.value["address"] : "your Location";
+    });
+  }
 
   @override
   void initState() {
     myLocation();
+    getUser();
     setState(() {
       myaddress = myaddress;
       address = address;
@@ -235,13 +236,15 @@ class _LocInfoState extends State<LocInfo> {
                                   res = await RequestHelper()
                                       .getCoordinatesFromAddresss(value);
                                 } catch (e) {
-                                  Get.back();
+                                  // Get.back();
+                                  // Get.offAll(()=>HomePage2());
                                   setState(() {
                                     isLoading = false;
                                   });
                                   return;
                                 }finally{
-                                  Get.back();
+                                  // Get.back();
+                                  Get.offAll(()=>HomePage2());
                                   setState(() {
                                     isLoading = false;
                                   });
@@ -345,26 +348,27 @@ class _LocInfoState extends State<LocInfo> {
                                         "subLocality": locality.toLowerCase(),
                                         // "number": number
                                       });
-                                      Get.back();
+                                      Get.offAll(()=>HomePage2());
                                       // await Get.offAll(() => HomePage());
                                     } catch (e) {
-                                      Get.back();
-                                      setState(() {
-                                        isLoading = false;
-                                      });
+                                      // Get.back();
+                                      // setState(() {
+                                      //   isLoading = false;
+                                      // });
                                     }finally{
-                                      Get.back();
+                                      Get.offAll(()=>HomePage2());
                                       setState(() {
                                         isLoading = false;
                                       });
                                     }
 
-                                  }).then((value) {
-                                    Get.back();
-                                    setState(() {
-                                      isLoading = true;
-                                    });
                                   });
+                                  //     .then((value) {
+                                  //   Get.offAll(()=>HomePage2());
+                                  //   setState(() {
+                                  //     isLoading = true;
+                                  //   });
+                                  // });
                                 },
                                 child: Card(
                                   shape: RoundedRectangleBorder(
@@ -492,9 +496,9 @@ class _LocInfoState extends State<LocInfo> {
                                                   "subLocality":
                                                   subLocality.toLowerCase(),
                                                 });
-                                                Get.back();
+                                                // Get.back();
                                               }finally{
-                                                Get.back();
+                                                Get.offAll(()=>HomePage2());
                                                 setState(() {
                                                   isLoading = false;
                                                 });
@@ -603,9 +607,9 @@ class _LocInfoState extends State<LocInfo> {
                                                 "subLocality":
                                                 subLocality.toLowerCase(),
                                               });
-                                              Get.back();
+                                              // Get.back();
                                             }finally{
-                                              Get.back();
+                                              Get.offAll(()=>HomePage2());
                                               setState(() {
                                                 isLoading=false;
                                               });

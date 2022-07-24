@@ -392,8 +392,7 @@ class _ExploreiaState extends State<Exploreia> {
                   sslKey.currentState!.focusToItem(index);
                   // _gotoLocation(location.latitude, location.longitude);
                 },
-                child: Obx(
-                  ()=> Card(
+                child:Card(
                     // key: sslKey,
                     color: Colors.transparent,
                     shape: RoundedRectangleBorder(
@@ -425,7 +424,7 @@ class _ExploreiaState extends State<Exploreia> {
                       ],
                     ),
                   ),
-                ),
+
               ),
             ),
           );
