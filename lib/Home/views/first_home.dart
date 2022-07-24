@@ -60,6 +60,11 @@ class FirstHome extends StatefulWidget {
 
 class _FirstHomeState extends State<FirstHome> {
   ActiveBookingApi activeBookingApi = ActiveBookingApi();
+  final stream1= FirebaseFirestore.instance
+      .collection('category')
+      .where("status", isEqualTo: true)
+      .orderBy("position")
+      .snapshots();
   final url =
       "https://play.google.com/store/apps/details?id=com.findnearestfitness.vyam";
   AlertDialog showAlertDialog(
@@ -497,9 +502,10 @@ class _FirstHomeState extends State<FirstHome> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 5.0, right: 5),
                 child: Obx(
-                      () => Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
+                      () =>
+                    //       Stack(
+                    // alignment: Alignment.topCenter,
+                    // children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -514,15 +520,15 @@ class _FirstHomeState extends State<FirstHome> {
                             height: 12,
                           ),
 
-                          SizedBox(
-                            height: 60,
-                          ),
-
+                          // SizedBox(
+                          //   height: 60,
+                          // ),
+                          SearchIt(),
                           const SizedBox(
                             height: 9,
                           ),
                           // if (searchGymName.isEmpty)
-                          // if (Get.find<Need>().search.value.isEmpty)
+                          if (Get.find<Need>().search.value.isEmpty)
                           Column(
                             children: [
                               if (getPercentage != 100) ProgressCard(),
@@ -549,6 +555,7 @@ class _FirstHomeState extends State<FirstHome> {
                               // BuildBox()
                               // LocationList()
 // =======
+
                               Column(
                                 mainAxisAlignment:
                                 MainAxisAlignment.start,
@@ -563,7 +570,7 @@ class _FirstHomeState extends State<FirstHome> {
                                     height: 15,
                                   ),
                                   // if (Get.find<Need>().search.value.isEmpty)
-                                  Catagory(),
+                                  Catagory(stream: stream1,),
 
                                   const SizedBox(
                                     height: 7,
@@ -573,11 +580,20 @@ class _FirstHomeState extends State<FirstHome> {
                                       .search
                                       .value
                                       .isEmpty)
+
                                     const SizedBox(
                                       height: 7,
                                     ),
-
-                                  BuildBox()
+                                  if (Get.find<Need>()
+                                      .search
+                                      .value
+                                      .isEmpty)
+                                  BuildBox(search: false,),
+                                  // if (Get.find<Need>()
+                                  //     .search
+                                  //     .value
+                                  //     .isNotEmpty)
+                                  //   SizedBox(height: 600,)
                                   // LocationList()
                                 ],
                               )
@@ -586,9 +602,9 @@ class _FirstHomeState extends State<FirstHome> {
                           )
                         ],
                       ),
-                      Positioned(top: 15, child: SearchIt()),
-                    ],
-                  ),
+                      // Positioned(top: 15, child: SearchIt()),
+                  //   ],
+                  // ),
                 ),
               ),
             ),
@@ -694,6 +710,7 @@ class Banner extends StatelessWidget {
 
           return ListView.builder(
             // controller: _controller.,
+            // shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemCount: data.length,
             itemBuilder: (context, int index) {
