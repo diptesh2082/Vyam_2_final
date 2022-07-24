@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
@@ -12,7 +11,6 @@ import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/colors/color.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
-import 'gym_details.dart';
 class Review extends StatefulWidget {
   final gymid;
 
@@ -26,7 +24,7 @@ class _ReviewState extends State<Review> {
 
   TextEditingController title = TextEditingController();
   TextEditingController exp = TextEditingController();
-  var _ratingController = TextEditingController();
+
   // GymReviews reviews = GymReviews();
   var doc =Get.arguments ;
   var review;
@@ -89,7 +87,6 @@ class _ReviewState extends State<Review> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -542,8 +539,7 @@ class _ReviewState extends State<Review> {
                   ),
                   onPressed: () async {
                     Navigator.of(context).pop();
-                    final CollectionReference review =
-                         FirebaseFirestore.instance.collection('Reviews');
+
                     FirebaseFirestore.instance
                         .runTransaction((transaction) async {
                       CollectionReference reference =

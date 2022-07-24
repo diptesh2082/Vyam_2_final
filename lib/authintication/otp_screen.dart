@@ -9,9 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/authintication/google_signin.dart';
-import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/register_name.dart';
-// import 'package:vyam_2_final/authintication/regitration_from.dart';
 import 'package:vyam_2_final/colors/color.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'package:vyam_2_final/page_trangition/fade_route.dart';
@@ -402,8 +400,8 @@ class _OtpPageState extends State<OtpPage> with CodeAutoFill {
                                                       resendingToken)));
 
                                           checkExist(widget.number);
-                                          var resending_token =
-                                              resendingToken;
+                                          // var resending_token =
+                                          //     resendingToken;
                                         },
                                         // Get.reload()
                                         codeAutoRetrievalTimeout:

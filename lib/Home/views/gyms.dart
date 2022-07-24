@@ -20,7 +20,7 @@ class GymOption extends StatefulWidget {
 
 class _GymOptionState extends State<GymOption> {
   var _getIndex;
-  var _finalColor;
+
   bool _all = true;
   bool _male = false;
   bool _female = false;
@@ -50,8 +50,7 @@ class _GymOptionState extends State<GymOption> {
 
   @override
   Widget build(BuildContext context) {
-    var _width = MediaQuery.of(context).size.width;
-    var _height = MediaQuery.of(context).size.height;
+
     return DefaultTabController(
       length: 4,
       child: Scaffold(

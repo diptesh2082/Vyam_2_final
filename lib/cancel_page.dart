@@ -12,7 +12,7 @@ class MyChoice {
   MyChoice({required this.choice, required this.index});
 }
 
-class CancelDetails extends StatefulWidget {
+class CancelDetails extends StatelessWidget {
   CancelDetails({required this.bookingId, required this.vendor_name,required this.id,required this.vendorId,required this.branch});
   var bookingId;
   final vendor_name;
@@ -20,11 +20,11 @@ class CancelDetails extends StatefulWidget {
   final vendorId;
   final branch;
 
-  @override
-  State<CancelDetails> createState() => _CancelDetailsState();
-}
-
-class _CancelDetailsState extends State<CancelDetails> {
+//   @override
+//   State<CancelDetails> createState() => _CancelDetailsState();
+// }
+//
+// class _CancelDetailsState extends State<CancelDetails> {
   String default_choice =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit blaba ksan sajfoowe.";
   int default_index = 0;
@@ -62,33 +62,35 @@ class _CancelDetailsState extends State<CancelDetails> {
             ),
           )),
       body: SizedBox(
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection("cancellation_question").snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (snapshot.hasError) {
-              return const Center(
-                  child: Text("check your internet connection"));
-            }
-            if (snapshot.hasData==false) {
-              return const Center(
-                  child: Text("check your internet connection"));
-            }
-            choices=snapshot.data!.docs;
-            List docs=[];
-            int i=0;
-            choices.forEach((e){
-              docs.add(e);
-            });
+        child:
+        // StreamBuilder<QuerySnapshot>(
+        //   stream: FirebaseFirestore.instance.collection("cancellation_question").snapshots(),
+        //   builder: (context, snapshot) {
+        //     if (snapshot.connectionState == ConnectionState.waiting) {
+        //       return const Center(
+        //         child: CircularProgressIndicator(),
+        //       );
+        //     }
+        //     if (snapshot.hasError) {
+        //       return const Center(
+        //           child: Text("check your internet connection"));
+        //     }
+        //     if (snapshot.hasData==false) {
+        //       return const Center(
+        //           child: Text("check your internet connection"));
+        //     }
+        //     choices=snapshot.data!.docs;
+        //     List docs=[];
+        //     int i=0;
+        //     choices.forEach((e){
+        //       docs.add(e);
+        //     });
 
 
-            return Column(
+             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                redioButton(),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.0),
                   child: Text(
@@ -102,30 +104,7 @@ class _CancelDetailsState extends State<CancelDetails> {
                 const SizedBox(
                   height: 12,
                 ),
-                Container(
-                  child:
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: docs.length,
-                    itemBuilder: (context, index) {
-                      return RadioListTile<String>(
-                          value: docs[index]['question'],
-                          title: Text(
-                              "${docs[index]['question'].toString()}"),
-                          groupValue: choose,
-                          onChanged: (String? valuee) {
-                            setState(() {
-                              choose = valuee!;
-                              // place = doc[index]['branch'];
-                            });
-                            // print(namee);
-                          });
-                    }
-                  )
 
-                  //   }
-                  // ),
-                ),
                 const SizedBox(
                   height: 6,
                 ),
@@ -260,7 +239,7 @@ class _CancelDetailsState extends State<CancelDetails> {
                                               try {
                                                 await FirebaseFirestore.instance
                                                     .collection("bookings")
-                                                    .doc(widget.bookingId)
+                                                    .doc(bookingId)
                                                     .update({
                                                   "booking_status": "cancelled"
                                                 });
@@ -269,14 +248,14 @@ class _CancelDetailsState extends State<CancelDetails> {
                                                   "cancel_remark":
                                                       cancelremark.text,
                                                   "cancel_choice": choose,
-                                                  "booking_id":widget.id,
-                                                  "bookingId":widget.bookingId,
-                                                  "vendor_id":widget.bookingId,
-                                                  "vendor_name":widget.vendor_name,
+                                                  "booking_id":id,
+                                                  "bookingId":bookingId,
+                                                  "vendor_id":bookingId,
+                                                  "vendor_name":vendor_name,
                                                   "user_name": Get.find<GlobalUserData>().userData.value["name"],
                                                   "user_number": Get.find<GlobalUserData>().userData.value["userId"],
                                                   "time_stamp":DateTime.now(),
-                                                  "branch":widget.branch
+                                                  "branch":branch
                                                 };
                                                await FirebaseFirestore.instance
                                                     .collection("Cancellation_Data")
@@ -291,12 +270,12 @@ class _CancelDetailsState extends State<CancelDetails> {
                                                   // "payment_done": false,
                                                   "user_id":number.toString(),
                                                   "user_name": Get.find<GlobalUserData>().userData.value["name"],
-                                                  "vendor_id":widget.vendorId,
-                                                  "vendor_name":widget.vendor_name,
+                                                  "vendor_id":vendorId,
+                                                  "vendor_name":vendor_name,
                                                   "time_stamp":DateTime.now(),
-                                                  "booking_id":widget.bookingId,
+                                                  "booking_id":bookingId,
                                                   "seen":false,
-                                                  "branch":widget.branch
+                                                  "branch":branch
                                                 });
                                                 // Get.snackbar("Your Booking Status", "Your Booking Cancelled",
                                                 //     icon: Image.asset("assets/icons/vyam.png")
@@ -352,10 +331,102 @@ class _CancelDetailsState extends State<CancelDetails> {
                   ),
                 ),
               ],
+
+            )
+        //   }
+        // ),
+      ),
+    );
+  }
+}
+// Container(
+// child:
+// ListView.builder(
+// shrinkWrap: true,
+// itemCount: docs.length,
+// itemBuilder: (context, index) {
+// return RadioListTile<String>(
+// value: docs[index]['question'],
+// title: Text(
+// "${docs[index]['question'].toString()}"),
+// groupValue: choose,
+// onChanged: (String? valuee) {
+// setState(() {
+// choose = valuee!;
+// // place = doc[index]['branch'];
+// });
+// // print(namee);
+// });
+// }
+// )
+//
+// //   }
+// // ),
+// ),
+class redioButton extends StatefulWidget {
+  const redioButton({Key? key}) : super(key: key);
+
+  @override
+  State<redioButton> createState() => _redioButtonState();
+}
+
+class _redioButtonState extends State<redioButton> {
+  var choices;
+
+  var choose;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection("cancellation_question").snapshots(),
+        builder:(context, snapshot){
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return  Center(
+              child: Container(
+                height: 350,
+              ),
             );
           }
-        ),
-      ),
+          if (snapshot.hasError) {
+            return const Center(
+                child: Text("check your internet connection"));
+          }
+          if (snapshot.hasData==false) {
+            return const Center(
+                child: Text("check your internet connection"));
+          }
+          choices=snapshot.data!.docs;
+          List docs=[];
+          // int i=0;
+          choices.forEach((e){
+            docs.add(e);
+          });
+         return Container(
+           height: 350,
+              child:
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: docs.length,
+                  itemBuilder: (context, index) {
+                    return RadioListTile<String>(
+                        value: docs[index]['question'],
+                        title: Text(
+                            "${docs[index]['question'].toString()}"),
+                        groupValue: choose,
+                        onChanged: (String? valuee) {
+                          setState(() {
+                            choose = valuee!;
+                            // place = doc[index]['branch'];
+                          });
+                          // print(namee);
+                        });
+                  }
+              )
+
+            //   }
+            // ),
+          );
+        }
     );
   }
 }

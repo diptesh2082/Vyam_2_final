@@ -1,11 +1,11 @@
-import 'package:app_settings/app_settings.dart';
+
 import 'package:connectivity_checker/connectivity_checker.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
-import 'package:vyam_2_final/api/api.dart';
+
 
 class NoInternet extends StatelessWidget {
   const NoInternet({Key? key}) : super(key: key);

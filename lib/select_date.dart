@@ -3,12 +3,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:vyam_2_final/DatePickerScreen.dart';
+
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'package:vyam_2_final/payment/payment.dart';
 
@@ -119,7 +118,6 @@ class _SelectDateState extends State<SelectDate> {
   @override
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
-    var _height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.grey[100],
       resizeToAvoidBottomInset: false,

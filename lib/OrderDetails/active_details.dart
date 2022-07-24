@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +10,7 @@ import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/Home/profile/Contact_Us.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/api/maps_launcher_api.dart';
-import 'package:vyam_2_final/golbal_variables.dart';
+
 
 class ActiveOrderDetails extends StatefulWidget {
   const ActiveOrderDetails({Key? key}) : super(key: key);

@@ -2,10 +2,10 @@
 
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
-import 'package:vyam_2_final/api/api.dart';
+
 
 // import '../private_variable.dart';
 final placesApiKey="AIzaSyBueDk3xi4f8z5oGKwI8VLu-A190d89I8A";

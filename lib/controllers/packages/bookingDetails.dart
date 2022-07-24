@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/DatePickerScreen.dart';
-import 'package:vyam_2_final/api/api.dart';
-import 'package:vyam_2_final/golbal_variables.dart';
+
 
 import '../../select_date.dart';
 
@@ -15,7 +13,7 @@ class BookingDetails {
   void bookingDetails(context, index, bookingList, String gymType, getGymName,
       gymLocation, booking_id, gymID, docs,description, String branch, bool isLoading) {
     List newBookingList = bookingList;
-    var booking = 0;
+    // var booking = 0;
     // final userDetails=FirebaseFirestore.instance.collection("user_details").doc(number).get();
 
     var _width = MediaQuery.of(context).size.width;

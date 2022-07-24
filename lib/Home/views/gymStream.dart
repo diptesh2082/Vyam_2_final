@@ -12,10 +12,16 @@ import '../../golbal_variables.dart';
 import '../bookings/gym_details.dart';
 
 class BuildBox extends StatelessWidget {
+
+  final search;
   static final customCacheManager =
       CacheManager(Config("customCacheKey2", maxNrOfCacheObjects: 80));
 
+   BuildBox({Key? key, required this.search}) : super(key: key);
+
   Widget build(BuildContext context) {
+    print("tdghhhhhhhhhhhghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+    print(search);
     Size size = MediaQuery.of(context).size;
     return Container(
       child: SizedBox(
@@ -100,6 +106,26 @@ class BuildBox extends StatelessWidget {
                   distances.add(distance);
                 }
               });
+              if(search){
+                if (Get.find<Need>().search.value.length > 0) {
+                  document = document.where((element) {
+                    return element
+                        .get('name')
+                        .toString()
+                        .toLowerCase()
+                        .contains(
+                        Get.find<Need>().search.value.toString()) ||
+                        element.get('branch').toString().toLowerCase().contains(
+                            Get.find<Need>().search.value.toString()) ||
+                        element
+                            .get('address')
+                            .toString()
+                            .toLowerCase()
+                            .contains(Get.find<Need>().search.value.toString());
+                  }).toList();
+                }
+              }
+
               print(distances);
 
               if (document.isNotEmpty) {
@@ -490,7 +516,33 @@ class BuildBox extends StatelessWidget {
                   ],
                 );
               }
-              return SingleChildScrollView(
+
+              return search? Column(
+                children: [
+                  // SizedBox(
+                  //   height: 100,
+                  // ),
+                  Center(
+                    child: Material(
+                      elevation: .2,
+                      color: Colors.grey[100],
+                      borderRadius: BorderRadius.circular(15),
+                      // decoration: BoxDecoration(
+                      //   color: Colors.white
+                      // ),
+                      child: Center(
+                          child: Image.asset(
+                            "assets/Illustrations/search empty.png",
+                            height: MediaQuery.of(context).size.width * .95,
+                            width: MediaQuery.of(context).size.width * .95,
+                          )),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 100,
+                  )
+                ],
+              ):SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

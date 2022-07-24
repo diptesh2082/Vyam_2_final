@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vyam_2_final/api/api.dart';
 
 import '../golbal_variables.dart';
 import 'register_gender.dart';

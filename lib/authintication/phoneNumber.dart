@@ -12,7 +12,7 @@ import 'package:vyam_2_final/authintication/otp2.dart';
 // import 'register_name.dart';
 
 import '../golbal_variables.dart';
-import 'custom_register_route.dart';
+
 
 class PhoneRegistar extends StatefulWidget {
   static String id = "/register2_screen";

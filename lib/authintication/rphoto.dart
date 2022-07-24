@@ -1,15 +1,13 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
-import 'package:vyam_2_final/api/api.dart';
+
 import 'package:vyam_2_final/golbal_variables.dart';
 
 import 'custom_register_route.dart';
@@ -76,7 +74,7 @@ class _Register4State extends State<Register4> {
     // }
   }
   var image;
-  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

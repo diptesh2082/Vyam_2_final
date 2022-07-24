@@ -7,8 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'gyms.dart';
 
 class Catagory extends StatelessWidget {
+  final stream;
   const Catagory({
-    Key? key,
+    Key? key,required this.stream,
   }) : super(key: key);
 
   @override

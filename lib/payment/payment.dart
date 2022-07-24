@@ -326,7 +326,7 @@ check_simpl()async{
 }
 
   _simplpay() async {
-    var client = http.Client();
+    // var client = http.Client();
    var obj={
       "merchant_client_id": "8a54a9a0d2c99b86f81d23fff76e1537",
       "transaction_status_redirection_url": "D:/applications/Vyam_2_the_project_dev/lib/payment/payment.dart",
@@ -1642,7 +1642,7 @@ check_simpl()async{
   _bottomsheet(BuildContext context) async {
     // var _width = MediaQuery.of(context).size.width;
     // var _height = MediaQuery.of(context).size.height;
-    bool onlinePay = true;
+    // bool onlinePay = true;
     // _controller = await _scaffoldKey.currentState.showBottomSheet
     return showModalBottomSheet(
         // isDismissible: false,
