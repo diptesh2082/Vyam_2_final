@@ -582,7 +582,8 @@ getEverithing();
                                                         fontWeight:
                                                             FontWeight.w600,
                                                         color: Colors.black,
-                                                        fontSize: 10)),
+                                                        fontSize: 10)
+                                                ),
                                               ],
                                             ),
                                             const VerticalDivider(
