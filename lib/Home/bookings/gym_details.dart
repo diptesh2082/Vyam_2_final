@@ -267,21 +267,22 @@ class _GymDetailsState extends State<GymDetails> {
     '· Re-rack equipments',
     '· No heavy lifting without spotter'
   ];
-  getEverithing() {
-    try {
-      getViewCount();
-      getRating();
-      getTimings();
-      getclosed();
-      getOffers();
-      // Future.delayed(Duration(seconds: 10));
-    } catch (e) {
-      print(e);
-    } finally {
-      Future.delayed(Duration(milliseconds: 800), () {
-        setState(() {
-          isLoading = false;
-        });
+
+getEverithing(){
+  try{
+    getViewCount();
+    getRating();
+    getTimings();
+    getclosed();
+    getOffers();
+    // Future.delayed(Duration(seconds: 10));
+  }catch(e){
+    print(e);
+  }finally{
+    Future.delayed(Duration(milliseconds: 700),(){
+      setState(() {
+        isLoading=false;
+
       });
     }
   }
@@ -558,33 +559,35 @@ class _GymDetailsState extends State<GymDetails> {
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
-                                            if (times[0]["evening_days"] != "")
-                                              Column(
-                                                // mainAxisAlignment: MainAxisAlignment.start,
-                                                //crossAxisAlignment: CrossAxisAlignment.end,
-                                                children: [
-                                                  Text(
-                                                      times[0][
-                                                              "evening_days"] ??
-                                                          "Evening",
-                                                      style: const TextStyle(
-                                                          fontFamily: 'poppins',
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: Colors.grey,
-                                                          fontSize: 10)),
-                                                  const SizedBox(height: 10),
-                                                  Text(
-                                                      times[0]["Evening"] ??
-                                                          "no information",
-                                                      style: const TextStyle(
-                                                          fontFamily: 'poppins',
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: Colors.black,
-                                                          fontSize: 10)),
-                                                ],
-                                              ),
+
+                                            if(times[0]["evening_days"] !="")
+                                            Column(
+                                              // mainAxisAlignment: MainAxisAlignment.start,
+                                              //crossAxisAlignment: CrossAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                    times[0]["evening_days"] ??
+                                                        "Evening",
+                                                    style: const TextStyle(
+                                                        fontFamily: 'poppins',
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.grey,
+                                                        fontSize: 10)),
+                                                const SizedBox(height: 10),
+                                                Text(
+                                                    times[0]["Evening"] ??
+                                                        "no information",
+                                                    style: const TextStyle(
+                                                        fontFamily: 'poppins',
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: Colors.black,
+                                                        fontSize: 10)
+                                                ),
+                                              ],
+                                            ),
+
                                             const VerticalDivider(
                                               thickness: 1,
                                               color: Colors.grey,

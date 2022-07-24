@@ -100,11 +100,13 @@ class Timing_Screen extends StatelessWidget {
                                           child: IntrinsicHeight(
                                               child: Row(
                                             children: [
+
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 9.0, right: 9.0),
                                                 child: Column(
                                                   children: [
+
                                                     Wrap(
                                                         direction:
                                                             Axis.vertical,
@@ -154,11 +156,12 @@ class Timing_Screen extends StatelessWidget {
                                                                       12)),
                                                           const SizedBox(
                                                               height: 5),
+                                                          if(doc[index]["closed"][0].toString()!="")
                                                           Text(
                                                               doc[index]["closed"] !=
                                                                       null
-                                                                  ? "closed ${doc[index]["closed"]}"
-                                                                  : 'Sunday closed',
+                                                                  ? "closed ${doc[index]["closed"][0].toString()}"
+                                                                  : '',
                                                               style: const TextStyle(
                                                                   fontFamily:
                                                                       'poppins',
@@ -189,6 +192,8 @@ class Timing_Screen extends StatelessWidget {
                                                         .width *
                                                     0.06,
                                               ),
+                                              if( doc[index][
+                                              "evening_days"]=="")
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 9.0, right: 9.0),
@@ -202,6 +207,8 @@ class Timing_Screen extends StatelessWidget {
                                                         direction:
                                                             Axis.vertical,
                                                         children: [
+                                                          if(doc[index][
+                                                          "evening_days"]!="")
                                                           const Text(' Evening',
                                                               style: TextStyle(
                                                                   fontFamily:
@@ -215,10 +222,10 @@ class Timing_Screen extends StatelessWidget {
                                                                       14)),
                                                           const SizedBox(
                                                               height: 5),
+
                                                           Text(
                                                               doc[index][
-                                                                      "evening_days"] ??
-                                                                  "no information",
+                                                                      "evening_days"].toString(),
                                                               style: const TextStyle(
                                                                   fontFamily:
                                                                       'poppins',
@@ -233,8 +240,7 @@ class Timing_Screen extends StatelessWidget {
                                                               height: 5),
                                                           Text(
                                                               doc[index][
-                                                                      "Evening"] ??
-                                                                  "no information",
+                                                                      "Evening"].toString(),
                                                               style: const TextStyle(
                                                                   fontFamily:
                                                                       'poppins',
@@ -247,11 +253,11 @@ class Timing_Screen extends StatelessWidget {
                                                                       12)),
                                                           const SizedBox(
                                                               height: 5),
+                                                          if(doc[index]["closed"][0]!="")
                                                           Text(
                                                               doc[index]["closed"] !=
                                                                       null
-                                                                  ? "closed ${doc[index]["closed"] ?? "Sunday closed"}"
-                                                                  : 'Sunday closed',
+                                                                  ? "closed ${doc[index]["closed"][0].toString() }":"",
                                                               style: const TextStyle(
                                                                   fontFamily:
                                                                       'poppins',

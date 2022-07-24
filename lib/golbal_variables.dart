@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 class GlobalUserData extends GetxController{
  var userData={}.obs;
+ var document=[].obs;
 }
 // var GlobalUserData;
 var GlobalUserLocation;

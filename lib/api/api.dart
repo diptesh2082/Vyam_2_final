@@ -633,7 +633,7 @@ Future<void> GetAddressFromLatLong(Position position) async {
   Placemark place = placemark[0];
 
   address =
-      "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
+  "${place.subLocality ?? ""}, ${place.locality ?? ""},${place.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
   pin = "${place.postalCode}";
   locality = "${place.locality}";
   subLocality = "${place.subLocality}";
