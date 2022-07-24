@@ -307,6 +307,7 @@ class _PackegesState extends State<Packeges> {
 
                                                           height: 20, imageUrl: data.docs[snapshot]
                                                         ['trending_img'],
+                                                        errorWidget: (context, url, error) => SizedBox(),
                                                         ),
                                                       ),
                                                       // Flexible(
