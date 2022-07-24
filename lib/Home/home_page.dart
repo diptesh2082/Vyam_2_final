@@ -666,7 +666,9 @@ class _HomePageState extends State<HomePage> {
 
     Get.lazyPut(() => Need(), fenix: true);
     return update
-        ? showAlertDialog(context, widget.remoteConfig)
+        ? Container(
+            color: Colors.white,
+            child: showAlertDialog(context, widget.remoteConfig))
         : isLoading
             ? Container(
                 color: Colors.white,

@@ -18,7 +18,7 @@ import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/controllers/packages/packages.dart';
 import 'package:vyam_2_final/Home/bookings/know_trainer.dart';
 import 'package:vyam_2_final/Providers/firebase_dynamic_link.dart';
-// import 'package:dotted_border/dotted_border.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 import 'ImageGalary.dart';
 
@@ -1525,30 +1525,6 @@ class Addbar extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-// <<<<<<< HEAD
-//                           Row(
-//                             children: [
-//                               Padding(
-//                                 padding: const EdgeInsets.symmetric(
-//                                     horizontal: 10.0, vertical: 6),
-//                                 child: Text(
-//                                   "Offer Details",
-//                                   style: GoogleFonts.poppins(
-//                                       fontSize: 15,
-//                                       fontWeight: FontWeight.bold),
-//                                 ),
-//                               ),
-//                               Spacer(),
-//                               IconButton(
-//                                   onPressed: () {
-//                                     Navigator.pop(context);
-//                                   },
-//                                   icon: Icon(Icons.cancel))
-//                             ],
-//                           ),
-//                           Divider(color: Colors.grey),
-// =======
-// >>>>>>> ba0f6c5150ab13a81b2225a1a112fe9af8b13a52
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10.0, vertical: 8),

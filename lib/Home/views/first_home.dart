@@ -62,80 +62,80 @@ class _FirstHomeState extends State<FirstHome> {
   ActiveBookingApi activeBookingApi = ActiveBookingApi();
   final url =
       "https://play.google.com/store/apps/details?id=com.findnearestfitness.vyam";
-  AlertDialog showAlertDialog(
-      BuildContext context, FirebaseRemoteConfig remoteConfig) {
-    Widget cancel = TextButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: Text("Cancel"));
-    Widget update = SizedBox(
-        width: 140,
-        height: 45,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Color.fromRGBO(247, 188, 40, 1),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20), // <-- Radius
-            ),
-          ),
-          onPressed: () async {
-            var urllaunchable = await canLaunch(url);
-            if (urllaunchable) {
-              await launch(url);
-            } else {
-              print("Try Again");
-            }
-          },
-          child: Text(
-            "Update Now",
-            style: GoogleFonts.poppins(
-                color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
-          ),
-        ));
-
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(40.0))),
-      contentPadding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
-      // title: ,
-      content: Container(
-        height: 550,
-        width: 600,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 300, child: Image.asset('assets/icons/roc.png')),
-            SizedBox(
-              height: 20,
-            ),
-            Text(
-              remoteConfig.getString("Title"),
-              style: GoogleFonts.poppins(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Text(remoteConfig.getString("Message"),
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                    color: Colors.grey,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500)),
-            SizedBox(
-              height: 70,
-            ),
-            update,
-          ],
-        ),
-      ),
-      // actions: <Widget>[update],
-    );
-  }
+  // AlertDialog showAlertDialog(
+  //     BuildContext context, FirebaseRemoteConfig remoteConfig) {
+  //   Widget cancel = TextButton(
+  //       onPressed: () {
+  //         Navigator.pop(context);
+  //       },
+  //       child: Text("Cancel"));
+  //   Widget update = SizedBox(
+  //       width: 140,
+  //       height: 45,
+  //       child: ElevatedButton(
+  //         style: ElevatedButton.styleFrom(
+  //           primary: Color.fromRGBO(247, 188, 40, 1),
+  //           shape: RoundedRectangleBorder(
+  //             borderRadius: BorderRadius.circular(20), // <-- Radius
+  //           ),
+  //         ),
+  //         onPressed: () async {
+  //           var urllaunchable = await canLaunch(url);
+  //           if (urllaunchable) {
+  //             await launch(url);
+  //           } else {
+  //             print("Try Again");
+  //           }
+  //         },
+  //         child: Text(
+  //           "Update Now",
+  //           style: GoogleFonts.poppins(
+  //               color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+  //         ),
+  //       ));
+  //
+  //   return AlertDialog(
+  //     shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.all(Radius.circular(40.0))),
+  //     contentPadding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+  //     // title: ,
+  //     content: Container(
+  //       height: 550,
+  //       width: 600,
+  //       child: Column(
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         crossAxisAlignment: CrossAxisAlignment.center,
+  //         children: [
+  //           SizedBox(height: 300, child: Image.asset('assets/icons/roc.png')),
+  //           SizedBox(
+  //             height: 20,
+  //           ),
+  //           Text(
+  //             remoteConfig.getString("Title"),
+  //             style: GoogleFonts.poppins(
+  //                 color: Colors.black,
+  //                 fontSize: 20,
+  //                 fontWeight: FontWeight.bold),
+  //           ),
+  //           SizedBox(
+  //             height: 20,
+  //           ),
+  //           Text(remoteConfig.getString("Message"),
+  //               textAlign: TextAlign.center,
+  //               style: GoogleFonts.poppins(
+  //                   color: Colors.grey,
+  //                   fontSize: 14,
+  //                   fontWeight: FontWeight.w500)),
+  //           SizedBox(
+  //             height: 70,
+  //           ),
+  //           update,
+  //         ],
+  //       ),
+  //     ),
+  //     // actions: <Widget>[update],
+  //   );
+  // }
 
   double finaldaysLeft = 0;
   double progress = 0;
