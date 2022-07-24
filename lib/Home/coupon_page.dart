@@ -5,10 +5,9 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vyam_2_final/api/api.dart';
-import 'package:vyam_2_final/global_snackbar.dart';
+
 import 'package:vyam_2_final/golbal_variables.dart';
-import 'package:vyam_2_final/payment/payment.dart';
-// import 'package:vyambooking/List/list.dart';
+
 
 class CouponDetails extends StatefulWidget {
   final cartValue;
@@ -913,11 +912,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                       ),
                     );
 
-                    return Center(
-                      child: Image.asset(
-                        "assets/Illustrations/notification empty.png",
-                      ),
-                    );
+
                   }),
             ],
           ),

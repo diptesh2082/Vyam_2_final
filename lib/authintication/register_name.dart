@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:vyam_2_final/api/api.dart';
 
 import '../golbal_variables.dart';
 import 'register_email.dart';
 
-import 'custom_register_route.dart';
 
 class Register1 extends StatefulWidget {
   static String id = "/register1_screen";

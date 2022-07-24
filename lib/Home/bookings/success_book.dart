@@ -9,8 +9,7 @@ import 'dart:async';
 
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/OrderDetails/order_details.dart';
-import 'package:vyam_2_final/api/api.dart';
-import 'package:vyam_2_final/golbal_variables.dart';
+
 
 class SuccessBook extends StatefulWidget {
   @override

@@ -7,7 +7,7 @@ import 'package:vyam_2_final/controllers/packages/bookingDetails.dart';
 import 'package:vyam_2_final/global_snackbar.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
-import '../../api/api.dart';
+
 
 class YogaList extends StatefulWidget {
   final getDocID;

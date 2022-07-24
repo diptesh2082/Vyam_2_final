@@ -104,7 +104,7 @@ class _ImageGalleryState extends State<ImageGallery> {
                       } else {
                         return Center(child: CircularProgressIndicator());
                       }
-                      return Container();
+                      // return Container();
                     },
                     options: CarouselOptions(
                         height: 255,

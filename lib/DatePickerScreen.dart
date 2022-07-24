@@ -6,7 +6,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:vyam_2_final/payment/payment.dart';
-import 'golbal_variables.dart';
 
 class DatePickerScreen extends StatefulWidget {
   final getGymName;

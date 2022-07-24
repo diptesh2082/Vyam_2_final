@@ -1,26 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:location/location.dart';
 import 'package:vyam_2_final/Home/home_page.dart';
-import 'package:vyam_2_final/Home/views/first_home.dart';
 import 'package:vyam_2_final/authintication/login.dart';
 import 'package:vyam_2_final/authintication/phoneNumber.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'dart:math' show cos, sqrt, asin;
 
-import '../Home/views/noInternet.dart';
-import '../Notifications/notification.dart';
+
 import '../authintication/google_signin.dart';
-import '../main.dart';
+
 
 // ignore: prefer_typing_uninitialized_variables
 var visiting_flag = false;
@@ -250,10 +244,10 @@ class OlderBookingApi {
 }
 
 class GymDetailApi {
-  getuserAddress() {
-    Stream<QuerySnapshot> getUser =
-        FirebaseFirestore.instance.collection('user_details').snapshots();
-  }
+  // getuserAddress() {
+  //   Stream<QuerySnapshot> getUser =
+  //       FirebaseFirestore.instance.collection('user_details').snapshots();
+  // }
 
   Stream<QuerySnapshot> getGymDetails =
       FirebaseFirestore.instance.collection("product_details").snapshots();
@@ -545,10 +539,10 @@ vendorData(String id) async {
 }
 
 class GymAllApi {
-  getuserAddress() {
-    Stream<QuerySnapshot> getUser =
-        FirebaseFirestore.instance.collection('user_details').snapshots();
-  }
+  // getuserAddress() {
+  //   Stream<QuerySnapshot> getUser =
+  //       FirebaseFirestore.instance.collection('user_details').snapshots();
+  // }
 
   // getGymDetails(String type) async{
   //   Stream<QuerySnapshot> getGymDetails =  await FirebaseFirestore.instance

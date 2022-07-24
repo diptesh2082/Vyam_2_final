@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-import '../../golbal_variables.dart';
 
 class Faq extends StatefulWidget {
   const Faq({Key? key}) : super(key: key);
@@ -58,7 +57,7 @@ class _FaqState extends State<Faq> {
                 itemCount: doc.length,
                 itemBuilder: (context, index) {
 
-                  final faq = "";
+                  // final faq = "";
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Container(

@@ -4,9 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
@@ -69,11 +67,11 @@ class _FirstHomeState extends State<FirstHome> {
       "https://play.google.com/store/apps/details?id=com.findnearestfitness.vyam";
   AlertDialog showAlertDialog(
       BuildContext context, FirebaseRemoteConfig remoteConfig) {
-    Widget cancel = TextButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: Text("Cancel"));
+    // Widget cancel = TextButton(
+    //     onPressed: () {
+    //       Navigator.pop(context);
+    //     },
+    //     child: Text("Cancel"));
     Widget update = SizedBox(
         width: 140,
         height: 45,
@@ -236,7 +234,7 @@ class _FirstHomeState extends State<FirstHome> {
   final appBarColor = Colors.grey[300];
   // final LocationController yourLocation = Get.find();
   // GymDetailApi gymDetailApi = GymDetailApi();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;

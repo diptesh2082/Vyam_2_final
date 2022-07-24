@@ -576,11 +576,11 @@ class _HomePageState extends State<HomePage> {
       "https://play.google.com/store/apps/details?id=com.findnearestfitness.vyam";
   AlertDialog showAlertDialog(
       BuildContext context, FirebaseRemoteConfig remoteConfig) {
-    Widget cancel = TextButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: Text("Cancel"));
+    // Widget cancel = TextButton(
+    //     onPressed: () {
+    //       Navigator.pop(context);
+    //     },
+    //     child: Text("Cancel"));
     Widget update = SizedBox(
         width: 140,
         height: 45,

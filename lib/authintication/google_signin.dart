@@ -1,20 +1,11 @@
-import 'dart:io';
-
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vyam_2_final/Home/home_page.dart';
+
 import 'package:vyam_2_final/api/api.dart';
-import 'package:vyam_2_final/authintication/phoneNumber.dart';
-import 'package:vyam_2_final/authintication/register_email.dart';
-import 'package:vyam_2_final/authintication/register_name.dart';
-import 'package:vyam_2_final/golbal_variables.dart';
+
 var userName;
 var userEmail;
 var userPhoto;

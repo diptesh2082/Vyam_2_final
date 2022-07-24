@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
@@ -10,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:google_maps_webservice/places.dart';
+
 import 'package:hexcolor/hexcolor.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -22,8 +21,8 @@ import 'package:vyam_2_final/golbal_variables.dart';
 
 import 'package:location/location.dart' as ln;
 
-const String api = "AIzaSyC1HHe1ulw07w6Cz-UirhV5d2Pm_GUJW38";
-GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
+// const String api = "AIzaSyC1HHe1ulw07w6Cz-UirhV5d2Pm_GUJW38";
+// GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: api);
 
 class Exploreia extends StatefulWidget {
   const Exploreia({Key? key}) : super(key: key);
@@ -54,15 +53,15 @@ class _ExploreiaState extends State<Exploreia> {
   Geoflutterfire geo = Geoflutterfire();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  _animateToUser() async {
-    var pos = await location.getLocation();
-    // print(pos.l);
-
-    mapcontroller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(pos.latitude!, pos.longitude!),
-      zoom: 17.0,
-    )));
-  }
+  // _animateToUser() async {
+  //   var pos = await location.getLocation();
+  //   // print(pos.l);
+  //
+  //   mapcontroller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+  //     target: LatLng(pos.latitude!, pos.longitude!),
+  //     zoom: 17.0,
+  //   )));
+  // }
 
   Stream nearbyComp() async* {
     var pos = await location.getLocation();
@@ -117,32 +116,32 @@ class _ExploreiaState extends State<Exploreia> {
 
   var _currentItem = 0;
 
-  Future<Position> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      await Geolocator.openLocationSettings();
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-
-    return await Geolocator.getCurrentPosition();
-  }
+  // Future<Position> _determinePosition() async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
+  //
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     await Geolocator.openLocationSettings();
+  //     return Future.error('Location services are disabled.');
+  //   }
+  //
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       return Future.error('Location permissions are denied');
+  //     }
+  //   }
+  //
+  //   if (permission == LocationPermission.deniedForever) {
+  //     // Permissions are denied forever, handle appropriately.
+  //     return Future.error(
+  //         'Location permissions are permanently denied, we cannot request permissions.');
+  //   }
+  //
+  //   return await Geolocator.getCurrentPosition();
+  // }
 
   var doc = Get.arguments;
   getEverything() async {
@@ -789,7 +788,7 @@ class _ExploreiaState extends State<Exploreia> {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
       target: LatLng(lat, long),
-      zoom: 16,
+      zoom: 15,
     )));
   }
 

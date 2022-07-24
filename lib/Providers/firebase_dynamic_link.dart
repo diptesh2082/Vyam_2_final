@@ -1,5 +1,4 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:vyam_2_final/Home/bookings/gym_details.dart';
 
 
 class FireBaseDynamicLinkService {

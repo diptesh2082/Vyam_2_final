@@ -5,10 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/controllers/packages/yoga.dart';
 
 import 'package:vyam_2_final/golbal_variables.dart';
@@ -178,7 +176,7 @@ class _PackegesState extends State<Packeges> {
 
   @override
   Widget build(BuildContext context) {
-    bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
+    // bool keyboardIsOpened = MediaQuery.of(context).viewInsets.bottom != 0.0;
     var _width = MediaQuery.of(context).size.width;
     var _height = MediaQuery.of(context).size.height;
     return isLoading

@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
-import 'package:vyam_2_final/Home/bookings/review_screen.dart';
-import 'package:vyam_2_final/api/api.dart';
+
 import 'package:vyam_2_final/golbal_variables.dart';
 
 class AddReview extends StatelessWidget {
@@ -55,8 +54,7 @@ class AddReview extends StatelessWidget {
               backgroundColor: Colors.black,
               onPressed: () async {
                 Navigator.of(context).pop();
-                final CollectionReference review =
-                    FirebaseFirestore.instance.collection('Reviews');
+
                 FirebaseFirestore.instance.runTransaction((transaction) async {
                   CollectionReference reference =
                       FirebaseFirestore.instance.collection('Reviews');

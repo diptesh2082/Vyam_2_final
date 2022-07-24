@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,7 +42,6 @@ class _OrderDetailsState extends State<OrderDetails> {
   @override
   Widget build(BuildContext context) {
     var _width = MediaQuery.of(context).size.width;
-    var _height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: scaffoldColor,
       appBar: AppBar(

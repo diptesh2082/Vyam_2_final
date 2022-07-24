@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
@@ -17,8 +16,7 @@ import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/api/maps_launcher_api.dart';
 import 'package:vyam_2_final/controllers/packages/packages.dart';
 import 'package:vyam_2_final/Home/bookings/know_trainer.dart';
-import 'package:vyam_2_final/Providers/firebase_dynamic_link.dart';
-// import 'package:dotted_border/dotted_border.dart';
+
 
 import 'ImageGalary.dart';
 
@@ -38,8 +36,8 @@ class GymDetails extends StatefulWidget {
 }
 
 class _GymDetailsState extends State<GymDetails> {
-  static final customCacheManager = CacheManager(Config("customCacheKey",
-      maxNrOfCacheObjects: 100, stalePeriod: Duration(days: 15)));
+  // static final customCacheManager = CacheManager(Config("customCacheKey",
+  //     maxNrOfCacheObjects: 100, stalePeriod: Duration(days: 15)));
 
   final gymID = Get.arguments["gymId"];
   bool touch = false;
@@ -150,17 +148,8 @@ class _GymDetailsState extends State<GymDetails> {
   bool isLoad = true;
 
   final trainername = ['Jake Paul', 'Jim Harry', 'Kim Jhonas'];
-  final List _isSelected = [
-    true,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
-  int _current = 1;
+
+
   var listIndex = 0;
   var times;
   var offer;
