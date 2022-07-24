@@ -42,7 +42,7 @@ class _ExploreiaState extends State<Exploreia> {
 
   final Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  // List<DocumentSnapshot> document = [];
+  List<DocumentSnapshot> document = [];
   bool isLoading = false;
 
   String searchGymName = '';
@@ -375,8 +375,8 @@ class _ExploreiaState extends State<Exploreia> {
         if (info.visibleFraction == 1) _currentItem = index.toInt();
         // listKey=index.toInt();
         print(_currentItem);
-        splashLocation(Get.find<GlobalUserData>().document.value[_currentItem]["location"].latitude,
-            Get.find<GlobalUserData>().document.value[_currentItem]["location"].longitude);
+        splashLocation(document[_currentItem]["location"].latitude,
+            document[_currentItem]["location"].longitude);
       },
       child: FittedBox(
         child: GestureDetector(
@@ -386,7 +386,7 @@ class _ExploreiaState extends State<Exploreia> {
                   // gymID: document[index].id,
                 ),
                 arguments: {
-                  "gymId":Get.find<GlobalUserData>().document.value[index].id,
+                  "gymId":document[index].id,
 
                 });
             sslKey.currentState!.focusToItem(index);
@@ -407,12 +407,12 @@ class _ExploreiaState extends State<Exploreia> {
                 if (calculateDistance(
                     Get.find<GlobalUserData>().userData.value["location"].latitude,
                     Get.find<GlobalUserData>().userData.value["location"].longitude,
-                    Get.find<GlobalUserData>().document.value[index]["location"].latitude,
-                    Get.find<GlobalUserData>().document.value[index]["location"].longitude) <=
+                    document[index]["location"].latitude,
+                    document[index]["location"].longitude) <=
                     20)
                   Boxesss(
-                    image: Get.find<GlobalUserData>().document.value[index]["display_picture"], name:  Get.find<GlobalUserData>().document.value[index]["name"], location: Get.find<GlobalUserData>().document.value[index]["location"], status: Get.find<GlobalUserData>().document.value[index]["gym_status"],
-                    address:  Get.find<GlobalUserData>().document.value[index]["address"], gym_address: Get.find<GlobalUserData>().document.value[index]["branch"], review: Get.find<GlobalUserData>().document.value[index]["rating"].toString(), controller: _controller,
+                    image: document[index]["display_picture"], name: document[index]["name"], location: document[index]["location"], status: document[index]["gym_status"],
+                    address:  document[index]["address"], gym_address: document[index]["branch"], review: document[index]["rating"].toString(), controller: _controller,
                   ),
                 SizedBox(
                   width: 15,
@@ -537,14 +537,14 @@ class _ExploreiaState extends State<Exploreia> {
                               e["location"].longitude);
                           distance = double.parse((distance).toStringAsFixed(1));
                           if (distance <= 20) {
-                            Get.find<GlobalUserData>().document.value.add(e);
+                            document.add(e);
 
                           }
                         });
 
-                        var d = Get.find<GlobalUserData>().document.value.length;
+                        var d = document.length;
 
-                        return Get.find<GlobalUserData>().document.value.isNotEmpty
+                        return document.isNotEmpty
                             ? Container(
                           width: MediaQuery.of(context).size.width,
                           child: ScrollSnapList(
