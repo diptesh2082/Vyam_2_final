@@ -280,7 +280,7 @@ getEverithing(){
   }catch(e){
     print(e);
   }finally{
-    Future.delayed(Duration(milliseconds: 800),(){
+    Future.delayed(Duration(milliseconds: 700),(){
       setState(() {
         isLoading=false;
       });
