@@ -291,7 +291,7 @@ class _PackegesState extends State<Packeges> {
                                                     children: [
                                                       Text(
                                       data.docs[snapshot]
-                                      ['tdescribe'],
+                                      ['tdescribe'].toString(),
                                                         // "Trending",
                                                         style:
                                                             GoogleFonts.poppins(

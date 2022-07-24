@@ -117,6 +117,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   void initState() {
     print("//////////");
+    getSimpl();
     print(widget.booking_id);
     print(
       getData['totalMonths'],
@@ -1787,7 +1788,7 @@ if(simpl)
                               const SizedBox(
                                 width: 20,
                               ),
-                              if (gymData["cash_pay"] == true)
+                              if (simpl== true)
                                 const Text(
                                   "Pay with Simpl",
                                   style: TextStyle(
@@ -1795,7 +1796,7 @@ if(simpl)
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14),
                                 ),
-                              if (gymData["cash_pay"] == true) const Spacer(),
+                              if (simpl == true) const Spacer(),
                               if (PAY == "simpl" ||
                                   (gymData["online_pay"] == false &&
                                       gymData["cash_pay"] == true))
@@ -1804,7 +1805,7 @@ if(simpl)
                                   color: Colors.black,
                                   size: 15,
                                 ),
-                              if (gymData["cash_pay"] == false)
+                              if (simpl == false)
                                 const Text(
                                   "Cash isn't available in this gym",
                                   style: TextStyle(
