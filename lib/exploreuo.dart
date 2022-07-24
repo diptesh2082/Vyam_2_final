@@ -801,25 +801,5 @@ class _ExploreiaState extends State<Exploreia> {
     )));
   }
 
-  runRun() async {
-    setState(() {
-      isLoading = true;
-    });
-    Position position = await _determinePosition();
-    // await GetAddressFromLatLong(position);
-    // await FirebaseFirestore.instance
-    //     .collection("user_details")
-    //     .doc(number)
-    //     .update({
-    //   "location": GeoPoint(
-    //       position.latitude, position.longitude),
-    //   "address": address,
-    //   // "lat": position.latitude,
-    //   // "long": position.longitude,
-    //   "pincode": pin,
-    //   "locality": locality,
-    //   "subLocality": locality,
-    //   // "number": number
-    // });
-  }
+
 }

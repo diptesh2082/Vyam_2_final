@@ -1516,10 +1516,7 @@ check_simpl()async{
                               }
                               FocusScope.of(context).unfocus();
                               // await getBookingData(getData["booking_id"]);
-                              Get.offAll(() => SuccessBook(), arguments: {
-                                "otp_pass": x,
-                                "booking_details": widget.booking_id
-                              });
+
                               setState(() {
                                 isLoading = false;
                               });
@@ -1535,6 +1532,10 @@ check_simpl()async{
                                       ])
                                   .get()
                                   .then((value) async {
+                                Get.offAll(() => SuccessBook(), arguments: {
+                                  "otp_pass": x,
+                                  "booking_details": widget.booking_id
+                                });
                                     if (value.docs.isNotEmpty) {
                                       booking_iiid =
                                           await value.docs.length + 200;

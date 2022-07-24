@@ -32,7 +32,6 @@ class HomePage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 1));
-    print("sexsexsexsexsexsexsexsexsexsexsexx");
     Future<FirebaseRemoteConfig> setupRemoteConfig() async {
       final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
       await remoteConfig.fetch();
