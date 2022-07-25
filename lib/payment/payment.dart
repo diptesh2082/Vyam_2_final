@@ -386,8 +386,7 @@ check_simpl()async{
                                 isLoading = false;
                               });
                               int? booking_iiid;
-                              await showNotification("Booking successful for " + ven_name,
-                                  "Share OTP at the center to start.");
+
                               await FirebaseFirestore.instance
                                   .collection("bookings")
                                   .where("booking_status".toLowerCase(),
@@ -432,9 +431,9 @@ check_simpl()async{
                                 });
                               });
 
-                              setState(() {
-                                isLoading = false;
-                              });
+                              // setState(() {
+                              //   isLoading = false;
+                              // });
                             } catch (e) {}
                           },
                           child: Container(
@@ -574,7 +573,7 @@ check_simpl()async{
 
   _payment() {
     var options = {
-      'key': "rzp_test_33NhqFvjcCXYkk",
+      'key': "rzp_live_7twfLFOgOjQnp1",
       'amount': (myCouponController.GlobalCouponApplied.value
               ? (grandTotal -
                   int.parse(myCouponController.CouponDetailsMap.value))
