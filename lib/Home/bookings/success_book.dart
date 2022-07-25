@@ -457,12 +457,15 @@ class _PanelWidgetState extends State<PanelWidget> {
                             fontSize: 14),
                       ),
                       onPressed: () async {
-                        await Get.to(
-                            () => const OrderDetails(
-                                // index: index,
-                                // orderList: data.docs,
-                                ),
-                            arguments: {"doc": booking_details});
+                        Get.to(() => const OrderDetails(
+                          // index: index,
+                          // orderList: data.docs,
+                        ),
+
+                          arguments: {
+                            "doc":  snapshot.data
+                          },duration: Duration(milliseconds: 450),
+                        );
                       },
                     ),
                   ),

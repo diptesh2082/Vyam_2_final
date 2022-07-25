@@ -569,7 +569,7 @@ check_simpl()async{
     //
     // };
   }
-  // 'rzp_live_7twfLFOgOjQnp1'
+  // 'rzp_test_33NhqFvjcCXYkk'
 
   _payment() {
     var options = {
@@ -635,21 +635,24 @@ check_simpl()async{
             }
           })
           .then((value) async {
-        Get.offAll(() => SuccessBook(branch: branch, ven_name: ven_name, ven_id: ven_id, booking_id: widget.booking_id,), arguments: {
-          "otp_pass": x,
-          "booking_details": widget.booking_id
+        await FirebaseFirestore.instance
+            .collection("bookings")
+            .doc(widget.booking_id)
+            .update({
+          "otp_pass": x.toString(),
+          "booking_status": "upcoming",
+          "payment_done": true,
+          "payment_method": "online",
+          "id": booking_iiid
+        }).then((value) {
+          Get.offAll(() => SuccessBook(branch: branch, ven_name: ven_name, ven_id: ven_id, booking_id: widget.booking_id,), arguments: {
+            "otp_pass": x,
+            "booking_details": widget.booking_id
+          });
+
         });
 
-            await FirebaseFirestore.instance
-                .collection("bookings")
-                .doc(getData["booking_id"])
-                .update({
-              "otp_pass": x.toString(),
-              "booking_status": "upcoming",
-              "payment_done": true,
-              "payment_method": "online",
-              "id": booking_iiid
-            });
+
 
 
       }).then((value) async {
