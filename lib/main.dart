@@ -34,6 +34,7 @@ Future<void> backgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  Get.lazyPut(() => GlobalUserData(),fenix: true);
   try {
     await getNumber();
   } catch (e) {

@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "649320715683-gjeql85sdm75anfp023bfa3vf24mgfrh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.findnearestfitness.vyam",
+            "certificate_hash": "922378ee3fc8115d22ccc990c4a6c051dd1f0baa"
+          }
+        },
+        {
           "client_id": "649320715683-ntgc6qg61uorgbou7gfp1rcr6evp60a7.apps.googleusercontent.com",
           "client_type": 3
         }
