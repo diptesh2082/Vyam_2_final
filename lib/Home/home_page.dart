@@ -664,6 +664,7 @@ class _HomePageState extends State<HomePage> {
     var update = widget.remoteConfig.getBool("Update");
 
     Get.lazyPut(() => Need(), fenix: true);
+
     return update
         ? Container(
             color: Colors.white,

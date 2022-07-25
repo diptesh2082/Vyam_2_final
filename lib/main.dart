@@ -39,7 +39,7 @@ Future<void> main() async {
   } catch (e) {
     number = "";
   }
-  Get.lazyPut(() => GlobalUserData());
+
   await myLocation();
   await getInfo();
   // getAddress();
@@ -94,39 +94,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // Get.lazyPut(() => GlobalUserData());
   @override
   void initState() {
     // TODO: implement initState
 
     FirebaseMessaging.instance.getInitialMessage();
-// <<<<<<< HEAD
-    // FirebaseCrashlytics.instance.crash();
-// =======
-// <<<<<<< HEAD
-//     //
-//     FirebaseMessaging.onMessage.listen((RemoteMessage message){
-//
-//       if(message.notification != null)
-//         {
-//           print(message.notification!.body);
-//           print(message.notification!.title);
-//           // Get.to(()=>HomePage());
-//
-//         }
-//
-//     });
-//     //
-//     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message)
-//     {
-//       print('A new onMessageOpenedApp event was published!');
-//       // Navigator.pushNamed(context,GymDetails.id,);
-//       Get.to(()=>HomePage());
-//
-//       // final routeFromMessage = message.data["GymDetails"];
-//       // print(routeFromMessage);
-//
-// =======
-// >>>>>>> 730ad5b1b982c1cc820d8984882a770b957e963b
+
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
@@ -201,6 +175,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     FirebaseAuth _auth = FirebaseAuth.instance;
+
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Colors.grey),

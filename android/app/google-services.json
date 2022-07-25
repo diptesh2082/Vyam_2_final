@@ -14,27 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "649320715683-i2sdrtngbaklc3uknihc6s9sulinb0n5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.findnearestfitness.vyam",
-            "certificate_hash": "703a05b7c718baa7d9eae042c51df4652fefd81e"
-          }
-        },
-        {
-          "client_id": "649320715683-ir9jarj32t8flvq24tkua502s4pi2f30.apps.googleusercontent.com",
+          "client_id": "649320715683-gegojm22tq9hiep28ij5v4gj66cdf7of.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.findnearestfitness.vyam",
             "certificate_hash": "f4304cd4c25f4e5807c7d92a677f7c085fc53028"
-          }
-        },
-        {
-          "client_id": "649320715683-kgtes74dv3dimin9biif4jhtquto89pd.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.findnearestfitness.vyam",
-            "certificate_hash": "225d5814ddd98fb67af4f1bdcb01f908e9d870a5"
           }
         },
         {

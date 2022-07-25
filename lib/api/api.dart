@@ -446,6 +446,7 @@ myLocation() async {
   // print(number);
 
   try {
+    Get.lazyPut(() => GlobalUserData(),fenix: true);
     await FirebaseFirestore.instance
         .collection('user_details')
         .doc(number)
