@@ -31,8 +31,10 @@ class SelectDate extends StatefulWidget {
       required this.getGymName,
       required this.getGymAddress,
       required this.gymId,
-        required this.bookingId,
-      required this.days,required this.package_name,required this.branch})
+      required this.bookingId,
+      required this.days,
+      required this.package_name,
+      required this.branch})
       : super(key: key);
 
   final String months;
@@ -66,7 +68,7 @@ class _SelectDateState extends State<SelectDate> {
     'Sunday',
   ];
   var startDate = DateTime.now();
-  var endDate= DateTime.now();
+  var endDate = DateTime.now();
   var totalDays;
   var now = DateTime.now();
   var current_mon;
@@ -90,8 +92,6 @@ class _SelectDateState extends State<SelectDate> {
 
   @override
   void initState() {
-    print(widget.days);
-    print("+++++++++++++++++++++++++++++");
     getDays = int.parse(widget.days.toString());
     total_discount = 0;
     // if (widget.months.contains("pay per session")) {
@@ -107,7 +107,8 @@ class _SelectDateState extends State<SelectDate> {
     //   getDays = 168;
     // }
     _selectedDay = DateTime.now();
-    endDate = DateTime.now().add(Duration(days: int.parse(widget.days.toString())));
+    endDate =
+        DateTime.now().add(Duration(days: int.parse(widget.days.toString())));
     selected_week = now.weekday;
     current_mon = now.month;
     end_mon = DateTime.now().add(Duration(days: getDays)).month;
@@ -180,8 +181,8 @@ class _SelectDateState extends State<SelectDate> {
                         current_mon = _selectedDay.month;
                         selected_week = _selectedDay.weekday;
                         startDate = _selectedDay;
-                        endDate = _selectedDay
-                            .add(Duration(days: int.parse(widget.days.toString())));
+                        endDate = _selectedDay.add(
+                            Duration(days: int.parse(widget.days.toString())));
 
                         end_mon =
                             _selectedDay.add(Duration(days: getDays)).month;
@@ -343,23 +344,21 @@ class _SelectDateState extends State<SelectDate> {
               // FocusScope.of(context).unfocus();
               FocusManager.instance.primaryFocus?.unfocus();
 
-              try{
+              try {
                 startDate =
                     DateTime(int.parse(year), current_mon, int.parse(day));
 
-                totalDays = DateTime(int.parse(year), end_mon, int.parse(endday))
-                    .difference(DateTime(
-                    int.parse(year), current_mon, int.parse(day)))
-                    .inDays +
-                    1;
-                print(startDate);
-                print(endDate);
-                print(widget.days);
+                totalDays =
+                    DateTime(int.parse(year), end_mon, int.parse(endday))
+                            .difference(DateTime(
+                                int.parse(year), current_mon, int.parse(day)))
+                            .inDays +
+                        1;
 
                 await FirebaseFirestore.instance
                     .collection("bookings")
-                // .doc(number)
-                // .collection("user_booking")
+                    // .doc(number)
+                    // .collection("user_booking")
                     .doc(widget.bookingId)
                     .update({
                   "booking_date": startDate,
@@ -367,8 +366,8 @@ class _SelectDateState extends State<SelectDate> {
                   "totalDays": widget.days
                 }).then((value) {
                   Get.to(
-                        () => PaymentScreen(
-                      booking_id:  widget.bookingId,
+                    () => PaymentScreen(
+                      booking_id: widget.bookingId,
                       endDate: DateFormat("dd, MMM, yyyy").format(endDate),
                     ),
                     duration: const Duration(milliseconds: 500),
@@ -377,22 +376,22 @@ class _SelectDateState extends State<SelectDate> {
                       "totalMonths": widget.months,
                       "packageType": widget.packageType,
                       "totalPrice": widget.price,
-                      "startDate": DateFormat("dd, MMM, yyyy").format(startDate),
+                      "startDate":
+                          DateFormat("dd, MMM, yyyy").format(startDate),
                       "endDate": DateFormat("dd, MMM, yyyy").format(endDate),
                       "address": widget.getGymAddress,
                       "vendorId": widget.gymId,
                       // "booking_id": widget.bookingId,
                       "gym_details": Get.arguments["docs"],
                       "totalDays": widget.days,
-                      "booking_plan":widget.package_name,
-                      "branch":widget.branch
+                      "booking_plan": widget.package_name,
+                      "branch": widget.branch
                     },
                   );
                 });
-              }catch(e){
+              } catch (e) {
                 Get.snackbar("Please", "select a date");
               }
-
             },
             label: Text(
               "Proceed",

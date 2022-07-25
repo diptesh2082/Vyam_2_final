@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
-
 class Faq extends StatefulWidget {
   const Faq({Key? key}) : super(key: key);
 
@@ -16,11 +14,10 @@ class Faq extends StatefulWidget {
 class _FaqState extends State<Faq> {
   // List check=[].(0, 10,[false]);
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Colors.white,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -31,7 +28,7 @@ class _FaqState extends State<Faq> {
             color: Colors.black,
           ),
         ),
-        title:  Text(
+        title: Text(
           'FAQ',
           style: GoogleFonts.poppins(
             color: Colors.black,
@@ -44,25 +41,22 @@ class _FaqState extends State<Faq> {
       ),
       body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance.collection("faq").snapshots(),
-          builder: (context,AsyncSnapshot snapshot) {
-            var doc=snapshot.data.docs;
-            List d=[];
-            doc.forEach((e){
+          builder: (context, AsyncSnapshot snapshot) {
+            var doc = snapshot.data.docs;
+            List d = [];
+            doc.forEach((e) {
               d.add(true);
             });
-
-
-            print(d);
             return ListView.builder(
                 itemCount: doc.length,
                 itemBuilder: (context, index) {
-
                   // final faq = "";
                   return ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Container(
                       margin: const EdgeInsets.all(10),
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 0),
                       decoration: BoxDecoration(
                         // color: Colors.white12,
                         borderRadius: BorderRadius.circular(16),
@@ -70,23 +64,26 @@ class _FaqState extends State<Faq> {
                       child: Material(
                           elevation: 5,
                           borderRadius: BorderRadius.circular(16),
-                          child: Tile(index: index, doc: doc, d: d,)),
+                          child: Tile(
+                            index: index,
+                            doc: doc,
+                            d: d,
+                          )),
                     ),
                   );
                 });
-          }
-      ),
+          }),
     );
   }
-
-
 }
+
 class Tile extends StatefulWidget {
   var doc;
   var index;
   var d;
 
-  Tile({Key? key,required this.doc,required this.index,required this.d}) : super(key: key);
+  Tile({Key? key, required this.doc, required this.index, required this.d})
+      : super(key: key);
 
   @override
   State<Tile> createState() => _TileState();
@@ -101,7 +98,8 @@ class _TileState extends State<Tile> {
         child: ExpansionPanelList(
           animationDuration: const Duration(milliseconds: 500),
           elevation: 0,
-          expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 0,horizontal: 0),
+          expandedHeaderPadding:
+              const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
           children: [
             ExpansionPanel(
               body: Container(
@@ -109,7 +107,6 @@ class _TileState extends State<Tile> {
                   borderRadius: BorderRadius.circular(16),
                   color: Colors.white12,
                 ),
-
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,7 +120,7 @@ class _TileState extends State<Tile> {
                     ),
                     Text(
                       widget.doc[widget.index]["answer"].toString(),
-                      style:  GoogleFonts.poppins(
+                      style: GoogleFonts.poppins(
                           color: Colors.grey[700],
                           fontSize: 14,
                           letterSpacing: 0.3,
@@ -159,7 +156,7 @@ class _TileState extends State<Tile> {
           ],
           expansionCallback: (int item, bool status) {
             setState(() {
-              widget.d[widget.index]= ! widget.d[widget.index];
+              widget.d[widget.index] = !widget.d[widget.index];
             });
           },
         ),

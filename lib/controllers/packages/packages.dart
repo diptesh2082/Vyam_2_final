@@ -26,7 +26,8 @@ class Packeges extends StatefulWidget {
       required this.getFinalID,
       required this.gymName,
       required this.gymLocation,
-      required this.doc,required this.branch})
+      required this.doc,
+      required this.branch})
       : super(key: key);
 
   @override
@@ -74,7 +75,6 @@ class _PackegesState extends State<Packeges> {
     userDetails.doc(number).get().then((DocumentSnapshot doc) {
       userData = doc.data();
 
-
       // print(userData);
     });
   }
@@ -100,7 +100,7 @@ class _PackegesState extends State<Packeges> {
       // "gym_name": "",
       "vendorId": widget.getFinalID,
       "userId": number,
-      "user_name":  Get.find<GlobalUserData>().userData.value["name"],
+      "user_name": Get.find<GlobalUserData>().userData.value["name"],
       "booking_accepted": false,
       "payment_done": false,
       "booking_plan": "",
@@ -132,7 +132,6 @@ class _PackegesState extends State<Packeges> {
     // setState(() {
     //   isLoading = false;
     // });
-    print(id);
     // FirebaseFirestore.instance
     //     .collection("bookings")
     //     .doc(id)
@@ -148,10 +147,8 @@ class _PackegesState extends State<Packeges> {
 
   @override
   void initState() {
-    print(id);
     // CreateBooking(id);
     // getBookingId(id);
-    print(id);
     setDate();
     iiid = id;
     setState(() {
@@ -159,7 +156,6 @@ class _PackegesState extends State<Packeges> {
     });
     // getBookingId();
     // getBookingId();
-    print(id);
 
     // print(number);
 
@@ -227,13 +223,13 @@ class _PackegesState extends State<Packeges> {
                             .doc("normal_package")
                             .collection("gym")
                             .where("valid", isEqualTo: true)
-                            .where("type", whereIn: ["gym","Gym","GYM"])
+                            .where("type", whereIn: ["gym", "Gym", "GYM"])
                             .orderBy("index")
                             .snapshots(),
                         builder: ((context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return  Center(
+                            return Center(
                               child: Container(),
                             );
                           }
@@ -243,15 +239,16 @@ class _PackegesState extends State<Packeges> {
                             if (data.size == 0) {
                               return Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 20.0),
-                                  child:Container()
-                                  // Text(
-                                  //   "Coming Soon !! ",
-                                  //   style: GoogleFonts.poppins(
-                                  //       fontWeight: FontWeight.bold,
-                                  //       color: Colors.red),
-                                  // ),
-                                ),
+                                    padding:
+                                        const EdgeInsets.only(bottom: 20.0),
+                                    child: Container()
+                                    // Text(
+                                    //   "Coming Soon !! ",
+                                    //   style: GoogleFonts.poppins(
+                                    //       fontWeight: FontWeight.bold,
+                                    //       color: Colors.red),
+                                    // ),
+                                    ),
                               );
                             }
 
@@ -280,7 +277,8 @@ class _PackegesState extends State<Packeges> {
                                               MainAxisAlignment.center,
                                           children: [
                                             if (data.docs[snapshot]
-                                                    ['trending']==true)
+                                                    ['trending'] ==
+                                                true)
                                               Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -288,8 +286,9 @@ class _PackegesState extends State<Packeges> {
                                                   Row(
                                                     children: [
                                                       Text(
-                                      data.docs[snapshot]
-                                      ['tdescribe'].toString(),
+                                                        data.docs[snapshot]
+                                                                ['tdescribe']
+                                                            .toString(),
                                                         // "Trending",
                                                         style:
                                                             GoogleFonts.poppins(
@@ -301,11 +300,15 @@ class _PackegesState extends State<Packeges> {
                                                                         .w800),
                                                       ),
                                                       Flexible(
-                                                        child: CachedNetworkImage(
-
-                                                          height: 20, imageUrl: data.docs[snapshot]
-                                                        ['trending_img'],
-                                                        errorWidget: (context, url, error) => SizedBox(),
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          height: 20,
+                                                          imageUrl: data.docs[
+                                                                  snapshot]
+                                                              ['trending_img'],
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              SizedBox(),
                                                         ),
                                                       ),
                                                       // Flexible(
@@ -357,7 +360,6 @@ class _PackegesState extends State<Packeges> {
                                                   MainAxisAlignment.start,
                                               // crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-
                                                 Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
@@ -392,13 +394,18 @@ class _PackegesState extends State<Packeges> {
                                                                     color: HexColor(
                                                                         "49C000"))),
                                                             child: Text(
-                                                              data.docs[snapshot]["ptype"]==true?  data.docs[snapshot]
-                                                                      [
-                                                                      'discount'] +
-                                                                  "% off": data.docs[snapshot]
-                                                              [
-                                                              'discount'] +
-                                                                  " Rs off",
+                                                              data.docs[snapshot]
+                                                                          [
+                                                                          "ptype"] ==
+                                                                      true
+                                                                  ? data.docs[snapshot]
+                                                                          [
+                                                                          'discount'] +
+                                                                      "% off"
+                                                                  : data.docs[snapshot]
+                                                                          [
+                                                                          'discount'] +
+                                                                      " Rs off",
                                                               style: GoogleFonts.poppins(
                                                                   fontWeight:
                                                                       FontWeight
@@ -436,7 +443,7 @@ class _PackegesState extends State<Packeges> {
                                                             ),
                                                             Text(
                                                               "Rs "
-                                                              "${data.docs[snapshot]["ptype"]==true?(int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()):(int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["discount"]) ))}",
+                                                              "${data.docs[snapshot]["ptype"] == true ? (int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()) : (int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["discount"])))}",
                                                               style: GoogleFonts.poppins(
                                                                   fontSize: 18,
                                                                   color: HexColor(
@@ -486,33 +493,34 @@ class _PackegesState extends State<Packeges> {
                                                     // CreateBooking();
 
                                                     // FocusScope.of(context).requestFocus( FocusNode());
-                                                      try{
-                                                        FocusManager
-                                                            .instance.primaryFocus
-                                                            ?.unfocus();
-                                                        bookingDetails.bookingDetails(
-                                                            context,
-                                                            snapshot,
-                                                            data.docs,
-                                                            // "",
-                                                            data.docs[snapshot]
-                                                            ['title'],
-                                                            widget.gymName,
-                                                            widget.gymLocation,
-                                                            id,
-                                                            widget.getFinalID,
-                                                            widget.doc,
-                                                            data.docs[snapshot]['description'],
-                                                            widget.branch,
-                                                          isLoading
-                                                        );
-                                                        // CreateBooking(id);
-                                                        await Future.wait(CreateBooking(id)) ;
-                                                      }finally{
-
-                                                      }
-
-
+                                                    try {
+                                                      FocusManager
+                                                          .instance.primaryFocus
+                                                          ?.unfocus();
+                                                      bookingDetails
+                                                          .bookingDetails(
+                                                              context,
+                                                              snapshot,
+                                                              data.docs,
+                                                              // "",
+                                                              data.docs[
+                                                                      snapshot]
+                                                                  ['title'],
+                                                              widget.gymName,
+                                                              widget
+                                                                  .gymLocation,
+                                                              id,
+                                                              widget.getFinalID,
+                                                              widget.doc,
+                                                              data.docs[
+                                                                      snapshot][
+                                                                  'description'],
+                                                              widget.branch,
+                                                              isLoading);
+                                                      // CreateBooking(id);
+                                                      await Future.wait(
+                                                          CreateBooking(id));
+                                                    } finally {}
                                                   },
                                                   color: HexColor("292F3D"),
                                                   shape: RoundedRectangleBorder(
@@ -553,21 +561,21 @@ class _PackegesState extends State<Packeges> {
                     StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection("category")
-                            .where("name", whereNotIn: ["gym","Gym","GYM"])
+                            .where("name", whereNotIn: ["gym", "Gym", "GYM"])
                             // .where("status", isEqualTo: true)
                             // .orderBy("index")
                             .snapshots(),
                         builder: (context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return  Center(
+                            return Center(
                               child: Container(),
                             );
                           }
                           var docs = snapshot.data.docs;
-                          var doc=[];
-                          docs.forEach((e){
-                            if ( widget.doc["service"].contains(e.get("name") ) ){
+                          var doc = [];
+                          docs.forEach((e) {
+                            if (widget.doc["service"].contains(e.get("name"))) {
                               doc.add(e);
                             }
 
@@ -601,7 +609,6 @@ class _PackegesState extends State<Packeges> {
                                       const SizedBox(
                                         height: 0,
                                       ),
-
                                     ],
                                   ),
                                 );

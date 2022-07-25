@@ -8,7 +8,6 @@ import 'package:vyam_2_final/api/api.dart';
 
 import 'package:vyam_2_final/golbal_variables.dart';
 
-
 class CouponDetails extends StatefulWidget {
   final cartValue;
   final String type;
@@ -40,7 +39,6 @@ class _CouponDetailsState extends State<CouponDetails> {
   @override
   void initState() {
     coupon_list.clear();
-    print(widget.type.toLowerCase());
     super.initState();
   }
 
@@ -48,8 +46,6 @@ class _CouponDetailsState extends State<CouponDetails> {
   void dispose() {
     // TODO: implement dispose
     // myCouponController.dispose();
-    print("++++++++++d899999999999999999++++++++++++++++++++ ${widget.type}");
-    print([ Get.find<GlobalUserData>().userData.value["userId"]]);
     couponController.dispose();
     super.dispose();
   }
@@ -67,8 +63,6 @@ class _CouponDetailsState extends State<CouponDetails> {
             CouponDetailsMap = coupon_list[coupon];
             GlobalCouponApplied = true;
           });
-        print(GlobalCoupon);
-        print(CouponDetailsMap);
         return true;
       },
       child: Scaffold(
@@ -122,7 +116,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                             coupon = await couponController.text
                                 .trim()
                                 .toLowerCase();
-                            print(coupon);
 
                             if (coupon_list.containsKey(coupon)) {
                               coupon_applied = true;
@@ -265,10 +258,7 @@ class _CouponDetailsState extends State<CouponDetails> {
                     //     "pay per session") {}
 
                     couponDoc = snapshot.data.docs;
-                    print(couponDoc);
                     var list = [];
-
-                    print('...<<<<<>>>>>>$list');
 
                     if (documents.isEmpty) {
                       return Center(
@@ -303,7 +293,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                                   "coupon_id":
                                       documents[index]["coupon_id"].toString()
                                 });
-                                print('//fjjfjwjfiji$coupon_list');
                                 // if(  documents[index]["gym_id"].toList().)
                                 return SafeArea(
                                   child: Stack(
@@ -564,7 +553,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                                 .toString()) /
                                                             100))
                                                     .toInt();
-                                                print(dex);
                                                 if (dex >=
                                                     int.parse(documents[index]
                                                             ['max_dis']
@@ -595,9 +583,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                           ['discount'];
                                                   GlobalCouponApplied = true;
                                                 });
-                                                print(GlobalCoupon);
-                                                print(GlobalCouponApplied);
-                                                print(CouponDetailsMap);
                                                 Get.back();
                                                 // Navigator.of(context).pop([GlobalCoupon,CouponDetailsMap,GlobalCouponApplied]);
                                                 // Get.off(()=>const PaymentScreen(),arguments: getData);
@@ -697,7 +682,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                 int dex = int.parse(
                                                     documents[index]['discount']
                                                         .toString());
-                                                print(dex);
                                                 // if(dex >= int.parse(documents[index]['max_dis'].toString())){
                                                 //   myCouponController.CouponDetailsMap.value= documents[index]['max_dis'];
                                                 // }if(dex < int.parse(documents[index]['max_dis'].toString())){
@@ -714,9 +698,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                                                           ['discount'];
                                                   GlobalCouponApplied = true;
                                                 });
-                                                print(GlobalCoupon);
-                                                print(GlobalCouponApplied);
-                                                print(CouponDetailsMap);
                                                 Get.back();
                                                 // Navigator.of(context).pop([GlobalCoupon,CouponDetailsMap,GlobalCouponApplied]);
                                                 // Get.off(()=>const PaymentScreen(),arguments: getData);
@@ -911,8 +892,6 @@ class _CouponDetailsState extends State<CouponDetails> {
                         ),
                       ),
                     );
-
-
                   }),
             ],
           ),

@@ -1,4 +1,3 @@
-
 import 'dart:math';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -18,12 +17,15 @@ import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import '../api/api.dart';
 
- AndroidNotificationChannel? channel;
- FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
+AndroidNotificationChannel? channel;
+FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
+
 class PaymentScreen extends StatefulWidget {
   final endDate;
   final booking_id;
-  const PaymentScreen({Key? key, required this.endDate, required this.booking_id}) : super(key: key);
+  const PaymentScreen(
+      {Key? key, required this.endDate, required this.booking_id})
+      : super(key: key);
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -52,17 +54,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final ven_id = Get.arguments["vendorId"];
   final ven_name = Get.arguments["gymName"];
   final branch = Get.arguments["branch"];
-  bool simpl=false;
+  bool simpl = false;
   getSimpl() async {
-    try{
-      await FirebaseFirestore.instance.collection("simpl").doc("simpl").snapshots().listen((event) {
-        simpl=event["eligable"];
+    try {
+      await FirebaseFirestore.instance
+          .collection("simpl")
+          .doc("simpl")
+          .snapshots()
+          .listen((event) {
+        simpl = event["eligable"];
       });
-    }catch(e){
-      simpl=false;
+    } catch (e) {
+      simpl = false;
     }
-
   }
+
   showNotification(String title, String info) async {
     // setState(() {
     //   _counter++;
@@ -95,7 +101,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
       setState(() {
         discount = total_discount;
       });
-      print(discount);
 
       totalDiscount = ((price * discount) / 100).round();
       taxPay = ((price * gstTax) / 100).round();
@@ -114,12 +119,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
     });
   }
 
-
   @override
   void initState() {
     // print("//////////");
     getSimpl();
-    print(widget.booking_id);
     // print(
     //   getData['totalMonths'],
     // );
@@ -144,30 +147,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
     super.dispose();
     _razorpay.clear();
   }
-check_simpl()async{
 
-  var response2 = await http.get(
-    Uri.parse( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction_by_order_id/${widget.booking_id}/status',),
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':'18c8e9a52d818f865cd0f7df2a254dc3'
-    },
-    // body: jsonEncode(obj)
-  );
-  print(response2.body);
-  print(response2.statusCode);
-  print("success");
-  print("+++++++++++++++++++++++++++++++");
-  if(response2.statusCode==200){
-    print("success");
-    print("+++++++++++++++++++++++++++++++");
-  }
-  var decodedResponse = jsonDecode(utf8.decode(response2.bodyBytes)) as Map;
-  var uri = Uri.parse(decodedResponse['data']["status"] );
-  print(decodedResponse);
-  print(uri);
-  if (uri.toString().toLowerCase()=="success")
-    {
+  check_simpl() async {
+    var response2 = await http.get(
+      Uri.parse(
+        'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction_by_order_id/${widget.booking_id}/status',
+      ),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': '18c8e9a52d818f865cd0f7df2a254dc3'
+      },
+      // body: jsonEncode(obj)
+    );
+    var decodedResponse = jsonDecode(utf8.decode(response2.bodyBytes)) as Map;
+    var uri = Uri.parse(decodedResponse['data']["status"]);
+    if (uri.toString().toLowerCase() == "success") {
       try {
         var x = Random().nextInt(9999);
         if (x < 1000) {
@@ -179,63 +173,63 @@ check_simpl()async{
         await FirebaseFirestore.instance
             .collection("bookings")
             .where("booking_status".toLowerCase(),
-            whereIn: ["completed", "active", "upcoming", "cancelled"])
+                whereIn: ["completed", "active", "upcoming", "cancelled"])
             .get()
             .then((value) async {
-          if (value.docs.isNotEmpty) {
-            booking_iiid = await value.docs.length + 186;
-          }
-        })
+              if (value.docs.isNotEmpty) {
+                booking_iiid = await value.docs.length + 186;
+              }
+            })
             .then((value) async {
-          await FirebaseFirestore.instance
-              .collection("bookings")
-              .doc(widget.booking_id)
-              .update({
-            "otp_pass": x.toString(),
-            "booking_status": "upcoming",
-            "payment_done": true,
-            "payment_method": "online",
-            "id": booking_iiid
-          });
-        })
+              await FirebaseFirestore.instance
+                  .collection("bookings")
+                  .doc(widget.booking_id)
+                  .update({
+                "otp_pass": x.toString(),
+                "booking_status": "upcoming",
+                "payment_done": true,
+                "payment_method": "online",
+                "id": booking_iiid
+              });
+            })
             .then((value) async => {
-
-                Get.offAll(() => SuccessBook(branch: branch, ven_name: ven_name, ven_id: ven_id, booking_id: widget.booking_id,), arguments: {
-            "otp_pass": x,
-            "booking_details": widget.booking_id
-          }),
-
-           await showNotification("Booking successful for " + ven_name,
-                "Share OTP at the center to start."),
-
-          await FirebaseFirestore.instance
-              .collection("coupon")
-              .doc(myCouponController.coupon_id.value)
-              .collection("used_by")
-              .doc()
-              .set({
-            "user":  Get.find<GlobalUserData>().userData.value["userId"],
-            "user_name":  Get.find<GlobalUserData>().userData.value["name"],
-            "vendor_id": gymData["gym_id"]
-          }),
-        });
+                  Get.offAll(
+                      () => SuccessBook(
+                            branch: branch,
+                            ven_name: ven_name,
+                            ven_id: ven_id,
+                            booking_id: widget.booking_id,
+                          ),
+                      arguments: {
+                        "otp_pass": x,
+                        "booking_details": widget.booking_id
+                      }),
+                  await showNotification("Booking successful for " + ven_name,
+                      "Share OTP at the center to start."),
+                  await FirebaseFirestore.instance
+                      .collection("coupon")
+                      .doc(myCouponController.coupon_id.value)
+                      .collection("used_by")
+                      .doc()
+                      .set({
+                    "user": Get.find<GlobalUserData>().userData.value["userId"],
+                    "user_name":
+                        Get.find<GlobalUserData>().userData.value["name"],
+                    "vendor_id": gymData["gym_id"]
+                  }),
+                });
 
         // :await showNotification("Booking Status You","Booking Unsuccessful");
 
         // booking_dCachetails["id"]!=null?
 
       } catch (e) {}
-    }else{
-
-  showDialog(
-    context: context,
-    builder: (context) =>
-        AlertDialog(
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
           shape: const RoundedRectangleBorder(
-              borderRadius:
-              BorderRadius.all(
-                  Radius.circular(
-                      16))),
+              borderRadius: BorderRadius.all(Radius.circular(16))),
           content: SizedBox(
             height: 200,
             width: 100,
@@ -243,12 +237,8 @@ check_simpl()async{
               children: [
                 Center(
                   child: Column(
-                      crossAxisAlignment:
-                      CrossAxisAlignment
-                          .center,
-                      mainAxisAlignment:
-                      MainAxisAlignment
-                          .center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
                           "assets/icons/x.gif",
@@ -261,27 +251,18 @@ check_simpl()async{
                         Text(
                           "something wrong",
                           style: const TextStyle(
-                              fontFamily:
-                              "Poppins",
-                              fontSize:
-                              16,
-                              fontWeight:
-                              FontWeight.w600),
+                              fontFamily: "Poppins",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
                         ),
-                        const SizedBox(
-                            height:
-                            6),
+                        const SizedBox(height: 6),
                         Text(
                           "try again",
                           style: const TextStyle(
-                              fontFamily:
-                              "Poppins",
-                              fontSize:
-                              16,
-                              color: Colors
-                                  .red,
-                              fontWeight:
-                              FontWeight.w600),
+                              fontFamily: "Poppins",
+                              fontSize: 16,
+                              color: Colors.red,
+                              fontWeight: FontWeight.w600),
                         ),
                       ]),
                 ),
@@ -290,14 +271,11 @@ check_simpl()async{
                     right: 0,
                     child: InkWell(
                       onTap: () {
-                        Navigator.pop(
-                            context);
+                        Navigator.pop(context);
                       },
                       child: Icon(
-                        Icons
-                            .cancel_outlined,
-                        color: Colors
-                            .black87,
+                        Icons.cancel_outlined,
+                        color: Colors.black87,
                         size: 20,
                       ),
                     )),
@@ -305,12 +283,9 @@ check_simpl()async{
             ),
           ),
         ),
-  );
+      );
+    }
   }
-
-}
-
-
 
   makeSure() async {
     showDialog(
@@ -386,51 +361,63 @@ check_simpl()async{
                                 isLoading = false;
                               });
                               int? booking_iiid;
-                              await showNotification("Booking successful for " + ven_name,
+                              await showNotification(
+                                  "Booking successful for " + ven_name,
                                   "Share OTP at the center to start.");
                               await FirebaseFirestore.instance
                                   .collection("bookings")
                                   .where("booking_status".toLowerCase(),
-                                  whereIn: [
-                                    "completed",
-                                    "active",
-                                    "upcoming",
-                                    "cancelled"
-                                  ])
+                                      whereIn: [
+                                        "completed",
+                                        "active",
+                                        "upcoming",
+                                        "cancelled"
+                                      ])
                                   .get()
                                   .then((value) async {
-                                Get.offAll(() => SuccessBook(branch: branch, ven_name: ven_name, ven_id: ven_id, booking_id: widget.booking_id,), arguments: {
-                                  "otp_pass": x,
-                                  "booking_details": widget.booking_id
-                                });
-                                if (value.docs.isNotEmpty) {
-                                  booking_iiid =
-                                      await value.docs.length + 200;
-                                }
-                              })
+                                    Get.offAll(
+                                        () => SuccessBook(
+                                              branch: branch,
+                                              ven_name: ven_name,
+                                              ven_id: ven_id,
+                                              booking_id: widget.booking_id,
+                                            ),
+                                        arguments: {
+                                          "otp_pass": x,
+                                          "booking_details": widget.booking_id
+                                        });
+                                    if (value.docs.isNotEmpty) {
+                                      booking_iiid =
+                                          await value.docs.length + 200;
+                                    }
+                                  })
                                   .then((value) async {
-                                await FirebaseFirestore.instance
-                                    .collection("bookings")
-                                    .doc(widget.booking_id)
-                                    .update({
-                                  "otp_pass": x.toString(),
-                                  "booking_status": "upcoming",
-                                  "payment_done": false,
-                                  "id": booking_iiid
-                                });
-
-                              }).then((value) async {
-                                await FirebaseFirestore.instance
-                                    .collection("coupon")
-                                    .doc(myCouponController.coupon_id.value)
-                                    .collection("used_by")
-                                    .doc()
-                                    .set({
-                                  "user":  Get.find<GlobalUserData>().userData.value["userId"],
-                                  "user_name":  Get.find<GlobalUserData>().userData.value["name"],
-                                  "vendor_id": gymData["gym_id"]
-                                });
-                              });
+                                    await FirebaseFirestore.instance
+                                        .collection("bookings")
+                                        .doc(widget.booking_id)
+                                        .update({
+                                      "otp_pass": x.toString(),
+                                      "booking_status": "upcoming",
+                                      "payment_done": false,
+                                      "id": booking_iiid
+                                    });
+                                  })
+                                  .then((value) async {
+                                    await FirebaseFirestore.instance
+                                        .collection("coupon")
+                                        .doc(myCouponController.coupon_id.value)
+                                        .collection("used_by")
+                                        .doc()
+                                        .set({
+                                      "user": Get.find<GlobalUserData>()
+                                          .userData
+                                          .value["userId"],
+                                      "user_name": Get.find<GlobalUserData>()
+                                          .userData
+                                          .value["name"],
+                                      "vendor_id": gymData["gym_id"]
+                                    });
+                                  });
 
                               setState(() {
                                 isLoading = false;
@@ -479,68 +466,78 @@ check_simpl()async{
       ),
     );
   }
+
   _simplpay() async {
     // var client = http.Client();
-   var obj={
+    var obj = {
       "merchant_client_id": "8a54a9a0d2c99b86f81d23fff76e1537",
-      "transaction_status_redirection_url": "D:/applications/Vyam_2_the_project_dev/lib/payment/payment.dart",
+      "transaction_status_redirection_url":
+          "D:/applications/Vyam_2_the_project_dev/lib/payment/payment.dart",
       "transaction_status_webhook_url": "http://localhost/transac/webhook.php",
       "order_id": "${widget.booking_id.toString()}",
       "user": {
         "phone_number": number.toString().substring(3, number.length),
-        "email":  Get.find<GlobalUserData>().userData.value["email"].toString()
+        "email": Get.find<GlobalUserData>().userData.value["email"].toString()
       },
       "billing_address": {
-        "line1":  Get.find<GlobalUserData>().userData.value["address"].toString(),
-        "line2": Get.find<GlobalUserData>().userData.value["locality"].toString(),
-        "city": Get.find<GlobalUserData>().userData.value["subLocality"].toString(),
+        "line1":
+            Get.find<GlobalUserData>().userData.value["address"].toString(),
+        "line2":
+            Get.find<GlobalUserData>().userData.value["locality"].toString(),
+        "city":
+            Get.find<GlobalUserData>().userData.value["subLocality"].toString(),
         "state": "West Bangal",
         "country": "India",
-        "pincode": Get.find<GlobalUserData>().userData.value["pincode"].toString()
+        "pincode":
+            Get.find<GlobalUserData>().userData.value["pincode"].toString()
       },
       "items": [
-        {
-          "sku": "1",
-          "quantity": "1",
-          "rate_per_item": "1200"
-        }
+        {"sku": "1", "quantity": "1", "rate_per_item": "1200"}
       ],
-      "amount_in_paise":  (myCouponController.GlobalCouponApplied.value
-          ? (grandTotal -
-          int.parse(myCouponController.CouponDetailsMap.value))
-          : grandTotal) *
+      "amount_in_paise": (myCouponController.GlobalCouponApplied.value
+              ? (grandTotal -
+                  int.parse(myCouponController.CouponDetailsMap.value))
+              : grandTotal) *
           100,
     };
 
     try {
       var response = await http.post(
-          Uri.parse( 'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction/initiate',),
-          headers:{
-            'Content-Type':'application/json',
-            'Authorization':'18c8e9a52d818f865cd0f7df2a254dc3'
+          Uri.parse(
+            'https://sandbox-splitpay-api.getsimpl.com/api/v1/transaction/initiate',
+          ),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': '18c8e9a52d818f865cd0f7df2a254dc3'
           },
-          body: jsonEncode(obj)
-      );
-
-      print(response.body);
-      print(response.statusCode);
-      if(response.statusCode==200){
-
+          body: jsonEncode(obj));
+      if (response.statusCode == 200) {
         Navigator.of(context).pop();
-        Get.to(()=>simpl_pay(check_simpl: check_simpl, gymData: gymData, myCouponController: myCouponController, booking_id: widget.booking_id, grandTotal: grandTotal, getData: getData, totalDiscount: totalDiscount, simpl: simpl,),duration: Duration(milliseconds: 500));
+        Get.to(
+            () => simpl_pay(
+                  check_simpl: check_simpl,
+                  gymData: gymData,
+                  myCouponController: myCouponController,
+                  booking_id: widget.booking_id,
+                  grandTotal: grandTotal,
+                  getData: getData,
+                  totalDiscount: totalDiscount,
+                  simpl: simpl,
+                ),
+            duration: Duration(milliseconds: 500));
         // _bottomsheet2(context);
         // print("success");
-        var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes)) ;
-        print(decodedResponse["data"]["redirection_url"]);
+        var decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
 
-        var uri = Uri.parse(decodedResponse["data"]["redirection_url"] );
+        var uri = Uri.parse(decodedResponse["data"]["redirection_url"]);
         //
         if (await canLaunch(uri.toString())) {
-          await launch(uri.toString(),
-          forceSafariVC: true,
+          await launch(
+            uri.toString(),
+            forceSafariVC: true,
             forceWebView: true,
             enableJavaScript: true,
-          //   //   // universalLinksOnly:true
+            //   //   // universalLinksOnly:true
             // webOnlyWindowName:"/login"
           );
           return;
@@ -586,7 +583,7 @@ check_simpl()async{
 
       'prefill': {
         'contact': number.toString().substring(3, number.length),
-        'email':  Get.find<GlobalUserData>().userData.value["email"].toString()
+        'email': Get.find<GlobalUserData>().userData.value["email"].toString()
       },
 
       // 'prefill': {
@@ -636,10 +633,17 @@ check_simpl()async{
             }
           })
           .then((value) async {
-        Get.offAll(() => SuccessBook(branch: branch, ven_name: ven_name, ven_id: ven_id, booking_id: widget.booking_id,), arguments: {
-          "otp_pass": x,
-          "booking_details": widget.booking_id
-        });
+            Get.offAll(
+                () => SuccessBook(
+                      branch: branch,
+                      ven_name: ven_name,
+                      ven_id: ven_id,
+                      booking_id: widget.booking_id,
+                    ),
+                arguments: {
+                  "otp_pass": x,
+                  "booking_details": widget.booking_id
+                });
 
             await FirebaseFirestore.instance
                 .collection("bookings")
@@ -651,20 +655,19 @@ check_simpl()async{
               "payment_method": "online",
               "id": booking_iiid
             });
-
-
-      }).then((value) async {
-        await FirebaseFirestore.instance
-            .collection("coupon")
-            .doc(myCouponController.coupon_id.value)
-            .collection("used_by")
-            .doc()
-            .set({
-          "user":  Get.find<GlobalUserData>().userData.value["userId"],
-          "user_name":  Get.find<GlobalUserData>().userData.value["name"],
-          "vendor_id": gymData["gym_id"]
-        });
-      });
+          })
+          .then((value) async {
+            await FirebaseFirestore.instance
+                .collection("coupon")
+                .doc(myCouponController.coupon_id.value)
+                .collection("used_by")
+                .doc()
+                .set({
+              "user": Get.find<GlobalUserData>().userData.value["userId"],
+              "user_name": Get.find<GlobalUserData>().userData.value["name"],
+              "vendor_id": gymData["gym_id"]
+            });
+          });
 
       // :await showNotification("Booking Status You","Booking Unsuccessful");
 
@@ -677,25 +680,12 @@ check_simpl()async{
     // ignore: avoid_print
     // print(PaymentFailureResponse);
     // Get.off(PaymentScreen());
-    print(response.code);
-    print(response.message);
-    print("payment faild");
     Get.back();
-
-
-    print("Failed");
-    print("//////////////////////////////////////////////////////////////");
-    print("Failure Handleeerr");
   }
 
   Future<void> _handleExternalWallet(ExternalWalletResponse response) async {
     // ignore: avoid_print
     // Get.to(()=>PaymentScreen());
-    print("////////////////////////////////////////");
-    print(response.walletName);
-    print("////////////////////////////////////////");
-
-    print("////////////////////////////////////////");
 
     if (response.walletName == null) {
       Get.back();
@@ -783,7 +773,7 @@ check_simpl()async{
           "status": "upcoming",
           // "payment_done": false,
           "user_id": number.toString(),
-          "user_name":  Get.find<GlobalUserData>().userData.value["name"],
+          "user_name": Get.find<GlobalUserData>().userData.value["name"],
           "vendor_id": ven_id,
           "vendor_name": ven_name,
           "time_stamp": DateTime.now(),
@@ -791,10 +781,14 @@ check_simpl()async{
           "seen": false,
           "branch": branch
         }).then((value) async {
-          Get.offAll(() => SuccessBook(branch: branch, ven_name: ven_name, ven_id: ven_id, booking_id: widget.booking_id,), arguments: {
-            "otp_pass": x,
-            "booking_details": widget.booking_id
-          });
+          Get.offAll(
+              () => SuccessBook(
+                    branch: branch,
+                    ven_name: ven_name,
+                    ven_id: ven_id,
+                    booking_id: widget.booking_id,
+                  ),
+              arguments: {"otp_pass": x, "booking_details": widget.booking_id});
           if (myCouponController.GlobalCouponApplied.value == true) {
             await FirebaseFirestore.instance
                 .collection("coupon")
@@ -802,25 +796,21 @@ check_simpl()async{
                 .collection("used_by")
                 .doc()
                 .set({
-              "user":  Get.find<GlobalUserData>().userData.value["userId"],
-              "user_name":  Get.find<GlobalUserData>().userData.value["name"],
+              "user": Get.find<GlobalUserData>().userData.value["userId"],
+              "user_name": Get.find<GlobalUserData>().userData.value["name"],
               "vendor_id": gymData["gym_id"]
             });
           }
         });
 
-
-    await (showNotification("Booking successful for " + ven_name, "Share OTP at the center to start."));
+        await (showNotification("Booking successful for " + ven_name,
+            "Share OTP at the center to start."));
         // :await showNotification("Booking Status You","Booking Unsuccessful");
 
         // booking_dCachetails["id"]!=null?
 
       } catch (e) {}
     }
-
-    print("Wallet");
-    print("//////////////////////////////////////////////////////////////");
-    print("Failure Handleeerr");
   }
 
   @override
@@ -847,9 +837,7 @@ check_simpl()async{
               elevation: 0,
               backgroundColor: Colors.white,
               title: InkWell(
-                onTap: () {
-                  print(ven_name);
-                },
+                onTap: () {},
                 child: const Text(
                   // "Add Your Location Here",
                   "Booking Summary",
@@ -1273,9 +1261,7 @@ check_simpl()async{
                                       padding: const EdgeInsets.only(
                                           left: 0, top: 3),
                                       child: InkWell(
-                                        onTap: () {
-                                          print(months);
-                                        },
+                                        onTap: () {},
                                         child: Text(
                                           "Payment",
                                           textAlign: TextAlign.start,
@@ -1585,14 +1571,11 @@ check_simpl()async{
     // print(onlinePay);
   }
 
-
-
   OffPay() async {
     makeSure();
   }
 
-
-  String PAY="on";
+  String PAY = "on";
 
   _bottomsheet(BuildContext context) async {
     // var _width = MediaQuery.of(context).size.width;
@@ -1716,68 +1699,68 @@ check_simpl()async{
                     const SizedBox(
                       height: 10,
                     ),
-if(simpl)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: SizedBox(
-                        height: 60,
-                        child: GestureDetector(
-                          onTap: () {
-                            // if (gymData["cash_pay"] == true)
+                    if (simpl)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: SizedBox(
+                          height: 60,
+                          child: GestureDetector(
+                            onTap: () {
+                              // if (gymData["cash_pay"] == true)
                               setState(() {
                                 PAY = "simpl";
                               });
 
-                            // _PaymentScreenState();
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Row(children: [
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Image.asset(
-                                "assets/images/Simpl_Logo.png",
-                                width: 60,
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              if (simpl== true)
-                                const Text(
-                                  "Pay with Simpl",
-                                  style: TextStyle(
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14),
+                              // _PaymentScreenState();
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Row(children: [
+                                const SizedBox(
+                                  width: 10,
                                 ),
-                              if (simpl == true) const Spacer(),
-                              if (PAY == "simpl" ||
-                                  (gymData["online_pay"] == false &&
-                                      gymData["cash_pay"] == true))
-                                const Icon(
-                                  Icons.check,
-                                  color: Colors.black,
-                                  size: 15,
+                                Image.asset(
+                                  "assets/images/Simpl_Logo.png",
+                                  width: 60,
                                 ),
-                              if (simpl == false)
-                                const Text(
-                                  "Cash isn't available in this gym",
-                                  style: TextStyle(
-                                      fontFamily: "Poppins",
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12),
+                                const SizedBox(
+                                  width: 20,
                                 ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                            ]),
+                                if (simpl == true)
+                                  const Text(
+                                    "Pay with Simpl",
+                                    style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14),
+                                  ),
+                                if (simpl == true) const Spacer(),
+                                if (PAY == "simpl" ||
+                                    (gymData["online_pay"] == false &&
+                                        gymData["cash_pay"] == true))
+                                  const Icon(
+                                    Icons.check,
+                                    color: Colors.black,
+                                    size: 15,
+                                  ),
+                                if (simpl == false)
+                                  const Text(
+                                    "Cash isn't available in this gym",
+                                    style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12),
+                                  ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                              ]),
+                            ),
                           ),
                         ),
                       ),
-                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -1963,38 +1946,35 @@ if(simpl)
                                   color: Colors.white),
                             ),
                             onPressed: () async {
-                              print('hhhhhhhhhhhhhh${widget.booking_id}');
                               await FirebaseFirestore.instance
                                   .collection("bookings")
                                   .doc(widget.booking_id)
                                   .update({
                                 "discount":
-                                myCouponController.GlobalCouponApplied.value
-                                    ? (int.parse(myCouponController
-                                    .CouponDetailsMap.value))
-                                    : totalDiscount,
+                                    myCouponController.GlobalCouponApplied.value
+                                        ? (int.parse(myCouponController
+                                            .CouponDetailsMap.value))
+                                        : totalDiscount,
                                 "grand_total":
-                                myCouponController.GlobalCouponApplied.value
-                                    ? (grandTotal -
-                                    int.parse(myCouponController
-                                        .CouponDetailsMap.value))
-                                    .toString()
-                                    : grandTotal.toString(),
+                                    myCouponController.GlobalCouponApplied.value
+                                        ? (grandTotal -
+                                                int.parse(myCouponController
+                                                    .CouponDetailsMap.value))
+                                            .toString()
+                                        : grandTotal.toString(),
                                 "tax_pay": taxPay,
                                 "booking_status": "incomplete",
-                              }).then((value){
-                                if(PAY=="simpl"){
+                              }).then((value) {
+                                if (PAY == "simpl") {
                                   _simplpay();
                                 }
-                                if(PAY=="on"){
+                                if (PAY == "on") {
                                   Pay();
                                 }
-                                if(PAY=="off"){
+                                if (PAY == "off") {
                                   OffPay();
                                 }
                               });
-
-
                             }),
                       ),
                     ),
@@ -2094,8 +2074,8 @@ class DetailBox extends StatelessWidget {
       ),
     );
   }
-
 }
+
 class simpl_pay extends StatelessWidget {
   final Function check_simpl;
   final gymData;
@@ -2105,15 +2085,22 @@ class simpl_pay extends StatelessWidget {
   final getData;
   final totalDiscount;
   final simpl;
-  const simpl_pay({Key? key,required this.check_simpl,required this.gymData,required this.myCouponController,required this.booking_id,
-    required this.grandTotal,required this.getData,required this.totalDiscount,required this.simpl}) : super(key: key);
+  const simpl_pay(
+      {Key? key,
+      required this.check_simpl,
+      required this.gymData,
+      required this.myCouponController,
+      required this.booking_id,
+      required this.grandTotal,
+      required this.getData,
+      required this.totalDiscount,
+      required this.simpl})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print(simpl);
-    print("+++++++++++++++++qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
     return WillPopScope(
-      onWillPop: ()async {
+      onWillPop: () async {
         await check_simpl();
         Future.delayed(Duration(milliseconds: 200));
         return true;
@@ -2123,7 +2110,7 @@ class simpl_pay extends StatelessWidget {
           elevation: 1,
           backgroundColor: Colors.white,
           centerTitle: true,
-          title:  Text(
+          title: Text(
             "Payment method Simpl",
             style: TextStyle(
                 fontFamily: "Poppins",
@@ -2140,253 +2127,251 @@ class simpl_pay extends StatelessWidget {
         ),
         body: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
-              return Container(
-                // height: 5,
-                // height: 600,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: Colors.grey[100],
-                    borderRadius: BorderRadius.circular(12)),
-                child: Column(
-                  children: [
-                    Spacer(),
-                    // SizedBox(
-                    //   height:MediaQuery.of(context).size.height*.4,
-                    // ),
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     Navigator.of(context).pop();
-                    //   },
-                    //   child: const Padding(
-                    //     padding: EdgeInsets.only(right: 8.0, top: 8),
-                    //     child: Align(
-                    //       alignment: Alignment.topRight,
-                    //       child: CircleAvatar(
-                    //         radius: 10.0,
-                    //         backgroundColor: Colors.grey,
-                    //         child: Icon(
-                    //           Icons.close,
-                    //           size: 16,
-                    //           color: Colors.white,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    // const
+          return Container(
+            // height: 5,
+            // height: 600,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(12)),
+            child: Column(
+              children: [
+                Spacer(),
+                // SizedBox(
+                //   height:MediaQuery.of(context).size.height*.4,
+                // ),
+                // GestureDetector(
+                //   onTap: () {
+                //     Navigator.of(context).pop();
+                //   },
+                //   child: const Padding(
+                //     padding: EdgeInsets.only(right: 8.0, top: 8),
+                //     child: Align(
+                //       alignment: Alignment.topRight,
+                //       child: CircleAvatar(
+                //         radius: 10.0,
+                //         backgroundColor: Colors.grey,
+                //         child: Icon(
+                //           Icons.close,
+                //           size: 16,
+                //           color: Colors.white,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                const SizedBox(
+                  height: 5,
+                ),
+                // const
 
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: SizedBox(
-                        height: 60,
-                        child: GestureDetector(
-                          onTap: () {
-                            if (gymData["cash_pay"] == true)
-                              setState(() {
-                                onlinePay = false;
-                              });
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: SizedBox(
+                    height: 60,
+                    child: GestureDetector(
+                      onTap: () {
+                        if (gymData["cash_pay"] == true)
+                          setState(() {
+                            onlinePay = false;
+                          });
 
-                            // _PaymentScreenState();
-                          },
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Row(children: [
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Image.asset(
-                                "assets/images/Simpl_Logo.png",
-                                width: 60,
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              if (gymData["cash_pay"] == true)
-                                const Text(
-                                  "Pay at gym",
-                                  style: TextStyle(
-                                      fontFamily: "Poppins",
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14),
-                                ),
-                              if (gymData["cash_pay"] == true) const Spacer(),
-                              if (onlinePay == false ||
-                                  (gymData["online_pay"] == false &&
-                                      gymData["cash_pay"] == true))
-                                const Icon(
-                                  Icons.check,
-                                  color: Colors.black,
-                                  size: 15,
-                                ),
-                              if (gymData["cash_pay"] == false)
-                                const Text(
-                                  "Cash isn't available in this gym",
-                                  style: TextStyle(
-                                      fontFamily: "Poppins",
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 12),
-                                ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                            ]),
+                        // _PaymentScreenState();
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Row(children: [
+                          const SizedBox(
+                            width: 10,
                           ),
-                        ),
+                          Image.asset(
+                            "assets/images/Simpl_Logo.png",
+                            width: 60,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          if (gymData["cash_pay"] == true)
+                            const Text(
+                              "Pay at gym",
+                              style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14),
+                            ),
+                          if (gymData["cash_pay"] == true) const Spacer(),
+                          if (onlinePay == false ||
+                              (gymData["online_pay"] == false &&
+                                  gymData["cash_pay"] == true))
+                            const Icon(
+                              Icons.check,
+                              color: Colors.black,
+                              size: 15,
+                            ),
+                          if (gymData["cash_pay"] == false)
+                            const Text(
+                              "Cash isn't available in this gym",
+                              style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12),
+                            ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                        ]),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
 
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: SizedBox(
-                        // height: 155,
-                        child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 8.0, top: 8, right: 8, bottom: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: SizedBox(
+                    // height: 155,
+                    child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 8.0, top: 8, right: 8, bottom: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Payment",
+                                style: GoogleFonts.poppins(
+                                    // fontFamily: "Poppins",
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18,
+                                    color: Colors.green),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
                                 children: [
                                   Text(
-                                    "Payment",
+                                    "Total amount",
                                     style: GoogleFonts.poppins(
-                                      // fontFamily: "Poppins",
+                                        // fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    "₹${getData["totalPrice"]}",
+                                    style: GoogleFonts.poppins(
                                         fontWeight: FontWeight.w700,
-                                        fontSize: 18,
-                                        color: Colors.green),
+                                        fontSize: 16),
                                   ),
                                   const SizedBox(
-                                    height: 10,
+                                    width: 6,
                                   ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Total amount",
-                                        style: GoogleFonts.poppins(
-                                          // fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "₹${getData["totalPrice"]}",
-                                        style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),
-                                      ),
-                                      const SizedBox(
-                                        width: 6,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Discount",
-                                        style: GoogleFonts.poppins(
-                                          // fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
-                                      ),
-                                      const Spacer(),
-                                      Obx(
-                                            () => Text(
-                                          "₹  ${myCouponController.GlobalCouponApplied.value ? myCouponController.CouponDetailsMap.value.toString() : totalDiscount.toString()}",
-                                          style: GoogleFonts.poppins(
-                                            // fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 7,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 7,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Grand Total",
-                                        style: GoogleFonts.poppins(
-                                            color: Colors.green,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "₹${myCouponController.GlobalCouponApplied.value ? (grandTotal - int.parse(myCouponController.CouponDetailsMap.value)) : grandTotal.toString()}",
-                                        style: GoogleFonts.poppins(
-                                            color: Colors.green,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 16),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                    ],
-                                  )
                                 ],
                               ),
-                            )),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width *.44,
-                          child: FloatingActionButton.extended(
-                              backgroundColor: Colors.green,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              label: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal:8.0),
-                                child: Text(
-                                  "Confirm Payment",
-                                  style: GoogleFonts.poppins(
-
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                      color: Colors.white),
-                                ),
+                              const SizedBox(
+                                height: 5,
                               ),
-                              onPressed: () async {
-                                print('hhhhhhhhhhhhhh${booking_id}');
-                                check_simpl();
-
-                              }),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    )
-                  ],
+                              Row(
+                                children: [
+                                  Text(
+                                    "Discount",
+                                    style: GoogleFonts.poppins(
+                                        // fontFamily: "Poppins",
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
+                                  ),
+                                  const Spacer(),
+                                  Obx(
+                                    () => Text(
+                                      "₹  ${myCouponController.GlobalCouponApplied.value ? myCouponController.CouponDetailsMap.value.toString() : totalDiscount.toString()}",
+                                      style: GoogleFonts.poppins(
+                                          // fontFamily: "Poppins",
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 7,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 7,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    "Grand Total",
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    "₹${myCouponController.GlobalCouponApplied.value ? (grandTotal - int.parse(myCouponController.CouponDetailsMap.value)) : grandTotal.toString()}",
+                                    style: GoogleFonts.poppins(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        )),
+                  ),
                 ),
-              );
-            }),
+                const SizedBox(
+                  height: 15,
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * .44,
+                      child: FloatingActionButton.extended(
+                          backgroundColor: Colors.green,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          label: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              "Confirm Payment",
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: Colors.white),
+                            ),
+                          ),
+                          onPressed: () async {
+                            check_simpl();
+                          }),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                )
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

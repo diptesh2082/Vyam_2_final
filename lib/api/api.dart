@@ -12,9 +12,7 @@ import 'package:vyam_2_final/authintication/phoneNumber.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import 'dart:math' show cos, sqrt, asin;
 
-
 import '../authintication/google_signin.dart';
-
 
 // ignore: prefer_typing_uninitialized_variables
 var visiting_flag = false;
@@ -69,12 +67,12 @@ class Need extends GetxController {
   var star5 = 0.0.obs;
   var review_number = 0.obs;
   RxString search = "".obs;
-  RxBool showSearch=false.obs;
+  RxBool showSearch = false.obs;
 }
 
 getInfo() async {
   await checkExist(number);
-  print(exist);
+  (exist);
   // return exist;
   // == false?Get.off(const LoginPage()):Get.off(()=>HomePage());
 }
@@ -83,7 +81,7 @@ getUserId() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var userId = sharedPreferences.getString("userId") ?? "";
   // number=user_Id;
-  // print(number);
+  // (number);
   return userId;
 }
 
@@ -112,9 +110,9 @@ setVisitingFlagFalse() async {
 getNumber() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   var finalNumber = sharedPreferences.getString("number");
-  print(finalNumber);
+  (finalNumber);
   number = finalNumber!;
-  print(number);
+  (number);
   // return number;
   // await UserApi.createNewUser();
 }
@@ -133,7 +131,7 @@ getAddress() async {
   var finalAddress = sharedPreferences.getString("pin");
   address2 = finalAddress.toString();
 
-  print(address2);
+  (address2);
 }
 // setVisitingFlag() async {
 //   SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -151,16 +149,16 @@ class UserDetails {
   List userData = [];
 
   Future getData() async {
-    // ignore: avoid_print
-    // print(number);
+    // ignore: avoid_
+    // (number);
     try {
       await collectionRef.doc(number).get().then((value) {
         userData.add(value.data());
         return userData;
       });
     } catch (e) {
-      // ignore: avoid_print
-      print(e.toString());
+      // ignore: avoid_
+      (e.toString());
     }
   }
 }
@@ -168,20 +166,18 @@ class UserDetails {
 class NotificationApi {
   final Stream<QuerySnapshot> getnotification = FirebaseFirestore.instance
       .collection("booking_notifications")
-      .orderBy("time_stamp",descending: true)
-  .where("user_id",isEqualTo: number)
+      .orderBy("time_stamp", descending: true)
+      .where("user_id", isEqualTo: number)
       .snapshots();
 
   Future clearNotificationList() async {
-    var remainderFirestore = FirebaseFirestore.instance
-        .collection("booking_notifications");
+    var remainderFirestore =
+        FirebaseFirestore.instance.collection("booking_notifications");
 
     try {
       await remainderFirestore.get().then((value) {
         for (DocumentSnapshot ds in value.docs) {
-          ds.reference.update({
-            "seen":true
-          });
+          ds.reference.update({"seen": true});
         }
       });
     } catch (e) {
@@ -212,8 +208,13 @@ class CouponApi {
 }
 
 class BannerApi {
-  Stream<QuerySnapshot> getBanner =
-      FirebaseFirestore.instance.collection('banner_details') .where("visible",isEqualTo: true).orderBy("position_id",).snapshots();
+  Stream<QuerySnapshot> getBanner = FirebaseFirestore.instance
+      .collection('banner_details')
+      .where("visible", isEqualTo: true)
+      .orderBy(
+        "position_id",
+      )
+      .snapshots();
 }
 
 class UpcomingApi {
@@ -221,7 +222,6 @@ class UpcomingApi {
       .collection('bookings')
       .where("userId", isEqualTo: number)
       .where("booking_status", isEqualTo: "upcoming")
-
       .orderBy("order_date", descending: true)
       .snapshots();
 }
@@ -261,7 +261,7 @@ class UserApi {
   // static const number = "";
   // String acc=number;
   static Future createNewUser() async {
-    print(number);
+    (number);
 
     try {
       final docUser =
@@ -289,7 +289,7 @@ class UserApi {
         ),
         "pincode": "",
         "locality": "",
-      "time_stamp":DateTime.now()
+        "time_stamp": DateTime.now()
         // "name": name,
       };
       await docUser.set(myJson);
@@ -373,21 +373,19 @@ Future<void> checkExistAcc(String docID) async {
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        // print('Document exists on the database');
+        // ('Document exists on the database');
         // setState(() {
         setVisitingFlag();
-        print(getVisitingFlag());
+        (getVisitingFlag());
         // });
         // user_data=documentSnapshot.data();
       } else {
         setVisitingFlagFalse();
-        print(getVisitingFlag());
       }
     });
   } catch (e) {
     // If any error
     setVisitingFlagFalse();
-    print(getVisitingFlag());
   }
 }
 
@@ -407,20 +405,17 @@ Future<void> checkExist(String docID) async {
         exist = true;
 
         setVisitingFlag();
-        print(getVisitingFlag());
         // return true;
         // });
         // user_data=documentSnapshot.data();
       } else {
         exist = false;
         setVisitingFlagFalse();
-        print(getVisitingFlag());
       }
     });
   } catch (e) {
     // If any error
     setVisitingFlagFalse();
-    print(getVisitingFlag());
     exist = false;
   }
 }
@@ -446,7 +441,6 @@ myLocation() async {
   // print(number);
 
   try {
-
     await FirebaseFirestore.instance
         .collection('user_details')
         .doc(number)
@@ -456,13 +450,11 @@ myLocation() async {
         // var userData = snapshot.data();
         Get.find<GlobalUserData>().userData.value = snapshot.data()!;
         // GlobalUserLocation = GlobalUserData["pincode"]??"Tap here to tap your location";
-
-        print(GlobalUserLocation);
         // user_data=documentSnapshot.data();
       }
     });
   } catch (e) {
-    Get.find<GlobalUserData>().userData.value= {
+    Get.find<GlobalUserData>().userData.value = {
       "pincode": "700091",
       "address": "Tap here to choose your location",
       "gender": ""
@@ -491,7 +483,6 @@ checkEmailExist(String email) async {
       if (snapshot.docs.isNotEmpty) {
         // print('Document exists on the database');
         String emailId = await snapshot.docs[0]["number"];
-        print(snapshot.docs[0].id);
         emailhai = await true;
         setNumber(emailId);
         await setUserId(emailId);
@@ -562,7 +553,6 @@ class GymAllApi {
 
   Stream<QuerySnapshot> getMaleGym = FirebaseFirestore.instance
       .collection("product_details")
-
       .where("legit", isEqualTo: true)
 // >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
       .where("gender", isEqualTo: "male")
@@ -570,7 +560,6 @@ class GymAllApi {
       .snapshots();
   Stream<QuerySnapshot> getFemaleGym = FirebaseFirestore.instance
       .collection("product_details")
-
       .where("gender", whereIn: ["female", "unisex"])
       .where("legit", isEqualTo: true)
 // >>>>>>> 66154dc3e06a029c9d1c2a117b3c73dddb7ee373
@@ -578,13 +567,11 @@ class GymAllApi {
       .snapshots();
   Stream<QuerySnapshot> getUnisexGym = FirebaseFirestore.instance
       .collection("product_details")
-
       .where("gender", isEqualTo: "unisex")
       .where("legit", isEqualTo: true)
       .orderBy("location")
       .snapshots();
 }
-
 
 double calculateDistance(lat1, lon1, lat2, lon2) {
   var p = 0.017453292519943295;
@@ -635,7 +622,7 @@ Future<void> GetAddressFromLatLong(Position position) async {
   Placemark place = placemark[0];
 
   address =
-  "${place.subLocality ?? ""}, ${place.locality ?? ""},${place.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
+      "${place.subLocality ?? ""}, ${place.locality ?? ""},${place.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
   pin = "${place.postalCode}";
   locality = "${place.locality}";
   subLocality = "${place.subLocality}";
@@ -665,7 +652,6 @@ Future<void> GetAddressFromGeoPoint(GeoPoint position) async {
   pin = "${place.postalCode}";
   locality = "${place.locality}";
   subLocality = "${place.subLocality}";
-  print(pin);
 }
 
 getAddressPin(var pin) async {
@@ -684,9 +670,7 @@ getUserLocation() async {
 checkUserLocation(bool serviceEnabled, LocationPermission permission) async {
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {}
-
 }
-
 
 class TkInd extends GetxController {
   var current = 0.obs;
@@ -700,8 +684,6 @@ Future getDevicetoken() async {
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
     device_token = await _firebaseMessaging.getToken();
     // });
-
-    print("this is the token $device_token");
     return device_token;
   } catch (e) {
     print(e);

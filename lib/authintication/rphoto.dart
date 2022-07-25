@@ -46,33 +46,31 @@ class _Register4State extends State<Register4> {
   }
 
   final db = FirebaseFirestore.instance;
-  saveData(image)async {
+  saveData(image) async {
     // if (_globalKey.currentState!.validate()) {
-      try{
-        // _globalKey.currentState!.save();
-        final ref =  FirebaseStorage.instance.ref().child("user_images").child(number+".jpg");
-        await ref.putFile(File(image.path));
-        final url = await ref.getDownloadURL();
-        print(url);
-        await db.collection("user_details").doc(number).update({
-          "image": url
-        });
-        // setState(() {
-        //   imageUrl=url;
-        //   // isLoading=false;
-        // });
-      }catch (e){
-        print(e);
-        print("jjjjjjjjjjjj");
-        await db.collection("user_details").doc(number).update({
-          "image": ""
-        });
-      }
+    try {
+      // _globalKey.currentState!.save();
+      final ref = FirebaseStorage.instance
+          .ref()
+          .child("user_images")
+          .child(number + ".jpg");
+      await ref.putFile(File(image.path));
+      final url = await ref.getDownloadURL();
+      await db.collection("user_details").doc(number).update({"image": url});
+      // setState(() {
+      //   imageUrl=url;
+      //   // isLoading=false;
+      // });
+    } catch (e) {
+      print(e);
+      await db.collection("user_details").doc(number).update({"image": ""});
+    }
 
-      // print(imageUrl);
+    // print(imageUrl);
 
     // }
   }
+
   var image;
 
   @override
@@ -125,9 +123,7 @@ class _Register4State extends State<Register4> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         child: FloatingActionButton(
-            onPressed: ()  async {
-
-
+            onPressed: () async {
               Get.offAll(() => HomePage2());
               await saveData(image);
 
@@ -204,12 +200,9 @@ class _Register4State extends State<Register4> {
                     padding: const EdgeInsets.only(left: 12.0),
                     child: GestureDetector(
                       onTap: () async {
-                        image= await chooseImage();
+                        image = await chooseImage();
 
-                        setState(() {
-
-                        });
-
+                        setState(() {});
                       },
                       child: Stack(children: [
                         CircleAvatar(

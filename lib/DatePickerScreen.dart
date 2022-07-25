@@ -19,13 +19,15 @@ class DatePickerScreen extends StatefulWidget {
   final branch;
   const DatePickerScreen(
       {Key? key,
-        required  this.getGymName,
-        required this.getGymAddress,
-        required this.packageType,
-        required this.price,
-        required this.gymId,
-        required this.bookingId,
-        required this.months,required this.package_name,required this.branch})
+      required this.getGymName,
+      required this.getGymAddress,
+      required this.packageType,
+      required this.price,
+      required this.gymId,
+      required this.bookingId,
+      required this.months,
+      required this.package_name,
+      required this.branch})
       : super(key: key);
 
   @override
@@ -59,7 +61,6 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    print(widget.months);
     super.initState();
   }
 
@@ -223,12 +224,11 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
               ),
               Align(
                   // alignment: Alignment.bottomLeft,
-                  child: Text("Double tap to choose a single date",
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red
-                      ),
-                  ))
+                  child: Text(
+                "Double tap to choose a single date",
+                style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.bold, color: Colors.red),
+              ))
             ],
           ),
         ),
@@ -245,18 +245,17 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16)),
               onPressed: () async {
-                print(endDate.difference(startDate).inDays+1);
-                try{
+                try {
                   await FirebaseFirestore.instance
                       .collection("bookings")
                       .doc(widget.bookingId)
                       .update({
                     "booking_date": startDate,
                     "plan_end_duration": endDate,
-                    "totalDays": endDate.difference(startDate).inDays+1
+                    "totalDays": endDate.difference(startDate).inDays + 1
                   }).then((value) {
                     Get.to(
-                          () => PaymentScreen(
+                      () => PaymentScreen(
                         booking_id: widget.bookingId,
                         endDate: DateFormat("dd, MMM, yyyy").format(endDate),
                       ),
@@ -268,22 +267,23 @@ class _DatePickerScreenState extends State<DatePickerScreen> {
                         "totalPrice": widget.price *
                             (1 + endDate.difference(startDate).inDays),
                         "startDate":
-                        DateFormat("dd, MMM, yyyy").format(startDate),
-                        "endDate":endDate==DateTime.now()?DateTime(DateTime.now().day+1) :DateFormat("dd, MMM, yyyy").format(endDate),
+                            DateFormat("dd, MMM, yyyy").format(startDate),
+                        "endDate": endDate == DateTime.now()
+                            ? DateTime(DateTime.now().day + 1)
+                            : DateFormat("dd, MMM, yyyy").format(endDate),
                         "address": widget.getGymAddress,
                         "vendorId": widget.gymId,
                         // "booking_id": widget.bookingId,
                         "gym_details": Get.arguments["docs"],
-                        "totalDays": endDate.difference(startDate).inDays+1,
-                        "booking_plan":widget.package_name,
-                        "branch":widget.branch
+                        "totalDays": endDate.difference(startDate).inDays + 1,
+                        "booking_plan": widget.package_name,
+                        "branch": widget.branch
                       },
                     );
                   });
-                }catch(e){
+                } catch (e) {
                   Get.snackbar("Please", "select a date");
                 }
-
               },
               label: Text(
                 "Proceed",

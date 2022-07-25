@@ -11,7 +11,6 @@ import 'package:vyam_2_final/Home/profile/Contact_Us.dart';
 import 'package:vyam_2_final/api/api.dart';
 import 'package:vyam_2_final/api/maps_launcher_api.dart';
 
-
 class ActiveOrderDetails extends StatefulWidget {
   const ActiveOrderDetails({Key? key}) : super(key: key);
   // final index;
@@ -33,7 +32,6 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
     // getOderDetails = widget.orderList;
     // print(doc["doc"]["vendorId"]);
     // vendorData(gym_id);
-    print(booking_id);
     super.initState();
   }
 
@@ -308,7 +306,6 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                               onTap: () async {
                                                 var number =
                                                     (vendorDetails['number']);
-                                                print(number);
                                                 String telephoneUrl =
                                                     "tel:${number.toString()}";
                                                 if (await canLaunch(
@@ -357,8 +354,6 @@ class _ActiveOrderDetailsState extends State<ActiveOrderDetails> {
                                           const Spacer(),
                                           GestureDetector(
                                             onTap: () async {
-                                              print(vendorDetails['location']
-                                                  .latitude);
                                               await MapsLaucherApi().launchMaps(
                                                   vendorDetails['location']
                                                       .latitude,

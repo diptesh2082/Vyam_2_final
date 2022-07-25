@@ -1,13 +1,9 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-
-
 import 'package:get/get.dart';
-
 
 import 'gendergyms/gyms_gender.dart';
 
@@ -37,24 +33,22 @@ class _GymOptionState extends State<GymOption> {
   @override
   void initState() {
     // TODO: implement initState
-    print("/////////"+data);
     super.initState();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
-
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        backgroundColor:Color(0xffF5F5F5) ,
+        backgroundColor: Color(0xffF5F5F5),
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(
@@ -206,10 +200,22 @@ class _GymOptionState extends State<GymOption> {
         body: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              GymAll(type: data, catagory: ["unisex", "male","female"],),
-              GymAll(type: data, catagory: ["unisex", "male"],),
-              GymAll(type: data, catagory: ["unisex", "female"],),
-              GymAll(type: data, catagory: ["unisex"],),
+              GymAll(
+                type: data,
+                catagory: ["unisex", "male", "female"],
+              ),
+              GymAll(
+                type: data,
+                catagory: ["unisex", "male"],
+              ),
+              GymAll(
+                type: data,
+                catagory: ["unisex", "female"],
+              ),
+              GymAll(
+                type: data,
+                catagory: ["unisex"],
+              ),
               // GymMale(type: data),
               // GymFemale(
               //   type: data,

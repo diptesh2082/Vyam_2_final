@@ -67,13 +67,11 @@ class _OtpPage2State extends State<OtpPage2> {
         showLoading = false;
       });
       if (authCred.user != null) {
-        print(authCred.user);
         // await setNumber(_auth.currentUser!.email);
         // await setVisitingFlag();
         // await FirebaseFirestore.instance.collection("user_details").doc(number).update({
         //   "number":value[1]
         // });
-        print(userName);
         await getToHomePage(_auth.currentUser?.phoneNumber);
         setUserId(_auth.currentUser?.phoneNumber);
         setNumber(_auth.currentUser?.phoneNumber);
@@ -251,7 +249,6 @@ class _OtpPage2State extends State<OtpPage2> {
                               TextButton(
                                   onPressed: activateButton!
                                       ? () async {
-                                          print(widget.number);
                                           // print("+91${docId}");
                                           var _forceResendingToken;
                                           await _auth.verifyPhoneNumber(
@@ -271,8 +268,6 @@ class _OtpPage2State extends State<OtpPage2> {
                                                 Get.snackbar("Fail",
                                                     "${verificationFailed.message}");
                                                 // ignore: avoid_print
-                                                print(
-                                                    verificationFailed.message);
                                                 // setState(() {
                                                 //   showLoading = false;
                                                 // });
@@ -321,14 +316,11 @@ class _OtpPage2State extends State<OtpPage2> {
                             height: size.height / 17,
                             child: ElevatedButton(
                               onPressed: () async {
-                                print(getVisitingFlag());
                                 AuthCredential phoneAuthCredential =
                                     PhoneAuthProvider.credential(
                                   verificationId: widget.verificationID,
                                   smsCode: otpController.text,
                                 );
-                                print("/////////////// Below is the Token");
-                                print(phoneAuthCredential.asMap());
                                 signInWithPhoneAuthCred(phoneAuthCredential);
                                 // Get.toNamed(RegistrationPage.id);
                               },

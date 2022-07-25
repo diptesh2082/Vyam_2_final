@@ -1,10 +1,9 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Workouts extends StatelessWidget {
-   Workouts({Key? key, required this.workouts}) : super(key: key);
+  Workouts({Key? key, required this.workouts}) : super(key: key);
   final workouts;
 
   var documents;
@@ -31,8 +30,7 @@ class Workouts extends StatelessWidget {
               d.add(element["type"]);
             }
           });
-          print(d);
-          return documents.isNotEmpty ? workouts1(d,context) : SizedBox();
+          return documents.isNotEmpty ? workouts1(d, context) : SizedBox();
         },
       ),
     );

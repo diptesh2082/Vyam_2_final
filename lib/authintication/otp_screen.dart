@@ -27,10 +27,11 @@ class OtpPage extends StatefulWidget {
 
   OtpPage(
       {Key? key,
-        required this.verificationID,
-        required this.number,
-        required this.resendingToken,
-        required this.appSignature, this.credential})
+      required this.verificationID,
+      required this.number,
+      required this.resendingToken,
+      required this.appSignature,
+      this.credential})
       : super(key: key);
 
   @override
@@ -59,9 +60,7 @@ class _OtpPageState extends State<OtpPage> with CodeAutoFill {
     // await SmsAutoFill().unregisterListener();
     // listenForCode();
     await SmsAutoFill().listenForCode;
-    print("OTP listen Called");
   }
-
 
   void signInWithPhoneAuthCred(AuthCredential phoneAuthCredential) async {
     setState(() {
@@ -75,13 +74,11 @@ class _OtpPageState extends State<OtpPage> with CodeAutoFill {
         showLoading = false;
       });
       if (authCred.user != null) {
-
         await getToHomePage(_auth.currentUser?.phoneNumber);
         await setNumber(_auth.currentUser?.phoneNumber);
         await checkExist("${_auth.currentUser?.phoneNumber}")
             .then((value) async {
           await setUserId(_auth.currentUser?.phoneNumber);
-          print(visiting_flag);
           if (visiting_flag == true) {
             Get.offAll(HomePage2());
             // Navigator.pushReplacement(
@@ -115,9 +112,7 @@ class _OtpPageState extends State<OtpPage> with CodeAutoFill {
     }
   }
 
-  getVerified() async {
-
-  }
+  getVerified() async {}
 
   // var docId = Get.arguments[1];
   Future<void> checkExist(String docID) async {
@@ -129,7 +124,6 @@ class _OtpPageState extends State<OtpPage> with CodeAutoFill {
           .then((DocumentSnapshot documentSnapshot) async {
         if (documentSnapshot.exists) {
           setVisitingFlag();
-          print(getVisitingFlag());
           // });
           // user_data=documentSnapshot.data();
         } else {
@@ -148,7 +142,6 @@ class _OtpPageState extends State<OtpPage> with CodeAutoFill {
   void initState() {
     startTimer();
     listenOtp();
-    print(widget.credential);
     super.initState();
   }
 
@@ -167,7 +160,7 @@ class _OtpPageState extends State<OtpPage> with CodeAutoFill {
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
-          (Timer timer) {
+      (Timer timer) {
         if (_start == 0) {
           setState(() {
             activateButton = true;
@@ -204,261 +197,251 @@ class _OtpPageState extends State<OtpPage> with CodeAutoFill {
         backgroundColor: scaffoldColor,
         body: showLoading
             ? const Center(
-          child: CircularProgressIndicator(),
-        )
+                child: CircularProgressIndicator(),
+              )
             : SafeArea(
-            child: SingleChildScrollView(
-              child: Container(
-                  color: backgroundColor,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: size.height * .01,
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: size.height / 15),
-                            child: Image.asset(
-                              "assets/Illustrations/OTP1.png",
-                              height: size.height / 2.8,
-                              width: size.width / 1.7,
-                              fit: BoxFit.fitWidth,
+                child: SingleChildScrollView(
+                child: Container(
+                    color: backgroundColor,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: size.height * .01,
                             ),
-                          ),
-                          SizedBox(
-                            height: size.height / 70,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                right: 25.0, left: 25.0, top: 10),
-                            child: Text(
-                              "OTP Verification",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: size.width / 18,
-                                fontFamily: "Poppins",
-                                color: Colors.black,
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.w800,
-                                // fontStyle: FontStyle.italic
+                            Container(
+                              margin: EdgeInsets.only(top: size.height / 15),
+                              child: Image.asset(
+                                "assets/Illustrations/OTP1.png",
+                                height: size.height / 2.8,
+                                width: size.width / 1.7,
+                                fit: BoxFit.fitWidth,
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: size.height / 50,
-                          ),
-                          Text(//number settings
-                              "Enter the OTP sent to ${widget.number}"),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            height: size.height / 14.2,
-                            width: size.width / 1.15,
-                            // decoration: BoxDecoration(
-                            //   color: Colors.white,
-                            //   borderRadius: BorderRadius.circular(10),
-                            // ),
-                            child: PinFieldAutoFill(
-                              // decoration: Duration(milliseconds: 300),
-                              currentCode: codeValue,
-                              codeLength: 6,
-                              controller: otpController,
-                              onCodeChanged: (code) {
-                                print("onCodeChanged $code");
-                                print("onCodeChanged ${widget.appSignature}");
-                                setState(() {
-                                  codeValue = code.toString();
-                                });
-                              },
-                              onCodeSubmitted: (val) {
-                                print("onCodeSubmitted $val");
-                              },
+                            SizedBox(
+                              height: size.height / 70,
                             ),
-                          ),
-
-                          // Container(
-                          //   height: size.height / 14.2,
-                          //   width: size.width / 1.15,
-                          //   decoration: BoxDecoration(
-                          //     color: Colors.white,
-                          //     borderRadius: BorderRadius.circular(10),
-                          //   ),
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.center,
-                          //     children: [
-                          //       SizedBox(
-                          //         height: size.height / 15,
-                          //         width: size.width / 1.8,
-                          //         child: TextField(
-                          //           controller: otpController,
-                          //           style: const TextStyle(
-                          //               color: Colors.black,
-                          //               fontWeight: FontWeight.w800,
-                          //               fontSize: 20),
-                          //           textAlign: TextAlign.center,
-                          //           cursorHeight: 25,
-                          //           maxLength: 6,
-                          //           cursorColor: Colors.black,
-                          //           keyboardType: TextInputType.number,
-                          //           decoration: const InputDecoration(
-                          //             fillColor: Colors.white,
-                          //             border: UnderlineInputBorder(),
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-                          showError
-                              ? Text(
-                            "please input correct otp",
-                            style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.red),
-                          )
-                              : const SizedBox(),
-                          SizedBox(
-                            height: size.height / 15,
-                          ),
-                          Text(_start.toString()),
-                          Row(
-                            children: [
-                              Text(
-                                "Didn’t you receive the OTP? ",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  // color: Colors.red
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: activateButton!
-                                      ? () async {
-                                    var appSignatureID =
-                                    await SmsAutoFill()
-                                        .getAppSignature;
-                                    // setState(() {
-                                    //   showLoading = true;
-                                    // });
-                                    // Get.off(() =>
-                                    //     const OtpPage(),
-                                    //   // arguments: [
-                                    //     //         verificationID,
-                                    //     //         "+91${docId}",
-                                    //     //         resendingToken
-                                    //     //       ]
-                                    // );
-                                    print(widget.number);
-                                    // print("+91${docId}");
-
-                                    var _forceResendingToken;
-                                    _auth.verifyPhoneNumber(
-                                        timeout:
-                                        const Duration(seconds: 27),
-                                        forceResendingToken:
-                                        _forceResendingToken,
-                                        phoneNumber: widget.number,
-                                        verificationCompleted:
-                                            (phoneAuthCredential) async {
-                                          // setState(() {
-                                          //   showLoading = false;
-                                          // });
-                                        },
-                                        verificationFailed:
-                                            (verificationFailed) async {
-                                          Get.snackbar("Fail",
-                                              "${verificationFailed.message}");
-                                          // ignore: avoid_print
-                                          print(verificationFailed
-                                              .message);
-                                          // setState(() {
-                                          //   showLoading = false;
-                                          // });
-                                        },
-                                        codeSent: (verificationID,
-                                            resendingToken) async {
-                                          // setState(() {
-                                          //   showLoading = true;
-                                          // });
-                                          await Navigator.pushReplacement(
-                                              (context),
-                                              FadeRoute(
-                                                  page: OtpPage(
-                                                      appSignature:
-                                                      appSignatureID,
-                                                      verificationID:
-                                                      verificationID,
-                                                      number:
-                                                      widget.number,
-                                                      resendingToken:
-                                                      resendingToken)));
-
-                                          checkExist(widget.number);
-                                          // var resending_token =
-                                          //     resendingToken;
-                                        },
-                                        // Get.reload()
-                                        codeAutoRetrievalTimeout:
-                                            (verificationID) async {});
-                                    // print(
-                                    //     "Implement Function For starting Resend OTP Request");
-                                  }
-                                      : null,
-                                  child: Text(
-                                    "Resend OTP",
-                                    style: TextStyle(
-                                      color: activateButton!
-                                          ? Colors.orangeAccent
-                                          : Colors.grey[350],
-                                    ),
-                                  ))
-                            ],
-                          ),
-                          SizedBox(
-                            height: size.height / 15,
-                          ),
-                          SizedBox(
-                            width: size.width / 1.2,
-                            height: size.height / 17,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                print(getVisitingFlag());
-                                AuthCredential phoneAuthCredential =
-                                PhoneAuthProvider.credential(
-                                  verificationId: widget.verificationID,
-                                  smsCode: otpController.text,
-                                );
-                                print("/////////////// Below is the Token");
-                                print(phoneAuthCredential.asMap());
-                                signInWithPhoneAuthCred(phoneAuthCredential);
-                                // Get.toNamed(RegistrationPage.id);
-                              },
-                              child: const Text(
-                                "Verify",
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 25.0, left: 25.0, top: 10),
+                              child: Text(
+                                "OTP Verification",
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 17.5,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                                  fontSize: size.width / 18,
+                                  fontFamily: "Poppins",
+                                  color: Colors.black,
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.w800,
+                                  // fontStyle: FontStyle.italic
                                 ),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                  primary: buttonColor),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      ),
-                    ],
-                  )),
-            )),
+                            SizedBox(
+                              height: size.height / 50,
+                            ),
+                            Text(//number settings
+                                "Enter the OTP sent to ${widget.number}"),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              height: size.height / 14.2,
+                              width: size.width / 1.15,
+                              // decoration: BoxDecoration(
+                              //   color: Colors.white,
+                              //   borderRadius: BorderRadius.circular(10),
+                              // ),
+                              child: PinFieldAutoFill(
+                                // decoration: Duration(milliseconds: 300),
+                                currentCode: codeValue,
+                                codeLength: 6,
+                                controller: otpController,
+                                onCodeChanged: (code) {
+                                  setState(() {
+                                    codeValue = code.toString();
+                                  });
+                                },
+                                onCodeSubmitted: (val) {},
+                              ),
+                            ),
+
+                            // Container(
+                            //   height: size.height / 14.2,
+                            //   width: size.width / 1.15,
+                            //   decoration: BoxDecoration(
+                            //     color: Colors.white,
+                            //     borderRadius: BorderRadius.circular(10),
+                            //   ),
+                            //   child: Row(
+                            //     mainAxisAlignment: MainAxisAlignment.center,
+                            //     children: [
+                            //       SizedBox(
+                            //         height: size.height / 15,
+                            //         width: size.width / 1.8,
+                            //         child: TextField(
+                            //           controller: otpController,
+                            //           style: const TextStyle(
+                            //               color: Colors.black,
+                            //               fontWeight: FontWeight.w800,
+                            //               fontSize: 20),
+                            //           textAlign: TextAlign.center,
+                            //           cursorHeight: 25,
+                            //           maxLength: 6,
+                            //           cursorColor: Colors.black,
+                            //           keyboardType: TextInputType.number,
+                            //           decoration: const InputDecoration(
+                            //             fillColor: Colors.white,
+                            //             border: UnderlineInputBorder(),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                            showError
+                                ? Text(
+                                    "please input correct otp",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.red),
+                                  )
+                                : const SizedBox(),
+                            SizedBox(
+                              height: size.height / 15,
+                            ),
+                            Text(_start.toString()),
+                            Row(
+                              children: [
+                                Text(
+                                  "Didn’t you receive the OTP? ",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    // color: Colors.red
+                                  ),
+                                ),
+                                TextButton(
+                                    onPressed: activateButton!
+                                        ? () async {
+                                            var appSignatureID =
+                                                await SmsAutoFill()
+                                                    .getAppSignature;
+                                            // setState(() {
+                                            //   showLoading = true;
+                                            // });
+                                            // Get.off(() =>
+                                            //     const OtpPage(),
+                                            //   // arguments: [
+                                            //     //         verificationID,
+                                            //     //         "+91${docId}",
+                                            //     //         resendingToken
+                                            //     //       ]
+                                            // );
+                                            // print("+91${docId}");
+
+                                            var _forceResendingToken;
+                                            _auth.verifyPhoneNumber(
+                                                timeout:
+                                                    const Duration(seconds: 27),
+                                                forceResendingToken:
+                                                    _forceResendingToken,
+                                                phoneNumber: widget.number,
+                                                verificationCompleted:
+                                                    (phoneAuthCredential) async {
+                                                  // setState(() {
+                                                  //   showLoading = false;
+                                                  // });
+                                                },
+                                                verificationFailed:
+                                                    (verificationFailed) async {
+                                                  Get.snackbar("Fail",
+                                                      "${verificationFailed.message}");
+                                                  // ignore: avoid_print
+                                                  // setState(() {
+                                                  //   showLoading = false;
+                                                  // });
+                                                },
+                                                codeSent: (verificationID,
+                                                    resendingToken) async {
+                                                  // setState(() {
+                                                  //   showLoading = true;
+                                                  // });
+                                                  await Navigator.pushReplacement(
+                                                      (context),
+                                                      FadeRoute(
+                                                          page: OtpPage(
+                                                              appSignature:
+                                                                  appSignatureID,
+                                                              verificationID:
+                                                                  verificationID,
+                                                              number:
+                                                                  widget.number,
+                                                              resendingToken:
+                                                                  resendingToken)));
+
+                                                  checkExist(widget.number);
+                                                  // var resending_token =
+                                                  //     resendingToken;
+                                                },
+                                                // Get.reload()
+                                                codeAutoRetrievalTimeout:
+                                                    (verificationID) async {});
+                                            // print(
+                                            //     "Implement Function For starting Resend OTP Request");
+                                          }
+                                        : null,
+                                    child: Text(
+                                      "Resend OTP",
+                                      style: TextStyle(
+                                        color: activateButton!
+                                            ? Colors.orangeAccent
+                                            : Colors.grey[350],
+                                      ),
+                                    ))
+                              ],
+                            ),
+                            SizedBox(
+                              height: size.height / 15,
+                            ),
+                            SizedBox(
+                              width: size.width / 1.2,
+                              height: size.height / 17,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  AuthCredential phoneAuthCredential =
+                                      PhoneAuthProvider.credential(
+                                    verificationId: widget.verificationID,
+                                    smsCode: otpController.text,
+                                  );
+                                  signInWithPhoneAuthCred(phoneAuthCredential);
+                                  // Get.toNamed(RegistrationPage.id);
+                                },
+                                child: const Text(
+                                  "Verify",
+                                  style: TextStyle(
+                                    fontSize: 17.5,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                    primary: buttonColor),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+              )),
       ),
     );
   }
@@ -466,11 +449,6 @@ class _OtpPageState extends State<OtpPage> with CodeAutoFill {
   @override
   void codeUpdated() {
     // TODO: implement codeUpdated
-    print("update code");
-    setState(() {
-      print("code updated");
-    });
+    setState(() {});
   }
-
-
 }

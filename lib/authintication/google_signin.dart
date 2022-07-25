@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
@@ -9,6 +8,7 @@ import 'package:vyam_2_final/api/api.dart';
 var userName;
 var userEmail;
 var userPhoto;
+
 class FirebaseService {
   final context;
 
@@ -19,8 +19,8 @@ class FirebaseService {
     sharedPreferences.setString("number", number.toString());
     getNumber();
     // Get.offAll(() =>  HomePage());
-
   }
+
   // final G
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -35,17 +35,13 @@ class FirebaseService {
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
-      final authCread =await _auth.signInWithCredential(credential);
-      if (authCread.user !=null){
+      final authCread = await _auth.signInWithCredential(credential);
+      if (authCread.user != null) {
         // bool? visitingFlag=await getVisitingFlag();
 
-        final auth =  FirebaseAuth.instance;
-        print(auth.currentUser!.email);
-        userPhoto=await _auth.currentUser!.photoURL;
+        final auth = FirebaseAuth.instance;
+        userPhoto = await _auth.currentUser!.photoURL;
         await checkEmailExist("${authCread.user!.email}");
-        print(emailhai);
-        // print(vi);
-        print("///////////");
 
         // if (emailhai== true || visiting_flag==true){
         //    setNumber(emailId);

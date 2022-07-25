@@ -35,7 +35,6 @@ class _OrderDetailsState extends State<OrderDetails> {
     // getOderDetails = widget.orderList;
     // print(doc["doc"]["vendorId"]);
     vendorData(gym_id);
-    print(booking_id);
     super.initState();
   }
 
@@ -240,8 +239,6 @@ class _OrderDetailsState extends State<OrderDetails> {
                                         const Spacer(),
                                         GestureDetector(
                                           onTap: () async {
-                                            print(vendorDetails['location']
-                                                .latitude);
                                             await MapsLaucherApi().launchMaps(
                                                 vendorDetails['location']
                                                     .latitude,
@@ -316,7 +313,6 @@ class _OrderDetailsState extends State<OrderDetails> {
                                             onTap: () async {
                                               var number =
                                                   (vendorDetails['number']);
-                                              print(number);
                                               String telephoneUrl =
                                                   "tel:${number.toString()}";
                                               if (await canLaunch(
@@ -427,14 +423,17 @@ class _OrderDetailsState extends State<OrderDetails> {
                         Row(
                           children: [
                             Text(
-                              '${doc["doc"]['booking_plan'] == "pay per session" || int.parse(doc["doc"]['totalDays'].toString()) <30 ? doc["doc"]['booking_plan'] : "Package"}',
+                              '${doc["doc"]['booking_plan'] == "pay per session" || int.parse(doc["doc"]['totalDays'].toString()) < 30 ? doc["doc"]['booking_plan'] : "Package"}',
                               style: GoogleFonts.poppins(
                                   fontSize: 16, fontWeight: FontWeight.w400),
                             ),
                             const Spacer(),
                             Text(
                               // getOderDetails[widget.index]['workout']
-                              doc["doc"]['booking_plan'] == "pay per session" || int.parse(doc["doc"]['totalDays'].toString()) <30
+                              doc["doc"]['booking_plan'] == "pay per session" ||
+                                      int.parse(doc["doc"]['totalDays']
+                                              .toString()) <
+                                          30
                                   ? '${doc["doc"]['totalDays'].toString()} days'
                                   : doc["doc"]['booking_plan'],
 
@@ -632,7 +631,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 bookingId: booking_id,
                                 vendor_name: doc["doc"]['gym_details']["name"],
                                 id: doc["doc"]["id"],
-                            vendorId:gym_id, branch: doc["doc"]['gym_details']["branch"],
+                                vendorId: gym_id,
+                                branch: doc["doc"]['gym_details']["branch"],
                               ),
                           arguments: {"doc": Get.arguments["doc"]});
                       vendorData(booking_id);

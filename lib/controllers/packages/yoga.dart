@@ -7,8 +7,6 @@ import 'package:vyam_2_final/controllers/packages/bookingDetails.dart';
 import 'package:vyam_2_final/global_snackbar.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 
-
-
 class YogaList extends StatefulWidget {
   final getDocID;
   final gymLocation;
@@ -93,7 +91,7 @@ class _YogaListState extends State<YogaList> {
       // "gym_name": "",
       "vendorId": widget.getDocID,
       "userId": number,
-      "user_name":  Get.find<GlobalUserData>().userData.value["name"],
+      "user_name": Get.find<GlobalUserData>().userData.value["name"],
       "booking_accepted": false,
       "payment_done": false,
       "booking_plan": "",
@@ -122,11 +120,9 @@ class _YogaListState extends State<YogaList> {
       // },
     });
 
-
     setState(() {
       widget.isLoading = false;
     });
-    print(id);
     // FirebaseFirestore.instance
     //     .collection("bookings")
     //     .doc(id)
@@ -248,13 +244,15 @@ class _YogaListState extends State<YogaList> {
                                                           color: HexColor(
                                                               "49C000"))),
                                                   child: Text(
-                                                    data.docs[snapshot]["ptype"]==true?  data.docs[snapshot]
-                                                    [
-                                                    'discount'] +
-                                                        "% off": data.docs[snapshot]
-                                                    [
-                                                    'discount'] +
-                                                        " Rs off",
+                                                    data.docs[snapshot]
+                                                                ["ptype"] ==
+                                                            true
+                                                        ? data.docs[snapshot]
+                                                                ['discount'] +
+                                                            "% off"
+                                                        : data.docs[snapshot]
+                                                                ['discount'] +
+                                                            " Rs off",
                                                     style: GoogleFonts.poppins(
                                                         fontWeight:
                                                             FontWeight.w600,
@@ -265,31 +263,29 @@ class _YogaListState extends State<YogaList> {
                                                 ),
                                               Row(
                                                 children: [
-                                                  if (int.parse(data
-                                                      .docs[
-                                                  snapshot]
-                                                  [
-                                                  "discount"]) >
+                                                  if (int.parse(
+                                                          data.docs[snapshot]
+                                                              ["discount"]) >
                                                       0)
-                                                  Text(
-                                                    "Rs "
-                                                    "${int.parse(data.docs[snapshot]['original_price'])}",
-                                                    style: GoogleFonts.poppins(
-                                                        decoration:
-                                                            TextDecoration
-                                                                .lineThrough,
-                                                        fontSize: 15,
-                                                        color:
-                                                            HexColor("BFB9B9"),
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
+                                                    Text(
+                                                      "Rs "
+                                                      "${int.parse(data.docs[snapshot]['original_price'])}",
+                                                      style: GoogleFonts.poppins(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough,
+                                                          fontSize: 15,
+                                                          color: HexColor(
+                                                              "BFB9B9"),
+                                                          fontWeight:
+                                                              FontWeight.w600),
+                                                    ),
                                                   const SizedBox(
                                                     width: 2,
                                                   ),
                                                   Text(
                                                     "Rs "
-                                                        "${data.docs[snapshot]["ptype"]==true?(int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()):(int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["discount"]) ))}",
+                                                    "${data.docs[snapshot]["ptype"] == true ? (int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["original_price"]) * int.parse(data.docs[snapshot]["discount"]) / 100).round()) : (int.parse(data.docs[snapshot]["original_price"]) - (int.parse(data.docs[snapshot]["discount"])))}",
                                                     style: GoogleFonts.poppins(
                                                         fontSize: 14,
                                                         color:
@@ -328,20 +324,20 @@ class _YogaListState extends State<YogaList> {
                                           // )
                                           // ;
                                           bookingDetails.bookingDetails(
-                                            context,
-                                            snapshot,
-                                            data.docs,
-                                            data.docs[snapshot]['type'],
-                                            widget.gymName,
-                                            widget.gymLocation,
-                                            id,
-                                            widget.getDocID,
-                                            widget.doc,
-                                              data.docs[snapshot]['description'],
+                                              context,
+                                              snapshot,
+                                              data.docs,
+                                              data.docs[snapshot]['type'],
+                                              widget.gymName,
+                                              widget.gymLocation,
+                                              id,
+                                              widget.getDocID,
+                                              widget.doc,
+                                              data.docs[snapshot]
+                                                  ['description'],
                                               widget.branch,
-                                            widget.isLoading
-                                          );
-                                          await Future.wait(CreateBooking(id)) ;
+                                              widget.isLoading);
+                                          await Future.wait(CreateBooking(id));
                                         },
                                         color: HexColor("292F3D"),
                                         shape: RoundedRectangleBorder(

@@ -12,16 +12,13 @@ import '../../golbal_variables.dart';
 import '../bookings/gym_details.dart';
 
 class BuildBox extends StatelessWidget {
-
   final search;
   static final customCacheManager =
       CacheManager(Config("customCacheKey2", maxNrOfCacheObjects: 80));
 
-   BuildBox({Key? key, required this.search}) : super(key: key);
+  BuildBox({Key? key, required this.search}) : super(key: key);
 
   Widget build(BuildContext context) {
-    print("tdghhhhhhhhhhhghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-    print(search);
     Size size = MediaQuery.of(context).size;
     return Container(
       child: SizedBox(
@@ -106,15 +103,15 @@ class BuildBox extends StatelessWidget {
                   distances.add(distance);
                 }
               });
-              if(search){
+              if (search) {
                 if (Get.find<Need>().search.value.length > 0) {
                   document = document.where((element) {
                     return element
-                        .get('name')
-                        .toString()
-                        .toLowerCase()
-                        .contains(
-                        Get.find<Need>().search.value.toString()) ||
+                            .get('name')
+                            .toString()
+                            .toLowerCase()
+                            .contains(
+                                Get.find<Need>().search.value.toString()) ||
                         element.get('branch').toString().toLowerCase().contains(
                             Get.find<Need>().search.value.toString()) ||
                         element
@@ -125,8 +122,6 @@ class BuildBox extends StatelessWidget {
                   }).toList();
                 }
               }
-
-              print(distances);
 
               if (document.isNotEmpty) {
                 return Column(
@@ -517,188 +512,189 @@ class BuildBox extends StatelessWidget {
                 );
               }
 
-              return search? Column(
-                children: [
-                  // SizedBox(
-                  //   height: 100,
-                  // ),
-                  Center(
-                    child: Material(
-                      elevation: .2,
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(15),
-                      // decoration: BoxDecoration(
-                      //   color: Colors.white
-                      // ),
-                      child: Center(
-                          child: Image.asset(
-                            "assets/Illustrations/search empty.png",
-                            height: MediaQuery.of(context).size.width * .95,
-                            width: MediaQuery.of(context).size.width * .95,
-                          )),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 100,
-                  )
-                ],
-              ):SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 25,
-                    ),
-                    SizedBox(
-                      width: 127,
-                      height: 48,
-                      child: Text(
-                        "Coming soon in"
-                        " your area",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.grey),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Center(
-                        child: Image.asset(
-                            "assets/Illustrations/undraw_empty_street_sfxm 1.png")),
-                    SizedBox(height: 20),
-                    Divider(
-                      thickness: 0.5,
-                      color: Colors.grey,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Follow Us",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w900, fontSize: 15),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+              return search
+                  ? Column(
                       children: [
-                        InkWell(
-                          onTap: () async {
-                            var urllaunchable = await canLaunch(
-                                "https://www.instagram.com/vyam.app/?hl=en");
-                            if (urllaunchable) {
-                              await launch(
-                                  "https://www.instagram.com/vyam.app/?hl=en");
-                            } else {
-                              print("Try Again");
-                            }
-                          },
-                          child: SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: Image.asset('assets/icons/insta.png'),
+                        // SizedBox(
+                        //   height: 100,
+                        // ),
+                        Center(
+                          child: Material(
+                            elevation: .2,
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(15),
+                            // decoration: BoxDecoration(
+                            //   color: Colors.white
+                            // ),
+                            child: Center(
+                                child: Image.asset(
+                              "assets/Illustrations/search empty.png",
+                              height: MediaQuery.of(context).size.width * .95,
+                              width: MediaQuery.of(context).size.width * .95,
+                            )),
                           ),
                         ),
                         SizedBox(
-                          width: 20,
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            var urllaunchable = await canLaunch(
-                                'https://www.facebook.com/VYAM.application/');
-                            if (urllaunchable) {
-                              await launch(
-                                  'https://www.facebook.com/VYAM.application/');
-                            } else {
-                              print("Try Again");
-                            }
-                          },
-                          child: SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: Image.asset('assets/icons/1.png'),
-                          ),
-                        ),
+                          height: 100,
+                        )
                       ],
-                    ),
-
-                    // SizedBox(
-                    //   width: 20,
-                    // ),
-                    // InkWell(
-                    //   onTap: () async {
-                    //     var urllaunchable = await canLaunch(url);
-                    //     if (urllaunchable) {
-                    //       await launch(url);
-                    //     } else {
-                    //       print("Try Again");
-                    //     }
-                    //   },
-                    //   child: SizedBox(
-                    //     height: 40,
-                    //     width: 40,
-                    //     child: Image.asset('assets/icons/twitter.png'),
-                    //   ),
-                    // ),
-
-                    SizedBox(
-                      height: 350,
-                    ),
-                    Container(
-                      // height: 300,
+                    )
+                  : SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                            height: 50,
+                            height: 25,
                           ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Column(
-                                // mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 3.0),
-                                    child: SizedBox(
-                                        height: 40,
-                                        width: 95,
-                                        child: Image.asset(
-                                            "assets/Illustrations/Keep_the.png")),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 3.0),
-                                    child: SizedBox(
-                                        height: 55,
-                                        width: 140,
-                                        child: Image.asset(
-                                            "assets/Illustrations/Grind_on.png")),
-                                  ),
-                                  SizedBox(
-                                      height: 25,
-                                      width: 225,
-                                      child: Image.asset(
-                                          "assets/Illustrations/Group_187.png")),
-                                  SizedBox(
-                                    height: 20,
-                                  )
-                                ],
+                          SizedBox(
+                            width: 127,
+                            height: 48,
+                            child: Text(
+                              "Coming soon in"
+                              " your area",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Center(
+                              child: Image.asset(
+                                  "assets/Illustrations/undraw_empty_street_sfxm 1.png")),
+                          SizedBox(height: 20),
+                          Divider(
+                            thickness: 0.5,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Follow Us",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900, fontSize: 15),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () async {
+                                  var urllaunchable = await canLaunch(
+                                      "https://www.instagram.com/vyam.app/?hl=en");
+                                  if (urllaunchable) {
+                                    await launch(
+                                        "https://www.instagram.com/vyam.app/?hl=en");
+                                  }
+                                },
+                                child: SizedBox(
+                                  height: 40,
+                                  width: 40,
+                                  child: Image.asset('assets/icons/insta.png'),
+                                ),
                               ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              InkWell(
+                                onTap: () async {
+                                  var urllaunchable = await canLaunch(
+                                      'https://www.facebook.com/VYAM.application/');
+                                  if (urllaunchable) {
+                                    await launch(
+                                        'https://www.facebook.com/VYAM.application/');
+                                  }
+                                },
+                                child: SizedBox(
+                                  height: 25,
+                                  width: 25,
+                                  child: Image.asset('assets/icons/1.png'),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          // SizedBox(
+                          //   width: 20,
+                          // ),
+                          // InkWell(
+                          //   onTap: () async {
+                          //     var urllaunchable = await canLaunch(url);
+                          //     if (urllaunchable) {
+                          //       await launch(url);
+                          //     } else {
+                          //       print("Try Again");
+                          //     }
+                          //   },
+                          //   child: SizedBox(
+                          //     height: 40,
+                          //     width: 40,
+                          //     child: Image.asset('assets/icons/twitter.png'),
+                          //   ),
+                          // ),
+
+                          SizedBox(
+                            height: 350,
+                          ),
+                          Container(
+                            // height: 300,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 50,
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Column(
+                                      // mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 3.0),
+                                          child: SizedBox(
+                                              height: 40,
+                                              width: 95,
+                                              child: Image.asset(
+                                                  "assets/Illustrations/Keep_the.png")),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 3.0),
+                                          child: SizedBox(
+                                              height: 55,
+                                              width: 140,
+                                              child: Image.asset(
+                                                  "assets/Illustrations/Grind_on.png")),
+                                        ),
+                                        SizedBox(
+                                            height: 25,
+                                            width: 225,
+                                            child: Image.asset(
+                                                "assets/Illustrations/Group_187.png")),
+                                        SizedBox(
+                                          height: 20,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
-                ),
-              );
+                    );
             },
           ),
         ),

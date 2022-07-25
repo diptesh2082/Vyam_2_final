@@ -1,6 +1,5 @@
 import 'dart:async';
 
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -38,8 +37,6 @@ var long;
 
 // = GlobalUserData["location"].longitude;
 class _ExploreiaState extends State<Exploreia> {
-
-
   final Completer<GoogleMapController> _controller = Completer();
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   List<DocumentSnapshot> document = [];
@@ -68,7 +65,7 @@ class _ExploreiaState extends State<Exploreia> {
     var pos = await location.getLocation();
 
     GeoFirePoint point =
-    geo.point(latitude: pos.latitude!, longitude: pos.longitude!);
+        geo.point(latitude: pos.latitude!, longitude: pos.longitude!);
     final CollectionReference users = firestore.collection("product_details");
 
     double radius = 10;
@@ -87,7 +84,8 @@ class _ExploreiaState extends State<Exploreia> {
     final Marker marker = Marker(
       icon: BitmapDescriptor.defaultMarker,
       markerId: markerId,
-      position: LatLng(specify['location'].latitude, specify['location'].longitude),
+      position:
+          LatLng(specify['location'].latitude, specify['location'].longitude),
       infoWindow: InfoWindow(title: 'Gym', snippet: specify['name']),
     );
     setState(() {
@@ -95,16 +93,13 @@ class _ExploreiaState extends State<Exploreia> {
     });
   }
 
-
-
   getMarkerData() async {
     // await Firebase.initializeApp();
     await FirebaseFirestore.instance
         .collection('product_details')
         .get()
-        .catchError((e) {
-      print("Error: " + e.toString());
-    }).then((myMockData) {
+        .catchError((e) {})
+        .then((myMockData) {
       if (myMockData.docs.isNotEmpty) {
         for (int i = 0; i < myMockData.docs.length; i++) {
           // print(myMockData.docs[i].id);
@@ -152,11 +147,9 @@ class _ExploreiaState extends State<Exploreia> {
       });
     }
 
-
-
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    print("service status $serviceEnabled");
-    if (!serviceEnabled ||  Get.find<GlobalUserData>().userData.value["address"] == "") {
+    if (!serviceEnabled ||
+        Get.find<GlobalUserData>().userData.value["address"] == "") {
       setState(() {
         isLoading = true;
         location_service = false;
@@ -195,7 +188,6 @@ class _ExploreiaState extends State<Exploreia> {
               setState(() {
                 isLoading = false;
               });
-
 
               return true;
             },
@@ -247,7 +239,7 @@ class _ExploreiaState extends State<Exploreia> {
                           GestureDetector(
                             onTap: () async {
                               Position position =
-                              await Geolocator.getCurrentPosition();
+                                  await Geolocator.getCurrentPosition();
                               await GetAddressFromLatLong(position);
                               await FirebaseFirestore.instance
                                   .collection("user_details")
@@ -314,13 +306,12 @@ class _ExploreiaState extends State<Exploreia> {
 
   @override
   void initState() {
-
     getEverything();
 
     setState(() {
       // });
-      lat =  Get.find<GlobalUserData>().userData.value["location"].latitude;
-      long =  Get.find<GlobalUserData>().userData.value["location"].longitude;
+      lat = Get.find<GlobalUserData>().userData.value["location"].latitude;
+      long = Get.find<GlobalUserData>().userData.value["location"].longitude;
     });
 
     getMarkerData();
@@ -343,8 +334,6 @@ class _ExploreiaState extends State<Exploreia> {
     await _gotoLocation(latitude, longitude);
   }
 
-
-
   late List<PlacesApiHelperModel>? _list = [];
 
   bool showPlacessuggesstions = false;
@@ -366,64 +355,72 @@ class _ExploreiaState extends State<Exploreia> {
 
     return isLoading
         ? Center(
-      child: CircularProgressIndicator(),
-    )
+            child: CircularProgressIndicator(),
+          )
         : VisibilityDetector(
-      key: Key(index.toString()),
-      onVisibilityChanged: (VisibilityInfo info) async {
-        print(info.visibleFraction);
-        if (info.visibleFraction == 1) _currentItem = index.toInt();
-        // listKey=index.toInt();
-        print(_currentItem);
-        splashLocation(document[_currentItem]["location"].latitude,
-            document[_currentItem]["location"].longitude);
-      },
-      child: FittedBox(
-        child: GestureDetector(
-          onTap: () {
-            Get.to(
-                    () => GymDetails(
-                  // gymID: document[index].id,
-                ),
-                arguments: {
-                  "gymId":document[index].id,
-
-                });
-            sslKey.currentState!.focusToItem(index);
-            // _gotoLocation(location.latitude, location.longitude);
-          },
-          child:Card(
-            // key: sslKey,
-            color: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            elevation: 8,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // SizedBox(width: 15,),
-
-                if (calculateDistance(
-                    Get.find<GlobalUserData>().userData.value["location"].latitude,
-                    Get.find<GlobalUserData>().userData.value["location"].longitude,
-                    document[index]["location"].latitude,
-                    document[index]["location"].longitude) <=
-                    20)
-                  Boxesss(
-                    image: document[index]["display_picture"], name: document[index]["name"], location: document[index]["location"], status: document[index]["gym_status"],
-                    address:  document[index]["address"], gym_address: document[index]["branch"], review: document[index]["rating"].toString(), controller: _controller,
+            key: Key(index.toString()),
+            onVisibilityChanged: (VisibilityInfo info) async {
+              if (info.visibleFraction == 1) _currentItem = index.toInt();
+              // listKey=index.toInt();
+              splashLocation(document[_currentItem]["location"].latitude,
+                  document[_currentItem]["location"].longitude);
+            },
+            child: FittedBox(
+              child: GestureDetector(
+                onTap: () {
+                  Get.to(
+                      () => GymDetails(
+                          // gymID: document[index].id,
+                          ),
+                      arguments: {
+                        "gymId": document[index].id,
+                      });
+                  sslKey.currentState!.focusToItem(index);
+                  // _gotoLocation(location.latitude, location.longitude);
+                },
+                child: Card(
+                  // key: sslKey,
+                  color: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
-                SizedBox(
-                  width: 15,
-                )
-              ],
-            ),
-          ),
+                  elevation: 8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      // SizedBox(width: 15,),
 
-        ),
-      ),
-    );
+                      if (calculateDistance(
+                              Get.find<GlobalUserData>()
+                                  .userData
+                                  .value["location"]
+                                  .latitude,
+                              Get.find<GlobalUserData>()
+                                  .userData
+                                  .value["location"]
+                                  .longitude,
+                              document[index]["location"].latitude,
+                              document[index]["location"].longitude) <=
+                          20)
+                        Boxesss(
+                          image: document[index]["display_picture"],
+                          name: document[index]["name"],
+                          location: document[index]["location"],
+                          status: document[index]["gym_status"],
+                          address: document[index]["address"],
+                          gym_address: document[index]["branch"],
+                          review: document[index]["rating"].toString(),
+                          controller: _controller,
+                        ),
+                      SizedBox(
+                        width: 15,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
     // },
     //   separatorBuilder: (BuildContext context, int index) {
     //     return Container(
@@ -439,11 +436,9 @@ class _ExploreiaState extends State<Exploreia> {
     // if(location_service)
     // _gotoLocation(Get.find<GlobalUserData>().userData.value["location"].latitude,Get.find<GlobalUserData>().userData.value["location"].longitude);
     return Scaffold(
-
       backgroundColor: scaffoldColor,
       body: Obx(
-
-            ()=> SafeArea(
+        () => SafeArea(
           child: Stack(
             children: [
               // if(location_service==true)
@@ -452,8 +447,15 @@ class _ExploreiaState extends State<Exploreia> {
                 mapType: MapType.terrain,
                 zoomControlsEnabled: false,
                 initialCameraPosition: CameraPosition(
-                  target: LatLng( Get.find<GlobalUserData>().userData.value["location"].latitude!,
-                      Get.find<GlobalUserData>().userData.value["location"].longitude!),
+                  target: LatLng(
+                      Get.find<GlobalUserData>()
+                          .userData
+                          .value["location"]
+                          .latitude!,
+                      Get.find<GlobalUserData>()
+                          .userData
+                          .value["location"]
+                          .longitude!),
                   zoom: 10,
                 ),
                 myLocationEnabled: true,
@@ -467,154 +469,176 @@ class _ExploreiaState extends State<Exploreia> {
               ),
               Get.find<GlobalUserData>().userData.value["address"] != ""
                   ? Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  // padding: const EdgeInsets.only(left: 10),
-                  // margin: const EdgeInsets.symmetric(vertical: 18.0),
-                  // color: Colors.white.withOpacity(0),
-                  height: 136.0,
-                  width: 350,
-                  child: StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection("product_details")
-                      // .where("locality",
-                      //     isEqualTo: GlobalUserData["locality"])
-                          .where("legit", isEqualTo: true)
-                          .orderBy("location")
-                          .snapshots(),
-                      builder: (context, AsyncSnapshot streamSnapshot) {
-                        if (streamSnapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return  Center(
-                            child: Container(),
-                          );
-                        }
-                        if(streamSnapshot.data.docs.isEmpty){
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8.0, top: 30),
-                            child: Text(
-                              "VYAM is not in this location yet",
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16),
-                            ),
-                          );
-                        }
-                        _gotoLocation(Get.find<GlobalUserData>().userData.value["location"].latitude,Get.find<GlobalUserData>().userData.value["location"].longitude);
-                        var  documents = streamSnapshot.data.docs;
-                        documents.sort((a, b) {
-                          double d1 = calculateDistance(
-                            a["location"].latitude,
-                            a["location"].longitude,
-                            Get.find<GlobalUserData>().userData.value["location"].latitude,
-                            Get.find<GlobalUserData>().userData.value["location"].longitude,
-                          );
-                          double d2 = calculateDistance(
-                            b["location"].latitude,
-                            b["location"].longitude,
-                            Get.find<GlobalUserData>().userData.value["location"].latitude,
-                            Get.find<GlobalUserData>().userData.value["location"].longitude,
-                          );
-                          if (d1 > d2)
-                            return 1;
-                          else if (d1 < d2)
-                            return -1;
-                          else
-                            return 0;
-                        });
-                        documents.forEach((e) {
-                          var distance = calculateDistance(
-                              Get.find<GlobalUserData>()
-                                  .userData
-                                  .value["location"]
-                                  .latitude,
-                              Get.find<GlobalUserData>()
-                                  .userData
-                                  .value["location"]
-                                  .longitude,
-                              e["location"].latitude,
-                              e["location"].longitude);
-                          distance = double.parse((distance).toStringAsFixed(1));
-                          if (distance <= 20) {
-                            document.add(e);
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        // padding: const EdgeInsets.only(left: 10),
+                        // margin: const EdgeInsets.symmetric(vertical: 18.0),
+                        // color: Colors.white.withOpacity(0),
+                        height: 136.0,
+                        width: 350,
+                        child: StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection("product_details")
+                                // .where("locality",
+                                //     isEqualTo: GlobalUserData["locality"])
+                                .where("legit", isEqualTo: true)
+                                .orderBy("location")
+                                .snapshots(),
+                            builder: (context, AsyncSnapshot streamSnapshot) {
+                              if (streamSnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                  child: Container(),
+                                );
+                              }
+                              if (streamSnapshot.data.docs.isEmpty) {
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 8.0, top: 30),
+                                  child: Text(
+                                    "VYAM is not in this location yet",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 16),
+                                  ),
+                                );
+                              }
+                              _gotoLocation(
+                                  Get.find<GlobalUserData>()
+                                      .userData
+                                      .value["location"]
+                                      .latitude,
+                                  Get.find<GlobalUserData>()
+                                      .userData
+                                      .value["location"]
+                                      .longitude);
+                              var documents = streamSnapshot.data.docs;
+                              documents.sort((a, b) {
+                                double d1 = calculateDistance(
+                                  a["location"].latitude,
+                                  a["location"].longitude,
+                                  Get.find<GlobalUserData>()
+                                      .userData
+                                      .value["location"]
+                                      .latitude,
+                                  Get.find<GlobalUserData>()
+                                      .userData
+                                      .value["location"]
+                                      .longitude,
+                                );
+                                double d2 = calculateDistance(
+                                  b["location"].latitude,
+                                  b["location"].longitude,
+                                  Get.find<GlobalUserData>()
+                                      .userData
+                                      .value["location"]
+                                      .latitude,
+                                  Get.find<GlobalUserData>()
+                                      .userData
+                                      .value["location"]
+                                      .longitude,
+                                );
+                                if (d1 > d2)
+                                  return 1;
+                                else if (d1 < d2)
+                                  return -1;
+                                else
+                                  return 0;
+                              });
+                              documents.forEach((e) {
+                                var distance = calculateDistance(
+                                    Get.find<GlobalUserData>()
+                                        .userData
+                                        .value["location"]
+                                        .latitude,
+                                    Get.find<GlobalUserData>()
+                                        .userData
+                                        .value["location"]
+                                        .longitude,
+                                    e["location"].latitude,
+                                    e["location"].longitude);
+                                distance =
+                                    double.parse((distance).toStringAsFixed(1));
+                                if (distance <= 20) {
+                                  document.add(e);
+                                }
+                              });
 
-                          }
-                        });
+                              var d = document.length;
 
-                        var d = document.length;
-
-                        return document.isNotEmpty
-                            ? Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: ScrollSnapList(
-                            scrollPhysics:
-                            RangeMaintainingScrollPhysics(),
-                            // dynamicItemSize: true,
-                            margin:
-                            EdgeInsets.symmetric(horizontal: 00),
-                            onItemFocus: _onItemFocus,
-                            itemCount: d,
-                            key: sslKey,
-                            // dynamicItemSize: true,
-                            listViewKey: listKey,
-                            itemBuilder: buildListItem,
-                            // reverse: true,
-                            itemSize: 310,
-                          ),
-                        )
-                            : Padding(
-                          padding: const EdgeInsets.only(
-                              left: 8.0, top: 30),
-                          child: Text(
-                            "VYAM is not in this location yet",
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16),
-                          ),
-                        );
-                      }),
-                ),
-              )
+                              return document.isNotEmpty
+                                  ? Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: ScrollSnapList(
+                                        scrollPhysics:
+                                            RangeMaintainingScrollPhysics(),
+                                        // dynamicItemSize: true,
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 00),
+                                        onItemFocus: _onItemFocus,
+                                        itemCount: d,
+                                        key: sslKey,
+                                        // dynamicItemSize: true,
+                                        listViewKey: listKey,
+                                        itemBuilder: buildListItem,
+                                        // reverse: true,
+                                        itemSize: 310,
+                                      ),
+                                    )
+                                  : Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 8.0, top: 30),
+                                      child: Text(
+                                        "VYAM is not in this location yet",
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16),
+                                      ),
+                                    );
+                            }),
+                      ),
+                    )
                   : SizedBox(),
 
               _list != null && _list!.isNotEmpty
                   ? Positioned(
-                top: 76,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.white.withOpacity(0.9),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 5, vertical: 5),
-                  child: _list == null
-                      ? Container()
-                      : ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _list!.length,
-                    itemBuilder: ((context, index) {
-                      return ListTile(
-                        title: Text(_list![index].mainText!),
-                        subtitle: Text(_list![index].secondaryText!),
-                        onTap: () async {
-                          final res = await RequestHelper()
-                              .getCoordinatesFromAddresss(
-                              _list![index].mainText!);
-                          // print(res.latitude);
-                          // print(res.longitude);
-                          _gotoLocation(res.latitude, res.longitude);
-                          FocusScope.of(context).unfocus();
-                          _list!.clear();
-                          setState(() {
-                            // _list==null;
+                      top: 76,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        color: Colors.white.withOpacity(0.9),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 5),
+                        child: _list == null
+                            ? Container()
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: _list!.length,
+                                itemBuilder: ((context, index) {
+                                  return ListTile(
+                                    title: Text(_list![index].mainText!),
+                                    subtitle:
+                                        Text(_list![index].secondaryText!),
+                                    onTap: () async {
+                                      final res = await RequestHelper()
+                                          .getCoordinatesFromAddresss(
+                                              _list![index].mainText!);
+                                      // print(res.latitude);
+                                      // print(res.longitude);
+                                      _gotoLocation(
+                                          res.latitude, res.longitude);
+                                      FocusScope.of(context).unfocus();
+                                      _list!.clear();
+                                      setState(() {
+                                        // _list==null;
 
-                            showPlacessuggesstions = false;
-                          });
-                        },
-                      );
-                    }),
-                  ),
-                ),
-              )
+                                        showPlacessuggesstions = false;
+                                      });
+                                    },
+                                  );
+                                }),
+                              ),
+                      ),
+                    )
                   : const SizedBox(),
               Positioned(
                   right: 6,
@@ -633,15 +657,15 @@ class _ExploreiaState extends State<Exploreia> {
                           // final pos = await location.getLocation();
 
                           Position position =
-                          await Geolocator.getCurrentPosition();
+                              await Geolocator.getCurrentPosition();
                           _gotoLocation(position.latitude, position.longitude);
                           await GetAddressFromLatLong(position);
                           await FirebaseFirestore.instance
                               .collection("user_details")
                               .doc(number)
                               .update({
-                            "location": GeoPoint(
-                                position.latitude, position.longitude),
+                            "location":
+                                GeoPoint(position.latitude, position.longitude),
                             "address": address,
                             // "lat": position.latitude,
                             // "long": position.longitude,
@@ -663,7 +687,6 @@ class _ExploreiaState extends State<Exploreia> {
                           setState(() {
                             location_service = true;
                           });
-
                         },
                         // child: Center(
                         //   child: const Icon(Icons.my_location_outlined
@@ -727,7 +750,6 @@ class _ExploreiaState extends State<Exploreia> {
   //   );
   // }
 
-
   Future<void> _gotoLocation(double lat, double long) async {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -744,14 +766,28 @@ class _ExploreiaState extends State<Exploreia> {
 //   )));
 // }
 
-
 }
+
 class Boxesss extends StatelessWidget {
-  final image; final name; final location; final address;
-  final review; final gym_address; final status; var controller;
-  Boxesss({Key? key,required this.image,required this.name,required this.location, required this.address,required this.review,required this.gym_address,required this.status,required this.controller}) : super(key: key);
-
-
+  final image;
+  final name;
+  final location;
+  final address;
+  final review;
+  final gym_address;
+  final status;
+  var controller;
+  Boxesss(
+      {Key? key,
+      required this.image,
+      required this.name,
+      required this.location,
+      required this.address,
+      required this.review,
+      required this.gym_address,
+      required this.status,
+      required this.controller})
+      : super(key: key);
 
   // @override
   // void initState() {
@@ -762,7 +798,6 @@ class Boxesss extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return FittedBox(
       child: Material(
           color: Colors.white,
@@ -807,6 +842,7 @@ class Boxesss extends StatelessWidget {
           )),
     );
   }
+
   Widget myDetailsContainer1(
       String name, String location, String address, String review, status) {
     return Column(
@@ -877,22 +913,4 @@ class Boxesss extends StatelessWidget {
       ],
     );
   }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -14,7 +14,7 @@ import 'package:vyam_2_final/golbal_variables.dart';
 class Review extends StatefulWidget {
   final gymid;
 
-  const Review({Key? key,required this.gymid}) : super(key: key);
+  const Review({Key? key, required this.gymid}) : super(key: key);
   @override
   _ReviewState createState() => _ReviewState();
 }
@@ -26,30 +26,24 @@ class _ReviewState extends State<Review> {
   TextEditingController exp = TextEditingController();
 
   // GymReviews reviews = GymReviews();
-  var doc =Get.arguments ;
+  var doc = Get.arguments;
   var review;
-  var star=0.0;
-  final _id=  Get.arguments["gym_id"];
-  getRatingCount(x)async{
-    DocumentReference db= await FirebaseFirestore.instance.collection("product_details").doc(_id);
-    try{
+  var star = 0.0;
+  final _id = Get.arguments["gym_id"];
+  getRatingCount(x) async {
+    DocumentReference db =
+        await FirebaseFirestore.instance.collection("product_details").doc(_id);
+    try {
       db.get().then((DocumentSnapshot documentSnapshot) {
-        if(documentSnapshot.exists){
-          try{
-            db.update({
-              "rating":x
-            });
-          }catch(e){
-            db.update({
-              "rating":1
-            });
+        if (documentSnapshot.exists) {
+          try {
+            db.update({"rating": x});
+          } catch (e) {
+            db.update({"rating": 1});
           }
-
         }
-      }
-
-      );
-    }catch(e){
+      });
+    } catch (e) {
       // db.get().then((DocumentSnapshot documentSnapshot) {
       //   if(documentSnapshot.exists){
       //     db.update({
@@ -60,7 +54,6 @@ class _ReviewState extends State<Review> {
 
       // );
     }
-
 
     //     .update(
     // {
@@ -114,7 +107,7 @@ class _ReviewState extends State<Review> {
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
           // color: buttonColor,
-          width: MediaQuery.of(context).size.width*.9,
+          width: MediaQuery.of(context).size.width * .9,
           child: FloatingActionButton.extended(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
@@ -127,12 +120,10 @@ class _ReviewState extends State<Review> {
                     color: Colors.white),
               ),
               backgroundColor: buttonColor,
-              onPressed: (){
-                Get.to(()=>AddReview(),
-                arguments: {
-                  "gym_id":_id,
-                }
-                );
+              onPressed: () {
+                Get.to(() => AddReview(), arguments: {
+                  "gym_id": _id,
+                });
               }),
         ),
       ),
@@ -149,7 +140,7 @@ class _ReviewState extends State<Review> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Obx(
-                      ()=> Column(
+                      () => Column(
                         // mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -165,10 +156,15 @@ class _ReviewState extends State<Review> {
                             height: MediaQuery.of(context).size.height * 0.01,
                           ),
                           StreamBuilder<DocumentSnapshot>(
-                              stream: FirebaseFirestore.instance.collection("product_details").doc(_id).snapshots(),
-                              builder: (context,AsyncSnapshot snapshot) {
-                                if(snapshot.connectionState==ConnectionState.waiting){
-                                  return Center(child: CircularProgressIndicator());
+                              stream: FirebaseFirestore.instance
+                                  .collection("product_details")
+                                  .doc(_id)
+                                  .snapshots(),
+                              builder: (context, AsyncSnapshot snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
                                 }
                                 return Row(
                                   children: [
@@ -179,25 +175,27 @@ class _ReviewState extends State<Review> {
                                           color: Colors.amber,
                                         );
                                       }),
-                                      rating: double.parse(snapshot.data.get("rating").toString()),
+                                      rating: double.parse(snapshot.data
+                                          .get("rating")
+                                          .toString()),
                                       itemCount: 5,
                                       itemSize: 20.0,
                                       direction: Axis.horizontal,
                                     ),
-                                    Text('${snapshot.data.get("rating")} out of 5 ',
+                                    Text(
+                                        '${snapshot.data.get("rating")} out of 5 ',
                                         style: TextStyle(
                                             fontFamily: 'Poppins',
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14))
                                   ],
                                 );
-                              }
-                          ),
+                              }),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.012,
                           ),
                           Obx(
-                                ()=> Text(
+                            () => Text(
                               '(${Get.find<Need>().review_number.value} reviews)',
                               style: GoogleFonts.poppins(
                                   fontWeight: FontWeight.w500,
@@ -221,15 +219,17 @@ class _ReviewState extends State<Review> {
                                         color: Colors.black),
                                   ),
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.02,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.02,
                                   ),
                                   LinearPercentIndicator(
                                     lineHeight: 9,
                                     backgroundColor: Colors.white,
-                                    width: MediaQuery.of(context).size.width * 0.72,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.72,
                                     percent: Get.find<Need>().star1.value,
-                                    trailing:  Text(
-                                      '${Get.find<Need>().star1.value*100}%',
+                                    trailing: Text(
+                                      '${Get.find<Need>().star1.value * 100}%',
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w400,
@@ -241,7 +241,8 @@ class _ReviewState extends State<Review> {
                                 ],
                               ),
                               SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.01,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.01,
                               ),
                               Row(
                                 children: [
@@ -254,15 +255,17 @@ class _ReviewState extends State<Review> {
                                         color: Colors.black),
                                   ),
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.02,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.02,
                                   ),
                                   LinearPercentIndicator(
                                     lineHeight: 9,
                                     backgroundColor: Colors.white,
-                                    width: MediaQuery.of(context).size.width * 0.72,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.72,
                                     percent: Get.find<Need>().star2.value,
-                                    trailing:  Text(
-                                      '${Get.find<Need>().star2.value*100}%',
+                                    trailing: Text(
+                                      '${Get.find<Need>().star2.value * 100}%',
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w400,
@@ -274,7 +277,8 @@ class _ReviewState extends State<Review> {
                                 ],
                               ),
                               SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.01,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.01,
                               ),
                               Row(
                                 children: [
@@ -287,15 +291,17 @@ class _ReviewState extends State<Review> {
                                         color: Colors.black),
                                   ),
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.02,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.02,
                                   ),
                                   LinearPercentIndicator(
                                     lineHeight: 9,
                                     backgroundColor: Colors.white,
-                                    width: MediaQuery.of(context).size.width * 0.72,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.72,
                                     percent: Get.find<Need>().star3.value,
-                                    trailing:  Text(
-                                      '${Get.find<Need>().star3.value*100}%',
+                                    trailing: Text(
+                                      '${Get.find<Need>().star3.value * 100}%',
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w400,
@@ -307,7 +313,8 @@ class _ReviewState extends State<Review> {
                                 ],
                               ),
                               SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.01,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.01,
                               ),
                               Row(
                                 children: [
@@ -320,15 +327,17 @@ class _ReviewState extends State<Review> {
                                         color: Colors.black),
                                   ),
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.02,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.02,
                                   ),
                                   LinearPercentIndicator(
                                     lineHeight: 9,
                                     backgroundColor: Colors.white,
-                                    width: MediaQuery.of(context).size.width * 0.72,
-                                    percent:Get.find<Need>().star4.value,
-                                    trailing:  Text(
-                                      '${Get.find<Need>().star4.value*100}%',
+                                    width: MediaQuery.of(context).size.width *
+                                        0.72,
+                                    percent: Get.find<Need>().star4.value,
+                                    trailing: Text(
+                                      '${Get.find<Need>().star4.value * 100}%',
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w400,
@@ -340,7 +349,8 @@ class _ReviewState extends State<Review> {
                                 ],
                               ),
                               SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.01,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.01,
                               ),
                               Row(
                                 children: [
@@ -353,15 +363,17 @@ class _ReviewState extends State<Review> {
                                         color: Colors.black),
                                   ),
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.02,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.02,
                                   ),
                                   LinearPercentIndicator(
                                     lineHeight: 9,
                                     backgroundColor: Colors.white,
-                                    width: MediaQuery.of(context).size.width * 0.72,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.72,
                                     percent: Get.find<Need>().star5.value,
-                                    trailing:  Text(
-                                      '${Get.find<Need>().star5.value*100}%',
+                                    trailing: Text(
+                                      '${Get.find<Need>().star5.value * 100}%',
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w400,
@@ -387,8 +399,10 @@ class _ReviewState extends State<Review> {
                   Align(
                     alignment: Alignment.center,
                     child: StreamBuilder<QuerySnapshot>(
-
-                        stream: FirebaseFirestore.instance.collection("Reviews").where("gym_id",isEqualTo: "${_id}"   ).snapshots(),
+                        stream: FirebaseFirestore.instance
+                            .collection("Reviews")
+                            .where("gym_id", isEqualTo: "${_id}")
+                            .snapshots(),
                         builder: ((context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -399,7 +413,6 @@ class _ReviewState extends State<Review> {
                             );
                           }
                           var document = snapshot.data.docs;
-                          print(document);
                           // document = document.where((element) {
                           //   return  element
                           //       .get('gym_id')
@@ -410,13 +423,13 @@ class _ReviewState extends State<Review> {
                           // print(document.length);
                           return document.isNotEmpty
                               ? Column(
-                                children: [
-                                  ListView.separated(
-                                      physics: const NeverScrollableScrollPhysics(),
+                                  children: [
+                                    ListView.separated(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       shrinkWrap: true,
                                       itemCount: document.length,
                                       itemBuilder: (context, int index) {
-
                                         return Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -425,16 +438,23 @@ class _ReviewState extends State<Review> {
                                               leading: Container(
                                                 height: 50,
                                                 width: 50,
-                                                decoration:  BoxDecoration(
+                                                decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
 //border: Border.all(width: 1),
                                                     image: DecorationImage(
-                                                        image: CachedNetworkImageProvider(document[index]["user"]["user_pic"]),
+                                                        image:
+                                                            CachedNetworkImageProvider(
+                                                                document[index]
+                                                                        ["user"]
+                                                                    [
+                                                                    "user_pic"]),
                                                         fit: BoxFit.cover)),
                                               ),
                                               title: Text(
                                                 // "",
-                                                document[index]["user"]["user_name"]??"",
+                                                document[index]["user"]
+                                                        ["user_name"] ??
+                                                    "",
 // snapshot.data.docs[index]['name'],
                                                 style: const TextStyle(
                                                     fontFamily: 'Poppins',
@@ -443,43 +463,55 @@ class _ReviewState extends State<Review> {
                                               ),
                                               subtitle: Column(
                                                 // mainAxisAlignment: MainAxisAlignment.start,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   RatingBarIndicator(
-                                                    itemBuilder: ((context, index) {
+                                                    itemBuilder:
+                                                        ((context, index) {
                                                       return const Icon(
                                                         Icons.star,
                                                         color: Colors.amber,
                                                       );
                                                     }),
-                                                    rating: double.parse(document[index]['rating']),
+                                                    rating: double.parse(
+                                                        document[index]
+                                                            ['rating']),
                                                     itemCount: 5,
                                                     itemSize: 18.0,
                                                     direction: Axis.horizontal,
                                                   ),
                                                   Text(
                                                     // "",
-                                                    document!=null?document[index]["title"] ?? "":"",
+                                                    document != null
+                                                        ? document[index]
+                                                                ["title"] ??
+                                                            ""
+                                                        : "",
 // snapshot.data.docs[index]['experience'],
                                                     style: const TextStyle(
                                                         fontFamily: 'Poppins',
-                                                        fontWeight: FontWeight.w700,
+                                                        fontWeight:
+                                                            FontWeight.w700,
                                                         fontSize: 12),
                                                   ),
-                                                   Text(
+                                                  Text(
                                                     // "",
-                                                    document!=null?document[index]["experience"] ?? "":"",
+                                                    document != null
+                                                        ? document[index][
+                                                                "experience"] ??
+                                                            ""
+                                                        : "",
 // snapshot.data.docs[index]['experience'],
                                                     style: const TextStyle(
                                                         fontFamily: 'Poppins',
-                                                        fontWeight: FontWeight.w400,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                         fontSize: 12),
                                                   ),
                                                 ],
                                               ),
                                             ),
-
-
                                           ],
                                         );
                                       },
@@ -488,8 +520,8 @@ class _ReviewState extends State<Review> {
                                         return Divider();
                                       },
                                     ),
-                                ],
-                              )
+                                  ],
+                                )
                               : const Center(
                                   child: Text(
                                     "No Review",

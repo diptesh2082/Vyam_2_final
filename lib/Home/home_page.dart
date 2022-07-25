@@ -74,7 +74,6 @@ class _HomePageState extends State<HomePage> {
     InternetConnectionChecker().onStatusChange.listen((status) {
       switch (status) {
         case InternetConnectionStatus.connected:
-          print('Data connection is available.');
           if (mounted) {
             setState(() {
               net = true;
@@ -109,7 +108,6 @@ class _HomePageState extends State<HomePage> {
 
   checkAvablity() async {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    print("service status $serviceEnabled");
     if (!serviceEnabled ||
         Get.find<GlobalUserData>().userData.value["address"] == "" ||
         Get.find<GlobalUserData>().userData.value["address"] == null) {
@@ -118,7 +116,6 @@ class _HomePageState extends State<HomePage> {
         barrierDismissible: true,
         builder: (context) => WillPopScope(
           onWillPop: () async {
-            print("here this one");
             // Get.off(HomePage());
             Navigator.pop(context);
             return true;
@@ -183,9 +180,9 @@ class _HomePageState extends State<HomePage> {
                                     });
                                   }
                                   Position position =
-                                  await Geolocator.getCurrentPosition(
-                                      desiredAccuracy:
-                                      LocationAccuracy.best);
+                                      await Geolocator.getCurrentPosition(
+                                          desiredAccuracy:
+                                              LocationAccuracy.best);
 
                                   await GetAddressFromLatLong(position);
 
@@ -290,7 +287,6 @@ class _HomePageState extends State<HomePage> {
     checkAvablity();
     getInfo();
 
-
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -315,7 +311,6 @@ class _HomePageState extends State<HomePage> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published!');
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
@@ -360,7 +355,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   final PersistentTabController _controller =
-  PersistentTabController(initialIndex: 0);
+      PersistentTabController(initialIndex: 0);
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
@@ -419,9 +414,9 @@ class _HomePageState extends State<HomePage> {
         icon: Column(
           children: const [
             Icon(HomeIcon.active_1
-              // AssetImage("assets/icons/active.png"),
-              // size: 30,
-            ),
+                // AssetImage("assets/icons/active.png"),
+                // size: 30,
+                ),
             Text(
               "Bookings",
               style: TextStyle(
@@ -492,9 +487,9 @@ class _HomePageState extends State<HomePage> {
         icon: Column(
           children: const [
             Icon(HomeIcon.active
-              // AssetImage("assets/icons/profile.png"),
-              // size: 30,
-            ),
+                // AssetImage("assets/icons/profile.png"),
+                // size: 30,
+                ),
             Text(
               "Profile",
               style: TextStyle(
@@ -533,7 +528,6 @@ class _HomePageState extends State<HomePage> {
 
     return [
       FirstHome2(),
-
       const BookingDetails(),
       const Exploreia(),
       ProfilePart(),
@@ -582,8 +576,6 @@ class _HomePageState extends State<HomePage> {
             var urllaunchable = await canLaunch(url);
             if (urllaunchable) {
               await launch(url);
-            } else {
-              print("Try Again");
             }
           },
           child: Text(
@@ -657,54 +649,54 @@ class _HomePageState extends State<HomePage> {
             color: Colors.white,
             child: showAlertDialog(context, widget.remoteConfig))
         : isLoading
-        ? Container(
-      color: Colors.white,
-      child: Center(
-          child: CircularProgressIndicator(
-            // backgroundColor: Colors.white,
-            // c,
-          )),
-    )
-        : Scaffold(
-      backgroundColor: scaffoldColor,
-      body: net
-          ? PersistentTabView(
-        context,
-        controller: _controller,
-        navBarHeight: 65,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        confineInSafeArea: true,
-        backgroundColor: Colors.white,
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
-        stateManagement: true,
-        hideNavigationBarWhenKeyboardShows: true,
-        popAllScreensOnTapOfSelectedTab: true,
+            ? Container(
+                color: Colors.white,
+                child: Center(
+                    child: CircularProgressIndicator(
+                        // backgroundColor: Colors.white,
+                        // c,
+                        )),
+              )
+            : Scaffold(
+                backgroundColor: scaffoldColor,
+                body: net
+                    ? PersistentTabView(
+                        context,
+                        controller: _controller,
+                        navBarHeight: 65,
+                        screens: _buildScreens(),
+                        items: _navBarsItems(),
+                        confineInSafeArea: true,
+                        backgroundColor: Colors.white,
+                        handleAndroidBackButtonPress: true,
+                        resizeToAvoidBottomInset: true,
+                        stateManagement: true,
+                        hideNavigationBarWhenKeyboardShows: true,
+                        popAllScreensOnTapOfSelectedTab: true,
 
-        popActionScreens: PopActionScreensType.all,
-        // onWillPop: FocusScope.of(context).unfocus(),
-        itemAnimationProperties: const ItemAnimationProperties(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease,
-        ),
-        screenTransitionAnimation:
-        const ScreenTransitionAnimation(
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        navBarStyle: NavBarStyle.style3,
-      )
-          : NoInternet(),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     showNotification();
-      //   },
-      //   tooltip: 'Icrement',
-      //   child: Icon(Icons.add),
-      // ),
-    );
+                        popActionScreens: PopActionScreensType.all,
+                        // onWillPop: FocusScope.of(context).unfocus(),
+                        itemAnimationProperties: const ItemAnimationProperties(
+                          duration: Duration(milliseconds: 200),
+                          curve: Curves.ease,
+                        ),
+                        screenTransitionAnimation:
+                            const ScreenTransitionAnimation(
+                          animateTabTransition: true,
+                          curve: Curves.ease,
+                          duration: Duration(milliseconds: 200),
+                        ),
+                        navBarStyle: NavBarStyle.style3,
+                      )
+                    : NoInternet(),
+                // floatingActionButton: FloatingActionButton(
+                //   onPressed: () {
+                //     showNotification();
+                //   },
+                //   tooltip: 'Icrement',
+                //   child: Icon(Icons.add),
+                // ),
+              );
   }
 }
 

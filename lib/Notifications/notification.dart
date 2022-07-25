@@ -11,7 +11,8 @@ import '../golbal_variables.dart';
 class NotificationDetails extends StatefulWidget {
   final doc;
   const NotificationDetails({
-    Key? key, this.doc,
+    Key? key,
+    this.doc,
   }) : super(key: key);
 
   @override
@@ -66,7 +67,6 @@ class _NotificationDetailsState extends State<NotificationDetails> {
               return Text(snapshot.error.toString());
             }
             final data = snapshot.data.docs;
-            print(data.length);
 
             if (data.length == 0) {
               return Column(
@@ -74,14 +74,14 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                 children: [
                   Image.asset(
                     "assets/icons/Pushnotifications-amico.png",
-                  height: 480,
+                    height: 480,
                   ),
-                  Text("So empty!",
-                  style: GoogleFonts.poppins(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54
-                  ),
+                  Text(
+                    "So empty!",
+                    style: GoogleFonts.poppins(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54),
                   )
                 ],
               );
@@ -92,7 +92,7 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                   height: _height * 0.7,
                   child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount:data.length<=15 ? data.length:15,
+                      itemCount: data.length <= 15 ? data.length : 15,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -115,53 +115,75 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                                   children: [
                                     Row(
                                       children: [
-                                        if (data[index]["status"].toString().toLowerCase()=="cancelled")
+                                        if (data[index]["status"]
+                                                .toString()
+                                                .toLowerCase() ==
+                                            "cancelled")
                                           SizedBox(
-                                            child: Text("Your booking has been canceled ${data[index]["user_name"].toString()} ❌",
+                                            child: Text(
+                                              "Your booking has been canceled ${data[index]["user_name"].toString()} ❌",
                                               maxLines: 2,
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w500,
-                                                  fontSize: 14
-                                              ),
+                                                  fontSize: 14),
                                             ),
-                                            width: MediaQuery.of(context).size.width*.75,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .75,
                                           ),
-                                        if (data[index]["status"].toString().toLowerCase()=="completed")
+                                        if (data[index]["status"]
+                                                .toString()
+                                                .toLowerCase() ==
+                                            "completed")
                                           // Booking completed ${data[index]["user_name"].toString()}
                                           SizedBox(
-                                            child: Text("Booking completed ${data[index]["user_name"].toString()}",
+                                            child: Text(
+                                              "Booking completed ${data[index]["user_name"].toString()}",
                                               maxLines: 2,
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w500,
-                                                  fontSize: 14
-                                              ),
+                                                  fontSize: 14),
                                             ),
-                                            width: MediaQuery.of(context).size.width*.75,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .75,
                                           ),
-
-                                        if (data[index]["status"].toString().toLowerCase()=="active")
+                                        if (data[index]["status"]
+                                                .toString()
+                                                .toLowerCase() ==
+                                            "active")
                                           SizedBox(
-                                            child: Text("Booking activated  ${data[index]["user_name"]} ✅",
+                                            child: Text(
+                                              "Booking activated  ${data[index]["user_name"]} ✅",
                                               maxLines: 2,
                                               style: GoogleFonts.poppins(
                                                   fontWeight: FontWeight.w500,
-                                                  fontSize: 14
-                                              ),
+                                                  fontSize: 14),
                                             ),
-                                            width: MediaQuery.of(context).size.width*.75,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .75,
                                           ),
-                                        if (data[index]["status"].toString().toLowerCase()=="upcoming")
-                                        SizedBox(
-                                          child: Text("Booking successful for ${data[index]["vendor_name"]} ✅",
-                                       maxLines: 2,
-                                          style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14
+                                        if (data[index]["status"]
+                                                .toString()
+                                                .toLowerCase() ==
+                                            "upcoming")
+                                          SizedBox(
+                                            child: Text(
+                                              "Booking successful for ${data[index]["vendor_name"]} ✅",
+                                              maxLines: 2,
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14),
+                                            ),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .75,
                                           ),
-                                          ),
-                                          width: MediaQuery.of(context).size.width*.75,
-                                        ),
-
                                         const SizedBox(
                                           width: 0,
                                         ),
@@ -170,39 +192,54 @@ class _NotificationDetailsState extends State<NotificationDetails> {
                                     SizedBox(
                                       height: 2,
                                     ),
-                                    if (data[index]["status"].toString().toLowerCase()=="completed")
+                                    if (data[index]["status"]
+                                            .toString()
+                                            .toLowerCase() ==
+                                        "completed")
                                       SizedBox(
-                                        child: Text("Eat well & take some rest 😇",
+                                        child: Text(
+                                          "Eat well & take some rest 😇",
                                           maxLines: 2,
                                           style: GoogleFonts.poppins(
                                               fontWeight: FontWeight.w400,
-                                              fontSize: 12
-                                          ),
+                                              fontSize: 12),
                                         ),
-                                        width: MediaQuery.of(context).size.width*.7,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .7,
                                       ),
-                                    if (data[index]["status"].toString().toLowerCase()=="active")
+                                    if (data[index]["status"]
+                                            .toString()
+                                            .toLowerCase() ==
+                                        "active")
                                       SizedBox(
-                                        child: Text("Stay hydrated. 🚰",
+                                        child: Text(
+                                          "Stay hydrated. 🚰",
                                           maxLines: 2,
                                           style: GoogleFonts.poppins(
                                               fontWeight: FontWeight.w400,
-                                              fontSize: 12
-                                          ),
+                                              fontSize: 12),
                                         ),
-                                        width: MediaQuery.of(context).size.width*.7,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .7,
                                       ),
-                                    if (data[index]["status"].toString().toLowerCase()=="upcoming")
-                                    SizedBox(
-                                      child: Text("Share OTP at the center to start. (body)",
-                                        maxLines: 2,
-                                        style: GoogleFonts.poppins(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12
+                                    if (data[index]["status"]
+                                            .toString()
+                                            .toLowerCase() ==
+                                        "upcoming")
+                                      SizedBox(
+                                        child: Text(
+                                          "Share OTP at the center to start. (body)",
+                                          maxLines: 2,
+                                          style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 12),
                                         ),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                .7,
                                       ),
-                                      width: MediaQuery.of(context).size.width*.7,
-                                    ),
                                   ],
                                 ),
                               ),

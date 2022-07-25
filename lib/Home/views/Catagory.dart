@@ -9,7 +9,8 @@ import 'gyms.dart';
 class Catagory extends StatelessWidget {
   final stream;
   const Catagory({
-    Key? key,required this.stream,
+    Key? key,
+    required this.stream,
   }) : super(key: key);
 
   @override
@@ -27,7 +28,7 @@ class Catagory extends StatelessWidget {
             return Center(child: Container());
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return  Center(child: Container());
+            return Center(child: Container());
           }
           var categoryDocs = snapshot.data.docs;
           return ListView.separated(
@@ -49,9 +50,10 @@ class Catagory extends StatelessWidget {
                         height: 150,
                         width: 124,
                         fit: BoxFit.cover,
-                        progressIndicatorBuilder: (context, url, downloadProgress) =>
-                            Container(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) => Container(),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
                     ),
                     Container(
@@ -79,7 +81,6 @@ class Catagory extends StatelessWidget {
                 ),
                 onTap: () async {
                   String type = categoryDocs[index]['name'];
-                  print(type);
                   await Get.to(() => GymOption(), arguments: {
                     "type": type.toLowerCase(),
                   });

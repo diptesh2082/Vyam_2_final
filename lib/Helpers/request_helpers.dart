@@ -2,13 +2,12 @@
 
 import 'dart:convert';
 
-
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
 
-
 // import '../private_variable.dart';
-final placesApiKey="AIzaSyBueDk3xi4f8z5oGKwI8VLu-A190d89I8A";
+final placesApiKey = "AIzaSyBueDk3xi4f8z5oGKwI8VLu-A190d89I8A";
+
 class RequestHelper {
   Future getPlaces({String? query}) async {
     String url =
@@ -20,9 +19,7 @@ class RequestHelper {
       );
       List<PlacesApiHelperModel> list = [];
       if (response.statusCode == 200) {
-        print(response.body);
         final responsebody = jsonDecode(response.body);
-        print(responsebody['predictions'][0]);
         for (var item in responsebody['predictions']) {
           list.add(PlacesApiHelperModel(
             mainText: item['structured_formatting']['main_text'],
@@ -30,12 +27,9 @@ class RequestHelper {
           ));
         }
         return list;
-      } else {
-        print("The error has ocurred");
       }
     } catch (e) {
       print(e);
-      print("The error has ocurred");
     }
   }
 
@@ -44,8 +38,6 @@ class RequestHelper {
       // List<Location> address = await GetAddressFromLatLong(position);
       List<Location> locations = await locationFromAddress(mainText);
       final map = locations[0].toJson();
-      print(map['longitude']);
-      print(map['latitude']);
 
       return GeocodingApiHelperModel(
           latitude: map['latitude'], longitude: map['longitude']);

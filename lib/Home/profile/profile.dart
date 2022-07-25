@@ -87,7 +87,6 @@ class _ProfileState extends State<Profile> {
         .whenComplete(() async {
       await _reference.getDownloadURL().then((value) async {
         var uploadedPhotoUrl = value;
-        print(value);
         await db
             .collection("user_details")
             .doc(number)
@@ -123,7 +122,6 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     // TODO: implement initState
-    print(imageUrl);
     super.initState();
   }
 
@@ -204,9 +202,10 @@ class _ProfileState extends State<Profile> {
                                     //     shape: BoxShape/.circle, color: Colors.white)
                                   )
                                 : Stack(
-                                  children: [
-                                    Container(
-                                        child: imageUrl == "" || imageUrl == "null"
+                                    children: [
+                                      Container(
+                                        child: imageUrl == "" ||
+                                                imageUrl == "null"
                                             ? CircleAvatar(
                                                 // backgroundImage: ,
                                                 radius: 52,
@@ -218,11 +217,12 @@ class _ProfileState extends State<Profile> {
                                                         "male"
                                                     ? const AssetImage(
                                                         "assets/Illustrations/Avatarmale.png")
-                                                    : gender
-                                                    .toLowerCase() =="female"?AssetImage(
-                                                    "assets/Illustrations/Avatar.png"):
-                                                AssetImage(
-                                                    "assets/Illustrations/user.png"),
+                                                    : gender.toLowerCase() ==
+                                                            "female"
+                                                        ? AssetImage(
+                                                            "assets/Illustrations/Avatar.png")
+                                                        : AssetImage(
+                                                            "assets/Illustrations/user.png"),
                                               )
                                             : CircleAvatar(
                                                 // backgroundImage: ,
@@ -234,12 +234,16 @@ class _ProfileState extends State<Profile> {
                                                         imageUrl),
                                               ),
                                       ),
-                                    Positioned(
-                                        bottom: 3,
-                                        right: 3,
-                                        child: Image.asset("assets/icons/Add.png",height: 30,width: 30,))
-                                  ],
-                                ),
+                                      Positioned(
+                                          bottom: 3,
+                                          right: 3,
+                                          child: Image.asset(
+                                            "assets/icons/Add.png",
+                                            height: 30,
+                                            width: 30,
+                                          ))
+                                    ],
+                                  ),
                             // if (imageUrl == "")
                             // CircleAvatar(
                             //   // backgroundImage: ,

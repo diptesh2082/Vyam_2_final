@@ -13,7 +13,6 @@ import 'package:vyam_2_final/authintication/otp2.dart';
 
 import '../golbal_variables.dart';
 
-
 class PhoneRegistar extends StatefulWidget {
   static String id = "/register2_screen";
 
@@ -45,7 +44,7 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: ()async {
+      onWillPop: () async {
         _googleSignIn.signOut();
         return true;
       },
@@ -80,13 +79,12 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
                 ])),
             leading: IconButton(
               onPressed: () {
-                 Navigator.pop(context);
+                Navigator.pop(context);
               },
               icon: const Icon(
                 Icons.arrow_back_ios_new_outlined,
                 color: Colors.black,
               ),
-
             )),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: Padding(
@@ -111,7 +109,6 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
                       verificationFailed: (verificationFailed) async {
                         Get.snackbar("Fail", "varification faild");
                         // ignore: avoid_print
-                        print(verificationFailed.message);
                         setState(() {
                           showLoding = false;
                         });
@@ -250,7 +247,7 @@ class _PhoneRegistarState extends State<PhoneRegistar> {
                                 }
                               },
                               controller: phoneController,
-                              decoration:  InputDecoration(
+                              decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintStyle: GoogleFonts.poppins(
                                     fontSize: 12,

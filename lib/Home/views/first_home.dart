@@ -149,8 +149,6 @@ class _FirstHomeState extends State<FirstHome> {
         isLoading = false;
       });
     }
-    print(
-        " +----+-+-+--+--+++++++++-----------++++++++++-------------+-+-+-+-+-+-+-+-+-+-");
   }
 
   bool showCard = false;
@@ -200,7 +198,6 @@ class _FirstHomeState extends State<FirstHome> {
   var devicetoken;
   updateDeviceToken() async {
     devicetoken = await getDevicetoken();
-    print(devicetoken);
     try {
       await FirebaseFirestore.instance
           .collection("user_details")

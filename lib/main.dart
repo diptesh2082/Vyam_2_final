@@ -23,18 +23,14 @@ late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // await Firebase.initializeApp();
-  print("A bg message just showed up : ${message.messageId}");
 }
 
-Future<void> backgroundHandler(RemoteMessage message) async {
-  print(message.data.toString());
-  print(message.notification!.title);
-}
+Future<void> backgroundHandler(RemoteMessage message) async {}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Get.lazyPut(() => GlobalUserData(),fenix: true);
+  Get.lazyPut(() => GlobalUserData(), fenix: true);
   try {
     await getNumber();
   } catch (e) {
@@ -102,7 +98,6 @@ class _MyAppState extends State<MyApp> {
 
     FirebaseMessaging.instance.getInitialMessage();
 
-
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -148,7 +143,6 @@ class _MyAppState extends State<MyApp> {
     // });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published!');
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
