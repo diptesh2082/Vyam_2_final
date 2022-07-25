@@ -683,16 +683,19 @@ check_simpl()async{
     print(response.message);
     print("payment faild");
     Get.back();
-
-
-    print("Failed");
-    print("//////////////////////////////////////////////////////////////");
-    print("Failure Handleeerr");
+    //
+    //
+    // print("Failed");
+    // print("//////////////////////////////////////////////////////////////");
+    // print("Failure Handleeerr");
   }
 
   Future<void> _handleExternalWallet(ExternalWalletResponse response) async {
     // ignore: avoid_print
     // Get.to(()=>PaymentScreen());
+    print(response.walletName);
+    // print(response.message);
+    print("payment faild");
     try {
       var x = Random().nextInt(9999);
       if (x < 1000) {
