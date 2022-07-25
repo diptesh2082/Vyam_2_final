@@ -142,9 +142,16 @@ class _LoginPageState extends State<LoginPage> {
                                 thickness: 1,
                               )),
                         ),
-                        const Text(
-                          "Log in or sign up",
-                          style: TextStyle(fontSize: 15),
+                        InkWell(
+                          onTap: () async {
+
+                            await GoogleSignIn().signOut();
+                            await _auth.signOut();
+                          },
+                          child: const Text(
+                            "Log in or sign up",
+                            style: TextStyle(fontSize: 15),
+                          ),
                         ),
                         Expanded(
                           child: Container(
