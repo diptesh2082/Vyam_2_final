@@ -294,52 +294,54 @@ class _FirstHomeState extends State<FirstHome> {
                         }
                         Get.to(() => LocInfo());
                       },
-                      child: SizedBox(
-                        width: size.width * .666,
-                        height: 45,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              if (Get.find<GlobalUserData>()
-                                      .userData
-                                      .value["address"] ==
-                                  null)
-                                Text(
-                                  "Tap here to choose your Location",
-                                  textAlign: TextAlign.left,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: GoogleFonts.poppins(
-                                      color: const Color(0xff3A3A3A),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              if (Get.find<GlobalUserData>()
-                                      .userData
-                                      .value["address"] !=
-                                  null)
-                                Text(
-                                  Get.find<GlobalUserData>()
-                                              .userData
-                                              .value["address"]
-                                              .toString() ==
-                                          ""
-                                      ? "Tap here to choose your Location"
-                                      : Get.find<GlobalUserData>()
-                                          .userData
-                                          .value["address"]
-                                          .toString(),
-                                  textAlign: TextAlign.left,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: GoogleFonts.poppins(
-                                      color: const Color(0xff3A3A3A),
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                            ],
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: size.width * .666,
+                          height: 45,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // if (Get.find<GlobalUserData>()
+                                //         .userData
+                                //         .value["address"] ==
+                                //     null)
+                                //   Text(
+                                //     "Tap here to choose your Location",
+                                //     textAlign: TextAlign.left,
+                                //     overflow: TextOverflow.ellipsis,
+                                //     maxLines: 1,
+                                //     style: GoogleFonts.poppins(
+                                //         color: const Color(0xff3A3A3A),
+                                //         fontSize: 12,
+                                //         fontWeight: FontWeight.w500),
+                                //   ),
+                                if (Get.find<GlobalUserData>()
+                                        .userData
+                                        .value["address"] !=
+                                    null)
+                                  Text(
+                                    Get.find<GlobalUserData>()
+                                                .userData
+                                                .value["address"]
+                                                .toString() ==
+                                            ""
+                                        ? "Tap here to choose your Location"
+                                        : Get.find<GlobalUserData>()
+                                            .userData
+                                            .value["address"]
+                                            .toString(),
+                                    textAlign: TextAlign.left,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: GoogleFonts.poppins(
+                                        color: const Color(0xff3A3A3A),
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

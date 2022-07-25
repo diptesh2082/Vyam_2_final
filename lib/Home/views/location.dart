@@ -233,44 +233,39 @@ class _LocInfoState extends State<LocInfo> {
                                 try {
                                   res = await RequestHelper()
                                       .getCoordinatesFromAddresss(value);
-                                } catch (e) {
-                                  // Get.back();
-                                  Get.offAll(()=>HomePage2());
                                   setState(() {
                                     isLoading = false;
                                   });
-                                  return;
-                                }finally{
-                                  // Get.back();
-                                  // Get.offAll(()=>HomePage2());
-                                  // setState(() {
-                                  //   isLoading = false;
-                                  // });
+                                  setState(() {
+                                    GlobalUserLocation = value;
+                                    locController.text = value;
+                                  });
+                                  await GetAddressFromGeoPoint(
+                                      GeoPoint(res.latitude, res.longitude));
+
+                                  await FirebaseFirestore.instance
+                                      .collection('user_details')
+                                      .doc(number)
+                                      .update({
+                                    "location":
+                                    GeoPoint(res.latitude, res.longitude),
+                                    // "lat": res.latitude,
+                                    // "long": res.longitude,
+                                    "address": value.trim(),
+                                    "pincode": pin,
+                                    "locality": locality.toLowerCase(),
+                                    "subLocality": subLocality.toLowerCase(),
+                                  });
+
+                                  Get.off(() => HomePage2());
+                                } catch (e) {
+                                  Get.back();
+
+
                                 }
 
                                 // print("fhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkg"+value);
-                                setState(() {
-                                  GlobalUserLocation = value;
-                                  locController.text = value;
-                                });
-                                await GetAddressFromGeoPoint(
-                                    GeoPoint(res.latitude, res.longitude));
 
-                                await FirebaseFirestore.instance
-                                    .collection('user_details')
-                                    .doc(number)
-                                    .update({
-                                  "location":
-                                      GeoPoint(res.latitude, res.longitude),
-                                  // "lat": res.latitude,
-                                  // "long": res.longitude,
-                                  "address": value.trim(),
-                                  "pincode": pin,
-                                  "locality": locality.toLowerCase(),
-                                  "subLocality": subLocality.toLowerCase(),
-                                });
-                                // Get.back();
-                                Get.off(() => HomePage2());
                               },
                               style: const TextStyle(
                                 fontSize: 12,
@@ -349,7 +344,8 @@ class _LocInfoState extends State<LocInfo> {
                                       Get.offAll(()=>HomePage2());
                                       // await Get.offAll(() => HomePage());
                                     } catch (e) {
-                                      Get.offAll(()=>HomePage2());
+                                      Get.back();
+                                      // Get.offAll(()=>HomePage2());
                                       // setState(() {
                                       //   isLoading = false;
                                       // });
@@ -495,18 +491,16 @@ class _LocInfoState extends State<LocInfo> {
                                                 locality.toLowerCase(),
                                                 "subLocality":
                                                 subLocality.toLowerCase(),
+                                              }).then((value) {
+                                                Get.offAll(()=>HomePage2());
                                               });
-                                              // Get.back();
+
+
                                             }catch(e){
-                                              Get.offAll(()=>HomePage2());
+                                              Get.back();
                                               setState(() {
                                                 isLoading=false;
                                               });
-                                            }finally{
-                                              // Get.offAll(()=>HomePage2());
-                                              // setState(() {
-                                              //   isLoading=false;
-                                              // });
                                             }
                                               // Get.off(() => HomePage());
                                             },
@@ -577,10 +571,9 @@ class Examples extends StatelessWidget {
                       GlobalUserLocation = value;
                       locController.text = value;
                     // });
-                    await GetAddressFromGeoPoint(
-                        GeoPoint(res.latitude,
-                            res.longitude));
-
+                    // await GetAddressFromGeoPoint(
+                    //     GeoPoint(res.latitude,
+                    //         res.longitude));
                     await FirebaseFirestore.instance
                         .collection('user_details')
                         .doc(number)
@@ -596,10 +589,13 @@ class Examples extends StatelessWidget {
                       locality.toLowerCase(),
                       "subLocality":
                       subLocality.toLowerCase(),
+                    }).then((value) {
+                      Get.offAll(()=>HomePage2());
                     });
-                    // Get.back();
-                  }finally{
-                    Get.offAll(()=>HomePage2());
+
+                  }catch(e){
+                    Get.back();
+
                     // setState(() {
                     //   isLoading = false;
                     // }

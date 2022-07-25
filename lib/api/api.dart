@@ -450,8 +450,8 @@ myLocation() async {
     await FirebaseFirestore.instance
         .collection('user_details')
         .doc(number)
-        .snapshots()
-        .listen((snapshot) {
+        .get()
+        .then((snapshot) {
       if (snapshot.exists) {
         // var userData = snapshot.data();
         Get.find<GlobalUserData>().userData.value = snapshot.data()!;
@@ -627,9 +627,10 @@ Future<Position> _determinePosition() async {
 String pin = "";
 String locality = "";
 String subLocality = "";
-String myaddress = "your location";
-var address = "";
+// String myaddress = "your location";
+
 Future<void> GetAddressFromLatLong(Position position) async {
+  var address = "";
   List<Placemark> placemark =
       await placemarkFromCoordinates(position.latitude, position.longitude);
   Placemark place = placemark[0];
@@ -651,21 +652,42 @@ Future<void> GetAddressFromLatLong(Position position) async {
     "locality": locality,
     "subLocality": locality,
     // "number": number
+  }).then((value) async {
+    await myLocation();
   });
-  await myLocation();
+
 }
 
 Future<void> GetAddressFromGeoPoint(GeoPoint position) async {
-  List<Placemark> placemark =
-      await placemarkFromCoordinates(position.latitude, position.longitude);
-  Placemark place = placemark[0];
+  try{
+    List<Placemark> placemark =
+    await placemarkFromCoordinates(position.latitude, position.longitude);
+    Placemark place = placemark[0];
 
-  address =
-      "${place.subLocality},${place.locality},${place.name},${place.street},${place.postalCode}";
-  pin = "${place.postalCode}";
-  locality = "${place.locality}";
-  subLocality = "${place.subLocality}";
-  print(pin);
+    var address  =  "${place.subLocality ?? ""}, ${place.locality ?? ""},${place.name ?? ""},  ${place.subAdministrativeArea ?? ""}, ${place.postalCode ?? ""}";
+    pin = "${place.postalCode}";
+    locality = "${place.locality}";
+    subLocality = "${place.subLocality}";
+    await FirebaseFirestore.instance
+        .collection("user_details")
+        .doc(number)
+        .update({
+      "location": GeoPoint(position.latitude, position.longitude),
+      "address": address,
+      // "lat": position.latitude,
+      // "long": position.longitude,
+      "pincode": pin,
+      "locality": locality,
+      "subLocality": locality,
+      // "number": number
+    }).then((value) async {
+      await myLocation();
+    });
+
+  }catch(e){
+
+  }
+
 }
 
 getAddressPin(var pin) async {

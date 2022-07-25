@@ -54,15 +54,6 @@ class _ExploreiaState extends State<Exploreia> {
   Geoflutterfire geo = Geoflutterfire();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  // _animateToUser() async {
-  //   var pos = await location.getLocation();
-  //   // print(pos.l);
-  //
-  //   mapcontroller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-  //     target: LatLng(pos.latitude!, pos.longitude!),
-  //     zoom: 17.0,
-  //   )));
-  // }
 
   Stream nearbyComp() async* {
     var pos = await location.getLocation();
@@ -178,19 +169,19 @@ class _ExploreiaState extends State<Exploreia> {
               if (Enabled) {
                 Position position = await Geolocator.getCurrentPosition();
                 await GetAddressFromLatLong(position);
-                await FirebaseFirestore.instance
-                    .collection("user_details")
-                    .doc(number)
-                    .update({
-                  "location": GeoPoint(position.latitude, position.longitude),
-                  "address": address,
-                  // "lat": position.latitude,
-                  // "long": position.longitude,
-                  "pincode": pin,
-                  "locality": locality,
-                  "subLocality": locality,
-                  // "number": number
-                });
+                // await FirebaseFirestore.instance
+                //     .collection("user_details")
+                //     .doc(number)
+                //     .update({
+                //   "location": GeoPoint(position.latitude, position.longitude),
+                //   "address": address,
+                //   // "lat": position.latitude,
+                //   // "long": position.longitude,
+                //   "pincode": pin,
+                //   "locality": locality,
+                //   "subLocality": locality,
+                //   // "number": number
+                // });
               }
               setState(() {
                 isLoading = false;
@@ -266,7 +257,7 @@ class _ExploreiaState extends State<Exploreia> {
                               // await runRun();
                               if (mounted) {
                                 setState(() {
-                                  myaddress = myaddress;
+                                  // myaddress = myaddress;
                                   address = address;
                                   pin = pin;
                                   isLoading = false;
@@ -371,59 +362,84 @@ class _ExploreiaState extends State<Exploreia> {
         : VisibilityDetector(
       key: Key(index.toString()),
       onVisibilityChanged: (VisibilityInfo info) async {
-        print(info.visibleFraction);
-        if (info.visibleFraction == 1) _currentItem = index.toInt();
-        // listKey=index.toInt();
-        print(_currentItem);
-        splashLocation(document[_currentItem]["location"].latitude,
-            document[_currentItem]["location"].longitude);
+          print(info.visibleFraction);
+          if (info.visibleFraction == 1) _currentItem = index.toInt();
+          // listKey=index.toInt();
+          print(_currentItem);
+          splashLocation(Get.find<GlobalUserData>()
+              .document
+              .value[_currentItem]["location"].latitude,
+              Get.find<GlobalUserData>()
+                  .document
+                  .value[_currentItem]["location"].longitude);
       },
       child: FittedBox(
-        child: GestureDetector(
-          onTap: () {
-            Get.to(
-                    () => GymDetails(
-                  // gymID: document[index].id,
-                ),
-                arguments: {
-                  "gymId":document[index].id,
-
-                });
-            sslKey.currentState!.focusToItem(index);
-            // _gotoLocation(location.latitude, location.longitude);
-          },
-          child:Card(
-            // key: sslKey,
-            color: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-            ),
-            elevation: 8,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // SizedBox(width: 15,),
-
-                if (calculateDistance(
-                    Get.find<GlobalUserData>().userData.value["location"].latitude,
-                    Get.find<GlobalUserData>().userData.value["location"].longitude,
-                    document[index]["location"].latitude,
-                    document[index]["location"].longitude) <=
-                    20)
-                  Boxesss(
-                    image: document[index]["display_picture"], name: document[index]["name"], location: document[index]["location"], status: document[index]["gym_status"],
-                    address:  document[index]["address"], gym_address: document[index]["branch"], review: document[index]["rating"].toString(), controller: _controller,
+          child: GestureDetector(
+            onTap: () {
+              Get.to(
+                      () => GymDetails(
+                    // gymID: document[index].id,
                   ),
-                SizedBox(
-                  width: 15,
-                )
-              ],
-            ),
-          ),
+                  arguments: {
+                    "gymId":Get.find<GlobalUserData>()
+                        .document
+                        .value[index].id,
 
-        ),
+                  });
+              sslKey.currentState!.focusToItem(index);
+              // _gotoLocation(location.latitude, location.longitude);
+            },
+            child:Card(
+              // key: sslKey,
+              color: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              elevation: 8,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // SizedBox(width: 15,),
+
+                  if (calculateDistance(
+                      Get.find<GlobalUserData>().userData.value["location"].latitude,
+                      Get.find<GlobalUserData>().userData.value["location"].longitude,
+                      Get.find<GlobalUserData>()
+                          .document
+                          .value[index]["location"].latitude,
+                      Get.find<GlobalUserData>()
+                          .document
+                          .value[index]["location"].longitude) <=
+                      20)
+                    Boxesss(
+                      image: Get.find<GlobalUserData>()
+                          .document
+                          .value[index]["display_picture"], name: Get.find<GlobalUserData>()
+                        .document
+                        .value[index]["name"], location: Get.find<GlobalUserData>()
+                        .document
+                        .value[index]["location"], status: Get.find<GlobalUserData>()
+                        .document
+                        .value[index]["gym_status"],
+                      address:  Get.find<GlobalUserData>()
+                          .document
+                          .value[index]["address"], gym_address: Get.find<GlobalUserData>()
+                        .document
+                        .value[index]["branch"], review: Get.find<GlobalUserData>()
+                        .document
+                        .value[index]["rating"].toString(), controller: _controller,
+                    ),
+                  SizedBox(
+                    width: 15,
+                  )
+                ],
+              ),
+            ),
+
+          ),
       ),
     );
+
     // },
     //   separatorBuilder: (BuildContext context, int index) {
     //     return Container(
@@ -432,7 +448,7 @@ class _ExploreiaState extends State<Exploreia> {
     //   },
     // );
   }
-
+var address="";
   @override
   Widget build(BuildContext context) {
     // getEverything();
@@ -441,9 +457,7 @@ class _ExploreiaState extends State<Exploreia> {
     return Scaffold(
 
       backgroundColor: scaffoldColor,
-      body: Obx(
-
-            ()=> SafeArea(
+      body: SafeArea(
           child: Stack(
             children: [
               // if(location_service==true)
@@ -501,8 +515,10 @@ class _ExploreiaState extends State<Exploreia> {
                             ),
                           );
                         }
-                        _gotoLocation(Get.find<GlobalUserData>().userData.value["location"].latitude,Get.find<GlobalUserData>().userData.value["location"].longitude);
+                        // _gotoLocation(Get.find<GlobalUserData>().userData.value["location"].latitude,Get.find<GlobalUserData>().userData.value["location"].longitude);
                         var  documents = streamSnapshot.data.docs;
+                        print("ilhjuewqjuoprjwsoprjsoejfoeszjhcvoiphsipfhsihefiesrhfoieshfoieshfieoshfe");
+                        print(documents);
                         documents.sort((a, b) {
                           double d1 = calculateDistance(
                             a["location"].latitude,
@@ -538,12 +554,16 @@ class _ExploreiaState extends State<Exploreia> {
                           distance = double.parse((distance).toStringAsFixed(1));
                           if (distance <= 20) {
                             document.add(e);
+                            Get.find<GlobalUserData>()
+                                .document
+                                .value.add(e);
 
                           }
                         });
 
                         var d = document.length;
-
+                        print("ilhjuewqjuoprjwsoprjsoejfoeszjhcvoiphsipfhsihefiesrhfoieshfoieshfieoshfeo          8888888888888888888888888888888888");
+                        print(document);
                         return document.isNotEmpty
                             ? Container(
                           width: MediaQuery.of(context).size.width,
@@ -631,38 +651,43 @@ class _ExploreiaState extends State<Exploreia> {
                         // ),
                         onPressed: () async {
                           // final pos = await location.getLocation();
-
-                          Position position =
-                          await Geolocator.getCurrentPosition();
-                          _gotoLocation(position.latitude, position.longitude);
-                          await GetAddressFromLatLong(position);
-                          await FirebaseFirestore.instance
-                              .collection("user_details")
-                              .doc(number)
-                              .update({
-                            "location": GeoPoint(
-                                position.latitude, position.longitude),
-                            "address": address,
-                            // "lat": position.latitude,
-                            // "long": position.longitude,
-                            "pincode": pin,
-                            "locality": locality,
-                            "subLocality": locality,
-                            // "number": number
-                          });
-                          // await runRun();
-                          if (mounted) {
+                          try{
+                            Position position =
+                            await Geolocator.getCurrentPosition();
+                            _gotoLocation(position.latitude, position.longitude);
+                            await GetAddressFromLatLong(position);
+                            await myLocation();
+                            // await FirebaseFirestore.instance
+                            //     .collection("user_details")
+                            //     .doc(number)
+                            //     .update({
+                            //   "location": GeoPoint(
+                            //       position.latitude, position.longitude),
+                            //   "address": address,
+                            //   // "lat": position.latitude,
+                            //   // "long": position.longitude,
+                            //   "pincode": pin,
+                            //   "locality": locality,
+                            //   "subLocality": locality,
+                            //   // "number": number
+                            // });
+                            // await runRun();
+                            if (mounted) {
+                              setState(() {
+                                // myaddress = myaddress;
+                                // address = address;
+                                pin = pin;
+                                isLoading = false;
+                              });
+                            }
+                            Get.back();
                             setState(() {
-                              myaddress = myaddress;
-                              address = address;
-                              pin = pin;
-                              isLoading = false;
+                              location_service = true;
                             });
+                          }catch(e){
+
                           }
-                          Get.back();
-                          setState(() {
-                            location_service = true;
-                          });
+
 
                         },
                         // child: Center(
@@ -675,7 +700,7 @@ class _ExploreiaState extends State<Exploreia> {
             ],
           ),
         ),
-      ),
+
     );
   }
 

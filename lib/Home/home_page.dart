@@ -189,24 +189,11 @@ class _HomePageState extends State<HomePage> {
 
                                   await GetAddressFromLatLong(position);
 
-                                  await FirebaseFirestore.instance
-                                      .collection("user_details")
-                                      .doc(number)
-                                      .update({
-                                    "location": GeoPoint(
-                                        position.latitude, position.longitude),
-                                    "address": address,
-                                    // "lat": position.latitude,
-                                    // "long": position.longitude,
-                                    "pincode": pin,
-                                    "locality": locality,
-                                    "subLocality": locality,
-                                    // "number": number
-                                  });
+
                                   if (mounted) {
                                     setState(() {
-                                      myaddress = myaddress;
-                                      address = address;
+
+                                      // address = address;
                                       pin = pin;
                                       isLoading = false;
                                     });
