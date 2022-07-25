@@ -17,8 +17,9 @@ import 'package:vyam_2_final/Home/bookings/success_book.dart';
 import 'package:vyam_2_final/Home/coupon_page.dart';
 import 'package:vyam_2_final/golbal_variables.dart';
 import '../api/api.dart';
-import '../main.dart';
 
+ AndroidNotificationChannel? channel;
+ FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin;
 class PaymentScreen extends StatefulWidget {
   final endDate;
   final booking_id;
@@ -66,13 +67,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
     // setState(() {
     //   _counter++;
     // });
-    await flutterLocalNotificationsPlugin.show(
+    await flutterLocalNotificationsPlugin!.show(
       0,
       "${title}",
       "$info",
       NotificationDetails(
-        android: AndroidNotificationDetails(channel.id, channel.name,
-            channelDescription: channel.description,
+        android: AndroidNotificationDetails(channel!.id, channel!.name,
+            channelDescription: channel!.description,
             importance: Importance.high,
             color: Colors.blue,
             playSound: true,
@@ -116,19 +117,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   void initState() {
-    print("//////////");
+    // print("//////////");
     getSimpl();
     print(widget.booking_id);
-    print(
-      getData['totalMonths'],
-    );
+    // print(
+    //   getData['totalMonths'],
+    // );
 
-    print(type);
+    // print(type);
     detDil();
     myCouponController.GlobalCouponApplied.value = false;
     myCouponController.GlobalCoupon.value = "";
     myCouponController.CouponDetailsMap.value = "";
-    print(myCouponController.GlobalCouponApplied.value);
+    // print(myCouponController.GlobalCouponApplied.value);
 
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -198,31 +199,15 @@ check_simpl()async{
           });
         })
             .then((value) async => {
-          await FirebaseFirestore.instance
-              .collection("booking_notifications")
-              .doc()
-              .set({
-            "title": "upcoming booking",
-            "status": "upcoming",
-            // "payment_done": false,
-            "user_id": number.toString(),
-            "user_name":  Get.find<GlobalUserData>().userData.value["name"],
-            "vendor_id": ven_id,
-            "vendor_name": ven_name,
-            "time_stamp": DateTime.now(),
-            "booking_id": widget.booking_id,
-            "seen": false,
-            "branch": branch
-          })
-              .then((value) => Get.offAll(() => SuccessBook(),
-              arguments: {
-                "otp_pass": x,
-                "booking_details": widget.booking_id
-              }))
-              .then((value) => {
-            showNotification("Booking successful for " + ven_name,
-                "Share OTP at the center to start."),
+
+                Get.offAll(() => SuccessBook(branch: branch, ven_name: ven_name, ven_id: ven_id, booking_id: widget.booking_id,), arguments: {
+            "otp_pass": x,
+            "booking_details": widget.booking_id
           }),
+
+           await showNotification("Booking successful for " + ven_name,
+                "Share OTP at the center to start."),
+
           await FirebaseFirestore.instance
               .collection("coupon")
               .doc(myCouponController.coupon_id.value)
@@ -325,6 +310,175 @@ check_simpl()async{
 
 }
 
+
+
+  makeSure() async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(16))),
+        content: SizedBox(
+          height: 170,
+          width: 280,
+          child: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Proceed payment in cash ?",
+                    style: GoogleFonts.poppins(
+                        fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                              height: 38,
+                              width: 90,
+                              decoration: BoxDecoration(
+                                  color: HexColor("FFECB2"),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 3, right: 3, top: 2, bottom: 2),
+                                child: Center(
+                                  child: Text(
+                                    "Cancel",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: HexColor("030202")),
+                                  ),
+                                ),
+                              )),
+                        ),
+                        // Image.asset("assets/icons/icons8-approval.gif",
+                        //   height: 70,
+                        //   width: 70,
+                        // ),
+
+                        const SizedBox(width: 15),
+                        GestureDetector(
+                          onTap: () async {
+                            try {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              Navigator.pop(context);
+                              var x = Random().nextInt(9999);
+                              if (x < 1000) {
+                                x = x + 1000;
+                              }
+                              FocusScope.of(context).unfocus();
+                              // await getBookingData(getData["booking_id"]);
+
+                              setState(() {
+                                isLoading = false;
+                              });
+                              int? booking_iiid;
+                              await showNotification("Booking successful for " + ven_name,
+                                  "Share OTP at the center to start.");
+                              await FirebaseFirestore.instance
+                                  .collection("bookings")
+                                  .where("booking_status".toLowerCase(),
+                                  whereIn: [
+                                    "completed",
+                                    "active",
+                                    "upcoming",
+                                    "cancelled"
+                                  ])
+                                  .get()
+                                  .then((value) async {
+                                Get.offAll(() => SuccessBook(branch: branch, ven_name: ven_name, ven_id: ven_id, booking_id: widget.booking_id,), arguments: {
+                                  "otp_pass": x,
+                                  "booking_details": widget.booking_id
+                                });
+                                if (value.docs.isNotEmpty) {
+                                  booking_iiid =
+                                      await value.docs.length + 200;
+                                }
+                              })
+                                  .then((value) async {
+                                await FirebaseFirestore.instance
+                                    .collection("bookings")
+                                    .doc(widget.booking_id)
+                                    .update({
+                                  "otp_pass": x.toString(),
+                                  "booking_status": "upcoming",
+                                  "payment_done": false,
+                                  "id": booking_iiid
+                                });
+
+                              }).then((value) async {
+                                await FirebaseFirestore.instance
+                                    .collection("coupon")
+                                    .doc(myCouponController.coupon_id.value)
+                                    .collection("used_by")
+                                    .doc()
+                                    .set({
+                                  "user":  Get.find<GlobalUserData>().userData.value["userId"],
+                                  "user_name":  Get.find<GlobalUserData>().userData.value["name"],
+                                  "vendor_id": gymData["gym_id"]
+                                });
+                              });
+
+                              setState(() {
+                                isLoading = false;
+                              });
+                            } catch (e) {}
+                          },
+                          child: Container(
+                              height: 38,
+                              width: 90,
+                              decoration: BoxDecoration(
+                                  color: HexColor("27AE60"),
+                                  borderRadius: BorderRadius.circular(8)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 3, right: 3, top: 2, bottom: 2),
+                                child: Center(
+                                  child: Text(
+                                    "Proceed",
+                                    style: GoogleFonts.poppins(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: HexColor("030105")),
+                                  ),
+                                ),
+                              )),
+                        ),
+                      ]),
+                ],
+              ),
+              Positioned(
+                  top: 0,
+                  right: 0,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.cancel_outlined,
+                      color: Colors.black87,
+                      size: 20,
+                    ),
+                  )),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
   _simplpay() async {
     // var client = http.Client();
    var obj={
@@ -416,10 +570,11 @@ check_simpl()async{
     //
     // };
   }
+  // 'rzp_live_7twfLFOgOjQnp1'
 
   _payment() {
     var options = {
-      'key': 'rzp_live_7twfLFOgOjQnp1',
+      'key': "rzp_test_33NhqFvjcCXYkk",
       'amount': (myCouponController.GlobalCouponApplied.value
               ? (grandTotal -
                   int.parse(myCouponController.CouponDetailsMap.value))
@@ -456,11 +611,11 @@ check_simpl()async{
     // print(response.signature);
     //   print(response.paymentId);
     //   print(response.orderId);
-
-    print("this is the game${response.signature}");
-    print("the  theory${response.paymentId}");
-    print("the  theory${response.paymentId}");
-    print(response.orderId);
+    //
+    // print("this is the game${response.signature}");
+    // print("the  theory${response.paymentId}");
+    // print("the  theory${response.paymentId}");
+    // print(response.orderId);
 
     try {
       var x = Random().nextInt(9999);
@@ -481,6 +636,11 @@ check_simpl()async{
             }
           })
           .then((value) async {
+        Get.offAll(() => SuccessBook(branch: branch, ven_name: ven_name, ven_id: ven_id, booking_id: widget.booking_id,), arguments: {
+          "otp_pass": x,
+          "booking_details": widget.booking_id
+        });
+
             await FirebaseFirestore.instance
                 .collection("bookings")
                 .doc(getData["booking_id"])
@@ -491,44 +651,20 @@ check_simpl()async{
               "payment_method": "online",
               "id": booking_iiid
             });
-          })
-          .then((value) async => {
-                await FirebaseFirestore.instance
-                    .collection("booking_notifications")
-                    .doc()
-                    .set({
-                      "title": "upcoming booking",
-                      "status": "upcoming",
-                      // "payment_done": false,
-                      "user_id": number.toString(),
-                      "user_name":  Get.find<GlobalUserData>().userData.value["name"],
-                      "vendor_id": ven_id,
-                      "vendor_name": ven_name,
-                      "time_stamp": DateTime.now(),
-                      "booking_id": widget.booking_id,
-                      "seen": false,
-                      "branch": branch
-                    })
-                    .then((value) => Get.offAll(() => SuccessBook(),
-                            arguments: {
-                              "otp_pass": x,
-                              "booking_details": widget.booking_id
-                            }))
-                    .then((value) => {
-                          showNotification("Booking successful for " + ven_name,
-                              "Share OTP at the center to start."),
-                        }),
-                await FirebaseFirestore.instance
-                    .collection("coupon")
-                    .doc(myCouponController.coupon_id.value)
-                    .collection("used_by")
-                    .doc()
-                    .set({
-                  "user":  Get.find<GlobalUserData>().userData.value["userId"],
-                  "user_name":  Get.find<GlobalUserData>().userData.value["name"],
-                  "vendor_id": gymData["gym_id"]
-                }),
-              });
+
+
+      }).then((value) async {
+        await FirebaseFirestore.instance
+            .collection("coupon")
+            .doc(myCouponController.coupon_id.value)
+            .collection("used_by")
+            .doc()
+            .set({
+          "user":  Get.find<GlobalUserData>().userData.value["userId"],
+          "user_name":  Get.find<GlobalUserData>().userData.value["name"],
+          "vendor_id": gymData["gym_id"]
+        });
+      });
 
       // :await showNotification("Booking Status You","Booking Unsuccessful");
 
@@ -655,6 +791,10 @@ check_simpl()async{
           "seen": false,
           "branch": branch
         }).then((value) async {
+          Get.offAll(() => SuccessBook(branch: branch, ven_name: ven_name, ven_id: ven_id, booking_id: widget.booking_id,), arguments: {
+            "otp_pass": x,
+            "booking_details": widget.booking_id
+          });
           if (myCouponController.GlobalCouponApplied.value == true) {
             await FirebaseFirestore.instance
                 .collection("coupon")
@@ -667,12 +807,10 @@ check_simpl()async{
               "vendor_id": gymData["gym_id"]
             });
           }
-        }).then((value) async {
-          Get.offAll(() => SuccessBook(),
-              arguments: {"otp_pass": x, "booking_details": widget.booking_id});
         });
 
-        await (showNotification("Booking successful for " + ven_name, "Share OTP at the center to start."));
+
+    await (showNotification("Booking successful for " + ven_name, "Share OTP at the center to start."));
         // :await showNotification("Booking Status You","Booking Unsuccessful");
 
         // booking_dCachetails["id"]!=null?
@@ -1442,195 +1580,12 @@ check_simpl()async{
       GlobalCouponApplied = false;
       onlinePay = true;
     });
-    _PaymentScreenState();
+    // _PaymentScreenState();
 
-    print(onlinePay);
+    // print(onlinePay);
   }
 
-  makeSure() async {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16))),
-        content: SizedBox(
-          height: 170,
-          width: 280,
-          child: Stack(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Proceed payment in cash ?",
-                    style: GoogleFonts.poppins(
-                        fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                              height: 38,
-                              width: 90,
-                              decoration: BoxDecoration(
-                                  color: HexColor("FFECB2"),
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 3, right: 3, top: 2, bottom: 2),
-                                child: Center(
-                                  child: Text(
-                                    "Cancel",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: HexColor("030202")),
-                                  ),
-                                ),
-                              )),
-                        ),
-                        // Image.asset("assets/icons/icons8-approval.gif",
-                        //   height: 70,
-                        //   width: 70,
-                        // ),
 
-                        const SizedBox(width: 15),
-                        GestureDetector(
-                          onTap: () async {
-                            try {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              Navigator.pop(context);
-                              var x = Random().nextInt(9999);
-                              if (x < 1000) {
-                                x = x + 1000;
-                              }
-                              FocusScope.of(context).unfocus();
-                              // await getBookingData(getData["booking_id"]);
-
-                              setState(() {
-                                isLoading = false;
-                              });
-                              int? booking_iiid;
-                              await FirebaseFirestore.instance
-                                  .collection("bookings")
-                                  .where("booking_status".toLowerCase(),
-                                      whereIn: [
-                                        "completed",
-                                        "active",
-                                        "upcoming",
-                                        "cancelled"
-                                      ])
-                                  .get()
-                                  .then((value) async {
-                                Get.offAll(() => SuccessBook(), arguments: {
-                                  "otp_pass": x,
-                                  "booking_details": widget.booking_id
-                                });
-                                    if (value.docs.isNotEmpty) {
-                                      booking_iiid =
-                                          await value.docs.length + 200;
-                                    }
-                                  })
-                                  .then((value) async {
-                                    await FirebaseFirestore.instance
-                                        .collection("bookings")
-                                        .doc(widget.booking_id)
-                                        .update({
-                                      "otp_pass": x.toString(),
-                                      "booking_status": "upcoming",
-                                      "payment_done": false,
-                                      "id": booking_iiid
-                                    });
-                                  });
-                              await FirebaseFirestore.instance
-                                  .collection("booking_notifications")
-                                  .doc()
-                                  .set({
-                                "title": "upcoming booking",
-                                "status": "upcoming",
-                                // "payment_done": false,
-                                "user_id": number.toString(),
-                                "user_name":  Get.find<GlobalUserData>().userData.value["name"],
-                                "vendor_id": ven_id,
-                                "vendor_name": ven_name,
-                                "time_stamp": DateTime.now(),
-                                "booking_id": widget.booking_id,
-                                "seen": false,
-                                "branch": branch
-                              }).then((value) async {
-                                await showNotification(
-                                    "Booking successful for " + ven_name,
-                                    "Share OTP at the center to start.");
-                              }).then((value) async {
-                                await FirebaseFirestore.instance
-                                    .collection("coupon")
-                                    .doc(myCouponController.coupon_id.value)
-                                    .collection("used_by")
-                                    .doc()
-                                    .set({
-                                  "user":  Get.find<GlobalUserData>().userData.value["userId"],
-                                  "user_name":  Get.find<GlobalUserData>().userData.value["name"],
-                                  "vendor_id": gymData["gym_id"]
-                                });
-                              });
-
-                              setState(() {
-                                isLoading = false;
-                              });
-                            } catch (e) {}
-                          },
-                          child: Container(
-                              height: 38,
-                              width: 90,
-                              decoration: BoxDecoration(
-                                  color: HexColor("27AE60"),
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 3, right: 3, top: 2, bottom: 2),
-                                child: Center(
-                                  child: Text(
-                                    "Proceed",
-                                    style: GoogleFonts.poppins(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w700,
-                                        color: HexColor("030105")),
-                                  ),
-                                ),
-                              )),
-                        ),
-                      ]),
-                ],
-              ),
-              Positioned(
-                  top: 0,
-                  right: 0,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(
-                      Icons.cancel_outlined,
-                      color: Colors.black87,
-                      size: 20,
-                    ),
-                  )),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   OffPay() async {
     makeSure();

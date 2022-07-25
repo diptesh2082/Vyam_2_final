@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -10,8 +11,15 @@ import 'dart:async';
 import 'package:vyam_2_final/Home/home_page.dart';
 import 'package:vyam_2_final/OrderDetails/order_details.dart';
 
+import '../../golbal_variables.dart';
+
 
 class SuccessBook extends StatefulWidget {
+  final booking_id;
+  final ven_id;
+  final ven_name;
+final branch;
+  const SuccessBook({Key? key,required this.booking_id,required this.ven_id,required this.ven_name,required this.branch}) : super(key: key);
   @override
   _SuccessBookState createState() => _SuccessBookState();
 }
@@ -24,13 +32,31 @@ class _SuccessBookState extends State<SuccessBook>
 
   // get
   // String booking_id=Get.arguments["booking_id"];
+  // getnoty()async{
+  //   await FirebaseFirestore.instance
+  //       .collection("booking_notifications")
+  //       .doc()
+  //       .set({
+  //     "title": "upcoming booking",
+  //     "status": "upcoming",
+  //     // "payment_done": false,
+  //     "user_id": number.toString(),
+  //     "user_name":  Get.find<GlobalUserData>().userData.value["name"],
+  //     "vendor_id": widget.ven_id,
+  //     "vendor_name": widget.ven_name,
+  //     "time_stamp": DateTime.now(),
+  //     "booking_id": widget.booking_id,
+  //     "seen": false,
+  //     "branch": widget.branch
+  //   });
+  // }
 
   @override
   initState() {
     // getBookingData();
     // print(booking_details);
     // print("htffht"+booking_id);
-
+    // getnoty();
     controller = AnimationController(
         vsync: this, value: 0.1, duration: const Duration(milliseconds: 1000));
     _concontroller = AnimationController(
@@ -132,7 +158,8 @@ class _SuccessBookState extends State<SuccessBook>
     );
   }
 }
-
+late AndroidNotificationChannel channel;
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 class PanelWidget extends StatefulWidget {
   const PanelWidget({Key? key}) : super(key: key);
 
@@ -170,6 +197,24 @@ class _PanelWidgetState extends State<PanelWidget> {
   //   }
   //
   // }
+  showNotification(String title, String info) async {
+    // setState(() {
+    //   _counter++;
+    // });
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      "${title}",
+      "$info",
+      NotificationDetails(
+        android: AndroidNotificationDetails(channel.id, channel.name,
+            channelDescription: channel.description,
+            importance: Importance.high,
+            color: Colors.blue,
+            playSound: true,
+            icon: '@mipmap/launcher_icon'),
+      ),
+    );
+  }
 
   @override
   void initState() {

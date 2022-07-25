@@ -235,17 +235,17 @@ class _LocInfoState extends State<LocInfo> {
                                       .getCoordinatesFromAddresss(value);
                                 } catch (e) {
                                   // Get.back();
-                                  // Get.offAll(()=>HomePage2());
+                                  Get.offAll(()=>HomePage2());
                                   setState(() {
                                     isLoading = false;
                                   });
                                   return;
                                 }finally{
                                   // Get.back();
-                                  Get.offAll(()=>HomePage2());
-                                  setState(() {
-                                    isLoading = false;
-                                  });
+                                  // Get.offAll(()=>HomePage2());
+                                  // setState(() {
+                                  //   isLoading = false;
+                                  // });
                                 }
 
                                 // print("fhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkgfhjkg"+value);
@@ -349,15 +349,15 @@ class _LocInfoState extends State<LocInfo> {
                                       Get.offAll(()=>HomePage2());
                                       // await Get.offAll(() => HomePage());
                                     } catch (e) {
-                                      // Get.back();
+                                      Get.offAll(()=>HomePage2());
                                       // setState(() {
                                       //   isLoading = false;
                                       // });
                                     }finally{
-                                      Get.offAll(()=>HomePage2());
-                                      setState(() {
-                                        isLoading = false;
-                                      });
+                                      // Get.offAll(()=>HomePage2());
+                                      // setState(() {
+                                      //   isLoading = false;
+                                      // });
                                     }
 
                                   });
@@ -497,11 +497,16 @@ class _LocInfoState extends State<LocInfo> {
                                                 subLocality.toLowerCase(),
                                               });
                                               // Get.back();
-                                            }finally{
+                                            }catch(e){
                                               Get.offAll(()=>HomePage2());
                                               setState(() {
                                                 isLoading=false;
                                               });
+                                            }finally{
+                                              // Get.offAll(()=>HomePage2());
+                                              // setState(() {
+                                              //   isLoading=false;
+                                              // });
                                             }
                                               // Get.off(() => HomePage());
                                             },
