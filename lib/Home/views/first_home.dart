@@ -495,8 +495,11 @@ class _FirstHomeState extends State<FirstHome> {
                                           height: 7,
                                         ),
                                       if (Get.find<Need>().search.value.isEmpty && Get.find<Need>().showSearch.value==false)
-                                        BuildBox(
-                                          search: false,
+                                        Align(
+                                          alignment: Alignment.topCenter,
+                                          child: BuildBox(
+                                            search: false,
+                                          ),
                                         ),
                                       // if (Get.find<Need>()
                                       //     .search
