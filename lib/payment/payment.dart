@@ -581,7 +581,7 @@ check_simpl()async{
           100,
       'name': 'Vyam Gym Booking',
       'description': 'Payment',
-      // "order_id":"test_jukjktgtu",
+      // "order_id":"${widget.booking_id}",
 
       'prefill': {
         'contact': number.toString().substring(3, number.length),
@@ -593,9 +593,9 @@ check_simpl()async{
       //   'email': GlobalUserData["email"].toString()
       // },
 
-      // 'external': {
-      //   'wallets': ['paytm']
-      // }
+      'external': {
+        'wallets': ['paytm']
+      }
     };
 
     try {
@@ -693,136 +693,63 @@ check_simpl()async{
   Future<void> _handleExternalWallet(ExternalWalletResponse response) async {
     // ignore: avoid_print
     // Get.to(()=>PaymentScreen());
-    print("////////////////////////////////////////");
-    print(response.walletName);
-    print("////////////////////////////////////////");
-
-    print("////////////////////////////////////////");
-
-    if (response.walletName == null) {
-      Get.back();
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16))),
-          content: SizedBox(
-            height: 180,
-            child: Stack(
-              children: [
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(
-                        Icons.cancel,
-                        color: Colors.red,
-                        size: 50,
-                      ),
-                      SizedBox(height: 15),
-                      Text(
-                        'Payment Failed',
-                        style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ]),
-                Positioned(
-                    top: 0,
-                    right: 0,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.cancel_outlined,
-                        color: Colors.black87,
-                        size: 20,
-                      ),
-                    )),
-              ],
-            ),
-          ),
-        ),
-      );
-    } else {
-      try {
-        var x = Random().nextInt(9999);
-        if (x < 1000) {
-          x = x + 1000;
+    try {
+      var x = Random().nextInt(9999);
+      if (x < 1000) {
+        x = x + 1000;
+      }
+      FocusScope.of(context).unfocus();
+      int booking_iiid = 0;
+      // Future.wait();
+      await FirebaseFirestore.instance
+          .collection("bookings")
+          .where("booking_status".toLowerCase(),
+          whereIn: ["completed", "active", "upcoming", "cancelled"])
+          .get()
+          .then((value) async {
+        if (value.docs.isNotEmpty) {
+          booking_iiid = await value.docs.length + 186;
         }
-        FocusScope.of(context).unfocus();
-        int booking_iiid = 0;
+      })
+          .then((value) async {
         await FirebaseFirestore.instance
             .collection("bookings")
-            .where("booking_status".toLowerCase(),
-                whereIn: ["completed", "active", "upcoming", "cancelled"])
-            .get()
-            .then((value) async {
-              if (value.docs.isNotEmpty) {
-                booking_iiid = await value.docs.length + 186;
-              }
-            })
-            .then((value) async {
-              await FirebaseFirestore.instance
-                  .collection("bookings")
-                  .doc(getData["booking_id"])
-                  .update({
-                "otp_pass": x.toString(),
-                "booking_status": "upcoming",
-                "payment_done": true,
-                "payment_method": "online",
-                "id": booking_iiid
-              });
-            });
-        await FirebaseFirestore.instance
-            .collection("booking_notifications")
-            .doc()
-            .set({
-          "title": "upcoming booking",
-          "status": "upcoming",
-          // "payment_done": false,
-          "user_id": number.toString(),
-          "user_name":  Get.find<GlobalUserData>().userData.value["name"],
-          "vendor_id": ven_id,
-          "vendor_name": ven_name,
-          "time_stamp": DateTime.now(),
-          "booking_id": widget.booking_id,
-          "seen": false,
-          "branch": branch
-        }).then((value) async {
+            .doc(widget.booking_id)
+            .update({
+          "otp_pass": x.toString(),
+          "booking_status": "upcoming",
+          "payment_done": true,
+          "payment_method": "online",
+          "id": booking_iiid
+        }).then((value) {
           Get.offAll(() => SuccessBook(branch: branch, ven_name: ven_name, ven_id: ven_id, booking_id: widget.booking_id,), arguments: {
             "otp_pass": x,
             "booking_details": widget.booking_id
           });
-          if (myCouponController.GlobalCouponApplied.value == true) {
-            await FirebaseFirestore.instance
-                .collection("coupon")
-                .doc(myCouponController.coupon_id.value)
-                .collection("used_by")
-                .doc()
-                .set({
-              "user":  Get.find<GlobalUserData>().userData.value["userId"],
-              "user_name":  Get.find<GlobalUserData>().userData.value["name"],
-              "vendor_id": gymData["gym_id"]
-            });
-          }
+
         });
 
 
-    await (showNotification("Booking successful for " + ven_name, "Share OTP at the center to start."));
-        // :await showNotification("Booking Status You","Booking Unsuccessful");
 
-        // booking_dCachetails["id"]!=null?
 
-      } catch (e) {}
-    }
+      }).then((value) async {
+        await FirebaseFirestore.instance
+            .collection("coupon")
+            .doc(myCouponController.coupon_id.value)
+            .collection("used_by")
+            .doc()
+            .set({
+          "user":  Get.find<GlobalUserData>().userData.value["userId"],
+          "user_name":  Get.find<GlobalUserData>().userData.value["name"],
+          "vendor_id": gymData["gym_id"]
+        });
+      });
 
-    print("Wallet");
-    print("//////////////////////////////////////////////////////////////");
-    print("Failure Handleeerr");
+      // :await showNotification("Booking Status You","Booking Unsuccessful");
+
+      // booking_dCachetails["id"]!=null?
+
+    } catch (e) {}
   }
 
   @override
