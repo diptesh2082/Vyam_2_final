@@ -569,7 +569,7 @@ check_simpl()async{
     //
     // };
   }
-  // 'rzp_test_33NhqFvjcCXYkk'
+  // 'rzp_live_7twfLFOgOjQnp1'
 
   _payment() {
     var options = {
@@ -1507,7 +1507,7 @@ check_simpl()async{
           : grandTotal.toString(),
       "tax_pay": taxPay,
     });
-    _payment();
+    await _payment();
     setState(() {
       GlobalCouponApplied = false;
       onlinePay = true;
