@@ -30,8 +30,7 @@ class _SuccessBookState extends State<SuccessBook>
   late AnimationController _concontroller;
   late Animation<double> scaleAnimation;
 
-  // get
-  String booking_id=Get.arguments["booking_id"];
+
   getnoty()async{
     await FirebaseFirestore.instance
         .collection("booking_notifications")

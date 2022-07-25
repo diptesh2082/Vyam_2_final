@@ -23,6 +23,7 @@ var total_discount = 0;
 bool location_service = true;
 bool GlobalCouponApplied = false;
 var GlobalCoupon;
+String address="";
 Map coupon_list = {};
 String CouponDetailsMap = "0";
 final booking = FirebaseFirestore.instance
