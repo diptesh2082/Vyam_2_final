@@ -649,7 +649,7 @@ class Banner extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(15),
                         child: CachedNetworkImage(
-                          maxHeightDiskCache: 650,
+                          maxHeightDiskCache: 600,
                           maxWidthDiskCache: 800,
                           filterQuality: FilterQuality.medium,
                           height: 143,

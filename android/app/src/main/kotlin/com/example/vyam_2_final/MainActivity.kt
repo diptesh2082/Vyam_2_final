@@ -1,4 +1,4 @@
-package com.vyam.diptesh
+package com.findnearestfitness.vyam
 
 import io.flutter.embedding.android.FlutterActivity
 
