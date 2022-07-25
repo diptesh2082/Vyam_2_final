@@ -31,32 +31,32 @@ class _SuccessBookState extends State<SuccessBook>
   late Animation<double> scaleAnimation;
 
   // get
-  // String booking_id=Get.arguments["booking_id"];
-  // getnoty()async{
-  //   await FirebaseFirestore.instance
-  //       .collection("booking_notifications")
-  //       .doc()
-  //       .set({
-  //     "title": "upcoming booking",
-  //     "status": "upcoming",
-  //     // "payment_done": false,
-  //     "user_id": number.toString(),
-  //     "user_name":  Get.find<GlobalUserData>().userData.value["name"],
-  //     "vendor_id": widget.ven_id,
-  //     "vendor_name": widget.ven_name,
-  //     "time_stamp": DateTime.now(),
-  //     "booking_id": widget.booking_id,
-  //     "seen": false,
-  //     "branch": widget.branch
-  //   });
-  // }
+  String booking_id=Get.arguments["booking_id"];
+  getnoty()async{
+    await FirebaseFirestore.instance
+        .collection("booking_notifications")
+        .doc()
+        .set({
+      "title": "upcoming booking",
+      "status": "upcoming",
+      // "payment_done": false,
+      "user_id": number.toString(),
+      "user_name":  Get.find<GlobalUserData>().userData.value["name"],
+      "vendor_id": widget.ven_id,
+      "vendor_name": widget.ven_name,
+      "time_stamp": DateTime.now(),
+      "booking_id": widget.booking_id,
+      "seen": false,
+      "branch": widget.branch
+    });
+  }
 
   @override
   initState() {
     // getBookingData();
     // print(booking_details);
     // print("htffht"+booking_id);
-    // getnoty();
+    getnoty();
     controller = AnimationController(
         vsync: this, value: 0.1, duration: const Duration(milliseconds: 1000));
     _concontroller = AnimationController(

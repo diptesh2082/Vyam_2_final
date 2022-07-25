@@ -1435,7 +1435,7 @@ class Addbar extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return buildButton(
                     text: documents[index]['title'].toString(),
-                    subText: documents[index]['offer_type'].toString(),
+                    subText: documents[index]['dascription'].toString(),
                     onClicked: () => showModalBottomSheet(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
