@@ -157,12 +157,9 @@ class Timing_Screen extends StatelessWidget {
                                                                       12)),
                                                           const SizedBox(
                                                               height: 5),
-                                                          if(doc[index]["closed"][0].toString()!="")
+                                                          if(doc[index]["closed"].isEmpty || doc[index]["closed"][0]!="0")
                                                           Text(
-                                                              doc[index]["closed"] !=
-                                                                      null
-                                                                  ? "closed ${doc[index]["closed"][0].toString()}"
-                                                                  : '',
+                                                              "closed ${doc[index]["closed"].join()}",
                                                               style: const TextStyle(
                                                                   fontFamily:
                                                                       'poppins',
@@ -177,16 +174,23 @@ class Timing_Screen extends StatelessWidget {
                                                   ],
                                                 ),
                                               ),
+                                              if( doc[index][
+                                              "morning_days"]!="")
                                               SizedBox(
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
                                                     0.06,
                                               ),
+                                              if( doc[index][
+                                              "morning_days"]!=""  &&  doc[index][
+                                              "evening_days"] !="" )
                                               const VerticalDivider(
                                                 thickness: 1,
                                                 color: Colors.grey,
                                               ),
+                                              if( doc[index][
+                                              "morning_days"]!="" )
                                               SizedBox(
                                                 width: MediaQuery.of(context)
                                                         .size
@@ -254,11 +258,9 @@ class Timing_Screen extends StatelessWidget {
                                                                       12)),
                                                           const SizedBox(
                                                               height: 5),
-                                                          if(doc[index]["closed"][0]!="")
+                                                          if(doc[index]["closed"].isEmpty ||  doc[index]["closed"][0]!="0")
                                                           Text(
-                                                              doc[index]["closed"] !=
-                                                                      null
-                                                                  ? "closed ${doc[index]["closed"][0].toString() }":"",
+                                                               "closed ${doc[index]["closed"].join()}",
                                                               style: const TextStyle(
                                                                   fontFamily:
                                                                       'poppins',

@@ -590,7 +590,8 @@ class _GymDetailsState extends State<GymDetails> {
                                               thickness: 1,
                                               color: Colors.grey,
                                             ),
-                                            if(times[0]["closed_day"]!="")
+
+                                            if(times[0]["closed"].isEmpty ||  times[0]["closed"][0]!="0" || times[0]["closed_day"].isEmpty)
                                               Column(
                                                 //mainAxisAlignment: MainAxisAlignment.start,
                                                 //crossAxisAlignment: CrossAxisAlignment.end,
