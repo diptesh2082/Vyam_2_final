@@ -100,7 +100,8 @@ class Timing_Screen extends StatelessWidget {
                                           child: IntrinsicHeight(
                                               child: Row(
                                             children: [
-
+                                              if( doc[index][
+                                              "morning_days"]!="")
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 9.0, right: 9.0),
@@ -193,7 +194,7 @@ class Timing_Screen extends StatelessWidget {
                                                     0.06,
                                               ),
                                               if( doc[index][
-                                              "evening_days"]=="")
+                                              "evening_days"]!="")
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 9.0, right: 9.0),
